@@ -78220,7 +78220,7 @@ var init_Platform = __esmMin((() => {
 //#region src/UI/Mobile/game/MenuLayout.css?raw
 var MenuLayout_default;
 var init_MenuLayout$1 = __esmMin((() => {
-	MenuLayout_default = "/* Sole owner of mobile menu outer dimensions. Features own only their contents. */\r\n:host {\r\n	--menu-standard-width: 1040px;\r\n	--menu-standard-height: 640px;\r\n	--menu-home-width: 560px;\r\n	--menu-dialog-width: 420px;\r\n	--menu-dialog-height: 480px;\r\n	--menu-picker-width: 640px;\r\n	--menu-editor-height: 160px;\r\n	--menu-edge-x: 16px;\r\n	--menu-edge-y: 12px;\r\n	--menu-dialog-inset: 32px;\r\n	--panel-gap: 6px;\r\n	--panel-control: 30px;\r\n	--panel-label: 11px;\r\n	--panel-heading: 12px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--menu-edge-x: 24px;\r\n	--menu-edge-y: 24px;\r\n	--panel-gap: 12px;\r\n	--panel-control: 44px;\r\n	--panel-label: 14px;\r\n	--panel-heading: 16px;\r\n}\r\n.mobile-menu-viewport {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(var(--menu-edge-y), env(safe-area-inset-top)) max(var(--menu-edge-x), env(safe-area-inset-right))\r\n		max(var(--menu-edge-y), env(safe-area-inset-bottom)) max(var(--menu-edge-x), env(safe-area-inset-left));\r\n	box-sizing: border-box;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.mobile-menu-window {\r\n	--menu-window-width: 600px;\r\n	--menu-window-height: auto;\r\n	width: min(var(--menu-window-width), 100%);\r\n	height: var(--menu-window-height);\r\n	max-height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n/* Preserve compact phone sizes, with every exception registered here. */\r\n.panel:is(.inventory-panel, .equipment-panel, .auto-config-panel, .shortcut-panel, .settings-panel, .chat-panel) {\r\n	--menu-window-width: 780px;\r\n	--menu-window-height: 100%;\r\n}\r\n.panel:is([data-view='menu'], [data-view='bank'], [data-view='pet'], [data-view='companions']) {\r\n	--menu-window-width: 420px;\r\n}\r\n.panel.profile-panel {\r\n	--menu-window-width: 400px;\r\n}\r\n.panel.settings-panel {\r\n	--menu-window-width: 600px;\r\n}\r\n.mobile-adventure {\r\n	container: menu-content / inline-size;\r\n	--menu-window-width: 100%;\r\n	--menu-window-height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window {\r\n	--menu-window-width: var(--menu-standard-width);\r\n	--menu-window-height: min(var(--menu-standard-height), 100%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='menu'] {\r\n	--menu-window-width: var(--menu-home-width);\r\n	--menu-window-height: auto;\r\n	max-height: min(var(--menu-standard-height), 100%);\r\n}\r\n.mobile-menu-window > header,\r\n.mobile-menu-window > nav {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-menu-window > .panel-body,\r\n.mobile-menu-window > .adventure-content {\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.panel-body {\r\n	padding: 8px;\r\n}\r\n.panel header {\r\n	padding: 4px 10px;\r\n}\r\n.panel {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel button {\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .panel header {\r\n	padding: 12px 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel-body {\r\n	padding: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel h2 {\r\n	font-size: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .panel button {\r\n	min-height: var(--panel-control);\r\n	padding: 8px 12px;\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.panel\r\n	:is(.auto-skill-card strong, .auto-help, [data-skill-count], [data-auto-summary]) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	min-height: var(--panel-control);\r\n}\r\n/* Space-constrained keyboard layouts scroll content rather than hiding actions. */\r\n:host(.keyboard-open) .mobile-menu-viewport {\r\n	height: var(--mobile-visible-height);\r\n}\r\n:host(.keyboard-open) .mobile-menu-window {\r\n	max-height: 100%;\r\n}\r\n.mobile-menu-dialog {\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	max-height: min(var(--menu-dialog-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n}\r\n.mobile-menu-dialog[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.mobile-menu-dialog .container {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.mobile-menu-dialog .btns {\r\n	flex-shrink: 0;\r\n}\r\n/* The editor remains full-screen on phones; tablets get a bounded nested dialog. */\r\n:host([data-menu-density='spacious']) .mobile-menu-editor {\r\n	inset: var(--mobile-visual-top, 0px) 0 auto;\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	height: min(var(--menu-editor-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n	margin: max(12px, calc((var(--mobile-visible-height, 100dvh) - var(--menu-editor-height)) / 2)) auto 0;\r\n	border: 1px solid #657584;\r\n	border-radius: 10px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor::backdrop {\r\n	background: #0006;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor:has(textarea) {\r\n	--menu-editor-height: 320px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor section {\r\n	position: static;\r\n	height: 100%;\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	padding: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor #editor-title {\r\n	position: static;\r\n	width: auto;\r\n	height: auto;\r\n	clip-path: none;\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor main {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	min-height: 0;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor button {\r\n	grid-row: 3;\r\n	min-height: 44px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor [data-done] {\r\n	grid-column: 2;\r\n}\r\n:host([data-menu-density='spacious']) .panel .auto-range-stepper button {\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n}\r\n.mobile-menu-dialog {\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n}\r\n\r\n.mobile-menu-editor {\r\n	position: fixed;\r\n	inset: 0;\r\n	width: 100%;\r\n	max-width: none;\r\n	max-height: none;\r\n	margin: 0;\r\n}\r\n\r\n/* One scroll area for every mobile select, including adventure tools. */\r\n.mobile-menu-window .game-select-menu[popover] {\r\n	overflow: auto;\r\n	color: inherit;\r\n}\r\n.mobile-menu-window .game-select-menu[popover] .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > :is(input[aria-label], button),\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form .game-select-trigger {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n\r\n/* All tablet form controls share one height, including feature-specific forms. */\r\n:host([data-menu-density='spacious'])\r\n	.mobile-menu-window\r\n	input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']),\r\n:host([data-menu-density='spacious']) .mobile-menu-window select:not([hidden]) {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n	padding: 6px 8px;\r\n	font-size: 16px;\r\n	line-height: normal;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window textarea {\r\n	min-height: calc(var(--panel-control) * 2);\r\n	font-size: 16px;\r\n	padding: 8px;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select, .game-select-trigger) {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n/* Shared tablet typography for confirmations, pickers and number prompts. */\r\n:host([data-menu-density='spacious']) .ui-confirm {\r\n	font-size: 16px;\r\n	line-height: 1.6;\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm :is(button, input, select, textarea) {\r\n	font-size: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm .ui-confirm-actions button,\r\n:host([data-menu-density='spacious']) .ui-confirm .drop-quantity-buttons button {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n}\r\n\r\n:host([data-menu-density='spacious']) .ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n";
+	MenuLayout_default = "/* Shared mobile menu dimensions, typography and control density. */\r\n:host {\r\n	--interaction-text: 14px;\r\n	--interaction-title: 16px;\r\n	--interaction-control: 40px;\r\n	--interaction-caption: 12px;\r\n	--npc-width: 520px;\r\n	--npc-max-height: 80%;\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-image-height: 140px;\r\n	--menu-standard-width: 1040px;\r\n	--menu-standard-height: 640px;\r\n	--menu-home-width: 560px;\r\n	--menu-dialog-width: 420px;\r\n	--menu-dialog-height: 480px;\r\n	--menu-picker-width: 640px;\r\n	--menu-editor-height: 160px;\r\n	--menu-edge-x: 16px;\r\n	--menu-edge-y: 12px;\r\n	--menu-dialog-inset: 32px;\r\n	--panel-gap: 6px;\r\n	--panel-control: 30px;\r\n	--panel-attribute-control: 26px;\r\n	--panel-attribute-width: 32px;\r\n	--panel-label: 11px;\r\n	--panel-heading: 12px;\r\n	--panel-text: 12px;\r\n	--panel-title: 14px;\r\n	--panel-caption: 10px;\r\n	--panel-control-padding: 4px 8px;\r\n	--panel-list-image-scale: 1;\r\n	--panel-detail-image: 96px;\r\n	--panel-detail-image-scale: 1;\r\n	--panel-item-image: 96px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--interaction-text: 16px;\r\n	--interaction-title: 18px;\r\n	--interaction-control: 44px;\r\n	--interaction-caption: 14px;\r\n	--npc-width: 640px;\r\n	--npc-max-height: min(520px, 80%);\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-image-height: 200px;\r\n	--menu-edge-x: 24px;\r\n	--menu-edge-y: 24px;\r\n	--panel-gap: 12px;\r\n	--panel-control: 44px;\r\n	--panel-attribute-control: 44px;\r\n	--panel-attribute-width: 56px;\r\n	--panel-label: 14px;\r\n	--panel-heading: 16px;\r\n	--panel-text: 16px;\r\n	--panel-title: 18px;\r\n	--panel-caption: 14px;\r\n	--panel-control-padding: 8px 12px;\r\n	--panel-list-image-scale: 1.4;\r\n	--panel-detail-image: 112px;\r\n	--panel-detail-image-scale: 1.166667;\r\n	--panel-item-image: 128px;\r\n}\r\n.mobile-menu-viewport {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(var(--menu-edge-y), env(safe-area-inset-top)) max(var(--menu-edge-x), env(safe-area-inset-right))\r\n		max(var(--menu-edge-y), env(safe-area-inset-bottom)) max(var(--menu-edge-x), env(safe-area-inset-left));\r\n	box-sizing: border-box;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.mobile-menu-window {\r\n	--menu-window-width: 600px;\r\n	--menu-window-height: auto;\r\n	width: min(var(--menu-window-width), 100%);\r\n	height: var(--menu-window-height);\r\n	max-height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n/* Preserve compact phone sizes, with every exception registered here. */\r\n.panel:is(\r\n	.inventory-panel,\r\n	.equipment-panel,\r\n	.auto-config-panel,\r\n	.shortcut-panel,\r\n	.settings-panel,\r\n	.chat-panel,\r\n	[data-view='bank'],\r\n	[data-view='pet'],\r\n	[data-view='companions']\r\n) {\r\n	--menu-window-width: 780px;\r\n	--menu-window-height: 100%;\r\n}\r\n.panel[data-view='menu'] {\r\n	--menu-window-width: 420px;\r\n}\r\n.panel.profile-panel {\r\n	--menu-window-width: 400px;\r\n}\r\n.panel.settings-panel {\r\n	--menu-window-width: 600px;\r\n}\r\n.mobile-adventure {\r\n	container: menu-content / inline-size;\r\n	--menu-window-width: 100%;\r\n	--menu-window-height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window {\r\n	--menu-window-width: var(--menu-standard-width);\r\n	--menu-window-height: min(var(--menu-standard-height), 100%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='menu'] {\r\n	--menu-window-width: var(--menu-home-width);\r\n	--menu-window-height: auto;\r\n	max-height: min(var(--menu-standard-height), 100%);\r\n}\r\n.mobile-menu-window > header,\r\n.mobile-menu-window > nav {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-menu-window > .panel-body,\r\n.mobile-menu-window > .adventure-content {\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.panel-body {\r\n	padding: 8px;\r\n}\r\n.panel header {\r\n	padding: 4px 10px;\r\n}\r\n.panel {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel button {\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .panel header {\r\n	padding: 12px 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel-body {\r\n	padding: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host([data-menu-density='spacious']) .panel button {\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.panel\r\n	:is(.auto-skill-card strong, .auto-help, [data-skill-count], [data-auto-summary]) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	min-height: var(--panel-control);\r\n}\r\n/* Space-constrained keyboard layouts scroll content rather than hiding actions. */\r\n:host(.keyboard-open) .mobile-menu-viewport {\r\n	height: var(--mobile-visible-height);\r\n}\r\n:host(.keyboard-open) .mobile-menu-window {\r\n	max-height: 100%;\r\n}\r\n.mobile-menu-dialog {\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	max-height: min(var(--menu-dialog-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n}\r\n.mobile-menu-dialog[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.mobile-menu-dialog .container {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.mobile-menu-dialog .btns {\r\n	flex-shrink: 0;\r\n}\r\n/* The editor remains full-screen on phones; tablets get a bounded nested dialog. */\r\n:host([data-menu-density='spacious']) .mobile-menu-editor {\r\n	inset: var(--mobile-visual-top, 0px) 0 auto;\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	height: min(var(--menu-editor-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n	margin: max(12px, calc((var(--mobile-visible-height, 100dvh) - var(--menu-editor-height)) / 2)) auto 0;\r\n	border: 1px solid #657584;\r\n	border-radius: 10px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor::backdrop {\r\n	background: #0006;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor:has(textarea) {\r\n	--menu-editor-height: 320px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor section {\r\n	position: static;\r\n	height: 100%;\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	padding: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor #editor-title {\r\n	position: static;\r\n	width: auto;\r\n	height: auto;\r\n	clip-path: none;\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor main {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	min-height: 0;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor button {\r\n	grid-row: 3;\r\n	min-height: 44px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor [data-done] {\r\n	grid-column: 2;\r\n}\r\n:host([data-menu-density='spacious']) .panel .auto-range-stepper button {\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n}\r\n.mobile-menu-dialog {\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n}\r\n\r\n.mobile-menu-editor {\r\n	position: fixed;\r\n	inset: 0;\r\n	width: 100%;\r\n	max-width: none;\r\n	max-height: none;\r\n	margin: 0;\r\n}\r\n\r\n/* One scroll area for every mobile select, including adventure tools. */\r\n.mobile-menu-window .game-select-menu[popover] {\r\n	overflow: auto;\r\n	color: inherit;\r\n}\r\n.mobile-menu-window .game-select-menu[popover] .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > :is(input[aria-label], button),\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form .game-select-trigger {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n\r\n/* All tablet form controls share one height, including feature-specific forms. */\r\n:host([data-menu-density='spacious'])\r\n	.mobile-menu-window\r\n	input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']),\r\n:host([data-menu-density='spacious']) .mobile-menu-window select:not([hidden]) {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n	padding: 6px 8px;\r\n	font-size: var(--panel-text);\r\n	line-height: normal;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window textarea {\r\n	min-height: calc(var(--panel-control) * 2);\r\n	font-size: var(--panel-text);\r\n	padding: 8px;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select, .game-select-trigger) {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n/* Shared tablet typography for confirmations, pickers and number prompts. */\r\n:host([data-menu-density='spacious']) .ui-confirm {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.6;\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm :is(button, input, select, textarea) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm .ui-confirm-actions button,\r\n:host([data-menu-density='spacious']) .ui-confirm .drop-quantity-buttons button {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n}\r\n\r\n:host([data-menu-density='spacious']) .ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n\r\n/* NPC conversations remain compact on both phones and tablets. */\r\n:host .panel[data-view='npc'] {\r\n	--menu-window-width: var(--npc-width);\r\n	--menu-window-height: auto;\r\n	max-height: var(--npc-max-height);\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MenuLayout.js
@@ -78430,7 +78430,7 @@ var init_MessageDialog = __esmMin((() => {
 //#region src/UI/Common.css?raw
 var Common_default$1;
 var init_Common$1 = __esmMin((() => {
-	Common_default$1 = "/* Avoid input focus border */\r\n:focus {\r\n	outline: none;\r\n}\r\n::-moz-focus-inner {\r\n	border: 0;\r\n}\r\n\r\n* {\r\n	-moz-user-select: none;\r\n}\r\n\r\nhtml,\r\nbody {\r\n	touch-action: manipulation;\r\n	margin: 0;\r\n}\r\n\r\n/* Prevent mobile browser auto-zoom on input focus and double-tap */\r\n:host {\r\n	touch-action: manipulation;\r\n}\r\n\r\ninput,\r\ntextarea,\r\nselect {\r\n	touch-action: manipulation;\r\n}\r\n\r\ncanvas {\r\n	touch-action: none;\r\n}\r\n\r\nbody {\r\n	background-color: black;\r\n	font-size: 12px;\r\n	/* 'SCDream' first: wins only when the server actually serves the client font (loaded via\r\n	   @font-face in DBManager). When it isn't served it resolves to Arial — the official client's\r\n	   window UI font for intl/america servicetype (Ragexe draws window text with CreateFontA on the\r\n	   Gulim/Arial face table). Liberation Sans / Arimo provide Arial metrics on Linux. */\r\n	font-family: 'SCDream', Arial, 'Liberation Sans', Arimo, sans-serif;\r\n	/* Normalize any resolved font's x-height to Arial's (sxHeight 1062 / unitsPerEm 2048 = 0.5186),\r\n	   so text keeps Arial's apparent size on every OS/font. It's inherited and crosses Shadow DOM\r\n	   hosts, so it also rescales elements that use a non-Arial face; those opt out with\r\n	   `font-size-adjust: none` on the selector declaring that font (Intro, GrfViewer, JoystickUI\r\n	   header). SCDream, when a server serves it, is normalized to Arial on purpose.\r\n	   Progressive enhancement: engines that don't support the numeric form ignore it\r\n	   and render at the resolved font's native x-height (no JS fallback needed — Arial\r\n	   / Liberation Sans already carry correct metrics, only annex fonts degrade). */\r\n	font-size-adjust: 0.5186;\r\n	overflow: hidden;\r\n	-webkit-user-select: none;\r\n	user-select: none;\r\n	min-width: 100vw;\r\n	min-height: 100vh;\r\n	letter-spacing: 0;\r\n	line-height: 1.2;\r\n}\r\n\r\n.title {\r\n	font-size: 12px;\r\n}\r\n\r\nbutton,\r\nui-button {\r\n	padding: 0;\r\n}\r\n\r\nui-button {\r\n	display: inline-block;\r\n}\r\n\r\n.ui-btn {\r\n	-webkit-appearance: none;\r\n	appearance: none;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n\r\n	height: 20px;\r\n	min-width: 52px;\r\n	padding: 0 10px;\r\n\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	color: #3f3f3f;\r\n	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.85);\r\n\r\n	border-radius: 4px;\r\n	border: 1px solid;\r\n\r\n	/* 3D border: top right bottom left */\r\n	border-color: #cfcfcf #a9a9a9 #5f5f5f #bdbdbd;\r\n\r\n	/* glossy + subtle depth */\r\n	background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 35%, #dcdcdc 55%, #f9f9f9 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		/* top highlight */ inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		/* bottom inner edge */ 0 1px 0 rgba(0, 0, 0, 0.12); /* outer bottom shadow */\r\n\r\n	cursor: pointer;\r\n}\r\n\r\n/* Hover: hơi xanh nhẹ giống button Reset */\r\n.ui-btn:hover {\r\n	border-color: #c9d1dd #8ea2c4 #4d5f86 #b1bfd5;\r\n	background: linear-gradient(to bottom, #f7fbff 0%, #dfe8f6 35%, #c0d0ee 55%, #f0f6ff 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		0 1px 0 rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* Active: giống \"ấn xuống\" */\r\n.ui-btn:active {\r\n	border-color: #9fb0c9 #6f86a6 #3b4b67 #7f96b6;\r\n\r\n	background: linear-gradient(to bottom, #cdd8eb 0%, #b7c8e5 45%, #dfe9fb 100%);\r\n\r\n	box-shadow:\r\n		inset 0 2px 3px rgba(0, 0, 0, 0.18),\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.35);\r\n\r\n	transform: translateY(1px); /* cảm giác bị nhấn */\r\n}\r\n\r\n/* Disabled */\r\n.ui-btn:disabled,\r\n.ui-btn.is-disabled {\r\n	cursor: default;\r\n	color: #8f8f8f;\r\n	text-shadow: none;\r\n\r\n	border-color: #d3d3d3 #bdbdbd #9b9b9b #c9c9c9;\r\n\r\n	background: linear-gradient(to bottom, #f6f6f6 0%, #e7e7e7 55%, #fafafa 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.9),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.08),\r\n		0 1px 0 rgba(0, 0, 0, 0.08);\r\n\r\n	transform: none;\r\n}\r\n\r\n.ui-btn.localized-control {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	border: 1px solid #8b9690 !important;\r\n	background: #f4f7f5 !important;\r\n	color: #202622;\r\n}\r\n\r\n.ui-btn.localized-control:hover {\r\n	background: #dcebe3 !important;\r\n}\r\n\r\n.ui-btn.localized-control:active {\r\n	background: #c8ded2 !important;\r\n}\r\n\r\n/* Hide native cursor inside Shadow DOM when custom cursor is active */\r\n:host-context(.custom-cursor) * {\r\n	cursor: none !important;\r\n}\r\n\r\n/* Touch-primary screens do not display a mouse cursor, including inside UI roots. */\r\n@media (pointer: coarse) {\r\n	*,\r\n	:host {\r\n		cursor: none !important;\r\n	}\r\n}\r\n";
+	Common_default$1 = "/* Avoid input focus border */\r\n:focus {\r\n	outline: none;\r\n}\r\n::-moz-focus-inner {\r\n	border: 0;\r\n}\r\n\r\n* {\r\n	-moz-user-select: none;\r\n}\r\n\r\nhtml,\r\nbody {\r\n	touch-action: manipulation;\r\n	margin: 0;\r\n}\r\n\r\n/* Prevent mobile browser auto-zoom on input focus and double-tap */\r\n:host {\r\n	touch-action: manipulation;\r\n}\r\n\r\ninput,\r\ntextarea,\r\nselect {\r\n	touch-action: manipulation;\r\n}\r\n\r\ncanvas {\r\n	touch-action: none;\r\n}\r\n\r\nbody {\r\n	background-color: black;\r\n	font-size: 12px;\r\n	/* 'SCDream' first: wins only when the server actually serves the client font (loaded via\r\n	   @font-face in DBManager). When it isn't served it resolves to Arial — the official client's\r\n	   window UI font for intl/america servicetype (Ragexe draws window text with CreateFontA on the\r\n	   Gulim/Arial face table). Liberation Sans / Arimo provide Arial metrics on Linux. */\r\n	font-family: 'SCDream', Arial, 'Liberation Sans', Arimo, sans-serif;\r\n	/* Normalize any resolved font's x-height to Arial's (sxHeight 1062 / unitsPerEm 2048 = 0.5186),\r\n	   so text keeps Arial's apparent size on every OS/font. It's inherited and crosses Shadow DOM\r\n	   hosts, so it also rescales elements that use a non-Arial face; those opt out with\r\n	   `font-size-adjust: none` on the selector declaring that font (Intro, GrfViewer, JoystickUI\r\n	   header). SCDream, when a server serves it, is normalized to Arial on purpose.\r\n	   Progressive enhancement: engines that don't support the numeric form ignore it\r\n	   and render at the resolved font's native x-height (no JS fallback needed — Arial\r\n	   / Liberation Sans already carry correct metrics, only annex fonts degrade). */\r\n	font-size-adjust: 0.5186;\r\n	overflow: hidden;\r\n	-webkit-user-select: none;\r\n	user-select: none;\r\n	min-width: 100vw;\r\n	min-height: 100vh;\r\n	letter-spacing: 0;\r\n	line-height: 1.2;\r\n}\r\n\r\n.title {\r\n	font-size: 12px;\r\n}\r\n\r\nbutton,\r\nui-button {\r\n	padding: 0;\r\n}\r\n\r\nui-button {\r\n	display: inline-block;\r\n}\r\n\r\n/* Text over a bitmap skin: keep typography centered without changing the skin. */\r\n.ui-button-text {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	box-sizing: border-box;\r\n	padding: 0;\r\n	font-family: inherit;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	text-align: center;\r\n	white-space: nowrap;\r\n}\r\n\r\n.ui-btn {\r\n	-webkit-appearance: none;\r\n	appearance: none;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n\r\n	height: 20px;\r\n	min-width: 52px;\r\n	padding: 0 10px;\r\n\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	color: #3f3f3f;\r\n	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.85);\r\n\r\n	border-radius: 4px;\r\n	border: 1px solid;\r\n\r\n	/* 3D border: top right bottom left */\r\n	border-color: #cfcfcf #a9a9a9 #5f5f5f #bdbdbd;\r\n\r\n	/* glossy + subtle depth */\r\n	background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 35%, #dcdcdc 55%, #f9f9f9 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		/* top highlight */ inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		/* bottom inner edge */ 0 1px 0 rgba(0, 0, 0, 0.12); /* outer bottom shadow */\r\n\r\n	cursor: pointer;\r\n}\r\n\r\n/* Hover: hơi xanh nhẹ giống button Reset */\r\n.ui-btn:hover {\r\n	border-color: #c9d1dd #8ea2c4 #4d5f86 #b1bfd5;\r\n	background: linear-gradient(to bottom, #f7fbff 0%, #dfe8f6 35%, #c0d0ee 55%, #f0f6ff 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		0 1px 0 rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* Active: giống \"ấn xuống\" */\r\n.ui-btn:active {\r\n	border-color: #9fb0c9 #6f86a6 #3b4b67 #7f96b6;\r\n\r\n	background: linear-gradient(to bottom, #cdd8eb 0%, #b7c8e5 45%, #dfe9fb 100%);\r\n\r\n	box-shadow:\r\n		inset 0 2px 3px rgba(0, 0, 0, 0.18),\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.35);\r\n\r\n	transform: translateY(1px); /* cảm giác bị nhấn */\r\n}\r\n\r\n/* Disabled */\r\n.ui-btn:disabled,\r\n.ui-btn.is-disabled {\r\n	cursor: default;\r\n	color: #8f8f8f;\r\n	text-shadow: none;\r\n\r\n	border-color: #d3d3d3 #bdbdbd #9b9b9b #c9c9c9;\r\n\r\n	background: linear-gradient(to bottom, #f6f6f6 0%, #e7e7e7 55%, #fafafa 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.9),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.08),\r\n		0 1px 0 rgba(0, 0, 0, 0.08);\r\n\r\n	transform: none;\r\n}\r\n\r\n.ui-btn.localized-control {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	border: 1px solid #8b9690 !important;\r\n	background: #f4f7f5 !important;\r\n	color: #202622;\r\n}\r\n\r\n.ui-btn.localized-control:hover {\r\n	background: #dcebe3 !important;\r\n}\r\n\r\n.ui-btn.localized-control:active {\r\n	background: #c8ded2 !important;\r\n}\r\n\r\n/* Hide native cursor inside Shadow DOM when custom cursor is active */\r\n:host-context(.custom-cursor) * {\r\n	cursor: none !important;\r\n}\r\n\r\n/* Touch-primary screens do not display a mouse cursor, including inside UI roots. */\r\n@media (pointer: coarse) {\r\n	*,\r\n	:host {\r\n		cursor: none !important;\r\n	}\r\n}\r\n";
 }));
 //#endregion
 //#region src/Controls/MouseEventHandler.js
@@ -256981,7 +256981,7 @@ var init_ItemCompare = __esmMin((() => {
 //#region src/UI/Components/ItemPreview/ItemPreview.html?raw
 var ItemPreview_default$2;
 var init_ItemPreview$2 = __esmMin((() => {
-	ItemPreview_default$2 = "<div id=\"ItemPreview\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<ui-text class=\"title\" msg=\"2960\"></ui-text>\r\n		<ui-button\r\n			class=\"close\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n	</div>\r\n	<div class=\"content\">\r\n		<canvas width=\"55\" height=\"145\"></canvas>\r\n		<div class=\"controls\">\r\n			<ui-button\r\n				class=\"rot_left\"\r\n				bg=\"make_character/chr_arrow_rotate_l_out.bmp\"\r\n				hover=\"make_character/chr_arrow_rotate_l_over.bmp\"\r\n				down=\"make_character/chr_arrow_rotate_l_press.bmp\"\r\n			></ui-button>\r\n			<ui-button\r\n				class=\"reset\"\r\n				bg=\"equip_preview/btn_mounting_normal.bmp\"\r\n				down=\"equip_preview/btn_mounting_press.bmp\"\r\n				hover=\"equip_preview/btn_mounting_over.bmp\"\r\n				><ui-text msg=\"2975\"></ui-text\r\n			></ui-button>\r\n			<ui-button\r\n				class=\"rot_right\"\r\n				bg=\"make_character/chr_arrow_rotate_r_out.bmp\"\r\n				hover=\"make_character/chr_arrow_rotate_r_over.bmp\"\r\n				down=\"make_character/chr_arrow_rotate_r_press.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	ItemPreview_default$2 = "<div id=\"ItemPreview\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<ui-text class=\"title\" msg=\"2960\"></ui-text>\r\n		<ui-button\r\n			class=\"close\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n	</div>\r\n	<div class=\"content\">\r\n		<canvas width=\"55\" height=\"145\"></canvas>\r\n		<div class=\"controls\">\r\n			<ui-button\r\n				class=\"rot_left\"\r\n				bg=\"make_character/chr_arrow_rotate_l_out.bmp\"\r\n				hover=\"make_character/chr_arrow_rotate_l_over.bmp\"\r\n				down=\"make_character/chr_arrow_rotate_l_press.bmp\"\r\n			></ui-button>\r\n			<ui-button\r\n				class=\"reset ui-button-text\"\r\n				bg=\"equip_preview/btn_mounting_normal.bmp\"\r\n				down=\"equip_preview/btn_mounting_press.bmp\"\r\n				hover=\"equip_preview/btn_mounting_over.bmp\"\r\n				><ui-text msg=\"2975\"></ui-text\r\n			></ui-button>\r\n			<ui-button\r\n				class=\"rot_right\"\r\n				bg=\"make_character/chr_arrow_rotate_r_out.bmp\"\r\n				hover=\"make_character/chr_arrow_rotate_r_over.bmp\"\r\n				down=\"make_character/chr_arrow_rotate_r_press.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ItemPreview/ItemPreview.css?raw
@@ -257245,7 +257245,7 @@ var init_ItemPreview = __esmMin((() => {
 //#region src/UI/Components/ItemInfo/ItemInfo.html?raw
 var ItemInfo_default$2;
 var init_ItemInfo$2 = __esmMin((() => {
-	ItemInfo_default$2 = "<div class=\"ItemInfo\">\r\n	<div class=\"container\" data-background=\"basic_interface/collection_bg.bmp\">\r\n		<div class=\"collection\"></div>\r\n		<div class=\"preview-action\">\r\n			<button\r\n				class=\"btn_mounting\"\r\n				data-background=\"equip_preview\\btn_mounting_normal.bmp\"\r\n				data-down=\"equip_preview\\btn_mounting_press.bmp\"\r\n				data-hover=\"equip_preview\\btn_mounting_over.bmp\"\r\n				type=\"button\"\r\n				data-text=\"2922\"\r\n			></button>\r\n		</div>\r\n		<div class=\"event_view\">\r\n			<button\r\n				class=\"view\"\r\n				data-background=\"btn_view.bmp\"\r\n				data-down=\"btn_view_a.bmp\"\r\n				data-hover=\"btn_view_b.bmp\"\r\n			></button>\r\n			<span class=\"overlay_open\" data-text=\"1294\">阅读</span>\r\n			<span class=\"overlay_read\" data-text=\"1295\">自动阅读</span>\r\n		</div>\r\n		<div class=\"title\"></div>\r\n		<button\r\n			class=\"close\"\r\n			data-background=\"basic_interface/sys_close_off.bmp\"\r\n			data-hover=\"basic_interface/sys_close_on.bmp\"\r\n		></button>\r\n		<div class=\"description\">\r\n			<div class=\"description-inner\"></div>\r\n		</div>\r\n		<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n	</div>\r\n	<div class=\"option-container\"></div>\r\n	<div class=\"cardlist\">\r\n		<div class=\"border\"></div>\r\n	</div>\r\n</div>\r\n\r\n<div id=\"moveinfo-tooltip\"></div>\r\n";
+	ItemInfo_default$2 = "<div class=\"ItemInfo\">\r\n	<div class=\"container\" data-background=\"basic_interface/collection_bg.bmp\">\r\n		<div class=\"collection\"></div>\r\n		<div class=\"preview-action\">\r\n			<button\r\n				class=\"btn_mounting ui-button-text\"\r\n				data-background=\"equip_preview\\btn_mounting_normal.bmp\"\r\n				data-down=\"equip_preview\\btn_mounting_press.bmp\"\r\n				data-hover=\"equip_preview\\btn_mounting_over.bmp\"\r\n				type=\"button\"\r\n				data-text=\"2922\"\r\n			></button>\r\n		</div>\r\n		<div class=\"event_view\">\r\n			<button\r\n				class=\"view\"\r\n				data-background=\"btn_view.bmp\"\r\n				data-down=\"btn_view_a.bmp\"\r\n				data-hover=\"btn_view_b.bmp\"\r\n			></button>\r\n			<span class=\"overlay_open\" data-text=\"1294\">阅读</span>\r\n			<span class=\"overlay_read\" data-text=\"1295\">自动阅读</span>\r\n		</div>\r\n		<div class=\"title\"></div>\r\n		<button\r\n			class=\"close\"\r\n			data-background=\"basic_interface/sys_close_off.bmp\"\r\n			data-hover=\"basic_interface/sys_close_on.bmp\"\r\n		></button>\r\n		<div class=\"description\">\r\n			<div class=\"description-inner\"></div>\r\n		</div>\r\n		<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n	</div>\r\n	<div class=\"option-container\"></div>\r\n	<div class=\"cardlist\">\r\n		<div class=\"border\"></div>\r\n	</div>\r\n</div>\r\n\r\n<div id=\"moveinfo-tooltip\"></div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ItemInfo/ItemInfo.css?raw
@@ -263386,7 +263386,7 @@ var init_SkillTargetSelection = __esmMin((() => {
 //#region src/UI/Components/PartyFriends/PartyFriendsV1/PartyFriendsV1.html?raw
 var PartyFriendsV1_default$2;
 var init_PartyFriendsV1$2 = __esmMin((() => {
-	PartyFriendsV1_default$2 = "<div id=\"PartyFriends\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"party\">\r\n				<span class=\"text\"><ui-text msg=\"103\">队伍</ui-text></span> <span class=\"partyname\"></span>\r\n			</span>\r\n			<span class=\"friend\">\r\n				<span class=\"text\"><ui-text msg=\"102\">好友</ui-text></span> (<span class=\"friendcount\">0</span>/<span\r\n					class=\"friendmax\"\r\n					>127</span\r\n				>)\r\n			</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"party info-v2\"></div>\r\n		<div class=\"friend\"></div>\r\n	</div>\r\n	<div class=\"navigation\">\r\n		<ui-image src=\"basic_interface/mesbtn_mid.bmp\"></ui-image>\r\n		<!-- Friend specific buttons -->\r\n		<ui-button\r\n			class=\"friend mail\"\r\n			bg=\"basic_interface/mesbtn_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"98\">发送消息</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"friend privatemessage\"\r\n			bg=\"basic_interface/mesbtn_02.bmp\"\r\n			hover=\"basic_interface/mesbtn_02_a.bmp\"\r\n			down=\"basic_interface/mesbtn_02_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"99\">一对一聊天</ui-text></div>\r\n		</ui-button>\r\n\r\n		<!-- Party specific buttons -->\r\n		<ui-button\r\n			class=\"party agency\"\r\n			bg=\"basic_interface/mesbtn_partymaster_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_partymaster_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_partymaster_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"3504\">冒险家协会</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"info\"\r\n			bg=\"basic_interface/mesbtn_04.bmp\"\r\n			hover=\"basic_interface/mesbtn_04_a.bmp\"\r\n			down=\"basic_interface/mesbtn_04_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"101\">队伍设置</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"355\">好友设置</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"friend remove\"\r\n			bg=\"basic_interface/mesbtn_05.bmp\"\r\n			hover=\"basic_interface/mesbtn_05_a.bmp\"\r\n			down=\"basic_interface/mesbtn_05_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"351\">删除</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock on\"\r\n			bg=\"basic_interface/mesbtn_06.bmp\"\r\n			hover=\"basic_interface/mesbtn_06_a.bmp\"\r\n			down=\"basic_interface/mesbtn_06_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1626\">启用锁定功能</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock off\"\r\n			bg=\"basic_interface/mesbtn_07.bmp\"\r\n			hover=\"basic_interface/mesbtn_07_a.bmp\"\r\n			down=\"basic_interface/mesbtn_07_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1627\">停用锁定功能</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party create\"\r\n			bg=\"basic_interface/mesbtn_08.bmp\"\r\n			hover=\"basic_interface/mesbtn_08_a.bmp\"\r\n			down=\"basic_interface/mesbtn_08_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2054\">创建队伍</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party add\"\r\n			bg=\"basic_interface/mesbtn_010.bmp\"\r\n			hover=\"basic_interface/mesbtn_010_a.bmp\"\r\n			down=\"basic_interface/mesbtn_010_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2056\">队伍邀请</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party leave\"\r\n			bg=\"basic_interface/mesbtn_09.bmp\"\r\n			hover=\"basic_interface/mesbtn_09_a.bmp\"\r\n			down=\"basic_interface/mesbtn_09_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"96\">离开队伍</ui-text></div>\r\n		</ui-button>\r\n		<ui-button class=\"party sort text-button\">\r\n			<div class=\"overlay\"><ui-text msg=\"3983\">整理迷你队伍窗口</ui-text></div>\r\n			<span aria-hidden=\"true\">&#8645;</span>\r\n		</ui-button>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid.bmp\"></ui-image>\r\n		<div class=\"friend\">\r\n			<button class=\"switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"102\">好友</ui-text>\r\n			</button>\r\n			<button class=\"switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"103\">队伍</ui-text>\r\n			</button>\r\n		</div>\r\n		<div class=\"party\">\r\n			<button class=\"switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"102\">好友</ui-text>\r\n			</button>\r\n			<button class=\"switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"103\">队伍</ui-text>\r\n			</button>\r\n			<div class=\"member-count-container\">\r\n				<div class=\"footer-label\"><ui-text msg=\"3231\">上限</ui-text></div>\r\n				<span class=\"count-box\"><span class=\"inner-count\">0/12</span></span>\r\n			</div>\r\n		</div>\r\n		<button class=\"resize\"><ui-image src=\"btn_resize.bmp\"></ui-image></button>\r\n	</div>\r\n</div>\r\n";
+	PartyFriendsV1_default$2 = "<div id=\"PartyFriends\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"party\">\r\n				<span class=\"text\"><ui-text msg=\"103\">队伍</ui-text></span> <span class=\"partyname\"></span>\r\n			</span>\r\n			<span class=\"friend\">\r\n				<span class=\"text\"><ui-text msg=\"102\">好友</ui-text></span> (<span class=\"friendcount\">0</span>/<span\r\n					class=\"friendmax\"\r\n					>127</span\r\n				>)\r\n			</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"party info-v2\"></div>\r\n		<div class=\"friend\"></div>\r\n	</div>\r\n	<div class=\"navigation\">\r\n		<ui-image src=\"basic_interface/mesbtn_mid.bmp\"></ui-image>\r\n		<!-- Friend specific buttons -->\r\n		<ui-button\r\n			class=\"friend mail\"\r\n			bg=\"basic_interface/mesbtn_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"98\">发送消息</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"friend privatemessage\"\r\n			bg=\"basic_interface/mesbtn_02.bmp\"\r\n			hover=\"basic_interface/mesbtn_02_a.bmp\"\r\n			down=\"basic_interface/mesbtn_02_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"99\">一对一聊天</ui-text></div>\r\n		</ui-button>\r\n\r\n		<!-- Party specific buttons -->\r\n		<ui-button\r\n			class=\"party agency\"\r\n			bg=\"basic_interface/mesbtn_partymaster_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_partymaster_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_partymaster_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"3504\">冒险家协会</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"info\"\r\n			bg=\"basic_interface/mesbtn_04.bmp\"\r\n			hover=\"basic_interface/mesbtn_04_a.bmp\"\r\n			down=\"basic_interface/mesbtn_04_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"101\">队伍设置</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"355\">好友设置</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"friend remove\"\r\n			bg=\"basic_interface/mesbtn_05.bmp\"\r\n			hover=\"basic_interface/mesbtn_05_a.bmp\"\r\n			down=\"basic_interface/mesbtn_05_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"351\">删除</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock on\"\r\n			bg=\"basic_interface/mesbtn_06.bmp\"\r\n			hover=\"basic_interface/mesbtn_06_a.bmp\"\r\n			down=\"basic_interface/mesbtn_06_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1626\">启用锁定功能</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock off\"\r\n			bg=\"basic_interface/mesbtn_07.bmp\"\r\n			hover=\"basic_interface/mesbtn_07_a.bmp\"\r\n			down=\"basic_interface/mesbtn_07_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1627\">停用锁定功能</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party create\"\r\n			bg=\"basic_interface/mesbtn_08.bmp\"\r\n			hover=\"basic_interface/mesbtn_08_a.bmp\"\r\n			down=\"basic_interface/mesbtn_08_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2054\">创建队伍</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party add\"\r\n			bg=\"basic_interface/mesbtn_010.bmp\"\r\n			hover=\"basic_interface/mesbtn_010_a.bmp\"\r\n			down=\"basic_interface/mesbtn_010_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2056\">队伍邀请</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party leave\"\r\n			bg=\"basic_interface/mesbtn_09.bmp\"\r\n			hover=\"basic_interface/mesbtn_09_a.bmp\"\r\n			down=\"basic_interface/mesbtn_09_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"96\">离开队伍</ui-text></div>\r\n		</ui-button>\r\n		<ui-button class=\"party sort text-button\">\r\n			<div class=\"overlay\"><ui-text msg=\"3983\">整理迷你队伍窗口</ui-text></div>\r\n			<span aria-hidden=\"true\">&#8645;</span>\r\n		</ui-button>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid.bmp\"></ui-image>\r\n		<div class=\"friend\">\r\n			<button class=\"ui-button-text switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"102\">好友</ui-text>\r\n			</button>\r\n			<button class=\"ui-button-text switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"103\">队伍</ui-text>\r\n			</button>\r\n		</div>\r\n		<div class=\"party\">\r\n			<button class=\"ui-button-text switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"102\">好友</ui-text>\r\n			</button>\r\n			<button class=\"ui-button-text switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"103\">队伍</ui-text>\r\n			</button>\r\n			<div class=\"member-count-container\">\r\n				<div class=\"footer-label\"><ui-text msg=\"3231\">上限</ui-text></div>\r\n				<span class=\"count-box\"><span class=\"inner-count\">0/12</span></span>\r\n			</div>\r\n		</div>\r\n		<button class=\"resize\"><ui-image src=\"btn_resize.bmp\"></ui-image></button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/PartyFriends/PartyFriendsV1/PartyFriendsV1.css?raw
@@ -264041,7 +264041,7 @@ var init_Mail$3 = __esmMin((() => {
 //#region src/UI/Components/Mail/Mail.css?raw
 var Mail_default$1;
 var init_Mail$2 = __esmMin((() => {
-	Mail_default$1 = ":host {\r\n	position: absolute;\r\n}\r\n\r\n#Mail {\r\n	width: 250px;\r\n	height: 330px;\r\n}\r\n\r\n#Mail .body {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: relative;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	border-radius: 6px;\r\n}\r\n#Mail .body .base {\r\n	width: 9px;\r\n	height: 7px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#Mail .titlebar {\r\n	display: block;\r\n	width: 300px;\r\n	height: 16px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#Mail .container {\r\n	width: 298px;\r\n	height: 385px;\r\n}\r\n\r\n#Mail .flex {\r\n	display: flex;\r\n}\r\n\r\n#Mail .list_item_mail {\r\n	width: 279px;\r\n	height: 358px;\r\n}\r\n\r\n#Mail .flex_block {\r\n	display: block;\r\n}\r\n\r\n#Mail .list_mail {\r\n	flex: 14;\r\n}\r\n\r\n#Mail .prev_next {\r\n	color: #e4baa8;\r\n}\r\n\r\n#Mail .prev {\r\n	flex: 1;\r\n	align-items: flex-end;\r\n	justify-content: flex-end;\r\n	display: flex;\r\n}\r\n\r\n#Mail .next {\r\n	flex: 1;\r\n	align-items: flex-end;\r\n	justify-content: flex-start;\r\n	display: flex;\r\n}\r\n\r\n#Mail .pagination {\r\n	text-align: end;\r\n}\r\n\r\n#Mail .btn_iw {\r\n	height: 371px;\r\n	margin-left: 4px;\r\n}\r\n\r\n#Mail .inbox {\r\n	height: 16%;\r\n}\r\n\r\n#Mail .write {\r\n	height: 16%;\r\n}\r\n\r\n#Mail .block_mail {\r\n	margin: 2% 1% 0% 2%;\r\n}\r\n\r\n#Mail .item_mail {\r\n	width: 268px;\r\n	height: 51px;\r\n	display: flex;\r\n}\r\n\r\n#Mail .btn_envelop {\r\n	width: 16px;\r\n	height: 11px;\r\n	background-repeat: no-repeat;\r\n	border: none;\r\n	background-color: transparent;\r\n	margin-top: 24%;\r\n	margin-left: 18%;\r\n}\r\n\r\n#Mail .to_title {\r\n	width: 100%;\r\n	height: 52px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	display: grid;\r\n}\r\n#Mail .to_title button {\r\n	float: left;\r\n	border: none;\r\n	background: none;\r\n	width: 26px;\r\n	height: 20px;\r\n	position: relative;\r\n	flex: 1;\r\n}\r\n\r\n#Mail .block_create_mail {\r\n	display: block;\r\n	margin: 2% 1% 0% 2%;\r\n}\r\n#Mail .add_zeny {\r\n	width: 51px;\r\n	height: 21px;\r\n	border: none;\r\n	margin-left: 16%;\r\n	margin-top: 3%;\r\n}\r\n#zeny_ok {\r\n	display: none;\r\n	width: 43px !important;\r\n	margin-left: 19% !important;\r\n}\r\n#Mail .create_mail_btn {\r\n	width: 43px;\r\n	height: 21px;\r\n	border: none;\r\n}\r\n#Mail .to_create_mail {\r\n	flex: 1;\r\n	margin-top: 8%;\r\n	margin-left: 7%;\r\n	display: flex;\r\n}\r\n#Mail .title_create_mail {\r\n	flex: 1;\r\n	margin-top: 6%;\r\n	margin-left: 7%;\r\n	display: flex;\r\n}\r\n#Mail .text_to_title {\r\n	flex: 1;\r\n	color: #cd9b77;\r\n	text-align: center;\r\n}\r\n#Mail .text_to {\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 14px;\r\n	padding: initial;\r\n	width: 105px;\r\n}\r\n#Mail .text_title_create_mail {\r\n	flex: 1;\r\n	color: #cd9b77;\r\n	text-align: center;\r\n}\r\n#Mail .input_title {\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 14px;\r\n	padding: initial;\r\n	width: 164px;\r\n}\r\n#Mail .email_body {\r\n	flex: 1;\r\n	margin-top: 5%;\r\n	margin-left: 5%;\r\n	display: flex;\r\n}\r\n#Mail .textarea_mail {\r\n	resize: none;\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 226px;\r\n	padding: initial;\r\n	width: 243px;\r\n	overflow: hidden;\r\n}\r\n\r\n#Mail .block_zeny_item {\r\n	flex: 1;\r\n	margin-top: 4%;\r\n	margin-left: 5%;\r\n	display: flex;\r\n}\r\n#Mail .block_zeny {\r\n	margin-top: 4%;\r\n	margin-left: 1%;\r\n}\r\n#Mail .block_item {\r\n	margin-left: 18%;\r\n}\r\n#Mail .input_zeny_amt {\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 13px;\r\n	width: 64px;\r\n}\r\n#Mail .input_add_item {\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 24px;\r\n	width: 24px;\r\n}\r\n\r\n#Mail .container_item {\r\n	float: left;\r\n	width: 24px;\r\n	height: 23px;\r\n	margin-top: 2px;\r\n	margin-left: 2px;\r\n	margin-bottom: 6px;\r\n}\r\n\r\n#Mail .block_send_cancel {\r\n	flex: 1;\r\n	margin-top: 4%;\r\n	margin-right: 8%;\r\n	text-align: right;\r\n}\r\n\r\n#Mail .to_title button .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	top: -20px;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#Mail .to_title button:hover .overlay {\r\n	display: block;\r\n}\r\n\r\n#Mail .tooltip {\r\n	position: relative;\r\n	display: inline-block;\r\n	color: #a37162;\r\n}\r\n\r\n#Mail .name_data {\r\n	color: #cd9b77;\r\n	margin-top: 15%;\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n\r\n#Mail .tooltip .tooltiptext {\r\n	visibility: hidden;\r\n	position: absolute;\r\n	bottom: 100%;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n	position: absolute;\r\n	float: left;\r\n	left: 0px;\r\n	pointer-events: none;\r\n}\r\n\r\n#Mail .tooltip .to {\r\n}\r\n\r\n#Mail .tooltip .title {\r\n}\r\n\r\n#Mail .tooltip:hover .tooltiptext {\r\n	visibility: visible;\r\n}\r\n\r\n#Mail .date_mail {\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	display: grid;\r\n	align-items: center;\r\n}\r\n\r\n#Mail .container_item .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#Mail .container_item .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#Mail .container_item .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#Mail .container_item .overlay {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#Mail .container_item .overlay.grey {\r\n	pointer-events: none;\r\n	color: #aaa;\r\n}\r\n\r\n#Mail .overlay_prev {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n	margin-bottom: 4%;\r\n	margin-right: -3%;\r\n}\r\n\r\n#Mail .overlay_next {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n	margin-bottom: 4%;\r\n}\r\n#Mail .margin_next {\r\n	margin-left: 5%;\r\n}\r\n\r\n#Mail .prev_next .text_pagination {\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	position: absolute;\r\n}\r\n\r\n#Mail .body .text {\r\n	/* text-shadow: 1px 1px white; */\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n}\r\n\r\n#Mail .body .left {\r\n	margin-left: 25px;\r\n	float: left;\r\n}\r\n#Mail .body .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#Mail .body .clear {\r\n	clear: both;\r\n}\r\n";
+	Mail_default$1 = ":host {\r\n	position: absolute;\r\n}\r\n\r\n#Mail {\r\n	width: 250px;\r\n	height: 330px;\r\n}\r\n\r\n#Mail .body {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: relative;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	border-radius: 6px;\r\n}\r\n#Mail .body .base {\r\n	width: 9px;\r\n	height: 7px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#Mail .titlebar {\r\n	display: block;\r\n	width: 300px;\r\n	height: 16px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#Mail .container {\r\n	width: 298px;\r\n	height: 385px;\r\n}\r\n\r\n#Mail .flex {\r\n	display: flex;\r\n}\r\n\r\n#Mail .list_item_mail {\r\n	width: 279px;\r\n	height: 358px;\r\n}\r\n\r\n#Mail .flex_block {\r\n	display: block;\r\n}\r\n\r\n#Mail .list_mail {\r\n	flex: 14;\r\n}\r\n\r\n#Mail .prev_next {\r\n	color: #e4baa8;\r\n}\r\n\r\n#Mail .prev {\r\n	flex: 1;\r\n	align-items: flex-end;\r\n	justify-content: flex-end;\r\n	display: flex;\r\n}\r\n\r\n#Mail .next {\r\n	flex: 1;\r\n	align-items: flex-end;\r\n	justify-content: flex-start;\r\n	display: flex;\r\n}\r\n\r\n#Mail .pagination {\r\n	text-align: end;\r\n}\r\n\r\n#Mail .btn_iw {\r\n	height: 371px;\r\n	margin-left: 4px;\r\n}\r\n\r\n#Mail .inbox {\r\n	height: 16%;\r\n}\r\n\r\n#Mail .write {\r\n	height: 16%;\r\n}\r\n\r\n#Mail .block_mail {\r\n	margin: 2% 1% 0% 2%;\r\n}\r\n\r\n#Mail .item_mail {\r\n	width: 268px;\r\n	height: 51px;\r\n	display: flex;\r\n}\r\n\r\n#Mail .btn_envelop {\r\n	width: 16px;\r\n	height: 11px;\r\n	background-repeat: no-repeat;\r\n	border: none;\r\n	background-color: transparent;\r\n	margin-top: 24%;\r\n	margin-left: 18%;\r\n}\r\n\r\n#Mail .to_title {\r\n	width: 100%;\r\n	height: 52px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	display: grid;\r\n}\r\n#Mail .to_title button {\r\n	float: left;\r\n	border: none;\r\n	background: none;\r\n	width: 26px;\r\n	height: 20px;\r\n	position: relative;\r\n	flex: 1;\r\n}\r\n\r\n#Mail .block_create_mail {\r\n	display: block;\r\n	margin: 2% 1% 0% 2%;\r\n}\r\n#Mail .add_zeny {\r\n	width: 68px;\r\n	min-width: 68px;\r\n	white-space: nowrap;\r\n	height: 21px;\r\n	border: none;\r\n	margin-left: 16%;\r\n	margin-top: 3%;\r\n}\r\n#zeny_ok {\r\n	display: none;\r\n}\r\n#Mail .create_mail_btn {\r\n	width: 43px;\r\n	height: 21px;\r\n	border: none;\r\n}\r\n#Mail .to_create_mail {\r\n	flex: 1;\r\n	margin-top: 8%;\r\n	margin-left: 7%;\r\n	display: flex;\r\n}\r\n#Mail .title_create_mail {\r\n	flex: 1;\r\n	margin-top: 6%;\r\n	margin-left: 7%;\r\n	display: flex;\r\n}\r\n#Mail .text_to_title {\r\n	flex: 1;\r\n	color: #cd9b77;\r\n	text-align: center;\r\n}\r\n#Mail .text_to {\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 14px;\r\n	padding: initial;\r\n	width: 105px;\r\n}\r\n#Mail .text_title_create_mail {\r\n	flex: 1;\r\n	color: #cd9b77;\r\n	text-align: center;\r\n}\r\n#Mail .input_title {\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 14px;\r\n	padding: initial;\r\n	width: 164px;\r\n}\r\n#Mail .email_body {\r\n	flex: 1;\r\n	margin-top: 5%;\r\n	margin-left: 5%;\r\n	display: flex;\r\n}\r\n#Mail .textarea_mail {\r\n	resize: none;\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 226px;\r\n	padding: initial;\r\n	width: 243px;\r\n	overflow: hidden;\r\n}\r\n\r\n#Mail .block_zeny_item {\r\n	flex: 1;\r\n	margin-top: 4%;\r\n	margin-left: 5%;\r\n	display: flex;\r\n}\r\n#Mail .block_zeny {\r\n	margin-top: 4%;\r\n	margin-left: 1%;\r\n}\r\n#Mail .block_item {\r\n	margin-left: 18%;\r\n}\r\n#Mail .input_zeny_amt {\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 13px;\r\n	width: 64px;\r\n}\r\n#Mail .input_add_item {\r\n	background-color: #00800000;\r\n	border: none;\r\n	height: 24px;\r\n	width: 24px;\r\n}\r\n\r\n#Mail .container_item {\r\n	float: left;\r\n	width: 24px;\r\n	height: 23px;\r\n	margin-top: 2px;\r\n	margin-left: 2px;\r\n	margin-bottom: 6px;\r\n}\r\n\r\n#Mail .block_send_cancel {\r\n	flex: 1;\r\n	margin-top: 4%;\r\n	margin-right: 8%;\r\n	text-align: right;\r\n}\r\n\r\n#Mail .to_title button .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	top: -20px;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#Mail .to_title button:hover .overlay {\r\n	display: block;\r\n}\r\n\r\n#Mail .tooltip {\r\n	position: relative;\r\n	display: inline-block;\r\n	color: #a37162;\r\n}\r\n\r\n#Mail .name_data {\r\n	color: #cd9b77;\r\n	margin-top: 15%;\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n\r\n#Mail .tooltip .tooltiptext {\r\n	visibility: hidden;\r\n	position: absolute;\r\n	bottom: 100%;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n	position: absolute;\r\n	float: left;\r\n	left: 0px;\r\n	pointer-events: none;\r\n}\r\n\r\n#Mail .tooltip .to {\r\n}\r\n\r\n#Mail .tooltip .title {\r\n}\r\n\r\n#Mail .tooltip:hover .tooltiptext {\r\n	visibility: visible;\r\n}\r\n\r\n#Mail .date_mail {\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	display: grid;\r\n	align-items: center;\r\n}\r\n\r\n#Mail .container_item .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#Mail .container_item .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#Mail .container_item .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#Mail .container_item .overlay {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#Mail .container_item .overlay.grey {\r\n	pointer-events: none;\r\n	color: #aaa;\r\n}\r\n\r\n#Mail .overlay_prev {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n	margin-bottom: 4%;\r\n	margin-right: -3%;\r\n}\r\n\r\n#Mail .overlay_next {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n	margin-bottom: 4%;\r\n}\r\n#Mail .margin_next {\r\n	margin-left: 5%;\r\n}\r\n\r\n#Mail .prev_next .text_pagination {\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	position: absolute;\r\n}\r\n\r\n#Mail .body .text {\r\n	/* text-shadow: 1px 1px white; */\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n}\r\n\r\n#Mail .body .left {\r\n	margin-left: 25px;\r\n	float: left;\r\n}\r\n#Mail .body .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#Mail .body .clear {\r\n	clear: both;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Mail/Mail.js
@@ -264263,7 +264263,7 @@ function onAddZenyInput(event) {
 	const zenyAmt = root.querySelector("#zeny_amt");
 	if (zenyAmt) zenyAmt.style.display = "none";
 	const zenyOk = root.querySelector("#zeny_ok");
-	if (zenyOk) zenyOk.style.display = "inline-block";
+	if (zenyOk) zenyOk.style.display = "inline-flex";
 	const input = root.querySelector(".input_zeny_amt");
 	if (input) {
 		input.disabled = false;
@@ -264276,7 +264276,7 @@ function onValidZenyInput(event) {
 	const root = _root$14();
 	event.stopImmediatePropagation();
 	const zenyAmt = root.querySelector("#zeny_amt");
-	if (zenyAmt) zenyAmt.style.display = "inline-block";
+	if (zenyAmt) zenyAmt.style.display = "";
 	const zenyOk = root.querySelector("#zeny_ok");
 	if (zenyOk) zenyOk.style.display = "none";
 	const input = root.querySelector(".input_zeny_amt");
@@ -266185,7 +266185,7 @@ var init_PartyFriendsCommon = __esmMin((() => {
 //#region src/UI/Components/PartyFriends/PartyFriendsV0/PartyFriendsV0.html?raw
 var PartyFriendsV0_default$2;
 var init_PartyFriendsV0$2 = __esmMin((() => {
-	PartyFriendsV0_default$2 = "<div id=\"PartyFriends\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"party\"> <ui-text msg=\"103\">Party</ui-text> <span class=\"partyname\"></span> </span>\r\n			<span class=\"friend\">\r\n				<ui-text msg=\"102\">Friends</ui-text> (<span class=\"friendcount\">0</span>/<span class=\"friendmax\"\r\n					>40</span\r\n				>)\r\n			</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"party\"></div>\r\n		<div class=\"friend\"></div>\r\n	</div>\r\n	<div class=\"navigation\">\r\n		<ui-image src=\"basic_interface/mesbtn_mid.bmp\"></ui-image>\r\n		<ui-button\r\n			class=\"mail\"\r\n			bg=\"basic_interface/mesbtn_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"98\">Send Message</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"privatemessage\"\r\n			bg=\"basic_interface/mesbtn_02.bmp\"\r\n			hover=\"basic_interface/mesbtn_02_a.bmp\"\r\n			down=\"basic_interface/mesbtn_02_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"99\">1:1 Chat</ui-text></div>\r\n		</ui-button>\r\n		<button class=\"unknown\"><ui-image src=\"basic_interface/mesbtn_03.bmp\"></ui-image></button>\r\n		<ui-button\r\n			class=\"info\"\r\n			bg=\"basic_interface/mesbtn_04.bmp\"\r\n			hover=\"basic_interface/mesbtn_04_a.bmp\"\r\n			down=\"basic_interface/mesbtn_04_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"101\">Party Setup</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"355\">Friend Setup</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"remove\"\r\n			bg=\"basic_interface/mesbtn_05.bmp\"\r\n			hover=\"basic_interface/mesbtn_05_a.bmp\"\r\n			down=\"basic_interface/mesbtn_05_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"97\">Expel from party</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"351\">Delete</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock on\"\r\n			bg=\"basic_interface/mesbtn_06.bmp\"\r\n			hover=\"basic_interface/mesbtn_06_a.bmp\"\r\n			down=\"basic_interface/mesbtn_06_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1626\">Activate lock function</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock off\"\r\n			bg=\"basic_interface/mesbtn_07.bmp\"\r\n			hover=\"basic_interface/mesbtn_07_a.bmp\"\r\n			down=\"basic_interface/mesbtn_07_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1627\">Deactivate lock function</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party create\"\r\n			bg=\"basic_interface/mesbtn_08.bmp\"\r\n			hover=\"basic_interface/mesbtn_08_a.bmp\"\r\n			down=\"basic_interface/mesbtn_08_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2054\">Create Party</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party add\"\r\n			bg=\"basic_interface/mesbtn_010.bmp\"\r\n			hover=\"basic_interface/mesbtn_010_a.bmp\"\r\n			down=\"basic_interface/mesbtn_010_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2056\">Party Invitation</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party leave\"\r\n			bg=\"basic_interface/mesbtn_09.bmp\"\r\n			hover=\"basic_interface/mesbtn_09_a.bmp\"\r\n			down=\"basic_interface/mesbtn_09_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"96\">Leave Party</ui-text></div>\r\n		</ui-button>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid.bmp\"></ui-image>\r\n		<div class=\"friend\">\r\n			<button class=\"switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"102\">Friends</ui-text>\r\n			</button>\r\n			<button class=\"switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"103\">Party</ui-text>\r\n			</button>\r\n		</div>\r\n		<div class=\"party\">\r\n			<button class=\"switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"102\">Friends</ui-text>\r\n			</button>\r\n			<button class=\"switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"103\">Party</ui-text>\r\n			</button>\r\n		</div>\r\n		<button class=\"resize\"><ui-image src=\"btn_resize.bmp\"></ui-image></button>\r\n	</div>\r\n</div>\r\n";
+	PartyFriendsV0_default$2 = "<div id=\"PartyFriends\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"party\"> <ui-text msg=\"103\">Party</ui-text> <span class=\"partyname\"></span> </span>\r\n			<span class=\"friend\">\r\n				<ui-text msg=\"102\">Friends</ui-text> (<span class=\"friendcount\">0</span>/<span class=\"friendmax\"\r\n					>40</span\r\n				>)\r\n			</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"party\"></div>\r\n		<div class=\"friend\"></div>\r\n	</div>\r\n	<div class=\"navigation\">\r\n		<ui-image src=\"basic_interface/mesbtn_mid.bmp\"></ui-image>\r\n		<ui-button\r\n			class=\"mail\"\r\n			bg=\"basic_interface/mesbtn_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"98\">Send Message</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"privatemessage\"\r\n			bg=\"basic_interface/mesbtn_02.bmp\"\r\n			hover=\"basic_interface/mesbtn_02_a.bmp\"\r\n			down=\"basic_interface/mesbtn_02_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"99\">1:1 Chat</ui-text></div>\r\n		</ui-button>\r\n		<button class=\"unknown\"><ui-image src=\"basic_interface/mesbtn_03.bmp\"></ui-image></button>\r\n		<ui-button\r\n			class=\"info\"\r\n			bg=\"basic_interface/mesbtn_04.bmp\"\r\n			hover=\"basic_interface/mesbtn_04_a.bmp\"\r\n			down=\"basic_interface/mesbtn_04_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"101\">Party Setup</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"355\">Friend Setup</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"remove\"\r\n			bg=\"basic_interface/mesbtn_05.bmp\"\r\n			hover=\"basic_interface/mesbtn_05_a.bmp\"\r\n			down=\"basic_interface/mesbtn_05_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"97\">Expel from party</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"351\">Delete</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock on\"\r\n			bg=\"basic_interface/mesbtn_06.bmp\"\r\n			hover=\"basic_interface/mesbtn_06_a.bmp\"\r\n			down=\"basic_interface/mesbtn_06_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1626\">Activate lock function</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock off\"\r\n			bg=\"basic_interface/mesbtn_07.bmp\"\r\n			hover=\"basic_interface/mesbtn_07_a.bmp\"\r\n			down=\"basic_interface/mesbtn_07_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1627\">Deactivate lock function</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party create\"\r\n			bg=\"basic_interface/mesbtn_08.bmp\"\r\n			hover=\"basic_interface/mesbtn_08_a.bmp\"\r\n			down=\"basic_interface/mesbtn_08_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2054\">Create Party</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party add\"\r\n			bg=\"basic_interface/mesbtn_010.bmp\"\r\n			hover=\"basic_interface/mesbtn_010_a.bmp\"\r\n			down=\"basic_interface/mesbtn_010_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2056\">Party Invitation</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party leave\"\r\n			bg=\"basic_interface/mesbtn_09.bmp\"\r\n			hover=\"basic_interface/mesbtn_09_a.bmp\"\r\n			down=\"basic_interface/mesbtn_09_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"96\">Leave Party</ui-text></div>\r\n		</ui-button>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid.bmp\"></ui-image>\r\n		<div class=\"friend\">\r\n			<button class=\"ui-button-text switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"102\">Friends</ui-text>\r\n			</button>\r\n			<button class=\"ui-button-text switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"103\">Party</ui-text>\r\n			</button>\r\n		</div>\r\n		<div class=\"party\">\r\n			<button class=\"ui-button-text switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"102\">Friends</ui-text>\r\n			</button>\r\n			<button class=\"ui-button-text switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"103\">Party</ui-text>\r\n			</button>\r\n		</div>\r\n		<button class=\"resize\"><ui-image src=\"btn_resize.bmp\"></ui-image></button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/PartyFriends/PartyFriendsV0/PartyFriendsV0.css?raw
@@ -268291,1408 +268291,124 @@ var init_Bank$1 = __esmMin((() => {
 	Bank_default = UIManager.addComponent(Bank);
 }));
 //#endregion
-//#region src/UI/Game/PickupSettings.js
-function pickupCategory(type) {
-	if ([
-		ItemType_default.ARMOR,
-		ItemType_default.WEAPON,
-		ItemType_default.PETARMOR,
-		ItemType_default.SHADOWGEAR
-	].includes(type)) return "equipment";
-	if ([
-		ItemType_default.HEALING,
-		ItemType_default.USABLE,
-		ItemType_default.DELAYCONSUME,
-		ItemType_default.CASH
-	].includes(type)) return "consumable";
-	if (type === ItemType_default.CARD) return "card";
-	return "other";
+//#region src/UI/Game/GameAutomation.js
+function registerAutomationCombat(controller) {
+	combats.add(controller);
+	return () => combats.delete(controller);
 }
-function validPickupSettings(value) {
-	return Boolean(value && typeof value.enabled === "boolean" && Number.isInteger(value.batchSeconds) && value.batchSeconds >= 1 && value.batchSeconds <= 30 && Number.isInteger(value.range) && value.range >= 1 && value.range <= 15 && Array.isArray(value.categories) && value.categories.every((id) => pickupCategories.some(([key]) => key === id)) && Array.isArray(value.excluded) && value.excluded.every((item) => Number.isInteger(item.id) && item.id > 0 && typeof item.name === "string"));
+function hasAutomationCombat() {
+	return [...combats].some((controller) => controller.snapshot().active);
 }
-function loadPickupSettings() {
-	if (cachedKey === key$2() && cachedValue) return structuredClone(cachedValue);
-	let value;
-	try {
-		value = JSON.parse(localStorage.getItem(key$2()));
-	} catch {}
-	if (value) value = {
-		...pickupDefaults(),
-		...value
+function registerAutomationPickup(controller) {
+	pickup = controller;
+	return () => {
+		if (pickup === controller) pickup = null;
 	};
-	cachedKey = key$2();
-	cachedValue = validPickupSettings(value) ? value : pickupDefaults();
-	return structuredClone(cachedValue);
 }
-function savePickupSettings(value) {
-	if (!validPickupSettings(value)) return false;
-	try {
-		localStorage.setItem(key$2(), JSON.stringify(value));
-	} catch {
+function takeAutomationPickupTurn() {
+	return pickup?.takeTurn() || false;
+}
+function cancelAutomationPickup() {
+	pickup?.cancel();
+}
+var combats, pickup;
+var init_GameAutomation = __esmMin((() => {
+	combats = /* @__PURE__ */ new Set();
+	pickup = null;
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatTeleport.js
+function cancelAutoCombatTeleport() {
+	ticket = null;
+}
+function isAutoCombatTeleportPending() {
+	return Boolean(ticket && ticket.expires > Date.now());
+}
+function requestAutoCombatTeleport(intervalSeconds) {
+	if (ticket && ticket.expires <= Date.now()) ticket = null;
+	if (ticket) return "正在随机瞬移";
+	const state = getAdventureActionState();
+	if (!state.allowed) return "无法随机瞬移：没有冒险工具传送权限";
+	if (Date.now() < nextAllowed) return feedback || `等待瞬移间隔：${Math.ceil((nextAllowed - Date.now()) / 1e3)} 秒`;
+	if (!state.canTeleport || state.npcPending) return state.cooldownRemaining ? `传送冷却：${state.cooldownRemaining} 秒` : "等待冒险工具传送完成";
+	const attempt = {
+		identity: identity$5(),
+		map: getCurrentAdventureMap(),
+		expires: Date.now() + 15e3,
+		transitioned: false,
+		ready: false,
+		success: false
+	};
+	ticket = attempt;
+	if (!teleportToCoordinate({
+		mapName: attempt.map,
+		x: 0,
+		y: 0
+	}, (packet) => {
+		if (ticket !== attempt) return;
+		if (packet.result !== 0) {
+			ticket = null;
+			feedback = getAdventureActionState().message || "随机瞬移失败";
+		} else attempt.success = true;
+	})) {
+		ticket = null;
+		return "随机瞬移暂不可用";
+	}
+	nextAllowed = Date.now() + intervalSeconds * 1e3;
+	feedback = "";
+	return "正在随机瞬移";
+}
+function prepareAutoCombatTeleportMap(mapName) {
+	if (!ticket) {
+		feedback = "";
+		return;
+	}
+	if (ticket.transitioned || ticket.identity !== identity$5() || ticket.map !== normalizeAdventureMap(mapName) || ticket.expires <= Date.now()) {
+		ticket = null;
+		return;
+	}
+	ticket.transitioned = true;
+}
+function completeAutoCombatTeleportMap() {
+	if (ticket?.transitioned) ticket.ready = true;
+}
+function consumeAutoCombatTeleport() {
+	if (!ticket) return false;
+	if (ticket.identity !== identity$5() || ticket.expires <= Date.now() || ticket.map !== getCurrentAdventureMap()) {
+		ticket = null;
 		return false;
 	}
-	cachedKey = key$2();
-	cachedValue = structuredClone(value);
-	window.dispatchEvent(new Event("happyro-pickup-settings"));
+	if (!ticket.success || !ticket.ready) return false;
+	ticket = null;
 	return true;
 }
-var pickupCategories, pickupDefaults, key$2, cachedKey, cachedValue;
-var init_PickupSettings$1 = __esmMin((() => {
+var ticket, nextAllowed, feedback, identity$5;
+var init_AutoCombatTeleport = __esmMin((() => {
 	init_SessionStorage();
-	init_ItemType();
-	pickupCategories = [
-		["equipment", "装备"],
-		["consumable", "消耗品"],
-		["card", "卡片"],
-		["other", "其它"]
-	];
-	pickupDefaults = () => ({
-		enabled: false,
-		range: 5,
-		batchSeconds: 5,
-		categories: pickupCategories.map(([id]) => id),
-		excluded: []
-	});
-	key$2 = () => `HappyRO.Pickup:${JSON.stringify([
+	init_ConnectionLifecycle();
+	init_GameInputIntent();
+	init_AdventureActionService();
+	ticket = null;
+	nextAllowed = 0;
+	feedback = "";
+	identity$5 = () => JSON.stringify([
 		SessionStorage_default.ServerName,
 		SessionStorage_default.AID,
 		SessionStorage_default.GID
-	])}`;
-}));
-//#endregion
-//#region src/UI/Components/GameTools/AdventureControlService.js
-function headers() {
-	return {
-		Accept: "application/json",
-		"Content-Type": "application/json",
-		"X-HappyRO-Account-ID": String(SessionStorage_default.AID),
-		"X-HappyRO-Character-ID": String(SessionStorage_default.GID),
-		"X-HappyRO-Auth-Token": SessionStorage_default.WebToken || ""
-	};
-}
-async function requestBody(path, options = {}) {
-	const response = await fetch(`/api/adventure-tools${path}`, {
-		...options,
-		headers: headers()
-	});
-	const body = await response.json().catch(() => ({}));
-	if (!response.ok) {
-		const validation = body.errors ? Object.values(body.errors).flat()[0] : null;
-		const error = new Error(validation || body.message || body.error?.message || "操作失败，请稍后重试");
-		error.code = body.error?.code;
-		throw error;
-	}
-	return body;
-}
-async function request(path, options = {}) {
-	return (await requestBody(path, options)).data;
-}
-async function loadAdventureAsset(path) {
-	const response = await fetch(`/api/adventure-tools${path}`, { headers: headers() });
-	if (!response.ok) throw new Error("物品图片加载失败");
-	return URL.createObjectURL(await response.blob());
-}
-function createIdempotencyKey() {
-	const bytes = crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(16));
-	bytes[6] = bytes[6] & 15 | 64;
-	bytes[8] = bytes[8] & 63 | 128;
-	const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
-	return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
-}
-function loadAdventureControlBootstrap() {
-	return request("/bootstrap");
-}
-function loadCurrentCharacter() {
-	return request("/character");
-}
-function maintainCurrentCharacter(type, payload) {
-	return request("/character/commands", {
-		method: "POST",
-		body: JSON.stringify({
-			idempotency_key: createIdempotencyKey(),
-			type,
-			payload
-		})
-	});
-}
-function loadAdventureGameSettings() {
-	return request("/game-settings");
-}
-function searchAdventureItems({ query = "", type = "", subtype = "", page = 1, perPage = 30 } = {}) {
-	const params = new URLSearchParams({
-		page,
-		perPage
-	});
-	if (query) params.set("query", query);
-	if (type) params.set("type", type);
-	if (subtype) params.set("subtype", subtype);
-	return requestBody(`/items?${params}`);
-}
-function searchAdventureNpcs({ query = "", onMap = "", currentMap = "", page = 1, perPage = 32 } = {}) {
-	const params = new URLSearchParams({
-		page,
-		perPage
-	});
-	if (query) params.set("query", query);
-	if (onMap) params.set("onMap", onMap);
-	if (currentMap) params.set("currentMap", currentMap);
-	return requestBody(`/npcs?${params}`);
-}
-/**
-* Every NPC on one map. The map preview places all markers at once, so this
-* stays unpaginated on purpose.
-*/
-function loadAdventureMapNpcs(map) {
-	return request(`/maps/${encodeURIComponent(map)}/npcs`);
-}
-function searchAdventureMaps({ query = "", onMap = "", currentMap = "", page = 1, perPage = 35 } = {}) {
-	const params = new URLSearchParams({
-		page,
-		perPage
-	});
-	if (query) params.set("query", query);
-	if (onMap) params.set("onMap", onMap);
-	if (currentMap) params.set("currentMap", currentMap);
-	return requestBody(`/maps?${params}`);
-}
-function grantAdventureZeny(amount) {
-	return request("/currency/zeny/grants", {
-		method: "POST",
-		body: JSON.stringify({
-			idempotency_key: createIdempotencyKey(),
-			amount
-		})
-	});
-}
-function grantAdventureItem(itemId, amount) {
-	return request("/items/grants", {
-		method: "POST",
-		body: JSON.stringify({
-			idempotency_key: createIdempotencyKey(),
-			target: { type: "self" },
-			item_id: itemId,
-			amount
-		})
-	});
-}
-function applyAdventureGameSettings(changes) {
-	return request("/game-settings", {
-		method: "PUT",
-		body: JSON.stringify({ changes })
-	});
-}
-var init_AdventureControlService = __esmMin((() => {
-	init_SessionStorage();
-}));
-//#endregion
-//#region src/UI/Game/PickupSettingsPanel.js
-/** Edits the settings draft; saving is owned by the enclosing settings panel. */
-function createPickupSettingsPanel(section, draft) {
-	section.classList.add("pickup-section");
-	const label = (text, input) => {
-		const row = document.createElement("label");
-		row.className = "settings-field";
-		const caption = document.createElement("span");
-		caption.textContent = text;
-		row.append(caption, input);
-		return row;
-	};
-	const enabled = document.createElement("input");
-	enabled.type = "checkbox";
-	enabled.checked = draft.enabled;
-	enabled.dataset.pickup = "enabled";
-	section.append(label("自动拾取", enabled));
-	const controls = document.createElement("fieldset");
-	controls.className = "pickup-controls";
-	controls.disabled = !draft.enabled;
-	enabled.oninput = () => {
-		draft.enabled = enabled.checked;
-		controls.disabled = !draft.enabled;
-	};
-	const limits = document.createElement("div");
-	limits.className = "pickup-limits";
-	controls.append(limits);
-	const range = document.createElement("input");
-	range.type = "number";
-	range.min = 1;
-	range.max = 15;
-	range.step = 1;
-	range.value = draft.range;
-	range.dataset.pickup = "range";
-	range.oninput = () => {
-		draft.range = Number(range.value);
-	};
-	limits.append(label("拾取范围（格）", range));
-	const batchSeconds = document.createElement("input");
-	batchSeconds.type = "number";
-	batchSeconds.min = 1;
-	batchSeconds.max = 30;
-	batchSeconds.step = 1;
-	batchSeconds.value = draft.batchSeconds;
-	batchSeconds.dataset.pickup = "batchSeconds";
-	batchSeconds.oninput = () => {
-		draft.batchSeconds = Number(batchSeconds.value);
-	};
-	limits.append(label("每轮拾取最长时间（秒）", batchSeconds));
-	const batchHelp = document.createElement("p");
-	batchHelp.className = "pickup-note";
-	batchHelp.textContent = "自动战斗时，打完当前目标再拾取本轮物品；达到时限后重新找怪，没有怪物则继续拾取。";
-	controls.append(batchHelp);
-	const categories = document.createElement("div");
-	categories.className = "pickup-categories";
-	categories.setAttribute("role", "group");
-	categories.setAttribute("aria-label", "物品分类");
-	for (const [id, text] of pickupCategories) {
-		const input = document.createElement("input");
-		input.type = "checkbox";
-		input.checked = draft.categories.includes(id);
-		input.dataset.category = id;
-		input.oninput = () => {
-			draft.categories = pickupCategories.map(([key]) => key).filter((key) => categories.querySelector(`[data-category="${key}"]`).checked);
-		};
-		categories.append(label(text, input));
-	}
-	controls.append(categories);
-	const heading = document.createElement("h4");
-	heading.textContent = "排除物品";
-	controls.append(heading);
-	const columns = document.createElement("div");
-	columns.className = "pickup-columns";
-	const searchColumn = document.createElement("section");
-	searchColumn.className = "pickup-column pickup-search-column";
-	searchColumn.setAttribute("aria-label", "搜索物品");
-	const excludedColumn = document.createElement("section");
-	excludedColumn.className = "pickup-column pickup-excluded-column";
-	excludedColumn.setAttribute("aria-label", "已排除物品");
-	const searchTitle = document.createElement("h5");
-	searchTitle.textContent = "搜索物品";
-	const excludedTitle = document.createElement("h5");
-	excludedTitle.textContent = "已排除物品";
-	searchColumn.append(searchTitle);
-	excludedColumn.append(excludedTitle);
-	columns.append(searchColumn, excludedColumn);
-	controls.append(columns);
-	const excluded = document.createElement("div");
-	excluded.className = "pickup-excluded";
-	function button(text, action) {
-		const b = document.createElement("button");
-		b.type = "button";
-		b.textContent = text;
-		b.onclick = action;
-		return b;
-	}
-	function renderExcluded() {
-		excluded.replaceChildren();
-		excludedTitle.textContent = `已排除物品（${draft.excluded.length}）`;
-		for (const item of draft.excluded) {
-			const row = document.createElement("div");
-			row.className = "pickup-item";
-			const name = document.createElement("span");
-			name.textContent = `${item.name} · ${item.id}`;
-			row.append(name, button("移除", () => {
-				draft.excluded = draft.excluded.filter((entry) => entry.id !== item.id);
-				renderExcluded();
-			}));
-			excluded.append(row);
-		}
-		if (!draft.excluded.length) excluded.textContent = "暂无排除物品";
-		section.querySelectorAll("[data-exclude-id]").forEach((control) => {
-			control.disabled = draft.excluded.some((item) => item.id === Number(control.dataset.excludeId));
-		});
-	}
-	renderExcluded();
-	excludedColumn.append(excluded);
-	const searchRow = document.createElement("div");
-	searchRow.className = "pickup-search";
-	const input = document.createElement("input");
-	input.type = "search";
-	input.placeholder = "输入物品名称或 ID";
-	input.setAttribute("aria-label", "搜索排除物品");
-	const results = document.createElement("div");
-	results.className = "pickup-results";
-	results.setAttribute("aria-live", "polite");
-	results.textContent = "输入名称或 ID 搜索，将物品加入右侧排除列表。";
-	let requestId = 0;
-	async function search(page = 1) {
-		const query = input.value.trim(), token = ++requestId;
-		results.replaceChildren();
-		if (!query) return;
-		results.textContent = "搜索中…";
-		try {
-			const response = await searchAdventureItems({
-				query,
-				page,
-				perPage: 20
-			});
-			if (token !== requestId || !section.isConnected) return;
-			results.replaceChildren();
-			for (const item of response.data) {
-				const name = item.names?.["zh-CN"] || item.AegisName;
-				const row = document.createElement("div");
-				row.className = "pickup-item";
-				const title = document.createElement("span");
-				title.textContent = `${name} · ${item.Id}`;
-				const add = button("排除", () => {
-					if (!draft.excluded.some((entry) => entry.id === item.Id)) draft.excluded.push({
-						id: item.Id,
-						name
-					});
-					renderExcluded();
-					add.disabled = true;
-				});
-				add.dataset.excludeId = String(item.Id);
-				add.disabled = draft.excluded.some((entry) => entry.id === item.Id);
-				row.append(title, add);
-				results.append(row);
-			}
-			if (!response.data.length) results.textContent = "没有找到物品";
-			if (page > 1) results.append(button("上一页", () => search(page - 1)));
-			if (response.total > page * 20) results.append(button("下一页", () => search(page + 1)));
-		} catch {
-			if (token === requestId) results.textContent = "搜索失败，请重试";
-		}
-	}
-	input.oninput = () => {
-		requestId++;
-		results.replaceChildren();
-	};
-	input.onkeydown = (event) => {
-		if (event.key === "Enter") {
-			event.preventDefault();
-			search();
-		}
-	};
-	searchRow.append(input, button("搜索", () => search()));
-	searchColumn.append(searchRow, results);
-	const note = document.createElement("p");
-	note.className = "pickup-note";
-	note.textContent = "自动走向并拾取符合配置的地面物品，包括自己丢弃的物品。手动拾取不受这些配置影响。设置保存在当前浏览器，按角色区分。";
-	section.append(controls, note);
-}
-var init_PickupSettingsPanel$1 = __esmMin((() => {
-	init_PickupSettings$1();
-	init_AdventureControlService();
-}));
-//#endregion
-//#region src/UI/Components/Confirmation.css?raw
-var Confirmation_default;
-var init_Confirmation$1 = __esmMin((() => {
-	Confirmation_default = ".ui-confirm {\r\n	position: fixed;\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n	width: min(var(--menu-dialog-width, 380px), calc(100% - var(--menu-dialog-inset, 32px)));\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px))\r\n	);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	border: 1px solid #657584;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	font:\r\n		13px/1.6 Arial,\r\n		sans-serif;\r\n	white-space: normal;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: #0008;\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-top: 12px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	flex: none;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 56px;\r\n	height: var(--panel-control, 30px);\r\n	min-height: var(--panel-control, 30px);\r\n	padding: 3px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	color: #f5f2e9;\r\n	background: #394753;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n	cursor: pointer;\r\n}\r\n.ui-confirm .ui-confirm-actions button:focus-visible {\r\n	outline: 2px solid #ceaa70;\r\n	outline-offset: 2px;\r\n}\r\n.ui-confirm input {\r\n	box-sizing: border-box;\r\n	max-width: 100%;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.ui-confirm .ui-confirm-field > span {\r\n	flex: none;\r\n}\r\n.ui-confirm .ui-confirm-field > :is(input, select) {\r\n	flex: 1;\r\n	width: 100%;\r\n	min-width: 0;\r\n	min-height: 36px;\r\n	padding: 6px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #25313b;\r\n	color: inherit;\r\n	font:\r\n		16px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field + .ui-confirm-field {\r\n	margin-top: 12px;\r\n}\r\n\r\n.ui-confirm .equipment-picker-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	max-height: min(40dvh, 280px);\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm .equipment-picker-list button {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.ui-confirm .equipment-candidate img {\r\n	width: 24px;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	object-fit: contain;\r\n}\r\n.ui-confirm .equipment-candidate span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n.ui-confirm:has(.equipment-picker-layout) {\r\n	width: min(\r\n		var(--menu-picker-width, 640px),\r\n		calc(100% - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-width, 100vw)\r\n	);\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-height, 100dvh)\r\n	);\r\n	overflow: hidden;\r\n}\r\n.ui-confirm[open]:has(.equipment-picker-layout) {\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body > p,\r\n.ui-confirm:has(.equipment-picker-layout) > .ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm .equipment-picker-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);\r\n	gap: 12px;\r\n	height: min(50dvh, 380px);\r\n	min-height: 0;\r\n	flex: 0 1 auto;\r\n}\r\n.ui-confirm .equipment-picker-layout > .equipment-picker-list {\r\n	max-height: none;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	overflow-wrap: anywhere;\r\n	padding-left: 12px;\r\n	border-left: 1px solid #465461;\r\n}\r\n.ui-confirm .equipment-picker-preview > :first-child {\r\n	margin-top: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview .item-description {\r\n	white-space: pre-line;\r\n}\r\n\r\n.ui-confirm .shortcut-fields .ui-confirm-field > .menu-select {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.ui-confirm .drop-quantity {\r\n	gap: 6px;\r\n}\r\n.ui-confirm .ui-confirm-field.drop-quantity > input {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	padding: 3px 6px;\r\n	font-size: 12px;\r\n}\r\n.ui-confirm .drop-quantity > input,\r\n.panel .ui-confirm .ui-confirm-field.drop-quantity > input[type='number'],\r\n.ui-confirm .drop-quantity-buttons button {\r\n	box-sizing: border-box;\r\n	height: 28px;\r\n	min-height: 28px;\r\n}\r\n.ui-confirm .drop-quantity-buttons {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	flex: none;\r\n	gap: 4px;\r\n}\r\n.ui-confirm .drop-quantity-buttons button {\r\n	flex: none;\r\n	width: auto;\r\n	min-width: 26px;\r\n	padding: 3px 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #394753;\r\n	color: inherit;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.ui-confirm-body {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Confirmation.js
-/** Modal confirmation shared by menus and adventure tools. Returns a cancellation function. */
-function confirmAction(container, message, action, { content, bounds, cancelled = () => {} } = {}) {
-	active$2.get(container)?.();
-	const dialog = document.createElement("dialog");
-	dialog.className = "ui-confirm";
-	dialog.setAttribute("aria-label", "操作确认");
-	const style = document.createElement("style");
-	style.textContent = Confirmation_default;
-	const text = document.createElement("p");
-	text.textContent = message;
-	text.tabIndex = -1;
-	text.autofocus = true;
-	const buttons = document.createElement("div");
-	buttons.className = "ui-confirm-actions";
-	const cancel = document.createElement("button");
-	cancel.type = "button";
-	cancel.dataset.cancel = "";
-	cancel.textContent = "取消";
-	const confirm = document.createElement("button");
-	confirm.type = "button";
-	confirm.dataset.confirm = "";
-	confirm.textContent = "确认";
-	const resize = bounds ? new ResizeObserver(() => fitBounds()) : null;
-	function fitBounds() {
-		if (!bounds) return;
-		const rect = bounds.getBoundingClientRect();
-		dialog.style.setProperty("--confirm-max-width", `${rect.width}px`);
-		dialog.style.setProperty("--confirm-max-height", `${rect.height}px`);
-	}
-	let finished = false;
-	const finish = (accepted) => {
-		if (finished) return;
-		finished = true;
-		observer.disconnect();
-		resize?.disconnect();
-		dialog.close();
-		dialog.remove();
-		if (active$2.get(container) === dismiss) active$2.delete(container);
-		if (accepted && container.isConnected) action();
-		else cancelled();
-	};
-	const dismiss = () => finish(false);
-	const visible = () => {
-		for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
-		return container.isConnected && dialog.isConnected;
-	};
-	const observer = new MutationObserver(() => {
-		if (!visible()) dismiss();
-	});
-	cancel.onclick = dismiss;
-	confirm.onclick = () => {
-		if (content && ![...content.querySelectorAll("input, select, textarea")].every((field) => field.reportValidity())) return;
-		finish(true);
-	};
-	dialog.addEventListener("cancel", (event) => {
-		event.preventDefault();
-		dismiss();
-	});
-	buttons.append(cancel, confirm);
-	const body = document.createElement("div");
-	body.className = "ui-confirm-body";
-	body.append(text);
-	if (content) body.append(content);
-	dialog.append(style, body);
-	dialog.append(buttons);
-	container.append(dialog);
-	active$2.set(container, dismiss);
-	const options = {
-		childList: true,
-		subtree: true,
-		attributes: true,
-		attributeFilter: ["hidden", "style"]
-	};
-	observer.observe(document.body, options);
-	const root = container.getRootNode();
-	if (root instanceof ShadowRoot) observer.observe(root, options);
-	fitBounds();
-	if (bounds) resize.observe(bounds);
-	dialog.showModal();
-	return dismiss;
-}
-function requestConfirmation(container, message) {
-	return new Promise((resolve) => confirmAction(container, message, () => resolve(true), { cancelled: () => resolve(false) }));
-}
-var active$2;
-var init_Confirmation = __esmMin((() => {
-	init_Confirmation$1();
-	active$2 = /* @__PURE__ */ new WeakMap();
-}));
-//#endregion
-//#region src/Preferences/Interface.js
-var defaultInterfaceSettings, chatLineOptions, settings;
-var init_Interface = __esmMin((() => {
-	init_Preferences$1();
-	defaultInterfaceSettings = {
-		toastDuration: 2,
-		chatPreviewCompactLines: 3,
-		chatPreviewSpaciousLines: 5,
-		chatPreviewTabs: true
-	};
-	chatLineOptions = [
-		2,
-		3,
-		4,
-		5,
-		6,
-		7,
-		8
-	];
-	settings = Preferences.get("Interface", { ...defaultInterfaceSettings }, 1);
-	for (const key of ["chatPreviewCompactLines", "chatPreviewSpaciousLines"]) if (!chatLineOptions.includes(settings[key])) settings[key] = defaultInterfaceSettings[key];
-}));
-//#endregion
-//#region src/UI/Components/Toast.css?raw
-var Toast_default;
-var init_Toast$1 = __esmMin((() => {
-	Toast_default = ":host {\r\n	all: initial;\r\n	position: fixed;\r\n	top: 40%;\r\n	left: 50%;\r\n	transform: translate(-50%, -50%);\r\n	z-index: 2147483647;\r\n	display: flex;\r\n	align-items: center;\r\n	width: max-content;\r\n	max-width: calc(100% - 16px);\r\n	box-sizing: border-box;\r\n	padding: 8px 10px;\r\n	border: 1px solid #6aa786;\r\n	border-radius: 8px;\r\n	background: #263d32;\r\n	color: #d9f4e5;\r\n	box-shadow: 0 4px 16px #0006;\r\n	font:\r\n		13px/1.5 Arial,\r\n		sans-serif;\r\n	pointer-events: none;\r\n}\r\n:host(.info) {\r\n	border-color: #729cb8;\r\n	background: #253b4b;\r\n	color: #dceefa;\r\n}\r\n:host(.error) {\r\n	border-color: #d99573;\r\n	background: #643c31;\r\n	color: #ffe2cc;\r\n}\r\n.message {\r\n	min-width: 0;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Toast.js
-function ownerOf(container) {
-	return container?.closest(".game-tools-window, .panel-body") || container;
-}
-function visible(container) {
-	for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
-	return container?.isConnected;
-}
-/** One viewport-level notification shared by every UI, including shadow roots. */
-function showToast(container, message, kind = "success") {
-	if (!message || !visible(container)) return;
-	active$1?.dismiss();
-	const owner = ownerOf(container);
-	const element = document.createElement("div");
-	element.className = `ui-toast ${kind}`;
-	element.setAttribute("role", "status");
-	element.setAttribute("aria-live", "polite");
-	element.textContent = message;
-	const shadow = element.attachShadow({ mode: "open" });
-	const style = document.createElement("style");
-	style.textContent = Toast_default;
-	const content = document.createElement("span");
-	content.className = "message";
-	content.append(document.createElement("slot"));
-	const dismiss = () => {
-		clearTimeout(record.timer);
-		record.observer.disconnect();
-		element.remove();
-		if (active$1 === record) active$1 = null;
-	};
-	shadow.append(style, content);
-	const observer = new MutationObserver(() => {
-		if (!visible(owner) || !element.isConnected) dismiss();
-	});
-	const record = {
-		owner,
-		dismiss,
-		observer,
-		timer: setTimeout(dismiss, settings.toastDuration * 1e3)
-	};
-	active$1 = record;
-	document.body.append(element);
-	const options = {
-		subtree: true,
-		childList: true,
-		attributes: true,
-		attributeFilter: ["hidden", "style"]
-	};
-	observer.observe(document.body, options);
-	const root = owner.getRootNode();
-	if (root instanceof ShadowRoot) observer.observe(root, options);
-}
-function clearToast(container) {
-	if (active$1?.owner === ownerOf(container)) active$1.dismiss();
-}
-var active$1;
-var init_Toast = __esmMin((() => {
-	init_Interface();
-	init_Toast$1();
-}));
-//#endregion
-//#region src/UI/Mobile/game/SettingsPanel.js
-/** Graphics/audio use a draft; camera adjustments take effect immediately. */
-function createSettingsPanel(body, service, initialSection = "画面") {
-	let draft = service.snapshot();
-	let activeSection = initialSection;
-	const host = body.getRootNode().host;
-	const scene = () => host?.dataset.menuDensity || menuDensity(window.innerWidth, window.innerHeight);
-	let updateScene = () => {};
-	const observer = new MutationObserver(() => updateScene());
-	if (host) observer.observe(host, {
-		attributes: true,
-		attributeFilter: ["data-menu-density"]
-	});
-	const resize = () => updateScene();
-	if (!host) window.addEventListener("resize", resize);
-	const notify = (message) => showToast(body, message);
-	function render() {
-		body.replaceChildren();
-		const form = document.createElement("form");
-		form.className = "settings-form";
-		form.onsubmit = (event) => event.preventDefault();
-		const tabs = document.createElement("div");
-		tabs.className = "settings-tabs";
-		tabs.setAttribute("role", "group");
-		tabs.setAttribute("aria-label", "设置分类");
-		const content = document.createElement("div");
-		content.className = "settings-content";
-		const sections = /* @__PURE__ */ new Map();
-		for (const name of [
-			"画面",
-			"特效",
-			"声音",
-			"镜头",
-			"拾取"
-		]) {
-			const section = document.createElement("section");
-			section.className = "settings-section";
-			section.setAttribute("aria-label", name);
-			section.hidden = name !== activeSection;
-			const button = document.createElement("button");
-			button.type = "button";
-			button.textContent = name;
-			button.setAttribute("aria-pressed", String(name === activeSection));
-			button.onclick = () => {
-				activeSection = name;
-				for (const [label, entry] of sections) {
-					entry.section.hidden = label !== name;
-					entry.button.setAttribute("aria-pressed", String(label === name));
-				}
-				content.scrollTop = 0;
-				footer.hidden = name === "镜头";
-			};
-			sections.set(name, {
-				section,
-				button
-			});
-			tabs.append(button);
-			content.append(section);
-		}
-		form.append(tabs, content);
-		const field = (section, label, input) => {
-			const row = document.createElement("label");
-			row.className = "settings-field";
-			const caption = document.createElement("span");
-			caption.textContent = label;
-			row.append(caption, input);
-			sections.get(section).section.append(row);
-			return row;
-		};
-		const displayKeys = [
-			"quality",
-			"fpslimit",
-			"performanceMode",
-			"viewArea",
-			"cursor",
-			"pixelPerfectSprites"
-		];
-		for (const [key, label, range, max, step] of service.fields) {
-			const input = document.createElement(Array.isArray(range) ? "select" : "input");
-			input.dataset.setting = key;
-			if (Array.isArray(range)) {
-				for (const value of range) {
-					const option = document.createElement("option");
-					option.value = String(value);
-					option.textContent = value === -1 ? "不限制" : String(value);
-					input.append(option);
-				}
-				input.value = String(draft.graphics[key]);
-			} else if (range === void 0) {
-				input.type = "checkbox";
-				input.checked = draft.graphics[key];
-			} else {
-				input.type = "number";
-				input.min = range;
-				input.max = max;
-				input.step = step;
-				input.value = draft.graphics[key];
-				input.inputMode = "decimal";
-			}
-			input.oninput = () => {
-				draft.graphics[key] = input.type === "checkbox" ? input.checked : Number(input.value);
-			};
-			field(displayKeys.includes(key) ? "画面" : "特效", key === "quality" ? "渲染比例（%）" : label, input);
-		}
-		const previewLines = document.createElement("select");
-		previewLines.dataset.setting = "chatPreviewLines";
-		for (const value of [
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-			8
-		]) {
-			const option = document.createElement("option");
-			option.value = value;
-			option.textContent = `${value} 行`;
-			previewLines.append(option);
-		}
-		const settingKey = () => scene() === "spacious" ? "chatPreviewSpaciousLines" : "chatPreviewCompactLines";
-		updateScene = () => {
-			previewLines.value = String(draft.interface[settingKey()]);
-		};
-		updateScene();
-		previewLines.oninput = () => {
-			draft.interface[settingKey()] = Number(previewLines.value);
-			service.preview?.(draft.interface);
-		};
-		field("画面", "聊天行数", previewLines);
-		const previewTabs = document.createElement("input");
-		previewTabs.type = "checkbox";
-		previewTabs.dataset.setting = "chatPreviewTabs";
-		previewTabs.checked = draft.interface.chatPreviewTabs;
-		previewTabs.oninput = () => {
-			draft.interface.chatPreviewTabs = previewTabs.checked;
-			service.preview?.(draft.interface);
-		};
-		field("画面", "显示聊天分类标签", previewTabs);
-		const duration = document.createElement("input");
-		duration.type = "number";
-		duration.min = 1;
-		duration.max = 10;
-		duration.step = 1;
-		duration.dataset.setting = "toastDuration";
-		duration.value = draft.interface.toastDuration;
-		duration.oninput = () => {
-			draft.interface.toastDuration = Number(duration.value);
-		};
-		field("画面", "通知显示时长（秒）", duration);
-		for (const [key, name] of [["BGM", "背景音乐"], ["Sound", "音效"]]) {
-			const enabled = document.createElement("input");
-			enabled.type = "checkbox";
-			enabled.checked = draft.audio[key].play;
-			enabled.dataset.audio = key;
-			enabled.oninput = () => {
-				draft.audio[key].play = enabled.checked;
-			};
-			field("声音", name, enabled);
-			const volume = document.createElement("input");
-			volume.type = "range";
-			volume.min = 0;
-			volume.max = 100;
-			volume.step = 1;
-			volume.value = draft.audio[key].volume * 100;
-			volume.oninput = () => {
-				draft.audio[key].volume = Number(volume.value) / 100;
-			};
-			const row = field("声音", name + "音量", volume);
-			row.classList.add("settings-volume");
-			const value = document.createElement("span");
-			value.className = "settings-volume-value";
-			value.textContent = `${volume.value}%`;
-			volume.addEventListener("input", () => {
-				value.textContent = `${volume.value}%`;
-			});
-			row.append(value);
-		}
-		for (const name of [
-			"画面",
-			"特效",
-			"声音"
-		]) {
-			const section = sections.get(name).section;
-			const rows = [...section.children];
-			const switches = rows.filter((row) => row.querySelector("input[type=\"checkbox\"]"));
-			const values = rows.filter((row) => !row.querySelector("input[type=\"checkbox\"]"));
-			switches[0]?.classList.add("settings-switch-start");
-			section.append(...values, ...switches);
-		}
-		createPickupSettingsPanel(sections.get("拾取").section, draft.pickup);
-		const camera = sections.get("镜头").section;
-		camera.classList.add("camera-section");
-		const cameraButton = (label, action) => {
-			const button = document.createElement("button");
-			button.type = "button";
-			button.textContent = label;
-			button.onclick = () => service.camera(action);
-			return button;
-		};
-		const reset = cameraButton("重置镜头", "reset");
-		reset.className = "camera-reset";
-		camera.append(reset);
-		for (const [name, actions] of [
-			["旋转", [["左转", "left"], ["右转", "right"]]],
-			["缩放", [["拉近", "zoomIn"], ["拉远", "zoomOut"]]],
-			["高度", [["抬高", "up"], ["降低", "down"]]]
-		]) {
-			const group = document.createElement("div");
-			group.className = "camera-group";
-			group.setAttribute("role", "group");
-			group.setAttribute("aria-label", name);
-			const controls = document.createElement("div");
-			controls.className = "camera-controls";
-			for (const [label, action] of actions) controls.append(cameraButton(label, action));
-			group.append(controls);
-			camera.append(group);
-		}
-		const footer = document.createElement("div");
-		footer.className = "settings-footer";
-		footer.hidden = activeSection === "镜头";
-		const buttons = document.createElement("div");
-		buttons.className = "settings-actions";
-		for (const [label, action] of [["保存", () => {
-			notify(service.save(draft));
-		}], ["恢复默认", () => {
-			confirmAction(body, "确认恢复全部画面、特效、声音和拾取设置为默认值？", () => {
-				const message = service.save(service.snapshot(true));
-				draft = service.snapshot();
-				render();
-				notify(message);
-				body.querySelector(".settings-tabs [aria-pressed=true]")?.focus();
-			}, {});
-		}]]) {
-			const button = document.createElement("button");
-			button.type = "button";
-			button.textContent = label;
-			button.onclick = () => {
-				action();
-				if (!form.isConnected) body.querySelector(".settings-tabs [aria-pressed=true]")?.focus();
-			};
-			buttons.append(button);
-		}
-		footer.append(buttons);
-		form.append(footer);
-		body.append(form);
-	}
-	render();
-	return () => {
-		observer.disconnect();
-		window.removeEventListener("resize", resize);
-		service.preview?.(service.snapshot().interface);
-	};
-}
-var init_SettingsPanel = __esmMin((() => {
-	init_PickupSettingsPanel$1();
-	init_Confirmation();
-	init_MenuLayout();
-	init_Toast();
-}));
-//#endregion
-//#region src/UI/Game/GameSettings.js
-function settingsSnapshot(defaults = false) {
-	return {
-		graphics: Object.fromEntries(graphicsFields.map(([key]) => [key, (defaults ? GraphicsSettings.defaults : GraphicsSettings)[key]])),
-		pickup: defaults ? pickupDefaults() : loadPickupSettings(),
-		interface: Object.fromEntries(Object.keys(defaultInterfaceSettings).map((key) => [key, (defaults ? defaultInterfaceSettings : settings)[key]])),
-		audio: Object.fromEntries(["BGM", "Sound"].map((key) => [key, defaults ? {
-			play: true,
-			volume: .5
-		} : {
-			play: Audio_default[key].play,
-			volume: Audio_default[key].volume
-		}]))
-	};
-}
-function saveGameSettings(draft) {
-	if (!validPickupSettings(draft?.pickup)) return "拾取设置无效，范围须为 1–15 格";
-	if (!Number.isInteger(draft?.interface?.toastDuration) || draft.interface.toastDuration < 1 || draft.interface.toastDuration > 10) return "通知时长须为 1–10 秒";
-	if (!["chatPreviewCompactLines", "chatPreviewSpaciousLines"].every((key) => [
-		2,
-		3,
-		4,
-		5,
-		6,
-		7,
-		8
-	].includes(draft.interface[key])) || typeof draft.interface.chatPreviewTabs !== "boolean") return "聊天预览设置无效";
-	for (const [key, , range, max] of graphicsFields) {
-		const value = draft?.graphics?.[key];
-		if (range === void 0 ? typeof value !== "boolean" : Array.isArray(range) ? !range.includes(value) : !Number.isFinite(value) || value < range || value > max) return "设置值无效，未保存";
-	}
-	for (const key of ["BGM", "Sound"]) {
-		const value = draft?.audio?.[key];
-		if (!value || typeof value.play !== "boolean" || !Number.isFinite(value.volume) || value.volume < 0 || value.volume > 1) return "音量无效，未保存";
-	}
-	if (!savePickupSettings(draft.pickup)) return "无法保存拾取设置，请检查浏览器存储权限";
-	const previous = settingsSnapshot();
-	for (const [key] of graphicsFields) GraphicsSettings[key] = draft.graphics[key];
-	for (const key of ["BGM", "Sound"]) Object.assign(Audio_default[key], draft.audio[key]);
-	for (const key of Object.keys(defaultInterfaceSettings)) settings[key] = draft.interface[key];
-	settings.save();
-	window.dispatchEvent(new Event("interface-settings-change"));
-	GraphicsSettings.save();
-	Audio_default.save();
-	if (previous.graphics.quality !== GraphicsSettings.quality) {
-		Configs.set("quality", GraphicsSettings.quality);
-		Renderer.resize();
-	}
-	document.body.classList.toggle("custom-cursor", GraphicsSettings.cursor);
-	if (previous.audio.Sound.play !== Audio_default.Sound.play || previous.audio.Sound.volume !== Audio_default.Sound.volume) {
-		SoundManager.setVolume(Audio_default.Sound.volume);
-		if (!Audio_default.Sound.play) SoundManager.stop();
-	}
-	if (previous.audio.BGM.volume !== Audio_default.BGM.volume) BGM.setVolume(Audio_default.BGM.volume);
-	if (previous.audio.BGM.play !== Audio_default.BGM.play) {
-		if (Audio_default.BGM.play) {
-			if (BGM.filename) BGM.play(BGM.filename);
-		} else BGM.stop();
-	}
-	return previous.graphics.pixelPerfectSprites !== GraphicsSettings.pixelPerfectSprites ? "已保存，像素完美需刷新生效" : "设置已保存";
-}
-var graphicsFields;
-var init_GameSettings = __esmMin((() => {
-	init_PickupSettings$1();
-	init_Interface();
-	init_Graphics();
-	init_Audio();
-	init_Configs();
-	init_Renderer();
-	init_BGM();
-	init_SoundManager();
-	graphicsFields = [
-		[
-			"quality",
-			"渲染比例",
-			25,
-			100,
-			5
-		],
-		[
-			"fpslimit",
-			"帧率上限",
-			[
-				-1,
-				30,
-				60,
-				90,
-				120
-			]
-		],
-		["performanceMode", "性能模式"],
-		[
-			"viewArea",
-			"显示范围",
-			4,
-			20,
-			1
-		],
-		["cursor", "游戏光标"],
-		["pixelPerfectSprites", "像素完美（重新加载后完全生效）"],
-		["bloom", "泛光"],
-		[
-			"bloomIntensity",
-			"泛光强度",
-			.1,
-			3,
-			.05
-		],
-		["blur", "景深"],
-		[
-			"blurArea",
-			"景深范围",
-			3,
-			20,
-			1
-		],
-		[
-			"blurIntensity",
-			"景深强度",
-			2,
-			10,
-			.1
-		],
-		["fxaaEnabled", "抗锯齿"],
-		[
-			"fxaaSubpix",
-			"亚像素抗锯齿",
-			0,
-			1,
-			.05
-		],
-		[
-			"fxaaEdgeThreshold",
-			"边缘阈值",
-			.063,
-			.333,
-			.001
-		],
-		["vibranceEnabled", "自然饱和度"],
-		[
-			"vibrance",
-			"饱和强度",
-			-.9,
-			.9,
-			.1
-		],
-		["cartoonEnabled", "卡通效果"],
-		[
-			"cartoonPower",
-			"卡通强度",
-			.1,
-			9.9,
-			.1
-		],
-		[
-			"cartoonEdgeSlope",
-			"描边强度",
-			1.5,
-			5.9,
-			.1
-		],
-		["casEnabled", "锐化"],
-		[
-			"casContrast",
-			"锐化对比度",
-			0,
-			1,
-			.05
-		],
-		[
-			"casSharpening",
-			"锐化强度",
-			0,
-			1,
-			.05
-		]
-	];
-}));
-//#endregion
-//#region src/UI/Components/Trade/Trade.html?raw
-var Trade_default$2;
-var init_Trade$3 = __esmMin((() => {
-	Trade_default$2 = "<div id=\"Trade\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		交易：<span class=\"title\"></span>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"content\">\r\n		<ui-image src=\"basic_interface/exchange_bg2.bmp\"></ui-image>\r\n		<div class=\"box send\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n		<div class=\"box recv\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n\r\n		<input type=\"text\" class=\"zeny send\" value=\"0\" />\r\n		<div class=\"zeny recv disabled\">0</div>\r\n\r\n		<ui-button class=\"btn ok enabled\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn ok disabled\" bg=\"btn_ok_dis.bmp\"></ui-button>\r\n		<ui-button\r\n			class=\"btn trade enabled\"\r\n			bg=\"btn_exchange.bmp\"\r\n			hover=\"btn_exchange_a.bmp\"\r\n			down=\"btn_exchange_b.bmp\"\r\n		></ui-button>\r\n		<ui-button class=\"btn trade disabled\" bg=\"btn_exchange_dis.bmp\"></ui-button>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Trade/Trade.css?raw
-var Trade_default$1;
-var init_Trade$2 = __esmMin((() => {
-	Trade_default$1 = ":host {\r\n	width: 560px;\r\n	height: 380px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#Trade {\r\n	position: absolute;\r\n	width: 560px;\r\n	height: 380px;\r\n}\r\n\r\n#Trade .titlebar {\r\n	height: 14px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 5px 5px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n	position: relative;\r\n	padding-left: 15px;\r\n	padding-top: 3px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n/** When mouse over items **/\r\n\r\n#Trade .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#Trade .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/** Content **/\r\n\r\n#Trade .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 560px;\r\n	height: 360px;\r\n}\r\n\r\n#Trade .box {\r\n	position: absolute;\r\n	top: 3px;\r\n	width: 275px;\r\n	height: 305px;\r\n	background-repeat: repeat-y;\r\n	background-size: 32px 10%; /* 10% for 10 items */\r\n	background-position: 1px 0px;\r\n}\r\n\r\n#Trade .box.disabled {\r\n	background: #ccc !important;\r\n}\r\n\r\n#Trade .box.send {\r\n	left: 2px;\r\n}\r\n\r\n#Trade .box.recv {\r\n	right: 3px;\r\n}\r\n\r\n/** Items in box **/\r\n\r\n#Trade .box .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 26px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n\r\n#Trade .box .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Trade .box .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#Trade .box .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n/** Zeny input **/\r\n\r\n#Trade .zeny {\r\n	position: absolute;\r\n	top: 311px;\r\n	background-color: #ddd;\r\n	border: none;\r\n	width: 70px;\r\n	height: 13px;\r\n	padding: 2px;\r\n}\r\n\r\n#Trade .zeny.send {\r\n	left: 160px;\r\n}\r\n\r\n#Trade .zeny.recv {\r\n	left: 440px;\r\n}\r\n\r\n#Trade .zeny.disabled {\r\n	background-color: transparent;\r\n}\r\n\r\n/** Buttons **/\r\n\r\n#Trade .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: inline-flex;\r\n}\r\n#Trade .btn.disabled {\r\n	cursor: default;\r\n}\r\n#Trade .btn.ok {\r\n	left: 5px;\r\n}\r\n#Trade .btn.trade {\r\n	left: 260px;\r\n}\r\n#Trade .btn.cancel {\r\n	left: 510px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Trade/Trade.js
-/**
-* Escape HTML special characters
-*
-* @param {string} text
-* @returns {string}
-*/
-function escapeHtml$2(text) {
-	const div = document.createElement("div");
-	div.appendChild(document.createTextNode(text));
-	return div.innerHTML;
-}
-/**
-* Reset the UI to its initial state
-*/
-function resetUI() {
-	_tmpCount = {};
-	_recv.length = 0;
-	_send.length = 0;
-	const root = Trade.getRoot();
-	const overlay = root.querySelector(".overlay");
-	if (overlay) overlay.style.display = "none";
-	const okDisabled = root.querySelector(".ok.disabled");
-	const tradeEnabled = root.querySelector(".trade.enabled");
-	if (okDisabled) okDisabled.style.display = "none";
-	if (tradeEnabled) tradeEnabled.style.display = "none";
-	const okEnabled = root.querySelector(".ok.enabled");
-	const tradeDisabled = root.querySelector(".trade.disabled");
-	if (okEnabled) okEnabled.style.display = "";
-	if (tradeDisabled) tradeDisabled.style.display = "";
-	root.querySelectorAll(".box").forEach((box) => {
-		box.classList.remove("disabled");
-		box.innerHTML = "";
-	});
-	const zenySend = root.querySelector(".zeny.send");
-	if (zenySend) {
-		zenySend.value = "0";
-		zenySend.classList.remove("disabled");
-		zenySend.disabled = false;
-	}
-	const zenyRecv = root.querySelector(".zeny.recv");
-	if (zenyRecv) zenyRecv.textContent = "0";
-}
-/**
-* Prettify number (15000 -> 15,000)
-*
-* @param {number} value
-* @return {string}
-*/
-function prettifyZeny$3(value) {
-	return Number(value).toLocaleString("en-US");
-}
-/**
-* Request to add an item to the trade UI
-*
-* @param {number} index - item index in inventory
-* @param {number} count - item count
-*/
-function onRequestAddItem(index, count) {
-	if (index in _tmpCount) {
-		ChatBox_default.addText(DB.getMessage(51), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
-		return;
-	}
-	if (_send.length >= 10) {
-		ChatBox_default.addText(DB.getMessage(297), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
-		return;
-	}
-	_tmpCount[index] = count;
-	Trade.reqAddItem(index, count);
-}
-/**
-* Cancel the deal
-*/
-function onCancel() {
-	Trade.remove();
-	Trade.onCancel();
-}
-/**
-* Conclude our part
-*/
-function onConclude() {
-	const zenySend = Trade.getRoot().querySelector(".zeny.send");
-	let zeny = parseInt(zenySend ? zenySend.value : "0", 10) || 0;
-	zeny = Math.min(Math.max(0, zeny), SessionStorage_default.zeny);
-	onRequestAddItem(0, zeny);
-	Trade.onConclude();
-}
-/**
-* Let's finish the trade
-*/
-function onTrade() {
-	Trade.onTradeSubmit();
-	const root = Trade.getRoot();
-	const tradeEnabled = root.querySelector(".trade.enabled");
-	const tradeDisabled = root.querySelector(".trade.disabled");
-	if (tradeEnabled) tradeEnabled.style.display = "none";
-	if (tradeDisabled) tradeDisabled.style.display = "";
-}
-/**
-* Drop from inventory to trade
-*/
-function onDrop$10(event) {
-	let data;
-	try {
-		data = JSON.parse(event.dataTransfer ? event.dataTransfer.getData("Text") : event.originalEvent.dataTransfer.getData("Text"));
-	} catch (_e) {}
-	event.stopImmediatePropagation();
-	event.preventDefault();
-	if (!data || data.type !== "item" || data.from !== "Inventory") return false;
-	const item = data.data;
-	if (item.count > 1) {
-		InputBox_default.append();
-		InputBox_default.setType("number", false, item.count);
-		InputBox_default.onSubmitRequest = function OnSubmitRequest(count) {
-			let value = parseInt(count, 10) || 0;
-			value = Math.min(Math.max(value, 0), item.count);
-			InputBox_default.remove();
-			if (value) onRequestAddItem(item.index, value);
-		};
+	]);
+	subscribeGameInput(() => {
+		cancelAutoCombatTeleport();
 		return false;
-	}
-	onRequestAddItem(item.index, 1);
-	return false;
-}
-/**
-* When mouse is over an item, show title
-*
-* @param {HTMLElement} itemEl
-*/
-function onItemOver$12(itemEl) {
-	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
-	const item = itemEl.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
-	if (!item) return;
-	const overlay = Trade.getRoot().querySelector(".overlay");
-	if (!overlay) return;
-	const itemRect = itemEl.getBoundingClientRect();
-	const hostRect = Trade._host.getBoundingClientRect();
-	const posLeft = itemRect.left - hostRect.left;
-	const posTop = itemRect.top - hostRect.top;
-	overlay.style.display = "";
-	overlay.style.top = `${posTop + 5}px`;
-	overlay.style.left = `${posLeft + 30}px`;
-	overlay.textContent = DB.getItemName(item);
-	if (item.IsIdentified) overlay.classList.remove("grey");
-	else overlay.classList.add("grey");
-}
-/**
-* Hide the item title when mouse is not over anymore
-*/
-function onItemOut$13() {
-	const overlay = Trade.getRoot().querySelector(".overlay");
-	if (overlay) overlay.style.display = "none";
-}
-/**
-* Display ItemInfo UI
-*
-* @param {Event} event
-* @param {HTMLElement} itemEl
-*/
-function onItemInfo$16(event, itemEl) {
-	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
-	const item = itemEl.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
-	if (!item) {
-		event.stopImmediatePropagation();
-		event.preventDefault();
-		return;
-	}
-	if (ItemInfo_default.uid === item.ITID) ItemInfo_default.remove();
-	ItemInfo_default.append();
-	ItemInfo_default.uid = item.ITID;
-	ItemInfo_default.setItem(item);
-	event.stopImmediatePropagation();
-	event.preventDefault();
-}
-var Trade, _tmpCount, _send, _recv, Trade_default;
-var init_Trade$1 = __esmMin((() => {
-	init_DBManager();
-	init_Client();
-	init_SessionStorage();
-	init_Renderer();
-	init_GUIComponent();
-	init_UIManager();
-	init_Elements();
-	init_InputBox();
-	init_ItemInfo();
-	init_Inventory();
-	init_ChatBox();
-	init_Trade$3();
-	init_Trade$2();
-	Trade = new GUIComponent("Trade", Trade_default$1);
-	/**
-	* HTML returned by render()
-	*/
-	Trade.render = () => Trade_default$2;
-	_tmpCount = {};
-	_send = [];
-	_recv = [];
-	/**
-	* @var {string} trade title
-	*/
-	Trade.title = "";
-	/**
-	* Capture key events so the zeny input field works inside Shadow DOM
-	*/
-	Trade.captureKeyEvents = true;
-	/**
-	* Initialize UI
-	*/
-	Trade.init = function init() {
-		const root = this.getRoot();
-		const okBtn = root.querySelector(".ok.enabled");
-		if (okBtn) {
-			okBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
-			okBtn.addEventListener("click", () => onConclude());
-		}
-		const tradeBtn = root.querySelector(".trade.enabled");
-		if (tradeBtn) {
-			tradeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
-			tradeBtn.addEventListener("click", () => onTrade());
-		}
-		const cancelBtn = root.querySelector(".cancel");
-		if (cancelBtn) {
-			cancelBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
-			cancelBtn.addEventListener("click", () => onCancel());
-		}
-		root.addEventListener("mousedown", (e) => {
-			if (e.target.closest && e.target.closest(".disabled")) e.stopImmediatePropagation();
-		});
-		this._host.addEventListener("drop", (e) => onDrop$10(e));
-		this._host.addEventListener("dragover", (e) => {
-			e.preventDefault();
-			e.stopImmediatePropagation();
-		});
-		const zenyInput = root.querySelector(".zeny.send");
-		if (zenyInput) zenyInput.addEventListener("mousedown", function() {
-			this.select();
-		});
-		root.querySelectorAll(".box").forEach((box) => {
-			box.addEventListener("mouseover", (e) => {
-				const itemEl = e.target.closest(".item");
-				if (itemEl) onItemOver$12(itemEl);
-			});
-			box.addEventListener("mouseout", (e) => {
-				if (e.target.closest(".item")) onItemOut$13();
-			});
-			box.addEventListener("contextmenu", (e) => {
-				const itemEl = e.target.closest(".item");
-				if (itemEl) onItemInfo$16(e, itemEl);
-			});
-		});
-		this.draggable(".titlebar");
-	};
-	/**
-	* Guard keyboard input for the zeny <input> inside Shadow DOM
-	*/
-	Trade.onKeyDown = function onKeyDown(event) {
-		if (this.isEditableFocused()) {
-			event.stopImmediatePropagation();
-			return true;
-		}
-		return true;
-	};
-	/**
-	* Initialize UI on append
-	*/
-	Trade.onAppend = function onAppend() {
-		resetUI.call(this);
-		const titleEl = this.getRoot().querySelector(".titlebar .title");
-		if (titleEl) titleEl.textContent = this.title;
-		const width = this._host.getBoundingClientRect().width;
-		const height = this._host.getBoundingClientRect().height;
-		this._host.style.top = `${(Renderer.height - height) / 2}px`;
-		this._host.style.left = `${(Renderer.width - width) / 2}px`;
-	};
-	/**
-	* Clean UP UI
-	*/
-	Trade.onRemove = function onRemove() {
-		resetUI.call(this);
-	};
-	/**
-	* Add Item to the trade window from our inventory
-	*
-	* @param {number} item index in inventory
-	* @param {boolean} success ?
-	*/
-	Trade.addItemFromInventory = function addItemFromInventory(index, success) {
-		if (!success) {
-			delete _tmpCount[index];
-			return;
-		}
-		const root = Trade.getRoot();
-		if (index === 0) {
-			const zenySend = root.querySelector(".zeny.send");
-			if (zenySend) zenySend.value = prettifyZeny$3(_tmpCount[index]);
-			return;
-		}
-		const inventoryItem = InventoryController.getUI().removeItem(index, _tmpCount[index]);
-		const item = Object.assign({}, inventoryItem);
-		const it = DB.getItemInfo(item.ITID);
-		const idx = _send.push(item) - 1;
-		const box = root.querySelector(".box.send");
-		item.count = _tmpCount[index];
-		const itemDiv = document.createElement("div");
-		itemDiv.className = "item";
-		itemDiv.setAttribute("data-index", idx);
-		itemDiv.innerHTML = `<div class="icon"></div><div class="amount"><span class="count">${_tmpCount[index] || 1}</span></div><span class="name">${escapeHtml$2(DB.getItemName(item))}</span>`;
-		box.appendChild(itemDiv);
-		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
-			const icon = root.querySelector(`.item[data-index="${idx}"] .icon`);
-			if (icon && icon.closest(".box.send")) icon.style.backgroundImage = `url(${data})`;
-		});
-	};
-	/**
-	* Add item to the trade UI
-	*
-	* @param {object} item
-	*/
-	Trade.addItem = function addItem(item) {
-		const root = Trade.getRoot();
-		if (item.ITID === 0) {
-			const zenyRecv = root.querySelector(".zeny.recv");
-			if (zenyRecv) zenyRecv.textContent = prettifyZeny$3(item.count);
-			return;
-		}
-		const it = DB.getItemInfo(item.ITID);
-		const idx = _recv.push(item) - 1;
-		const box = root.querySelector(".box.recv");
-		const itemDiv = document.createElement("div");
-		itemDiv.className = "item";
-		itemDiv.setAttribute("data-index", idx);
-		itemDiv.innerHTML = `<div class="icon"></div><div class="amount">${item.count}</div><span class="name">${escapeHtml$2(DB.getItemName(item))}</span>`;
-		box.appendChild(itemDiv);
-		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
-			const icon = root.querySelector(`.item[data-index="${idx}"] .icon`);
-			if (icon && icon.closest(".box.recv")) icon.style.backgroundImage = `url(${data})`;
-		});
-	};
-	/**
-	* Conclude a part of the trade
-	*
-	* @param {string} element - 'send' or 'recv'
-	*/
-	Trade.conclude = function conclude(element) {
-		const root = Trade.getRoot();
-		const box = root.querySelector(`.box.${element}`);
-		if (box) box.classList.add("disabled");
-		if (element === "send") {
-			const okDisabled = root.querySelector(".ok.disabled");
-			const okEnabled = root.querySelector(".ok.enabled");
-			if (okDisabled) okDisabled.style.display = "";
-			if (okEnabled) okEnabled.style.display = "none";
-			const zenySend = root.querySelector(".zeny.send");
-			if (zenySend) {
-				zenySend.classList.add("disabled");
-				zenySend.disabled = true;
-			}
-		}
-		const recvDisabled = root.querySelector(".box.recv.disabled");
-		const sendDisabled = root.querySelector(".box.send.disabled");
-		if (recvDisabled && recvDisabled.style.display !== "none" && sendDisabled && sendDisabled.style.display !== "none") {
-			const tradeEnabled = root.querySelector(".trade.enabled");
-			const tradeDisabledBtn = root.querySelector(".trade.disabled");
-			if (tradeEnabled) tradeEnabled.style.display = "";
-			if (tradeDisabledBtn) tradeDisabledBtn.style.display = "none";
-		}
-	};
-	/**
-	* Callbacks
-	*/
-	Trade.onConclude = function onConclude() {};
-	Trade.onTradeSubmit = function onTradeSubmit() {};
-	Trade.reqAddItem = function reqAddItem() {};
-	Trade.onCancel = function onCancel() {};
-	/**
-	* Set mouse mode
-	*/
-	Trade.mouseMode = GUIComponent.MouseMode.STOP;
-	Trade_default = UIManager.addComponent(Trade);
+	});
+	window.addEventListener("blur", cancelAutoCombatTeleport);
+	document.addEventListener("visibilitychange", () => {
+		if (document.hidden) cancelAutoCombatTeleport();
+	});
+	onConnectionEnd(() => {
+		ticket = null;
+		nextAllowed = 0;
+		feedback = "";
+	});
 }));
 //#endregion
 //#region src/Controls/AttackIntent.js
@@ -273275,7 +271991,7 @@ function onDragOver(event) {
 /**
 * Drop items to the map
 */
-function onDrop$9(event) {
+function onDrop$10(event) {
 	let data;
 	try {
 		data = JSON.parse(event.dataTransfer.getData("Text"));
@@ -273418,1495 +272134,11 @@ var init_MapControl = __esmMin((() => {
 			Mobile.onTouchEnd = onMouseUp.bind(this);
 			Renderer.canvas.addEventListener("wheel", onMouseWheel);
 			Renderer.canvas.addEventListener("dragover", onDragOver);
-			Renderer.canvas.addEventListener("drop", onDrop$9.bind(this));
+			Renderer.canvas.addEventListener("drop", onDrop$10.bind(this));
 			window.addEventListener("mousedown", onMouseDown.bind(this));
 			window.addEventListener("mouseup", onMouseUp.bind(this));
 		}
 	};
-}));
-//#endregion
-//#region src/UI/Game/GameCommands.js
-function selectedTarget() {
-	const target = EntityManager.getFocusEntity();
-	return target && EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE ? target : null;
-}
-function canAttack(target) {
-	if (!target || target === SessionStorage_default.Entity) return false;
-	const T = target.constructor;
-	return [
-		T.TYPE_MOB,
-		T.TYPE_UNIT,
-		T.TYPE_NPC_ABR,
-		T.TYPE_NPC_BIONIC
-	].includes(target.objecttype) || [
-		T.TYPE_PC,
-		T.TYPE_ELEM,
-		T.TYPE_HOM
-	].includes(target.objecttype) && target.canAttackEntity();
-}
-function stopAttack() {
-	releaseAttack();
-	SessionStorage_default.moveAction = null;
-	if (SessionStorage_default.Playing) Network.sendPacket(new PACKET.CZ.CANCEL_LOCKON());
-}
-function attackSelected(moving = false, onRequest = null) {
-	const target = selectedTarget();
-	if (canAttack(target)) {
-		ownAttack(target.GID, () => {
-			if (!SessionStorage_default.FreezeUI && selectedTarget() === target) {
-				target.onFocus({
-					attack: true,
-					allowMove: !moving
-				});
-				onRequest?.();
-			}
-		});
-		target.onFocus({
-			attack: true,
-			allowMove: !moving
-		});
-		onRequest?.();
-	}
-}
-function moveDirection(x, y) {
-	const player = SessionStorage_default.Entity;
-	if (!player || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
-	Navigation_default.stopAutoWalk();
-	MapControl.onRequestStopWalk();
-	SessionStorage_default.moveAction = null;
-	SessionStorage_default.autoFollow = false;
-	const angle = -Camera.direction * Math.PI / 4;
-	const dx = x * Math.cos(angle) - y * Math.sin(angle);
-	const dy = x * Math.sin(angle) + y * Math.cos(angle);
-	const dest = [];
-	if (!checkFreeCell$1(Math.round(player.position[0] + dx * 3), Math.round(player.position[1] + dy * 3), 1, dest)) return;
-	const packet = new PACKET.CZ.REQUEST_MOVE2();
-	packet.dest[0] = dest[0];
-	packet.dest[1] = dest[1];
-	Network.sendPacket(packet);
-	directionalMovementPlayer = player;
-}
-function stopDirectionalMovement() {
-	MapControl.onRequestStopWalk();
-	SessionStorage_default.moveAction = null;
-	const player = directionalMovementPlayer;
-	directionalMovementPlayer = null;
-	if (!player || player !== SessionStorage_default.Entity || !SessionStorage_default.Playing || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
-	Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
-}
-function pickSceneEntity(x, y) {
-	Mouse.screen.x = x;
-	Mouse.screen.y = y;
-	return EntityManager.intersect();
-}
-function tapScene(x, y) {
-	Mouse.screen.x = x;
-	Mouse.screen.y = y;
-	const pos = [];
-	const ground = Altitude.intersect(Camera.modelView, Camera.projection, pos);
-	Mouse.world.x = ground ? pos[0] : -1;
-	Mouse.world.y = ground ? pos[1] : -1;
-	const target = EntityManager.intersect();
-	const previous = EntityManager.getFocusEntity();
-	SessionStorage_default.moveAction = null;
-	SessionStorage_default.autoFollow = false;
-	if (target && target !== SessionStorage_default.Entity) {
-		if (previous && previous !== target) previous.onFocusEnd();
-		EntityManager.setFocusEntity(target);
-		EntityManager.setOverEntity(target);
-		target.onFocus({ attack: false });
-		if ([
-			target.constructor.TYPE_ITEM,
-			target.constructor.TYPE_NPC,
-			target.constructor.TYPE_NPC2
-		].includes(target.objecttype)) interactSelected();
-		return;
-	}
-	if (ground) {
-		MapControl.onRequestWalk();
-		MapControl.onRequestStopWalk();
-	}
-}
-function interactSelected() {
-	const target = selectedTarget();
-	if (!target) return;
-	const T = target.constructor;
-	if (target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type)) {
-		target.onRoomEnter();
-		return;
-	}
-	if (target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity) {
-		UIManager.showPromptBox(`向 ${target.display.name} 发起交易？`, "ok", "cancel", () => {
-			if (SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && selectedTarget() === target) Trade_default.reqExchange(target.GID, target.display.name);
-		});
-		return;
-	}
-	if (![
-		T.TYPE_NPC,
-		T.TYPE_NPC2,
-		T.TYPE_ITEM,
-		T.TYPE_WARP
-	].includes(target.objecttype)) return;
-	Mouse.world.x = Math.round(target.position[0]);
-	Mouse.world.y = Math.round(target.position[1]);
-	target.onMouseDown();
-}
-function targetSnapshot() {
-	const target = selectedTarget();
-	if (!target) return {
-		name: "点击目标进行选择",
-		attack: false,
-		interaction: ""
-	};
-	const T = target.constructor;
-	return {
-		name: target.display.name || "已选目标",
-		attack: canAttack(target),
-		interaction: target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type) ? "查看摊位" : target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity ? "交易" : target.objecttype === T.TYPE_WARP ? "进入" : ""
-	};
-}
-function adjustCamera(action) {
-	const indoor = DB.isIndoor(Camera.currentMap);
-	if (action === "zoomIn" || action === "zoomOut") Camera.setZoom(action === "zoomIn" ? -1 : 1);
-	else if (action === "reset") {
-		Camera.angleFinal[0] = indoor ? Camera.indoorRange : Camera.range;
-		Camera.angleFinal[1] = indoor ? Camera.indoorRotationTo : 0;
-		Camera.zoomFinal = DEFAULT_CAMERA_ZOOM;
-	} else {
-		const tilt = action === "up" || action === "down";
-		const index = tilt ? 0 : 1;
-		const min = tilt ? indoor ? Camera.MIN_ALTITUDE_INDOOR : Camera.MIN_V_ANGLE : indoor ? Camera.indoorRotationFrom : Camera.rotationFrom;
-		const max = tilt ? indoor ? Camera.MAX_ALTITUDE_INDOOR : Camera.MAX_V_ANGLE : indoor ? Camera.indoorRotationTo : Camera.rotationTo;
-		const delta = tilt ? action === "up" ? 5 : -5 : action === "left" ? -15 : 15;
-		Camera.angleFinal[index] = Math.max(min, Math.min(max, Camera.angleFinal[index] + delta));
-	}
-	Camera.save();
-}
-var directionalMovementPlayer;
-var init_GameCommands = __esmMin((() => {
-	init_Trade$1();
-	init_UIManager();
-	init_AttackIntent();
-	init_DBManager();
-	init_SessionStorage();
-	init_EntityManager();
-	init_Camera();
-	init_Camera$1();
-	init_Altitude();
-	init_MouseEventHandler();
-	init_MapControl();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_Navigation();
-	directionalMovementPlayer = null;
-}));
-//#endregion
-//#region src/UI/Components/AutoCombat/AutoCombat.css?raw
-var AutoCombat_default$1;
-var init_AutoCombat$1 = __esmMin((() => {
-	AutoCombat_default$1 = ":host {\r\n	position: fixed !important;\r\n	right: 16px;\r\n	bottom: 24px;\r\n	pointer-events: none;\r\n	color: #f4f0e6;\r\n	font:\r\n		13px Arial,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	font: inherit;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	padding: 7px 12px;\r\n	cursor: pointer;\r\n}\r\nbutton:hover {\r\n	border-color: #ceaa70;\r\n}\r\nbutton:focus-visible,\r\ninput:focus-visible {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.combat-bar {\r\n	width: 260px;\r\n	max-width: calc(100vw - 32px);\r\n	padding: 10px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 10px;\r\n	background: #18212bf2;\r\n	box-shadow: 0 3px 12px #0005;\r\n	pointer-events: auto;\r\n}\r\n.combat-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.combat-actions button {\r\n	flex: 1;\r\n}\r\n[data-toggle][aria-pressed='true'] {\r\n	border-color: #ceaa70;\r\n	background: #493c26;\r\n}\r\n.combat-status {\r\n	display: block;\r\n	margin-top: 8px;\r\n	color: #ceaa70;\r\n	overflow-wrap: anywhere;\r\n	font-size: 12px;\r\n}\r\n.combat-backdrop {\r\n	position: fixed;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0006;\r\n	pointer-events: auto;\r\n	padding: 16px;\r\n}\r\n.combat-dialog {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(760px, 100%);\r\n	height: min(560px, 100%);\r\n	max-height: calc(100dvh - 32px);\r\n	padding: 16px;\r\n	gap: 14px;\r\n	background: #18212b;\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 8px 32px #0008;\r\n}\r\n.combat-dialog header {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.combat-dialog h2 {\r\n	margin: 0;\r\n	font-size: 17px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Mobile/game/GameHUDResponsive.css?raw
-var GameHUDResponsive_default;
-var init_GameHUDResponsive = __esmMin((() => {
-	GameHUDResponsive_default = "/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */\r\n.settings-body {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.settings-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.settings-tabs {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.settings-tabs button {\r\n	flex: 1;\r\n}\r\n.settings-tabs [aria-pressed='true'] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.settings-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.settings-section {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\r\n	gap: 0 20px;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-width: 0;\r\n	min-height: 54px;\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #35414d;\r\n}\r\n.settings-field > span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-field small {\r\n	display: block;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n}\r\n.settings-form .settings-field input,\r\n.settings-form .settings-field select {\r\n	flex: 0 0 auto;\r\n	width: 100px;\r\n	max-width: 45%;\r\n	min-height: 36px;\r\n	margin: 0;\r\n	padding: 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.settings-form .settings-field input[type='checkbox'] {\r\n	appearance: none;\r\n	width: 42px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	padding: 3px;\r\n	border-radius: 20px;\r\n	background: #384653;\r\n}\r\n.settings-field input[type='checkbox']::before {\r\n	content: '';\r\n	display: block;\r\n	width: 18px;\r\n	height: 18px;\r\n	border-radius: 50%;\r\n	background: #d2dae1;\r\n}\r\n.settings-form .settings-field input[type='checkbox']:checked {\r\n	background: #806334;\r\n	border-color: #ceaa70;\r\n}\r\n.settings-field input[type='checkbox']:checked::before {\r\n	transform: translateX(16px);\r\n	background: #ffe1ae;\r\n}\r\n.settings-field input:focus-visible,\r\n.settings-field select:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.settings-field.settings-volume {\r\n	flex-wrap: wrap;\r\n}\r\n.settings-form .settings-field input[type='range'] {\r\n	flex: 1;\r\n	min-width: 80px;\r\n	max-width: none;\r\n	padding: 0;\r\n	border: 0;\r\n	accent-color: #ceaa70;\r\n	background: transparent;\r\n}\r\n.settings-volume-value {\r\n	width: 38px;\r\n	text-align: right;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.settings-footer {\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n}\r\n.settings-footer p {\r\n	color: #ceaa70;\r\n	font-size: 11px;\r\n}\r\n.settings-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.settings-actions button {\r\n	flex: 1;\r\n}\r\n.profile-panel .character-details {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 0;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.character-details dt,\r\n.character-details dd {\r\n	padding: 12px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	align-content: center;\r\n}\r\n.character-details dt {\r\n	color: #bac4cd;\r\n}\r\n.character-details dd {\r\n	font-weight: 600;\r\n	font-variant-numeric: tabular-nums;\r\n	overflow-wrap: anywhere;\r\n}\r\n.character-details dt:first-child,\r\n.character-details dd:nth-child(2) {\r\n	color: #ffe1ae;\r\n	font-size: 18px;\r\n}\r\n.character-details dt:nth-last-child(-n + 2),\r\n.character-details dd:last-child {\r\n	border-bottom: 0;\r\n}\r\n/* Use available viewport space, not device names; phone landscape stays compact. */\r\n\r\n:host([data-menu-density='spacious']) {\r\n	font-size: 15px;\r\n}\r\n:host([data-menu-density='spacious']) .top-left {\r\n	width: 320px;\r\n	gap: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .profile {\r\n	padding: 12px 14px;\r\n	gap: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .profile-heading > span {\r\n	font-size: 14px;\r\n	max-width: 145px;\r\n}\r\n:host([data-menu-density='spacious']) .profile-bars {\r\n	grid-template-columns: 28px minmax(0, 1fr);\r\n	gap: 7px 6px;\r\n}\r\n:host([data-menu-density='spacious']) .profile label {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .profile meter {\r\n	height: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .profile label span {\r\n	min-width: 0;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .profile-actions button {\r\n	min-height: 44px;\r\n	padding: 8px 14px;\r\n}\r\n:host([data-menu-density='spacious']) [data-status-icons] img {\r\n	width: 28px;\r\n	height: 28px;\r\n}\r\n:host([data-menu-density='spacious']) .map {\r\n	width: 144px;\r\n	gap: 3px;\r\n}\r\n:host([data-menu-density='spacious']) .map canvas {\r\n	width: 128px;\r\n	height: 128px;\r\n}\r\n:host([data-menu-density='spacious']) .map span {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .map small {\r\n	font-size: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .battle-dock {\r\n	--battle-gap: 8px;\r\n	width: 366px;\r\n}\r\n:host([data-menu-density='spacious']) .combat {\r\n	gap: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .combat .skill {\r\n	font-size: 24px;\r\n	border-radius: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .skill img {\r\n	width: 40px;\r\n	height: 40px;\r\n	bottom: 5px;\r\n}\r\n:host([data-menu-density='spacious']) .skill small {\r\n	font-size: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .battle-status {\r\n	min-height: 40px;\r\n	font-size: 14px;\r\n	padding: 7px 10px;\r\n}\r\n:host([data-menu-density='spacious']) .battle-tools button,\r\n:host([data-menu-density='spacious']) .battle-status button {\r\n	min-height: 44px;\r\n	font-size: 14px;\r\n	padding: 6px 8px;\r\n}\r\n:host([data-menu-density='spacious']) .shortcut-tools,\r\n:host([data-menu-density='spacious']) .skill-actions {\r\n	height: 44px;\r\n}\r\n:host([data-menu-density='spacious']) .shortcut-tools button {\r\n	min-width: 40px;\r\n	min-height: 44px;\r\n}\r\n:host([data-menu-density='spacious']) .shortcut-tools span,\r\n:host([data-menu-density='spacious']) .skill-actions button {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .skill-prompt {\r\n	height: 40px;\r\n	font-size: 14px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .profile-heading strong {\r\n	font-size: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .profile meter::-webkit-meter-inner-element {\r\n	position: relative;\r\n	display: block;\r\n	height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .profile meter::-webkit-meter-bar {\r\n	top: 0;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Game/PickupSettingsPanel.css?raw
-var PickupSettingsPanel_default;
-var init_PickupSettingsPanel = __esmMin((() => {
-	PickupSettingsPanel_default = ".settings-section.pickup-section {\r\n	display: block;\r\n}\r\n.pickup-controls {\r\n	border: 0;\r\n	padding: 0;\r\n	margin: 0;\r\n	min-width: 0;\r\n}\r\n.pickup-controls:disabled {\r\n	opacity: 0.5;\r\n}\r\n.pickup-categories {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 0 20px;\r\n}\r\n.pickup-search,\r\n.pickup-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	padding: 6px 0;\r\n}\r\n.pickup-search input {\r\n	flex: 1;\r\n	min-width: 0;\r\n	padding: 8px;\r\n	color: inherit;\r\n	background: #111a23;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n}\r\n.pickup-item span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.pickup-item button {\r\n	flex-shrink: 0;\r\n}\r\n.pickup-note {\r\n	font-size: 12px;\r\n	color: #b8c4cf;\r\n	line-height: 1.6;\r\n}\r\n.pickup-excluded {\r\n	color: #d7dfeb;\r\n}\r\n\r\n.pickup-columns {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	align-items: stretch;\r\n	margin-bottom: 10px;\r\n}\r\n.pickup-column {\r\n	min-width: 0;\r\n	padding: 10px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 8px;\r\n	background: #141d26;\r\n}\r\n.pickup-column h5 {\r\n	margin: 0 0 8px;\r\n	font: inherit;\r\n	font-weight: 600;\r\n}\r\n.pickup-results,\r\n.pickup-excluded {\r\n	max-height: 240px;\r\n	min-height: 80px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	font-size: 12px;\r\n}\r\n.pickup-item {\r\n	border-bottom: 1px solid #34414d;\r\n}\r\n.pickup-item:last-child {\r\n	border-bottom: 0;\r\n}\r\n.pickup-search {\r\n	padding-top: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.pickup-columns {\r\n		gap: 6px;\r\n	}\r\n	.pickup-column {\r\n		padding: 6px;\r\n	}\r\n	.pickup-search {\r\n		flex-wrap: wrap;\r\n	}\r\n	.pickup-search input {\r\n		flex-basis: 100%;\r\n	}\r\n	.pickup-item {\r\n		flex-wrap: wrap;\r\n		gap: 4px;\r\n	}\r\n	.pickup-item span {\r\n		flex-basis: 100%;\r\n	}\r\n}\r\n\r\n.pickup-limits {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n.pickup-limits .settings-field {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.pickup-section .pickup-limits .settings-field input {\r\n	width: 100%;\r\n	max-width: none;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/PickupSettings/PickupSettings.js
-function handleKeyDown(event) {
-	if (event.key === "Escape") {
-		this.remove();
-		event.preventDefault();
-	}
-	if (event.key === "Tab") {
-		const root = this.getRoot();
-		const controls = [...root.querySelectorAll("button, input, select")].filter((node) => !node.matches(":disabled") && node.getClientRects().length);
-		const first = controls[0], last = controls.at(-1), active = root.activeElement;
-		if (event.shiftKey && active === first) {
-			last?.focus();
-			event.preventDefault();
-		} else if (!event.shiftKey && active === last) {
-			first?.focus();
-			event.preventDefault();
-		}
-	}
-	event.stopPropagation();
-}
-var component, PickupSettings_default;
-var init_PickupSettings = __esmMin((() => {
-	init_GUIComponent();
-	init_UIManager();
-	init_SettingsPanel();
-	init_GameSettings();
-	init_GameCommands();
-	init_GameInputIntent();
-	init_AutoCombat$1();
-	init_GameHUDResponsive();
-	init_PickupSettingsPanel();
-	component = new GUIComponent("PickupSettings", AutoCombat_default$1 + GameHUDResponsive_default + PickupSettingsPanel_default + `
-:host { inset: 0; z-index: 1100 !important; }
-.combat-dialog { height: min(620px, calc(100dvh - 32px)); }
-.settings-body { min-height: 0; }
-`);
-	component.render = () => "<div class=\"combat-backdrop\"><section class=\"combat-dialog\" role=\"dialog\" aria-label=\"设置\"><header><h2>设置</h2><button type=\"button\" data-close>关闭</button></header><div class=\"settings-body\"></div></section></div>";
-	component.onAppend = function() {
-		notifyGameInput("action");
-		const root = this.getRoot();
-		this._container.onkeydown = handleKeyDown.bind(this);
-		root.querySelector("[data-close]").onclick = () => this.remove();
-		createSettingsPanel(root.querySelector(".settings-body"), {
-			fields: graphicsFields,
-			snapshot: settingsSnapshot,
-			save: saveGameSettings,
-			camera: adjustCamera
-		}, "拾取");
-		root.querySelector("[data-close]").focus();
-	};
-	PickupSettings_default = UIManager.addComponent(component);
-}));
-//#endregion
-//#region src/UI/Components/SoundOption/SoundOption.html?raw
-var SoundOption_default$2;
-var init_SoundOption$2 = __esmMin((() => {
-	SoundOption_default$2 = "<div id=\"SoundOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"1485\">声音设置</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td data-text=\"1495\">BGM</td>\r\n				<td>\r\n					<input class=\"bgm\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"bgm_state\" />开\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td data-text=\"1496\">音效</td>\r\n				<td>\r\n					<input class=\"sound\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"sound_state\" />开\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/SoundOption/SoundOption.css?raw
-var SoundOption_default$1;
-var init_SoundOption$1 = __esmMin((() => {
-	SoundOption_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 250px;\r\n	height: 65px;\r\n}\r\n\r\n#SoundOption {\r\n	position: absolute;\r\n	background: white;\r\n	border-radius: 2px;\r\n}\r\n\r\n#SoundOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SoundOption .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SoundOption .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	white-space: nowrap;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SoundOption .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#SoundOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SoundOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SoundOption .panel {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/SoundOption/SoundOption.js
-function onSoundVolumeUpdate() {
-	SoundManager.setVolume(parseInt(this.value, 10) / 100);
-}
-function onToggleSound() {
-	Audio_default.Sound.play = this.checked;
-	SoundManager.setVolume(Audio_default.Sound.volume);
-	if (!Audio_default.Sound.play) SoundManager.stop();
-}
-function onBGMVolumeUpdate() {
-	Audio_default.BGM.volume = parseInt(this.value, 10) / 100;
-	Audio_default.save();
-	BGM.setVolume(Audio_default.BGM.volume);
-}
-function onToggleBGM() {
-	Audio_default.BGM.play = this.checked;
-	Audio_default.save();
-	if (Audio_default.BGM.play) BGM.play(BGM.filename);
-	else BGM.stop();
-}
-var SoundOption, _preferences$33, SoundOption_default;
-var init_SoundOption = __esmMin((() => {
-	init_Preferences$1();
-	init_Audio();
-	init_BGM();
-	init_SoundManager();
-	init_UIManager();
-	init_GUIComponent();
-	init_Elements();
-	init_SoundOption$2();
-	init_SoundOption$1();
-	SoundOption = new GUIComponent("SoundOption", SoundOption_default$1);
-	SoundOption.render = () => SoundOption_default$2;
-	_preferences$33 = Preferences.get("SoundOption", {
-		x: 300,
-		y: 300
-	}, 1);
-	SoundOption.init = function init() {
-		const root = this.getRoot();
-		const baseBtn = root.querySelector(".base");
-		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
-			event.stopImmediatePropagation();
-		});
-		const closeBtn = root.querySelector(".close");
-		if (closeBtn) closeBtn.addEventListener("click", function() {
-			SoundOption.remove();
-		});
-		const soundSlider = root.querySelector(".sound");
-		if (soundSlider) soundSlider.addEventListener("change", onSoundVolumeUpdate);
-		const bgmSlider = root.querySelector(".bgm");
-		if (bgmSlider) bgmSlider.addEventListener("change", onBGMVolumeUpdate);
-		const soundState = root.querySelector(".sound_state");
-		if (soundState) soundState.addEventListener("change", onToggleSound);
-		const bgmState = root.querySelector(".bgm_state");
-		if (bgmState) bgmState.addEventListener("change", onToggleBGM);
-		this.draggable(".titlebar");
-	};
-	SoundOption.onAppend = function onAppend() {
-		this._host.style.top = _preferences$33.y + "px";
-		this._host.style.left = _preferences$33.x + "px";
-		const root = this.getRoot();
-		const soundSlider = root.querySelector(".sound");
-		if (soundSlider) soundSlider.value = Audio_default.Sound.volume * 100;
-		const bgmSlider = root.querySelector(".bgm");
-		if (bgmSlider) bgmSlider.value = Audio_default.BGM.volume * 100;
-		const soundState = root.querySelector(".sound_state");
-		if (soundState) soundState.checked = Audio_default.Sound.play;
-		const bgmState = root.querySelector(".bgm_state");
-		if (bgmState) bgmState.checked = Audio_default.BGM.play;
-	};
-	SoundOption.onRemove = function onRemove() {
-		_preferences$33.x = parseInt(this._host.style.left, 10);
-		_preferences$33.y = parseInt(this._host.style.top, 10);
-		_preferences$33.save();
-	};
-	SoundOption_default = UIManager.addComponent(SoundOption);
-}));
-//#endregion
-//#region src/UI/Components/FPS/FPS.html?raw
-var FPS_default$2;
-var init_FPS$2 = __esmMin((() => {
-	FPS_default$2 = "<div id=\"FPS\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\"><span id=\"fpsCounter\">--</span> 帧/秒</div>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/FPS/FPS.css?raw
-var FPS_default$1;
-var init_FPS$1 = __esmMin((() => {
-	FPS_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 80px;\r\n	height: 20px;\r\n}\r\n\r\n#FPS {\r\n	position: absolute;\r\n	background: white;\r\n	border-radius: 2px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#FPS .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#FPS .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/FPS/FPS.js
-var FPS, _maxFPSRegistered, _tickFn, _preferences$32, FPS_default;
-var init_FPS = __esmMin((() => {
-	init_Preferences$1();
-	init_Renderer();
-	init_UIManager();
-	init_GUIComponent();
-	init_Elements();
-	init_FPS$2();
-	init_FPS$1();
-	FPS = new GUIComponent("FPS", FPS_default$1);
-	FPS.render = () => FPS_default$2;
-	_maxFPSRegistered = 0;
-	_tickFn = null;
-	_preferences$32 = Preferences.get("FPS", {
-		show: false,
-		x: 100,
-		y: 100
-	}, 1.1);
-	/**
-	* Initialize UI
-	*/
-	FPS.init = function init() {
-		const root = this.getRoot();
-		const baseBtn = root.querySelector(".base");
-		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
-			event.stopImmediatePropagation();
-		});
-		const closeBtn = root.querySelector(".close");
-		if (closeBtn) closeBtn.addEventListener("click", function() {
-			FPS.remove();
-		});
-		this.draggable(".titlebar");
-	};
-	/**
-	* When appended to DOM
-	*/
-	FPS.onAppend = function onAppend() {
-		this._host.style.top = _preferences$32.y + "px";
-		this._host.style.left = _preferences$32.x + "px";
-		this._host.style.display = _preferences$32.show ? "" : "none";
-		const root = this.getRoot();
-		const fpsEl = root.querySelector("#fpsCounter");
-		const fpsRoot = root.querySelector("#FPS");
-		let startTime = 0;
-		let frame = 0;
-		let lastValue = null;
-		let lastClass = null;
-		const FPS_COLORS = {
-			"fps-good": "#006400",
-			"fps-warn": "#ff9800",
-			"fps-bad": "#f44336"
-		};
-		function getFPSClass(value, frameLimit) {
-			const ratio = value / frameLimit;
-			if (ratio >= .7) return "fps-good";
-			if (ratio >= .4) return "fps-warn";
-			return "fps-bad";
-		}
-		function tick(time) {
-			frame++;
-			if (time - startTime < 1e3) return;
-			const value = +(frame / ((time - startTime) / 1e3)).toFixed(1);
-			if (value !== lastValue) {
-				fpsEl.textContent = value;
-				lastValue = value;
-			}
-			if (_maxFPSRegistered < value) _maxFPSRegistered = value;
-			const cls = getFPSClass(value, Renderer.frameLimit > 0 ? Renderer.frameLimit : _maxFPSRegistered);
-			if (cls !== lastClass) {
-				fpsRoot.style.color = FPS_COLORS[cls] || FPS_COLORS["fps-good"];
-				lastClass = cls;
-			}
-			startTime = time;
-			frame = 0;
-		}
-		if (_tickFn) Renderer.stop(_tickFn);
-		_tickFn = tick;
-		Renderer.render(tick);
-	};
-	/**
-	* Once remove, save preferences
-	*/
-	FPS.onRemove = function onRemove() {
-		if (_tickFn) {
-			Renderer.stop(_tickFn);
-			_tickFn = null;
-		}
-		_preferences$32.x = parseInt(this._host.style.left, 10);
-		_preferences$32.y = parseInt(this._host.style.top, 10);
-		_preferences$32.show = this._host.style.display !== "none";
-		_preferences$32.save();
-	};
-	/**
-	* Show/Hide UI
-	*/
-	FPS.toggle = function toggle(isVisible) {
-		_preferences$32.x = parseInt(this._host.style.left, 10);
-		_preferences$32.y = parseInt(this._host.style.top, 10);
-		if (typeof isVisible === "boolean") this._host.style.display = isVisible ? "" : "none";
-		else this._host.style.display = this._host.style.display === "none" ? "" : "none";
-		_preferences$32.show = this._host.style.display !== "none";
-		_preferences$32.save();
-		if (this._host.style.display !== "none") this.focus();
-	};
-	FPS_default = UIManager.addComponent(FPS);
-}));
-//#endregion
-//#region src/UI/Components/GraphicsOption/GraphicsOption.html?raw
-var GraphicsOption_default$2;
-var init_GraphicsOption$2 = __esmMin((() => {
-	GraphicsOption_default$2 = "<div id=\"GraphicsOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"1484\">图形设置</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n\r\n	<div class=\"tabs-container\">\r\n		<div class=\"tabs\">\r\n			<button class=\"tab-button selected\" data-tab=\"basic\">基础</button>\r\n			<button class=\"tab-button\" data-tab=\"advanced\">高级</button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"panel\">\r\n		<div class=\"tab-content selected\" id=\"basic\">\r\n			<table>\r\n				<tr>\r\n					<td>详情</td>\r\n					<td style=\"display: inline-block; width: 260px\">\r\n						<input\r\n							class=\"details\"\r\n							type=\"range\"\r\n							value=\"100\"\r\n							max=\"100\"\r\n							min=\"25\"\r\n							step=\"5\"\r\n							style=\"width: 90%\"\r\n						/>\r\n					</td>\r\n				</tr>\r\n				<tr class=\"resolution\">\r\n					<td>分辨率</td>\r\n					<td>\r\n						<select class=\"screensize\">\r\n							<option value=\"650x480\">640 x 480</option>\r\n							<option value=\"800x600\">800 x 600</option>\r\n							<option value=\"1024x768\">1024 x 768</option>\r\n							<option value=\"1280x800\">1280 x 800</option>\r\n							<option value=\"1400x900\">1400 x 900</option>\r\n							<option value=\"1680x1050\">1680 x 1050</option>\r\n							<option value=\"full\">全屏</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td>光标</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"cursor-option\" type=\"checkbox\" />\r\n							Show official cursor\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td>帧率上限</td>\r\n					<td>\r\n						<select class=\"fpslimit\">\r\n							<option value=\"-1\">无限制</option>\r\n							<option value=\"30\">30</option>\r\n							<option value=\"60\">60</option>\r\n							<option value=\"90\">90</option>\r\n							<option value=\"120\">120</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td>显示帧率</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"fps\" type=\"checkbox\" />\r\n						</label>\r\n					</td>\r\n				</tr>\r\n			</table>\r\n		</div>\r\n\r\n		<div class=\"tab-content\" id=\"advanced\">\r\n			<table>\r\n				<tr>\r\n					<td title=\"强制使用最近邻过滤以实现像素完美的精灵渲染\">\r\n						像素完美精灵\r\n					</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"pixel-perfect\" type=\"checkbox\" />\r\n							强制使用最近邻过滤\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"为明亮区域添加发光效果\">泛光</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"bloom\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							强度：\r\n							<input\r\n								class=\"bloom-intensity\"\r\n								type=\"range\"\r\n								value=\"0.5\"\r\n								min=\"0.1\"\r\n								max=\"3.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"对屏幕应用模糊效果\">模糊</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"blur\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							强度：\r\n							<input\r\n								class=\"blur-intensity\"\r\n								type=\"range\"\r\n								value=\"3.0\"\r\n								min=\"2.0\"\r\n								max=\"10.0\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							区域：\r\n							<input\r\n								class=\"blur-area\"\r\n								type=\"range\"\r\n								value=\"14.0\"\r\n								min=\"3.0\"\r\n								max=\"20.0\"\r\n								step=\"1.0\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"通过对比度自适应锐化增强细节\">对比度自适应锐化（CAS）</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"casEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							对比度：\r\n							<input\r\n								class=\"casContrast\"\r\n								type=\"range\"\r\n								value=\"0.0\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							锐化：\r\n							<input\r\n								class=\"casSharpening\"\r\n								type=\"range\"\r\n								value=\"1.0\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"快速近似抗锯齿，使边缘更平滑\">FXAA</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"fxaaEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							子像素：\r\n							<input\r\n								class=\"fxaaSubpix\"\r\n								type=\"range\"\r\n								value=\"0.25\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							边缘阈值：\r\n							<input\r\n								class=\"fxaaEdgeThreshold\"\r\n								type=\"range\"\r\n								value=\"0.125\"\r\n								min=\"0.063\"\r\n								max=\"0.333\"\r\n								step=\"0.03\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"用于风格化画面的卡通渲染效果\">卡通</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"cartoonEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							强度：\r\n							<input\r\n								class=\"cartoonPower\"\r\n								type=\"range\"\r\n								value=\"1.5\"\r\n								min=\"0.1\"\r\n								max=\"9.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							边缘斜率：\r\n							<input\r\n								class=\"cartoonEdgeSlope\"\r\n								type=\"range\"\r\n								value=\"1.5\"\r\n								min=\"1.5\"\r\n								max=\"5.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"提高色彩强度和饱和度\">鲜艳度</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"vibranceEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							强度：\r\n							<input\r\n								class=\"vibrance\"\r\n								type=\"range\"\r\n								value=\"0.15\"\r\n								min=\"-0.9\"\r\n								max=\"0.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td\r\n						title=\"隐藏视野外对象、启用降采样渲染等功能以提升性能\"\r\n					>\r\n						性能模式\r\n					</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"performanceMode\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							剔除区域：\r\n							<input\r\n								class=\"view-area\"\r\n								type=\"range\"\r\n								value=\"14.0\"\r\n								min=\"4.0\"\r\n								max=\"20.0\"\r\n								step=\"1.0\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n			</table>\r\n\r\n			<div class=\"reset-section\">\r\n				<button class=\"reset-button\">重置为默认值</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/GraphicsOption/GraphicsOption.css?raw
-var GraphicsOption_default$1;
-var init_GraphicsOption$1 = __esmMin((() => {
-	GraphicsOption_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: auto;\r\n	height: auto;\r\n}\r\n\r\n#GraphicsOption {\r\n	width: auto;\r\n	height: auto;\r\n	background: white;\r\n	border-radius: 2px;\r\n}\r\n\r\n#GraphicsOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#GraphicsOption .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#GraphicsOption .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	white-space: nowrap;\r\n	height: 13px;\r\n}\r\n\r\n#GraphicsOption .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#GraphicsOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#GraphicsOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#GraphicsOption .panel {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n}\r\n\r\n#GraphicsOption .tab-button {\r\n	width: 80px;\r\n	height: 100%;\r\n	color: #42454a;\r\n	border: 1px solid #c9c3ba;\r\n	border-bottom: none;\r\n	text-decoration: none;\r\n	display: inline-block;\r\n	vertical-align: bottom;\r\n	border-radius: 3px 3px 0 0;\r\n	text-align: center;\r\n	background: #f0f0f0;\r\n	cursor: pointer;\r\n}\r\n\r\n#GraphicsOption .tab-button.selected {\r\n	color: #000;\r\n	font-weight: bold;\r\n	border-bottom: 1px solid white;\r\n	position: relative;\r\n	z-index: 100;\r\n	background-color: white;\r\n}\r\n\r\n#GraphicsOption .tab-content {\r\n	display: none;\r\n}\r\n\r\n#GraphicsOption .tab-content.selected {\r\n	display: block;\r\n}\r\n\r\n#GraphicsOption .content {\r\n	display: none;\r\n}\r\n\r\n#GraphicsOption .content.selected {\r\n	display: block;\r\n}\r\n\r\n#GraphicsOption .reset-button {\r\n	background: #8b0000;\r\n	border: 1px solid #a52a2a;\r\n	color: white;\r\n	padding: 4px 8px;\r\n	cursor: pointer;\r\n	margin: 10px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/GraphicsOption/GraphicsOption.js
-/**
-* Modify game details to perform faster
-*/
-function onUpdateQualityDetails() {
-	GraphicsSettings.quality = parseInt(this.value, 10);
-	GraphicsSettings.save();
-	Configs.set("quality", GraphicsSettings.quality);
-	Renderer.resize();
-}
-/**
-* Toggle game cursor
-*/
-function onToggleGameCursor() {
-	GraphicsSettings.cursor = !!this.checked;
-	GraphicsSettings.save();
-	if (!GraphicsSettings.cursor) document.body.classList.remove("custom-cursor");
-	else document.body.classList.add("custom-cursor");
-}
-/**
-* Update the fps limit
-*/
-function onUpdateFPSLimit() {
-	GraphicsSettings.fpslimit = parseInt(this.value, 10);
-	GraphicsSettings.save();
-	if (Renderer.frameLimit > 0) clearInterval(Renderer.updateId);
-	Renderer.frameLimit = GraphicsSettings.fpslimit;
-	Renderer.rendering = false;
-	Renderer.render(null);
-}
-/**
-* Toggle the fps display
-*/
-function onToggleFPSDisplay() {
-	FPS_default.toggle(!!this.checked);
-}
-function onTogglePixelPerfect() {
-	GraphicsSettings.pixelPerfectSprites = !!this.checked;
-	GraphicsSettings.save();
-	if (GraphicsSettings.pixelPerfectSprites) {
-		function reloadSprites() {
-			const gl = Renderer.getContext();
-			const sprFiles = MemoryManager.search(/\.spr$/i);
-			for (let i = 0; i < sprFiles.length; i++) MemoryManager.remove(gl, sprFiles[i]);
-		}
-		reloadSprites();
-	} else ChatBox_default.addText("[系统] 像素完美已禁用。请重新加载页面（F5）以应用更改。", ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
-}
-/**
-* Post-Processing
-*/
-function onToggleBloom() {
-	GraphicsSettings.bloom = !!this.checked;
-	GraphicsSettings.save();
-}
-function onUpdateBloomIntensity() {
-	GraphicsSettings.bloomIntensity = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-function onToggleBlur() {
-	GraphicsSettings.blur = !!this.checked;
-	GraphicsSettings.save();
-}
-function onUpdateBlurIntensity() {
-	GraphicsSettings.blurIntensity = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-function onUpdateBlurArea() {
-	GraphicsSettings.blurArea = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-function oncasEnabled() {
-	GraphicsSettings.casEnabled = !!this.checked;
-	GraphicsSettings.save();
-}
-function oncasContrast() {
-	GraphicsSettings.casContrast = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-function oncasSharpening() {
-	GraphicsSettings.casSharpening = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-function onvibranceEnabled() {
-	GraphicsSettings.vibranceEnabled = !!this.checked;
-	GraphicsSettings.save();
-}
-function onvibrance() {
-	GraphicsSettings.vibrance = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-function onfxaaEnabled() {
-	GraphicsSettings.fxaaEnabled = !!this.checked;
-	GraphicsSettings.save();
-}
-function onfxaaSubpix() {
-	GraphicsSettings.fxaaSubpix = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-function onfxaaEdgeThreshold() {
-	GraphicsSettings.fxaaEdgeThreshold = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-function oncartoonEnabled() {
-	GraphicsSettings.cartoonEnabled = !!this.checked;
-	GraphicsSettings.save();
-}
-function oncartoonPower() {
-	GraphicsSettings.cartoonPower = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-function oncartoonEdgeSlope() {
-	GraphicsSettings.cartoonEdgeSlope = parseFloat(this.value);
-	GraphicsSettings.save();
-}
-/**
-* Performance Mode
-*/
-function onTogglePerformanceMode() {
-	GraphicsSettings.performanceMode = !!this.checked;
-	GraphicsSettings.save();
-}
-function onUpdateAreaView() {
-	GraphicsSettings.viewArea = parseInt(this.value);
-	GraphicsSettings.save();
-}
-/**
-* Resizing window size
-*/
-function onUpdateScreenSize() {
-	const isFullScreen = Context.isFullScreen();
-	GraphicsSettings.screensize = this.value;
-	GraphicsSettings.save();
-	if (GraphicsSettings.screensize === "full") {
-		if (!isFullScreen) Context.requestFullScreen();
-		return;
-	}
-	if (isFullScreen) Context.cancelFullScreen();
-	if (Context.Is.POPUP) {
-		const size = GraphicsSettings.screensize.split("x");
-		if (size[0] != window.innerWidth && size[1] != window.innerHeight) {
-			window.resizeTo(size[0], size[1]);
-			window.moveTo((screen.availWidth - size[0]) / 2, (screen.availHeight - size[1]) / 2);
-		}
-	}
-}
-function onTabSwitch(event) {
-	const btn = event.currentTarget;
-	const tabName = btn.dataset.tab;
-	const root = GraphicsOption.getRoot();
-	root.querySelectorAll(".tab-button").forEach((b) => {
-		b.classList.remove("selected");
-	});
-	btn.classList.add("selected");
-	root.querySelectorAll(".tab-content").forEach((tc) => {
-		tc.classList.remove("selected");
-	});
-	const targetTab = root.querySelector("#" + tabName);
-	if (targetTab) targetTab.classList.add("selected");
-}
-function onResetToDefaults() {
-	const defaultSettings = GraphicsSettings.defaults;
-	Object.keys(defaultSettings).forEach((key) => {
-		if (defaultSettings.hasOwnProperty(key)) GraphicsSettings[key] = defaultSettings[key];
-	});
-	GraphicsSettings.save();
-	GraphicsOption.onAppend();
-}
-var GraphicsOption, _preferences$31, GraphicsOption_default;
-var init_GraphicsOption = __esmMin((() => {
-	init_FPS();
-	init_Configs();
-	init_Context();
-	init_Preferences$1();
-	init_Graphics();
-	init_Renderer();
-	init_UIManager();
-	init_GUIComponent();
-	init_GraphicsOption$2();
-	init_GraphicsOption$1();
-	init_MemoryManager();
-	init_ChatBox();
-	GraphicsOption = new GUIComponent("GraphicsOption", GraphicsOption_default$1);
-	_preferences$31 = Preferences.get("GraphicsOption", {
-		x: 300,
-		y: 300
-	}, 1.1);
-	/**
-	* Render HTML
-	*/
-	GraphicsOption.render = () => GraphicsOption_default$2;
-	/**
-	* Initialize UI
-	*/
-	GraphicsOption.init = function init() {
-		const root = this.getRoot();
-		const baseBtn = root.querySelector(".base");
-		if (baseBtn) baseBtn.addEventListener("mousedown", (event) => {
-			event.stopImmediatePropagation();
-			event.preventDefault();
-		});
-		const closeBtn = root.querySelector(".close");
-		if (closeBtn) {
-			closeBtn.addEventListener("mousedown", (e) => {
-				e.stopImmediatePropagation();
-			});
-			closeBtn.addEventListener("click", () => {
-				GraphicsOption.remove();
-			});
-		}
-		root.querySelectorAll(".tab-button").forEach((btn) => {
-			btn.addEventListener("click", onTabSwitch);
-		});
-		const resetBtn = root.querySelector(".reset-button");
-		if (resetBtn) resetBtn.addEventListener("click", onResetToDefaults.bind(this));
-		const bindChange = (selector, handler) => {
-			const el = root.querySelector(selector);
-			if (el) el.addEventListener("change", handler);
-		};
-		bindChange(".details", onUpdateQualityDetails);
-		bindChange(".cursor-option", onToggleGameCursor);
-		bindChange(".screensize", onUpdateScreenSize);
-		bindChange(".fpslimit", onUpdateFPSLimit);
-		bindChange(".fps", onToggleFPSDisplay);
-		bindChange(".pixel-perfect", onTogglePixelPerfect);
-		bindChange(".bloom", onToggleBloom);
-		bindChange(".bloom-intensity", onUpdateBloomIntensity);
-		bindChange(".blur", onToggleBlur);
-		bindChange(".blur-intensity", onUpdateBlurIntensity);
-		bindChange(".blur-area", onUpdateBlurArea);
-		bindChange(".casEnabled", oncasEnabled);
-		bindChange(".casContrast", oncasContrast);
-		bindChange(".casSharpening", oncasSharpening);
-		bindChange(".fxaaEnabled", onfxaaEnabled);
-		bindChange(".fxaaSubpix", onfxaaSubpix);
-		bindChange(".fxaaEdgeThreshold", onfxaaEdgeThreshold);
-		bindChange(".vibranceEnabled", onvibranceEnabled);
-		bindChange(".vibrance", onvibrance);
-		bindChange(".cartoonEnabled", oncartoonEnabled);
-		bindChange(".cartoonPower", oncartoonPower);
-		bindChange(".cartoonEdgeSlope", oncartoonEdgeSlope);
-		bindChange(".performanceMode", onTogglePerformanceMode);
-		bindChange(".view-area", onUpdateAreaView);
-		this.draggable(".titlebar");
-	};
-	/**
-	* When append the element to html
-	*/
-	GraphicsOption.onAppend = function onAppend() {
-		this._host.style.top = `${_preferences$31.y}px`;
-		this._host.style.left = `${_preferences$31.x}px`;
-		const root = this.getRoot();
-		root.querySelector(".details").value = GraphicsSettings.quality;
-		root.querySelector(".screensize").value = GraphicsSettings.screensize;
-		root.querySelector(".cursor-option").checked = GraphicsSettings.cursor;
-		root.querySelector(".fpslimit").value = GraphicsSettings.fpslimit;
-		root.querySelector(".fps").checked = FPS_default._host ? FPS_default._host.style.display !== "none" : false;
-		root.querySelector(".pixel-perfect").checked = GraphicsSettings.pixelPerfectSprites;
-		root.querySelector(".bloom").checked = GraphicsSettings.bloom;
-		root.querySelector(".bloom-intensity").value = GraphicsSettings.bloomIntensity;
-		root.querySelector(".blur").checked = GraphicsSettings.blur;
-		root.querySelector(".blur-area").value = GraphicsSettings.blurArea;
-		root.querySelector(".blur-intensity").value = GraphicsSettings.blurIntensity;
-		root.querySelector(".fxaaEnabled").checked = GraphicsSettings.fxaaEnabled;
-		root.querySelector(".fxaaSubpix").value = GraphicsSettings.fxaaSubpix;
-		root.querySelector(".fxaaEdgeThreshold").value = GraphicsSettings.fxaaEdgeThreshold;
-		root.querySelector(".vibranceEnabled").checked = GraphicsSettings.vibranceEnabled;
-		root.querySelector(".vibrance").value = GraphicsSettings.vibrance;
-		root.querySelector(".casEnabled").checked = GraphicsSettings.casEnabled;
-		root.querySelector(".casContrast").value = GraphicsSettings.casContrast;
-		root.querySelector(".casSharpening").value = GraphicsSettings.casSharpening;
-		root.querySelector(".cartoonEnabled").checked = GraphicsSettings.cartoonEnabled;
-		root.querySelector(".cartoonEdgeSlope").value = GraphicsSettings.cartoonEdgeSlope;
-		root.querySelector(".cartoonPower").value = GraphicsSettings.cartoonPower;
-		root.querySelector(".performanceMode").checked = GraphicsSettings.performanceMode;
-		root.querySelector(".view-area").value = GraphicsSettings.viewArea;
-	};
-	/**
-	* Once remove, save preferences
-	*/
-	GraphicsOption.onRemove = function onRemove() {
-		_preferences$31.x = parseInt(this._host.style.left, 10);
-		_preferences$31.y = parseInt(this._host.style.top, 10);
-		_preferences$31.save();
-	};
-	GraphicsOption.needFocus = true;
-	GraphicsOption.mouseMode = GUIComponent.MouseMode.STOP;
-	GraphicsOption_default = UIManager.addComponent(GraphicsOption);
-}));
-//#endregion
-//#region src/UI/Components/ShortCutOption/ShortCutOption.html?raw
-var ShortCutOption_default$2;
-var init_ShortCutOption$2 = __esmMin((() => {
-	ShortCutOption_default$2 = "<div id=\"ShortCutOption\" class=\"pt-page-fadeIn1\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\"><span class=\"text\">快捷键设置窗口</span></div>\r\n\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"tabs\">\r\n			<button class=\"t_skillbar selectedtab\" data-index=\"t_skillbar\">技能栏</button\r\n			><button class=\"t_ui\" data-index=\"t_ui\">界面</button\r\n			><button class=\"t_macro\" data-index=\"t_macro\">宏</button\r\n			><button class=\"t_gamepad\" data-index=\"t_gamepad\">手柄</button>\r\n		</div>\r\n		<div class=\"panel\">\r\n			<div class=\"content t_skillbar selectedtab\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>技能栏 1-1</td>\r\n							<td data-button=\"F1_1\" class=\"customize\"></td>\r\n							<td>技能栏 2-1</td>\r\n							<td data-button=\"F2_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-2</td>\r\n							<td data-button=\"F1_2\" class=\"customize\"></td>\r\n							<td>技能栏 2-2</td>\r\n							<td data-button=\"F2_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-3</td>\r\n							<td data-button=\"F1_3\" class=\"customize\"></td>\r\n							<td>技能栏 2-3</td>\r\n							<td data-button=\"F2_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-4</td>\r\n							<td data-button=\"F1_4\" class=\"customize\"></td>\r\n							<td>技能栏 2-4</td>\r\n							<td data-button=\"F2_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-5</td>\r\n							<td data-button=\"F1_5\" class=\"customize\"></td>\r\n							<td>技能栏 2-5</td>\r\n							<td data-button=\"F2_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-6</td>\r\n							<td data-button=\"F1_6\" class=\"customize\"></td>\r\n							<td>技能栏 2-6</td>\r\n							<td data-button=\"F2_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-7</td>\r\n							<td data-button=\"F1_7\" class=\"customize\"></td>\r\n							<td>技能栏 2-7</td>\r\n							<td data-button=\"F2_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-8</td>\r\n							<td data-button=\"F1_8\" class=\"customize\"></td>\r\n							<td>技能栏 2-8</td>\r\n							<td data-button=\"F2_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-9</td>\r\n							<td data-button=\"F1_9\" class=\"customize\"></td>\r\n							<td>技能栏 2-9</td>\r\n							<td data-button=\"F2_9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-1</td>\r\n							<td data-button=\"F3_1\" class=\"customize\"></td>\r\n							<td>技能栏 4-1</td>\r\n							<td data-button=\"F4_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-2</td>\r\n							<td data-button=\"F3_2\" class=\"customize\"></td>\r\n							<td>技能栏 4-2</td>\r\n							<td data-button=\"F4_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-3</td>\r\n							<td data-button=\"F3_3\" class=\"customize\"></td>\r\n							<td>技能栏 4-3</td>\r\n							<td data-button=\"F4_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-4</td>\r\n							<td data-button=\"F3_4\" class=\"customize\"></td>\r\n							<td>技能栏 4-4</td>\r\n							<td data-button=\"F4_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-5</td>\r\n							<td data-button=\"F3_5\" class=\"customize\"></td>\r\n							<td>技能栏 4-5</td>\r\n							<td data-button=\"F4_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-6</td>\r\n							<td data-button=\"F3_6\" class=\"customize\"></td>\r\n							<td>技能栏 4-6</td>\r\n							<td data-button=\"F4_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-7</td>\r\n							<td data-button=\"F3_7\" class=\"customize\"></td>\r\n							<td>技能栏 4-7</td>\r\n							<td data-button=\"F4_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-8</td>\r\n							<td data-button=\"F3_8\" class=\"customize\"></td>\r\n							<td>技能栏 4-8</td>\r\n							<td data-button=\"F4_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-9</td>\r\n							<td data-button=\"F3_9\" class=\"customize\"></td>\r\n							<td>技能栏 4-9</td>\r\n							<td data-button=\"F4_9\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_ui\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>基本信息</td>\r\n							<td data-button=\"BasicInfo\" class=\"customize\"></td>\r\n							<td>角色信息</td>\r\n							<td data-button=\"Equipment\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能列表</td>\r\n							<td data-button=\"SkillList\" class=\"customize\"></td>\r\n							<td>表情列表</td>\r\n							<td data-button=\"Emotions\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>好友列表</td>\r\n							<td data-button=\"Friends\" class=\"customize\"></td>\r\n							<td>队伍窗口</td>\r\n							<td data-button=\"Party\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宠物信息</td>\r\n							<td data-button=\"PetInfo\" class=\"customize\"></td>\r\n							<td>聊天室</td>\r\n							<td data-button=\"ChatRoom\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>手推车窗口</td>\r\n							<td data-button=\"PushCart\" class=\"customize\"></td>\r\n							<td>物品窗口</td>\r\n							<td data-button=\"Inventory\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>世界地图</td>\r\n							<td data-button=\"WorldMap\" class=\"customize\"></td>\r\n							<td>公会信息</td>\r\n							<td data-button=\"Guild\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>傀儡信息</td>\r\n							<td data-button=\"HomunInfo\" class=\"customize\"></td>\r\n							<td>佣兵信息</td>\r\n							<td data-button=\"MercInfo\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>傀儡状态</td>\r\n							<td data-button=\"HomunState\" class=\"customize\"></td>\r\n							<td>佣兵状态</td>\r\n							<td data-button=\"MercState\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>坐下/站立</td>\r\n							<td data-button=\"Sit\" class=\"customize\"></td>\r\n							<td>快捷键</td>\r\n							<td data-button=\"ShortCuts\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>聊天栏大小</td>\r\n							<td data-button=\"ChatSize\" class=\"customize\"></td>\r\n							<td>技能栏大小</td>\r\n							<td data-button=\"SkillBarSize\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>任务</td>\r\n							<td data-button=\"Quest\" class=\"customize\"></td>\r\n							<td>银行</td>\r\n							<td data-button=\"Bank\" class=\"customize\"></td>\r\n						</tr>\r\n						<!--<tr>\r\n                     <td>MobileUI</td>\r\n                     <td data-button=\"M_UI\" class=\"customize\"></td>\r\n                     <td>MUi-Toggle</td>\r\n                     <td data-button=\"M_Toggle\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-TG</td>\r\n                     <td data-button=\"M_Targeting\" class=\"customize\"></td>\r\n                     <td>MUi-AT</td>\r\n                     <td data-button=\"M_AutoTarget\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-ATK</td>\r\n                     <td data-button=\"M_Attack\" class=\"customize\"></td>\r\n                  </tr>-->\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_macro\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>宏 1</td>\r\n							<td data-button=\"Macro1\" class=\"customize\"></td>\r\n							<td>标记 1</td>\r\n							<td data-button=\"Flag1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 2</td>\r\n							<td data-button=\"Macro2\" class=\"customize\"></td>\r\n							<td>标记 2</td>\r\n							<td data-button=\"Flag2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 3</td>\r\n							<td data-button=\"Macro3\" class=\"customize\"></td>\r\n							<td>标记 3</td>\r\n							<td data-button=\"Flag3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 4</td>\r\n							<td data-button=\"Macro4\" class=\"customize\"></td>\r\n							<td>标记 4</td>\r\n							<td data-button=\"Flag4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 5</td>\r\n							<td data-button=\"Macro5\" class=\"customize\"></td>\r\n							<td>标记 5</td>\r\n							<td data-button=\"Flag5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 6</td>\r\n							<td data-button=\"Macro6\" class=\"customize\"></td>\r\n							<td>标记 6</td>\r\n							<td data-button=\"Flag6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 7</td>\r\n							<td data-button=\"Macro7\" class=\"customize\"></td>\r\n							<td>标记 7</td>\r\n							<td data-button=\"Flag7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 8</td>\r\n							<td data-button=\"Macro8\" class=\"customize\"></td>\r\n							<td>标记 8</td>\r\n							<td data-button=\"Flag8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 9</td>\r\n							<td data-button=\"Macro9\" class=\"customize\"></td>\r\n							<td>标记 9</td>\r\n							<td data-button=\"Flag9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 10</td>\r\n							<td data-button=\"Macro10\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_gamepad\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr title=\"定义战斗中的目标选择方式\">\r\n							<td>攻击目标模式</td>\r\n							<td>\r\n								<select class=\"attackTargetMode\">\r\n									<option value=\"0\">关闭</option>\r\n									<option value=\"1\">最低 HP</option>\r\n									<option value=\"2\">最近</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"选择手柄施放技能的方式\">\r\n							<td>快速施法模式</td>\r\n							<td>\r\n								<select class=\"joyQuick\">\r\n									<option value=\"0\">关闭</option>\r\n									<option value=\"1\">释放模式</option>\r\n									<option value=\"2\">即时模式</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"调整 R3 摇杆的鼠标移动灵敏度\">\r\n							<td>鼠标移动</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									灵敏度：\r\n									<input\r\n										class=\"joySense\"\r\n										type=\"range\"\r\n										value=\"25.0\"\r\n										min=\"1.0\"\r\n										max=\"100.0\"\r\n										step=\"1.0\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"禁用手柄鼠标输入以操作界面\">\r\n							<td>禁用虚拟鼠标</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyDisableVirtualMouse\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"交换 L3 和 R3 摇杆功能\">\r\n							<td>交换 L3-R3 摇杆</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyReverseStick\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"游戏中移动鼠标时自动隐藏界面\">\r\n							<td>自动隐藏界面</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyAutoHide\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"设置摇杆死区阈值\">\r\n							<td>轴阈值</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									死区：\r\n									<input\r\n										class=\"joyDeadline\"\r\n										type=\"range\"\r\n										value=\"0.10\"\r\n										min=\"0.0\"\r\n										max=\"1.0\"\r\n										step=\"0.1\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<button\r\n				class=\"button reset left\"\r\n				data-background=\"btn_reset.bmp\"\r\n				data-hover=\"btn_reset_a.bmp\"\r\n				data-down=\"btn_reset_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button ok right\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button cancel right\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button close right\"\r\n				data-background=\"btn_close.bmp\"\r\n				data-hover=\"btn_close_a.bmp\"\r\n				data-down=\"btn_close_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/ShortCutOption/ShortCutOption.css?raw
-var ShortCutOption_default$1;
-var init_ShortCutOption$1 = __esmMin((() => {
-	ShortCutOption_default$1 = ":host {\r\n	width: 430px;\r\n	height: 465px;\r\n	top: 300px;\r\n	left: 300px;\r\n}\r\n\r\n#ShortCutOption {\r\n	position: absolute;\r\n	width: 430px;\r\n	height: 465px;\r\n	background: white;\r\n	border-radius: 3px;\r\n	border: solid 1px #aaa;\r\n	border-top: none;\r\n}\r\n#ShortCutOption .border {\r\n}\r\n#ShortCutOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	border-bottom: solid 1px #eee;\r\n}\r\n#ShortCutOption .titlebar .base {\r\n	width: 20px;\r\n	height: 100%;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n	background-position: 8px 2px;\r\n}\r\n#ShortCutOption .titlebar .base.close {\r\n	color: #ccc;\r\n}\r\n#ShortCutOption .titlebar .text {\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	line-height: 17px;\r\n	margin-left: 5px;\r\n}\r\n#ShortCutOption .titlebar .left {\r\n	float: left;\r\n}\r\n#ShortCutOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n	height: 100%;\r\n}\r\n#ShortCutOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n#ShortCutOption .tabs {\r\n	position: relative;\r\n	top: 1px;\r\n	border-right: solid 1px #ccc;\r\n}\r\n#ShortCutOption .tabs button.selectedtab {\r\n	border-bottom: solid 1px transparent;\r\n}\r\n#ShortCutOption .tabs button {\r\n	width: 57px;\r\n	height: 18px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #fff;\r\n	border: solid 1px #bbb;\r\n	border-top-right-radius: 3px;\r\n	border-top-left-radius: 3px;\r\n}\r\n#ShortCutOption .tabs button:nth-child(1) {\r\n	border-right: none;\r\n}\r\n#ShortCutOption .panel {\r\n	padding: 5px;\r\n	border-top: solid 1px #ccc;\r\n}\r\n#ShortCutOption .panel .content {\r\n	display: none;\r\n}\r\n#ShortCutOption .content.selectedtab {\r\n	display: block;\r\n}\r\n#ShortCutOption .content table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n	color: #222;\r\n}\r\n#ShortCutOption .content table tr {\r\n	height: 22px;\r\n}\r\n#ShortCutOption .content table td {\r\n	text-align: center;\r\n}\r\n#ShortCutOption .content table td:nth-child(1),\r\n#ShortCutOption .content table td:nth-child(3) {\r\n	width: 30%;\r\n}\r\n#ShortCutOption .content table td:nth-child(2),\r\n#ShortCutOption .content table td:nth-child(4) {\r\n	width: 20%;\r\n	background-color: #eee;\r\n}\r\n#ShortCutOption .content table td.customize {\r\n	background-color: #ffffe0;\r\n}\r\n#ShortCutOption .content table td.changed {\r\n	background-color: #ffe4e1;\r\n}\r\n#ShortCutOption .content table td.selected {\r\n	background-color: #ffb6c1;\r\n}\r\n#ShortCutOption .resolution {\r\n	display: none;\r\n}\r\n#ShortCutOption .panel .button {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCutOption .panel .button.reset {\r\n	left: 3px;\r\n}\r\n#ShortCutOption .panel .button.ok {\r\n	right: 93px;\r\n}\r\n#ShortCutOption .panel .button.cancel {\r\n	right: 48px;\r\n}\r\n#ShortCutOption .panel .button.close {\r\n	right: 3px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/ShortCutOption/ShortCutOption.js
-/**
-* Checks if there is a match in the temporary settings
-* Returns the name of the conflicting shortcut, or false if no conflict
-*/
-function tempMatch(key) {
-	const TempState = {};
-	let matchSC = false;
-	Object.keys(ShortCuts$1).forEach(function(SC) {
-		if (ShortCuts$1[SC].cust) {
-			TempState[SC] = {};
-			TempState[SC].key = ShortCuts$1[SC].cust.key;
-			TempState[SC].alt = ShortCuts$1[SC].cust.alt;
-			TempState[SC].ctrl = ShortCuts$1[SC].cust.ctrl;
-			TempState[SC].shift = ShortCuts$1[SC].cust.shift;
-		} else {
-			TempState[SC] = {};
-			TempState[SC].key = ShortCuts$1[SC].init.key;
-			TempState[SC].alt = ShortCuts$1[SC].init.alt;
-			TempState[SC].ctrl = ShortCuts$1[SC].init.ctrl;
-			TempState[SC].shift = ShortCuts$1[SC].init.shift;
-		}
-	});
-	Object.keys(ShortCutsTemp).forEach(function(SC) {
-		if (ShortCutsTemp[SC].cust) {
-			TempState[SC] = {};
-			TempState[SC].key = ShortCutsTemp[SC].cust.key;
-			TempState[SC].alt = ShortCutsTemp[SC].cust.alt;
-			TempState[SC].ctrl = ShortCutsTemp[SC].cust.ctrl;
-			TempState[SC].shift = ShortCutsTemp[SC].cust.shift;
-		} else {
-			TempState[SC] = {};
-			TempState[SC].key = ShortCuts$1[SC].init.key;
-			TempState[SC].alt = ShortCuts$1[SC].init.alt;
-			TempState[SC].ctrl = ShortCuts$1[SC].init.ctrl;
-			TempState[SC].shift = ShortCuts$1[SC].init.shift;
-		}
-	});
-	Object.keys(TempState).every(function(SC) {
-		if (TempState[SC]) {
-			if (TempState[SC].key == key && TempState[SC].alt == KEYS.ALT && TempState[SC].ctrl == KEYS.CTRL && TempState[SC].shift == KEYS.SHIFT) {
-				matchSC = SC;
-				return false;
-			} else return true;
-		}
-	});
-	return matchSC;
-}
-/**
-* Updates the key list on the UI
-*/
-function updateKeyList() {
-	const cells = ShortCutOption.getRoot().querySelectorAll("td[data-button]");
-	for (let i = 0; i < cells.length; i++) {
-		const btnName = cells[i].dataset.button;
-		if (getKey(btnName)) cells[i].textContent = (getAlt(btnName) ? "ALT + " : "") + (getCtrl(btnName) ? "CTRL + " : "") + (getShift(btnName) ? "SHIFT + " : "") + KEYS.toReadableKey(parseInt(getKey(btnName), 10));
-		else cells[i].textContent = "N/A";
-	}
-}
-/**
-* Resets key bindings to initial
-*/
-function resetKeysToDefault() {
-	const root = ShortCutOption.getRoot();
-	Object.keys(ShortCuts$1).forEach(function(SC) {
-		ShortCutsTemp[SC] = {};
-		ShortCutsTemp[SC].cust = false;
-		const cell = root.querySelector("td[data-button='" + SC + "']");
-		if (cell) {
-			if (ShortCuts$1[SC].cust != ShortCutsTemp[SC].cust) cell.classList.add("changed");
-			else cell.classList.remove("changed");
-		}
-	});
-	updateKeyList();
-}
-/**
-* Applies the key bindings
-*/
-function applySettings() {
-	Object.keys(ShortCutsTemp).forEach(function(SC) {
-		if (ShortCutsTemp[SC].cust) {
-			ShortCuts$1[SC].cust = {};
-			ShortCuts$1[SC].cust.key = ShortCutsTemp[SC].cust.key;
-			ShortCuts$1[SC].cust.alt = ShortCutsTemp[SC].cust.alt;
-			ShortCuts$1[SC].cust.ctrl = ShortCutsTemp[SC].cust.ctrl;
-			ShortCuts$1[SC].cust.shift = ShortCutsTemp[SC].cust.shift;
-		} else ShortCuts$1[SC].cust = false;
-	});
-	preferences$1.save();
-	BattleMode.reload();
-	ShortCutsTemp = {};
-	updateKeyList();
-	ShortCutOption.getRoot().querySelectorAll("td.changed").forEach(function(el) {
-		el.classList.remove("changed");
-	});
-	const ShortCut = UIManager.getComponent("ShortCut");
-	if (ShortCut && ShortCut.updateAllTooltips) ShortCut.updateAllTooltips();
-}
-/**
-* Cancels the key bindings
-*/
-function cancelSettings() {
-	ShortCutsTemp = {};
-	updateKeyList();
-	ShortCutOption.getRoot().querySelectorAll("td.changed").forEach(function(el) {
-		el.classList.remove("changed");
-	});
-}
-/**
-* Get shortcut key setting
-*/
-function getKey(sc) {
-	if (ShortCutsTemp[sc]) return ShortCutsTemp[sc].cust ? ShortCutsTemp[sc].cust.key : ShortCuts$1[sc].init.key;
-	else if (ShortCuts$1[sc]) return ShortCuts$1[sc].cust ? ShortCuts$1[sc].cust.key : ShortCuts$1[sc].init.key;
-	else return false;
-}
-/**
-* Get shortcut alt setting
-*/
-function getAlt(sc) {
-	if (ShortCutsTemp[sc]) return ShortCutsTemp[sc].cust ? ShortCutsTemp[sc].cust.alt : ShortCuts$1[sc].init.alt;
-	else if (ShortCuts$1[sc]) return ShortCuts$1[sc].cust ? ShortCuts$1[sc].cust.alt : ShortCuts$1[sc].init.alt;
-	else return false;
-}
-/**
-* Get shortcut ctrl setting
-*/
-function getCtrl(sc) {
-	if (ShortCutsTemp[sc]) return ShortCutsTemp[sc].cust ? ShortCutsTemp[sc].cust.ctrl : ShortCuts$1[sc].init.ctrl;
-	else if (ShortCuts$1[sc]) return ShortCuts$1[sc].cust ? ShortCuts$1[sc].cust.ctrl : ShortCuts$1[sc].init.ctrl;
-	else return false;
-}
-/**
-* Get shortcut shift setting
-*/
-function getShift(sc) {
-	if (ShortCutsTemp[sc]) return ShortCutsTemp[sc].cust ? ShortCutsTemp[sc].cust.shift : ShortCuts$1[sc].init.shift;
-	else if (ShortCuts$1[sc]) return ShortCuts$1[sc].cust ? ShortCuts$1[sc].cust.shift : ShortCuts$1[sc].init.shift;
-	else return false;
-}
-function onUpdateTargetOption() {
-	Controls_default.attackTargetMode = parseInt(this.value, 10);
-	Controls_default.save();
-}
-function onUpdateSense() {
-	Controls_default.joySense = parseFloat(this.value, 10);
-	Controls_default.save();
-}
-function onUpdateJoyQuick() {
-	Controls_default.joyQuick = parseInt(this.value, 10);
-	Controls_default.save();
-}
-function onUpdateJoyDeadline() {
-	Controls_default.joyDeadline = parseInt(this.value, 10);
-	Controls_default.save();
-}
-function onUpdateAutoHide() {
-	Controls_default.joyAutoHide = !!this.checked;
-	Controls_default.save();
-}
-function onUpdateReverseStick() {
-	Controls_default.joyReverseStick = !!this.checked;
-	Controls_default.save();
-}
-function onUpdateDisableVirtualMouse() {
-	Controls_default.joyDisableVirtualMouse = !!this.checked;
-	Controls_default.save();
-}
-var ShortCutOption, ShortCuts$1, ShortCutsTemp, _preferences$30, ShortCutOption_default;
-var init_ShortCutOption = __esmMin((() => {
-	init_KeyEventHandler();
-	init_Preferences$1();
-	init_UIManager();
-	init_GUIComponent();
-	init_Elements();
-	init_ShortCutControls();
-	init_BattleMode();
-	init_ShortCutOption$2();
-	init_ShortCutOption$1();
-	init_Controls();
-	ShortCutOption = new GUIComponent("ShortCutOption", ShortCutOption_default$1);
-	ShortCuts$1 = preferences$1.ShortCuts;
-	ShortCutsTemp = {};
-	ShortCutOption.isCapturing = false;
-	_preferences$30 = Preferences.get("ShortCutOption", {
-		x: 300,
-		y: 300
-	}, 1);
-	/**
-	* Render HTML
-	*/
-	ShortCutOption.render = () => ShortCutOption_default$2;
-	/**
-	* Initialize UI
-	*/
-	ShortCutOption.init = function() {
-		const root = this.getRoot();
-		let close = root.querySelector(".close");
-		function closebtn(btn) {
-			if (btn) {
-				btn.addEventListener("mousedown", (e) => {
-					e.stopImmediatePropagation();
-					ShortCutOption.remove();
-				});
-				btn.addEventListener("click", (e) => {
-					e.stopImmediatePropagation();
-					ShortCutOption.remove();
-				});
-			}
-		}
-		closebtn(close);
-		close = root.querySelector(".button.close");
-		closebtn(close);
-		root.querySelectorAll(".tabs button").forEach(function(btn) {
-			btn.addEventListener("click", function() {
-				root.querySelectorAll(".selectedtab").forEach(function(el) {
-					el.classList.remove("selectedtab");
-				});
-				const tab = this.dataset.index;
-				root.querySelectorAll("." + tab).forEach(function(el) {
-					el.classList.add("selectedtab");
-				});
-			});
-		});
-		root.querySelectorAll("td").forEach(function(td) {
-			td.addEventListener("click", function() {
-				if (this.classList.contains("customize")) {
-					ShortCutOption.isCapturing = true;
-					root.querySelectorAll("td.selected").forEach(function(el) {
-						el.classList.remove("selected");
-					});
-					this.classList.add("selected");
-				} else {
-					ShortCutOption.isCapturing = false;
-					root.querySelectorAll("td.selected").forEach(function(el) {
-						el.classList.remove("selected");
-					});
-				}
-			});
-		});
-		const bindChange = function(selector, handler) {
-			const el = root.querySelector(selector);
-			if (el) el.addEventListener("change", handler);
-		};
-		bindChange(".attackTargetMode", onUpdateTargetOption);
-		bindChange(".joySense", onUpdateSense);
-		bindChange(".joyQuick", onUpdateJoyQuick);
-		bindChange(".joyDeadline", onUpdateJoyDeadline);
-		bindChange(".joyReverseStick", onUpdateReverseStick);
-		bindChange(".joyAutoHide", onUpdateAutoHide);
-		bindChange(".joyDisableVirtualMouse", onUpdateDisableVirtualMouse);
-		const resetBtn = root.querySelector(".button.reset");
-		if (resetBtn) resetBtn.addEventListener("click", function() {
-			resetKeysToDefault();
-		});
-		const okBtn = root.querySelector(".button.ok");
-		if (okBtn) okBtn.addEventListener("click", function() {
-			applySettings();
-		});
-		const cancelBtn = root.querySelector(".button.cancel");
-		if (cancelBtn) cancelBtn.addEventListener("click", function() {
-			cancelSettings();
-		});
-		updateKeyList();
-		this.draggable(".titlebar");
-	};
-	/**
-	* Apply preferences once append to body
-	*/
-	ShortCutOption.onAppend = function() {
-		this._host.style.left = _preferences$30.x + "px";
-		this._host.style.top = _preferences$30.y + "px";
-		this._host.style.zIndex = 100;
-	};
-	/**
-	* Remove from window (and so clean up)
-	*/
-	ShortCutOption.onRemove = function() {
-		_preferences$30.x = parseInt(this._host.style.left, 10);
-		_preferences$30.y = parseInt(this._host.style.top, 10);
-		_preferences$30.save();
-	};
-	/**
-	* Process key
-	*
-	* @param {object} key
-	*/
-	ShortCutOption.onKeyDown = function(event) {
-		if (ShortCutOption.isCapturing) {
-			if (16 != event.which && 17 != event.which && 18 != event.which) {
-				const root = ShortCutOption.getRoot();
-				const box = root.querySelector("td.selected");
-				const currentSC = box ? box.dataset.button : null;
-				if (!box || !currentSC || !ShortCuts$1[currentSC]) {
-					if (box) console.warn("Shortcut \"" + currentSC + "\" is not defined in ShortCutControls");
-					root.querySelectorAll("td.selected").forEach(function(el) {
-						el.classList.remove("selected");
-					});
-					ShortCutOption.isCapturing = false;
-					event.preventDefault();
-					event.stopImmediatePropagation();
-					return false;
-				}
-				if (event.which == 27) {
-					ShortCutsTemp[currentSC] = {};
-					ShortCutsTemp[currentSC].cust = {};
-					ShortCutsTemp[currentSC].cust.key = "";
-					ShortCutsTemp[currentSC].cust.alt = false;
-					ShortCutsTemp[currentSC].cust.ctrl = false;
-					ShortCutsTemp[currentSC].cust.shift = false;
-				} else {
-					const conflictSC = tempMatch(event.which);
-					if (conflictSC && conflictSC !== currentSC) {
-						const oldKey = getKey(currentSC);
-						const oldAlt = getAlt(currentSC);
-						const oldCtrl = getCtrl(currentSC);
-						const oldShift = getShift(currentSC);
-						ShortCutsTemp[conflictSC] = {};
-						ShortCutsTemp[conflictSC].cust = {};
-						ShortCutsTemp[conflictSC].cust.key = oldKey;
-						ShortCutsTemp[conflictSC].cust.alt = oldAlt;
-						ShortCutsTemp[conflictSC].cust.ctrl = oldCtrl;
-						ShortCutsTemp[conflictSC].cust.shift = oldShift;
-						const conflictCell = root.querySelector("td[data-button='" + conflictSC + "']");
-						if (conflictCell) {
-							conflictCell.classList.add("changed");
-							conflictCell.textContent = (oldAlt ? "ALT + " : "") + (oldCtrl ? "CTRL + " : "") + (oldShift ? "SHIFT + " : "") + (oldKey ? KEYS.toReadableKey(parseInt(oldKey, 10)) : "N/A");
-						}
-					}
-					ShortCutsTemp[currentSC] = {};
-					ShortCutsTemp[currentSC].cust = {};
-					ShortCutsTemp[currentSC].cust.key = event.which;
-					ShortCutsTemp[currentSC].cust.alt = KEYS.ALT;
-					ShortCutsTemp[currentSC].cust.ctrl = KEYS.CTRL;
-					ShortCutsTemp[currentSC].cust.shift = KEYS.SHIFT;
-				}
-				box.textContent = (getAlt(currentSC) ? "ALT + " : "") + (getCtrl(currentSC) ? "CTRL + " : "") + (getShift(currentSC) ? "SHIFT + " : "") + KEYS.toReadableKey(getKey(currentSC), 10);
-				root.querySelectorAll("td.selected").forEach(function(el) {
-					el.classList.add("changed");
-					el.classList.remove("selected");
-				});
-				ShortCutOption.isCapturing = false;
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				return false;
-			}
-		}
-	};
-	ShortCutOption.mouseMode = GUIComponent.MouseMode.STOP;
-	ShortCutOption.needFocus = true;
-	ShortCutOption_default = UIManager.addComponent(ShortCutOption);
-}));
-//#endregion
-//#region src/UI/Components/Escape/Escape.html?raw
-var Escape_default$2;
-var init_Escape$2 = __esmMin((() => {
-	Escape_default$2 = "<div id=\"Escape\" data-background=\"basic_interface/titlebar_fix.bmp\">\r\n	<div class=\"top\">\r\n		<button\r\n			class=\"node\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<div class=\"title\" data-text=\"1483\">选择选项</div>\r\n	</div>\r\n\r\n	<div class=\"container\">\r\n		<button\r\n			class=\"resurection\"\r\n			data-background=\"esc_05a.bmp\"\r\n			data-hover=\"esc_05b.bmp\"\r\n			data-down=\"esc_05c.bmp\"\r\n		>使用复活道具</button>\r\n		<button\r\n			class=\"savepoint\"\r\n			data-background=\"esc_04a.bmp\"\r\n			data-hover=\"esc_04b.bmp\"\r\n			data-down=\"esc_04c.bmp\"\r\n		>返回保存点</button>\r\n		<button\r\n			class=\"charselect\"\r\n			data-background=\"esc_01a.bmp\"\r\n			data-hover=\"esc_01b.bmp\"\r\n			data-down=\"esc_01c.bmp\"\r\n		>返回角色选择</button>\r\n		<button\r\n			class=\"graphics\"\r\n			data-background=\"esc_06a.bmp\"\r\n			data-hover=\"esc_06b.bmp\"\r\n			data-down=\"esc_06c.bmp\"\r\n		>画面设置</button>\r\n		<button class=\"pickup\">拾取设置</button>\r\n		<button class=\"sound\" data-background=\"esc_07a.bmp\" data-hover=\"esc_07b.bmp\" data-down=\"esc_07c.bmp\">声音设置</button>\r\n		<button class=\"hotkey\" data-background=\"esc_08a.bmp\" data-hover=\"esc_08b.bmp\" data-down=\"esc_08c.bmp\">快捷键设置</button>\r\n		<button class=\"exit\" data-background=\"esc_03a.bmp\" data-hover=\"esc_03b.bmp\" data-down=\"esc_03c.bmp\">退出游戏</button>\r\n		<button class=\"cancel\" data-background=\"esc_02a.bmp\" data-hover=\"esc_02b.bmp\" data-down=\"esc_02c.bmp\">返回游戏</button>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Escape/Escape.css?raw
-var Escape_default$1;
-var init_Escape$1 = __esmMin((() => {
-	Escape_default$1 = ":host {\r\n	width: 280px;\r\n	height: auto;\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#Escape {\r\n	width: 280px;\r\n	height: auto;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Escape .top .node {\r\n	width: 11px;\r\n	height: 11px;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Escape .top .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n\r\n#Escape .container {\r\n	width: 220px;\r\n	height: auto;\r\n	padding: 20px 30px 6px 30px;\r\n}\r\n\r\n#Escape .container button {\r\n	width: 221px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	background-image: none !important;\r\n	color: #202622;\r\n	cursor: pointer;\r\n}\r\n\r\n#Escape .container button:hover {\r\n	background: #dcebe3;\r\n}\r\n\r\n#Escape .container button:active {\r\n	background: #c8ded2;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Escape/Escape.js
-/**
-* Click on Sound button, toggle the UI
-*/
-function onToggleSoundUI() {
-	if (!SoundOption_default._host || !SoundOption_default._host.parentNode) SoundOption_default.append();
-	else SoundOption_default.remove();
-}
-/**
-* Click on Graphic button, toggle the UI
-*/
-function onToggleGraphicUI() {
-	if (!GraphicsOption_default._host || !GraphicsOption_default._host.parentNode) GraphicsOption_default.append();
-	else GraphicsOption_default.remove();
-}
-/**
-* Click on Shortcut button, toggle the UI
-*/
-function onToggleShortcutUI() {
-	if (!ShortCutOption_default._host || !ShortCutOption_default._host.parentNode) ShortCutOption_default.append();
-	else ShortCutOption_default.remove();
-}
-var Escape, Escape_default;
-var init_Escape = __esmMin((() => {
-	init_PickupSettings();
-	init_KeyEventHandler();
-	init_Renderer();
-	init_UIManager();
-	init_GUIComponent();
-	init_SoundOption();
-	init_GraphicsOption();
-	init_ShortCutOption();
-	init_Escape$2();
-	init_Escape$1();
-	Escape = new GUIComponent("Escape", Escape_default$1);
-	/**
-	* Render HTML
-	*/
-	Escape.render = () => Escape_default$2;
-	/**
-	* Initialize UI
-	*/
-	Escape.init = function init() {
-		const root = this.getRoot();
-		const rect = this._host.getBoundingClientRect();
-		this._host.style.top = (Renderer.height - rect.height) * .75 + "px";
-		this._host.style.left = (Renderer.width - rect.width) * .5 + "px";
-		this.draggable();
-		const nodeBtn = root.querySelector(".node");
-		if (nodeBtn) nodeBtn.addEventListener("mousedown", function(event) {
-			event.stopImmediatePropagation();
-			return false;
-		});
-		root.querySelectorAll("button").forEach(function(el) {
-			el.style.display = "";
-		});
-		root.querySelectorAll(".resurection, .savepoint").forEach(function(el) {
-			el.style.display = "none";
-		});
-		root.querySelector(".pickup").addEventListener("click", () => {
-			this._host.style.display = "none";
-			PickupSettings_default.append();
-		});
-		root.querySelector(".sound").addEventListener("click", onToggleSoundUI);
-		root.querySelector(".graphics").addEventListener("click", onToggleGraphicUI);
-		root.querySelector(".resurection").addEventListener("click", function() {
-			Escape.onResurectionRequest();
-		});
-		root.querySelector(".savepoint").addEventListener("click", function() {
-			Escape.onReturnSavePointRequest();
-		});
-		root.querySelector(".charselect").addEventListener("click", function() {
-			Escape.onCharSelectionRequest();
-		});
-		root.querySelector(".hotkey").addEventListener("click", onToggleShortcutUI);
-		root.querySelector(".exit").addEventListener("click", function() {
-			Escape.onExitRequest();
-		});
-		root.querySelector(".cancel").addEventListener("click", function() {
-			Escape._host.style.display = "none";
-		});
-		this._host.style.display = "none";
-	};
-	/**
-	* Window must not be visible once append
-	* but need to be here to manage key event
-	*/
-	Escape.onAppend = function onAppend() {
-		this._host.style.display = "none";
-	};
-	/**
-	* Reset buttons once UI is removed
-	*/
-	Escape.onRemove = function onRemove() {
-		this._host.style.display = "none";
-		const root = this.getRoot();
-		root.querySelectorAll(".resurection, .savepoint").forEach(function(el) {
-			el.style.display = "none";
-		});
-		root.querySelectorAll(".graphics, .sound, .hotkey, .pickup").forEach(function(el) {
-			el.style.display = "";
-		});
-	};
-	/**
-	* Key Listener
-	*
-	* @param {object} event
-	* @return {boolean}
-	*/
-	Escape.onKeyDown = function onKeyDown(event) {
-		if (event.which === KEYS.ESCAPE || event.key === "Escape") {
-			if (this._host.style.display === "none") {
-				this._host.style.display = "";
-				this.focus();
-			} else this._host.style.display = "none";
-		}
-	};
-	/**
-	* Show death menu (called when player dies)
-	*/
-	Escape.showDeathMenu = function showDeathMenu(hasSiegfried) {
-		const root = this.getRoot();
-		this._host.style.display = "";
-		root.querySelector(".savepoint").style.display = "";
-		if (hasSiegfried) root.querySelector(".resurection").style.display = "";
-		root.querySelectorAll(".graphics, .sound, .hotkey, .pickup").forEach(function(el) {
-			el.style.display = "none";
-		});
-	};
-	/**
-	* Reset to normal menu (called when player resurrects)
-	*/
-	Escape.resetMenu = function resetMenu() {
-		this._host.style.display = "none";
-		const root = this.getRoot();
-		root.querySelectorAll(".resurection, .savepoint").forEach(function(el) {
-			el.style.display = "none";
-		});
-		root.querySelectorAll(".graphics, .sound, .hotkey, .pickup").forEach(function(el) {
-			el.style.display = "";
-		});
-	};
-	/**
-	* @var {function} callback when player want to resurect using Token of Siegfried
-	*/
-	Escape.onResurectionRequest = function onResurectionRequest() {};
-	/**
-	* @var {function} callback to define to disconnect from game
-	*/
-	Escape.onExitRequest = function onExitRequest() {};
-	/**
-	* @var {function} callback when player want to resurect using Token of Siegfried
-	*/
-	Escape.onReturnSavePointRequest = function onReturnSavePointRequest() {};
-	/**
-	* @var {function} callback when player want to return to char selection
-	*/
-	Escape.onCharSelectionRequest = function onCharSelectionRequest() {};
-	Escape.mouseMode = GUIComponent.MouseMode.STOP;
-	Escape.needFocus = true;
-	Escape_default = UIManager.addComponent(Escape);
-}));
-//#endregion
-//#region src/UI/Components/CheckAttendance/CheckAttendance.html?raw
-var CheckAttendance_default$2;
-var init_CheckAttendance$2 = __esmMin((() => {
-	CheckAttendance_default$2 = "<div id=\"CheckAttendance\">\r\n	<div class=\"titlebar\" data-background=\"check_attendance/attendance_bg.bmp\">\r\n		<div class=\"top-panel\">\r\n			<div class=\"top-panel-reward\">\r\n				<div class=\"text\">签到奖励</div>\r\n			</div>\r\n			<div class=\"top-panel-period\"></div>\r\n		</div>\r\n		<div class=\"left-panel\">\r\n			<ul class=\"days-list\"></ul>\r\n		</div>\r\n		<div class=\"right-panel\">\r\n			<div class=\"total-days\"></div>\r\n			<div class=\"npc\"></div>\r\n			<div class=\"remaining-days\">\r\n				<div class=\"remaining-day\">\r\n					<div class=\"remaining-day-text\"></div>\r\n				</div>\r\n				<div class=\"remaining-text\">\r\n					<div class=\"remaining-text-div\">天</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"bottom-panel\">\r\n			<div class=\"close-container\">\r\n				<ui-button\r\n					class=\"close-container-btn\"\r\n					data-localized-label=\"关闭\"\r\n					bg=\"check_attendance/bt_ok_normal.bmp\"\r\n					down=\"check_attendance/bt_ok_press.bmp\"\r\n					>关闭</ui-button\r\n				>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/CheckAttendance/CheckAttendance.css?raw
-var CheckAttendance_default$1;
-var init_CheckAttendance$1 = __esmMin((() => {
-	CheckAttendance_default$1 = ":host {\r\n	width: 488px;\r\n	height: 413px;\r\n}\r\n\r\n#CheckAttendance {\r\n	position: absolute;\r\n	width: 488px;\r\n	height: 413px;\r\n}\r\n\r\n#CheckAttendance .titlebar {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n\r\n#CheckAttendance .titlebar .top-panel {\r\n	width: 100%;\r\n	height: 85px;\r\n	float: left;\r\n}\r\n\r\n#CheckAttendance .titlebar .top-panel .top-panel-reward {\r\n	width: 100%;\r\n	height: 70px;\r\n	position: relative;\r\n	display: flex;\r\n	justify-content: center;\r\n}\r\n\r\n#CheckAttendance .titlebar .top-panel .top-panel-reward .text {\r\n	font-weight: bolder;\r\n	color: #633921;\r\n	display: table;\r\n	position: absolute;\r\n	top: 55%;\r\n}\r\n\r\n#CheckAttendance .titlebar .top-panel .top-panel-period {\r\n	width: 100%;\r\n	height: 15px;\r\n	text-align: center;\r\n	font-weight: bold;\r\n	color: #a55239;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel {\r\n	width: 335px;\r\n	height: 270px;\r\n	float: left;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list {\r\n	list-style: none;\r\n	padding-left: 25px;\r\n	margin-top: 8px;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item {\r\n	float: left;\r\n	width: 58px;\r\n	height: 60px;\r\n	margin: 2px;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item {\r\n	width: 100%;\r\n	height: 40px;\r\n	position: relative;\r\n	background-position: center;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item .item-quantity {\r\n	position: absolute;\r\n	bottom: 2px;\r\n	right: 15px;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item .name {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -10px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item:hover .name {\r\n	display: table;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item .name {\r\n	display: none;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .day {\r\n	width: 100%;\r\n	height: 20px;\r\n	text-align: center;\r\n	font-weight: bold;\r\n	color: #394aa5;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .checked,\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .checked-hidden,\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .completed {\r\n	position: absolute;\r\n	width: 58px;\r\n	height: 60px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .checked-hidden {\r\n	display: none;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel {\r\n	width: 152px;\r\n	height: 270px;\r\n	float: left;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .total-days {\r\n	width: 80%;\r\n	height: 85px;\r\n	text-align: center;\r\n	display: flex;\r\n	align-items: center;\r\n	font-weight: bold;\r\n	color: #a53963;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .npc {\r\n	width: 100%;\r\n	height: 105px;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days {\r\n	width: 100%;\r\n	height: 80px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days .remaining-day {\r\n	height: 100%;\r\n	width: 85px;\r\n	float: left;\r\n	position: relative;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days .remaining-day .remaining-day-text {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 20px;\r\n	font-weight: bolder;\r\n	font-size: 20px;\r\n	color: white;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days .remaining-text {\r\n	height: 100%;\r\n	width: 35px;\r\n	float: left;\r\n	position: relative;\r\n	font-weight: bolder;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days .remaining-text .remaining-text-div {\r\n	position: absolute;\r\n	left: 3px;\r\n	bottom: 20px;\r\n}\r\n\r\n#CheckAttendance .titlebar .bottom-panel {\r\n	width: 100%;\r\n	height: 58px;\r\n	float: left;\r\n}\r\n\r\n#CheckAttendance .titlebar .bottom-panel .close-container {\r\n	width: 100%;\r\n	height: 100%;\r\n	position: relative;\r\n}\r\n\r\n#CheckAttendance .titlebar .bottom-panel .close-container .close-container-btn {\r\n	width: 146px;\r\n	height: 30px;\r\n	border: 0;\r\n	font-weight: bold;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	position: absolute;\r\n	top: 35%;\r\n	left: 35%;\r\n	display: inline-block;\r\n	text-align: center;\r\n	line-height: 30px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/CheckAttendance/CheckAttendance.js
-/**
-* Request Attendance Item
-*/
-function onClickAttendance(e) {
-	const root = CheckAttendance.getRoot();
-	const el = e.currentTarget;
-	const id = el.id;
-	const checkedHidden = root.querySelector(`#${id} .checked-hidden`);
-	if (checkedHidden) checkedHidden.className = "checked";
-	const completedDiv = document.createElement("div");
-	completedDiv.className = "completed";
-	completedDiv.dataset.background = "check_attendance/bt_slot_complete.tga";
-	el.appendChild(completedDiv);
-	GUIComponent.processDataAttrs(completedDiv);
-	const total_days_string = `${parseInt(_checkAttendanceData / 10) + 1} Day attendance success`;
-	const totalDaysEl = root.querySelector(".total-days");
-	if (totalDaysEl) totalDaysEl.innerHTML = total_days_string;
-	const _pkt = new PACKET.CZ.REQ_CHECK_ATTENDANCE();
-	Network.sendPacket(_pkt);
-}
-var CheckAttendance, _checkAttendanceData, _CheckAttendanceInfo, _preferences$29, CheckAttendance_default;
-var init_CheckAttendance = __esmMin((() => {
-	init_DBManager();
-	init_Preferences$1();
-	init_Renderer();
-	init_UIManager();
-	init_GUIComponent();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_CheckAttendance$2();
-	init_CheckAttendance$1();
-	init_Elements();
-	CheckAttendance = new GUIComponent("CheckAttendance", CheckAttendance_default$1);
-	CheckAttendance.render = () => CheckAttendance_default$2;
-	_preferences$29 = Preferences.get("CheckAttendance", {
-		x: 200,
-		y: 200
-	}, 1);
-	/**
-	* Initialize the component (event listener, etc.)
-	*/
-	CheckAttendance.init = function init() {
-		_CheckAttendanceInfo = DB.getCheckAttendanceInfo();
-		const root = this.getRoot();
-		const baseEl = root.querySelector(".base");
-		if (baseEl) baseEl.addEventListener("mousedown", (event) => {
-			event.stopImmediatePropagation();
-			event.preventDefault();
-		});
-		root.querySelector(".close-container-btn").addEventListener("click", () => {
-			CheckAttendance._host.style.display = "none";
-		});
-		this.draggable(root.querySelector(".titlebar"));
-	};
-	/**
-	* Once append to the DOM, start to position the UI
-	*/
-	CheckAttendance.onAppend = function onAppend() {
-		Object.assign(this._host.style, {
-			top: `${Math.min(Math.max(0, _preferences$29.y), Renderer.height - this._host.getBoundingClientRect().height)}px`,
-			left: `${Math.min(Math.max(0, _preferences$29.x), Renderer.width - this._host.getBoundingClientRect().width)}px`
-		});
-		if (!_preferences$29.show) this._host.style.display = "none";
-		if (_checkAttendanceData >= 0 && _CheckAttendanceInfo.Config) {
-			CheckAttendance.updateUI();
-			this.focus();
-		}
-	};
-	/**
-	* Window Shortcuts
-	*/
-	CheckAttendance.onShortCut = function onShortCut(key) {
-		switch (key.cmd) {
-			case "TOGGLE": if (this._host.style.display === "none") {
-				this._host.style.display = "";
-				this.focus();
-			} else this._host.style.display = "none";
-		}
-	};
-	/**
-	* Show/Hide UI
-	*/
-	CheckAttendance.toggle = function toggle() {
-		if (this._host.style.display !== "none") this._host.style.display = "none";
-		else {
-			const _pkt = new PACKET.CZ.UI_OPEN();
-			_pkt.UIType = 5;
-			Network.sendPacket(_pkt);
-		}
-	};
-	/**
-	* Set Data to Attendance
-	*/
-	CheckAttendance.setData = function setData(data) {
-		_checkAttendanceData = data;
-	};
-	/**
-	* Update CheckAttendance UI
-	*/
-	CheckAttendance.updateUI = function updateUI() {
-		const root = this.getRoot();
-		let already_requested = 0;
-		let attendance_count = 0;
-		let current_day = 1;
-		if (_CheckAttendanceInfo.Config) {
-			const regex = /(\d{4})(\d{2})(\d{2})/;
-			const start = regex.exec(_CheckAttendanceInfo.Config.StartDate);
-			const end = regex.exec(_CheckAttendanceInfo.Config.EndDate);
-			const period_string = `Event Period: From ${start[2]}/${start[3]} ~ Until ${end[2]}/${end[3]} (Month/Day) 24:00`;
-			const periodEl = root.querySelector(".top-panel-period");
-			if (periodEl) periodEl.innerHTML = period_string;
-			if (_checkAttendanceData >= 0) {
-				already_requested = _checkAttendanceData % 10;
-				attendance_count = parseInt(_checkAttendanceData / 10);
-				current_day = attendance_count + 1;
-				const total_days_string = attendance_count >= 20 || already_requested ? `${attendance_count} Day attendance success` : `Click the item to claim day ${current_day} reward`;
-				const end_date = /* @__PURE__ */ new Date(`${end[1]}-${end[2]}-${end[3]}`);
-				const now_date = /* @__PURE__ */ new Date();
-				const remaining_days = Math.round(Math.abs((end_date.getTime() - now_date.getTime()) / 864e5));
-				const totalDaysEl = root.querySelector(".total-days");
-				if (totalDaysEl) totalDaysEl.innerHTML = total_days_string;
-				const remainingEl = root.querySelector(".remaining-day-text");
-				if (remainingEl) remainingEl.textContent = remaining_days;
-			}
-		}
-		if (_CheckAttendanceInfo.Rewards) {
-			const daysList = root.querySelector(".days-list");
-			for (let i = 0; i < 20; i++) {
-				const item = DB.getItemInfo(_CheckAttendanceInfo.Rewards[i].item_id);
-				const day = i + 1;
-				const background = !already_requested && day == current_day ? `data-background="check_attendance/bt_slot_a.bmp" data-down="check_attendance/bt_slot_press.bmp"` : "";
-				const checked = day <= attendance_count ? "checked" : "checked-hidden";
-				const slot_complete_string = day > (already_requested ? attendance_count - 1 : attendance_count) ? "bt_slot_complete" : "bt_slot_off";
-				const item_slot = `<li id="attendance_day_${i}" class="attendance-item" ${background}><div class="item" data-background="${DB.INTERFACE_PATH}item/${item.identifiedResourceName}.bmp"><span class="item-quantity">${_CheckAttendanceInfo.Rewards[i].quantity}</span><span class="name">${item.identifiedDisplayName}</span><div class="${checked}" data-background="check_attendance/${slot_complete_string}.tga"></div></div><div class="day">${day} Day</div></li>`;
-				if (daysList) daysList.insertAdjacentHTML("beforeend", item_slot);
-				if (!already_requested && day == current_day) {
-					const dayEl = root.querySelector(`#attendance_day_${i}`);
-					if (dayEl) {
-						dayEl.addEventListener("click", onClickAttendance);
-						dayEl.classList.add("event_add_cursor");
-					}
-				}
-			}
-			const dataAttrSelector = "[data-background],[data-hover],[data-down],[data-active],[data-text],[data-preload]";
-			if (daysList) daysList.querySelectorAll(dataAttrSelector).forEach((node) => {
-				GUIComponent.processDataAttrs(node);
-			});
-		}
-	};
-	/**
-	* Clean CheckAttendance UI
-	*/
-	CheckAttendance.cleanUI = function cleanUI() {
-		const root = CheckAttendance.getRoot();
-		const periodEl = root.querySelector(".top-panel-period");
-		if (periodEl) periodEl.innerHTML = "";
-		const daysListEl = root.querySelector(".days-list");
-		if (daysListEl) daysListEl.innerHTML = "";
-		const totalDaysEl = root.querySelector(".total-days");
-		if (totalDaysEl) totalDaysEl.innerHTML = "";
-		const remainingEl = root.querySelector(".remaining-day-text");
-		if (remainingEl) remainingEl.innerHTML = "";
-	};
-	/**
-	* Close the window
-	*/
-	CheckAttendance.onClose = function onClose() {
-		CheckAttendance._host.style.display = "none";
-	};
-	CheckAttendance_default = UIManager.addComponent(CheckAttendance);
 }));
 //#endregion
 //#region src/DB/Skills/SkillTreeView.generated.js
@@ -281697,6 +278929,3196 @@ var init_SkillList = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/UI/Components/Trade/Trade.html?raw
+var Trade_default$2;
+var init_Trade$3 = __esmMin((() => {
+	Trade_default$2 = "<div id=\"Trade\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		交易：<span class=\"title\"></span>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"content\">\r\n		<ui-image src=\"basic_interface/exchange_bg2.bmp\"></ui-image>\r\n		<div class=\"box send\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n		<div class=\"box recv\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n\r\n		<input type=\"text\" class=\"zeny send\" value=\"0\" />\r\n		<div class=\"zeny recv disabled\">0</div>\r\n\r\n		<ui-button class=\"btn ok enabled\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn ok disabled\" bg=\"btn_ok_dis.bmp\"></ui-button>\r\n		<ui-button\r\n			class=\"btn trade enabled\"\r\n			bg=\"btn_exchange.bmp\"\r\n			hover=\"btn_exchange_a.bmp\"\r\n			down=\"btn_exchange_b.bmp\"\r\n		></ui-button>\r\n		<ui-button class=\"btn trade disabled\" bg=\"btn_exchange_dis.bmp\"></ui-button>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Trade/Trade.css?raw
+var Trade_default$1;
+var init_Trade$2 = __esmMin((() => {
+	Trade_default$1 = ":host {\r\n	width: 560px;\r\n	height: 380px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#Trade {\r\n	position: absolute;\r\n	width: 560px;\r\n	height: 380px;\r\n}\r\n\r\n#Trade .titlebar {\r\n	height: 14px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 5px 5px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n	position: relative;\r\n	padding-left: 15px;\r\n	padding-top: 3px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n/** When mouse over items **/\r\n\r\n#Trade .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#Trade .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/** Content **/\r\n\r\n#Trade .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 560px;\r\n	height: 360px;\r\n}\r\n\r\n#Trade .box {\r\n	position: absolute;\r\n	top: 3px;\r\n	width: 275px;\r\n	height: 305px;\r\n	background-repeat: repeat-y;\r\n	background-size: 32px 10%; /* 10% for 10 items */\r\n	background-position: 1px 0px;\r\n}\r\n\r\n#Trade .box.disabled {\r\n	background: #ccc !important;\r\n}\r\n\r\n#Trade .box.send {\r\n	left: 2px;\r\n}\r\n\r\n#Trade .box.recv {\r\n	right: 3px;\r\n}\r\n\r\n/** Items in box **/\r\n\r\n#Trade .box .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 26px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n\r\n#Trade .box .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Trade .box .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#Trade .box .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n/** Zeny input **/\r\n\r\n#Trade .zeny {\r\n	position: absolute;\r\n	top: 311px;\r\n	background-color: #ddd;\r\n	border: none;\r\n	width: 70px;\r\n	height: 13px;\r\n	padding: 2px;\r\n}\r\n\r\n#Trade .zeny.send {\r\n	left: 160px;\r\n}\r\n\r\n#Trade .zeny.recv {\r\n	left: 440px;\r\n}\r\n\r\n#Trade .zeny.disabled {\r\n	background-color: transparent;\r\n}\r\n\r\n/** Buttons **/\r\n\r\n#Trade .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: inline-flex;\r\n}\r\n#Trade .btn.disabled {\r\n	cursor: default;\r\n}\r\n#Trade .btn.ok {\r\n	left: 5px;\r\n}\r\n#Trade .btn.trade {\r\n	left: 260px;\r\n}\r\n#Trade .btn.cancel {\r\n	left: 510px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Trade/Trade.js
+/**
+* Escape HTML special characters
+*
+* @param {string} text
+* @returns {string}
+*/
+function escapeHtml$2(text) {
+	const div = document.createElement("div");
+	div.appendChild(document.createTextNode(text));
+	return div.innerHTML;
+}
+/**
+* Reset the UI to its initial state
+*/
+function resetUI() {
+	_tmpCount = {};
+	_recv.length = 0;
+	_send.length = 0;
+	const root = Trade.getRoot();
+	const overlay = root.querySelector(".overlay");
+	if (overlay) overlay.style.display = "none";
+	const okDisabled = root.querySelector(".ok.disabled");
+	const tradeEnabled = root.querySelector(".trade.enabled");
+	if (okDisabled) okDisabled.style.display = "none";
+	if (tradeEnabled) tradeEnabled.style.display = "none";
+	const okEnabled = root.querySelector(".ok.enabled");
+	const tradeDisabled = root.querySelector(".trade.disabled");
+	if (okEnabled) okEnabled.style.display = "";
+	if (tradeDisabled) tradeDisabled.style.display = "";
+	root.querySelectorAll(".box").forEach((box) => {
+		box.classList.remove("disabled");
+		box.innerHTML = "";
+	});
+	const zenySend = root.querySelector(".zeny.send");
+	if (zenySend) {
+		zenySend.value = "0";
+		zenySend.classList.remove("disabled");
+		zenySend.disabled = false;
+	}
+	const zenyRecv = root.querySelector(".zeny.recv");
+	if (zenyRecv) zenyRecv.textContent = "0";
+}
+/**
+* Prettify number (15000 -> 15,000)
+*
+* @param {number} value
+* @return {string}
+*/
+function prettifyZeny$3(value) {
+	return Number(value).toLocaleString("en-US");
+}
+/**
+* Request to add an item to the trade UI
+*
+* @param {number} index - item index in inventory
+* @param {number} count - item count
+*/
+function onRequestAddItem(index, count) {
+	if (index in _tmpCount) {
+		ChatBox_default.addText(DB.getMessage(51), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		return;
+	}
+	if (_send.length >= 10) {
+		ChatBox_default.addText(DB.getMessage(297), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		return;
+	}
+	_tmpCount[index] = count;
+	Trade.reqAddItem(index, count);
+}
+/**
+* Cancel the deal
+*/
+function onCancel() {
+	Trade.remove();
+	Trade.onCancel();
+}
+/**
+* Conclude our part
+*/
+function onConclude() {
+	const zenySend = Trade.getRoot().querySelector(".zeny.send");
+	let zeny = parseInt(zenySend ? zenySend.value : "0", 10) || 0;
+	zeny = Math.min(Math.max(0, zeny), SessionStorage_default.zeny);
+	onRequestAddItem(0, zeny);
+	Trade.onConclude();
+}
+/**
+* Let's finish the trade
+*/
+function onTrade() {
+	Trade.onTradeSubmit();
+	const root = Trade.getRoot();
+	const tradeEnabled = root.querySelector(".trade.enabled");
+	const tradeDisabled = root.querySelector(".trade.disabled");
+	if (tradeEnabled) tradeEnabled.style.display = "none";
+	if (tradeDisabled) tradeDisabled.style.display = "";
+}
+/**
+* Drop from inventory to trade
+*/
+function onDrop$9(event) {
+	let data;
+	try {
+		data = JSON.parse(event.dataTransfer ? event.dataTransfer.getData("Text") : event.originalEvent.dataTransfer.getData("Text"));
+	} catch (_e) {}
+	event.stopImmediatePropagation();
+	event.preventDefault();
+	if (!data || data.type !== "item" || data.from !== "Inventory") return false;
+	const item = data.data;
+	if (item.count > 1) {
+		InputBox_default.append();
+		InputBox_default.setType("number", false, item.count);
+		InputBox_default.onSubmitRequest = function OnSubmitRequest(count) {
+			let value = parseInt(count, 10) || 0;
+			value = Math.min(Math.max(value, 0), item.count);
+			InputBox_default.remove();
+			if (value) onRequestAddItem(item.index, value);
+		};
+		return false;
+	}
+	onRequestAddItem(item.index, 1);
+	return false;
+}
+/**
+* When mouse is over an item, show title
+*
+* @param {HTMLElement} itemEl
+*/
+function onItemOver$12(itemEl) {
+	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
+	const item = itemEl.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
+	if (!item) return;
+	const overlay = Trade.getRoot().querySelector(".overlay");
+	if (!overlay) return;
+	const itemRect = itemEl.getBoundingClientRect();
+	const hostRect = Trade._host.getBoundingClientRect();
+	const posLeft = itemRect.left - hostRect.left;
+	const posTop = itemRect.top - hostRect.top;
+	overlay.style.display = "";
+	overlay.style.top = `${posTop + 5}px`;
+	overlay.style.left = `${posLeft + 30}px`;
+	overlay.textContent = DB.getItemName(item);
+	if (item.IsIdentified) overlay.classList.remove("grey");
+	else overlay.classList.add("grey");
+}
+/**
+* Hide the item title when mouse is not over anymore
+*/
+function onItemOut$13() {
+	const overlay = Trade.getRoot().querySelector(".overlay");
+	if (overlay) overlay.style.display = "none";
+}
+/**
+* Display ItemInfo UI
+*
+* @param {Event} event
+* @param {HTMLElement} itemEl
+*/
+function onItemInfo$16(event, itemEl) {
+	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
+	const item = itemEl.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
+	if (!item) {
+		event.stopImmediatePropagation();
+		event.preventDefault();
+		return;
+	}
+	if (ItemInfo_default.uid === item.ITID) ItemInfo_default.remove();
+	ItemInfo_default.append();
+	ItemInfo_default.uid = item.ITID;
+	ItemInfo_default.setItem(item);
+	event.stopImmediatePropagation();
+	event.preventDefault();
+}
+var Trade, _tmpCount, _send, _recv, Trade_default;
+var init_Trade$1 = __esmMin((() => {
+	init_DBManager();
+	init_Client();
+	init_SessionStorage();
+	init_Renderer();
+	init_GUIComponent();
+	init_UIManager();
+	init_Elements();
+	init_InputBox();
+	init_ItemInfo();
+	init_Inventory();
+	init_ChatBox();
+	init_Trade$3();
+	init_Trade$2();
+	Trade = new GUIComponent("Trade", Trade_default$1);
+	/**
+	* HTML returned by render()
+	*/
+	Trade.render = () => Trade_default$2;
+	_tmpCount = {};
+	_send = [];
+	_recv = [];
+	/**
+	* @var {string} trade title
+	*/
+	Trade.title = "";
+	/**
+	* Capture key events so the zeny input field works inside Shadow DOM
+	*/
+	Trade.captureKeyEvents = true;
+	/**
+	* Initialize UI
+	*/
+	Trade.init = function init() {
+		const root = this.getRoot();
+		const okBtn = root.querySelector(".ok.enabled");
+		if (okBtn) {
+			okBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
+			okBtn.addEventListener("click", () => onConclude());
+		}
+		const tradeBtn = root.querySelector(".trade.enabled");
+		if (tradeBtn) {
+			tradeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
+			tradeBtn.addEventListener("click", () => onTrade());
+		}
+		const cancelBtn = root.querySelector(".cancel");
+		if (cancelBtn) {
+			cancelBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
+			cancelBtn.addEventListener("click", () => onCancel());
+		}
+		root.addEventListener("mousedown", (e) => {
+			if (e.target.closest && e.target.closest(".disabled")) e.stopImmediatePropagation();
+		});
+		this._host.addEventListener("drop", (e) => onDrop$9(e));
+		this._host.addEventListener("dragover", (e) => {
+			e.preventDefault();
+			e.stopImmediatePropagation();
+		});
+		const zenyInput = root.querySelector(".zeny.send");
+		if (zenyInput) zenyInput.addEventListener("mousedown", function() {
+			this.select();
+		});
+		root.querySelectorAll(".box").forEach((box) => {
+			box.addEventListener("mouseover", (e) => {
+				const itemEl = e.target.closest(".item");
+				if (itemEl) onItemOver$12(itemEl);
+			});
+			box.addEventListener("mouseout", (e) => {
+				if (e.target.closest(".item")) onItemOut$13();
+			});
+			box.addEventListener("contextmenu", (e) => {
+				const itemEl = e.target.closest(".item");
+				if (itemEl) onItemInfo$16(e, itemEl);
+			});
+		});
+		this.draggable(".titlebar");
+	};
+	/**
+	* Guard keyboard input for the zeny <input> inside Shadow DOM
+	*/
+	Trade.onKeyDown = function onKeyDown(event) {
+		if (this.isEditableFocused()) {
+			event.stopImmediatePropagation();
+			return true;
+		}
+		return true;
+	};
+	/**
+	* Initialize UI on append
+	*/
+	Trade.onAppend = function onAppend() {
+		resetUI.call(this);
+		const titleEl = this.getRoot().querySelector(".titlebar .title");
+		if (titleEl) titleEl.textContent = this.title;
+		const width = this._host.getBoundingClientRect().width;
+		const height = this._host.getBoundingClientRect().height;
+		this._host.style.top = `${(Renderer.height - height) / 2}px`;
+		this._host.style.left = `${(Renderer.width - width) / 2}px`;
+	};
+	/**
+	* Clean UP UI
+	*/
+	Trade.onRemove = function onRemove() {
+		resetUI.call(this);
+	};
+	/**
+	* Add Item to the trade window from our inventory
+	*
+	* @param {number} item index in inventory
+	* @param {boolean} success ?
+	*/
+	Trade.addItemFromInventory = function addItemFromInventory(index, success) {
+		if (!success) {
+			delete _tmpCount[index];
+			return;
+		}
+		const root = Trade.getRoot();
+		if (index === 0) {
+			const zenySend = root.querySelector(".zeny.send");
+			if (zenySend) zenySend.value = prettifyZeny$3(_tmpCount[index]);
+			return;
+		}
+		const inventoryItem = InventoryController.getUI().removeItem(index, _tmpCount[index]);
+		const item = Object.assign({}, inventoryItem);
+		const it = DB.getItemInfo(item.ITID);
+		const idx = _send.push(item) - 1;
+		const box = root.querySelector(".box.send");
+		item.count = _tmpCount[index];
+		const itemDiv = document.createElement("div");
+		itemDiv.className = "item";
+		itemDiv.setAttribute("data-index", idx);
+		itemDiv.innerHTML = `<div class="icon"></div><div class="amount"><span class="count">${_tmpCount[index] || 1}</span></div><span class="name">${escapeHtml$2(DB.getItemName(item))}</span>`;
+		box.appendChild(itemDiv);
+		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
+			const icon = root.querySelector(`.item[data-index="${idx}"] .icon`);
+			if (icon && icon.closest(".box.send")) icon.style.backgroundImage = `url(${data})`;
+		});
+	};
+	/**
+	* Add item to the trade UI
+	*
+	* @param {object} item
+	*/
+	Trade.addItem = function addItem(item) {
+		const root = Trade.getRoot();
+		if (item.ITID === 0) {
+			const zenyRecv = root.querySelector(".zeny.recv");
+			if (zenyRecv) zenyRecv.textContent = prettifyZeny$3(item.count);
+			return;
+		}
+		const it = DB.getItemInfo(item.ITID);
+		const idx = _recv.push(item) - 1;
+		const box = root.querySelector(".box.recv");
+		const itemDiv = document.createElement("div");
+		itemDiv.className = "item";
+		itemDiv.setAttribute("data-index", idx);
+		itemDiv.innerHTML = `<div class="icon"></div><div class="amount">${item.count}</div><span class="name">${escapeHtml$2(DB.getItemName(item))}</span>`;
+		box.appendChild(itemDiv);
+		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
+			const icon = root.querySelector(`.item[data-index="${idx}"] .icon`);
+			if (icon && icon.closest(".box.recv")) icon.style.backgroundImage = `url(${data})`;
+		});
+	};
+	/**
+	* Conclude a part of the trade
+	*
+	* @param {string} element - 'send' or 'recv'
+	*/
+	Trade.conclude = function conclude(element) {
+		const root = Trade.getRoot();
+		const box = root.querySelector(`.box.${element}`);
+		if (box) box.classList.add("disabled");
+		if (element === "send") {
+			const okDisabled = root.querySelector(".ok.disabled");
+			const okEnabled = root.querySelector(".ok.enabled");
+			if (okDisabled) okDisabled.style.display = "";
+			if (okEnabled) okEnabled.style.display = "none";
+			const zenySend = root.querySelector(".zeny.send");
+			if (zenySend) {
+				zenySend.classList.add("disabled");
+				zenySend.disabled = true;
+			}
+		}
+		const recvDisabled = root.querySelector(".box.recv.disabled");
+		const sendDisabled = root.querySelector(".box.send.disabled");
+		if (recvDisabled && recvDisabled.style.display !== "none" && sendDisabled && sendDisabled.style.display !== "none") {
+			const tradeEnabled = root.querySelector(".trade.enabled");
+			const tradeDisabledBtn = root.querySelector(".trade.disabled");
+			if (tradeEnabled) tradeEnabled.style.display = "";
+			if (tradeDisabledBtn) tradeDisabledBtn.style.display = "none";
+		}
+	};
+	/**
+	* Callbacks
+	*/
+	Trade.onConclude = function onConclude() {};
+	Trade.onTradeSubmit = function onTradeSubmit() {};
+	Trade.reqAddItem = function reqAddItem() {};
+	Trade.onCancel = function onCancel() {};
+	/**
+	* Set mouse mode
+	*/
+	Trade.mouseMode = GUIComponent.MouseMode.STOP;
+	Trade_default = UIManager.addComponent(Trade);
+}));
+//#endregion
+//#region src/UI/Game/GameCommands.js
+function selectedTarget() {
+	const target = EntityManager.getFocusEntity();
+	return target && EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE ? target : null;
+}
+function canAttack(target) {
+	if (!target || target === SessionStorage_default.Entity) return false;
+	const T = target.constructor;
+	return [
+		T.TYPE_MOB,
+		T.TYPE_UNIT,
+		T.TYPE_NPC_ABR,
+		T.TYPE_NPC_BIONIC
+	].includes(target.objecttype) || [
+		T.TYPE_PC,
+		T.TYPE_ELEM,
+		T.TYPE_HOM
+	].includes(target.objecttype) && target.canAttackEntity();
+}
+function stopAttack() {
+	releaseAttack();
+	SessionStorage_default.moveAction = null;
+	if (SessionStorage_default.Playing) Network.sendPacket(new PACKET.CZ.CANCEL_LOCKON());
+}
+function attackSelected(moving = false, onRequest = null) {
+	const target = selectedTarget();
+	if (canAttack(target)) {
+		ownAttack(target.GID, () => {
+			if (!SessionStorage_default.FreezeUI && selectedTarget() === target) {
+				target.onFocus({
+					attack: true,
+					allowMove: !moving
+				});
+				onRequest?.();
+			}
+		});
+		target.onFocus({
+			attack: true,
+			allowMove: !moving
+		});
+		onRequest?.();
+	}
+}
+function moveDirection(x, y) {
+	const player = SessionStorage_default.Entity;
+	if (!player || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
+	Navigation_default.stopAutoWalk();
+	MapControl.onRequestStopWalk();
+	SessionStorage_default.moveAction = null;
+	SessionStorage_default.autoFollow = false;
+	const angle = -Camera.direction * Math.PI / 4;
+	const dx = x * Math.cos(angle) - y * Math.sin(angle);
+	const dy = x * Math.sin(angle) + y * Math.cos(angle);
+	const dest = [];
+	if (!checkFreeCell$1(Math.round(player.position[0] + dx * 3), Math.round(player.position[1] + dy * 3), 1, dest)) return;
+	const packet = new PACKET.CZ.REQUEST_MOVE2();
+	packet.dest[0] = dest[0];
+	packet.dest[1] = dest[1];
+	Network.sendPacket(packet);
+	directionalMovementPlayer = player;
+}
+function stopDirectionalMovement() {
+	MapControl.onRequestStopWalk();
+	SessionStorage_default.moveAction = null;
+	const player = directionalMovementPlayer;
+	directionalMovementPlayer = null;
+	if (!player || player !== SessionStorage_default.Entity || !SessionStorage_default.Playing || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
+	Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
+}
+function pickSceneEntity(x, y) {
+	Mouse.screen.x = x;
+	Mouse.screen.y = y;
+	return EntityManager.intersect();
+}
+function tapScene(x, y) {
+	Mouse.screen.x = x;
+	Mouse.screen.y = y;
+	const pos = [];
+	const ground = Altitude.intersect(Camera.modelView, Camera.projection, pos);
+	Mouse.world.x = ground ? pos[0] : -1;
+	Mouse.world.y = ground ? pos[1] : -1;
+	const target = EntityManager.intersect();
+	const previous = EntityManager.getFocusEntity();
+	SessionStorage_default.moveAction = null;
+	SessionStorage_default.autoFollow = false;
+	if (target && target !== SessionStorage_default.Entity) {
+		if (previous && previous !== target) previous.onFocusEnd();
+		EntityManager.setFocusEntity(target);
+		EntityManager.setOverEntity(target);
+		target.onFocus({ attack: false });
+		if ([
+			target.constructor.TYPE_ITEM,
+			target.constructor.TYPE_NPC,
+			target.constructor.TYPE_NPC2
+		].includes(target.objecttype)) interactSelected();
+		return;
+	}
+	if (ground) {
+		MapControl.onRequestWalk();
+		MapControl.onRequestStopWalk();
+	}
+}
+function interactSelected() {
+	const target = selectedTarget();
+	if (!target) return;
+	const T = target.constructor;
+	if (target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type)) {
+		target.onRoomEnter();
+		return;
+	}
+	if (target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity) {
+		UIManager.showPromptBox(`向 ${target.display.name} 发起交易？`, "ok", "cancel", () => {
+			if (SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && selectedTarget() === target) Trade_default.reqExchange(target.GID, target.display.name);
+		});
+		return;
+	}
+	if (![
+		T.TYPE_NPC,
+		T.TYPE_NPC2,
+		T.TYPE_ITEM,
+		T.TYPE_WARP
+	].includes(target.objecttype)) return;
+	Mouse.world.x = Math.round(target.position[0]);
+	Mouse.world.y = Math.round(target.position[1]);
+	target.onMouseDown();
+}
+function targetSnapshot() {
+	const target = selectedTarget();
+	if (!target) return {
+		name: "点击目标进行选择",
+		attack: false,
+		interaction: ""
+	};
+	const T = target.constructor;
+	return {
+		name: target.display.name || "已选目标",
+		attack: canAttack(target),
+		interaction: target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type) ? "查看摊位" : target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity ? "交易" : target.objecttype === T.TYPE_WARP ? "进入" : ""
+	};
+}
+function adjustCamera(action) {
+	const indoor = DB.isIndoor(Camera.currentMap);
+	if (action === "zoomIn" || action === "zoomOut") Camera.setZoom(action === "zoomIn" ? -1 : 1);
+	else if (action === "reset") {
+		Camera.angleFinal[0] = indoor ? Camera.indoorRange : Camera.range;
+		Camera.angleFinal[1] = indoor ? Camera.indoorRotationTo : 0;
+		Camera.zoomFinal = DEFAULT_CAMERA_ZOOM;
+	} else {
+		const tilt = action === "up" || action === "down";
+		const index = tilt ? 0 : 1;
+		const min = tilt ? indoor ? Camera.MIN_ALTITUDE_INDOOR : Camera.MIN_V_ANGLE : indoor ? Camera.indoorRotationFrom : Camera.rotationFrom;
+		const max = tilt ? indoor ? Camera.MAX_ALTITUDE_INDOOR : Camera.MAX_V_ANGLE : indoor ? Camera.indoorRotationTo : Camera.rotationTo;
+		const delta = tilt ? action === "up" ? 5 : -5 : action === "left" ? -15 : 15;
+		Camera.angleFinal[index] = Math.max(min, Math.min(max, Camera.angleFinal[index] + delta));
+	}
+	Camera.save();
+}
+var directionalMovementPlayer;
+var init_GameCommands = __esmMin((() => {
+	init_Trade$1();
+	init_UIManager();
+	init_AttackIntent();
+	init_DBManager();
+	init_SessionStorage();
+	init_EntityManager();
+	init_Camera();
+	init_Camera$1();
+	init_Altitude();
+	init_MouseEventHandler();
+	init_MapControl();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_Navigation();
+	directionalMovementPlayer = null;
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatController.js
+function validAutoCombatTeleport(value) {
+	return value && typeof value.enabled === "boolean" && Number.isInteger(value.waitSeconds) && value.waitSeconds >= 1 && value.waitSeconds <= 60 && Number.isInteger(value.intervalSeconds) && value.intervalSeconds >= 1 && value.intervalSeconds <= 300;
+}
+/** Nearby combat policy. Runtime adapters own pathfinding, packets and live skill checks. */
+function createAutoCombatController(data, configuration = {
+	species: [],
+	skills: [],
+	ranges: {
+		search: 20,
+		activity: 30
+	}
+}) {
+	let active = false, pausedForMovement = false, continuous = false, preferred = null, species = configuration.species.map((entry) => ({ ...entry })), ranges = { ...configuration.ranges }, selected = [...configuration.skills], target = null, nextAction = 0;
+	let teleport = {
+		...AUTO_COMBAT_TELEPORT_DEFAULTS,
+		...configuration.teleport
+	};
+	let idleSince = null;
+	let origin, lastDistance = Infinity, progressAt = 0, status = "自动战斗已停止";
+	const skipped = /* @__PURE__ */ new Map();
+	const distance = (a, b) => Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]));
+	function stop(message = "自动战斗已停止") {
+		data.cancelPickup?.();
+		idleSince = null;
+		if (active || target) data.stop();
+		active = false;
+		pausedForMovement = false;
+		continuous = false;
+		preferred = null;
+		target = null;
+		status = message;
+	}
+	function snapshot() {
+		return {
+			active,
+			ranges: { ...ranges },
+			teleport: { ...teleport },
+			pausedForMovement,
+			species: species.map((entry) => ({ ...entry })),
+			skills: [...selected],
+			status,
+			target: target?.name || ""
+		};
+	}
+	function tick() {
+		if (!active) return;
+		if (!data.enabled()) {
+			stop("自动战斗已停止");
+			return;
+		}
+		if (pausedForMovement) return;
+		if (data.teleportPending?.()) {
+			status = "正在随机瞬移";
+			return;
+		}
+		const now = data.now(), player = data.position();
+		for (const [id, until] of skipped) if (until <= now) skipped.delete(id);
+		const targets = data.targets().filter((entity) => (entity.id === preferred || continuous && (!species.length || species.some((entry) => entity.species === entry.id))) && distance(player, entity.position) <= ranges.search && distance(origin, entity.position) <= ranges.activity && (skipped.get(entity.id) || 0) <= now);
+		const current = target && targets.find((entity) => entity.id === target.id);
+		if (target && !current) {
+			if (!continuous) {
+				stop("目标已结束或离开，攻击已停止");
+				return;
+			}
+			preferred = null;
+			data.stop();
+			target = null;
+			nextAction = 0;
+		}
+		if (!target) {
+			if (continuous && data.pickupTurn?.()) {
+				idleSince = null;
+				status = "拾取本轮掉落物品";
+				return;
+			}
+			targets.sort((a, b) => distance(player, a.position) - distance(player, b.position));
+			target = targets.find((entity) => data.reachable(entity)) || null;
+			if (!target) {
+				status = "等待附近目标";
+				if (!continuous || !teleport.enabled || data.busy() || data.teleportBusy?.()) {
+					idleSince = null;
+					return;
+				}
+				idleSince ??= now;
+				const remaining = teleport.waitSeconds * 1e3 - (now - idleSince);
+				status = remaining > 0 ? `无目标，${Math.ceil(remaining / 1e3)} 秒后随机瞬移` : data.teleport(teleport.intervalSeconds);
+				return;
+			}
+			data.select(target);
+			lastDistance = Infinity;
+			progressAt = now;
+		} else target = current;
+		idleSince = null;
+		const range = distance(player, target.position);
+		if (range < lastDistance || !data.chasing()) {
+			progressAt = now;
+			lastDistance = range;
+		}
+		if (now - progressAt >= 8e3) {
+			if (!continuous) {
+				stop("目标无法接近，攻击已停止");
+				return;
+			}
+			preferred = null;
+			skipped.set(target.id, now + 3e4);
+			data.stop();
+			target = null;
+			nextAction = 0;
+			status = "目标无法接近，寻找其他目标";
+			return;
+		}
+		status = `${data.chasing() ? "接近" : "攻击"}：${target.name}`;
+		if (now < nextAction || data.busy()) return;
+		const skills = data.skills().filter((skill) => selected.includes(skill.id) && skill.available);
+		const skill = skills.length ? skills[Math.floor(data.random() * skills.length)] : null;
+		if (data.act(target, skill) === false) {
+			if (!continuous) {
+				stop("无法攻击目标");
+				return;
+			}
+			preferred = null;
+			skipped.set(target.id, now + 3e4);
+			data.stop();
+			target = null;
+		}
+		nextAction = now + 900;
+	}
+	return {
+		snapshot,
+		tick,
+		stop,
+		pauseForMovement() {
+			data.cancelPickup?.();
+			if (!active || pausedForMovement) return;
+			if (!continuous) {
+				stop("手动移动，攻击已停止");
+				return;
+			}
+			data.stop();
+			idleSince = null;
+			pausedForMovement = true;
+			target = null;
+			preferred = null;
+			status = "移动中，停止移动后继续自动战斗";
+		},
+		resumeAfterMovement() {
+			if (!active || !pausedForMovement) return;
+			pausedForMovement = false;
+			origin = [...data.position()];
+			nextAction = 0;
+			skipped.clear();
+			status = "寻找附近目标";
+		},
+		start() {
+			data.cancelPickup?.();
+			idleSince = null;
+			if (!data.enabled()) return false;
+			data.stop();
+			origin = [...data.position()];
+			active = true;
+			pausedForMovement = false;
+			continuous = true;
+			preferred = null;
+			target = null;
+			nextAction = 0;
+			skipped.clear();
+			status = "寻找附近目标";
+			tick();
+			return true;
+		},
+		attackTarget(id) {
+			data.cancelPickup?.();
+			if (!data.enabled()) return false;
+			const choice = data.targets().find((entity) => entity.id === id);
+			if (!choice || !data.reachable(choice)) return false;
+			continuous = active && continuous;
+			data.stop();
+			active = true;
+			pausedForMovement = false;
+			preferred = id;
+			target = choice;
+			origin = [...data.position()];
+			nextAction = 0;
+			lastDistance = Infinity;
+			progressAt = data.now();
+			skipped.delete(id);
+			data.select(target);
+			tick();
+			return true;
+		},
+		configure(nextSpecies, ids, nextRanges, nextTeleport = teleport) {
+			if (!validAutoCombatTeleport(nextTeleport)) return false;
+			const limits = AUTO_COMBAT_RANGE_LIMITS;
+			if (!Number.isInteger(nextRanges.search) || !Number.isInteger(nextRanges.activity) || nextRanges.search < limits.min || nextRanges.search > limits.searchMax || nextRanges.activity < nextRanges.search || nextRanges.activity > limits.activityMax) return false;
+			const next = {
+				ranges: { ...nextRanges },
+				teleport: { ...nextTeleport },
+				species: [...new Map(nextSpecies.map((entry) => [entry.id, {
+					id: entry.id,
+					name: entry.name
+				}])).values()],
+				skills: [...new Set(ids)].filter((id) => data.skills().some((skill) => skill.id === id))
+			};
+			if (data.saveSettings?.(next) === false) return false;
+			({ranges, teleport, species, skills: selected} = next);
+			return true;
+		},
+		skills: () => data.skills(),
+		targets: () => data.targets()
+	};
+}
+var AUTO_COMBAT_RANGE_LIMITS, AUTO_COMBAT_TELEPORT_DEFAULTS;
+var init_AutoCombatController = __esmMin((() => {
+	AUTO_COMBAT_RANGE_LIMITS = {
+		min: 1,
+		searchMax: 50,
+		activityMax: 100
+	};
+	AUTO_COMBAT_TELEPORT_DEFAULTS = {
+		enabled: false,
+		waitSeconds: 5,
+		intervalSeconds: 2
+	};
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatSettings.js
+/** Only preferences are persisted, never an active battle or a temporary target. */
+function loadAutoCombatSettings(key) {
+	try {
+		const saved = JSON.parse(localStorage.getItem(key));
+		const limits = AUTO_COMBAT_RANGE_LIMITS;
+		if (!saved || !Array.isArray(saved.species) || !Array.isArray(saved.skills) || !saved.ranges) return;
+		if (!saved.species.every((entry) => entry && Number.isInteger(entry.id) && entry.id > 0 && typeof entry.name === "string")) return;
+		if (!saved.skills.every((id) => Number.isInteger(id) && id > 0)) return;
+		const { search, activity } = saved.ranges;
+		if (!Number.isInteger(search) || !Number.isInteger(activity) || search < limits.min || search > limits.searchMax || activity < search || activity > limits.activityMax) return;
+		if (saved.teleport !== void 0 && !validAutoCombatTeleport(saved.teleport)) return;
+		return {
+			species: saved.species,
+			skills: saved.skills,
+			ranges: {
+				search,
+				activity
+			},
+			...saved.teleport ? { teleport: saved.teleport } : {}
+		};
+	} catch {
+		return;
+	}
+}
+function saveAutoCombatSettings(key, settings) {
+	try {
+		localStorage.setItem(key, JSON.stringify(settings));
+		return true;
+	} catch {
+		return false;
+	}
+}
+var init_AutoCombatSettings = __esmMin((() => {
+	init_AutoCombatController();
+}));
+//#endregion
+//#region src/UI/Game/GameAutoCombat.js
+function createGameAutoCombat(enabled) {
+	const settingsKey = `HappyRO.AutoCombat:${JSON.stringify([
+		SessionStorage_default.ServerName,
+		SessionStorage_default.AID,
+		SessionStorage_default.GID
+	])}`;
+	function targets() {
+		const result = [];
+		EntityManager.forEach((entity) => {
+			if (entity.objecttype !== entity.constructor.TYPE_MOB || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return;
+			result.push({
+				id: entity.GID,
+				species: entity.job,
+				name: entity.display.name,
+				position: [...entity.position]
+			});
+		});
+		return result;
+	}
+	function skills() {
+		return Controller$4.getUI().getSkills().filter((skill) => canExecuteSkill(skill) && skill.type & (SKILL_INF.ENEMY | SKILL_INF.PLACE)).map((skill) => {
+			const reason = remainingCooldown(skill.SKID) > 0 ? "冷却中" : skill.spcost > SessionStorage_default.Entity.life.sp ? "SP 不足" : "";
+			return {
+				id: skill.SKID,
+				name: SkillInfo_generated_default[skill.SKID]?.SkillName || `技能 ${skill.SKID}`,
+				level: skill.level,
+				type: skill.type,
+				available: !reason,
+				reason
+			};
+		});
+	}
+	let ownsAction = false, ownedMove = null;
+	function stop() {
+		if (!ownsAction) return;
+		ownsAction = false;
+		if (SessionStorage_default.moveAction && SessionStorage_default.moveAction !== ownedMove) return;
+		ownedMove = null;
+		Navigation_default.stopAutoWalk();
+		SkillTargetSelection_default.remove();
+		const chasing = Boolean(SessionStorage_default.moveAction);
+		stopAttack();
+		if (chasing && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE) Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
+		MapControl.onRequestStopWalk();
+		SessionStorage_default.autoFollow = false;
+	}
+	return createAutoCombatController({
+		saveSettings: (settings) => saveAutoCombatSettings(settingsKey, settings),
+		enabled: () => enabled() && !SessionStorage_default.Entity?.isOverWeight && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.SIT,
+		now: () => performance.now(),
+		random: Math.random,
+		position: () => SessionStorage_default.Entity.position,
+		targets,
+		skills,
+		stop,
+		pickupTurn: takeAutomationPickupTurn,
+		cancelPickup: cancelAutomationPickup,
+		teleport: requestAutoCombatTeleport,
+		teleportPending: isAutoCombatTeleportPending,
+		teleportBusy: () => Boolean(SessionStorage_default.autoFollow || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.WALK || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.ATTACK || document.querySelector("#PickupSettings") || document.querySelector("#MobileGameHUD")?.shadowRoot?.querySelector(".backdrop:not([hidden])") || document.activeElement?.matches("input, textarea")),
+		chasing: () => Boolean(SessionStorage_default.moveAction),
+		busy: () => Boolean(SessionStorage_default.moveAction || SessionStorage_default.Entity.cast?.display || SessionStorage_default.Entity.amotionTick > Renderer.tick),
+		reachable: (target) => PathFinding_default.search(SessionStorage_default.Entity.position[0] | 0, SessionStorage_default.Entity.position[1] | 0, target.position[0] | 0, target.position[1] | 0, 1, [], Altitude.TYPE.WALKABLE) > 0,
+		select: (target) => {
+			const entity = EntityManager.get(target.id), previous = EntityManager.getFocusEntity();
+			if (previous && previous !== entity) previous.onFocusEnd();
+			EntityManager.setFocusEntity(entity);
+			EntityManager.setOverEntity(entity);
+			entity.onFocus({ attack: false });
+		},
+		act: (target, skill) => {
+			const entity = EntityManager.get(target.id);
+			if (!entity || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return false;
+			if (!skill) {
+				attackSelected(false, () => {
+					ownsAction = true;
+					ownedMove = SessionStorage_default.moveAction;
+				});
+				return true;
+			}
+			const current = skills().find((entry) => entry.id === skill.id && entry.available);
+			if (!current) return false;
+			stopAttack();
+			let result;
+			if (current.type & SKILL_INF.PLACE) result = SkillTargetSelection_default.onUseSkillToPos(current.id, current.level, entity.position[0], entity.position[1]);
+			else result = SkillTargetSelection_default.onUseSkillToId(current.id, current.level, target.id);
+			ownsAction = result !== false;
+			ownedMove = SessionStorage_default.moveAction;
+			return result;
+		}
+	}, loadAutoCombatSettings(settingsKey));
+}
+var init_GameAutoCombat = __esmMin((() => {
+	init_GameAutomation();
+	init_AutoCombatTeleport();
+	init_Navigation();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_SessionStorage();
+	init_EntityManager();
+	init_Renderer();
+	init_MapControl();
+	init_PathFinding();
+	init_Altitude();
+	init_SkillList();
+	init_SkillTargetSelection();
+	init_SkillUse();
+	init_SkillInfo_generated();
+	init_SkillCooldowns();
+	init_GameCommands();
+	init_AutoCombatController();
+	init_AutoCombatSettings();
+}));
+//#endregion
+//#region src/UI/Game/GameAutoCombatRuntime.js
+function isAutoCombatEngaged() {
+	return [...combatRuntimes].some((controller) => {
+		const state = controller.snapshot();
+		return state.active && !state.pausedForMovement && Boolean(state.target);
+	});
+}
+/** One map-scoped runtime shared by desktop and touch presentations. */
+function createGameAutoCombatRuntime({ enabled = () => true, isMoving = () => false, update = () => {}, onDisconnect = () => {} } = {}) {
+	let destroyed = false;
+	let movementHeld = false;
+	let resumeAt = 0;
+	const canRun = () => Boolean(!destroyed && enabled() && SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && !document.hidden && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
+	const controller = createGameAutoCombat(canRun);
+	combatRuntimes.add(controller);
+	const unregisterAutomation = registerAutomationCombat(controller);
+	const abort = new AbortController();
+	const stop = (message) => {
+		cancelAutoCombatTeleport();
+		movementHeld = false;
+		controller.stop(message);
+		update(controller.snapshot());
+	};
+	const pauseForMovement = () => {
+		controller.pauseForMovement();
+		resumeAt = performance.now() + 300;
+	};
+	const unsubscribeInput = subscribeGameInput((kind, targetId) => {
+		if (kind === "move-start") {
+			movementHeld = true;
+			pauseForMovement();
+		} else if (kind === "move-pulse") pauseForMovement();
+		else if (kind === "move-end") {
+			movementHeld = false;
+			resumeAt = performance.now() + 300;
+		} else if (kind === "attack-target") return controller.snapshot().active && controller.attackTarget(targetId);
+		else stop(kind === "skill" ? "手动施法，自动战斗已停止" : "手动操作，自动战斗已停止");
+		return false;
+	});
+	const timer = window.setInterval(() => {
+		if (SessionStorage_default.Entity?.action === SessionStorage_default.Entity?.ACTION.DIE) cancelAutoCombatTeleport();
+		if (canRun() && consumeAutoCombatTeleport()) controller.start();
+		if (canRun() && !movementHeld && !isMoving() && performance.now() >= resumeAt && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.WALK) controller.resumeAfterMovement();
+		controller.tick();
+		update(controller.snapshot());
+	}, 200);
+	window.addEventListener("blur", () => stop(), { signal: abort.signal });
+	document.addEventListener("visibilitychange", () => {
+		if (document.hidden) stop();
+	}, { signal: abort.signal });
+	const unsubscribeConnection = onConnectionEnd(() => {
+		destroy();
+		onDisconnect();
+	});
+	function destroy() {
+		if (destroyed) return;
+		destroyed = true;
+		combatRuntimes.delete(controller);
+		unregisterAutomation();
+		clearInterval(timer);
+		abort.abort();
+		unsubscribeInput();
+		unsubscribeConnection();
+		controller.stop();
+	}
+	return {
+		...controller,
+		stop,
+		pauseForMovement,
+		destroy
+	};
+}
+var combatRuntimes;
+var init_GameAutoCombatRuntime = __esmMin((() => {
+	init_GameAutomation();
+	init_AutoCombatTeleport();
+	init_SessionStorage();
+	init_GameInputIntent();
+	init_ConnectionLifecycle();
+	init_GameAutoCombat();
+	combatRuntimes = /* @__PURE__ */ new Set();
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatPanel.js
+/** Auto combat configuration is independent of the manual shortcut slots. */
+function createAutoCombatPanel(body, actions) {
+	let ready = false;
+	const state = actions.snapshot();
+	const ranges = { ...state.ranges };
+	const teleport = {
+		...AUTO_COMBAT_TELEPORT_DEFAULTS,
+		...state.teleport
+	};
+	body.innerHTML = `
+		<div class="auto-layout">
+			<section class="auto-target-section" aria-labelledby="auto-target-title">
+				<h3 id="auto-target-title">攻击目标</h3>
+				<button type="button" data-all-species>全部魔物</button>
+				<p class="auto-help">可多选种类；未勾选时攻击全部魔物。</p>
+				<div class="auto-species-list" data-auto-species aria-label="自动战斗目标"></div>
+				<section class="auto-range-settings" aria-labelledby="auto-range-title">
+					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
+					<div data-range-controls></div>
+					<p class="auto-help">搜怪：角色周围的搜索距离。活动：距本轮起点的最大距离；手动移动或瞬移后重设起点。</p>
+				</section>
+				<section class="auto-teleport-settings" aria-labelledby="auto-teleport-title">
+					<h4 id="auto-teleport-title">自动瞬移</h4>
+					<label class="auto-teleport-toggle"><span>无目标时随机瞬移</span><input type="checkbox" data-auto-teleport></label>
+					<div data-teleport-controls></div>
+					<p class="auto-help">使用冒险工具能力。没有战斗目标和可拾取物品时，等待后随机瞬移。</p>
+					<p class="auto-help">仍受地图限制和服务器冷却约束。</p>
+				</section>
+			</section>
+			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
+				<div class="auto-section-heading"><h3 id="auto-skills-title">攻击方式</h3><span data-skill-count></span></div>
+				<button type="button" data-normal-attack>普通攻击</button>
+				<p class="auto-help">勾选技能后随机释放，使用已学最高等级；均不可用时使用普攻。</p>
+				<div class="auto-skill-list" data-auto-skills></div>
+			</section>
+		</div>
+		<div class="auto-config-footer"><div><strong data-auto-summary></strong></div><span data-auto-save-status role="status">修改后自动保存</span></div>`;
+	const $ = (selector) => body.querySelector(selector);
+	const limits = AUTO_COMBAT_RANGE_LIMITS;
+	for (const [key, title, maximum] of [[
+		"search",
+		"搜怪范围",
+		limits.searchMax
+	], [
+		"activity",
+		"活动范围",
+		limits.activityMax
+	]]) {
+		const row = document.createElement("div");
+		row.className = "auto-range-row";
+		const label = document.createElement("span");
+		label.textContent = title;
+		const stepper = document.createElement("div");
+		stepper.className = "auto-range-stepper";
+		stepper.setAttribute("role", "group");
+		stepper.setAttribute("aria-label", title);
+		const output = document.createElement("output");
+		output.dataset.rangeValue = key;
+		output.setAttribute("aria-live", "polite");
+		for (const delta of [-1, 1]) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = delta < 0 ? "−" : "+";
+			button.dataset.range = key;
+			button.dataset.delta = String(delta);
+			button.setAttribute("aria-label", `${delta < 0 ? "减小" : "增大"}${title}`);
+			button.onclick = () => {
+				ranges[key] = Math.max(limits.min, Math.min(maximum, ranges[key] + delta));
+				if (key === "search") ranges.activity = Math.max(ranges.activity, ranges.search);
+				else ranges.search = Math.min(ranges.search, ranges.activity);
+				updateSummary();
+			};
+			stepper.append(button);
+			if (delta < 0) stepper.append(output);
+		}
+		row.append(label, stepper);
+		$("[data-range-controls]").append(row);
+	}
+	const teleportToggle = $("[data-auto-teleport]");
+	teleportToggle.checked = teleport.enabled;
+	const refreshTeleport = () => {
+		if (ready) save();
+		for (const button of body.querySelectorAll("[data-teleport-key]")) {
+			const key = button.dataset.teleportKey;
+			const min = 1;
+			const max = key === "waitSeconds" ? 60 : 300;
+			button.disabled = !teleport.enabled || (Number(button.dataset.delta) < 0 ? teleport[key] <= min : teleport[key] >= max);
+		}
+		for (const output of body.querySelectorAll("[data-teleport-value]")) output.value = `${teleport[output.dataset.teleportValue]} 秒`;
+	};
+	teleportToggle.onchange = () => {
+		teleport.enabled = teleportToggle.checked;
+		refreshTeleport();
+	};
+	for (const [key, title, min, max] of [[
+		"waitSeconds",
+		"无目标等待",
+		1,
+		60
+	], [
+		"intervalSeconds",
+		"最短瞬移间隔",
+		1,
+		300
+	]]) {
+		const row = document.createElement("div");
+		row.className = "auto-range-row";
+		const label = document.createElement("span");
+		label.textContent = title;
+		const stepper = document.createElement("div");
+		stepper.className = "auto-range-stepper";
+		stepper.setAttribute("role", "group");
+		stepper.setAttribute("aria-label", title);
+		const output = document.createElement("output");
+		output.dataset.teleportValue = key;
+		for (const delta of [-1, 1]) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = delta < 0 ? "−" : "+";
+			button.dataset.teleportKey = key;
+			button.dataset.delta = String(delta);
+			button.setAttribute("aria-label", `${delta < 0 ? "减小" : "增大"}${title}`);
+			button.onclick = () => {
+				teleport[key] = Math.max(min, Math.min(max, teleport[key] + delta));
+				refreshTeleport();
+			};
+			stepper.append(button);
+			if (delta < 0) stepper.append(output);
+		}
+		row.append(label, stepper);
+		$("[data-teleport-controls]").append(row);
+	}
+	refreshTeleport();
+	const species = new Map(state.species.map((entry) => [entry.id, entry.name]));
+	for (const target of actions.targets()) species.set(target.species, target.name);
+	const chosenSpecies = new Set(state.species.map((entry) => entry.id));
+	for (const [id, name] of species) {
+		const button = document.createElement("button");
+		button.type = "button";
+		button.className = "auto-species-card";
+		button.dataset.species = String(id);
+		button.setAttribute("role", "checkbox");
+		button.setAttribute("aria-checked", String(chosenSpecies.has(id)));
+		const check = document.createElement("span");
+		check.className = "auto-species-check";
+		check.setAttribute("aria-hidden", "true");
+		const title = document.createElement("span");
+		title.textContent = name;
+		button.append(check, title);
+		const toggle = () => {
+			if (chosenSpecies.has(id)) chosenSpecies.delete(id);
+			else chosenSpecies.add(id);
+			updateSummary();
+		};
+		let press = null;
+		const scroller = $(".auto-target-section");
+		button.onpointerdown = (event) => {
+			if (event.button !== 0 || press) return;
+			event.preventDefault();
+			press = {
+				id: event.pointerId,
+				x: event.clientX,
+				y: event.clientY,
+				scroll: scroller.scrollTop,
+				moved: false
+			};
+			button.setPointerCapture(event.pointerId);
+		};
+		button.onpointermove = (event) => {
+			if (press?.id === event.pointerId && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) press.moved = true;
+		};
+		button.onpointerup = (event) => {
+			if (press?.id !== event.pointerId) return;
+			const start = press;
+			press = null;
+			const bounds = button.getBoundingClientRect();
+			if (button.hasPointerCapture(event.pointerId)) button.releasePointerCapture(event.pointerId);
+			if (!start.moved && Math.hypot(event.clientX - start.x, event.clientY - start.y) <= 8 && scroller.scrollTop === start.scroll && event.clientX >= bounds.left && event.clientX <= bounds.right && event.clientY >= bounds.top && event.clientY <= bounds.bottom) toggle();
+		};
+		button.onpointercancel = button.onlostpointercapture = () => {
+			press = null;
+		};
+		button.onclick = (event) => {
+			if (event.detail === 0) toggle();
+		};
+		$("[data-auto-species]").append(button);
+	}
+	if (!species.size) $("[data-auto-species]").textContent = "附近暂无魔物，发现后可在这里选择。";
+	const selectedSpecies = () => [...chosenSpecies].map((id) => ({
+		id,
+		name: species.get(id)
+	}));
+	const entries = actions.skills();
+	const chosenSkills = new Set(state.skills);
+	for (const skill of entries) {
+		const label = document.createElement("button");
+		label.type = "button";
+		label.className = "auto-skill-card";
+		label.dataset.skill = skill.id;
+		label.setAttribute("role", "checkbox");
+		label.setAttribute("aria-checked", String(chosenSkills.has(skill.id)));
+		const input = document.createElement("i");
+		input.className = "auto-species-check";
+		input.setAttribute("aria-hidden", "true");
+		const detail = document.createElement("span");
+		const name = document.createElement("strong");
+		name.textContent = skill.name;
+		const level = document.createElement("small");
+		level.textContent = `Lv.${skill.level}`;
+		detail.append(name, level);
+		if (skill.reason) {
+			const reason = document.createElement("small");
+			reason.className = "auto-skill-reason";
+			reason.textContent = skill.reason;
+			detail.append(reason);
+		}
+		label.append(input, detail);
+		const scroller = $("[data-auto-skills]");
+		let press, cancelled = false;
+		label.onpointerdown = (event) => {
+			if (event.button !== 0) return;
+			cancelled = false;
+			press = {
+				x: event.clientX,
+				y: event.clientY,
+				scroll: scroller.scrollTop
+			};
+		};
+		label.onpointermove = (event) => {
+			if (press && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) cancelled = true;
+		};
+		label.onpointercancel = () => {
+			cancelled = true;
+		};
+		label.onclick = (event) => {
+			if (event.detail !== 0 && (cancelled || press && (scroller.scrollTop !== press.scroll || Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8))) return;
+			if (chosenSkills.has(skill.id)) chosenSkills.delete(skill.id);
+			else chosenSkills.add(skill.id);
+			updateSummary();
+		};
+		$("[data-auto-skills]").append(label);
+	}
+	if (!entries.length) $("[data-auto-skills]").textContent = "暂无可自动释放的技能，使用普通攻击。";
+	const selectedSkills = () => entries.filter((skill) => chosenSkills.has(skill.id)).map((skill) => skill.id);
+	function updateSummary() {
+		if (ready) save();
+		$("[data-range-summary]").textContent = `${ranges.search} / ${ranges.activity} 格`;
+		for (const output of body.querySelectorAll("[data-range-value]")) output.value = `${ranges[output.dataset.rangeValue]} 格`;
+		for (const button of body.querySelectorAll("[data-range]")) {
+			const key = button.dataset.range;
+			button.disabled = Number(button.dataset.delta) < 0 ? ranges[key] <= limits.min : ranges[key] >= (key === "search" ? limits.searchMax : limits.activityMax);
+		}
+		for (const button of body.querySelectorAll("[data-auto-skills] [data-skill]")) button.setAttribute("aria-checked", String(chosenSkills.has(Number(button.dataset.skill))));
+		const count = selectedSkills().length;
+		const targets = selectedSpecies();
+		for (const button of body.querySelectorAll("[data-species]")) button.setAttribute("aria-checked", String(chosenSpecies.has(Number(button.dataset.species))));
+		const targetLabel = targets.length > 1 ? `${targets.length} 种魔物` : targets[0]?.name || "全部魔物";
+		$("[data-all-species]").setAttribute("aria-pressed", String(!targets.length));
+		$("[data-normal-attack]").setAttribute("aria-pressed", String(count === 0));
+		$("[data-skill-count]").textContent = count ? `已选 ${count} 项` : "未选技能";
+		$("[data-auto-summary]").textContent = `${targetLabel} · ${count ? `${count} 个技能` : "普通攻击"}`;
+	}
+	$("[data-all-species]").onclick = () => {
+		chosenSpecies.clear();
+		updateSummary();
+	};
+	$("[data-normal-attack]").onclick = () => {
+		chosenSkills.clear();
+		updateSummary();
+	};
+	function save() {
+		const ok = actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }, { ...teleport }) !== false;
+		$("[data-auto-save-status]").textContent = ok ? "已保存" : "保存失败，请重试";
+		$("[data-auto-save-status]").dataset.error = String(!ok);
+		$("[data-auto-retry]").hidden = ok;
+	}
+	const retry = document.createElement("button");
+	retry.type = "button";
+	retry.dataset.autoRetry = "";
+	retry.textContent = "重试";
+	retry.hidden = true;
+	retry.onclick = save;
+	$(".auto-config-footer").append(retry);
+	updateSummary();
+	ready = true;
+}
+var init_AutoCombatPanel$1 = __esmMin((() => {
+	init_AutoCombatController();
+}));
+//#endregion
+//#region src/UI/Game/PickupSettings.js
+function pickupCategory(type) {
+	if ([
+		ItemType_default.ARMOR,
+		ItemType_default.WEAPON,
+		ItemType_default.PETARMOR,
+		ItemType_default.SHADOWGEAR
+	].includes(type)) return "equipment";
+	if ([
+		ItemType_default.HEALING,
+		ItemType_default.USABLE,
+		ItemType_default.DELAYCONSUME,
+		ItemType_default.CASH
+	].includes(type)) return "consumable";
+	if (type === ItemType_default.CARD) return "card";
+	return "other";
+}
+function validPickupSettings(value) {
+	return Boolean(value && typeof value.enabled === "boolean" && Number.isInteger(value.batchSeconds) && value.batchSeconds >= 1 && value.batchSeconds <= 30 && Number.isInteger(value.range) && value.range >= 1 && value.range <= 15 && Array.isArray(value.categories) && value.categories.every((id) => pickupCategories.some(([key]) => key === id)) && Array.isArray(value.excluded) && value.excluded.every((item) => Number.isInteger(item.id) && item.id > 0 && typeof item.name === "string"));
+}
+function loadPickupSettings() {
+	if (cachedKey === key$2() && cachedValue) return structuredClone(cachedValue);
+	let value;
+	try {
+		value = JSON.parse(localStorage.getItem(key$2()));
+	} catch {}
+	if (value) value = {
+		...pickupDefaults(),
+		...value
+	};
+	cachedKey = key$2();
+	cachedValue = validPickupSettings(value) ? value : pickupDefaults();
+	return structuredClone(cachedValue);
+}
+function savePickupSettings(value) {
+	if (!validPickupSettings(value)) return false;
+	try {
+		localStorage.setItem(key$2(), JSON.stringify(value));
+	} catch {
+		return false;
+	}
+	cachedKey = key$2();
+	cachedValue = structuredClone(value);
+	window.dispatchEvent(new Event("happyro-pickup-settings"));
+	return true;
+}
+var pickupCategories, pickupDefaults, key$2, cachedKey, cachedValue;
+var init_PickupSettings = __esmMin((() => {
+	init_SessionStorage();
+	init_ItemType();
+	pickupCategories = [
+		["equipment", "装备"],
+		["consumable", "消耗品"],
+		["card", "卡片"],
+		["other", "其它"]
+	];
+	pickupDefaults = () => ({
+		enabled: false,
+		range: 5,
+		batchSeconds: 5,
+		categories: pickupCategories.map(([id]) => id),
+		excluded: []
+	});
+	key$2 = () => `HappyRO.Pickup:${JSON.stringify([
+		SessionStorage_default.ServerName,
+		SessionStorage_default.AID,
+		SessionStorage_default.GID
+	])}`;
+}));
+//#endregion
+//#region src/UI/Components/GameTools/AdventureControlService.js
+function headers() {
+	return {
+		Accept: "application/json",
+		"Content-Type": "application/json",
+		"X-HappyRO-Account-ID": String(SessionStorage_default.AID),
+		"X-HappyRO-Character-ID": String(SessionStorage_default.GID),
+		"X-HappyRO-Auth-Token": SessionStorage_default.WebToken || ""
+	};
+}
+async function requestBody(path, options = {}) {
+	const response = await fetch(`/api/adventure-tools${path}`, {
+		...options,
+		headers: headers()
+	});
+	const body = await response.json().catch(() => ({}));
+	if (!response.ok) {
+		const validation = body.errors ? Object.values(body.errors).flat()[0] : null;
+		const error = new Error(validation || body.message || body.error?.message || "操作失败，请稍后重试");
+		error.code = body.error?.code;
+		throw error;
+	}
+	return body;
+}
+async function request(path, options = {}) {
+	return (await requestBody(path, options)).data;
+}
+async function loadAdventureAsset(path) {
+	const response = await fetch(`/api/adventure-tools${path}`, { headers: headers() });
+	if (!response.ok) throw new Error("物品图片加载失败");
+	return URL.createObjectURL(await response.blob());
+}
+function createIdempotencyKey() {
+	const bytes = crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(16));
+	bytes[6] = bytes[6] & 15 | 64;
+	bytes[8] = bytes[8] & 63 | 128;
+	const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+	return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+function loadAdventureControlBootstrap() {
+	return request("/bootstrap");
+}
+function loadCurrentCharacter() {
+	return request("/character");
+}
+function maintainCurrentCharacter(type, payload) {
+	return request("/character/commands", {
+		method: "POST",
+		body: JSON.stringify({
+			idempotency_key: createIdempotencyKey(),
+			type,
+			payload
+		})
+	});
+}
+function loadAdventureGameSettings() {
+	return request("/game-settings");
+}
+function searchAdventureItems({ query = "", type = "", subtype = "", page = 1, perPage = 30 } = {}) {
+	const params = new URLSearchParams({
+		page,
+		perPage
+	});
+	if (query) params.set("query", query);
+	if (type) params.set("type", type);
+	if (subtype) params.set("subtype", subtype);
+	return requestBody(`/items?${params}`);
+}
+function searchAdventureNpcs({ query = "", onMap = "", currentMap = "", page = 1, perPage = 32 } = {}) {
+	const params = new URLSearchParams({
+		page,
+		perPage
+	});
+	if (query) params.set("query", query);
+	if (onMap) params.set("onMap", onMap);
+	if (currentMap) params.set("currentMap", currentMap);
+	return requestBody(`/npcs?${params}`);
+}
+/**
+* Every NPC on one map. The map preview places all markers at once, so this
+* stays unpaginated on purpose.
+*/
+function loadAdventureMapNpcs(map) {
+	return request(`/maps/${encodeURIComponent(map)}/npcs`);
+}
+function searchAdventureMaps({ query = "", onMap = "", currentMap = "", page = 1, perPage = 35 } = {}) {
+	const params = new URLSearchParams({
+		page,
+		perPage
+	});
+	if (query) params.set("query", query);
+	if (onMap) params.set("onMap", onMap);
+	if (currentMap) params.set("currentMap", currentMap);
+	return requestBody(`/maps?${params}`);
+}
+function grantAdventureZeny(amount) {
+	return request("/currency/zeny/grants", {
+		method: "POST",
+		body: JSON.stringify({
+			idempotency_key: createIdempotencyKey(),
+			amount
+		})
+	});
+}
+function grantAdventureItem(itemId, amount) {
+	return request("/items/grants", {
+		method: "POST",
+		body: JSON.stringify({
+			idempotency_key: createIdempotencyKey(),
+			target: { type: "self" },
+			item_id: itemId,
+			amount
+		})
+	});
+}
+function applyAdventureGameSettings(changes) {
+	return request("/game-settings", {
+		method: "PUT",
+		body: JSON.stringify({ changes })
+	});
+}
+var init_AdventureControlService = __esmMin((() => {
+	init_SessionStorage();
+}));
+//#endregion
+//#region src/UI/Game/PickupSettingsPanel.js
+/** Shared pickup editor with immediate switches and debounced numeric persistence. */
+function createPickupSettingsPanel(section, draft, persist = savePickupSettings) {
+	section.classList.add("pickup-section");
+	let timer;
+	const status = document.createElement("span");
+	status.className = "pickup-save-status";
+	status.setAttribute("role", "status");
+	status.textContent = "修改后自动保存";
+	const retry = document.createElement("button");
+	retry.type = "button";
+	retry.textContent = "重试";
+	retry.hidden = true;
+	function save() {
+		clearTimeout(timer);
+		timer = void 0;
+		const valid = validPickupSettings(draft);
+		const ok = valid && persist(structuredClone(draft)) !== false;
+		const invalidInput = section.querySelector("[aria-invalid=\"true\"]");
+		status.textContent = ok ? invalidInput ? "数值无效，保留上次有效配置" : "已保存" : valid ? "保存失败，请重试" : "数值无效，保留上次有效配置";
+		status.dataset.error = String(!ok || !!invalidInput);
+		retry.hidden = ok || !valid;
+		return ok;
+	}
+	retry.onclick = save;
+	function numeric(input) {
+		const changed = input.oninput;
+		input.oninput = () => {
+			clearTimeout(timer);
+			if (input.validity.valid) changed();
+			input.setAttribute("aria-invalid", String(!input.validity.valid));
+			status.textContent = input.validity.valid ? "等待保存…" : "数值无效，保留上次有效配置";
+			status.dataset.error = String(!input.validity.valid);
+			if (input.validity.valid) timer = setTimeout(save, 400);
+		};
+		input.onblur = save;
+		input.onkeydown = (event) => {
+			if (event.key === "Enter") {
+				event.preventDefault();
+				save();
+			}
+		};
+	}
+	const label = (text, input) => {
+		const row = document.createElement("label");
+		row.className = "settings-field";
+		const caption = document.createElement("span");
+		caption.textContent = text;
+		row.append(caption, input);
+		return row;
+	};
+	const enabled = document.createElement("input");
+	enabled.type = "checkbox";
+	enabled.checked = draft.enabled;
+	enabled.dataset.pickup = "enabled";
+	section.append(label("自动拾取", enabled));
+	const controls = document.createElement("fieldset");
+	controls.className = "pickup-controls";
+	controls.disabled = !draft.enabled;
+	enabled.oninput = () => {
+		draft.enabled = enabled.checked;
+		controls.disabled = !draft.enabled;
+		save();
+	};
+	const limits = document.createElement("div");
+	limits.className = "pickup-limits";
+	controls.append(limits);
+	const range = document.createElement("input");
+	range.type = "number";
+	range.min = 1;
+	range.max = 15;
+	range.step = 1;
+	range.value = draft.range;
+	range.dataset.pickup = "range";
+	range.oninput = () => {
+		draft.range = Number(range.value);
+	};
+	range.required = true;
+	numeric(range);
+	limits.append(label("拾取范围（格）", range));
+	const batchSeconds = document.createElement("input");
+	batchSeconds.type = "number";
+	batchSeconds.min = 1;
+	batchSeconds.max = 30;
+	batchSeconds.step = 1;
+	batchSeconds.value = draft.batchSeconds;
+	batchSeconds.dataset.pickup = "batchSeconds";
+	batchSeconds.oninput = () => {
+		draft.batchSeconds = Number(batchSeconds.value);
+	};
+	batchSeconds.required = true;
+	numeric(batchSeconds);
+	limits.append(label("每轮拾取最长时间（秒）", batchSeconds));
+	const batchHelp = document.createElement("p");
+	batchHelp.className = "pickup-note";
+	batchHelp.textContent = "自动战斗时，打完当前目标再拾取本轮物品；达到时限后重新找怪，没有怪物则继续拾取。";
+	controls.append(batchHelp);
+	const categories = document.createElement("div");
+	categories.className = "pickup-categories";
+	categories.setAttribute("role", "group");
+	categories.setAttribute("aria-label", "物品分类");
+	for (const [id, text] of pickupCategories) {
+		const input = document.createElement("input");
+		input.type = "checkbox";
+		input.checked = draft.categories.includes(id);
+		input.dataset.category = id;
+		input.oninput = () => {
+			draft.categories = pickupCategories.map(([key]) => key).filter((key) => categories.querySelector(`[data-category="${key}"]`).checked);
+			save();
+		};
+		categories.append(label(text, input));
+	}
+	controls.append(categories);
+	const heading = document.createElement("h4");
+	heading.textContent = "排除物品";
+	controls.append(heading);
+	const columns = document.createElement("div");
+	columns.className = "pickup-columns";
+	const searchColumn = document.createElement("section");
+	searchColumn.className = "pickup-column pickup-search-column";
+	searchColumn.setAttribute("aria-label", "搜索物品");
+	const excludedColumn = document.createElement("section");
+	excludedColumn.className = "pickup-column pickup-excluded-column";
+	excludedColumn.setAttribute("aria-label", "已排除物品");
+	const searchTitle = document.createElement("h5");
+	searchTitle.textContent = "搜索物品";
+	const excludedTitle = document.createElement("h5");
+	excludedTitle.textContent = "已排除物品";
+	searchColumn.append(searchTitle);
+	excludedColumn.append(excludedTitle);
+	columns.append(searchColumn, excludedColumn);
+	controls.append(columns);
+	const excluded = document.createElement("div");
+	excluded.className = "pickup-excluded";
+	function button(text, action) {
+		const b = document.createElement("button");
+		b.type = "button";
+		b.textContent = text;
+		b.onclick = action;
+		return b;
+	}
+	function renderExcluded() {
+		excluded.replaceChildren();
+		excludedTitle.textContent = `已排除物品（${draft.excluded.length}）`;
+		for (const item of draft.excluded) {
+			const row = document.createElement("div");
+			row.className = "pickup-item";
+			const name = document.createElement("span");
+			name.textContent = `${item.name} · ${item.id}`;
+			row.append(name, button("移除", () => {
+				draft.excluded = draft.excluded.filter((entry) => entry.id !== item.id);
+				renderExcluded();
+				save();
+			}));
+			excluded.append(row);
+		}
+		if (!draft.excluded.length) excluded.textContent = "暂无排除物品";
+		section.querySelectorAll("[data-exclude-id]").forEach((control) => {
+			control.disabled = draft.excluded.some((item) => item.id === Number(control.dataset.excludeId));
+		});
+	}
+	renderExcluded();
+	excludedColumn.append(excluded);
+	const searchRow = document.createElement("div");
+	searchRow.className = "pickup-search";
+	const input = document.createElement("input");
+	input.type = "search";
+	input.placeholder = "输入物品名称或 ID";
+	input.setAttribute("aria-label", "搜索排除物品");
+	const results = document.createElement("div");
+	results.className = "pickup-results";
+	results.setAttribute("aria-live", "polite");
+	results.textContent = "输入名称或 ID 搜索，将物品加入右侧排除列表。";
+	let requestId = 0;
+	async function search(page = 1) {
+		const query = input.value.trim(), token = ++requestId;
+		results.replaceChildren();
+		if (!query) return;
+		results.textContent = "搜索中…";
+		try {
+			const response = await searchAdventureItems({
+				query,
+				page,
+				perPage: 20
+			});
+			if (token !== requestId || !section.isConnected) return;
+			results.replaceChildren();
+			for (const item of response.data) {
+				const name = item.names?.["zh-CN"] || item.AegisName;
+				const row = document.createElement("div");
+				row.className = "pickup-item";
+				const title = document.createElement("span");
+				title.textContent = `${name} · ${item.Id}`;
+				const add = button("排除", () => {
+					if (!draft.excluded.some((entry) => entry.id === item.Id)) draft.excluded.push({
+						id: item.Id,
+						name
+					});
+					renderExcluded();
+					save();
+					add.disabled = true;
+				});
+				add.dataset.excludeId = String(item.Id);
+				add.disabled = draft.excluded.some((entry) => entry.id === item.Id);
+				row.append(title, add);
+				results.append(row);
+			}
+			if (!response.data.length) results.textContent = "没有找到物品";
+			if (page > 1) results.append(button("上一页", () => search(page - 1)));
+			if (response.total > page * 20) results.append(button("下一页", () => search(page + 1)));
+		} catch {
+			if (token === requestId) results.textContent = "搜索失败，请重试";
+		}
+	}
+	input.oninput = () => {
+		requestId++;
+		results.replaceChildren();
+	};
+	input.onkeydown = (event) => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			search();
+		}
+	};
+	searchRow.append(input, button("搜索", () => search()));
+	searchColumn.append(searchRow, results);
+	const note = document.createElement("p");
+	note.className = "pickup-note";
+	note.textContent = "自动走向并拾取符合配置的地面物品，包括自己丢弃的物品。手动拾取不受这些配置影响。设置保存在当前浏览器，按角色区分。";
+	const footer = document.createElement("div");
+	footer.className = "pickup-save-footer";
+	footer.append(status, retry);
+	section.append(controls, note, footer);
+	return {
+		footer,
+		flush: () => {
+			if (timer) save();
+		},
+		destroy: () => {
+			clearTimeout(timer);
+			requestId++;
+		}
+	};
+}
+var init_PickupSettingsPanel$1 = __esmMin((() => {
+	init_PickupSettings();
+	init_AdventureControlService();
+}));
+//#endregion
+//#region src/UI/Components/AutoCombat/AutoCombatView.js
+/** Desktop presentation; gameplay and persistence remain in the shared services. */
+function createAutoCombatView(root, actions, pickup) {
+	root.innerHTML = `
+		<button type="button" class="combat-launcher" data-settings aria-label="战斗辅助" title="战斗辅助" aria-haspopup="dialog" aria-expanded="false">
+			<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.7 2.4-2 .9L4 5.7 2 9l1.8 1.8v2.4L2 15l2 3.3 2.3-.6 2 .9L9 21h6l.7-2.4 2-.9 2.3.6 2-3.3-1.8-1.8v-2.4L22 9l-2-3.3-2.3.6-2-.9L15 3Z"/><circle cx="12" cy="12" r="3.5"/></svg>
+			<span class="combat-indicator" hidden></span>
+		</button>
+		<div class="combat-backdrop" hidden>
+			<section class="combat-dialog" role="dialog" aria-modal="true" aria-labelledby="combat-title">
+				<header><div><h2 id="combat-title">战斗辅助</h2><span class="combat-subtitle">自动战斗与地面物品拾取</span></div><button type="button" data-close aria-label="关闭战斗辅助">关闭</button></header>
+				<div class="combat-runtime"><div><strong>自动战斗</strong><span class="combat-status" role="status" data-status></span></div><button type="button" data-toggle aria-pressed="false">开始战斗</button></div>
+				<div class="combat-tabs" role="tablist" aria-label="战斗辅助配置">
+					<button type="button" role="tab" id="combat-tab" aria-controls="combat-panel" aria-selected="true" data-tab="combat">自动战斗</button>
+					<button type="button" role="tab" id="pickup-tab" aria-controls="pickup-panel" aria-selected="false" tabindex="-1" data-tab="pickup">自动拾取</button>
+				</div>
+				<div id="combat-panel" role="tabpanel" aria-labelledby="combat-tab" class="auto-config-body"></div>
+				<div id="pickup-panel" role="tabpanel" aria-labelledby="pickup-tab" class="desktop-pickup-panel" hidden>
+					<div class="desktop-pickup-scroll"></div>
+				</div>
+			</section>
+		</div>`;
+	const $ = (selector) => root.querySelector(selector);
+	const abort = new AbortController();
+	const backdrop = $(".combat-backdrop");
+	let pickupEditor;
+	function finishClose() {
+		pickupEditor?.flush();
+		pickupEditor?.destroy();
+		pickupEditor?.footer.remove();
+		backdrop.hidden = true;
+		$(".auto-config-body").replaceChildren();
+		$(".desktop-pickup-scroll").replaceChildren();
+		$("[data-settings]").setAttribute("aria-expanded", "false");
+		$("[data-settings]").focus();
+	}
+	function close() {
+		if (!backdrop.hidden) finishClose();
+	}
+	function selectTab(name) {
+		for (const button of root.querySelectorAll("[data-tab]")) {
+			const selected = button.dataset.tab === name;
+			button.setAttribute("aria-selected", String(selected));
+			button.tabIndex = selected ? 0 : -1;
+		}
+		$("#combat-panel").hidden = name !== "combat";
+		$("#pickup-panel").hidden = name !== "pickup";
+	}
+	function open() {
+		if (!backdrop.hidden) return;
+		createAutoCombatPanel($(".auto-config-body"), actions);
+		pickupEditor = createPickupSettingsPanel($(".desktop-pickup-scroll"), structuredClone(pickup.load()), pickup.save);
+		$("#pickup-panel").append(pickupEditor.footer);
+		selectTab("combat");
+		backdrop.hidden = false;
+		$("[data-settings]").setAttribute("aria-expanded", "true");
+		update(actions.snapshot());
+		$("[data-close]").focus();
+	}
+	$("[data-toggle]").onclick = () => {
+		if (actions.snapshot().active) actions.stop();
+		else if (!actions.start()) actions.stop("当前不能开始自动战斗");
+		update(actions.snapshot());
+	};
+	for (const button of root.querySelectorAll("[data-tab]")) {
+		button.onclick = () => selectTab(button.dataset.tab);
+		button.onkeydown = (event) => {
+			if (![
+				"ArrowLeft",
+				"ArrowRight",
+				"Home",
+				"End"
+			].includes(event.key)) return;
+			event.preventDefault();
+			const name = event.key === "Home" ? "combat" : event.key === "End" ? "pickup" : button.dataset.tab === "combat" ? "pickup" : "combat";
+			selectTab(name);
+			$(`[data-tab="${name}"]`).focus();
+		};
+	}
+	$("[data-settings]").onclick = open;
+	$("[data-close]").onclick = close;
+	backdrop.addEventListener("click", (event) => {
+		if (event.target === backdrop) close();
+	}, { signal: abort.signal });
+	root.addEventListener("keydown", (event) => {
+		if (backdrop.hidden) return;
+		event.stopPropagation();
+		if (event.key === "Escape") {
+			event.preventDefault();
+			close();
+		}
+		if (event.key === "Tab") {
+			const focusable = [...$(".combat-dialog").querySelectorAll("button, input, select, textarea, [tabindex]")].filter((el) => !el.matches(":disabled") && el.tabIndex >= 0 && !el.closest("[hidden]"));
+			const first = focusable[0], last = focusable.at(-1);
+			const active = root.getRootNode().activeElement || document.activeElement;
+			if (event.shiftKey && active === first) {
+				last.focus();
+				event.preventDefault();
+			} else if (!event.shiftKey && active === last) {
+				first.focus();
+				event.preventDefault();
+			}
+		}
+	}, { signal: abort.signal });
+	root.addEventListener("keyup", (event) => {
+		if (!backdrop.hidden) event.stopPropagation();
+	}, { signal: abort.signal });
+	function update(state) {
+		$("[data-toggle]").textContent = state.active ? "停止战斗" : "开始战斗";
+		$("[data-toggle]").setAttribute("aria-pressed", String(state.active));
+		$("[data-status]").textContent = state.status;
+		const picking = pickup.load().enabled;
+		$(".combat-indicator").hidden = !state.active && !picking;
+		$("[data-settings]").title = `战斗辅助 · 战斗${state.active ? "开启" : "关闭"} · 拾取${picking ? "开启" : "关闭"}`;
+	}
+	return {
+		update,
+		open,
+		close,
+		isOpen: () => !backdrop.hidden,
+		destroy() {
+			pickupEditor?.destroy();
+			pickupEditor?.footer.remove();
+			abort.abort();
+			root.replaceChildren();
+		}
+	};
+}
+var init_AutoCombatView = __esmMin((() => {
+	init_AutoCombatPanel$1();
+	init_PickupSettingsPanel$1();
+}));
+//#endregion
+//#region src/UI/Components/AutoCombat/AutoCombat.css?raw
+var AutoCombat_default$1;
+var init_AutoCombat$1 = __esmMin((() => {
+	AutoCombat_default$1 = ":host {\r\n	position: fixed !important;\r\n	right: 16px;\r\n	bottom: 24px;\r\n	pointer-events: none;\r\n	color: #f4f0e6;\r\n	font:\r\n		13px Arial,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	font: inherit;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	padding: 7px 12px;\r\n	cursor: pointer;\r\n}\r\nbutton:hover {\r\n	border-color: #ceaa70;\r\n}\r\nbutton:focus-visible,\r\ninput:focus-visible {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n[data-toggle][aria-pressed='true'] {\r\n	border-color: #ceaa70;\r\n	background: #493c26;\r\n}\r\n.combat-status {\r\n	display: block;\r\n	margin-top: 8px;\r\n	color: #ceaa70;\r\n	overflow-wrap: anywhere;\r\n	font-size: 12px;\r\n}\r\n.combat-backdrop {\r\n	position: fixed;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0006;\r\n	pointer-events: auto;\r\n	padding: 16px;\r\n}\r\n.combat-dialog {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(760px, 100%);\r\n	height: min(560px, 100%);\r\n	max-height: calc(100dvh - 32px);\r\n	padding: 16px;\r\n	gap: 14px;\r\n	background: #18212b;\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 8px 32px #0008;\r\n}\r\n.combat-dialog header {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.combat-dialog h2 {\r\n	margin: 0;\r\n	font-size: 17px;\r\n}\r\n\r\n:host {\r\n	--assist-surface: #18212b;\r\n	--assist-border: #52606d;\r\n	--assist-accent: #ceaa70;\r\n	color-scheme: dark;\r\n}\r\n* {\r\n	scrollbar-width: thin;\r\n	scrollbar-color: #65717b #111a23;\r\n}\r\n::-webkit-scrollbar {\r\n	width: 8px;\r\n	height: 8px;\r\n}\r\n::-webkit-scrollbar-track {\r\n	background: #111a23;\r\n}\r\n::-webkit-scrollbar-thumb {\r\n	background: #65717b;\r\n	border: 2px solid #111a23;\r\n	border-radius: 6px;\r\n}\r\n.combat-launcher {\r\n	position: relative;\r\n	display: grid;\r\n	place-items: center;\r\n	width: 40px;\r\n	height: 40px;\r\n	padding: 9px;\r\n	pointer-events: auto;\r\n	background: #18212be8;\r\n	box-shadow: 0 2px 8px #0005;\r\n}\r\n.combat-launcher svg {\r\n	width: 22px;\r\n	height: 22px;\r\n	fill: none;\r\n	stroke: currentColor;\r\n	stroke-width: 1.5;\r\n}\r\n.combat-indicator {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 4px;\r\n	width: 6px;\r\n	height: 6px;\r\n	border-radius: 50%;\r\n	background: #ceaa70;\r\n}\r\n.combat-dialog {\r\n	width: min(820px, 100%);\r\n	height: min(600px, 100%);\r\n	gap: 12px;\r\n	background: var(--assist-surface);\r\n	border-color: var(--assist-border);\r\n}\r\n.combat-dialog > header {\r\n	flex-shrink: 0;\r\n}\r\n.combat-subtitle {\r\n	display: block;\r\n	margin-top: 5px;\r\n	font-size: 12px;\r\n	color: #bac4cd;\r\n}\r\n.combat-runtime {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 10px 12px;\r\n	border: 1px solid var(--assist-border);\r\n	border-radius: 8px;\r\n	background: #111a23;\r\n}\r\n.combat-status {\r\n	margin-top: 4px;\r\n}\r\n.combat-runtime button {\r\n	flex-shrink: 0;\r\n	min-width: 100px;\r\n}\r\n.combat-tabs {\r\n	display: flex;\r\n	flex-shrink: 0;\r\n	border-bottom: 1px solid var(--assist-border);\r\n	gap: 6px;\r\n}\r\n.combat-tabs button {\r\n	min-width: 112px;\r\n	border-radius: 6px 6px 0 0;\r\n	border-bottom: 0;\r\n	padding: 10px 16px;\r\n	color: #bac4cd;\r\n}\r\n.combat-tabs [aria-selected='true'] {\r\n	color: #f4f0e6;\r\n	background: #33404c;\r\n	border-color: var(--assist-accent);\r\n	box-shadow: inset 0 2px var(--assist-accent);\r\n}\r\n.desktop-pickup-panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	gap: 12px;\r\n}\r\n.desktop-pickup-scroll {\r\n	overflow: auto;\r\n	min-height: 0;\r\n	flex: 1;\r\n	padding-right: 8px;\r\n}\r\n.combat-dialog .settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	min-height: 38px;\r\n	gap: 12px;\r\n}\r\n.combat-dialog input {\r\n	font: inherit;\r\n	color: inherit;\r\n	accent-color: var(--assist-accent);\r\n}\r\n.combat-dialog input[type='number'],\r\n.combat-dialog input[type='search'] {\r\n	min-height: 34px;\r\n	padding: 6px 8px;\r\n	background: #111a23;\r\n	border: 1px solid var(--assist-border);\r\n	border-radius: 6px;\r\n}\r\n.combat-dialog input[type='checkbox'] {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n}\r\n.combat-dialog .pickup-limits .settings-field {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n}\r\n.combat-dialog h3,\r\n.combat-dialog h4 {\r\n	font-size: 13px;\r\n}\r\n.combat-dialog .auto-species-list,\r\n.combat-dialog .auto-skill-list,\r\n.combat-dialog .auto-skill-card strong,\r\n.combat-dialog .auto-range-settings,\r\n.combat-dialog .auto-teleport-settings {\r\n	font-size: 13px;\r\n}\r\n.combat-dialog .auto-help,\r\n.combat-dialog .auto-skill-card small,\r\n.combat-dialog [data-skill-count],\r\n.combat-dialog [data-auto-summary] {\r\n	font-size: 12px;\r\n}\r\n.combat-dialog .auto-range-stepper button {\r\n	padding: 0;\r\n}\r\n.combat-dialog .auto-target-section {\r\n	padding-right: 8px;\r\n}\r\n.combat-dialog .auto-config-footer {\r\n	min-height: 48px;\r\n	font-size: 12px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Game/PickupSettingsPanel.css?raw
+var PickupSettingsPanel_default;
+var init_PickupSettingsPanel = __esmMin((() => {
+	PickupSettingsPanel_default = ".settings-section.pickup-section {\r\n	display: block;\r\n}\r\n.pickup-controls {\r\n	border: 0;\r\n	padding: 0;\r\n	margin: 0;\r\n	min-width: 0;\r\n}\r\n.pickup-controls:disabled {\r\n	opacity: 0.5;\r\n}\r\n.pickup-categories {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 0 20px;\r\n}\r\n.pickup-search,\r\n.pickup-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	padding: 6px 0;\r\n}\r\n.pickup-search input {\r\n	flex: 1;\r\n	min-width: 0;\r\n	padding: 8px;\r\n	color: inherit;\r\n	background: #111a23;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n}\r\n.pickup-item span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.pickup-item button {\r\n	flex-shrink: 0;\r\n}\r\n.pickup-note {\r\n	font-size: 12px;\r\n	color: #b8c4cf;\r\n	line-height: 1.6;\r\n}\r\n.pickup-excluded {\r\n	color: #d7dfeb;\r\n}\r\n\r\n.pickup-columns {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	align-items: stretch;\r\n	margin-bottom: 10px;\r\n}\r\n.pickup-column {\r\n	min-width: 0;\r\n	padding: 10px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 8px;\r\n	background: #141d26;\r\n}\r\n.pickup-column h5 {\r\n	margin: 0 0 8px;\r\n	font: inherit;\r\n	font-weight: 600;\r\n}\r\n.pickup-results,\r\n.pickup-excluded {\r\n	max-height: 240px;\r\n	min-height: 80px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	font-size: 12px;\r\n}\r\n.pickup-item {\r\n	border-bottom: 1px solid #34414d;\r\n}\r\n.pickup-item:last-child {\r\n	border-bottom: 0;\r\n}\r\n.pickup-search {\r\n	padding-top: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.pickup-columns {\r\n		gap: 6px;\r\n	}\r\n	.pickup-column {\r\n		padding: 6px;\r\n	}\r\n	.pickup-search {\r\n		flex-wrap: wrap;\r\n	}\r\n	.pickup-search input {\r\n		flex-basis: 100%;\r\n	}\r\n	.pickup-item {\r\n		flex-wrap: wrap;\r\n		gap: 4px;\r\n	}\r\n	.pickup-item span {\r\n		flex-basis: 100%;\r\n	}\r\n}\r\n\r\n.pickup-limits {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n.pickup-limits .settings-field {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.pickup-section .pickup-limits .settings-field input {\r\n	width: 100%;\r\n	max-width: none;\r\n}\r\n\r\n.pickup-save-footer {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n	margin-top: 12px;\r\n	padding: 10px 0;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.pickup-save-status {\r\n	font-size: 12px;\r\n	color: #bac4cd;\r\n}\r\n.pickup-save-status[data-error='true'] {\r\n	color: #ff9b8d;\r\n}\r\n.pickup-section input[aria-invalid='true'] {\r\n	border-color: #ff9b8d;\r\n	outline: 1px solid #ff9b8d;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatPanel.css?raw
+var AutoCombatPanel_default;
+var init_AutoCombatPanel = __esmMin((() => {
+	AutoCombatPanel_default = ".auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-auto-save-status] {\r\n	font-size: 12px;\r\n	color: #bac4cd;\r\n}\r\n[data-auto-save-status][data-error='true'] {\r\n	color: #ff9b8d;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n\r\n.auto-range-settings,\r\n.auto-teleport-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4,\r\n.auto-teleport-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.auto-skill-list {\r\n	touch-action: pan-y;\r\n}\r\n.auto-skill-card {\r\n	width: 100%;\r\n	text-align: left;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	font-style: normal;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n\r\n.auto-teleport-settings {\r\n	margin-top: 12px;\r\n}\r\n.auto-teleport-toggle {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n}\r\n.auto-teleport-toggle input {\r\n	width: 18px;\r\n	height: 18px;\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-teleport-settings .auto-help {\r\n	margin-bottom: 0;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/AutoCombat/AutoCombat.js
+var AutoCombat, runtime$1, view$2, AutoCombat_default;
+var init_AutoCombat = __esmMin((() => {
+	init_GUIComponent();
+	init_UIManager();
+	init_GameAutoCombatRuntime();
+	init_AutoCombatView();
+	init_AutoCombat$1();
+	init_PickupSettings();
+	init_PickupSettingsPanel();
+	init_AutoCombatPanel();
+	AutoCombat = new GUIComponent("AutoCombat", AutoCombatPanel_default + PickupSettingsPanel_default + AutoCombat_default$1);
+	AutoCombat.render = () => "";
+	AutoCombat.needFocus = false;
+	AutoCombat.nativeScrolling = true;
+	AutoCombat.onAppend = function() {
+		this.onRemove();
+		runtime$1 = createGameAutoCombatRuntime({
+			update: (state) => view$2?.update(state),
+			onDisconnect: () => this.remove()
+		});
+		view$2 = createAutoCombatView(this._container, runtime$1, {
+			load: loadPickupSettings,
+			save: savePickupSettings
+		});
+		view$2.update(runtime$1.snapshot());
+	};
+	AutoCombat.openSettings = () => view$2?.open();
+	AutoCombat.onRemove = function() {
+		runtime$1?.destroy();
+		runtime$1 = null;
+		view$2?.destroy();
+		view$2 = null;
+	};
+	AutoCombat_default = UIManager.addComponent(AutoCombat);
+}));
+//#endregion
+//#region src/UI/Components/SoundOption/SoundOption.html?raw
+var SoundOption_default$2;
+var init_SoundOption$2 = __esmMin((() => {
+	SoundOption_default$2 = "<div id=\"SoundOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"1485\">声音设置</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td data-text=\"1495\">BGM</td>\r\n				<td>\r\n					<input class=\"bgm\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"bgm_state\" />开\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td data-text=\"1496\">音效</td>\r\n				<td>\r\n					<input class=\"sound\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"sound_state\" />开\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/SoundOption/SoundOption.css?raw
+var SoundOption_default$1;
+var init_SoundOption$1 = __esmMin((() => {
+	SoundOption_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 250px;\r\n	height: 65px;\r\n}\r\n\r\n#SoundOption {\r\n	position: absolute;\r\n	background: white;\r\n	border-radius: 2px;\r\n}\r\n\r\n#SoundOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SoundOption .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SoundOption .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	white-space: nowrap;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SoundOption .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#SoundOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SoundOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SoundOption .panel {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/SoundOption/SoundOption.js
+function onSoundVolumeUpdate() {
+	SoundManager.setVolume(parseInt(this.value, 10) / 100);
+}
+function onToggleSound() {
+	Audio_default.Sound.play = this.checked;
+	SoundManager.setVolume(Audio_default.Sound.volume);
+	if (!Audio_default.Sound.play) SoundManager.stop();
+}
+function onBGMVolumeUpdate() {
+	Audio_default.BGM.volume = parseInt(this.value, 10) / 100;
+	Audio_default.save();
+	BGM.setVolume(Audio_default.BGM.volume);
+}
+function onToggleBGM() {
+	Audio_default.BGM.play = this.checked;
+	Audio_default.save();
+	if (Audio_default.BGM.play) BGM.play(BGM.filename);
+	else BGM.stop();
+}
+var SoundOption, _preferences$33, SoundOption_default;
+var init_SoundOption = __esmMin((() => {
+	init_Preferences$1();
+	init_Audio();
+	init_BGM();
+	init_SoundManager();
+	init_UIManager();
+	init_GUIComponent();
+	init_Elements();
+	init_SoundOption$2();
+	init_SoundOption$1();
+	SoundOption = new GUIComponent("SoundOption", SoundOption_default$1);
+	SoundOption.render = () => SoundOption_default$2;
+	_preferences$33 = Preferences.get("SoundOption", {
+		x: 300,
+		y: 300
+	}, 1);
+	SoundOption.init = function init() {
+		const root = this.getRoot();
+		const baseBtn = root.querySelector(".base");
+		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
+			event.stopImmediatePropagation();
+		});
+		const closeBtn = root.querySelector(".close");
+		if (closeBtn) closeBtn.addEventListener("click", function() {
+			SoundOption.remove();
+		});
+		const soundSlider = root.querySelector(".sound");
+		if (soundSlider) soundSlider.addEventListener("change", onSoundVolumeUpdate);
+		const bgmSlider = root.querySelector(".bgm");
+		if (bgmSlider) bgmSlider.addEventListener("change", onBGMVolumeUpdate);
+		const soundState = root.querySelector(".sound_state");
+		if (soundState) soundState.addEventListener("change", onToggleSound);
+		const bgmState = root.querySelector(".bgm_state");
+		if (bgmState) bgmState.addEventListener("change", onToggleBGM);
+		this.draggable(".titlebar");
+	};
+	SoundOption.onAppend = function onAppend() {
+		this._host.style.top = _preferences$33.y + "px";
+		this._host.style.left = _preferences$33.x + "px";
+		const root = this.getRoot();
+		const soundSlider = root.querySelector(".sound");
+		if (soundSlider) soundSlider.value = Audio_default.Sound.volume * 100;
+		const bgmSlider = root.querySelector(".bgm");
+		if (bgmSlider) bgmSlider.value = Audio_default.BGM.volume * 100;
+		const soundState = root.querySelector(".sound_state");
+		if (soundState) soundState.checked = Audio_default.Sound.play;
+		const bgmState = root.querySelector(".bgm_state");
+		if (bgmState) bgmState.checked = Audio_default.BGM.play;
+	};
+	SoundOption.onRemove = function onRemove() {
+		_preferences$33.x = parseInt(this._host.style.left, 10);
+		_preferences$33.y = parseInt(this._host.style.top, 10);
+		_preferences$33.save();
+	};
+	SoundOption_default = UIManager.addComponent(SoundOption);
+}));
+//#endregion
+//#region src/UI/Components/FPS/FPS.html?raw
+var FPS_default$2;
+var init_FPS$2 = __esmMin((() => {
+	FPS_default$2 = "<div id=\"FPS\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\"><span id=\"fpsCounter\">--</span> 帧/秒</div>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/FPS/FPS.css?raw
+var FPS_default$1;
+var init_FPS$1 = __esmMin((() => {
+	FPS_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 80px;\r\n	height: 20px;\r\n}\r\n\r\n#FPS {\r\n	position: absolute;\r\n	background: white;\r\n	border-radius: 2px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#FPS .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#FPS .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/FPS/FPS.js
+var FPS, _maxFPSRegistered, _tickFn, _preferences$32, FPS_default;
+var init_FPS = __esmMin((() => {
+	init_Preferences$1();
+	init_Renderer();
+	init_UIManager();
+	init_GUIComponent();
+	init_Elements();
+	init_FPS$2();
+	init_FPS$1();
+	FPS = new GUIComponent("FPS", FPS_default$1);
+	FPS.render = () => FPS_default$2;
+	_maxFPSRegistered = 0;
+	_tickFn = null;
+	_preferences$32 = Preferences.get("FPS", {
+		show: false,
+		x: 100,
+		y: 100
+	}, 1.1);
+	/**
+	* Initialize UI
+	*/
+	FPS.init = function init() {
+		const root = this.getRoot();
+		const baseBtn = root.querySelector(".base");
+		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
+			event.stopImmediatePropagation();
+		});
+		const closeBtn = root.querySelector(".close");
+		if (closeBtn) closeBtn.addEventListener("click", function() {
+			FPS.remove();
+		});
+		this.draggable(".titlebar");
+	};
+	/**
+	* When appended to DOM
+	*/
+	FPS.onAppend = function onAppend() {
+		this._host.style.top = _preferences$32.y + "px";
+		this._host.style.left = _preferences$32.x + "px";
+		this._host.style.display = _preferences$32.show ? "" : "none";
+		const root = this.getRoot();
+		const fpsEl = root.querySelector("#fpsCounter");
+		const fpsRoot = root.querySelector("#FPS");
+		let startTime = 0;
+		let frame = 0;
+		let lastValue = null;
+		let lastClass = null;
+		const FPS_COLORS = {
+			"fps-good": "#006400",
+			"fps-warn": "#ff9800",
+			"fps-bad": "#f44336"
+		};
+		function getFPSClass(value, frameLimit) {
+			const ratio = value / frameLimit;
+			if (ratio >= .7) return "fps-good";
+			if (ratio >= .4) return "fps-warn";
+			return "fps-bad";
+		}
+		function tick(time) {
+			frame++;
+			if (time - startTime < 1e3) return;
+			const value = +(frame / ((time - startTime) / 1e3)).toFixed(1);
+			if (value !== lastValue) {
+				fpsEl.textContent = value;
+				lastValue = value;
+			}
+			if (_maxFPSRegistered < value) _maxFPSRegistered = value;
+			const cls = getFPSClass(value, Renderer.frameLimit > 0 ? Renderer.frameLimit : _maxFPSRegistered);
+			if (cls !== lastClass) {
+				fpsRoot.style.color = FPS_COLORS[cls] || FPS_COLORS["fps-good"];
+				lastClass = cls;
+			}
+			startTime = time;
+			frame = 0;
+		}
+		if (_tickFn) Renderer.stop(_tickFn);
+		_tickFn = tick;
+		Renderer.render(tick);
+	};
+	/**
+	* Once remove, save preferences
+	*/
+	FPS.onRemove = function onRemove() {
+		if (_tickFn) {
+			Renderer.stop(_tickFn);
+			_tickFn = null;
+		}
+		_preferences$32.x = parseInt(this._host.style.left, 10);
+		_preferences$32.y = parseInt(this._host.style.top, 10);
+		_preferences$32.show = this._host.style.display !== "none";
+		_preferences$32.save();
+	};
+	/**
+	* Show/Hide UI
+	*/
+	FPS.toggle = function toggle(isVisible) {
+		_preferences$32.x = parseInt(this._host.style.left, 10);
+		_preferences$32.y = parseInt(this._host.style.top, 10);
+		if (typeof isVisible === "boolean") this._host.style.display = isVisible ? "" : "none";
+		else this._host.style.display = this._host.style.display === "none" ? "" : "none";
+		_preferences$32.show = this._host.style.display !== "none";
+		_preferences$32.save();
+		if (this._host.style.display !== "none") this.focus();
+	};
+	FPS_default = UIManager.addComponent(FPS);
+}));
+//#endregion
+//#region src/UI/Components/GraphicsOption/GraphicsOption.html?raw
+var GraphicsOption_default$2;
+var init_GraphicsOption$2 = __esmMin((() => {
+	GraphicsOption_default$2 = "<div id=\"GraphicsOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"1484\">图形设置</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n\r\n	<div class=\"tabs-container\">\r\n		<div class=\"tabs\">\r\n			<button class=\"tab-button selected\" data-tab=\"basic\">基础</button>\r\n			<button class=\"tab-button\" data-tab=\"advanced\">高级</button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"panel\">\r\n		<div class=\"tab-content selected\" id=\"basic\">\r\n			<table>\r\n				<tr>\r\n					<td>详情</td>\r\n					<td style=\"display: inline-block; width: 260px\">\r\n						<input\r\n							class=\"details\"\r\n							type=\"range\"\r\n							value=\"100\"\r\n							max=\"100\"\r\n							min=\"25\"\r\n							step=\"5\"\r\n							style=\"width: 90%\"\r\n						/>\r\n					</td>\r\n				</tr>\r\n				<tr class=\"resolution\">\r\n					<td>分辨率</td>\r\n					<td>\r\n						<select class=\"screensize\">\r\n							<option value=\"650x480\">640 x 480</option>\r\n							<option value=\"800x600\">800 x 600</option>\r\n							<option value=\"1024x768\">1024 x 768</option>\r\n							<option value=\"1280x800\">1280 x 800</option>\r\n							<option value=\"1400x900\">1400 x 900</option>\r\n							<option value=\"1680x1050\">1680 x 1050</option>\r\n							<option value=\"full\">全屏</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td>光标</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"cursor-option\" type=\"checkbox\" />\r\n							Show official cursor\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td>帧率上限</td>\r\n					<td>\r\n						<select class=\"fpslimit\">\r\n							<option value=\"-1\">无限制</option>\r\n							<option value=\"30\">30</option>\r\n							<option value=\"60\">60</option>\r\n							<option value=\"90\">90</option>\r\n							<option value=\"120\">120</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td>显示帧率</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"fps\" type=\"checkbox\" />\r\n						</label>\r\n					</td>\r\n				</tr>\r\n			</table>\r\n		</div>\r\n\r\n		<div class=\"tab-content\" id=\"advanced\">\r\n			<table>\r\n				<tr>\r\n					<td title=\"强制使用最近邻过滤以实现像素完美的精灵渲染\">\r\n						像素完美精灵\r\n					</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"pixel-perfect\" type=\"checkbox\" />\r\n							强制使用最近邻过滤\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"为明亮区域添加发光效果\">泛光</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"bloom\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							强度：\r\n							<input\r\n								class=\"bloom-intensity\"\r\n								type=\"range\"\r\n								value=\"0.5\"\r\n								min=\"0.1\"\r\n								max=\"3.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"对屏幕应用模糊效果\">模糊</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"blur\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							强度：\r\n							<input\r\n								class=\"blur-intensity\"\r\n								type=\"range\"\r\n								value=\"3.0\"\r\n								min=\"2.0\"\r\n								max=\"10.0\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							区域：\r\n							<input\r\n								class=\"blur-area\"\r\n								type=\"range\"\r\n								value=\"14.0\"\r\n								min=\"3.0\"\r\n								max=\"20.0\"\r\n								step=\"1.0\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"通过对比度自适应锐化增强细节\">对比度自适应锐化（CAS）</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"casEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							对比度：\r\n							<input\r\n								class=\"casContrast\"\r\n								type=\"range\"\r\n								value=\"0.0\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							锐化：\r\n							<input\r\n								class=\"casSharpening\"\r\n								type=\"range\"\r\n								value=\"1.0\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"快速近似抗锯齿，使边缘更平滑\">FXAA</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"fxaaEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							子像素：\r\n							<input\r\n								class=\"fxaaSubpix\"\r\n								type=\"range\"\r\n								value=\"0.25\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							边缘阈值：\r\n							<input\r\n								class=\"fxaaEdgeThreshold\"\r\n								type=\"range\"\r\n								value=\"0.125\"\r\n								min=\"0.063\"\r\n								max=\"0.333\"\r\n								step=\"0.03\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"用于风格化画面的卡通渲染效果\">卡通</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"cartoonEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							强度：\r\n							<input\r\n								class=\"cartoonPower\"\r\n								type=\"range\"\r\n								value=\"1.5\"\r\n								min=\"0.1\"\r\n								max=\"9.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							边缘斜率：\r\n							<input\r\n								class=\"cartoonEdgeSlope\"\r\n								type=\"range\"\r\n								value=\"1.5\"\r\n								min=\"1.5\"\r\n								max=\"5.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"提高色彩强度和饱和度\">鲜艳度</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"vibranceEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							强度：\r\n							<input\r\n								class=\"vibrance\"\r\n								type=\"range\"\r\n								value=\"0.15\"\r\n								min=\"-0.9\"\r\n								max=\"0.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td\r\n						title=\"隐藏视野外对象、启用降采样渲染等功能以提升性能\"\r\n					>\r\n						性能模式\r\n					</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"performanceMode\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							剔除区域：\r\n							<input\r\n								class=\"view-area\"\r\n								type=\"range\"\r\n								value=\"14.0\"\r\n								min=\"4.0\"\r\n								max=\"20.0\"\r\n								step=\"1.0\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n			</table>\r\n\r\n			<div class=\"reset-section\">\r\n				<button class=\"reset-button\">重置为默认值</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/GraphicsOption/GraphicsOption.css?raw
+var GraphicsOption_default$1;
+var init_GraphicsOption$1 = __esmMin((() => {
+	GraphicsOption_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: auto;\r\n	height: auto;\r\n}\r\n\r\n#GraphicsOption {\r\n	width: auto;\r\n	height: auto;\r\n	background: white;\r\n	border-radius: 2px;\r\n}\r\n\r\n#GraphicsOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#GraphicsOption .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#GraphicsOption .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	white-space: nowrap;\r\n	height: 13px;\r\n}\r\n\r\n#GraphicsOption .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#GraphicsOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#GraphicsOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#GraphicsOption .panel {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n}\r\n\r\n#GraphicsOption .tab-button {\r\n	width: 80px;\r\n	height: 100%;\r\n	color: #42454a;\r\n	border: 1px solid #c9c3ba;\r\n	border-bottom: none;\r\n	text-decoration: none;\r\n	display: inline-block;\r\n	vertical-align: bottom;\r\n	border-radius: 3px 3px 0 0;\r\n	text-align: center;\r\n	background: #f0f0f0;\r\n	cursor: pointer;\r\n}\r\n\r\n#GraphicsOption .tab-button.selected {\r\n	color: #000;\r\n	font-weight: bold;\r\n	border-bottom: 1px solid white;\r\n	position: relative;\r\n	z-index: 100;\r\n	background-color: white;\r\n}\r\n\r\n#GraphicsOption .tab-content {\r\n	display: none;\r\n}\r\n\r\n#GraphicsOption .tab-content.selected {\r\n	display: block;\r\n}\r\n\r\n#GraphicsOption .content {\r\n	display: none;\r\n}\r\n\r\n#GraphicsOption .content.selected {\r\n	display: block;\r\n}\r\n\r\n#GraphicsOption .reset-button {\r\n	background: #8b0000;\r\n	border: 1px solid #a52a2a;\r\n	color: white;\r\n	padding: 4px 8px;\r\n	cursor: pointer;\r\n	margin: 10px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/GraphicsOption/GraphicsOption.js
+/**
+* Modify game details to perform faster
+*/
+function onUpdateQualityDetails() {
+	GraphicsSettings.quality = parseInt(this.value, 10);
+	GraphicsSettings.save();
+	Configs.set("quality", GraphicsSettings.quality);
+	Renderer.resize();
+}
+/**
+* Toggle game cursor
+*/
+function onToggleGameCursor() {
+	GraphicsSettings.cursor = !!this.checked;
+	GraphicsSettings.save();
+	if (!GraphicsSettings.cursor) document.body.classList.remove("custom-cursor");
+	else document.body.classList.add("custom-cursor");
+}
+/**
+* Update the fps limit
+*/
+function onUpdateFPSLimit() {
+	GraphicsSettings.fpslimit = parseInt(this.value, 10);
+	GraphicsSettings.save();
+	if (Renderer.frameLimit > 0) clearInterval(Renderer.updateId);
+	Renderer.frameLimit = GraphicsSettings.fpslimit;
+	Renderer.rendering = false;
+	Renderer.render(null);
+}
+/**
+* Toggle the fps display
+*/
+function onToggleFPSDisplay() {
+	FPS_default.toggle(!!this.checked);
+}
+function onTogglePixelPerfect() {
+	GraphicsSettings.pixelPerfectSprites = !!this.checked;
+	GraphicsSettings.save();
+	if (GraphicsSettings.pixelPerfectSprites) {
+		function reloadSprites() {
+			const gl = Renderer.getContext();
+			const sprFiles = MemoryManager.search(/\.spr$/i);
+			for (let i = 0; i < sprFiles.length; i++) MemoryManager.remove(gl, sprFiles[i]);
+		}
+		reloadSprites();
+	} else ChatBox_default.addText("[系统] 像素完美已禁用。请重新加载页面（F5）以应用更改。", ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+}
+/**
+* Post-Processing
+*/
+function onToggleBloom() {
+	GraphicsSettings.bloom = !!this.checked;
+	GraphicsSettings.save();
+}
+function onUpdateBloomIntensity() {
+	GraphicsSettings.bloomIntensity = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+function onToggleBlur() {
+	GraphicsSettings.blur = !!this.checked;
+	GraphicsSettings.save();
+}
+function onUpdateBlurIntensity() {
+	GraphicsSettings.blurIntensity = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+function onUpdateBlurArea() {
+	GraphicsSettings.blurArea = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+function oncasEnabled() {
+	GraphicsSettings.casEnabled = !!this.checked;
+	GraphicsSettings.save();
+}
+function oncasContrast() {
+	GraphicsSettings.casContrast = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+function oncasSharpening() {
+	GraphicsSettings.casSharpening = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+function onvibranceEnabled() {
+	GraphicsSettings.vibranceEnabled = !!this.checked;
+	GraphicsSettings.save();
+}
+function onvibrance() {
+	GraphicsSettings.vibrance = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+function onfxaaEnabled() {
+	GraphicsSettings.fxaaEnabled = !!this.checked;
+	GraphicsSettings.save();
+}
+function onfxaaSubpix() {
+	GraphicsSettings.fxaaSubpix = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+function onfxaaEdgeThreshold() {
+	GraphicsSettings.fxaaEdgeThreshold = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+function oncartoonEnabled() {
+	GraphicsSettings.cartoonEnabled = !!this.checked;
+	GraphicsSettings.save();
+}
+function oncartoonPower() {
+	GraphicsSettings.cartoonPower = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+function oncartoonEdgeSlope() {
+	GraphicsSettings.cartoonEdgeSlope = parseFloat(this.value);
+	GraphicsSettings.save();
+}
+/**
+* Performance Mode
+*/
+function onTogglePerformanceMode() {
+	GraphicsSettings.performanceMode = !!this.checked;
+	GraphicsSettings.save();
+}
+function onUpdateAreaView() {
+	GraphicsSettings.viewArea = parseInt(this.value);
+	GraphicsSettings.save();
+}
+/**
+* Resizing window size
+*/
+function onUpdateScreenSize() {
+	const isFullScreen = Context.isFullScreen();
+	GraphicsSettings.screensize = this.value;
+	GraphicsSettings.save();
+	if (GraphicsSettings.screensize === "full") {
+		if (!isFullScreen) Context.requestFullScreen();
+		return;
+	}
+	if (isFullScreen) Context.cancelFullScreen();
+	if (Context.Is.POPUP) {
+		const size = GraphicsSettings.screensize.split("x");
+		if (size[0] != window.innerWidth && size[1] != window.innerHeight) {
+			window.resizeTo(size[0], size[1]);
+			window.moveTo((screen.availWidth - size[0]) / 2, (screen.availHeight - size[1]) / 2);
+		}
+	}
+}
+function onTabSwitch(event) {
+	const btn = event.currentTarget;
+	const tabName = btn.dataset.tab;
+	const root = GraphicsOption.getRoot();
+	root.querySelectorAll(".tab-button").forEach((b) => {
+		b.classList.remove("selected");
+	});
+	btn.classList.add("selected");
+	root.querySelectorAll(".tab-content").forEach((tc) => {
+		tc.classList.remove("selected");
+	});
+	const targetTab = root.querySelector("#" + tabName);
+	if (targetTab) targetTab.classList.add("selected");
+}
+function onResetToDefaults() {
+	const defaultSettings = GraphicsSettings.defaults;
+	Object.keys(defaultSettings).forEach((key) => {
+		if (defaultSettings.hasOwnProperty(key)) GraphicsSettings[key] = defaultSettings[key];
+	});
+	GraphicsSettings.save();
+	GraphicsOption.onAppend();
+}
+var GraphicsOption, _preferences$31, GraphicsOption_default;
+var init_GraphicsOption = __esmMin((() => {
+	init_FPS();
+	init_Configs();
+	init_Context();
+	init_Preferences$1();
+	init_Graphics();
+	init_Renderer();
+	init_UIManager();
+	init_GUIComponent();
+	init_GraphicsOption$2();
+	init_GraphicsOption$1();
+	init_MemoryManager();
+	init_ChatBox();
+	GraphicsOption = new GUIComponent("GraphicsOption", GraphicsOption_default$1);
+	_preferences$31 = Preferences.get("GraphicsOption", {
+		x: 300,
+		y: 300
+	}, 1.1);
+	/**
+	* Render HTML
+	*/
+	GraphicsOption.render = () => GraphicsOption_default$2;
+	/**
+	* Initialize UI
+	*/
+	GraphicsOption.init = function init() {
+		const root = this.getRoot();
+		const baseBtn = root.querySelector(".base");
+		if (baseBtn) baseBtn.addEventListener("mousedown", (event) => {
+			event.stopImmediatePropagation();
+			event.preventDefault();
+		});
+		const closeBtn = root.querySelector(".close");
+		if (closeBtn) {
+			closeBtn.addEventListener("mousedown", (e) => {
+				e.stopImmediatePropagation();
+			});
+			closeBtn.addEventListener("click", () => {
+				GraphicsOption.remove();
+			});
+		}
+		root.querySelectorAll(".tab-button").forEach((btn) => {
+			btn.addEventListener("click", onTabSwitch);
+		});
+		const resetBtn = root.querySelector(".reset-button");
+		if (resetBtn) resetBtn.addEventListener("click", onResetToDefaults.bind(this));
+		const bindChange = (selector, handler) => {
+			const el = root.querySelector(selector);
+			if (el) el.addEventListener("change", handler);
+		};
+		bindChange(".details", onUpdateQualityDetails);
+		bindChange(".cursor-option", onToggleGameCursor);
+		bindChange(".screensize", onUpdateScreenSize);
+		bindChange(".fpslimit", onUpdateFPSLimit);
+		bindChange(".fps", onToggleFPSDisplay);
+		bindChange(".pixel-perfect", onTogglePixelPerfect);
+		bindChange(".bloom", onToggleBloom);
+		bindChange(".bloom-intensity", onUpdateBloomIntensity);
+		bindChange(".blur", onToggleBlur);
+		bindChange(".blur-intensity", onUpdateBlurIntensity);
+		bindChange(".blur-area", onUpdateBlurArea);
+		bindChange(".casEnabled", oncasEnabled);
+		bindChange(".casContrast", oncasContrast);
+		bindChange(".casSharpening", oncasSharpening);
+		bindChange(".fxaaEnabled", onfxaaEnabled);
+		bindChange(".fxaaSubpix", onfxaaSubpix);
+		bindChange(".fxaaEdgeThreshold", onfxaaEdgeThreshold);
+		bindChange(".vibranceEnabled", onvibranceEnabled);
+		bindChange(".vibrance", onvibrance);
+		bindChange(".cartoonEnabled", oncartoonEnabled);
+		bindChange(".cartoonPower", oncartoonPower);
+		bindChange(".cartoonEdgeSlope", oncartoonEdgeSlope);
+		bindChange(".performanceMode", onTogglePerformanceMode);
+		bindChange(".view-area", onUpdateAreaView);
+		this.draggable(".titlebar");
+	};
+	/**
+	* When append the element to html
+	*/
+	GraphicsOption.onAppend = function onAppend() {
+		this._host.style.top = `${_preferences$31.y}px`;
+		this._host.style.left = `${_preferences$31.x}px`;
+		const root = this.getRoot();
+		root.querySelector(".details").value = GraphicsSettings.quality;
+		root.querySelector(".screensize").value = GraphicsSettings.screensize;
+		root.querySelector(".cursor-option").checked = GraphicsSettings.cursor;
+		root.querySelector(".fpslimit").value = GraphicsSettings.fpslimit;
+		root.querySelector(".fps").checked = FPS_default._host ? FPS_default._host.style.display !== "none" : false;
+		root.querySelector(".pixel-perfect").checked = GraphicsSettings.pixelPerfectSprites;
+		root.querySelector(".bloom").checked = GraphicsSettings.bloom;
+		root.querySelector(".bloom-intensity").value = GraphicsSettings.bloomIntensity;
+		root.querySelector(".blur").checked = GraphicsSettings.blur;
+		root.querySelector(".blur-area").value = GraphicsSettings.blurArea;
+		root.querySelector(".blur-intensity").value = GraphicsSettings.blurIntensity;
+		root.querySelector(".fxaaEnabled").checked = GraphicsSettings.fxaaEnabled;
+		root.querySelector(".fxaaSubpix").value = GraphicsSettings.fxaaSubpix;
+		root.querySelector(".fxaaEdgeThreshold").value = GraphicsSettings.fxaaEdgeThreshold;
+		root.querySelector(".vibranceEnabled").checked = GraphicsSettings.vibranceEnabled;
+		root.querySelector(".vibrance").value = GraphicsSettings.vibrance;
+		root.querySelector(".casEnabled").checked = GraphicsSettings.casEnabled;
+		root.querySelector(".casContrast").value = GraphicsSettings.casContrast;
+		root.querySelector(".casSharpening").value = GraphicsSettings.casSharpening;
+		root.querySelector(".cartoonEnabled").checked = GraphicsSettings.cartoonEnabled;
+		root.querySelector(".cartoonEdgeSlope").value = GraphicsSettings.cartoonEdgeSlope;
+		root.querySelector(".cartoonPower").value = GraphicsSettings.cartoonPower;
+		root.querySelector(".performanceMode").checked = GraphicsSettings.performanceMode;
+		root.querySelector(".view-area").value = GraphicsSettings.viewArea;
+	};
+	/**
+	* Once remove, save preferences
+	*/
+	GraphicsOption.onRemove = function onRemove() {
+		_preferences$31.x = parseInt(this._host.style.left, 10);
+		_preferences$31.y = parseInt(this._host.style.top, 10);
+		_preferences$31.save();
+	};
+	GraphicsOption.needFocus = true;
+	GraphicsOption.mouseMode = GUIComponent.MouseMode.STOP;
+	GraphicsOption_default = UIManager.addComponent(GraphicsOption);
+}));
+//#endregion
+//#region src/UI/Components/ShortCutOption/ShortCutOption.html?raw
+var ShortCutOption_default$2;
+var init_ShortCutOption$2 = __esmMin((() => {
+	ShortCutOption_default$2 = "<div id=\"ShortCutOption\" class=\"pt-page-fadeIn1\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\"><span class=\"text\">快捷键设置窗口</span></div>\r\n\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"tabs\">\r\n			<button class=\"ui-button-text t_skillbar selectedtab\" data-index=\"t_skillbar\">技能栏</button\r\n			><button class=\"ui-button-text t_ui\" data-index=\"t_ui\">界面</button\r\n			><button class=\"ui-button-text t_macro\" data-index=\"t_macro\">宏</button\r\n			><button class=\"ui-button-text t_gamepad\" data-index=\"t_gamepad\">手柄</button>\r\n		</div>\r\n		<div class=\"panel\">\r\n			<div class=\"content t_skillbar selectedtab\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>技能栏 1-1</td>\r\n							<td data-button=\"F1_1\" class=\"customize\"></td>\r\n							<td>技能栏 2-1</td>\r\n							<td data-button=\"F2_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-2</td>\r\n							<td data-button=\"F1_2\" class=\"customize\"></td>\r\n							<td>技能栏 2-2</td>\r\n							<td data-button=\"F2_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-3</td>\r\n							<td data-button=\"F1_3\" class=\"customize\"></td>\r\n							<td>技能栏 2-3</td>\r\n							<td data-button=\"F2_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-4</td>\r\n							<td data-button=\"F1_4\" class=\"customize\"></td>\r\n							<td>技能栏 2-4</td>\r\n							<td data-button=\"F2_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-5</td>\r\n							<td data-button=\"F1_5\" class=\"customize\"></td>\r\n							<td>技能栏 2-5</td>\r\n							<td data-button=\"F2_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-6</td>\r\n							<td data-button=\"F1_6\" class=\"customize\"></td>\r\n							<td>技能栏 2-6</td>\r\n							<td data-button=\"F2_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-7</td>\r\n							<td data-button=\"F1_7\" class=\"customize\"></td>\r\n							<td>技能栏 2-7</td>\r\n							<td data-button=\"F2_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-8</td>\r\n							<td data-button=\"F1_8\" class=\"customize\"></td>\r\n							<td>技能栏 2-8</td>\r\n							<td data-button=\"F2_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 1-9</td>\r\n							<td data-button=\"F1_9\" class=\"customize\"></td>\r\n							<td>技能栏 2-9</td>\r\n							<td data-button=\"F2_9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-1</td>\r\n							<td data-button=\"F3_1\" class=\"customize\"></td>\r\n							<td>技能栏 4-1</td>\r\n							<td data-button=\"F4_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-2</td>\r\n							<td data-button=\"F3_2\" class=\"customize\"></td>\r\n							<td>技能栏 4-2</td>\r\n							<td data-button=\"F4_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-3</td>\r\n							<td data-button=\"F3_3\" class=\"customize\"></td>\r\n							<td>技能栏 4-3</td>\r\n							<td data-button=\"F4_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-4</td>\r\n							<td data-button=\"F3_4\" class=\"customize\"></td>\r\n							<td>技能栏 4-4</td>\r\n							<td data-button=\"F4_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-5</td>\r\n							<td data-button=\"F3_5\" class=\"customize\"></td>\r\n							<td>技能栏 4-5</td>\r\n							<td data-button=\"F4_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-6</td>\r\n							<td data-button=\"F3_6\" class=\"customize\"></td>\r\n							<td>技能栏 4-6</td>\r\n							<td data-button=\"F4_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-7</td>\r\n							<td data-button=\"F3_7\" class=\"customize\"></td>\r\n							<td>技能栏 4-7</td>\r\n							<td data-button=\"F4_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-8</td>\r\n							<td data-button=\"F3_8\" class=\"customize\"></td>\r\n							<td>技能栏 4-8</td>\r\n							<td data-button=\"F4_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能栏 3-9</td>\r\n							<td data-button=\"F3_9\" class=\"customize\"></td>\r\n							<td>技能栏 4-9</td>\r\n							<td data-button=\"F4_9\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_ui\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>基本信息</td>\r\n							<td data-button=\"BasicInfo\" class=\"customize\"></td>\r\n							<td>角色信息</td>\r\n							<td data-button=\"Equipment\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>技能列表</td>\r\n							<td data-button=\"SkillList\" class=\"customize\"></td>\r\n							<td>表情列表</td>\r\n							<td data-button=\"Emotions\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>好友列表</td>\r\n							<td data-button=\"Friends\" class=\"customize\"></td>\r\n							<td>队伍窗口</td>\r\n							<td data-button=\"Party\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宠物信息</td>\r\n							<td data-button=\"PetInfo\" class=\"customize\"></td>\r\n							<td>聊天室</td>\r\n							<td data-button=\"ChatRoom\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>手推车窗口</td>\r\n							<td data-button=\"PushCart\" class=\"customize\"></td>\r\n							<td>物品窗口</td>\r\n							<td data-button=\"Inventory\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>世界地图</td>\r\n							<td data-button=\"WorldMap\" class=\"customize\"></td>\r\n							<td>公会信息</td>\r\n							<td data-button=\"Guild\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>傀儡信息</td>\r\n							<td data-button=\"HomunInfo\" class=\"customize\"></td>\r\n							<td>佣兵信息</td>\r\n							<td data-button=\"MercInfo\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>傀儡状态</td>\r\n							<td data-button=\"HomunState\" class=\"customize\"></td>\r\n							<td>佣兵状态</td>\r\n							<td data-button=\"MercState\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>坐下/站立</td>\r\n							<td data-button=\"Sit\" class=\"customize\"></td>\r\n							<td>快捷键</td>\r\n							<td data-button=\"ShortCuts\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>聊天栏大小</td>\r\n							<td data-button=\"ChatSize\" class=\"customize\"></td>\r\n							<td>技能栏大小</td>\r\n							<td data-button=\"SkillBarSize\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>任务</td>\r\n							<td data-button=\"Quest\" class=\"customize\"></td>\r\n							<td>银行</td>\r\n							<td data-button=\"Bank\" class=\"customize\"></td>\r\n						</tr>\r\n						<!--<tr>\r\n                     <td>MobileUI</td>\r\n                     <td data-button=\"M_UI\" class=\"customize\"></td>\r\n                     <td>MUi-Toggle</td>\r\n                     <td data-button=\"M_Toggle\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-TG</td>\r\n                     <td data-button=\"M_Targeting\" class=\"customize\"></td>\r\n                     <td>MUi-AT</td>\r\n                     <td data-button=\"M_AutoTarget\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-ATK</td>\r\n                     <td data-button=\"M_Attack\" class=\"customize\"></td>\r\n                  </tr>-->\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_macro\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>宏 1</td>\r\n							<td data-button=\"Macro1\" class=\"customize\"></td>\r\n							<td>标记 1</td>\r\n							<td data-button=\"Flag1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 2</td>\r\n							<td data-button=\"Macro2\" class=\"customize\"></td>\r\n							<td>标记 2</td>\r\n							<td data-button=\"Flag2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 3</td>\r\n							<td data-button=\"Macro3\" class=\"customize\"></td>\r\n							<td>标记 3</td>\r\n							<td data-button=\"Flag3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 4</td>\r\n							<td data-button=\"Macro4\" class=\"customize\"></td>\r\n							<td>标记 4</td>\r\n							<td data-button=\"Flag4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 5</td>\r\n							<td data-button=\"Macro5\" class=\"customize\"></td>\r\n							<td>标记 5</td>\r\n							<td data-button=\"Flag5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 6</td>\r\n							<td data-button=\"Macro6\" class=\"customize\"></td>\r\n							<td>标记 6</td>\r\n							<td data-button=\"Flag6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 7</td>\r\n							<td data-button=\"Macro7\" class=\"customize\"></td>\r\n							<td>标记 7</td>\r\n							<td data-button=\"Flag7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 8</td>\r\n							<td data-button=\"Macro8\" class=\"customize\"></td>\r\n							<td>标记 8</td>\r\n							<td data-button=\"Flag8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 9</td>\r\n							<td data-button=\"Macro9\" class=\"customize\"></td>\r\n							<td>标记 9</td>\r\n							<td data-button=\"Flag9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>宏 10</td>\r\n							<td data-button=\"Macro10\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_gamepad\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr title=\"定义战斗中的目标选择方式\">\r\n							<td>攻击目标模式</td>\r\n							<td>\r\n								<select class=\"attackTargetMode\">\r\n									<option value=\"0\">关闭</option>\r\n									<option value=\"1\">最低 HP</option>\r\n									<option value=\"2\">最近</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"选择手柄施放技能的方式\">\r\n							<td>快速施法模式</td>\r\n							<td>\r\n								<select class=\"joyQuick\">\r\n									<option value=\"0\">关闭</option>\r\n									<option value=\"1\">释放模式</option>\r\n									<option value=\"2\">即时模式</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"调整 R3 摇杆的鼠标移动灵敏度\">\r\n							<td>鼠标移动</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									灵敏度：\r\n									<input\r\n										class=\"joySense\"\r\n										type=\"range\"\r\n										value=\"25.0\"\r\n										min=\"1.0\"\r\n										max=\"100.0\"\r\n										step=\"1.0\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"禁用手柄鼠标输入以操作界面\">\r\n							<td>禁用虚拟鼠标</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyDisableVirtualMouse\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"交换 L3 和 R3 摇杆功能\">\r\n							<td>交换 L3-R3 摇杆</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyReverseStick\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"游戏中移动鼠标时自动隐藏界面\">\r\n							<td>自动隐藏界面</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyAutoHide\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"设置摇杆死区阈值\">\r\n							<td>轴阈值</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									死区：\r\n									<input\r\n										class=\"joyDeadline\"\r\n										type=\"range\"\r\n										value=\"0.10\"\r\n										min=\"0.0\"\r\n										max=\"1.0\"\r\n										step=\"0.1\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<button\r\n				class=\"button reset left\"\r\n				data-background=\"btn_reset.bmp\"\r\n				data-hover=\"btn_reset_a.bmp\"\r\n				data-down=\"btn_reset_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button ok right\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button cancel right\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button close right\"\r\n				data-background=\"btn_close.bmp\"\r\n				data-hover=\"btn_close_a.bmp\"\r\n				data-down=\"btn_close_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/ShortCutOption/ShortCutOption.css?raw
+var ShortCutOption_default$1;
+var init_ShortCutOption$1 = __esmMin((() => {
+	ShortCutOption_default$1 = ":host {\r\n	width: 430px;\r\n	height: 465px;\r\n	top: 300px;\r\n	left: 300px;\r\n}\r\n\r\n#ShortCutOption {\r\n	position: absolute;\r\n	width: 430px;\r\n	height: 465px;\r\n	background: white;\r\n	border-radius: 3px;\r\n	border: solid 1px #aaa;\r\n	border-top: none;\r\n}\r\n#ShortCutOption .border {\r\n}\r\n#ShortCutOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	border-bottom: solid 1px #eee;\r\n}\r\n#ShortCutOption .titlebar .base {\r\n	width: 20px;\r\n	height: 100%;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n	background-position: 8px 2px;\r\n}\r\n#ShortCutOption .titlebar .base.close {\r\n	color: #ccc;\r\n}\r\n#ShortCutOption .titlebar .text {\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	line-height: 17px;\r\n	margin-left: 5px;\r\n}\r\n#ShortCutOption .titlebar .left {\r\n	float: left;\r\n}\r\n#ShortCutOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n	height: 100%;\r\n}\r\n#ShortCutOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n#ShortCutOption .tabs {\r\n	position: relative;\r\n	top: 1px;\r\n	border-right: solid 1px #ccc;\r\n}\r\n#ShortCutOption .tabs button.selectedtab {\r\n	border-bottom: solid 1px transparent;\r\n}\r\n#ShortCutOption .tabs button {\r\n	width: 57px;\r\n	height: 18px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #fff;\r\n	border: solid 1px #bbb;\r\n	border-top-right-radius: 3px;\r\n	border-top-left-radius: 3px;\r\n}\r\n#ShortCutOption .tabs button:nth-child(1) {\r\n	border-right: none;\r\n}\r\n#ShortCutOption .panel {\r\n	padding: 5px;\r\n	border-top: solid 1px #ccc;\r\n}\r\n#ShortCutOption .panel .content {\r\n	display: none;\r\n}\r\n#ShortCutOption .content.selectedtab {\r\n	display: block;\r\n}\r\n#ShortCutOption .content table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n	color: #222;\r\n}\r\n#ShortCutOption .content table tr {\r\n	height: 22px;\r\n}\r\n#ShortCutOption .content table td {\r\n	text-align: center;\r\n}\r\n#ShortCutOption .content table td:nth-child(1),\r\n#ShortCutOption .content table td:nth-child(3) {\r\n	width: 30%;\r\n}\r\n#ShortCutOption .content table td:nth-child(2),\r\n#ShortCutOption .content table td:nth-child(4) {\r\n	width: 20%;\r\n	background-color: #eee;\r\n}\r\n#ShortCutOption .content table td.customize {\r\n	background-color: #ffffe0;\r\n}\r\n#ShortCutOption .content table td.changed {\r\n	background-color: #ffe4e1;\r\n}\r\n#ShortCutOption .content table td.selected {\r\n	background-color: #ffb6c1;\r\n}\r\n#ShortCutOption .resolution {\r\n	display: none;\r\n}\r\n#ShortCutOption .panel .button {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCutOption .panel .button.reset {\r\n	left: 3px;\r\n}\r\n#ShortCutOption .panel .button.ok {\r\n	right: 93px;\r\n}\r\n#ShortCutOption .panel .button.cancel {\r\n	right: 48px;\r\n}\r\n#ShortCutOption .panel .button.close {\r\n	right: 3px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/ShortCutOption/ShortCutOption.js
+/**
+* Checks if there is a match in the temporary settings
+* Returns the name of the conflicting shortcut, or false if no conflict
+*/
+function tempMatch(key) {
+	const TempState = {};
+	let matchSC = false;
+	Object.keys(ShortCuts$1).forEach(function(SC) {
+		if (ShortCuts$1[SC].cust) {
+			TempState[SC] = {};
+			TempState[SC].key = ShortCuts$1[SC].cust.key;
+			TempState[SC].alt = ShortCuts$1[SC].cust.alt;
+			TempState[SC].ctrl = ShortCuts$1[SC].cust.ctrl;
+			TempState[SC].shift = ShortCuts$1[SC].cust.shift;
+		} else {
+			TempState[SC] = {};
+			TempState[SC].key = ShortCuts$1[SC].init.key;
+			TempState[SC].alt = ShortCuts$1[SC].init.alt;
+			TempState[SC].ctrl = ShortCuts$1[SC].init.ctrl;
+			TempState[SC].shift = ShortCuts$1[SC].init.shift;
+		}
+	});
+	Object.keys(ShortCutsTemp).forEach(function(SC) {
+		if (ShortCutsTemp[SC].cust) {
+			TempState[SC] = {};
+			TempState[SC].key = ShortCutsTemp[SC].cust.key;
+			TempState[SC].alt = ShortCutsTemp[SC].cust.alt;
+			TempState[SC].ctrl = ShortCutsTemp[SC].cust.ctrl;
+			TempState[SC].shift = ShortCutsTemp[SC].cust.shift;
+		} else {
+			TempState[SC] = {};
+			TempState[SC].key = ShortCuts$1[SC].init.key;
+			TempState[SC].alt = ShortCuts$1[SC].init.alt;
+			TempState[SC].ctrl = ShortCuts$1[SC].init.ctrl;
+			TempState[SC].shift = ShortCuts$1[SC].init.shift;
+		}
+	});
+	Object.keys(TempState).every(function(SC) {
+		if (TempState[SC]) {
+			if (TempState[SC].key == key && TempState[SC].alt == KEYS.ALT && TempState[SC].ctrl == KEYS.CTRL && TempState[SC].shift == KEYS.SHIFT) {
+				matchSC = SC;
+				return false;
+			} else return true;
+		}
+	});
+	return matchSC;
+}
+/**
+* Updates the key list on the UI
+*/
+function updateKeyList() {
+	const cells = ShortCutOption.getRoot().querySelectorAll("td[data-button]");
+	for (let i = 0; i < cells.length; i++) {
+		const btnName = cells[i].dataset.button;
+		if (getKey(btnName)) cells[i].textContent = (getAlt(btnName) ? "ALT + " : "") + (getCtrl(btnName) ? "CTRL + " : "") + (getShift(btnName) ? "SHIFT + " : "") + KEYS.toReadableKey(parseInt(getKey(btnName), 10));
+		else cells[i].textContent = "N/A";
+	}
+}
+/**
+* Resets key bindings to initial
+*/
+function resetKeysToDefault() {
+	const root = ShortCutOption.getRoot();
+	Object.keys(ShortCuts$1).forEach(function(SC) {
+		ShortCutsTemp[SC] = {};
+		ShortCutsTemp[SC].cust = false;
+		const cell = root.querySelector("td[data-button='" + SC + "']");
+		if (cell) {
+			if (ShortCuts$1[SC].cust != ShortCutsTemp[SC].cust) cell.classList.add("changed");
+			else cell.classList.remove("changed");
+		}
+	});
+	updateKeyList();
+}
+/**
+* Applies the key bindings
+*/
+function applySettings() {
+	Object.keys(ShortCutsTemp).forEach(function(SC) {
+		if (ShortCutsTemp[SC].cust) {
+			ShortCuts$1[SC].cust = {};
+			ShortCuts$1[SC].cust.key = ShortCutsTemp[SC].cust.key;
+			ShortCuts$1[SC].cust.alt = ShortCutsTemp[SC].cust.alt;
+			ShortCuts$1[SC].cust.ctrl = ShortCutsTemp[SC].cust.ctrl;
+			ShortCuts$1[SC].cust.shift = ShortCutsTemp[SC].cust.shift;
+		} else ShortCuts$1[SC].cust = false;
+	});
+	preferences$1.save();
+	BattleMode.reload();
+	ShortCutsTemp = {};
+	updateKeyList();
+	ShortCutOption.getRoot().querySelectorAll("td.changed").forEach(function(el) {
+		el.classList.remove("changed");
+	});
+	const ShortCut = UIManager.getComponent("ShortCut");
+	if (ShortCut && ShortCut.updateAllTooltips) ShortCut.updateAllTooltips();
+}
+/**
+* Cancels the key bindings
+*/
+function cancelSettings() {
+	ShortCutsTemp = {};
+	updateKeyList();
+	ShortCutOption.getRoot().querySelectorAll("td.changed").forEach(function(el) {
+		el.classList.remove("changed");
+	});
+}
+/**
+* Get shortcut key setting
+*/
+function getKey(sc) {
+	if (ShortCutsTemp[sc]) return ShortCutsTemp[sc].cust ? ShortCutsTemp[sc].cust.key : ShortCuts$1[sc].init.key;
+	else if (ShortCuts$1[sc]) return ShortCuts$1[sc].cust ? ShortCuts$1[sc].cust.key : ShortCuts$1[sc].init.key;
+	else return false;
+}
+/**
+* Get shortcut alt setting
+*/
+function getAlt(sc) {
+	if (ShortCutsTemp[sc]) return ShortCutsTemp[sc].cust ? ShortCutsTemp[sc].cust.alt : ShortCuts$1[sc].init.alt;
+	else if (ShortCuts$1[sc]) return ShortCuts$1[sc].cust ? ShortCuts$1[sc].cust.alt : ShortCuts$1[sc].init.alt;
+	else return false;
+}
+/**
+* Get shortcut ctrl setting
+*/
+function getCtrl(sc) {
+	if (ShortCutsTemp[sc]) return ShortCutsTemp[sc].cust ? ShortCutsTemp[sc].cust.ctrl : ShortCuts$1[sc].init.ctrl;
+	else if (ShortCuts$1[sc]) return ShortCuts$1[sc].cust ? ShortCuts$1[sc].cust.ctrl : ShortCuts$1[sc].init.ctrl;
+	else return false;
+}
+/**
+* Get shortcut shift setting
+*/
+function getShift(sc) {
+	if (ShortCutsTemp[sc]) return ShortCutsTemp[sc].cust ? ShortCutsTemp[sc].cust.shift : ShortCuts$1[sc].init.shift;
+	else if (ShortCuts$1[sc]) return ShortCuts$1[sc].cust ? ShortCuts$1[sc].cust.shift : ShortCuts$1[sc].init.shift;
+	else return false;
+}
+function onUpdateTargetOption() {
+	Controls_default.attackTargetMode = parseInt(this.value, 10);
+	Controls_default.save();
+}
+function onUpdateSense() {
+	Controls_default.joySense = parseFloat(this.value, 10);
+	Controls_default.save();
+}
+function onUpdateJoyQuick() {
+	Controls_default.joyQuick = parseInt(this.value, 10);
+	Controls_default.save();
+}
+function onUpdateJoyDeadline() {
+	Controls_default.joyDeadline = parseInt(this.value, 10);
+	Controls_default.save();
+}
+function onUpdateAutoHide() {
+	Controls_default.joyAutoHide = !!this.checked;
+	Controls_default.save();
+}
+function onUpdateReverseStick() {
+	Controls_default.joyReverseStick = !!this.checked;
+	Controls_default.save();
+}
+function onUpdateDisableVirtualMouse() {
+	Controls_default.joyDisableVirtualMouse = !!this.checked;
+	Controls_default.save();
+}
+var ShortCutOption, ShortCuts$1, ShortCutsTemp, _preferences$30, ShortCutOption_default;
+var init_ShortCutOption = __esmMin((() => {
+	init_KeyEventHandler();
+	init_Preferences$1();
+	init_UIManager();
+	init_GUIComponent();
+	init_Elements();
+	init_ShortCutControls();
+	init_BattleMode();
+	init_ShortCutOption$2();
+	init_ShortCutOption$1();
+	init_Controls();
+	ShortCutOption = new GUIComponent("ShortCutOption", ShortCutOption_default$1);
+	ShortCuts$1 = preferences$1.ShortCuts;
+	ShortCutsTemp = {};
+	ShortCutOption.isCapturing = false;
+	_preferences$30 = Preferences.get("ShortCutOption", {
+		x: 300,
+		y: 300
+	}, 1);
+	/**
+	* Render HTML
+	*/
+	ShortCutOption.render = () => ShortCutOption_default$2;
+	/**
+	* Initialize UI
+	*/
+	ShortCutOption.init = function() {
+		const root = this.getRoot();
+		let close = root.querySelector(".close");
+		function closebtn(btn) {
+			if (btn) {
+				btn.addEventListener("mousedown", (e) => {
+					e.stopImmediatePropagation();
+					ShortCutOption.remove();
+				});
+				btn.addEventListener("click", (e) => {
+					e.stopImmediatePropagation();
+					ShortCutOption.remove();
+				});
+			}
+		}
+		closebtn(close);
+		close = root.querySelector(".button.close");
+		closebtn(close);
+		root.querySelectorAll(".tabs button").forEach(function(btn) {
+			btn.addEventListener("click", function() {
+				root.querySelectorAll(".selectedtab").forEach(function(el) {
+					el.classList.remove("selectedtab");
+				});
+				const tab = this.dataset.index;
+				root.querySelectorAll("." + tab).forEach(function(el) {
+					el.classList.add("selectedtab");
+				});
+			});
+		});
+		root.querySelectorAll("td").forEach(function(td) {
+			td.addEventListener("click", function() {
+				if (this.classList.contains("customize")) {
+					ShortCutOption.isCapturing = true;
+					root.querySelectorAll("td.selected").forEach(function(el) {
+						el.classList.remove("selected");
+					});
+					this.classList.add("selected");
+				} else {
+					ShortCutOption.isCapturing = false;
+					root.querySelectorAll("td.selected").forEach(function(el) {
+						el.classList.remove("selected");
+					});
+				}
+			});
+		});
+		const bindChange = function(selector, handler) {
+			const el = root.querySelector(selector);
+			if (el) el.addEventListener("change", handler);
+		};
+		bindChange(".attackTargetMode", onUpdateTargetOption);
+		bindChange(".joySense", onUpdateSense);
+		bindChange(".joyQuick", onUpdateJoyQuick);
+		bindChange(".joyDeadline", onUpdateJoyDeadline);
+		bindChange(".joyReverseStick", onUpdateReverseStick);
+		bindChange(".joyAutoHide", onUpdateAutoHide);
+		bindChange(".joyDisableVirtualMouse", onUpdateDisableVirtualMouse);
+		const resetBtn = root.querySelector(".button.reset");
+		if (resetBtn) resetBtn.addEventListener("click", function() {
+			resetKeysToDefault();
+		});
+		const okBtn = root.querySelector(".button.ok");
+		if (okBtn) okBtn.addEventListener("click", function() {
+			applySettings();
+		});
+		const cancelBtn = root.querySelector(".button.cancel");
+		if (cancelBtn) cancelBtn.addEventListener("click", function() {
+			cancelSettings();
+		});
+		updateKeyList();
+		this.draggable(".titlebar");
+	};
+	/**
+	* Apply preferences once append to body
+	*/
+	ShortCutOption.onAppend = function() {
+		this._host.style.left = _preferences$30.x + "px";
+		this._host.style.top = _preferences$30.y + "px";
+		this._host.style.zIndex = 100;
+	};
+	/**
+	* Remove from window (and so clean up)
+	*/
+	ShortCutOption.onRemove = function() {
+		_preferences$30.x = parseInt(this._host.style.left, 10);
+		_preferences$30.y = parseInt(this._host.style.top, 10);
+		_preferences$30.save();
+	};
+	/**
+	* Process key
+	*
+	* @param {object} key
+	*/
+	ShortCutOption.onKeyDown = function(event) {
+		if (ShortCutOption.isCapturing) {
+			if (16 != event.which && 17 != event.which && 18 != event.which) {
+				const root = ShortCutOption.getRoot();
+				const box = root.querySelector("td.selected");
+				const currentSC = box ? box.dataset.button : null;
+				if (!box || !currentSC || !ShortCuts$1[currentSC]) {
+					if (box) console.warn("Shortcut \"" + currentSC + "\" is not defined in ShortCutControls");
+					root.querySelectorAll("td.selected").forEach(function(el) {
+						el.classList.remove("selected");
+					});
+					ShortCutOption.isCapturing = false;
+					event.preventDefault();
+					event.stopImmediatePropagation();
+					return false;
+				}
+				if (event.which == 27) {
+					ShortCutsTemp[currentSC] = {};
+					ShortCutsTemp[currentSC].cust = {};
+					ShortCutsTemp[currentSC].cust.key = "";
+					ShortCutsTemp[currentSC].cust.alt = false;
+					ShortCutsTemp[currentSC].cust.ctrl = false;
+					ShortCutsTemp[currentSC].cust.shift = false;
+				} else {
+					const conflictSC = tempMatch(event.which);
+					if (conflictSC && conflictSC !== currentSC) {
+						const oldKey = getKey(currentSC);
+						const oldAlt = getAlt(currentSC);
+						const oldCtrl = getCtrl(currentSC);
+						const oldShift = getShift(currentSC);
+						ShortCutsTemp[conflictSC] = {};
+						ShortCutsTemp[conflictSC].cust = {};
+						ShortCutsTemp[conflictSC].cust.key = oldKey;
+						ShortCutsTemp[conflictSC].cust.alt = oldAlt;
+						ShortCutsTemp[conflictSC].cust.ctrl = oldCtrl;
+						ShortCutsTemp[conflictSC].cust.shift = oldShift;
+						const conflictCell = root.querySelector("td[data-button='" + conflictSC + "']");
+						if (conflictCell) {
+							conflictCell.classList.add("changed");
+							conflictCell.textContent = (oldAlt ? "ALT + " : "") + (oldCtrl ? "CTRL + " : "") + (oldShift ? "SHIFT + " : "") + (oldKey ? KEYS.toReadableKey(parseInt(oldKey, 10)) : "N/A");
+						}
+					}
+					ShortCutsTemp[currentSC] = {};
+					ShortCutsTemp[currentSC].cust = {};
+					ShortCutsTemp[currentSC].cust.key = event.which;
+					ShortCutsTemp[currentSC].cust.alt = KEYS.ALT;
+					ShortCutsTemp[currentSC].cust.ctrl = KEYS.CTRL;
+					ShortCutsTemp[currentSC].cust.shift = KEYS.SHIFT;
+				}
+				box.textContent = (getAlt(currentSC) ? "ALT + " : "") + (getCtrl(currentSC) ? "CTRL + " : "") + (getShift(currentSC) ? "SHIFT + " : "") + KEYS.toReadableKey(getKey(currentSC), 10);
+				root.querySelectorAll("td.selected").forEach(function(el) {
+					el.classList.add("changed");
+					el.classList.remove("selected");
+				});
+				ShortCutOption.isCapturing = false;
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				return false;
+			}
+		}
+	};
+	ShortCutOption.mouseMode = GUIComponent.MouseMode.STOP;
+	ShortCutOption.needFocus = true;
+	ShortCutOption_default = UIManager.addComponent(ShortCutOption);
+}));
+//#endregion
+//#region src/UI/Components/Escape/Escape.html?raw
+var Escape_default$2;
+var init_Escape$2 = __esmMin((() => {
+	Escape_default$2 = "<div id=\"Escape\" data-background=\"basic_interface/titlebar_fix.bmp\">\r\n	<div class=\"top\">\r\n		<button\r\n			class=\"node\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<div class=\"title\" data-text=\"1483\">选择选项</div>\r\n	</div>\r\n\r\n	<div class=\"container\">\r\n		<button\r\n			class=\"resurection\"\r\n			data-background=\"esc_05a.bmp\"\r\n			data-hover=\"esc_05b.bmp\"\r\n			data-down=\"esc_05c.bmp\"\r\n		>使用复活道具</button>\r\n		<button\r\n			class=\"savepoint\"\r\n			data-background=\"esc_04a.bmp\"\r\n			data-hover=\"esc_04b.bmp\"\r\n			data-down=\"esc_04c.bmp\"\r\n		>返回保存点</button>\r\n		<button\r\n			class=\"charselect\"\r\n			data-background=\"esc_01a.bmp\"\r\n			data-hover=\"esc_01b.bmp\"\r\n			data-down=\"esc_01c.bmp\"\r\n		>返回角色选择</button>\r\n		<button\r\n			class=\"graphics\"\r\n			data-background=\"esc_06a.bmp\"\r\n			data-hover=\"esc_06b.bmp\"\r\n			data-down=\"esc_06c.bmp\"\r\n		>画面设置</button>\r\n		<button class=\"automation\">战斗辅助</button>\r\n		<button class=\"sound\" data-background=\"esc_07a.bmp\" data-hover=\"esc_07b.bmp\" data-down=\"esc_07c.bmp\">声音设置</button>\r\n		<button class=\"hotkey\" data-background=\"esc_08a.bmp\" data-hover=\"esc_08b.bmp\" data-down=\"esc_08c.bmp\">快捷键设置</button>\r\n		<button class=\"exit\" data-background=\"esc_03a.bmp\" data-hover=\"esc_03b.bmp\" data-down=\"esc_03c.bmp\">退出游戏</button>\r\n		<button class=\"cancel\" data-background=\"esc_02a.bmp\" data-hover=\"esc_02b.bmp\" data-down=\"esc_02c.bmp\">返回游戏</button>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Escape/Escape.css?raw
+var Escape_default$1;
+var init_Escape$1 = __esmMin((() => {
+	Escape_default$1 = ":host {\r\n	width: 280px;\r\n	height: auto;\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#Escape {\r\n	width: 280px;\r\n	height: auto;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Escape .top .node {\r\n	width: 11px;\r\n	height: 11px;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Escape .top .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n\r\n#Escape .container {\r\n	width: 220px;\r\n	height: auto;\r\n	padding: 20px 30px 6px 30px;\r\n}\r\n\r\n#Escape .container button {\r\n	width: 221px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	background-image: none !important;\r\n	color: #202622;\r\n	cursor: pointer;\r\n}\r\n\r\n#Escape .container button:hover {\r\n	background: #dcebe3;\r\n}\r\n\r\n#Escape .container button:active {\r\n	background: #c8ded2;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Escape/Escape.js
+/**
+* Click on Sound button, toggle the UI
+*/
+function onToggleSoundUI() {
+	if (!SoundOption_default._host || !SoundOption_default._host.parentNode) SoundOption_default.append();
+	else SoundOption_default.remove();
+}
+/**
+* Click on Graphic button, toggle the UI
+*/
+function onToggleGraphicUI() {
+	if (!GraphicsOption_default._host || !GraphicsOption_default._host.parentNode) GraphicsOption_default.append();
+	else GraphicsOption_default.remove();
+}
+/**
+* Click on Shortcut button, toggle the UI
+*/
+function onToggleShortcutUI() {
+	if (!ShortCutOption_default._host || !ShortCutOption_default._host.parentNode) ShortCutOption_default.append();
+	else ShortCutOption_default.remove();
+}
+var Escape, Escape_default;
+var init_Escape = __esmMin((() => {
+	init_AutoCombat();
+	init_KeyEventHandler();
+	init_Renderer();
+	init_UIManager();
+	init_GUIComponent();
+	init_SoundOption();
+	init_GraphicsOption();
+	init_ShortCutOption();
+	init_Escape$2();
+	init_Escape$1();
+	Escape = new GUIComponent("Escape", Escape_default$1);
+	/**
+	* Render HTML
+	*/
+	Escape.render = () => Escape_default$2;
+	/**
+	* Initialize UI
+	*/
+	Escape.init = function init() {
+		const root = this.getRoot();
+		const rect = this._host.getBoundingClientRect();
+		this._host.style.top = (Renderer.height - rect.height) * .75 + "px";
+		this._host.style.left = (Renderer.width - rect.width) * .5 + "px";
+		this.draggable();
+		const nodeBtn = root.querySelector(".node");
+		if (nodeBtn) nodeBtn.addEventListener("mousedown", function(event) {
+			event.stopImmediatePropagation();
+			return false;
+		});
+		root.querySelectorAll("button").forEach(function(el) {
+			el.style.display = "";
+		});
+		root.querySelectorAll(".resurection, .savepoint").forEach(function(el) {
+			el.style.display = "none";
+		});
+		root.querySelector(".automation").addEventListener("click", () => {
+			this._host.style.display = "none";
+			AutoCombat_default.openSettings();
+		});
+		root.querySelector(".sound").addEventListener("click", onToggleSoundUI);
+		root.querySelector(".graphics").addEventListener("click", onToggleGraphicUI);
+		root.querySelector(".resurection").addEventListener("click", function() {
+			Escape.onResurectionRequest();
+		});
+		root.querySelector(".savepoint").addEventListener("click", function() {
+			Escape.onReturnSavePointRequest();
+		});
+		root.querySelector(".charselect").addEventListener("click", function() {
+			Escape.onCharSelectionRequest();
+		});
+		root.querySelector(".hotkey").addEventListener("click", onToggleShortcutUI);
+		root.querySelector(".exit").addEventListener("click", function() {
+			Escape.onExitRequest();
+		});
+		root.querySelector(".cancel").addEventListener("click", function() {
+			Escape._host.style.display = "none";
+		});
+		this._host.style.display = "none";
+	};
+	/**
+	* Window must not be visible once append
+	* but need to be here to manage key event
+	*/
+	Escape.onAppend = function onAppend() {
+		this._host.style.display = "none";
+	};
+	/**
+	* Reset buttons once UI is removed
+	*/
+	Escape.onRemove = function onRemove() {
+		this._host.style.display = "none";
+		const root = this.getRoot();
+		root.querySelectorAll(".resurection, .savepoint").forEach(function(el) {
+			el.style.display = "none";
+		});
+		root.querySelectorAll(".graphics, .sound, .hotkey, .automation").forEach(function(el) {
+			el.style.display = "";
+		});
+	};
+	/**
+	* Key Listener
+	*
+	* @param {object} event
+	* @return {boolean}
+	*/
+	Escape.onKeyDown = function onKeyDown(event) {
+		if (event.which === KEYS.ESCAPE || event.key === "Escape") {
+			if (this._host.style.display === "none") {
+				this._host.style.display = "";
+				this.focus();
+			} else this._host.style.display = "none";
+		}
+	};
+	/**
+	* Show death menu (called when player dies)
+	*/
+	Escape.showDeathMenu = function showDeathMenu(hasSiegfried) {
+		const root = this.getRoot();
+		this._host.style.display = "";
+		root.querySelector(".savepoint").style.display = "";
+		if (hasSiegfried) root.querySelector(".resurection").style.display = "";
+		root.querySelectorAll(".graphics, .sound, .hotkey, .automation").forEach(function(el) {
+			el.style.display = "none";
+		});
+	};
+	/**
+	* Reset to normal menu (called when player resurrects)
+	*/
+	Escape.resetMenu = function resetMenu() {
+		this._host.style.display = "none";
+		const root = this.getRoot();
+		root.querySelectorAll(".resurection, .savepoint").forEach(function(el) {
+			el.style.display = "none";
+		});
+		root.querySelectorAll(".graphics, .sound, .hotkey, .automation").forEach(function(el) {
+			el.style.display = "";
+		});
+	};
+	/**
+	* @var {function} callback when player want to resurect using Token of Siegfried
+	*/
+	Escape.onResurectionRequest = function onResurectionRequest() {};
+	/**
+	* @var {function} callback to define to disconnect from game
+	*/
+	Escape.onExitRequest = function onExitRequest() {};
+	/**
+	* @var {function} callback when player want to resurect using Token of Siegfried
+	*/
+	Escape.onReturnSavePointRequest = function onReturnSavePointRequest() {};
+	/**
+	* @var {function} callback when player want to return to char selection
+	*/
+	Escape.onCharSelectionRequest = function onCharSelectionRequest() {};
+	Escape.mouseMode = GUIComponent.MouseMode.STOP;
+	Escape.needFocus = true;
+	Escape_default = UIManager.addComponent(Escape);
+}));
+//#endregion
+//#region src/UI/Components/CheckAttendance/CheckAttendance.html?raw
+var CheckAttendance_default$2;
+var init_CheckAttendance$2 = __esmMin((() => {
+	CheckAttendance_default$2 = "<div id=\"CheckAttendance\">\r\n	<div class=\"titlebar\" data-background=\"check_attendance/attendance_bg.bmp\">\r\n		<div class=\"top-panel\">\r\n			<div class=\"top-panel-reward\">\r\n				<div class=\"text\">签到奖励</div>\r\n			</div>\r\n			<div class=\"top-panel-period\"></div>\r\n		</div>\r\n		<div class=\"left-panel\">\r\n			<ul class=\"days-list\"></ul>\r\n		</div>\r\n		<div class=\"right-panel\">\r\n			<div class=\"total-days\"></div>\r\n			<div class=\"npc\"></div>\r\n			<div class=\"remaining-days\">\r\n				<div class=\"remaining-day\">\r\n					<div class=\"remaining-day-text\"></div>\r\n				</div>\r\n				<div class=\"remaining-text\">\r\n					<div class=\"remaining-text-div\">天</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"bottom-panel\">\r\n			<div class=\"close-container\">\r\n				<ui-button\r\n					class=\"close-container-btn\"\r\n					data-localized-label=\"关闭\"\r\n					bg=\"check_attendance/bt_ok_normal.bmp\"\r\n					down=\"check_attendance/bt_ok_press.bmp\"\r\n					>关闭</ui-button\r\n				>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/CheckAttendance/CheckAttendance.css?raw
+var CheckAttendance_default$1;
+var init_CheckAttendance$1 = __esmMin((() => {
+	CheckAttendance_default$1 = ":host {\r\n	width: 488px;\r\n	height: 413px;\r\n}\r\n\r\n#CheckAttendance {\r\n	position: absolute;\r\n	width: 488px;\r\n	height: 413px;\r\n}\r\n\r\n#CheckAttendance .titlebar {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n\r\n#CheckAttendance .titlebar .top-panel {\r\n	width: 100%;\r\n	height: 85px;\r\n	float: left;\r\n}\r\n\r\n#CheckAttendance .titlebar .top-panel .top-panel-reward {\r\n	width: 100%;\r\n	height: 70px;\r\n	position: relative;\r\n	display: flex;\r\n	justify-content: center;\r\n}\r\n\r\n#CheckAttendance .titlebar .top-panel .top-panel-reward .text {\r\n	font-weight: bolder;\r\n	color: #633921;\r\n	display: table;\r\n	position: absolute;\r\n	top: 55%;\r\n}\r\n\r\n#CheckAttendance .titlebar .top-panel .top-panel-period {\r\n	width: 100%;\r\n	height: 15px;\r\n	text-align: center;\r\n	font-weight: bold;\r\n	color: #a55239;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel {\r\n	width: 335px;\r\n	height: 270px;\r\n	float: left;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list {\r\n	list-style: none;\r\n	padding-left: 25px;\r\n	margin-top: 8px;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item {\r\n	float: left;\r\n	width: 58px;\r\n	height: 60px;\r\n	margin: 2px;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item {\r\n	width: 100%;\r\n	height: 40px;\r\n	position: relative;\r\n	background-position: center;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item .item-quantity {\r\n	position: absolute;\r\n	bottom: 2px;\r\n	right: 15px;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item .name {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -10px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item:hover .name {\r\n	display: table;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .item .name {\r\n	display: none;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .day {\r\n	width: 100%;\r\n	height: 20px;\r\n	text-align: center;\r\n	font-weight: bold;\r\n	color: #394aa5;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .checked,\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .checked-hidden,\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .completed {\r\n	position: absolute;\r\n	width: 58px;\r\n	height: 60px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#CheckAttendance .titlebar .left-panel .days-list .attendance-item .checked-hidden {\r\n	display: none;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel {\r\n	width: 152px;\r\n	height: 270px;\r\n	float: left;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .total-days {\r\n	width: 80%;\r\n	height: 85px;\r\n	text-align: center;\r\n	display: flex;\r\n	align-items: center;\r\n	font-weight: bold;\r\n	color: #a53963;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .npc {\r\n	width: 100%;\r\n	height: 105px;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days {\r\n	width: 100%;\r\n	height: 80px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days .remaining-day {\r\n	height: 100%;\r\n	width: 85px;\r\n	float: left;\r\n	position: relative;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days .remaining-day .remaining-day-text {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 20px;\r\n	font-weight: bolder;\r\n	font-size: 20px;\r\n	color: white;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days .remaining-text {\r\n	height: 100%;\r\n	width: 35px;\r\n	float: left;\r\n	position: relative;\r\n	font-weight: bolder;\r\n}\r\n\r\n#CheckAttendance .titlebar .right-panel .remaining-days .remaining-text .remaining-text-div {\r\n	position: absolute;\r\n	left: 3px;\r\n	bottom: 20px;\r\n}\r\n\r\n#CheckAttendance .titlebar .bottom-panel {\r\n	width: 100%;\r\n	height: 58px;\r\n	float: left;\r\n}\r\n\r\n#CheckAttendance .titlebar .bottom-panel .close-container {\r\n	width: 100%;\r\n	height: 100%;\r\n	position: relative;\r\n}\r\n\r\n#CheckAttendance .titlebar .bottom-panel .close-container .close-container-btn {\r\n	width: 146px;\r\n	height: 30px;\r\n	border: 0;\r\n	font-weight: bold;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	position: absolute;\r\n	top: 35%;\r\n	left: 35%;\r\n	display: inline-block;\r\n	text-align: center;\r\n	line-height: 30px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/CheckAttendance/CheckAttendance.js
+/**
+* Request Attendance Item
+*/
+function onClickAttendance(e) {
+	const root = CheckAttendance.getRoot();
+	const el = e.currentTarget;
+	const id = el.id;
+	const checkedHidden = root.querySelector(`#${id} .checked-hidden`);
+	if (checkedHidden) checkedHidden.className = "checked";
+	const completedDiv = document.createElement("div");
+	completedDiv.className = "completed";
+	completedDiv.dataset.background = "check_attendance/bt_slot_complete.tga";
+	el.appendChild(completedDiv);
+	GUIComponent.processDataAttrs(completedDiv);
+	const total_days_string = `${parseInt(_checkAttendanceData / 10) + 1} Day attendance success`;
+	const totalDaysEl = root.querySelector(".total-days");
+	if (totalDaysEl) totalDaysEl.innerHTML = total_days_string;
+	const _pkt = new PACKET.CZ.REQ_CHECK_ATTENDANCE();
+	Network.sendPacket(_pkt);
+}
+var CheckAttendance, _checkAttendanceData, _CheckAttendanceInfo, _preferences$29, CheckAttendance_default;
+var init_CheckAttendance = __esmMin((() => {
+	init_DBManager();
+	init_Preferences$1();
+	init_Renderer();
+	init_UIManager();
+	init_GUIComponent();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_CheckAttendance$2();
+	init_CheckAttendance$1();
+	init_Elements();
+	CheckAttendance = new GUIComponent("CheckAttendance", CheckAttendance_default$1);
+	CheckAttendance.render = () => CheckAttendance_default$2;
+	_preferences$29 = Preferences.get("CheckAttendance", {
+		x: 200,
+		y: 200
+	}, 1);
+	/**
+	* Initialize the component (event listener, etc.)
+	*/
+	CheckAttendance.init = function init() {
+		_CheckAttendanceInfo = DB.getCheckAttendanceInfo();
+		const root = this.getRoot();
+		const baseEl = root.querySelector(".base");
+		if (baseEl) baseEl.addEventListener("mousedown", (event) => {
+			event.stopImmediatePropagation();
+			event.preventDefault();
+		});
+		root.querySelector(".close-container-btn").addEventListener("click", () => {
+			CheckAttendance._host.style.display = "none";
+		});
+		this.draggable(root.querySelector(".titlebar"));
+	};
+	/**
+	* Once append to the DOM, start to position the UI
+	*/
+	CheckAttendance.onAppend = function onAppend() {
+		Object.assign(this._host.style, {
+			top: `${Math.min(Math.max(0, _preferences$29.y), Renderer.height - this._host.getBoundingClientRect().height)}px`,
+			left: `${Math.min(Math.max(0, _preferences$29.x), Renderer.width - this._host.getBoundingClientRect().width)}px`
+		});
+		if (!_preferences$29.show) this._host.style.display = "none";
+		if (_checkAttendanceData >= 0 && _CheckAttendanceInfo.Config) {
+			CheckAttendance.updateUI();
+			this.focus();
+		}
+	};
+	/**
+	* Window Shortcuts
+	*/
+	CheckAttendance.onShortCut = function onShortCut(key) {
+		switch (key.cmd) {
+			case "TOGGLE": if (this._host.style.display === "none") {
+				this._host.style.display = "";
+				this.focus();
+			} else this._host.style.display = "none";
+		}
+	};
+	/**
+	* Show/Hide UI
+	*/
+	CheckAttendance.toggle = function toggle() {
+		if (this._host.style.display !== "none") this._host.style.display = "none";
+		else {
+			const _pkt = new PACKET.CZ.UI_OPEN();
+			_pkt.UIType = 5;
+			Network.sendPacket(_pkt);
+		}
+	};
+	/**
+	* Set Data to Attendance
+	*/
+	CheckAttendance.setData = function setData(data) {
+		_checkAttendanceData = data;
+	};
+	/**
+	* Update CheckAttendance UI
+	*/
+	CheckAttendance.updateUI = function updateUI() {
+		const root = this.getRoot();
+		let already_requested = 0;
+		let attendance_count = 0;
+		let current_day = 1;
+		if (_CheckAttendanceInfo.Config) {
+			const regex = /(\d{4})(\d{2})(\d{2})/;
+			const start = regex.exec(_CheckAttendanceInfo.Config.StartDate);
+			const end = regex.exec(_CheckAttendanceInfo.Config.EndDate);
+			const period_string = `Event Period: From ${start[2]}/${start[3]} ~ Until ${end[2]}/${end[3]} (Month/Day) 24:00`;
+			const periodEl = root.querySelector(".top-panel-period");
+			if (periodEl) periodEl.innerHTML = period_string;
+			if (_checkAttendanceData >= 0) {
+				already_requested = _checkAttendanceData % 10;
+				attendance_count = parseInt(_checkAttendanceData / 10);
+				current_day = attendance_count + 1;
+				const total_days_string = attendance_count >= 20 || already_requested ? `${attendance_count} Day attendance success` : `Click the item to claim day ${current_day} reward`;
+				const end_date = /* @__PURE__ */ new Date(`${end[1]}-${end[2]}-${end[3]}`);
+				const now_date = /* @__PURE__ */ new Date();
+				const remaining_days = Math.round(Math.abs((end_date.getTime() - now_date.getTime()) / 864e5));
+				const totalDaysEl = root.querySelector(".total-days");
+				if (totalDaysEl) totalDaysEl.innerHTML = total_days_string;
+				const remainingEl = root.querySelector(".remaining-day-text");
+				if (remainingEl) remainingEl.textContent = remaining_days;
+			}
+		}
+		if (_CheckAttendanceInfo.Rewards) {
+			const daysList = root.querySelector(".days-list");
+			for (let i = 0; i < 20; i++) {
+				const item = DB.getItemInfo(_CheckAttendanceInfo.Rewards[i].item_id);
+				const day = i + 1;
+				const background = !already_requested && day == current_day ? `data-background="check_attendance/bt_slot_a.bmp" data-down="check_attendance/bt_slot_press.bmp"` : "";
+				const checked = day <= attendance_count ? "checked" : "checked-hidden";
+				const slot_complete_string = day > (already_requested ? attendance_count - 1 : attendance_count) ? "bt_slot_complete" : "bt_slot_off";
+				const item_slot = `<li id="attendance_day_${i}" class="attendance-item" ${background}><div class="item" data-background="${DB.INTERFACE_PATH}item/${item.identifiedResourceName}.bmp"><span class="item-quantity">${_CheckAttendanceInfo.Rewards[i].quantity}</span><span class="name">${item.identifiedDisplayName}</span><div class="${checked}" data-background="check_attendance/${slot_complete_string}.tga"></div></div><div class="day">${day} Day</div></li>`;
+				if (daysList) daysList.insertAdjacentHTML("beforeend", item_slot);
+				if (!already_requested && day == current_day) {
+					const dayEl = root.querySelector(`#attendance_day_${i}`);
+					if (dayEl) {
+						dayEl.addEventListener("click", onClickAttendance);
+						dayEl.classList.add("event_add_cursor");
+					}
+				}
+			}
+			const dataAttrSelector = "[data-background],[data-hover],[data-down],[data-active],[data-text],[data-preload]";
+			if (daysList) daysList.querySelectorAll(dataAttrSelector).forEach((node) => {
+				GUIComponent.processDataAttrs(node);
+			});
+		}
+	};
+	/**
+	* Clean CheckAttendance UI
+	*/
+	CheckAttendance.cleanUI = function cleanUI() {
+		const root = CheckAttendance.getRoot();
+		const periodEl = root.querySelector(".top-panel-period");
+		if (periodEl) periodEl.innerHTML = "";
+		const daysListEl = root.querySelector(".days-list");
+		if (daysListEl) daysListEl.innerHTML = "";
+		const totalDaysEl = root.querySelector(".total-days");
+		if (totalDaysEl) totalDaysEl.innerHTML = "";
+		const remainingEl = root.querySelector(".remaining-day-text");
+		if (remainingEl) remainingEl.innerHTML = "";
+	};
+	/**
+	* Close the window
+	*/
+	CheckAttendance.onClose = function onClose() {
+		CheckAttendance._host.style.display = "none";
+	};
+	CheckAttendance_default = UIManager.addComponent(CheckAttendance);
+}));
+//#endregion
 //#region src/UI/Components/Quest/QuestTabVisibility.js
 function showQuestList(root, listId) {
 	const selectedId = listId.replace(/^#/, "").replace(/-quest-list$/, "");
@@ -283951,7 +284373,7 @@ function previewAdventureRoute(nextTarget) {
 	timer$1 = null;
 	target = { ...nextTarget };
 	navigationStarted = false;
-	update$1(false, "正在计算路径...");
+	update$1(false, "");
 	const position = getCurrentAdventurePosition();
 	Navigation_default.navigateTo({
 		startMap: getCurrentAdventureMap(),
@@ -284061,6 +284483,96 @@ var init_AdventureRouteService = __esmMin((() => {
 		};
 		notify();
 	});
+}));
+//#endregion
+//#region src/Preferences/Interface.js
+var defaultInterfaceSettings, chatLineOptions, settings;
+var init_Interface = __esmMin((() => {
+	init_Preferences$1();
+	defaultInterfaceSettings = {
+		toastDuration: 2,
+		chatPreviewCompactLines: 3,
+		chatPreviewSpaciousLines: 5,
+		chatPreviewTabs: true
+	};
+	chatLineOptions = [
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8
+	];
+	settings = Preferences.get("Interface", { ...defaultInterfaceSettings }, 1);
+	for (const key of ["chatPreviewCompactLines", "chatPreviewSpaciousLines"]) if (!chatLineOptions.includes(settings[key])) settings[key] = defaultInterfaceSettings[key];
+}));
+//#endregion
+//#region src/UI/Components/Toast.css?raw
+var Toast_default;
+var init_Toast$1 = __esmMin((() => {
+	Toast_default = ":host {\r\n	all: initial;\r\n	position: fixed;\r\n	top: 40%;\r\n	left: 50%;\r\n	transform: translate(-50%, -50%);\r\n	z-index: 2147483647;\r\n	display: flex;\r\n	align-items: center;\r\n	width: max-content;\r\n	max-width: calc(100% - 16px);\r\n	box-sizing: border-box;\r\n	padding: 8px 10px;\r\n	border: 1px solid #6aa786;\r\n	border-radius: 8px;\r\n	background: #263d32;\r\n	color: #d9f4e5;\r\n	box-shadow: 0 4px 16px #0006;\r\n	font:\r\n		13px/1.5 Arial,\r\n		sans-serif;\r\n	pointer-events: none;\r\n}\r\n:host(.info) {\r\n	border-color: #729cb8;\r\n	background: #253b4b;\r\n	color: #dceefa;\r\n}\r\n:host(.error) {\r\n	border-color: #d99573;\r\n	background: #643c31;\r\n	color: #ffe2cc;\r\n}\r\n.message {\r\n	min-width: 0;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Toast.js
+function ownerOf(container) {
+	return container?.closest(".game-tools-window, .panel-body") || container;
+}
+function visible(container) {
+	for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
+	return container?.isConnected;
+}
+/** One viewport-level notification shared by every UI, including shadow roots. */
+function showToast(container, message, kind = "success") {
+	if (!message || !visible(container)) return;
+	active$2?.dismiss();
+	const owner = ownerOf(container);
+	const element = document.createElement("div");
+	element.className = `ui-toast ${kind}`;
+	element.setAttribute("role", "status");
+	element.setAttribute("aria-live", "polite");
+	element.textContent = message;
+	const shadow = element.attachShadow({ mode: "open" });
+	const style = document.createElement("style");
+	style.textContent = Toast_default;
+	const content = document.createElement("span");
+	content.className = "message";
+	content.append(document.createElement("slot"));
+	const dismiss = () => {
+		clearTimeout(record.timer);
+		record.observer.disconnect();
+		element.remove();
+		if (active$2 === record) active$2 = null;
+	};
+	shadow.append(style, content);
+	const observer = new MutationObserver(() => {
+		if (!visible(owner) || !element.isConnected) dismiss();
+	});
+	const record = {
+		owner,
+		dismiss,
+		observer,
+		timer: setTimeout(dismiss, settings.toastDuration * 1e3)
+	};
+	active$2 = record;
+	document.body.append(element);
+	const options = {
+		subtree: true,
+		childList: true,
+		attributes: true,
+		attributeFilter: ["hidden", "style"]
+	};
+	observer.observe(document.body, options);
+	const root = owner.getRootNode();
+	if (root instanceof ShadowRoot) observer.observe(root, options);
+}
+function clearToast(container) {
+	if (active$2?.owner === ownerOf(container)) active$2.dismiss();
+}
+var active$2;
+var init_Toast = __esmMin((() => {
+	init_Interface();
+	init_Toast$1();
 }));
 //#endregion
 //#region src/UI/Components/GameTools/GameTools.html?raw
@@ -285520,6 +286032,103 @@ var init_NpcCatalogTab = __esmMin((() => {
 		label: "NPC 图鉴",
 		mount: mount$3
 	};
+}));
+//#endregion
+//#region src/UI/Components/Confirmation.css?raw
+var Confirmation_default;
+var init_Confirmation$1 = __esmMin((() => {
+	Confirmation_default = ".ui-confirm {\r\n	position: fixed;\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n	width: min(var(--menu-dialog-width, 380px), calc(100% - var(--menu-dialog-inset, 32px)));\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px))\r\n	);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	border: 1px solid #657584;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	font:\r\n		13px/1.6 Arial,\r\n		sans-serif;\r\n	white-space: normal;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: #0008;\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-top: 12px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	flex: none;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 56px;\r\n	height: var(--panel-control, 30px);\r\n	min-height: var(--panel-control, 30px);\r\n	padding: 3px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	color: #f5f2e9;\r\n	background: #394753;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n	cursor: pointer;\r\n}\r\n.ui-confirm .ui-confirm-actions button:focus-visible {\r\n	outline: 2px solid #ceaa70;\r\n	outline-offset: 2px;\r\n}\r\n.ui-confirm input {\r\n	box-sizing: border-box;\r\n	max-width: 100%;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.ui-confirm .ui-confirm-field > span {\r\n	flex: none;\r\n}\r\n.ui-confirm .ui-confirm-field > :is(input, select) {\r\n	flex: 1;\r\n	width: 100%;\r\n	min-width: 0;\r\n	min-height: 36px;\r\n	padding: 6px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #25313b;\r\n	color: inherit;\r\n	font:\r\n		16px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field + .ui-confirm-field {\r\n	margin-top: 12px;\r\n}\r\n\r\n.ui-confirm .equipment-picker-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	max-height: min(40dvh, 280px);\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm .equipment-picker-list button {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.ui-confirm .equipment-candidate img {\r\n	width: 24px;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	object-fit: contain;\r\n}\r\n.ui-confirm .equipment-candidate span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n.ui-confirm:has(.equipment-picker-layout) {\r\n	width: min(\r\n		var(--menu-picker-width, 640px),\r\n		calc(100% - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-width, 100vw)\r\n	);\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-height, 100dvh)\r\n	);\r\n	overflow: hidden;\r\n}\r\n.ui-confirm[open]:has(.equipment-picker-layout) {\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body > p,\r\n.ui-confirm:has(.equipment-picker-layout) > .ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm .equipment-picker-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);\r\n	gap: 12px;\r\n	height: min(50dvh, 380px);\r\n	min-height: 0;\r\n	flex: 0 1 auto;\r\n}\r\n.ui-confirm .equipment-picker-layout > .equipment-picker-list {\r\n	max-height: none;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	overflow-wrap: anywhere;\r\n	padding-left: 12px;\r\n	border-left: 1px solid #465461;\r\n}\r\n.ui-confirm .equipment-picker-preview > :first-child {\r\n	margin-top: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview .item-description {\r\n	white-space: pre-line;\r\n}\r\n\r\n.ui-confirm .shortcut-fields .ui-confirm-field > .menu-select {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.ui-confirm .drop-quantity {\r\n	gap: 6px;\r\n}\r\n.ui-confirm .ui-confirm-field.drop-quantity > input {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	padding: 3px 6px;\r\n	font-size: 12px;\r\n}\r\n.ui-confirm .drop-quantity > input,\r\n.panel .ui-confirm .ui-confirm-field.drop-quantity > input[type='number'],\r\n.ui-confirm .drop-quantity-buttons button {\r\n	box-sizing: border-box;\r\n	height: 28px;\r\n	min-height: 28px;\r\n}\r\n.ui-confirm .drop-quantity-buttons {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	flex: none;\r\n	gap: 4px;\r\n}\r\n.ui-confirm .drop-quantity-buttons button {\r\n	flex: none;\r\n	width: auto;\r\n	min-width: 26px;\r\n	padding: 3px 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #394753;\r\n	color: inherit;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.ui-confirm-body {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Confirmation.js
+/** Modal confirmation shared by menus and adventure tools. Returns a cancellation function. */
+function confirmAction(container, message, action, { content, bounds, cancelled = () => {} } = {}) {
+	active$1.get(container)?.();
+	const dialog = document.createElement("dialog");
+	dialog.className = "ui-confirm";
+	dialog.setAttribute("aria-label", "操作确认");
+	const style = document.createElement("style");
+	style.textContent = Confirmation_default;
+	const text = document.createElement("p");
+	text.textContent = message;
+	text.tabIndex = -1;
+	text.autofocus = true;
+	const buttons = document.createElement("div");
+	buttons.className = "ui-confirm-actions";
+	const cancel = document.createElement("button");
+	cancel.type = "button";
+	cancel.dataset.cancel = "";
+	cancel.textContent = "取消";
+	const confirm = document.createElement("button");
+	confirm.type = "button";
+	confirm.dataset.confirm = "";
+	confirm.textContent = "确认";
+	const resize = bounds ? new ResizeObserver(() => fitBounds()) : null;
+	function fitBounds() {
+		if (!bounds) return;
+		const rect = bounds.getBoundingClientRect();
+		dialog.style.setProperty("--confirm-max-width", `${rect.width}px`);
+		dialog.style.setProperty("--confirm-max-height", `${rect.height}px`);
+	}
+	let finished = false;
+	const finish = (accepted) => {
+		if (finished) return;
+		finished = true;
+		observer.disconnect();
+		resize?.disconnect();
+		dialog.close();
+		dialog.remove();
+		if (active$1.get(container) === dismiss) active$1.delete(container);
+		if (accepted && container.isConnected) action();
+		else cancelled();
+	};
+	const dismiss = () => finish(false);
+	const visible = () => {
+		for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
+		return container.isConnected && dialog.isConnected;
+	};
+	const observer = new MutationObserver(() => {
+		if (!visible()) dismiss();
+	});
+	cancel.onclick = dismiss;
+	confirm.onclick = () => {
+		if (content && ![...content.querySelectorAll("input, select, textarea")].every((field) => field.reportValidity())) return;
+		finish(true);
+	};
+	dialog.addEventListener("cancel", (event) => {
+		event.preventDefault();
+		dismiss();
+	});
+	buttons.append(cancel, confirm);
+	const body = document.createElement("div");
+	body.className = "ui-confirm-body";
+	body.append(text);
+	if (content) body.append(content);
+	dialog.append(style, body);
+	dialog.append(buttons);
+	container.append(dialog);
+	active$1.set(container, dismiss);
+	const options = {
+		childList: true,
+		subtree: true,
+		attributes: true,
+		attributeFilter: ["hidden", "style"]
+	};
+	observer.observe(document.body, options);
+	const root = container.getRootNode();
+	if (root instanceof ShadowRoot) observer.observe(root, options);
+	fitBounds();
+	if (bounds) resize.observe(bounds);
+	dialog.showModal();
+	return dismiss;
+}
+function requestConfirmation(container, message) {
+	return new Promise((resolve) => confirmAction(container, message, () => resolve(true), { cancelled: () => resolve(false) }));
+}
+var active$1;
+var init_Confirmation = __esmMin((() => {
+	init_Confirmation$1();
+	active$1 = /* @__PURE__ */ new WeakMap();
 }));
 //#endregion
 //#region src/UI/Components/GameTools/GameToolsNumberPrompt.js
@@ -287444,6 +288053,11 @@ var init_InventoryItems = __esmMin((() => {
 /** Read live inventory identities; never optimistically mutate server-owned counts or equipment. */
 function createGameInventory(canOperate) {
 	const icons = /* @__PURE__ */ new Map();
+	const previewImages = /* @__PURE__ */ new Map();
+	function loadPreviewImage(path) {
+		if (!previewImages.has(path)) previewImages.set(path, new Promise((resolve) => Client.loadFile(path, resolve, () => resolve(""))));
+		return previewImages.get(path);
+	}
 	function entries() {
 		const items = new Map(InventoryController.getUI().list.filter((item) => itemQuantity(item) > 0).map((item) => [item.index, {
 			item,
@@ -287489,6 +288103,19 @@ function createGameInventory(canOperate) {
 	}
 	return {
 		snapshot: () => entries().map(describe),
+		async preview(index, id) {
+			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);
+			if (!entry) return null;
+			const { item } = entry;
+			const info = DB.getItemInfo(id);
+			const resource = item.IsIdentified ? info.identifiedResourceName : info.unidentifiedResourceName;
+			const illustration = item.IsIdentified && info.illustResourcesName;
+			const [image, art] = await Promise.all([resource ? loadPreviewImage(`${DB.INTERFACE_PATH}collection/${resource}.bmp`) : "", illustration ? loadPreviewImage(`${DB.INTERFACE_PATH}cardbmp/${illustration}.bmp`) : ""]);
+			return {
+				image,
+				art
+			};
+		},
 		describe: (item) => describe({
 			item,
 			worn: false
@@ -294050,7 +294677,7 @@ var init_Storage$4 = __esmMin((() => {
 //#region src/UI/Components/Storage/StorageV3/Storage.css?raw
 var Storage_default$1;
 var init_Storage$3 = __esmMin((() => {
-	Storage_default$1 = ":host {\r\n	width: 280px;\r\n	height: 306px;\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#Storage {\r\n	position: absolute;\r\n	width: 280px;\r\n	border-radius: 3px;\r\n}\r\n#Storage table {\r\n	border-spacing: 0px;\r\n	display: inline-block;\r\n	width: 100%;\r\n}\r\n\r\n#Storage .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#Storage .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	margin-left: 15px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#Storage .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#Storage .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#Storage .tabs {\r\n	border-left: 1px solid #ccc;\r\n	width: 50px;\r\n	background-color: white;\r\n	vertical-align: top;\r\n	padding: 3px;\r\n}\r\n#Storage .tabs button {\r\n	width: 42px;\r\n	height: 29px;\r\n	border: 0;\r\n	border-left: 3px solid transparent;\r\n	background: #f3f4f5;\r\n	color: #30343a;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	font-size: 11px;\r\n	cursor: pointer;\r\n}\r\n#Storage .tabs button:hover {\r\n	background: #e8f1fb;\r\n}\r\n#Storage .tabs button.active {\r\n	border-left-color: #2877a8;\r\n	background: #dceaff;\r\n	color: #174f70;\r\n	font-weight: bold;\r\n}\r\n\r\n#Storage .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	width: 100%;\r\n}\r\n#Storage .content {\r\n	overflow-y: scroll;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 240px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n	background-attachment: local;\r\n}\r\n\r\n#Storage .content .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 28px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n#Storage .content .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#Storage .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#Storage .overlay.grey {\r\n	color: #aaa;\r\n}\r\n#Storage .content .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#Storage .content .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n#Storage .footer {\r\n	width: 100%;\r\n	height: 55px;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-right: 1px solid #ccc;\r\n}\r\n#Storage .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#Storage .footer .close {\r\n	position: absolute;\r\n	border: none;\r\n	width: 38px;\r\n	min-width: 38px;\r\n	height: 18px;\r\n	bottom: 2px;\r\n	right: 10px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Storage .footer .divider-bar {\r\n	left: 0;\r\n	right: 0;\r\n	height: 10px;\r\n}\r\n\r\n#Storage .footer .filter-buttons {\r\n	padding-left: 5px;\r\n	height: 28px;\r\n}\r\n\r\n#Storage .footer .filter-buttons > button {\r\n	width: 23px;\r\n	height: 23px;\r\n	border: 1px solid #cfcfcf;\r\n	background-color: #eee;\r\n	background-repeat: no-repeat;\r\n	background-position: center center;\r\n	padding: 0;\r\n	border-radius: 2px;\r\n	margin: 2px 1px 0px;\r\n	cursor: pointer;\r\n}\r\n\r\n#Storage .footer .filter-buttons > button:hover {\r\n	background-color: #f5f5f5;\r\n}\r\n\r\n#Storage .footer .item_num_display {\r\n	display: flex;\r\n	align-items: center;\r\n	padding-left: 3px;\r\n}\r\n\r\n#Storage .footer .item_num {\r\n	display: inline-block;\r\n	height: 14px;\r\n	width: 11px;\r\n	margin-right: 2px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Storage .footer .current {\r\n	margin-left: 2px;\r\n}\r\n\r\n#Storage .footer .current,\r\n#Storage .footer .divider,\r\n#Storage .footer .limit {\r\n	font-size: 12px;\r\n}\r\n\r\n/* Search */\r\n#Storage .footer .search-container {\r\n	display: flex;\r\n	align-items: center;\r\n	padding-left: 23px;\r\n}\r\n\r\n#Storage .footer .search-input {\r\n	border: 1px solid #ccc;\r\n	border-radius: 5px;\r\n	padding: 2px;\r\n	width: 87px;\r\n	height: 14px;\r\n}\r\n\r\n#Storage .footer .search-button {\r\n	width: 38px;\r\n	min-width: 38px;\r\n	height: 18px;\r\n	background-color: #eee;\r\n	background-repeat: no-repeat;\r\n	background-position: center center;\r\n	border: none;\r\n	margin-left: 4px;\r\n	cursor: pointer;\r\n}\r\n\r\n#Storage .footer .storage-order-select {\r\n	display: inline-block;\r\n	margin-left: 2px;\r\n	width: 70px;\r\n	height: 23px;\r\n	vertical-align: top;\r\n}\r\n#Storage .footer .storage-order-select .game-select-trigger {\r\n	height: 23px;\r\n	padding: 2px 5px;\r\n	font-size: 11px;\r\n}\r\n#Storage .footer .storage-order-select .game-select-menu {\r\n	width: 90px;\r\n}\r\n#Storage .footer .storage-order-select .game-select-option {\r\n	min-height: 27px;\r\n	padding: 3px 5px;\r\n	font-size: 11px;\r\n}\r\n";
+	Storage_default$1 = ":host {\r\n	width: 280px;\r\n	height: 306px;\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#Storage {\r\n	position: absolute;\r\n	width: 280px;\r\n	border-radius: 3px;\r\n}\r\n#Storage table {\r\n	border-spacing: 0px;\r\n	display: inline-block;\r\n	width: 100%;\r\n}\r\n\r\n#Storage .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#Storage .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	margin-left: 15px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#Storage .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#Storage .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#Storage .tabs {\r\n	border-left: 1px solid #ccc;\r\n	width: 50px;\r\n	background-color: white;\r\n	vertical-align: top;\r\n	padding: 3px;\r\n}\r\n#Storage .tabs button {\r\n	width: 42px;\r\n	height: 29px;\r\n	border: 0;\r\n	border-left: 3px solid transparent;\r\n	background: #f3f4f5;\r\n	color: #30343a;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	font-size: 11px;\r\n	cursor: pointer;\r\n}\r\n#Storage .tabs button:hover {\r\n	background: #e8f1fb;\r\n}\r\n#Storage .tabs button.active {\r\n	border-left-color: #2877a8;\r\n	background: #dceaff;\r\n	color: #174f70;\r\n	font-weight: bold;\r\n}\r\n\r\n#Storage .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	width: 100%;\r\n}\r\n#Storage .content {\r\n	overflow-y: scroll;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 240px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n	background-attachment: local;\r\n}\r\n\r\n#Storage .content .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 28px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n#Storage .content .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#Storage .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#Storage .overlay.grey {\r\n	color: #aaa;\r\n}\r\n#Storage .content .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#Storage .content .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n#Storage .footer {\r\n	width: 100%;\r\n	height: 55px;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-right: 1px solid #ccc;\r\n}\r\n#Storage .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#Storage .footer .close {\r\n	position: absolute;\r\n	border: none;\r\n	width: 38px;\r\n	min-width: 38px;\r\n	height: 18px;\r\n	bottom: 2px;\r\n	right: 10px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Storage .footer .divider-bar {\r\n	left: 0;\r\n	right: 0;\r\n	height: 10px;\r\n}\r\n\r\n#Storage .footer .filter-buttons {\r\n	padding-left: 5px;\r\n	height: 28px;\r\n}\r\n\r\n#Storage .footer .filter-buttons > button {\r\n	width: 23px;\r\n	height: 23px;\r\n	border: 1px solid #cfcfcf;\r\n	background-color: #eee;\r\n	background-repeat: no-repeat;\r\n	background-position: center center;\r\n	padding: 0;\r\n	border-radius: 2px;\r\n	margin: 2px 1px 0px;\r\n	cursor: pointer;\r\n}\r\n\r\n#Storage .footer .filter-buttons > button:hover {\r\n	background-color: #f5f5f5;\r\n}\r\n\r\n#Storage .footer .item_num_display {\r\n	display: flex;\r\n	align-items: center;\r\n	padding-left: 3px;\r\n}\r\n\r\n#Storage .footer .item_num {\r\n	display: inline-block;\r\n	height: 14px;\r\n	width: 11px;\r\n	margin-right: 2px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Storage .footer .current {\r\n	margin-left: 2px;\r\n}\r\n\r\n#Storage .footer .current,\r\n#Storage .footer .divider,\r\n#Storage .footer .limit {\r\n	font-size: 12px;\r\n}\r\n\r\n/* Search */\r\n#Storage .footer .search-container {\r\n	display: flex;\r\n	align-items: center;\r\n	padding-left: 23px;\r\n}\r\n\r\n#Storage .footer .search-input {\r\n	border: 1px solid #ccc;\r\n	border-radius: 5px;\r\n	padding: 2px;\r\n	width: 87px;\r\n	height: 14px;\r\n}\r\n\r\n#Storage .footer .search-button {\r\n	width: 38px;\r\n	min-width: 38px;\r\n	height: 18px;\r\n	background-color: #eee;\r\n	background-repeat: no-repeat;\r\n	background-position: center center;\r\n	border: none;\r\n	margin-left: 4px;\r\n	cursor: pointer;\r\n}\r\n\r\n#Storage .footer .storage-order-select {\r\n	display: inline-block;\r\n	margin-left: 2px;\r\n	width: 70px;\r\n	height: 23px;\r\n	vertical-align: top;\r\n}\r\n#Storage .footer .storage-order-select .game-select-trigger {\r\n	height: 23px;\r\n	padding: 2px 5px;\r\n	font-size: 11px;\r\n}\r\n#Storage .footer .storage-order-select .game-select-menu {\r\n	width: 90px;\r\n}\r\n#Storage .footer .storage-order-select .game-select-option {\r\n	min-height: 27px;\r\n	padding: 3px 5px;\r\n	font-size: 11px;\r\n}\r\n\r\n/* Keep translated footer labels on one line inside the compact buttons. */\r\n#Storage .footer .search-button,\r\n#Storage .footer .close {\r\n	padding: 0 4px;\r\n	white-space: nowrap;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Storage/StorageV3/Storage.js
@@ -295754,7 +296381,7 @@ function updatePreviewButton(item) {
 		previewButton.style.display = "none";
 		return;
 	}
-	previewButton.style.display = "block";
+	previewButton.style.display = "";
 	const newBtn = previewButton.cloneNode(true);
 	previewButton.parentNode.replaceChild(newBtn, previewButton);
 	newBtn.addEventListener("click", (e) => {
@@ -359258,597 +359885,6 @@ var init_RotationGuard = __esmMin((() => {
 	};
 }));
 //#endregion
-//#region src/UI/Game/AutoCombatTeleport.js
-function cancelAutoCombatTeleport() {
-	ticket = null;
-}
-function isAutoCombatTeleportPending() {
-	return Boolean(ticket && ticket.expires > Date.now());
-}
-function requestAutoCombatTeleport(intervalSeconds) {
-	if (ticket && ticket.expires <= Date.now()) ticket = null;
-	if (ticket) return "正在随机瞬移";
-	const state = getAdventureActionState();
-	if (!state.allowed) return "无法随机瞬移：没有冒险工具传送权限";
-	if (Date.now() < nextAllowed) return feedback || `等待瞬移间隔：${Math.ceil((nextAllowed - Date.now()) / 1e3)} 秒`;
-	if (!state.canTeleport || state.npcPending) return state.cooldownRemaining ? `传送冷却：${state.cooldownRemaining} 秒` : "等待冒险工具传送完成";
-	const attempt = {
-		identity: identity$4(),
-		map: getCurrentAdventureMap(),
-		expires: Date.now() + 15e3,
-		transitioned: false,
-		ready: false,
-		success: false
-	};
-	ticket = attempt;
-	if (!teleportToCoordinate({
-		mapName: attempt.map,
-		x: 0,
-		y: 0
-	}, (packet) => {
-		if (ticket !== attempt) return;
-		if (packet.result !== 0) {
-			ticket = null;
-			feedback = getAdventureActionState().message || "随机瞬移失败";
-		} else attempt.success = true;
-	})) {
-		ticket = null;
-		return "随机瞬移暂不可用";
-	}
-	nextAllowed = Date.now() + intervalSeconds * 1e3;
-	feedback = "";
-	return "正在随机瞬移";
-}
-function prepareAutoCombatTeleportMap(mapName) {
-	if (!ticket) {
-		feedback = "";
-		return;
-	}
-	if (ticket.transitioned || ticket.identity !== identity$4() || ticket.map !== normalizeAdventureMap(mapName) || ticket.expires <= Date.now()) {
-		ticket = null;
-		return;
-	}
-	ticket.transitioned = true;
-}
-function completeAutoCombatTeleportMap() {
-	if (ticket?.transitioned) ticket.ready = true;
-}
-function consumeAutoCombatTeleport() {
-	if (!ticket) return false;
-	if (ticket.identity !== identity$4() || ticket.expires <= Date.now() || ticket.map !== getCurrentAdventureMap()) {
-		ticket = null;
-		return false;
-	}
-	if (!ticket.success || !ticket.ready) return false;
-	ticket = null;
-	return true;
-}
-var ticket, nextAllowed, feedback, identity$4;
-var init_AutoCombatTeleport = __esmMin((() => {
-	init_SessionStorage();
-	init_ConnectionLifecycle();
-	init_GameInputIntent();
-	init_AdventureActionService();
-	ticket = null;
-	nextAllowed = 0;
-	feedback = "";
-	identity$4 = () => JSON.stringify([
-		SessionStorage_default.ServerName,
-		SessionStorage_default.AID,
-		SessionStorage_default.GID
-	]);
-	subscribeGameInput(() => {
-		cancelAutoCombatTeleport();
-		return false;
-	});
-	window.addEventListener("blur", cancelAutoCombatTeleport);
-	document.addEventListener("visibilitychange", () => {
-		if (document.hidden) cancelAutoCombatTeleport();
-	});
-	onConnectionEnd(() => {
-		ticket = null;
-		nextAllowed = 0;
-		feedback = "";
-	});
-}));
-//#endregion
-//#region src/UI/Game/GameAutomation.js
-function registerAutomationCombat(controller) {
-	combats.add(controller);
-	return () => combats.delete(controller);
-}
-function hasAutomationCombat() {
-	return [...combats].some((controller) => controller.snapshot().active);
-}
-function registerAutomationPickup(controller) {
-	pickup = controller;
-	return () => {
-		if (pickup === controller) pickup = null;
-	};
-}
-function takeAutomationPickupTurn() {
-	return pickup?.takeTurn() || false;
-}
-function cancelAutomationPickup() {
-	pickup?.cancel();
-}
-var combats, pickup;
-var init_GameAutomation = __esmMin((() => {
-	combats = /* @__PURE__ */ new Set();
-	pickup = null;
-}));
-//#endregion
-//#region src/UI/Game/AutoCombatController.js
-function validAutoCombatTeleport(value) {
-	return value && typeof value.enabled === "boolean" && Number.isInteger(value.waitSeconds) && value.waitSeconds >= 1 && value.waitSeconds <= 60 && Number.isInteger(value.intervalSeconds) && value.intervalSeconds >= 1 && value.intervalSeconds <= 300;
-}
-/** Nearby combat policy. Runtime adapters own pathfinding, packets and live skill checks. */
-function createAutoCombatController(data, configuration = {
-	species: [],
-	skills: [],
-	ranges: {
-		search: 20,
-		activity: 30
-	}
-}) {
-	let active = false, pausedForMovement = false, continuous = false, preferred = null, species = configuration.species.map((entry) => ({ ...entry })), ranges = { ...configuration.ranges }, selected = [...configuration.skills], target = null, nextAction = 0;
-	let teleport = {
-		...AUTO_COMBAT_TELEPORT_DEFAULTS,
-		...configuration.teleport
-	};
-	let idleSince = null;
-	let origin, lastDistance = Infinity, progressAt = 0, status = "自动战斗已停止";
-	const skipped = /* @__PURE__ */ new Map();
-	const distance = (a, b) => Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]));
-	function stop(message = "自动战斗已停止") {
-		data.cancelPickup?.();
-		idleSince = null;
-		if (active || target) data.stop();
-		active = false;
-		pausedForMovement = false;
-		continuous = false;
-		preferred = null;
-		target = null;
-		status = message;
-	}
-	function snapshot() {
-		return {
-			active,
-			ranges: { ...ranges },
-			teleport: { ...teleport },
-			pausedForMovement,
-			species: species.map((entry) => ({ ...entry })),
-			skills: [...selected],
-			status,
-			target: target?.name || ""
-		};
-	}
-	function tick() {
-		if (!active) return;
-		if (!data.enabled()) {
-			stop("自动战斗已停止");
-			return;
-		}
-		if (pausedForMovement) return;
-		if (data.teleportPending?.()) {
-			status = "正在随机瞬移";
-			return;
-		}
-		const now = data.now(), player = data.position();
-		for (const [id, until] of skipped) if (until <= now) skipped.delete(id);
-		const targets = data.targets().filter((entity) => (entity.id === preferred || continuous && (!species.length || species.some((entry) => entity.species === entry.id))) && distance(player, entity.position) <= ranges.search && distance(origin, entity.position) <= ranges.activity && (skipped.get(entity.id) || 0) <= now);
-		const current = target && targets.find((entity) => entity.id === target.id);
-		if (target && !current) {
-			if (!continuous) {
-				stop("目标已结束或离开，攻击已停止");
-				return;
-			}
-			preferred = null;
-			data.stop();
-			target = null;
-			nextAction = 0;
-		}
-		if (!target) {
-			if (continuous && data.pickupTurn?.()) {
-				idleSince = null;
-				status = "拾取本轮掉落物品";
-				return;
-			}
-			targets.sort((a, b) => distance(player, a.position) - distance(player, b.position));
-			target = targets.find((entity) => data.reachable(entity)) || null;
-			if (!target) {
-				status = "等待附近目标";
-				if (!continuous || !teleport.enabled || data.busy() || data.teleportBusy?.()) {
-					idleSince = null;
-					return;
-				}
-				idleSince ??= now;
-				const remaining = teleport.waitSeconds * 1e3 - (now - idleSince);
-				status = remaining > 0 ? `无目标，${Math.ceil(remaining / 1e3)} 秒后随机瞬移` : data.teleport(teleport.intervalSeconds);
-				return;
-			}
-			data.select(target);
-			lastDistance = Infinity;
-			progressAt = now;
-		} else target = current;
-		idleSince = null;
-		const range = distance(player, target.position);
-		if (range < lastDistance || !data.chasing()) {
-			progressAt = now;
-			lastDistance = range;
-		}
-		if (now - progressAt >= 8e3) {
-			if (!continuous) {
-				stop("目标无法接近，攻击已停止");
-				return;
-			}
-			preferred = null;
-			skipped.set(target.id, now + 3e4);
-			data.stop();
-			target = null;
-			nextAction = 0;
-			status = "目标无法接近，寻找其他目标";
-			return;
-		}
-		status = `${data.chasing() ? "接近" : "攻击"}：${target.name}`;
-		if (now < nextAction || data.busy()) return;
-		const skills = data.skills().filter((skill) => selected.includes(skill.id) && skill.available);
-		const skill = skills.length ? skills[Math.floor(data.random() * skills.length)] : null;
-		if (data.act(target, skill) === false) {
-			if (!continuous) {
-				stop("无法攻击目标");
-				return;
-			}
-			preferred = null;
-			skipped.set(target.id, now + 3e4);
-			data.stop();
-			target = null;
-		}
-		nextAction = now + 900;
-	}
-	return {
-		snapshot,
-		tick,
-		stop,
-		pauseForMovement() {
-			data.cancelPickup?.();
-			if (!active || pausedForMovement) return;
-			if (!continuous) {
-				stop("手动移动，攻击已停止");
-				return;
-			}
-			data.stop();
-			idleSince = null;
-			pausedForMovement = true;
-			target = null;
-			preferred = null;
-			status = "移动中，停止移动后继续自动战斗";
-		},
-		resumeAfterMovement() {
-			if (!active || !pausedForMovement) return;
-			pausedForMovement = false;
-			origin = [...data.position()];
-			nextAction = 0;
-			skipped.clear();
-			status = "寻找附近目标";
-		},
-		start() {
-			data.cancelPickup?.();
-			idleSince = null;
-			if (!data.enabled()) return false;
-			data.stop();
-			origin = [...data.position()];
-			active = true;
-			pausedForMovement = false;
-			continuous = true;
-			preferred = null;
-			target = null;
-			nextAction = 0;
-			skipped.clear();
-			status = "寻找附近目标";
-			tick();
-			return true;
-		},
-		attackTarget(id) {
-			data.cancelPickup?.();
-			if (!data.enabled()) return false;
-			const choice = data.targets().find((entity) => entity.id === id);
-			if (!choice || !data.reachable(choice)) return false;
-			continuous = active && continuous;
-			data.stop();
-			active = true;
-			pausedForMovement = false;
-			preferred = id;
-			target = choice;
-			origin = [...data.position()];
-			nextAction = 0;
-			lastDistance = Infinity;
-			progressAt = data.now();
-			skipped.delete(id);
-			data.select(target);
-			tick();
-			return true;
-		},
-		configure(nextSpecies, ids, nextRanges, nextTeleport = teleport) {
-			if (!validAutoCombatTeleport(nextTeleport)) return false;
-			const limits = AUTO_COMBAT_RANGE_LIMITS;
-			if (!Number.isInteger(nextRanges.search) || !Number.isInteger(nextRanges.activity) || nextRanges.search < limits.min || nextRanges.search > limits.searchMax || nextRanges.activity < nextRanges.search || nextRanges.activity > limits.activityMax) return false;
-			stop();
-			ranges = { ...nextRanges };
-			teleport = { ...nextTeleport };
-			species = [...new Map(nextSpecies.map((entry) => [entry.id, {
-				id: entry.id,
-				name: entry.name
-			}])).values()];
-			const learned = new Set(data.skills().map((skill) => skill.id));
-			selected = [...new Set(ids)].filter((id) => learned.has(id));
-			return true;
-		},
-		skills: () => data.skills(),
-		targets: () => data.targets()
-	};
-}
-var AUTO_COMBAT_RANGE_LIMITS, AUTO_COMBAT_TELEPORT_DEFAULTS;
-var init_AutoCombatController = __esmMin((() => {
-	AUTO_COMBAT_RANGE_LIMITS = {
-		min: 1,
-		searchMax: 50,
-		activityMax: 100
-	};
-	AUTO_COMBAT_TELEPORT_DEFAULTS = {
-		enabled: false,
-		waitSeconds: 5,
-		intervalSeconds: 2
-	};
-}));
-//#endregion
-//#region src/UI/Game/AutoCombatSettings.js
-/** Only preferences are persisted, never an active battle or a temporary target. */
-function loadAutoCombatSettings(key) {
-	try {
-		const saved = JSON.parse(localStorage.getItem(key));
-		const limits = AUTO_COMBAT_RANGE_LIMITS;
-		if (!saved || !Array.isArray(saved.species) || !Array.isArray(saved.skills) || !saved.ranges) return;
-		if (!saved.species.every((entry) => entry && Number.isInteger(entry.id) && entry.id > 0 && typeof entry.name === "string")) return;
-		if (!saved.skills.every((id) => Number.isInteger(id) && id > 0)) return;
-		const { search, activity } = saved.ranges;
-		if (!Number.isInteger(search) || !Number.isInteger(activity) || search < limits.min || search > limits.searchMax || activity < search || activity > limits.activityMax) return;
-		if (saved.teleport !== void 0 && !validAutoCombatTeleport(saved.teleport)) return;
-		return {
-			species: saved.species,
-			skills: saved.skills,
-			ranges: {
-				search,
-				activity
-			},
-			...saved.teleport ? { teleport: saved.teleport } : {}
-		};
-	} catch {
-		return;
-	}
-}
-function saveAutoCombatSettings(key, settings) {
-	try {
-		localStorage.setItem(key, JSON.stringify(settings));
-		return true;
-	} catch {
-		return false;
-	}
-}
-var init_AutoCombatSettings = __esmMin((() => {
-	init_AutoCombatController();
-}));
-//#endregion
-//#region src/UI/Game/GameAutoCombat.js
-function createGameAutoCombat(enabled) {
-	const settingsKey = `HappyRO.AutoCombat:${JSON.stringify([
-		SessionStorage_default.ServerName,
-		SessionStorage_default.AID,
-		SessionStorage_default.GID
-	])}`;
-	function targets() {
-		const result = [];
-		EntityManager.forEach((entity) => {
-			if (entity.objecttype !== entity.constructor.TYPE_MOB || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return;
-			result.push({
-				id: entity.GID,
-				species: entity.job,
-				name: entity.display.name,
-				position: [...entity.position]
-			});
-		});
-		return result;
-	}
-	function skills() {
-		return Controller$4.getUI().getSkills().filter((skill) => canExecuteSkill(skill) && skill.type & (SKILL_INF.ENEMY | SKILL_INF.PLACE)).map((skill) => {
-			const reason = remainingCooldown(skill.SKID) > 0 ? "冷却中" : skill.spcost > SessionStorage_default.Entity.life.sp ? "SP 不足" : "";
-			return {
-				id: skill.SKID,
-				name: SkillInfo_generated_default[skill.SKID]?.SkillName || `技能 ${skill.SKID}`,
-				level: skill.level,
-				type: skill.type,
-				available: !reason,
-				reason
-			};
-		});
-	}
-	let ownsAction = false, ownedMove = null;
-	function stop() {
-		if (!ownsAction) return;
-		ownsAction = false;
-		if (SessionStorage_default.moveAction && SessionStorage_default.moveAction !== ownedMove) return;
-		ownedMove = null;
-		Navigation_default.stopAutoWalk();
-		SkillTargetSelection_default.remove();
-		const chasing = Boolean(SessionStorage_default.moveAction);
-		stopAttack();
-		if (chasing && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE) Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
-		MapControl.onRequestStopWalk();
-		SessionStorage_default.autoFollow = false;
-	}
-	const controller = createAutoCombatController({
-		enabled: () => enabled() && !SessionStorage_default.Entity?.isOverWeight && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.SIT,
-		now: () => performance.now(),
-		random: Math.random,
-		position: () => SessionStorage_default.Entity.position,
-		targets,
-		skills,
-		stop,
-		pickupTurn: takeAutomationPickupTurn,
-		cancelPickup: cancelAutomationPickup,
-		teleport: requestAutoCombatTeleport,
-		teleportPending: isAutoCombatTeleportPending,
-		teleportBusy: () => Boolean(SessionStorage_default.autoFollow || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.WALK || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.ATTACK || document.querySelector("#PickupSettings") || document.querySelector("#MobileGameHUD")?.shadowRoot?.querySelector(".backdrop:not([hidden])") || document.activeElement?.matches("input, textarea")),
-		chasing: () => Boolean(SessionStorage_default.moveAction),
-		busy: () => Boolean(SessionStorage_default.moveAction || SessionStorage_default.Entity.cast?.display || SessionStorage_default.Entity.amotionTick > Renderer.tick),
-		reachable: (target) => PathFinding_default.search(SessionStorage_default.Entity.position[0] | 0, SessionStorage_default.Entity.position[1] | 0, target.position[0] | 0, target.position[1] | 0, 1, [], Altitude.TYPE.WALKABLE) > 0,
-		select: (target) => {
-			const entity = EntityManager.get(target.id), previous = EntityManager.getFocusEntity();
-			if (previous && previous !== entity) previous.onFocusEnd();
-			EntityManager.setFocusEntity(entity);
-			EntityManager.setOverEntity(entity);
-			entity.onFocus({ attack: false });
-		},
-		act: (target, skill) => {
-			const entity = EntityManager.get(target.id);
-			if (!entity || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return false;
-			if (!skill) {
-				attackSelected(false, () => {
-					ownsAction = true;
-					ownedMove = SessionStorage_default.moveAction;
-				});
-				return true;
-			}
-			const current = skills().find((entry) => entry.id === skill.id && entry.available);
-			if (!current) return false;
-			stopAttack();
-			let result;
-			if (current.type & SKILL_INF.PLACE) result = SkillTargetSelection_default.onUseSkillToPos(current.id, current.level, entity.position[0], entity.position[1]);
-			else result = SkillTargetSelection_default.onUseSkillToId(current.id, current.level, target.id);
-			ownsAction = result !== false;
-			ownedMove = SessionStorage_default.moveAction;
-			return result;
-		}
-	}, loadAutoCombatSettings(settingsKey));
-	return {
-		...controller,
-		configure(species, ids, ranges, teleport) {
-			if (!controller.configure(species, ids, ranges, teleport)) return false;
-			const saved = controller.snapshot();
-			return saveAutoCombatSettings(settingsKey, {
-				species: saved.species,
-				skills: saved.skills,
-				ranges: saved.ranges,
-				teleport: saved.teleport
-			});
-		}
-	};
-}
-var init_GameAutoCombat = __esmMin((() => {
-	init_GameAutomation();
-	init_AutoCombatTeleport();
-	init_Navigation();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_SessionStorage();
-	init_EntityManager();
-	init_Renderer();
-	init_MapControl();
-	init_PathFinding();
-	init_Altitude();
-	init_SkillList();
-	init_SkillTargetSelection();
-	init_SkillUse();
-	init_SkillInfo_generated();
-	init_SkillCooldowns();
-	init_GameCommands();
-	init_AutoCombatController();
-	init_AutoCombatSettings();
-}));
-//#endregion
-//#region src/UI/Game/GameAutoCombatRuntime.js
-function isAutoCombatEngaged() {
-	return [...combatRuntimes].some((controller) => {
-		const state = controller.snapshot();
-		return state.active && !state.pausedForMovement && Boolean(state.target);
-	});
-}
-/** One map-scoped runtime shared by desktop and touch presentations. */
-function createGameAutoCombatRuntime({ enabled = () => true, isMoving = () => false, update = () => {}, onDisconnect = () => {} } = {}) {
-	let destroyed = false;
-	let movementHeld = false;
-	let resumeAt = 0;
-	const canRun = () => Boolean(!destroyed && enabled() && SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && !document.hidden && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
-	const controller = createGameAutoCombat(canRun);
-	combatRuntimes.add(controller);
-	const unregisterAutomation = registerAutomationCombat(controller);
-	const abort = new AbortController();
-	const stop = (message) => {
-		cancelAutoCombatTeleport();
-		movementHeld = false;
-		controller.stop(message);
-		update(controller.snapshot());
-	};
-	const pauseForMovement = () => {
-		controller.pauseForMovement();
-		resumeAt = performance.now() + 300;
-	};
-	const unsubscribeInput = subscribeGameInput((kind, targetId) => {
-		if (kind === "move-start") {
-			movementHeld = true;
-			pauseForMovement();
-		} else if (kind === "move-pulse") pauseForMovement();
-		else if (kind === "move-end") {
-			movementHeld = false;
-			resumeAt = performance.now() + 300;
-		} else if (kind === "attack-target") return controller.snapshot().active && controller.attackTarget(targetId);
-		else stop(kind === "skill" ? "手动施法，自动战斗已停止" : "手动操作，自动战斗已停止");
-		return false;
-	});
-	const timer = window.setInterval(() => {
-		if (SessionStorage_default.Entity?.action === SessionStorage_default.Entity?.ACTION.DIE) cancelAutoCombatTeleport();
-		if (canRun() && consumeAutoCombatTeleport()) controller.start();
-		if (canRun() && !movementHeld && !isMoving() && performance.now() >= resumeAt && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.WALK) controller.resumeAfterMovement();
-		controller.tick();
-		update(controller.snapshot());
-	}, 200);
-	window.addEventListener("blur", () => stop(), { signal: abort.signal });
-	document.addEventListener("visibilitychange", () => {
-		if (document.hidden) stop();
-	}, { signal: abort.signal });
-	const unsubscribeConnection = onConnectionEnd(() => {
-		destroy();
-		onDisconnect();
-	});
-	function destroy() {
-		if (destroyed) return;
-		destroyed = true;
-		combatRuntimes.delete(controller);
-		unregisterAutomation();
-		clearInterval(timer);
-		abort.abort();
-		unsubscribeInput();
-		unsubscribeConnection();
-		controller.stop();
-	}
-	return {
-		...controller,
-		stop,
-		pauseForMovement,
-		destroy
-	};
-}
-var combatRuntimes;
-var init_GameAutoCombatRuntime = __esmMin((() => {
-	init_GameAutomation();
-	init_AutoCombatTeleport();
-	init_SessionStorage();
-	init_GameInputIntent();
-	init_ConnectionLifecycle();
-	init_GameAutoCombat();
-	combatRuntimes = /* @__PURE__ */ new Set();
-}));
-//#endregion
 //#region src/UI/Game/PickupCatalog.js
 /** Re-entering view uses ITEM_ENTRY, which has no type. Resolve it from the existing item catalog. */
 function matchesPickupCategory(item, categories) {
@@ -359876,7 +359912,7 @@ var types, cache, pending$1;
 var init_PickupCatalog = __esmMin((() => {
 	init_ItemType();
 	init_AdventureControlService();
-	init_PickupSettings$1();
+	init_PickupSettings();
 	types = {
 		Healing: "consumable",
 		Usable: "consumable",
@@ -359979,8 +360015,8 @@ var init_AutoPickupController = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Game/GameAutoPickup.js
 function stopAutoPickup() {
-	runtime$1?.destroy();
-	runtime$1 = null;
+	runtime?.destroy();
+	runtime = null;
 }
 function startAutoPickup() {
 	stopAutoPickup();
@@ -359988,7 +360024,7 @@ function startAutoPickup() {
 	const controller = createAutoPickupController({
 		now: () => performance.now(),
 		settings: loadPickupSettings,
-		available: () => Boolean(SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && !isAutoCombatEngaged() && !isAutoCombatTeleportPending() && !document.querySelector("#PickupSettings") && !document.hidden && SessionStorage_default.Entity && ![SessionStorage_default.Entity.ACTION.DIE, SessionStorage_default.Entity.ACTION.SIT].includes(SessionStorage_default.Entity.action)),
+		available: () => Boolean(SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && !isAutoCombatEngaged() && !isAutoCombatTeleportPending() && !document.hidden && SessionStorage_default.Entity && ![SessionStorage_default.Entity.ACTION.DIE, SessionStorage_default.Entity.ACTION.SIT].includes(SessionStorage_default.Entity.action)),
 		position: () => SessionStorage_default.Entity.position,
 		items: () => {
 			const result = [];
@@ -360003,7 +360039,7 @@ function startAutoPickup() {
 			return result;
 		},
 		matches: matchesPickupCategory,
-		busy: () => Boolean(SessionStorage_default.moveAction || SessionStorage_default.autoFollow || isAutoCombatEngaged() || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.WALK || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.ATTACK || SessionStorage_default.Entity.cast?.display || SessionStorage_default.Entity.amotionTick > Renderer.tick || document.querySelector("#PickupSettings") || document.querySelector("#MobileGameHUD")?.shadowRoot?.querySelector(".backdrop:not([hidden])") || document.activeElement?.matches("input, textarea")),
+		busy: () => Boolean(SessionStorage_default.moveAction || SessionStorage_default.autoFollow || isAutoCombatEngaged() || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.WALK || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.ATTACK || SessionStorage_default.Entity.cast?.display || SessionStorage_default.Entity.amotionTick > Renderer.tick || document.querySelector("#MobileGameHUD")?.shadowRoot?.querySelector(".backdrop:not([hidden])") || document.activeElement?.matches("input, textarea")),
 		chasing: () => Boolean(queued && SessionStorage_default.moveAction === queued),
 		reachable: (item) => item.distance <= 2 || PathFinding_default.search(SessionStorage_default.Entity.position[0] | 0, SessionStorage_default.Entity.position[1] | 0, Math.round(item.position[0]), Math.round(item.position[1]), 1, [], Altitude.TYPE.WALKABLE) > 0,
 		pick: (item) => {
@@ -360040,7 +360076,7 @@ function startAutoPickup() {
 	window.addEventListener("happyro-pickup-settings", settingsChanged);
 	window.addEventListener("blur", blur);
 	const disconnect = onConnectionEnd(stopAutoPickup);
-	runtime$1 = { destroy() {
+	runtime = { destroy() {
 		if (destroyed) return;
 		destroyed = true;
 		clearInterval(timer);
@@ -360052,7 +360088,7 @@ function startAutoPickup() {
 		window.removeEventListener("blur", blur);
 	} };
 }
-var runtime$1;
+var runtime;
 var init_GameAutoPickup = __esmMin((() => {
 	init_GameAutomation();
 	init_AutoCombatTeleport();
@@ -360067,7 +360103,7 @@ var init_GameAutoPickup = __esmMin((() => {
 	init_GameInputIntent();
 	init_ConnectionLifecycle();
 	init_GameAutoCombatRuntime();
-	init_PickupSettings$1();
+	init_PickupSettings();
 	init_PickupCatalog();
 	init_AutoPickupController();
 }));
@@ -360810,7 +360846,7 @@ function openGameMail(canOperate = () => true) {
 			}, {
 				kind: "add",
 				index,
-				identity: identity$3(item)
+				identity: identity$4(item)
 			});
 		},
 		remove(index, count) {
@@ -360834,7 +360870,7 @@ function openGameMail(canOperate = () => true) {
 			if (draft.zeny + fee > SessionStorage_default.zeny) return { error: "余额不足以支付金额和预计邮费" };
 			for (const item of attachments) {
 				const live = InventoryController.getUI().list.find((i) => i.index === item.index);
-				if (!live || identity$3(live) !== item.identity || itemQuantity(live) < item.count || live.equipped) return { error: "附件已变化，请移除后重新选择" };
+				if (!live || identity$4(live) !== item.identity || itemQuantity(live) < item.count || live.equipped) return { error: "附件已变化，请移除后重新选择" };
 			}
 			return {
 				receiver: recipient.name,
@@ -361005,7 +361041,7 @@ function openGameMail(canOperate = () => true) {
 	request("OPEN_ALL_RODEX", {}, { kind: "list" });
 	return service;
 }
-var unread, gameMailUnread, bytes, key, identity$3, send$2;
+var unread, gameMailUnread, bytes, key, identity$4, send$2;
 var init_GameMail = __esmMin((() => {
 	init_SessionStorage();
 	init_NetworkManager();
@@ -361018,7 +361054,7 @@ var init_GameMail = __esmMin((() => {
 	gameMailUnread = () => unread;
 	bytes = (value) => new TextEncoder().encode(value).length;
 	key = (mail) => `${mail.openType}:${mail.MailID}`;
-	identity$3 = (item) => JSON.stringify([
+	identity$4 = (item) => JSON.stringify([
 		item.ITID,
 		item.RefiningLevel,
 		item.slot,
@@ -361060,7 +361096,7 @@ function openVendingSetup(mode, slots) {
 				money: SessionStorage_default.zeny,
 				items: items().map((item) => ({
 					...inventory.describe(item),
-					identity: identity$2(item),
+					identity: identity$3(item),
 					quantity: order.get(item.index)?.count || 0,
 					price: order.get(item.index)?.price || 0
 				})),
@@ -361074,7 +361110,7 @@ function openVendingSetup(mode, slots) {
 		},
 		set(index, expected, count, price) {
 			const item = items().find((entry) => entry.index === index);
-			if (!available() || !item || identity$2(item) !== expected || !Number.isInteger(count) || count < 0 || count > (mode === "sell" ? Math.min(itemQuantity(item), 32767) : 9999)) return "物品或数量已变化";
+			if (!available() || !item || identity$3(item) !== expected || !Number.isInteger(count) || count < 0 || count > (mode === "sell" ? Math.min(itemQuantity(item), 32767) : 9999)) return "物品或数量已变化";
 			if (!count) {
 				order.delete(index);
 				return "";
@@ -361093,7 +361129,7 @@ function openVendingSetup(mode, slots) {
 			if (!available() || !order.size || !name.trim()) return "请填写摊位名称并选择物品";
 			for (const entry of order.values()) {
 				const item = items().find((row) => row.index === entry.index);
-				if (!item || identity$2(item) !== entry.identity || mode === "sell" && itemQuantity(item) < entry.count) return "物品已经变化，请重新选择";
+				if (!item || identity$3(item) !== entry.identity || mode === "sell" && itemQuantity(item) < entry.count) return "物品已经变化，请重新选择";
 			}
 			const total = service.snapshot().total;
 			if (!Number.isSafeInteger(total)) return "总金额无效";
@@ -361224,7 +361260,7 @@ function finishOwnedBuying() {
 		close: () => clearInteraction("notice")
 	});
 }
-var identity$2, integer, ownedStore;
+var identity$3, integer, ownedStore;
 var init_GameVending = __esmMin((() => {
 	init_SessionStorage();
 	init_Inventory();
@@ -361236,7 +361272,7 @@ var init_GameVending = __esmMin((() => {
 	init_InventoryItems();
 	init_ItemType();
 	init_ServerInteraction();
-	identity$2 = (item) => JSON.stringify([
+	identity$3 = (item) => JSON.stringify([
 		item.ITID,
 		item.RefiningLevel,
 		item.enchantgrade,
@@ -361245,439 +361281,6 @@ var init_GameVending = __esmMin((() => {
 	]);
 	integer = (value, max) => Number.isInteger(value) && value > 0 && value <= max;
 	ownedStore = null;
-}));
-//#endregion
-//#region src/UI/Components/Feedback.js
-/** Explicit actions may repeat; polling must not replay or erase their notification. */
-function createFeedback(container) {
-	const lifetime = document.createComment("menu feedback");
-	container?.append(lifetime);
-	let lastMessage = "", lastState = "";
-	const notify = (message, kind = "info") => {
-		if (!lifetime.isConnected) return;
-		lastMessage = message || "";
-		if (message) showToast(container, message, kind);
-		else clearToast(container);
-	};
-	notify.update = (message, kind = "info") => {
-		const next = message || "";
-		if (next !== lastState) {
-			lastState = next;
-			if (next && next !== lastMessage) notify(next, kind);
-		}
-	};
-	return notify;
-}
-var init_Feedback = __esmMin((() => {
-	init_Toast();
-}));
-//#endregion
-//#region src/UI/Game/AutoCombatPanel.js
-/** Auto combat configuration is independent of the manual shortcut slots. */
-function createAutoCombatPanel(body, actions) {
-	const state = actions.snapshot();
-	const ranges = { ...state.ranges };
-	const teleport = {
-		...AUTO_COMBAT_TELEPORT_DEFAULTS,
-		...state.teleport
-	};
-	body.innerHTML = `
-		<div class="auto-layout">
-			<section class="auto-target-section" aria-labelledby="auto-target-title">
-				<h3 id="auto-target-title">攻击目标</h3>
-				<button type="button" data-all-species>全部魔物</button>
-				<p class="auto-help">可多选种类；未勾选时攻击全部魔物。</p>
-				<div class="auto-species-list" data-auto-species aria-label="自动战斗目标"></div>
-				<section class="auto-range-settings" aria-labelledby="auto-range-title">
-					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
-					<div data-range-controls></div>
-					<p class="auto-help">搜怪：角色周围的搜索距离。活动：距本轮起点的最大距离；手动移动或瞬移后重设起点。</p>
-				</section>
-				<section class="auto-teleport-settings" aria-labelledby="auto-teleport-title">
-					<h4 id="auto-teleport-title">自动瞬移</h4>
-					<label class="auto-teleport-toggle"><span>无目标时随机瞬移</span><input type="checkbox" data-auto-teleport></label>
-					<div data-teleport-controls></div>
-					<p class="auto-help">使用冒险工具能力。没有战斗目标和可拾取物品时，等待后随机瞬移。</p>
-					<p class="auto-help">仍受地图限制和服务器冷却约束。</p>
-				</section>
-			</section>
-			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
-				<div class="auto-section-heading"><h3 id="auto-skills-title">攻击方式</h3><span data-skill-count></span></div>
-				<button type="button" data-normal-attack>普通攻击</button>
-				<p class="auto-help">勾选技能后随机释放，使用已学最高等级；均不可用时使用普攻。</p>
-				<div class="auto-skill-list" data-auto-skills></div>
-			</section>
-		</div>
-		<div class="auto-config-footer"><div><strong data-auto-summary></strong></div><button type="button" data-save-auto>保存配置</button></div>`;
-	const feedback = createFeedback(body);
-	const $ = (selector) => body.querySelector(selector);
-	const limits = AUTO_COMBAT_RANGE_LIMITS;
-	for (const [key, title, maximum] of [[
-		"search",
-		"搜怪范围",
-		limits.searchMax
-	], [
-		"activity",
-		"活动范围",
-		limits.activityMax
-	]]) {
-		const row = document.createElement("div");
-		row.className = "auto-range-row";
-		const label = document.createElement("span");
-		label.textContent = title;
-		const stepper = document.createElement("div");
-		stepper.className = "auto-range-stepper";
-		stepper.setAttribute("role", "group");
-		stepper.setAttribute("aria-label", title);
-		const output = document.createElement("output");
-		output.dataset.rangeValue = key;
-		output.setAttribute("aria-live", "polite");
-		for (const delta of [-1, 1]) {
-			const button = document.createElement("button");
-			button.type = "button";
-			button.textContent = delta < 0 ? "−" : "+";
-			button.dataset.range = key;
-			button.dataset.delta = String(delta);
-			button.setAttribute("aria-label", `${delta < 0 ? "减小" : "增大"}${title}`);
-			button.onclick = () => {
-				ranges[key] = Math.max(limits.min, Math.min(maximum, ranges[key] + delta));
-				if (key === "search") ranges.activity = Math.max(ranges.activity, ranges.search);
-				else ranges.search = Math.min(ranges.search, ranges.activity);
-				updateSummary();
-			};
-			stepper.append(button);
-			if (delta < 0) stepper.append(output);
-		}
-		row.append(label, stepper);
-		$("[data-range-controls]").append(row);
-	}
-	const teleportToggle = $("[data-auto-teleport]");
-	teleportToggle.checked = teleport.enabled;
-	const refreshTeleport = () => {
-		for (const button of body.querySelectorAll("[data-teleport-key]")) {
-			const key = button.dataset.teleportKey;
-			const min = 1;
-			const max = key === "waitSeconds" ? 60 : 300;
-			button.disabled = !teleport.enabled || (Number(button.dataset.delta) < 0 ? teleport[key] <= min : teleport[key] >= max);
-		}
-		for (const output of body.querySelectorAll("[data-teleport-value]")) output.value = `${teleport[output.dataset.teleportValue]} 秒`;
-	};
-	teleportToggle.onchange = () => {
-		teleport.enabled = teleportToggle.checked;
-		refreshTeleport();
-	};
-	for (const [key, title, min, max] of [[
-		"waitSeconds",
-		"无目标等待",
-		1,
-		60
-	], [
-		"intervalSeconds",
-		"最短瞬移间隔",
-		1,
-		300
-	]]) {
-		const row = document.createElement("div");
-		row.className = "auto-range-row";
-		const label = document.createElement("span");
-		label.textContent = title;
-		const stepper = document.createElement("div");
-		stepper.className = "auto-range-stepper";
-		stepper.setAttribute("role", "group");
-		stepper.setAttribute("aria-label", title);
-		const output = document.createElement("output");
-		output.dataset.teleportValue = key;
-		for (const delta of [-1, 1]) {
-			const button = document.createElement("button");
-			button.type = "button";
-			button.textContent = delta < 0 ? "−" : "+";
-			button.dataset.teleportKey = key;
-			button.dataset.delta = String(delta);
-			button.setAttribute("aria-label", `${delta < 0 ? "减小" : "增大"}${title}`);
-			button.onclick = () => {
-				teleport[key] = Math.max(min, Math.min(max, teleport[key] + delta));
-				refreshTeleport();
-			};
-			stepper.append(button);
-			if (delta < 0) stepper.append(output);
-		}
-		row.append(label, stepper);
-		$("[data-teleport-controls]").append(row);
-	}
-	refreshTeleport();
-	const species = new Map(state.species.map((entry) => [entry.id, entry.name]));
-	for (const target of actions.targets()) species.set(target.species, target.name);
-	const chosenSpecies = new Set(state.species.map((entry) => entry.id));
-	for (const [id, name] of species) {
-		const button = document.createElement("button");
-		button.type = "button";
-		button.className = "auto-species-card";
-		button.dataset.species = String(id);
-		button.setAttribute("role", "checkbox");
-		button.setAttribute("aria-checked", String(chosenSpecies.has(id)));
-		const check = document.createElement("span");
-		check.className = "auto-species-check";
-		check.setAttribute("aria-hidden", "true");
-		const title = document.createElement("span");
-		title.textContent = name;
-		button.append(check, title);
-		const toggle = () => {
-			if (chosenSpecies.has(id)) chosenSpecies.delete(id);
-			else chosenSpecies.add(id);
-			updateSummary();
-		};
-		let press = null;
-		const scroller = $(".auto-target-section");
-		button.onpointerdown = (event) => {
-			if (event.button !== 0 || press) return;
-			event.preventDefault();
-			press = {
-				id: event.pointerId,
-				x: event.clientX,
-				y: event.clientY,
-				scroll: scroller.scrollTop,
-				moved: false
-			};
-			button.setPointerCapture(event.pointerId);
-		};
-		button.onpointermove = (event) => {
-			if (press?.id === event.pointerId && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) press.moved = true;
-		};
-		button.onpointerup = (event) => {
-			if (press?.id !== event.pointerId) return;
-			const start = press;
-			press = null;
-			const bounds = button.getBoundingClientRect();
-			if (button.hasPointerCapture(event.pointerId)) button.releasePointerCapture(event.pointerId);
-			if (!start.moved && Math.hypot(event.clientX - start.x, event.clientY - start.y) <= 8 && scroller.scrollTop === start.scroll && event.clientX >= bounds.left && event.clientX <= bounds.right && event.clientY >= bounds.top && event.clientY <= bounds.bottom) toggle();
-		};
-		button.onpointercancel = button.onlostpointercapture = () => {
-			press = null;
-		};
-		button.onclick = (event) => {
-			if (event.detail === 0) toggle();
-		};
-		$("[data-auto-species]").append(button);
-	}
-	if (!species.size) $("[data-auto-species]").textContent = "附近暂无魔物，发现后可在这里选择。";
-	const selectedSpecies = () => [...chosenSpecies].map((id) => ({
-		id,
-		name: species.get(id)
-	}));
-	const entries = actions.skills();
-	const chosenSkills = new Set(state.skills);
-	for (const skill of entries) {
-		const label = document.createElement("button");
-		label.type = "button";
-		label.className = "auto-skill-card";
-		label.dataset.skill = skill.id;
-		label.setAttribute("role", "checkbox");
-		label.setAttribute("aria-checked", String(chosenSkills.has(skill.id)));
-		const input = document.createElement("i");
-		input.className = "auto-species-check";
-		input.setAttribute("aria-hidden", "true");
-		const detail = document.createElement("span");
-		const name = document.createElement("strong");
-		name.textContent = skill.name;
-		const level = document.createElement("small");
-		level.textContent = `Lv.${skill.level}`;
-		detail.append(name, level);
-		if (skill.reason) {
-			const reason = document.createElement("small");
-			reason.className = "auto-skill-reason";
-			reason.textContent = skill.reason;
-			detail.append(reason);
-		}
-		label.append(input, detail);
-		const scroller = $("[data-auto-skills]");
-		let press, cancelled = false;
-		label.onpointerdown = (event) => {
-			if (event.button !== 0) return;
-			cancelled = false;
-			press = {
-				x: event.clientX,
-				y: event.clientY,
-				scroll: scroller.scrollTop
-			};
-		};
-		label.onpointermove = (event) => {
-			if (press && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) cancelled = true;
-		};
-		label.onpointercancel = () => {
-			cancelled = true;
-		};
-		label.onclick = (event) => {
-			if (event.detail !== 0 && (cancelled || press && (scroller.scrollTop !== press.scroll || Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8))) return;
-			if (chosenSkills.has(skill.id)) chosenSkills.delete(skill.id);
-			else chosenSkills.add(skill.id);
-			updateSummary();
-		};
-		$("[data-auto-skills]").append(label);
-	}
-	if (!entries.length) $("[data-auto-skills]").textContent = "暂无可自动释放的技能，使用普通攻击。";
-	const selectedSkills = () => entries.filter((skill) => chosenSkills.has(skill.id)).map((skill) => skill.id);
-	function updateSummary() {
-		$("[data-range-summary]").textContent = `${ranges.search} / ${ranges.activity} 格`;
-		for (const output of body.querySelectorAll("[data-range-value]")) output.value = `${ranges[output.dataset.rangeValue]} 格`;
-		for (const button of body.querySelectorAll("[data-range]")) {
-			const key = button.dataset.range;
-			button.disabled = Number(button.dataset.delta) < 0 ? ranges[key] <= limits.min : ranges[key] >= (key === "search" ? limits.searchMax : limits.activityMax);
-		}
-		for (const button of body.querySelectorAll("[data-auto-skills] [data-skill]")) button.setAttribute("aria-checked", String(chosenSkills.has(Number(button.dataset.skill))));
-		const count = selectedSkills().length;
-		const targets = selectedSpecies();
-		for (const button of body.querySelectorAll("[data-species]")) button.setAttribute("aria-checked", String(chosenSpecies.has(Number(button.dataset.species))));
-		const targetLabel = targets.length > 1 ? `${targets.length} 种魔物` : targets[0]?.name || "全部魔物";
-		$("[data-all-species]").setAttribute("aria-pressed", String(!targets.length));
-		$("[data-normal-attack]").setAttribute("aria-pressed", String(count === 0));
-		$("[data-skill-count]").textContent = count ? `已选 ${count} 项` : "未选技能";
-		$("[data-auto-summary]").textContent = `${targetLabel} · ${count ? `${count} 个技能` : "普通攻击"}`;
-	}
-	$("[data-all-species]").onclick = () => {
-		chosenSpecies.clear();
-		updateSummary();
-	};
-	$("[data-normal-attack]").onclick = () => {
-		chosenSkills.clear();
-		updateSummary();
-	};
-	function save() {
-		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }, { ...teleport }) === false) {
-			feedback("配置保存失败，请检查范围或重试", "error");
-			return;
-		}
-		actions.close();
-	}
-	$("[data-save-auto]").onclick = save;
-	updateSummary();
-}
-var init_AutoCombatPanel$1 = __esmMin((() => {
-	init_Feedback();
-	init_AutoCombatController();
-}));
-//#endregion
-//#region src/UI/Components/AutoCombat/AutoCombatView.js
-/** Desktop presentation only; all combat and persisted settings belong to the shared runtime. */
-function createAutoCombatView(root, actions) {
-	root.innerHTML = `
-		<section class="combat-bar" aria-label="自动战斗">
-			<div class="combat-actions"><button type="button" data-toggle aria-pressed="false">自动战斗</button><button type="button" data-settings>战斗设置</button></div>
-			<span class="combat-status" role="status" data-status>自动战斗已停止</span>
-		</section>
-		<div class="combat-backdrop" hidden>
-			<section class="combat-dialog" role="dialog" aria-modal="true" aria-labelledby="combat-title">
-				<header><h2 id="combat-title">自动战斗设置</h2><button type="button" data-close aria-label="关闭自动战斗设置">关闭</button></header>
-				<div class="auto-config-body"></div>
-			</section>
-		</div>`;
-	const $ = (selector) => root.querySelector(selector);
-	const abort = new AbortController();
-	const backdrop = $(".combat-backdrop");
-	function close() {
-		if (backdrop.hidden) return;
-		backdrop.hidden = true;
-		$(".auto-config-body").replaceChildren();
-		$("[data-settings]").focus();
-	}
-	function open() {
-		actions.stop();
-		createAutoCombatPanel($(".auto-config-body"), {
-			...actions,
-			close
-		});
-		backdrop.hidden = false;
-		$("[data-close]").focus();
-	}
-	$("[data-toggle]").onclick = () => {
-		if (actions.snapshot().active) actions.stop();
-		else if (!actions.start()) {
-			actions.stop("当前不能开始自动战斗");
-			update(actions.snapshot());
-			return;
-		}
-		update(actions.snapshot());
-	};
-	$("[data-settings]").onclick = open;
-	$("[data-close]").onclick = close;
-	backdrop.addEventListener("click", (event) => {
-		if (event.target === backdrop) close();
-	}, { signal: abort.signal });
-	root.addEventListener("keydown", (event) => {
-		if (event.key === "Escape") {
-			if (!backdrop.hidden) close();
-			else actions.stop();
-			event.preventDefault();
-			event.stopPropagation();
-		}
-		if (!backdrop.hidden) event.stopPropagation();
-		if (!backdrop.hidden && event.key === "Tab") {
-			const focusable = [...$(".combat-dialog").querySelectorAll(":is(button, input):not(:disabled)")];
-			const first = focusable[0], last = focusable.at(-1);
-			const active = root.getRootNode().activeElement || document.activeElement;
-			if (event.shiftKey && active === first) {
-				last.focus();
-				event.preventDefault();
-			} else if (!event.shiftKey && active === last) {
-				first.focus();
-				event.preventDefault();
-			}
-		}
-	}, { signal: abort.signal });
-	function update(state) {
-		$("[data-toggle]").textContent = state.active ? "停止战斗" : "自动战斗";
-		$("[data-toggle]").setAttribute("aria-pressed", String(state.active));
-		$("[data-status]").textContent = state.status;
-	}
-	return {
-		update,
-		close,
-		isOpen: () => !backdrop.hidden,
-		destroy() {
-			abort.abort();
-			root.replaceChildren();
-		}
-	};
-}
-var init_AutoCombatView = __esmMin((() => {
-	init_AutoCombatPanel$1();
-}));
-//#endregion
-//#region src/UI/Game/AutoCombatPanel.css?raw
-var AutoCombatPanel_default;
-var init_AutoCombatPanel = __esmMin((() => {
-	AutoCombatPanel_default = ".auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n\r\n.auto-range-settings,\r\n.auto-teleport-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4,\r\n.auto-teleport-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.auto-skill-list {\r\n	touch-action: pan-y;\r\n}\r\n.auto-skill-card {\r\n	width: 100%;\r\n	text-align: left;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	font-style: normal;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n\r\n.auto-teleport-settings {\r\n	margin-top: 12px;\r\n}\r\n.auto-teleport-toggle {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n}\r\n.auto-teleport-toggle input {\r\n	width: 18px;\r\n	height: 18px;\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-teleport-settings .auto-help {\r\n	margin-bottom: 0;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/AutoCombat/AutoCombat.js
-var AutoCombat, runtime, view$2, AutoCombat_default;
-var init_AutoCombat = __esmMin((() => {
-	init_GUIComponent();
-	init_UIManager();
-	init_GameAutoCombatRuntime();
-	init_AutoCombatView();
-	init_AutoCombat$1();
-	init_AutoCombatPanel();
-	AutoCombat = new GUIComponent("AutoCombat", AutoCombat_default$1 + AutoCombatPanel_default);
-	AutoCombat.render = () => "";
-	AutoCombat.needFocus = false;
-	AutoCombat.nativeScrolling = true;
-	AutoCombat.onAppend = function() {
-		this.onRemove();
-		runtime = createGameAutoCombatRuntime({
-			enabled: () => !view$2?.isOpen(),
-			update: (state) => view$2?.update(state),
-			onDisconnect: () => this.remove()
-		});
-		view$2 = createAutoCombatView(this._container, runtime);
-		view$2.update(runtime.snapshot());
-	};
-	AutoCombat.onRemove = function() {
-		runtime?.destroy();
-		runtime = null;
-		view$2?.destroy();
-		view$2 = null;
-	};
-	AutoCombat_default = UIManager.addComponent(AutoCombat);
 }));
 //#endregion
 //#region src/UI/Mobile/game/MobileInputEditor.css?raw
@@ -361854,6 +361457,31 @@ var init_MobileInputEditor = __esmMin((() => {
 	editable = "textarea, input:not([type]), input[type=text], input[type=search], input[type=number], input[type=password], input[type=email], input[type=url], input[type=tel]";
 }));
 //#endregion
+//#region src/UI/Components/Feedback.js
+/** Explicit actions may repeat; polling must not replay or erase their notification. */
+function createFeedback(container) {
+	const lifetime = document.createComment("menu feedback");
+	container?.append(lifetime);
+	let lastMessage = "", lastState = "";
+	const notify = (message, kind = "info") => {
+		if (!lifetime.isConnected) return;
+		lastMessage = message || "";
+		if (message) showToast(container, message, kind);
+		else clearToast(container);
+	};
+	notify.update = (message, kind = "info") => {
+		const next = message || "";
+		if (next !== lastState) {
+			lastState = next;
+			if (next && next !== lastMessage) notify(next, kind);
+		}
+	};
+	return notify;
+}
+var init_Feedback = __esmMin((() => {
+	init_Toast();
+}));
+//#endregion
 //#region src/UI/Mobile/game/MobileSelect.css?raw
 var MobileSelect_default;
 var init_MobileSelect = __esmMin((() => {
@@ -361978,7 +361606,7 @@ var init_AdventureToolsView = __esmMin((() => {
 //#region src/UI/Mobile/game/AdventureTools.css?raw
 var AdventureTools_default$1;
 var init_AdventureTools$1 = __esmMin((() => {
-	AdventureTools_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	z-index: 1100 !important;\r\n	color: #263746;\r\n	font:\r\n		12px/1.35 Arial,\r\n		sans-serif;\r\n	background: #0003;\r\n	box-sizing: border-box;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.ui-component-root,\r\n.adventure-mount {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure.game-tools-window {\r\n	font:\r\n		12px/1.35 Arial,\r\n		sans-serif;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	border-radius: 8px;\r\n	border: 1px solid #bec9d1;\r\n	background: #f2f5f7;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	box-shadow: 0 8px 28px #0005;\r\n}\r\n.mobile-adventure button,\r\n.mobile-adventure input,\r\n.mobile-adventure select {\r\n	font: inherit;\r\n	touch-action: manipulation;\r\n}\r\n.mobile-adventure button {\r\n	min-height: 30px;\r\n	height: auto;\r\n	padding: 4px 8px;\r\n	border-radius: 8px;\r\n	cursor: pointer;\r\n}\r\n.mobile-adventure input:not([type='checkbox']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	border-radius: 5px;\r\n	padding: 3px 6px;\r\n}\r\n.mobile-adventure input[type='checkbox'] {\r\n	width: 20px;\r\n	height: 20px;\r\n}\r\n.mobile-adventure button:focus-visible,\r\n.mobile-adventure input:focus-visible {\r\n	outline: 2px solid #3a789d;\r\n	outline-offset: 2px;\r\n}\r\n.adventure-header {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	padding: 4px 8px;\r\n	background: #213747;\r\n	color: white;\r\n	flex-shrink: 0;\r\n}\r\n.adventure-header h2 {\r\n	margin: 0;\r\n	font-size: 14px;\r\n	flex: 1;\r\n}\r\n.adventure-header button {\r\n	background: #344e60;\r\n	border: 1px solid #7691a2;\r\n	color: white;\r\n}\r\n.adventure-home {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 6px;\r\n	padding: 8px;\r\n	overflow: auto;\r\n	align-content: start;\r\n}\r\n.adventure-home button {\r\n	text-align: left;\r\n	display: grid;\r\n	gap: 5px;\r\n	min-height: 62px;\r\n	border: 1px solid #c7d5de;\r\n	background: white;\r\n	color: #263746;\r\n	box-shadow: 0 2px 3px #2437440a;\r\n}\r\n.adventure-home strong {\r\n	font-size: 14px;\r\n}\r\n.adventure-home span {\r\n	font-size: 13px;\r\n	color: #576f7f;\r\n}\r\n.adventure-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.adventure-content .game-tools-tab {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-toolbar,\r\n.mobile-adventure .monster-toolbar {\r\n	padding: 8px;\r\n	flex: 0 0 auto;\r\n	flex-wrap: wrap;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .catalog-search,\r\n.mobile-adventure .monster-search {\r\n	flex: 1 1 170px;\r\n	width: 0;\r\n	min-width: 140px;\r\n}\r\n.mobile-adventure .game-select-trigger {\r\n	min-height: 30px;\r\n	font-size: 14px;\r\n}\r\n.mobile-adventure .game-select-option {\r\n	min-height: 30px;\r\n}\r\n.mobile-adventure .catalog-layout,\r\n.mobile-adventure .monster-layout,\r\n.mobile-adventure .character-layout {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .catalog-browser,\r\n.mobile-adventure .monster-browser,\r\n.mobile-adventure .character-job-browser {\r\n	width: 100%;\r\n	flex: 1;\r\n	border: none;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-detail,\r\n.mobile-adventure .monster-detail,\r\n.mobile-adventure .character-detail {\r\n	display: none;\r\n}\r\n.mobile-adventure .show-detail .catalog-detail,\r\n.mobile-adventure .show-detail .monster-detail,\r\n.mobile-adventure .show-detail .character-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: 100%;\r\n	min-width: 0;\r\n	overflow: auto;\r\n	padding: 6px;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .show-detail .catalog-browser,\r\n.mobile-adventure .show-detail .monster-browser,\r\n.mobile-adventure .show-detail .character-job-browser,\r\n.mobile-adventure .show-detail .catalog-toolbar,\r\n.mobile-adventure .show-detail .monster-toolbar {\r\n	display: none;\r\n}\r\n.mobile-adventure .catalog-list,\r\n.mobile-adventure .monster-list,\r\n.mobile-adventure .character-job-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 5px;\r\n	align-content: start;\r\n	padding: 8px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row {\r\n	border: 1px solid #cad6dd;\r\n	background: white;\r\n	border-radius: 6px;\r\n	min-height: 38px;\r\n	height: auto;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .catalog-row.selected,\r\n.mobile-adventure .monster-row.selected,\r\n.mobile-adventure .character-job-row.selected {\r\n	background: #e6f1f7;\r\n	border-color: #4380a2;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination {\r\n	min-height: 38px;\r\n	flex-shrink: 0;\r\n	padding: 6px 12px;\r\n}\r\n.mobile-adventure .catalog-pagination button,\r\n.mobile-adventure .monster-pagination button {\r\n	min-width: 64px;\r\n}\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary {\r\n	padding: 4px 12px;\r\n}\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .monster-actions,\r\n.mobile-adventure .character-actions {\r\n	flex: 0 0 auto;\r\n	position: sticky;\r\n	bottom: -6px;\r\n	background: #edf3f6;\r\n	padding: 6px;\r\n	flex-wrap: wrap;\r\n	gap: 5px;\r\n	z-index: 1;\r\n}\r\n.mobile-adventure .catalog-action-panel button {\r\n	min-width: 90px;\r\n}\r\n.mobile-adventure .map-detail-body {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);\r\n	min-height: 180px;\r\n	flex: 0 0 auto;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .catalog-map-picker {\r\n	min-width: 0;\r\n	width: 100%;\r\n	height: auto;\r\n	padding: 0;\r\n}\r\n.mobile-adventure .catalog-map,\r\n.mobile-adventure .npc-map-canvas {\r\n	width: 100%;\r\n	height: auto;\r\n	max-height: 280px;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .map-npc-scroll {\r\n	max-height: 240px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .map-npc-row {\r\n	min-height: 30px;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .map-heading,\r\n.mobile-adventure .selected-job {\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .character-detail-scroll {\r\n	overflow: visible;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .management-form,\r\n.mobile-adventure .management-form.progression-form {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n}\r\n.mobile-adventure .management-form > .management-form-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n}\r\n.mobile-adventure .management-form > .management-form-actions button {\r\n	width: auto;\r\n	flex: 1;\r\n	min-width: 76px;\r\n}\r\n.mobile-adventure .settings-form {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .settings-grid {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n}\r\n.mobile-adventure .settings-grid label {\r\n	white-space: normal;\r\n	flex-wrap: wrap;\r\n	padding: 8px;\r\n	border: 1px solid #d3dde4;\r\n	border-radius: 6px;\r\n	background: white;\r\n}\r\n.mobile-adventure .settings-footer {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	padding: 8px;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-footer .management-status {\r\n	display: block;\r\n	flex: 1;\r\n	text-align: left;\r\n}\r\n.mobile-adventure .settings-drop-table tbody {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-drop-table tr {\r\n	display: grid;\r\n	border: 1px solid #d3dde4;\r\n	border-radius: 6px;\r\n	padding: 8px;\r\n	background: white;\r\n}\r\n.mobile-adventure .settings-drop-table th {\r\n	font-weight: bold;\r\n}\r\n.mobile-adventure .settings-drop-table td {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-drop-table td::before {\r\n	content: '普通';\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(2)::before {\r\n	content: 'Mini';\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(3)::before {\r\n	content: 'MVP';\r\n}\r\n.mobile-adventure .item-description {\r\n	font-size: 12px;\r\n	line-height: 1.5;\r\n}\r\n.adventure-loading {\r\n	background: #f2f5f7;\r\n	padding: 24px;\r\n	border-radius: 8px;\r\n}\r\n.adventure-loading button {\r\n	min-height: 30px;\r\n}\r\n@container menu-content (max-width: 560px) {\r\n	.adventure-home,\r\n	.mobile-adventure .catalog-list,\r\n	.mobile-adventure .monster-list,\r\n	.mobile-adventure .character-job-list,\r\n	.mobile-adventure .settings-grid,\r\n	.mobile-adventure .settings-drop-table tbody,\r\n	.mobile-adventure .map-detail-body {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.adventure-home button {\r\n		min-height: 58px;\r\n	}\r\n	.mobile-adventure .catalog-toolbar > .game-select {\r\n		flex: 1;\r\n	}\r\n	.mobile-adventure .monster-info-grid {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n}\r\n.mobile-adventure .game-select {\r\n	height: 28px;\r\n	min-height: 28px;\r\n}\r\n.mobile-adventure .summon-panel {\r\n	flex: 0 0 auto;\r\n	position: sticky;\r\n	bottom: -6px;\r\n	background: #edf3f6;\r\n	padding: 6px;\r\n	gap: 5px;\r\n	flex-wrap: wrap;\r\n	z-index: 1;\r\n}\r\n.mobile-adventure .item-detail-content {\r\n	min-height: auto;\r\n	overflow: visible;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .monster-resources {\r\n	min-height: auto;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .monster-location-list {\r\n	max-height: 240px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .monster-location {\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .catalog-action-panel {\r\n	height: auto;\r\n	min-height: 38px;\r\n}\r\n.mobile-adventure .catalog-status,\r\n.mobile-adventure .summon-panel span {\r\n	white-space: normal;\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .monster-resources {\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .map-detail-body,\r\n.mobile-adventure .npc-detail-body {\r\n	grid-template-rows: auto;\r\n}\r\n@container menu-content (max-width: 560px) {\r\n	.mobile-adventure .monster-resources {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .maintenance-actions {\r\n		flex-wrap: wrap;\r\n	}\r\n	.mobile-adventure .summon-panel {\r\n		margin: 0 -12px -12px;\r\n	}\r\n}\r\n\r\n/* Compact landscape workspace: keep navigation and details visible together. */\r\n.mobile-adventure .monster-heading h3,\r\n.mobile-adventure .catalog-heading h3 {\r\n	font-size: 15px;\r\n}\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .catalog-portrait {\r\n	width: 64px;\r\n	height: 64px;\r\n	flex: 0 0 64px;\r\n}\r\n.mobile-adventure .item-portrait img {\r\n	max-width: 60px;\r\n	max-height: 60px;\r\n}\r\n.mobile-adventure .catalog-thumb,\r\n.mobile-adventure .monster-thumb {\r\n	width: 32px;\r\n	height: 32px;\r\n	flex: 0 0 32px;\r\n}\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel {\r\n	margin: auto -6px -6px;\r\n}\r\n.mobile-adventure .management-form {\r\n	gap: 5px 8px;\r\n}\r\n.mobile-adventure h4 {\r\n	margin: 8px 0 5px;\r\n}\r\n@container menu-content (min-width: 600px) {\r\n	.mobile-adventure .catalog-layout,\r\n	.mobile-adventure .monster-layout,\r\n	.mobile-adventure .character-layout {\r\n		display: grid;\r\n		grid-template-columns: minmax(170px, 30%) minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .catalog-browser,\r\n	.mobile-adventure .monster-browser,\r\n	.mobile-adventure .character-job-browser,\r\n	.mobile-adventure .show-detail .catalog-browser,\r\n	.mobile-adventure .show-detail .monster-browser,\r\n	.mobile-adventure .show-detail .character-job-browser {\r\n		display: flex;\r\n		flex-direction: column;\r\n		width: auto;\r\n		border-right: 1px solid #cad6dd;\r\n	}\r\n	.mobile-adventure .catalog-detail,\r\n	.mobile-adventure .monster-detail,\r\n	.mobile-adventure .character-detail {\r\n		display: flex;\r\n		flex-direction: column;\r\n		min-width: 0;\r\n		overflow: auto;\r\n		padding: 6px;\r\n		gap: 6px;\r\n	}\r\n	.mobile-adventure .show-detail .catalog-toolbar,\r\n	.mobile-adventure .show-detail .monster-toolbar {\r\n		display: flex;\r\n	}\r\n	.mobile-adventure .catalog-list,\r\n	.mobile-adventure .monster-list,\r\n	.mobile-adventure .character-job-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		gap: 3px;\r\n		padding: 4px;\r\n	}\r\n	.mobile-adventure .catalog-row,\r\n	.mobile-adventure .monster-row,\r\n	.mobile-adventure .character-job-row {\r\n		min-height: 42px;\r\n		padding: 4px;\r\n		border-radius: 4px;\r\n	}\r\n	.mobile-adventure .catalog-pagination,\r\n	.mobile-adventure .monster-pagination {\r\n		gap: 6px;\r\n		padding: 3px;\r\n	}\r\n	.mobile-adventure .catalog-pagination button,\r\n	.mobile-adventure .monster-pagination button {\r\n		min-width: 32px;\r\n	}\r\n	.mobile-adventure .map-detail-body {\r\n		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n		gap: 5px;\r\n		min-height: 145px;\r\n	}\r\n	.mobile-adventure .npc-detail-body {\r\n		flex: 0 0 auto;\r\n		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n		min-height: 150px;\r\n	}\r\n	.mobile-adventure .catalog-map-picker {\r\n		height: 170px;\r\n	}\r\n	.mobile-adventure .catalog-map,\r\n	.mobile-adventure .npc-map-canvas {\r\n		height: 100%;\r\n		max-height: 200px;\r\n	}\r\n	.mobile-adventure .map-npc-scroll {\r\n		max-height: 150px;\r\n	}\r\n	.mobile-adventure .map-npc-row {\r\n		min-height: 30px;\r\n		padding: 4px;\r\n	}\r\n	.mobile-adventure .management-form > .management-form-actions button {\r\n		min-width: 64px;\r\n		padding-inline: 5px;\r\n	}\r\n	.mobile-adventure .settings-scroll {\r\n		display: grid;\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n		align-content: start;\r\n		gap: 8px 12px;\r\n		padding: 6px 10px;\r\n	}\r\n	.mobile-adventure .settings-scroll section + section {\r\n		border-top: 0;\r\n	}\r\n	.mobile-adventure .settings-scroll section:nth-child(2) {\r\n		grid-column: 2;\r\n		grid-row: 1 / span 3;\r\n	}\r\n	.mobile-adventure .settings-grid,\r\n	.mobile-adventure .settings-rate-columns {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .settings-grid label {\r\n		padding: 4px 6px;\r\n	}\r\n	.mobile-adventure .settings-drop-table tbody {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		gap: 5px;\r\n	}\r\n	.mobile-adventure .settings-drop-table tr {\r\n		padding: 5px;\r\n		grid-template-columns: repeat(3, minmax(0, 1fr));\r\n		gap: 4px;\r\n	}\r\n	.mobile-adventure .settings-drop-table th {\r\n		grid-column: 1 / -1;\r\n		text-align: left;\r\n	}\r\n	.mobile-adventure .settings-drop-table td {\r\n		flex-direction: column;\r\n		gap: 2px;\r\n		padding: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number {\r\n		width: 100%;\r\n		gap: 2px;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number input {\r\n		width: 100%;\r\n		min-width: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number em {\r\n		flex-basis: 14px;\r\n	}\r\n}\r\n@container menu-content (min-width: 600px) {\r\n	.mobile-adventure .settings-drop-table .setting-number {\r\n		flex: 0 0 auto;\r\n		min-width: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number input {\r\n		flex: 1 1 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table td {\r\n		justify-content: flex-start;\r\n	}\r\n	.mobile-adventure .settings-rate-columns {\r\n		gap: 6px;\r\n	}\r\n	.mobile-adventure .settings-scroll > section {\r\n		min-width: 0;\r\n		align-self: start;\r\n	}\r\n}\r\n.mobile-adventure .map-heading h3 {\r\n	font-size: 15px;\r\n}\r\n.mobile-adventure .management-tab section {\r\n	padding: 4px 0;\r\n}\r\n.mobile-adventure .management-tab section h4 {\r\n	margin: 0 0 4px;\r\n	font-size: 12px;\r\n}\r\n.mobile-adventure .character-detail .character-summary {\r\n	padding: 6px 8px;\r\n}\r\n.mobile-adventure .selected-job {\r\n	padding: 4px 6px;\r\n}\r\n.mobile-adventure .character-actions:has(> .management-status:empty) {\r\n	display: none;\r\n}\r\n/* Match the mobile HUD surfaces, controls, text and selection accents. */\r\n.mobile-adventure.game-tools-window,\r\n.adventure-loading {\r\n	background: #191f26;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .adventure-header {\r\n	background: #191f26;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.mobile-adventure button,\r\n.mobile-adventure input:not([type='checkbox']),\r\n.mobile-adventure .game-select-trigger {\r\n	background: #394753;\r\n	color: #f5f2e9;\r\n	border-color: #7e8c99;\r\n}\r\n.mobile-adventure input::placeholder {\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .adventure-home button,\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .selected-job,\r\n.mobile-adventure .game-select-menu,\r\n.mobile-adventure .game-select-option,\r\n.mobile-adventure .settings-grid label,\r\n.mobile-adventure .settings-drop-table tr {\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-row.selected,\r\n.mobile-adventure .monster-row.selected,\r\n.mobile-adventure .character-job-row.selected,\r\n.mobile-adventure .monster-location.selected,\r\n.mobile-adventure .game-select-option.selected {\r\n	background: #57452c;\r\n	border-color: #ffca67;\r\n}\r\n.mobile-adventure .catalog-row small,\r\n.mobile-adventure .monster-row small,\r\n.mobile-adventure .character-job-row small,\r\n.mobile-adventure .catalog-row-text small,\r\n.mobile-adventure .monster-location small,\r\n.mobile-adventure .adventure-home span,\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary,\r\n.mobile-adventure .catalog-heading p,\r\n.mobile-adventure .monster-heading p,\r\n.mobile-adventure .monster-stats span,\r\n.mobile-adventure .catalog-metadata span,\r\n.mobile-adventure .catalog-status,\r\n.mobile-adventure .drop-group em,\r\n.mobile-adventure .character-summary p,\r\n.mobile-adventure .character-summary span,\r\n.mobile-adventure .management-tab small,\r\n.mobile-adventure .map-npc-row small,\r\n.mobile-adventure .summon-panel span {\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .management-tab,\r\n.mobile-adventure .character-detail,\r\n.mobile-adventure .character-summary,\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer {\r\n	background: #19212a;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .monster-stats,\r\n.mobile-adventure .catalog-metadata {\r\n	background: #65717b;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .monster-stats div,\r\n.mobile-adventure .catalog-metadata div,\r\n.mobile-adventure .item-description,\r\n.mobile-adventure .map-npc-list,\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-badge {\r\n	background: #242e38;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .map-npc-row.selected {\r\n	background: #57452c;\r\n}\r\n.mobile-adventure .monster-heading,\r\n.mobile-adventure .monster-resources section,\r\n.mobile-adventure .monster-resources h4 {\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-portrait,\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .catalog-thumb,\r\n.mobile-adventure .item-thumb {\r\n	background-color: #19212a;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .error,\r\n.mobile-adventure .catalog-status.error,\r\n.mobile-adventure .summon-status.error {\r\n	color: #ffb5aa;\r\n}\r\n.mobile-adventure button:disabled {\r\n	opacity: 0.5;\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .map-heading {\r\n	display: none;\r\n}\r\n.mobile-adventure .map-thumb {\r\n	flex: 0 0 48px;\r\n	width: 48px;\r\n	height: 36px;\r\n	min-width: 48px;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .map-thumb img,\r\n.mobile-adventure .map-thumb canvas {\r\n	width: 48px;\r\n	height: 36px;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .map-detail-body {\r\n	flex: 1 0 170px;\r\n	min-height: 170px;\r\n	align-items: stretch;\r\n	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n}\r\n.mobile-adventure .catalog-map-picker {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-map {\r\n	height: 100%;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .map-npc-list {\r\n	height: 100%;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .map-npc-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .monster-thumb {\r\n	width: 40px;\r\n	height: 40px;\r\n	flex: 0 0 40px;\r\n}\r\n.mobile-adventure .monster-overview {\r\n	display: grid;\r\n	flex: 0 0 auto;\r\n	grid-template-columns: 96px minmax(0, 1fr);\r\n	gap: 0 8px;\r\n	border: 1px solid #65717b;\r\n	padding: 5px;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .monster-heading {\r\n	display: contents;\r\n}\r\n.mobile-adventure .monster-heading .monster-portrait {\r\n	grid-column: 1;\r\n	grid-row: 1;\r\n	align-self: center;\r\n	width: 96px;\r\n	height: 96px;\r\n	border: 0;\r\n}\r\n.mobile-adventure .monster-stats {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	margin: 0;\r\n}\r\n.mobile-adventure .monster-stats div {\r\n	min-width: 0;\r\n	flex-direction: row;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	padding: 5px 4px;\r\n	gap: 4px;\r\n	font-size: 11px;\r\n}\r\n.mobile-adventure .monster-stats div > span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .monster-stats strong {\r\n	min-width: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .monster-thumb {\r\n	background-color: transparent;\r\n}\r\n.mobile-adventure .monster-location {\r\n	flex: 0 0 auto;\r\n	min-height: 46px;\r\n	height: auto;\r\n	padding: 5px 6px;\r\n}\r\n.mobile-adventure .monster-location strong,\r\n.mobile-adventure .monster-location small {\r\n	line-height: 16px;\r\n}\r\n.mobile-adventure .monster-resources > section > h4,\r\n.mobile-adventure .drop-group h4 {\r\n	padding: 5px 6px;\r\n	margin: 0;\r\n}\r\n.mobile-adventure .drop-group > div {\r\n	padding-inline: 6px;\r\n}\r\n.mobile-adventure .catalog-toolbar,\r\n.mobile-adventure .monster-toolbar,\r\n.mobile-adventure .character-job-toolbar,\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary,\r\n.mobile-adventure .character-job-browser,\r\n.mobile-adventure .monster-resources > section > h4 {\r\n	background: #19212a;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .character-job-icon,\r\n.mobile-adventure .map-thumb {\r\n	background: #242e38;\r\n	color: #c6d0db;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-action-panel button:disabled,\r\n.mobile-adventure .summon-panel button:disabled {\r\n	background: #394753;\r\n}\r\n.mobile-adventure .monster-drops,\r\n.mobile-adventure .monster-locations {\r\n	padding-inline: 0;\r\n}\r\n.mobile-adventure .monster-location-list {\r\n	padding: 0;\r\n	gap: 0;\r\n}\r\n\r\n.mobile-adventure .game-select-trigger i {\r\n	border-top-color: #c6d0db;\r\n}\r\n\r\n.mobile-adventure .npc-catalog-tab .catalog-thumb {\r\n	width: 40px;\r\n	height: 40px;\r\n	flex: 0 0 40px;\r\n	background-color: transparent;\r\n}\r\n.mobile-adventure .npc-catalog-tab .catalog-heading {\r\n	display: none;\r\n}\r\n.mobile-adventure .npc-detail-body {\r\n	flex: 1 0 170px;\r\n	min-height: 170px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n	align-items: stretch;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .npc-map-picker,\r\n.mobile-adventure .npc-detail-info {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .npc-map-canvas {\r\n	height: 100%;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .npc-detail-info {\r\n	overflow: auto;\r\n	border: 1px solid #65717b;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata {\r\n	grid-auto-rows: auto;\r\n	align-content: start;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata div {\r\n	align-items: center;\r\n	gap: 6px;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata strong {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n	text-align: right;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .item-overview {\r\n	display: grid;\r\n	grid-template-columns: 96px minmax(0, 1fr);\r\n	align-items: stretch;\r\n	gap: 8px;\r\n	padding: 5px;\r\n	border: 1px solid #65717b;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .item-heading {\r\n	display: contents;\r\n}\r\n.mobile-adventure .item-portrait {\r\n	width: 96px;\r\n	height: auto;\r\n	min-height: 0;\r\n	position: relative;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n.mobile-adventure .item-portrait img {\r\n	position: absolute;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	max-width: 100%;\r\n	max-height: 100%;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	margin: 0;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata div {\r\n	min-width: 0;\r\n	align-items: center;\r\n	padding: 5px 4px;\r\n	gap: 4px;\r\n	font-size: 11px;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata strong {\r\n	min-width: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .character-job-emblem {\r\n	background: #242e38;\r\n	color: #c6d0db;\r\n	border-color: #65717b;\r\n}\r\n\r\n/* Touch scrolling must not leave a hover color on unselected entries. */\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .game-select-option {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n.mobile-adventure .catalog-row:hover,\r\n.mobile-adventure .monster-row:hover,\r\n.mobile-adventure .character-job-row:hover,\r\n.mobile-adventure .monster-location:hover,\r\n.mobile-adventure .game-select-option:hover {\r\n	background: #19212a;\r\n}\r\n.mobile-adventure .catalog-row.selected:hover,\r\n.mobile-adventure .monster-row.selected:hover,\r\n.mobile-adventure .character-job-row.selected:hover,\r\n.mobile-adventure .monster-location.selected:hover,\r\n.mobile-adventure .game-select-option.selected:hover {\r\n	background: #57452c;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer {\r\n	flex: 0 0 38px;\r\n	height: 38px;\r\n	min-height: 38px;\r\n	padding: 4px 8px;\r\n	box-sizing: border-box;\r\n}\r\n.mobile-adventure .drop-group > div {\r\n	padding-left: 14px;\r\n}\r\n.mobile-adventure .monster-locations,\r\n.mobile-adventure .monster-location-list {\r\n	height: auto;\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .monster-locations {\r\n	align-self: start;\r\n}\r\n\r\n.mobile-adventure .monster-locations > h4 {\r\n	position: static;\r\n}\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-location {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	min-height: 32px;\r\n}\r\n.mobile-adventure .monster-location strong {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.mobile-adventure .monster-location small {\r\n	flex: 0 0 auto;\r\n	margin-top: 0;\r\n	text-align: right;\r\n}\r\n\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .map-npc-row:hover,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .monster-location:hover {\r\n	border: 0;\r\n	border-bottom: 1px solid #65717b;\r\n	border-radius: 0;\r\n	padding: 4px 8px;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .map-npc-row.selected,\r\n.mobile-adventure .map-npc-row.selected:hover,\r\n.mobile-adventure .monster-location.selected,\r\n.mobile-adventure .monster-location.selected:hover {\r\n	background: #57452c;\r\n	border-color: #65717b;\r\n}\r\n\r\n.mobile-adventure .map-npc-text {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.mobile-adventure .map-npc-text strong {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.mobile-adventure .map-npc-text small {\r\n	flex: 0 0 auto;\r\n	text-align: right;\r\n}\r\n\r\n.adventure-tabs {\r\n	display: flex;\r\n	flex: 1;\r\n	min-width: 0;\r\n	gap: 4px;\r\n	overflow-x: auto;\r\n	scrollbar-width: none;\r\n}\r\n.adventure-tabs::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.mobile-adventure .adventure-tabs button {\r\n	flex: 0 0 auto;\r\n	min-width: 48px;\r\n	white-space: nowrap;\r\n}\r\n.mobile-adventure .adventure-tabs button[aria-selected='true'] {\r\n	background: #57452c;\r\n	border-color: #ffca67;\r\n	color: #ffd27f;\r\n}\r\n.adventure-header > button {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.mobile-adventure .map-npc-text strong,\r\n.mobile-adventure .monster-location strong {\r\n	font-size: 12px;\r\n	line-height: 16px;\r\n}\r\n.mobile-adventure .map-npc-text small,\r\n.mobile-adventure .monster-location small {\r\n	font-size: 10px;\r\n	line-height: 16px;\r\n	margin-top: 0;\r\n}\r\n.mobile-adventure .map-npc-row {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n\r\n/* Keep both location tables visually identical, including their headings. */\r\n.mobile-adventure .map-npc-list,\r\n.mobile-adventure .monster-locations {\r\n	border: 1px solid #65717b;\r\n	border-radius: 0;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .map-npc-list > h4,\r\n.mobile-adventure .monster-resources .monster-locations > h4 {\r\n	position: static;\r\n	flex: 0 0 auto;\r\n	box-sizing: border-box;\r\n	margin: 0;\r\n	padding: 5px 6px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	line-height: 17px;\r\n	font-weight: 700;\r\n	color: #f5f2e9;\r\n	background: #19212a;\r\n	border: 0;\r\n	border-bottom: 1px solid #65717b;\r\n}\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-location {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	flex-shrink: 0;\r\n}\r\n\r\n.mobile-adventure .catalog-pagination button,\r\n.mobile-adventure .monster-pagination button,\r\n.mobile-adventure .catalog-action-panel button,\r\n.mobile-adventure .summon-panel button,\r\n.mobile-adventure .character-actions button,\r\n.mobile-adventure .settings-footer button {\r\n	min-height: 28px;\r\n	height: 28px;\r\n	padding-block: 2px;\r\n}\r\n.mobile-adventure .catalog-route:not(:disabled) {\r\n	background: #284c3b;\r\n	border-color: #6aa786;\r\n	color: #d9f4e5;\r\n}\r\n.mobile-adventure .catalog-route.is-active:not(:disabled) {\r\n	background: #643c31;\r\n	border-color: #d99573;\r\n	color: #ffe2cc;\r\n}\r\n.mobile-adventure .catalog-route[aria-busy='true'] {\r\n	background: #57452c;\r\n	border-color: #b39564;\r\n	color: #e7d4ae;\r\n}\r\n\r\n/* Footer fields fit the same 28px row as their action buttons. */\r\n.mobile-adventure .catalog-action-panel input[type='number'] {\r\n	width: 64px;\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	height: 28px;\r\n	min-height: 28px;\r\n	padding: 2px 5px;\r\n	border-radius: 5px;\r\n	background: #283541;\r\n	font-size: 12px;\r\n	line-height: 22px;\r\n	box-sizing: border-box;\r\n}\r\n\r\n/* White detail plate; list thumbnails keep the row background visible. */\r\n.mobile-adventure .item-thumb {\r\n	background-color: transparent;\r\n}\r\n\r\n.mobile-adventure .item-portrait {\r\n	background-color: #fff;\r\n}\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	font-family: Arial, sans-serif;\r\n	font-size: 22px;\r\n	line-height: 20px;\r\n}\r\n\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding-block: 0;\r\n	line-height: 1;\r\n}\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button > span {\r\n	display: block;\r\n	font:\r\n		22px/1 Arial,\r\n		sans-serif;\r\n	transform: translateY(-1px);\r\n}\r\n.adventure-loading-message {\r\n	margin: auto;\r\n	color: #bac4cd;\r\n}\r\n\r\n/* Compact character editor: four vertically stacked sections. */\r\n.mobile-adventure .zeny-grant-open {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	padding: 3px 7px;\r\n	box-sizing: border-box;\r\n	align-self: center;\r\n}\r\n.mobile-adventure .character-job-emblem {\r\n	width: 32px;\r\n	height: 32px;\r\n	flex: 0 0 32px;\r\n	margin: 2px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #242e38;\r\n	color: #c6d0db;\r\n	font-size: 14px;\r\n}\r\n.mobile-adventure .character-detail-scroll {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	padding: 0 8px;\r\n}\r\n.mobile-adventure .character-detail-scroll > section {\r\n	width: 100%;\r\n	min-width: 0;\r\n	padding: 8px 0;\r\n}\r\n.mobile-adventure .character-detail-scroll section + section {\r\n	border-top: 1px solid #65717b;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form {\r\n	--character-form-columns: 3;\r\n	display: grid;\r\n	grid-template-columns: repeat(var(--character-form-columns), minmax(0, 1fr));\r\n	align-items: stretch;\r\n	gap: 6px 8px;\r\n}\r\n.mobile-adventure .character-detail-scroll .progression-form {\r\n	--character-form-columns: 4;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form > label {\r\n	min-width: 0;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form > .management-form-actions,\r\n.mobile-adventure .character-detail-scroll .management-form > small {\r\n	grid-column: 1 / -1;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form > .management-form-actions {\r\n	display: grid;\r\n	grid-template-columns: repeat(var(--character-form-columns), minmax(0, 1fr));\r\n	gap: 6px 8px;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form > .management-form-actions > button {\r\n	grid-column: auto;\r\n	width: 100%;\r\n	min-width: 0;\r\n	margin: 0;\r\n	white-space: normal;\r\n}\r\n.mobile-adventure .character-traits-unavailable {\r\n	margin: 4px 0;\r\n	color: #c6d0db;\r\n	font-size: 12px;\r\n}\r\n\r\n.mobile-adventure .character-detail-scroll > section > h4,\r\n.mobile-adventure .settings-scroll > section > h4 {\r\n	margin: 0 0 8px;\r\n	padding: 6px 8px;\r\n	border-left: 3px solid #ceaa70;\r\n	border-radius: 3px;\r\n	background: #2b3540;\r\n	color: #ffe1ae;\r\n	font-size: 13px;\r\n	font-weight: 600;\r\n}\r\n.mobile-adventure .character-detail-scroll > section > h4 small,\r\n.mobile-adventure .settings-scroll > section > h4 small {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n	font-weight: normal;\r\n}\r\n\r\n/* Settings follow the character editor's stacked sections and aligned fields. */\r\n.mobile-adventure .settings-scroll {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	padding: 0 8px;\r\n}\r\n.mobile-adventure .settings-scroll > section {\r\n	flex: 0 0 auto;\r\n	width: 100%;\r\n	min-width: 0;\r\n	padding: 8px 0;\r\n}\r\n.mobile-adventure .settings-scroll section + section {\r\n	border-top: 1px solid #65717b;\r\n}\r\n.mobile-adventure .settings-grid {\r\n	grid-template-columns: repeat(4, minmax(0, 1fr));\r\n	gap: 6px 8px;\r\n}\r\n.mobile-adventure .settings-rate-columns {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px 8px;\r\n}\r\n.mobile-adventure :is(.settings-grid, .settings-rate-list) label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	justify-content: flex-end;\r\n	gap: 5px;\r\n	min-width: 0;\r\n	padding: 0;\r\n	border: 0;\r\n	border-radius: 0;\r\n	background: transparent;\r\n	white-space: normal;\r\n	font-size: 12px;\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .settings-form .setting-number,\r\n.mobile-adventure .settings-form .game-select {\r\n	width: 100%;\r\n	min-width: 0;\r\n	flex: none;\r\n	margin: 0;\r\n	gap: 4px;\r\n}\r\n.mobile-adventure .settings-form .setting-number input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	flex: 1 1 0;\r\n	height: 28px;\r\n	min-height: 28px;\r\n	box-sizing: border-box;\r\n	padding: 3px 6px;\r\n}\r\n.mobile-adventure .settings-form .setting-number em {\r\n	width: auto;\r\n	flex: 0 0 auto;\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.mobile-adventure .settings-drop-table tbody {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .settings-drop-table tr {\r\n	grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));\r\n	gap: 8px;\r\n	padding: 6px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 4px;\r\n}\r\n.mobile-adventure .settings-drop-table th {\r\n	grid-column: auto;\r\n	align-self: center;\r\n	padding: 0;\r\n	white-space: normal;\r\n	font-size: 12px;\r\n}\r\n.mobile-adventure .settings-drop-table td {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	justify-content: flex-start;\r\n	gap: 4px;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 11px;\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .settings-footer {\r\n	display: grid;\r\n	grid-template-columns: repeat(4, minmax(0, 1fr));\r\n	gap: 8px;\r\n}\r\n.mobile-adventure .settings-footer .management-status {\r\n	grid-column: span 3;\r\n	min-width: 0;\r\n}\r\n.mobile-adventure .settings-footer button {\r\n	width: 100%;\r\n	min-width: 0;\r\n	white-space: normal;\r\n	padding-inline: 4px;\r\n}\r\n@container menu-content (max-width: 599px) {\r\n	.mobile-adventure .settings-grid {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n	.mobile-adventure .settings-drop-table tr {\r\n		grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	}\r\n	.mobile-adventure .settings-drop-table th {\r\n		grid-column: 1 / -1;\r\n	}\r\n	.mobile-adventure .settings-footer {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n	.mobile-adventure .settings-footer .management-status {\r\n		grid-column: auto;\r\n	}\r\n}\r\n\r\n/* One shared header for drop rates, including narrow screens. */\r\n.mobile-adventure .settings-drop-table {\r\n	display: table;\r\n	table-layout: fixed;\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n.mobile-adventure .settings-drop-table thead {\r\n	display: table-header-group;\r\n}\r\n.mobile-adventure .settings-drop-table tbody {\r\n	display: table-row-group;\r\n}\r\n.mobile-adventure .settings-drop-table tr {\r\n	display: table-row;\r\n	border: 0;\r\n	border-radius: 0;\r\n	padding: 0;\r\n	background: #19212a;\r\n}\r\n.mobile-adventure .settings-drop-table :is(th, td) {\r\n	display: table-cell;\r\n	padding: 6px 4px;\r\n	border-bottom: 0;\r\n	vertical-align: middle;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .settings-drop-table thead th {\r\n	background: transparent;\r\n	color: #c6d0db;\r\n	font-weight: normal;\r\n}\r\n.mobile-adventure .settings-drop-table th:first-child {\r\n	width: 28%;\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(n)::before {\r\n	content: none;\r\n}\r\n\r\n.mobile-adventure .settings-footer button {\r\n	grid-column: -2;\r\n}\r\n\r\n/* Keep tablet controls and their containing rows on the same density scale. */\r\n:host([data-menu-density='spacious']) .mobile-adventure {\r\n	font-size: var(--panel-label);\r\n	--adventure-padding: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .adventure-header,\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-toolbar, .monster-toolbar) {\r\n	padding: var(--adventure-padding) 16px;\r\n	gap: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .adventure-tabs {\r\n	gap: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n	padding: 6px 10px;\r\n}\r\n\r\n:host([data-menu-density='spacious'])\r\n	.mobile-adventure\r\n	:is(\r\n		.catalog-pagination,\r\n		.monster-pagination,\r\n		.catalog-action-panel,\r\n		.summon-panel,\r\n		.character-actions,\r\n		.settings-footer\r\n	) {\r\n	flex: 0 0 auto;\r\n	height: auto;\r\n	min-height: calc(var(--panel-control) + 21px);\r\n	padding: 10px 12px;\r\n	gap: 8px;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-row, .monster-location) {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-text strong, .monster-location strong) {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-text small, .monster-location small) {\r\n	font-size: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.management-form, .settings-grid) {\r\n	gap: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.character-detail-scroll, .settings-scroll) {\r\n	padding-inline: 12px;\r\n}\r\n\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	width: 52px;\r\n	min-width: 52px;\r\n	flex: 0 0 52px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	width: 64px;\r\n	min-width: 64px;\r\n	flex-basis: 64px;\r\n}\r\n\r\n/* Tablet reading scale, shared by all catalog and management pages. */\r\n:host([data-menu-density='spacious']) .mobile-adventure {\r\n	--adventure-text: 16px;\r\n	--adventure-meta: 14px;\r\n	font-size: var(--adventure-text);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-row, .monster-row, .character-job-row) {\r\n	min-height: 60px;\r\n	padding: 8px;\r\n	font-size: var(--adventure-text);\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.mobile-adventure\r\n	:is(\r\n		small,\r\n		label,\r\n		em,\r\n		th,\r\n		td,\r\n		.catalog-summary,\r\n		.monster-summary,\r\n		.character-job-summary,\r\n		.catalog-status,\r\n		.management-status,\r\n		.monster-stats div,\r\n		.catalog-metadata div\r\n	) {\r\n	font-size: var(--adventure-meta);\r\n	line-height: 1.5;\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.mobile-adventure\r\n	:is(\r\n		.item-description,\r\n		.monster-description,\r\n		.settings-scroll,\r\n		.settings-scroll p,\r\n		.settings-scroll label,\r\n		.settings-grid label,\r\n		.settings-rate-list label,\r\n		.settings-drop-table th,\r\n		.settings-drop-table td\r\n	) {\r\n	font-size: var(--adventure-text);\r\n	line-height: 1.6;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure h3 {\r\n	font-size: 18px;\r\n	line-height: 1.4;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.monster-overview, .item-overview) {\r\n	grid-template-columns: 128px minmax(0, 1fr);\r\n	gap: 12px;\r\n	padding: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure .monster-heading .monster-portrait {\r\n	/* Scale the atlas and its offset together, keeping the sprite's crop intact. */\r\n	width: 96px;\r\n	height: 96px;\r\n	margin: 32px;\r\n	transform: scale(1.666667);\r\n	justify-self: center;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure .item-portrait {\r\n	width: 128px;\r\n	min-height: 128px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure .monster-stats {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n}\r\n\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.character-traits-unavailable, .map-thumb span) {\r\n	font-size: var(--adventure-meta);\r\n	line-height: 1.3;\r\n}\r\n\r\n/* Section labels stay quieter than names and body content. */\r\n:host([data-menu-density='spacious']) .mobile-adventure h4 {\r\n	font-size: var(--adventure-meta);\r\n	line-height: 1.4;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure .monster-overview {\r\n	grid-template-columns: 160px minmax(0, 1fr);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.monster-thumb, .npc-catalog-tab .catalog-thumb) {\r\n	/* Preserve atlas cropping while reserving space for the enlarged 56px image. */\r\n	transform: scale(1.4);\r\n	margin: 8px;\r\n}\r\n";
+	AdventureTools_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	z-index: 1100 !important;\r\n	color: #263746;\r\n	font:\r\n		var(--panel-text)/1.35 Arial,\r\n		sans-serif;\r\n	background: #0003;\r\n	box-sizing: border-box;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.ui-component-root,\r\n.adventure-mount {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure.game-tools-window {\r\n	font:\r\n		var(--panel-text)/1.35 Arial,\r\n		sans-serif;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	border-radius: 8px;\r\n	border: 1px solid #bec9d1;\r\n	background: #f2f5f7;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	box-shadow: 0 8px 28px #0005;\r\n}\r\n.mobile-adventure button,\r\n.mobile-adventure input,\r\n.mobile-adventure select {\r\n	font: inherit;\r\n	touch-action: manipulation;\r\n}\r\n.mobile-adventure button {\r\n	min-height: var(--panel-control);\r\n	height: auto;\r\n	padding: var(--panel-control-padding);\r\n	border-radius: 8px;\r\n	cursor: pointer;\r\n}\r\n.mobile-adventure input:not([type='checkbox']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	box-sizing: border-box;\r\n	font-size: var(--panel-text);\r\n	border-radius: 5px;\r\n	padding: 3px 6px;\r\n}\r\n.mobile-adventure input[type='checkbox'] {\r\n	width: 20px;\r\n	height: 20px;\r\n}\r\n.mobile-adventure button:focus-visible,\r\n.mobile-adventure input:focus-visible {\r\n	outline: 2px solid #3a789d;\r\n	outline-offset: 2px;\r\n}\r\n.adventure-header {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	padding: 4px 8px;\r\n	background: #213747;\r\n	color: white;\r\n	flex-shrink: 0;\r\n}\r\n.adventure-header h2 {\r\n	margin: 0;\r\n	font-size: var(--panel-heading);\r\n	flex: 1;\r\n}\r\n.adventure-header button {\r\n	background: #344e60;\r\n	border: 1px solid #7691a2;\r\n	color: white;\r\n}\r\n.adventure-home {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 6px;\r\n	padding: 8px;\r\n	overflow: auto;\r\n	align-content: start;\r\n}\r\n.adventure-home button {\r\n	text-align: left;\r\n	display: grid;\r\n	gap: 5px;\r\n	min-height: 62px;\r\n	border: 1px solid #c7d5de;\r\n	background: white;\r\n	color: #263746;\r\n	box-shadow: 0 2px 3px #2437440a;\r\n}\r\n.adventure-home strong {\r\n	font-size: var(--panel-heading);\r\n}\r\n.adventure-home span {\r\n	font-size: var(--panel-heading);\r\n	color: #576f7f;\r\n}\r\n.adventure-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.adventure-content .game-tools-tab {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-toolbar,\r\n.mobile-adventure .monster-toolbar {\r\n	padding: 8px;\r\n	flex: 0 0 auto;\r\n	flex-wrap: wrap;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .catalog-search,\r\n.mobile-adventure .monster-search {\r\n	flex: 1 1 170px;\r\n	width: 0;\r\n	min-width: 140px;\r\n}\r\n.mobile-adventure .game-select-trigger {\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-heading);\r\n}\r\n.mobile-adventure .game-select-option {\r\n	min-height: var(--panel-control);\r\n}\r\n.mobile-adventure .catalog-layout,\r\n.mobile-adventure .monster-layout,\r\n.mobile-adventure .character-layout {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .catalog-browser,\r\n.mobile-adventure .monster-browser,\r\n.mobile-adventure .character-job-browser {\r\n	width: 100%;\r\n	flex: 1;\r\n	border: none;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-detail,\r\n.mobile-adventure .monster-detail,\r\n.mobile-adventure .character-detail {\r\n	display: none;\r\n}\r\n.mobile-adventure .show-detail .catalog-detail,\r\n.mobile-adventure .show-detail .monster-detail,\r\n.mobile-adventure .show-detail .character-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: 100%;\r\n	min-width: 0;\r\n	overflow: auto;\r\n	padding: 6px;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .show-detail .catalog-browser,\r\n.mobile-adventure .show-detail .monster-browser,\r\n.mobile-adventure .show-detail .character-job-browser,\r\n.mobile-adventure .show-detail .catalog-toolbar,\r\n.mobile-adventure .show-detail .monster-toolbar {\r\n	display: none;\r\n}\r\n.mobile-adventure .catalog-list,\r\n.mobile-adventure .monster-list,\r\n.mobile-adventure .character-job-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 5px;\r\n	align-content: start;\r\n	padding: 8px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row {\r\n	border: 1px solid #cad6dd;\r\n	background: white;\r\n	border-radius: 6px;\r\n	min-height: 38px;\r\n	height: auto;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .catalog-row.selected,\r\n.mobile-adventure .monster-row.selected,\r\n.mobile-adventure .character-job-row.selected {\r\n	background: #e6f1f7;\r\n	border-color: #4380a2;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination {\r\n	min-height: 38px;\r\n	flex-shrink: 0;\r\n	padding: 6px 12px;\r\n}\r\n.mobile-adventure .catalog-pagination button,\r\n.mobile-adventure .monster-pagination button {\r\n	min-width: 64px;\r\n}\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary {\r\n	padding: 4px 12px;\r\n}\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .monster-actions,\r\n.mobile-adventure .character-actions {\r\n	flex: 0 0 auto;\r\n	position: sticky;\r\n	bottom: -6px;\r\n	background: #edf3f6;\r\n	padding: 6px;\r\n	flex-wrap: wrap;\r\n	gap: 5px;\r\n	z-index: 1;\r\n}\r\n.mobile-adventure .catalog-action-panel button {\r\n	min-width: 90px;\r\n}\r\n.mobile-adventure .map-detail-body {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);\r\n	min-height: 180px;\r\n	flex: 0 0 auto;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .catalog-map-picker {\r\n	min-width: 0;\r\n	width: 100%;\r\n	height: auto;\r\n	padding: 0;\r\n}\r\n.mobile-adventure .catalog-map,\r\n.mobile-adventure .npc-map-canvas {\r\n	width: 100%;\r\n	height: auto;\r\n	max-height: 280px;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .map-npc-scroll {\r\n	max-height: 240px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .map-npc-row {\r\n	min-height: var(--panel-control);\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .map-heading,\r\n.mobile-adventure .selected-job {\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .character-detail-scroll {\r\n	overflow: visible;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .management-form,\r\n.mobile-adventure .management-form.progression-form {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n}\r\n.mobile-adventure .management-form > .management-form-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n}\r\n.mobile-adventure .management-form > .management-form-actions button {\r\n	width: auto;\r\n	flex: 1;\r\n	min-width: 76px;\r\n}\r\n.mobile-adventure .settings-form {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .settings-grid {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n}\r\n.mobile-adventure .settings-grid label {\r\n	white-space: normal;\r\n	flex-wrap: wrap;\r\n	padding: 8px;\r\n	border: 1px solid #d3dde4;\r\n	border-radius: 6px;\r\n	background: white;\r\n}\r\n.mobile-adventure .settings-footer {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	padding: 8px;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-footer .management-status {\r\n	display: block;\r\n	flex: 1;\r\n	text-align: left;\r\n}\r\n.mobile-adventure .settings-drop-table tbody {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-drop-table tr {\r\n	display: grid;\r\n	border: 1px solid #d3dde4;\r\n	border-radius: 6px;\r\n	padding: 8px;\r\n	background: white;\r\n}\r\n.mobile-adventure .settings-drop-table th {\r\n	font-weight: bold;\r\n}\r\n.mobile-adventure .settings-drop-table td {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-drop-table td::before {\r\n	content: '普通';\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(2)::before {\r\n	content: 'Mini';\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(3)::before {\r\n	content: 'MVP';\r\n}\r\n.mobile-adventure .item-description {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.5;\r\n}\r\n.adventure-loading {\r\n	background: #f2f5f7;\r\n	padding: 24px;\r\n	border-radius: 8px;\r\n}\r\n.adventure-loading button {\r\n	min-height: var(--panel-control);\r\n}\r\n@container menu-content (max-width: 560px) {\r\n	.adventure-home,\r\n	.mobile-adventure .catalog-list,\r\n	.mobile-adventure .monster-list,\r\n	.mobile-adventure .character-job-list,\r\n	.mobile-adventure .settings-grid,\r\n	.mobile-adventure .settings-drop-table tbody,\r\n	.mobile-adventure .map-detail-body {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.adventure-home button {\r\n		min-height: 58px;\r\n	}\r\n	.mobile-adventure .catalog-toolbar > .game-select {\r\n		flex: 1;\r\n	}\r\n	.mobile-adventure .monster-info-grid {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n}\r\n.mobile-adventure .game-select {\r\n	height: 28px;\r\n	min-height: 28px;\r\n}\r\n.mobile-adventure .summon-panel {\r\n	flex: 0 0 auto;\r\n	position: sticky;\r\n	bottom: -6px;\r\n	background: #edf3f6;\r\n	padding: 6px;\r\n	gap: 5px;\r\n	flex-wrap: wrap;\r\n	z-index: 1;\r\n}\r\n.mobile-adventure .item-detail-content {\r\n	min-height: auto;\r\n	overflow: visible;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .monster-resources {\r\n	min-height: auto;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .monster-location-list {\r\n	max-height: 240px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .monster-location {\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .catalog-action-panel {\r\n	height: auto;\r\n	min-height: 38px;\r\n}\r\n.mobile-adventure .catalog-status,\r\n.mobile-adventure .summon-panel span {\r\n	white-space: normal;\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .monster-resources {\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .map-detail-body,\r\n.mobile-adventure .npc-detail-body {\r\n	grid-template-rows: auto;\r\n}\r\n@container menu-content (max-width: 560px) {\r\n	.mobile-adventure .monster-resources {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .maintenance-actions {\r\n		flex-wrap: wrap;\r\n	}\r\n	.mobile-adventure .summon-panel {\r\n		margin: 0 -12px -12px;\r\n	}\r\n}\r\n\r\n/* Compact landscape workspace: keep navigation and details visible together. */\r\n.mobile-adventure .monster-heading h3,\r\n.mobile-adventure .catalog-heading h3 {\r\n	font-size: var(--panel-title);\r\n}\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .catalog-portrait {\r\n	width: 64px;\r\n	height: 64px;\r\n	flex: 0 0 64px;\r\n}\r\n.mobile-adventure .item-portrait img {\r\n	max-width: 60px;\r\n	max-height: 60px;\r\n}\r\n.mobile-adventure .catalog-thumb,\r\n.mobile-adventure .monster-thumb {\r\n	width: 32px;\r\n	height: 32px;\r\n	flex: 0 0 32px;\r\n}\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel {\r\n	margin: auto -6px -6px;\r\n}\r\n.mobile-adventure .management-form {\r\n	gap: 5px 8px;\r\n}\r\n.mobile-adventure h4 {\r\n	margin: 8px 0 5px;\r\n}\r\n@container menu-content (min-width: 600px) {\r\n	.mobile-adventure .catalog-layout,\r\n	.mobile-adventure .monster-layout,\r\n	.mobile-adventure .character-layout {\r\n		display: grid;\r\n		grid-template-columns: minmax(170px, 30%) minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .catalog-browser,\r\n	.mobile-adventure .monster-browser,\r\n	.mobile-adventure .character-job-browser,\r\n	.mobile-adventure .show-detail .catalog-browser,\r\n	.mobile-adventure .show-detail .monster-browser,\r\n	.mobile-adventure .show-detail .character-job-browser {\r\n		display: flex;\r\n		flex-direction: column;\r\n		width: auto;\r\n		border-right: 1px solid #cad6dd;\r\n	}\r\n	.mobile-adventure .catalog-detail,\r\n	.mobile-adventure .monster-detail,\r\n	.mobile-adventure .character-detail {\r\n		display: flex;\r\n		flex-direction: column;\r\n		min-width: 0;\r\n		overflow: auto;\r\n		padding: 6px;\r\n		gap: 6px;\r\n	}\r\n	.mobile-adventure .show-detail .catalog-toolbar,\r\n	.mobile-adventure .show-detail .monster-toolbar {\r\n		display: flex;\r\n	}\r\n	.mobile-adventure .catalog-list,\r\n	.mobile-adventure .monster-list,\r\n	.mobile-adventure .character-job-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		gap: 3px;\r\n		padding: 4px;\r\n	}\r\n	.mobile-adventure .catalog-row,\r\n	.mobile-adventure .monster-row,\r\n	.mobile-adventure .character-job-row {\r\n		min-height: 42px;\r\n		padding: 4px;\r\n		border-radius: 4px;\r\n	}\r\n	.mobile-adventure .catalog-pagination,\r\n	.mobile-adventure .monster-pagination {\r\n		gap: 6px;\r\n		padding: 3px;\r\n	}\r\n	.mobile-adventure .catalog-pagination button,\r\n	.mobile-adventure .monster-pagination button {\r\n		min-width: 32px;\r\n	}\r\n	.mobile-adventure .map-detail-body {\r\n		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n		gap: 5px;\r\n		min-height: 145px;\r\n	}\r\n	.mobile-adventure .npc-detail-body {\r\n		flex: 0 0 auto;\r\n		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n		min-height: 150px;\r\n	}\r\n	.mobile-adventure .catalog-map-picker {\r\n		height: 170px;\r\n	}\r\n	.mobile-adventure .catalog-map,\r\n	.mobile-adventure .npc-map-canvas {\r\n		height: 100%;\r\n		max-height: 200px;\r\n	}\r\n	.mobile-adventure .map-npc-scroll {\r\n		max-height: 150px;\r\n	}\r\n	.mobile-adventure .map-npc-row {\r\n		min-height: var(--panel-control);\r\n		padding: 4px;\r\n	}\r\n	.mobile-adventure .management-form > .management-form-actions button {\r\n		min-width: 64px;\r\n		padding-inline: 5px;\r\n	}\r\n	.mobile-adventure .settings-scroll {\r\n		display: grid;\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n		align-content: start;\r\n		gap: 8px 12px;\r\n		padding: var(--panel-control-padding);\r\n		font-size: var(--panel-label);\r\n	}\r\n	.mobile-adventure .settings-scroll section + section {\r\n		border-top: 0;\r\n	}\r\n	.mobile-adventure .settings-scroll section:nth-child(2) {\r\n		grid-column: 2;\r\n		grid-row: 1 / span 3;\r\n	}\r\n	.mobile-adventure .settings-grid,\r\n	.mobile-adventure .settings-rate-columns {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .settings-grid label {\r\n		padding: 4px 6px;\r\n	}\r\n	.mobile-adventure .settings-drop-table tbody {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		gap: 5px;\r\n	}\r\n	.mobile-adventure .settings-drop-table tr {\r\n		padding: 5px;\r\n		grid-template-columns: repeat(3, minmax(0, 1fr));\r\n		gap: 4px;\r\n	}\r\n	.mobile-adventure .settings-drop-table th {\r\n		grid-column: 1 / -1;\r\n		text-align: left;\r\n	}\r\n	.mobile-adventure .settings-drop-table td {\r\n		flex-direction: column;\r\n		gap: 2px;\r\n		padding: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number {\r\n		width: 100%;\r\n		gap: 2px;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number input {\r\n		width: 100%;\r\n		min-width: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number em {\r\n		flex-basis: 14px;\r\n	}\r\n}\r\n@container menu-content (min-width: 600px) {\r\n	.mobile-adventure .settings-drop-table .setting-number {\r\n		flex: 0 0 auto;\r\n		min-width: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number input {\r\n		flex: 1 1 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table td {\r\n		justify-content: flex-start;\r\n	}\r\n	.mobile-adventure .settings-rate-columns {\r\n		gap: 6px;\r\n	}\r\n	.mobile-adventure .settings-scroll > section {\r\n		min-width: 0;\r\n		align-self: start;\r\n	}\r\n}\r\n.mobile-adventure .map-heading h3 {\r\n	font-size: var(--panel-title);\r\n}\r\n.mobile-adventure .management-tab section {\r\n	padding: 4px 0;\r\n}\r\n.mobile-adventure .management-tab section h4 {\r\n	margin: 0 0 4px;\r\n	font-size: var(--panel-text);\r\n}\r\n.mobile-adventure .character-detail .character-summary {\r\n	padding: 6px 8px;\r\n}\r\n.mobile-adventure .selected-job {\r\n	padding: 4px 6px;\r\n}\r\n.mobile-adventure .character-actions:has(> .management-status:empty) {\r\n	display: none;\r\n}\r\n/* Match the mobile HUD surfaces, controls, text and selection accents. */\r\n.mobile-adventure.game-tools-window,\r\n.adventure-loading {\r\n	background: #191f26;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .adventure-header {\r\n	background: #191f26;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.mobile-adventure button,\r\n.mobile-adventure input:not([type='checkbox']),\r\n.mobile-adventure .game-select-trigger {\r\n	background: #394753;\r\n	color: #f5f2e9;\r\n	border-color: #7e8c99;\r\n}\r\n.mobile-adventure input::placeholder {\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .adventure-home button,\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .selected-job,\r\n.mobile-adventure .game-select-menu,\r\n.mobile-adventure .game-select-option,\r\n.mobile-adventure .settings-grid label,\r\n.mobile-adventure .settings-drop-table tr {\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-row.selected,\r\n.mobile-adventure .monster-row.selected,\r\n.mobile-adventure .character-job-row.selected,\r\n.mobile-adventure .monster-location.selected,\r\n.mobile-adventure .game-select-option.selected {\r\n	background: #57452c;\r\n	border-color: #ffca67;\r\n}\r\n.mobile-adventure .catalog-row small,\r\n.mobile-adventure .monster-row small,\r\n.mobile-adventure .character-job-row small,\r\n.mobile-adventure .catalog-row-text small,\r\n.mobile-adventure .monster-location small,\r\n.mobile-adventure .adventure-home span,\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary,\r\n.mobile-adventure .catalog-heading p,\r\n.mobile-adventure .monster-heading p,\r\n.mobile-adventure .monster-stats span,\r\n.mobile-adventure .catalog-metadata span,\r\n.mobile-adventure .catalog-status,\r\n.mobile-adventure .drop-group em,\r\n.mobile-adventure .character-summary p,\r\n.mobile-adventure .character-summary span,\r\n.mobile-adventure .management-tab small,\r\n.mobile-adventure .map-npc-row small,\r\n.mobile-adventure .summon-panel span {\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .management-tab,\r\n.mobile-adventure .character-detail,\r\n.mobile-adventure .character-summary,\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer {\r\n	background: #19212a;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .monster-stats,\r\n.mobile-adventure .catalog-metadata {\r\n	background: #65717b;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .monster-stats div,\r\n.mobile-adventure .catalog-metadata div,\r\n.mobile-adventure .item-description,\r\n.mobile-adventure .map-npc-list,\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-badge {\r\n	background: #242e38;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .map-npc-row.selected {\r\n	background: #57452c;\r\n}\r\n.mobile-adventure .monster-heading,\r\n.mobile-adventure .monster-resources section,\r\n.mobile-adventure .monster-resources h4 {\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-portrait,\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .catalog-thumb,\r\n.mobile-adventure .item-thumb {\r\n	background-color: #19212a;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .error,\r\n.mobile-adventure .catalog-status.error,\r\n.mobile-adventure .summon-status.error {\r\n	color: #ffb5aa;\r\n}\r\n.mobile-adventure button:disabled {\r\n	opacity: 0.5;\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .map-heading {\r\n	display: none;\r\n}\r\n.mobile-adventure .map-thumb {\r\n	flex: 0 0 48px;\r\n	width: 48px;\r\n	height: 36px;\r\n	min-width: 48px;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .map-thumb img,\r\n.mobile-adventure .map-thumb canvas {\r\n	width: 48px;\r\n	height: 36px;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .map-detail-body {\r\n	flex: 1 0 170px;\r\n	min-height: 170px;\r\n	align-items: stretch;\r\n	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n}\r\n.mobile-adventure .catalog-map-picker {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-map {\r\n	height: 100%;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .map-npc-list {\r\n	height: 100%;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .map-npc-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .monster-thumb {\r\n	width: 40px;\r\n	height: 40px;\r\n	flex: 0 0 40px;\r\n}\r\n.mobile-adventure .monster-overview {\r\n	display: grid;\r\n	flex: 0 0 auto;\r\n	grid-template-columns: 96px minmax(0, 1fr);\r\n	gap: 0 8px;\r\n	border: 1px solid #65717b;\r\n	padding: 5px;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .monster-heading {\r\n	display: contents;\r\n}\r\n.mobile-adventure .monster-heading .monster-portrait {\r\n	grid-column: 1;\r\n	grid-row: 1;\r\n	align-self: center;\r\n	width: 96px;\r\n	height: 96px;\r\n	border: 0;\r\n}\r\n.mobile-adventure .monster-stats {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	margin: 0;\r\n}\r\n.mobile-adventure .monster-stats div {\r\n	min-width: 0;\r\n	flex-direction: row;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	padding: 5px 4px;\r\n	gap: 4px;\r\n	font-size: var(--panel-label);\r\n}\r\n.mobile-adventure .monster-stats div > span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .monster-stats strong {\r\n	min-width: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .monster-thumb {\r\n	background-color: transparent;\r\n}\r\n.mobile-adventure .monster-location {\r\n	flex: 0 0 auto;\r\n	min-height: 46px;\r\n	height: auto;\r\n	padding: 5px 6px;\r\n}\r\n.mobile-adventure .monster-location strong,\r\n.mobile-adventure .monster-location small {\r\n	line-height: 16px;\r\n}\r\n.mobile-adventure .monster-resources > section > h4,\r\n.mobile-adventure .drop-group h4 {\r\n	padding: 5px 6px;\r\n	margin: 0;\r\n}\r\n.mobile-adventure .drop-group > div {\r\n	padding-inline: 6px;\r\n}\r\n.mobile-adventure .catalog-toolbar,\r\n.mobile-adventure .monster-toolbar,\r\n.mobile-adventure .character-job-toolbar,\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary,\r\n.mobile-adventure .character-job-browser,\r\n.mobile-adventure .monster-resources > section > h4 {\r\n	background: #19212a;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .character-job-icon,\r\n.mobile-adventure .map-thumb {\r\n	background: #242e38;\r\n	color: #c6d0db;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-action-panel button:disabled,\r\n.mobile-adventure .summon-panel button:disabled {\r\n	background: #394753;\r\n}\r\n.mobile-adventure .monster-drops,\r\n.mobile-adventure .monster-locations {\r\n	padding-inline: 0;\r\n}\r\n.mobile-adventure .monster-location-list {\r\n	padding: 0;\r\n	gap: 0;\r\n}\r\n\r\n.mobile-adventure .game-select-trigger i {\r\n	border-top-color: #c6d0db;\r\n}\r\n\r\n.mobile-adventure .npc-catalog-tab .catalog-thumb {\r\n	width: 40px;\r\n	height: 40px;\r\n	flex: 0 0 40px;\r\n	background-color: transparent;\r\n}\r\n.mobile-adventure .npc-catalog-tab .catalog-heading {\r\n	display: none;\r\n}\r\n.mobile-adventure .npc-detail-body {\r\n	flex: 1 0 170px;\r\n	min-height: 170px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n	align-items: stretch;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .npc-map-picker,\r\n.mobile-adventure .npc-detail-info {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .npc-map-canvas {\r\n	height: 100%;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .npc-detail-info {\r\n	overflow: auto;\r\n	border: 1px solid #65717b;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata {\r\n	grid-auto-rows: auto;\r\n	align-content: start;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata div {\r\n	align-items: center;\r\n	gap: 6px;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata strong {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n	text-align: right;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .item-overview {\r\n	display: grid;\r\n	grid-template-columns: 96px minmax(0, 1fr);\r\n	align-items: stretch;\r\n	gap: 8px;\r\n	padding: 5px;\r\n	border: 1px solid #65717b;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .item-heading {\r\n	display: contents;\r\n}\r\n.mobile-adventure .item-portrait {\r\n	width: 96px;\r\n	height: auto;\r\n	min-height: 0;\r\n	position: relative;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n.mobile-adventure .item-portrait img {\r\n	position: absolute;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	max-width: 100%;\r\n	max-height: 100%;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	margin: 0;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata div {\r\n	min-width: 0;\r\n	align-items: center;\r\n	padding: 5px 4px;\r\n	gap: 4px;\r\n	font-size: var(--panel-label);\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata strong {\r\n	min-width: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .character-job-emblem {\r\n	background: #242e38;\r\n	color: #c6d0db;\r\n	border-color: #65717b;\r\n}\r\n\r\n/* Touch scrolling must not leave a hover color on unselected entries. */\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .game-select-option {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n.mobile-adventure .catalog-row:hover,\r\n.mobile-adventure .monster-row:hover,\r\n.mobile-adventure .character-job-row:hover,\r\n.mobile-adventure .monster-location:hover,\r\n.mobile-adventure .game-select-option:hover {\r\n	background: #19212a;\r\n}\r\n.mobile-adventure .catalog-row.selected:hover,\r\n.mobile-adventure .monster-row.selected:hover,\r\n.mobile-adventure .character-job-row.selected:hover,\r\n.mobile-adventure .monster-location.selected:hover,\r\n.mobile-adventure .game-select-option.selected:hover {\r\n	background: #57452c;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer {\r\n	flex: 0 0 38px;\r\n	height: 38px;\r\n	min-height: 38px;\r\n	padding: 4px 8px;\r\n	box-sizing: border-box;\r\n}\r\n.mobile-adventure .drop-group > div {\r\n	padding-left: 14px;\r\n}\r\n.mobile-adventure .monster-locations,\r\n.mobile-adventure .monster-location-list {\r\n	height: auto;\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .monster-locations {\r\n	align-self: start;\r\n}\r\n\r\n.mobile-adventure .monster-locations > h4 {\r\n	position: static;\r\n}\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-location {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	min-height: 32px;\r\n}\r\n.mobile-adventure .monster-location strong {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.mobile-adventure .monster-location small {\r\n	flex: 0 0 auto;\r\n	margin-top: 0;\r\n	text-align: right;\r\n}\r\n\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .map-npc-row:hover,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .monster-location:hover {\r\n	border: 0;\r\n	border-bottom: 1px solid #65717b;\r\n	border-radius: 0;\r\n	padding: 4px 8px;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .map-npc-row.selected,\r\n.mobile-adventure .map-npc-row.selected:hover,\r\n.mobile-adventure .monster-location.selected,\r\n.mobile-adventure .monster-location.selected:hover {\r\n	background: #57452c;\r\n	border-color: #65717b;\r\n}\r\n\r\n.mobile-adventure .map-npc-text {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.mobile-adventure .map-npc-text strong {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.mobile-adventure .map-npc-text small {\r\n	flex: 0 0 auto;\r\n	text-align: right;\r\n}\r\n\r\n.adventure-tabs {\r\n	display: flex;\r\n	flex: 1;\r\n	min-width: 0;\r\n	gap: 4px;\r\n	overflow-x: auto;\r\n	scrollbar-width: none;\r\n}\r\n.adventure-tabs::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.mobile-adventure .adventure-tabs button {\r\n	flex: 0 0 auto;\r\n	min-width: 48px;\r\n	white-space: nowrap;\r\n}\r\n.mobile-adventure .adventure-tabs button[aria-selected='true'] {\r\n	background: #57452c;\r\n	border-color: #ffca67;\r\n	color: #ffd27f;\r\n}\r\n.adventure-header > button {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.mobile-adventure .map-npc-text strong,\r\n.mobile-adventure .monster-location strong {\r\n	font-size: var(--panel-text);\r\n	line-height: 16px;\r\n}\r\n.mobile-adventure .map-npc-text small,\r\n.mobile-adventure .monster-location small {\r\n	font-size: var(--panel-caption);\r\n	line-height: 16px;\r\n	margin-top: 0;\r\n}\r\n.mobile-adventure .map-npc-row {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n\r\n/* Keep both location tables visually identical, including their headings. */\r\n.mobile-adventure .map-npc-list,\r\n.mobile-adventure .monster-locations {\r\n	border: 1px solid #65717b;\r\n	border-radius: 0;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .map-npc-list > h4,\r\n.mobile-adventure .monster-resources .monster-locations > h4 {\r\n	position: static;\r\n	flex: 0 0 auto;\r\n	box-sizing: border-box;\r\n	margin: 0;\r\n	padding: 5px 6px;\r\n	min-height: 28px;\r\n	font-size: var(--panel-text);\r\n	line-height: 17px;\r\n	font-weight: 700;\r\n	color: #f5f2e9;\r\n	background: #19212a;\r\n	border: 0;\r\n	border-bottom: 1px solid #65717b;\r\n}\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-location {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	flex-shrink: 0;\r\n}\r\n\r\n.mobile-adventure .catalog-pagination button,\r\n.mobile-adventure .monster-pagination button,\r\n.mobile-adventure .catalog-action-panel button,\r\n.mobile-adventure .summon-panel button,\r\n.mobile-adventure .character-actions button,\r\n.mobile-adventure .settings-footer button {\r\n	min-height: 28px;\r\n	height: 28px;\r\n	padding-block: 2px;\r\n}\r\n.mobile-adventure .catalog-route:not(:disabled) {\r\n	background: #284c3b;\r\n	border-color: #6aa786;\r\n	color: #d9f4e5;\r\n}\r\n.mobile-adventure .catalog-route.is-active:not(:disabled) {\r\n	background: #643c31;\r\n	border-color: #d99573;\r\n	color: #ffe2cc;\r\n}\r\n.mobile-adventure .catalog-route[aria-busy='true'] {\r\n	background: #57452c;\r\n	border-color: #b39564;\r\n	color: #e7d4ae;\r\n}\r\n\r\n/* Footer fields fit the same 28px row as their action buttons. */\r\n.mobile-adventure .catalog-action-panel input[type='number'] {\r\n	width: 64px;\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	height: 28px;\r\n	min-height: 28px;\r\n	padding: 2px 5px;\r\n	border-radius: 5px;\r\n	background: #283541;\r\n	font-size: var(--panel-text);\r\n	line-height: 22px;\r\n	box-sizing: border-box;\r\n}\r\n\r\n/* White detail plate; list thumbnails keep the row background visible. */\r\n.mobile-adventure .item-thumb {\r\n	background-color: transparent;\r\n}\r\n\r\n.mobile-adventure .item-portrait {\r\n	background-color: #fff;\r\n}\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	font-family: Arial, sans-serif;\r\n	font-size: 22px;\r\n	line-height: 20px;\r\n}\r\n\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding-block: 0;\r\n	line-height: 1;\r\n}\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button > span {\r\n	display: block;\r\n	font:\r\n		22px/1 Arial,\r\n		sans-serif;\r\n	transform: translateY(-1px);\r\n}\r\n.adventure-loading-message {\r\n	margin: auto;\r\n	color: #bac4cd;\r\n}\r\n\r\n/* Compact character editor: four vertically stacked sections. */\r\n.mobile-adventure .zeny-grant-open {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	padding: 3px 7px;\r\n	box-sizing: border-box;\r\n	align-self: center;\r\n}\r\n.mobile-adventure .character-job-emblem {\r\n	width: 32px;\r\n	height: 32px;\r\n	flex: 0 0 32px;\r\n	margin: 2px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #242e38;\r\n	color: #c6d0db;\r\n	font-size: var(--panel-heading);\r\n}\r\n.mobile-adventure .character-detail-scroll {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	padding: 0 8px;\r\n}\r\n.mobile-adventure .character-detail-scroll > section {\r\n	width: 100%;\r\n	min-width: 0;\r\n	padding: 8px 0;\r\n}\r\n.mobile-adventure .character-detail-scroll section + section {\r\n	border-top: 1px solid #65717b;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form {\r\n	--character-form-columns: 3;\r\n	display: grid;\r\n	grid-template-columns: repeat(var(--character-form-columns), minmax(0, 1fr));\r\n	align-items: stretch;\r\n	gap: 6px 8px;\r\n}\r\n.mobile-adventure .character-detail-scroll .progression-form {\r\n	--character-form-columns: 4;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form > label {\r\n	min-width: 0;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form > .management-form-actions,\r\n.mobile-adventure .character-detail-scroll .management-form > small {\r\n	grid-column: 1 / -1;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form > .management-form-actions {\r\n	display: grid;\r\n	grid-template-columns: repeat(var(--character-form-columns), minmax(0, 1fr));\r\n	gap: 6px 8px;\r\n}\r\n.mobile-adventure .character-detail-scroll .management-form > .management-form-actions > button {\r\n	grid-column: auto;\r\n	width: 100%;\r\n	min-width: 0;\r\n	margin: 0;\r\n	white-space: normal;\r\n}\r\n.mobile-adventure .character-traits-unavailable {\r\n	margin: 4px 0;\r\n	color: #c6d0db;\r\n	font-size: var(--panel-text);\r\n}\r\n\r\n.mobile-adventure .character-detail-scroll > section > h4,\r\n.mobile-adventure .settings-scroll > section > h4 {\r\n	margin: 0 0 8px;\r\n	padding: 6px 8px;\r\n	border-left: 3px solid #ceaa70;\r\n	border-radius: 3px;\r\n	background: #2b3540;\r\n	color: #ffe1ae;\r\n	font-size: var(--panel-heading);\r\n	font-weight: 600;\r\n}\r\n.mobile-adventure .character-detail-scroll > section > h4 small,\r\n.mobile-adventure .settings-scroll > section > h4 small {\r\n	color: #c6d0db;\r\n	font-size: var(--panel-label);\r\n	font-weight: normal;\r\n}\r\n\r\n/* Settings follow the character editor's stacked sections and aligned fields. */\r\n.mobile-adventure .settings-scroll {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	padding: 0 8px;\r\n}\r\n.mobile-adventure .settings-scroll > section {\r\n	flex: 0 0 auto;\r\n	width: 100%;\r\n	min-width: 0;\r\n	padding: 8px 0;\r\n}\r\n.mobile-adventure .settings-scroll section + section {\r\n	border-top: 1px solid #65717b;\r\n}\r\n.mobile-adventure .settings-grid {\r\n	grid-template-columns: repeat(4, minmax(0, 1fr));\r\n	gap: 6px 8px;\r\n}\r\n.mobile-adventure .settings-rate-columns {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px 8px;\r\n}\r\n.mobile-adventure :is(.settings-grid, .settings-rate-list) label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	justify-content: flex-end;\r\n	gap: 5px;\r\n	min-width: 0;\r\n	padding: 0;\r\n	border: 0;\r\n	border-radius: 0;\r\n	background: transparent;\r\n	white-space: normal;\r\n	font-size: var(--panel-text);\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .settings-form .setting-number,\r\n.mobile-adventure .settings-form .game-select {\r\n	width: 100%;\r\n	min-width: 0;\r\n	flex: none;\r\n	margin: 0;\r\n	gap: 4px;\r\n}\r\n.mobile-adventure .settings-form .setting-number input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	flex: 1 1 0;\r\n	height: 28px;\r\n	min-height: 28px;\r\n	box-sizing: border-box;\r\n	padding: 3px 6px;\r\n}\r\n.mobile-adventure .settings-form .setting-number em {\r\n	width: auto;\r\n	flex: 0 0 auto;\r\n	color: #c6d0db;\r\n	font-size: var(--panel-label);\r\n}\r\n.mobile-adventure .settings-drop-table tbody {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .settings-drop-table tr {\r\n	grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));\r\n	gap: 8px;\r\n	padding: 6px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 4px;\r\n}\r\n.mobile-adventure .settings-drop-table th {\r\n	grid-column: auto;\r\n	align-self: center;\r\n	padding: 0;\r\n	white-space: normal;\r\n	font-size: var(--panel-text);\r\n}\r\n.mobile-adventure .settings-drop-table td {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	justify-content: flex-start;\r\n	gap: 4px;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: var(--panel-label);\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .settings-footer {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 8px;\r\n}\r\n.mobile-adventure .settings-footer .management-status {\r\n	grid-column: 1;\r\n	min-width: 0;\r\n}\r\n.mobile-adventure .settings-footer button {\r\n	width: auto;\r\n	min-width: 0;\r\n	white-space: nowrap;\r\n	padding-inline: 12px;\r\n}\r\n@container menu-content (max-width: 599px) {\r\n	.mobile-adventure .settings-grid {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n	.mobile-adventure .settings-drop-table tr {\r\n		grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	}\r\n	.mobile-adventure .settings-drop-table th {\r\n		grid-column: 1 / -1;\r\n	}\r\n}\r\n\r\n/* One shared header for drop rates, including narrow screens. */\r\n.mobile-adventure .settings-drop-table {\r\n	display: table;\r\n	table-layout: fixed;\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n.mobile-adventure .settings-drop-table thead {\r\n	display: table-header-group;\r\n}\r\n.mobile-adventure .settings-drop-table tbody {\r\n	display: table-row-group;\r\n}\r\n.mobile-adventure .settings-drop-table tr {\r\n	display: table-row;\r\n	border: 0;\r\n	border-radius: 0;\r\n	padding: 0;\r\n	background: #19212a;\r\n}\r\n.mobile-adventure .settings-drop-table :is(th, td) {\r\n	display: table-cell;\r\n	padding: 6px 4px;\r\n	border-bottom: 0;\r\n	vertical-align: middle;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .settings-drop-table thead th {\r\n	background: transparent;\r\n	color: #c6d0db;\r\n	font-weight: normal;\r\n}\r\n.mobile-adventure .settings-drop-table th:first-child {\r\n	width: 28%;\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(n)::before {\r\n	content: none;\r\n}\r\n\r\n.mobile-adventure .settings-footer button {\r\n	grid-column: 2;\r\n}\r\n\r\n/* Keep tablet controls and their containing rows on the same density scale. */\r\n:host([data-menu-density='spacious']) .mobile-adventure {\r\n	font-size: var(--panel-label);\r\n	--adventure-padding: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .adventure-header,\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-toolbar, .monster-toolbar) {\r\n	padding: var(--adventure-padding) 16px;\r\n	gap: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .adventure-tabs {\r\n	gap: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n:host([data-menu-density='spacious'])\r\n	.mobile-adventure\r\n	:is(\r\n		.catalog-pagination,\r\n		.monster-pagination,\r\n		.catalog-action-panel,\r\n		.summon-panel,\r\n		.character-actions,\r\n		.settings-footer\r\n	) {\r\n	flex: 0 0 auto;\r\n	height: auto;\r\n	min-height: calc(var(--panel-control) + 21px);\r\n	padding: 10px 12px;\r\n	gap: 8px;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-row, .monster-location) {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-text strong, .monster-location strong) {\r\n	font-size: var(--panel-heading);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-text small, .monster-location small) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.management-form, .settings-grid) {\r\n	gap: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.character-detail-scroll, .settings-scroll) {\r\n	padding-inline: 12px;\r\n}\r\n\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	width: 36px;\r\n	min-width: 36px;\r\n	flex: 0 0 36px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	width: 64px;\r\n	min-width: 64px;\r\n	flex-basis: 64px;\r\n}\r\n\r\n/* Content roles consume the same typography tokens as every other submenu. */\r\n:host([data-menu-density='spacious']) .mobile-adventure {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-row, .monster-row, .character-job-row) {\r\n	min-height: 60px;\r\n	padding: 8px;\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.mobile-adventure\r\n	:is(\r\n		small,\r\n		label,\r\n		em,\r\n		th,\r\n		td,\r\n		.catalog-summary,\r\n		.monster-summary,\r\n		.character-job-summary,\r\n		.catalog-status,\r\n		.management-status,\r\n		.monster-stats div,\r\n		.catalog-metadata div\r\n	) {\r\n	font-size: var(--panel-label);\r\n	line-height: 1.5;\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.mobile-adventure\r\n	:is(\r\n		.item-description,\r\n		.monster-description,\r\n		.settings-scroll,\r\n		.settings-scroll p,\r\n		.settings-drop-table th,\r\n		.settings-drop-table td\r\n	) {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.6;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure h3 {\r\n	font-size: var(--panel-title);\r\n	line-height: 1.4;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.monster-overview, .item-overview) {\r\n	grid-template-columns: var(--panel-item-image) minmax(0, 1fr);\r\n	gap: 12px;\r\n	padding: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure .monster-heading .monster-portrait {\r\n	/* Scale the atlas and its offset together, keeping the sprite's crop intact. */\r\n	width: 96px;\r\n	height: 96px;\r\n	margin: calc((var(--panel-detail-image) - 96px) / 2);\r\n	transform: scale(var(--panel-detail-image-scale));\r\n	justify-self: center;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure .item-portrait {\r\n	width: var(--panel-item-image);\r\n	min-height: var(--panel-item-image);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure .monster-stats {\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n}\r\n\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.character-traits-unavailable, .map-thumb span) {\r\n	font-size: var(--panel-label);\r\n	line-height: 1.3;\r\n}\r\n\r\n/* Section headings share the same scale as inventory and equipment headings. */\r\n:host([data-menu-density='spacious']) .mobile-adventure h4 {\r\n	font-size: var(--panel-heading);\r\n	line-height: 1.4;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure .monster-overview {\r\n	grid-template-columns: var(--panel-detail-image) minmax(0, 1fr);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure :is(.monster-thumb, .npc-catalog-tab .catalog-thumb) {\r\n	/* Preserve atlas cropping while reserving space for the enlarged 56px image. */\r\n	transform: scale(var(--panel-list-image-scale));\r\n	margin: calc(20px * (var(--panel-list-image-scale) - 1));\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/AdventureTools.js
@@ -362090,6 +361718,185 @@ var init_AdventureTools = __esmMin((() => {
 		view$1 = null;
 	};
 	AdventureTools_default = UIManager.addComponent(Tools);
+}));
+//#endregion
+//#region src/UI/Game/GameSettings.js
+function settingsSnapshot(defaults = false) {
+	return {
+		graphics: Object.fromEntries(graphicsFields.map(([key]) => [key, (defaults ? GraphicsSettings.defaults : GraphicsSettings)[key]])),
+		pickup: defaults ? pickupDefaults() : loadPickupSettings(),
+		interface: Object.fromEntries(Object.keys(defaultInterfaceSettings).map((key) => [key, (defaults ? defaultInterfaceSettings : settings)[key]])),
+		audio: Object.fromEntries(["BGM", "Sound"].map((key) => [key, defaults ? {
+			play: true,
+			volume: .5
+		} : {
+			play: Audio_default[key].play,
+			volume: Audio_default[key].volume
+		}]))
+	};
+}
+function saveGameSettings(draft) {
+	if (!validPickupSettings(draft?.pickup)) return "拾取设置无效，范围须为 1–15 格";
+	if (!Number.isInteger(draft?.interface?.toastDuration) || draft.interface.toastDuration < 1 || draft.interface.toastDuration > 10) return "通知时长须为 1–10 秒";
+	if (!["chatPreviewCompactLines", "chatPreviewSpaciousLines"].every((key) => [
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8
+	].includes(draft.interface[key])) || typeof draft.interface.chatPreviewTabs !== "boolean") return "聊天预览设置无效";
+	for (const [key, , range, max] of graphicsFields) {
+		const value = draft?.graphics?.[key];
+		if (range === void 0 ? typeof value !== "boolean" : Array.isArray(range) ? !range.includes(value) : !Number.isFinite(value) || value < range || value > max) return "设置值无效，未保存";
+	}
+	for (const key of ["BGM", "Sound"]) {
+		const value = draft?.audio?.[key];
+		if (!value || typeof value.play !== "boolean" || !Number.isFinite(value.volume) || value.volume < 0 || value.volume > 1) return "音量无效，未保存";
+	}
+	if (!savePickupSettings(draft.pickup)) return "无法保存拾取设置，请检查浏览器存储权限";
+	const previous = settingsSnapshot();
+	for (const [key] of graphicsFields) GraphicsSettings[key] = draft.graphics[key];
+	for (const key of ["BGM", "Sound"]) Object.assign(Audio_default[key], draft.audio[key]);
+	for (const key of Object.keys(defaultInterfaceSettings)) settings[key] = draft.interface[key];
+	settings.save();
+	window.dispatchEvent(new Event("interface-settings-change"));
+	GraphicsSettings.save();
+	Audio_default.save();
+	if (previous.graphics.quality !== GraphicsSettings.quality) {
+		Configs.set("quality", GraphicsSettings.quality);
+		Renderer.resize();
+	}
+	document.body.classList.toggle("custom-cursor", GraphicsSettings.cursor);
+	if (previous.audio.Sound.play !== Audio_default.Sound.play || previous.audio.Sound.volume !== Audio_default.Sound.volume) {
+		SoundManager.setVolume(Audio_default.Sound.volume);
+		if (!Audio_default.Sound.play) SoundManager.stop();
+	}
+	if (previous.audio.BGM.volume !== Audio_default.BGM.volume) BGM.setVolume(Audio_default.BGM.volume);
+	if (previous.audio.BGM.play !== Audio_default.BGM.play) {
+		if (Audio_default.BGM.play) {
+			if (BGM.filename) BGM.play(BGM.filename);
+		} else BGM.stop();
+	}
+	return previous.graphics.pixelPerfectSprites !== GraphicsSettings.pixelPerfectSprites ? "已保存，像素完美需刷新生效" : "设置已保存";
+}
+var graphicsFields;
+var init_GameSettings = __esmMin((() => {
+	init_PickupSettings();
+	init_Interface();
+	init_Graphics();
+	init_Audio();
+	init_Configs();
+	init_Renderer();
+	init_BGM();
+	init_SoundManager();
+	graphicsFields = [
+		[
+			"quality",
+			"渲染比例",
+			25,
+			100,
+			5
+		],
+		[
+			"fpslimit",
+			"帧率上限",
+			[
+				-1,
+				30,
+				60,
+				90,
+				120
+			]
+		],
+		["performanceMode", "性能模式"],
+		[
+			"viewArea",
+			"显示范围",
+			4,
+			20,
+			1
+		],
+		["cursor", "游戏光标"],
+		["pixelPerfectSprites", "像素完美（重新加载后完全生效）"],
+		["bloom", "泛光"],
+		[
+			"bloomIntensity",
+			"泛光强度",
+			.1,
+			3,
+			.05
+		],
+		["blur", "景深"],
+		[
+			"blurArea",
+			"景深范围",
+			3,
+			20,
+			1
+		],
+		[
+			"blurIntensity",
+			"景深强度",
+			2,
+			10,
+			.1
+		],
+		["fxaaEnabled", "抗锯齿"],
+		[
+			"fxaaSubpix",
+			"亚像素抗锯齿",
+			0,
+			1,
+			.05
+		],
+		[
+			"fxaaEdgeThreshold",
+			"边缘阈值",
+			.063,
+			.333,
+			.001
+		],
+		["vibranceEnabled", "自然饱和度"],
+		[
+			"vibrance",
+			"饱和强度",
+			-.9,
+			.9,
+			.1
+		],
+		["cartoonEnabled", "卡通效果"],
+		[
+			"cartoonPower",
+			"卡通强度",
+			.1,
+			9.9,
+			.1
+		],
+		[
+			"cartoonEdgeSlope",
+			"描边强度",
+			1.5,
+			5.9,
+			.1
+		],
+		["casEnabled", "锐化"],
+		[
+			"casContrast",
+			"锐化对比度",
+			0,
+			1,
+			.05
+		],
+		[
+			"casSharpening",
+			"锐化强度",
+			0,
+			1,
+			.05
+		]
+	];
 }));
 //#endregion
 //#region src/UI/Game/GameBank.js
@@ -362516,6 +362323,29 @@ var init_GameQuests = __esmMin((() => {
 	init_RagnarokText();
 }));
 //#endregion
+//#region src/UI/Game/StorageTransfer.js
+function storageTransferStatus() {
+	const request = interactionSnapshot()?.storageTransfer;
+	if (!request) return "";
+	if (!request.pending) return request.message;
+	return Date.now() - request.started > 8e3 ? "服务器尚未确认，请关闭并重新打开仓库核对物品" : "已请求转移，等待服务器更新";
+}
+function acknowledgeStorageTransfer(kind, packet) {
+	const request = interactionSnapshot()?.storageTransfer;
+	if (!request?.pending) return;
+	if (kind === "remove" && packet.count === 0) {
+		request.pending = false;
+		request.message = "转移未成功，请检查容量、负重及物品限制";
+		return;
+	}
+	if (!(kind === "add" ? request.destination === "storage" && packet.ITID === request.id : request.source === "storage" && packet.index === request.index) || packet.count !== request.count) return;
+	request.pending = false;
+	request.message = `已${kind === "add" ? "存入" : "取出"} ${packet.count} 个物品`;
+}
+var init_StorageTransfer = __esmMin((() => {
+	init_ServerInteraction();
+}));
+//#endregion
 //#region src/UI/Game/GameContainers.js
 function createGameContainers(canOperate) {
 	const inventory = createGameInventory(canOperate);
@@ -362540,28 +362370,46 @@ function createGameContainers(canOperate) {
 			const containers = sources();
 			return {
 				containers,
-				allowed: Boolean(available()),
-				items: containers.includes(source) ? raw(source).map(inventory.describe).filter((item) => item.count > 0) : [],
+				storageCapacity: containers.includes("storage") ? StorageController.getUI().getCapacity() : null,
+				allowed: Boolean(available() && containers.includes(source)),
+				pending: Boolean(interactionSnapshot()?.storageTransfer?.pending),
+				transferStatus: storageTransferStatus(),
+				items: containers.includes(source) ? raw(source).map((item) => ({
+					...inventory.describe(item),
+					identity: identity$2(item)
+				})).filter((item) => item.count > 0) : [],
 				capacity: source === "storage" ? StorageController.getUI().getCapacity() : source === "cart" ? CartItems_default.capacity : null
 			};
 		},
-		transfer(source, destination, index, id, count) {
+		transfer(source, destination, index, id, count, expectedIdentity) {
 			const containers = sources();
+			if (interactionSnapshot()?.storageTransfer?.pending) return storageTransferStatus();
 			if (!available() || source === destination || !containers.includes(source) || !containers.includes(destination)) return "当前不能转移物品";
 			const item = raw(source).find((entry) => entry.index === index && entry.ITID === id);
-			if (!item || !Number.isInteger(count) || count < 1 || count > 2147483647 || count > inventory.describe(item).count) return "物品或数量已经变化，请重新选择";
-			({
+			if (!item || identity$2(item) !== expectedIdentity || !Number.isInteger(count) || count < 1 || count > 2147483647 || count > inventory.describe(item).count) return "物品或数量已经变化，请重新选择";
+			const routes = {
 				"inventory:storage": StorageController.reqAddItem,
 				"storage:inventory": StorageController.reqRemoveItem,
 				"cart:storage": StorageController.reqAddItemFromCart,
 				"storage:cart": StorageController.reqMoveItemToCart,
 				"inventory:cart": InventoryController.getUI().reqMoveItemToCart,
 				"cart:inventory": CartItems_default.reqRemoveItem
-			})[`${source}:${destination}`](index, count);
+			};
+			if (source === "storage" || destination === "storage") interactionSnapshot().storageTransfer = {
+				source,
+				destination,
+				index,
+				id,
+				count,
+				pending: true,
+				started: Date.now()
+			};
+			routes[`${source}:${destination}`](index, count);
 			return "已请求转移，等待服务器更新";
 		}
 	};
 }
+var identity$2;
 var init_GameContainers = __esmMin((() => {
 	init_SessionStorage();
 	init_Inventory();
@@ -362569,7 +362417,16 @@ var init_GameContainers = __esmMin((() => {
 	init_Storage$1();
 	init_CartItems();
 	init_GameInventory();
+	init_StorageTransfer();
 	init_ServerInteraction();
+	identity$2 = (item) => JSON.stringify([
+		item.ITID,
+		item.RefiningLevel,
+		item.enchantgrade,
+		item.slot,
+		item.Options,
+		item.IsIdentified
+	]);
 }));
 //#endregion
 //#region src/UI/Game/AttributeAllocation.js
@@ -363863,6 +363720,24 @@ var init_StatusIcons = __esmMin((() => {
 	StatusIcons_default = UIManager.addComponent(StatusIcons);
 }));
 //#endregion
+//#region src/UI/Mobile/game/InteractionPanel.css?raw
+var InteractionPanel_default;
+var init_InteractionPanel$1 = __esmMin((() => {
+	InteractionPanel_default = "/* Structure and colors only. Phone and tablet geometry live in separate files. */\r\n.interaction-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 10px;\r\n}\r\n.interaction-status {\r\n	flex: 1;\r\n	min-width: 0;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-footer > button {\r\n	flex-shrink: 0;\r\n}\r\n.interaction-panel .inventory-detail {\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .interaction-form {\r\n	display: flex;\r\n	align-items: end;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n}\r\n.interaction-panel .interaction-form > label {\r\n	flex-basis: 100%;\r\n	display: grid;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-field,\r\n.interaction-panel [data-fields] > label {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.interaction-panel label > input:not([type='checkbox']) {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.interaction-panel [data-order],\r\n.interaction-panel [data-picker] p {\r\n	white-space: pre-line;\r\n	line-height: 1.6;\r\n}\r\n.trade-offers > div {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n}\r\n.trade-offers button {\r\n	text-align: left;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel [data-warning] {\r\n	flex-shrink: 0;\r\n	max-height: 22%;\r\n	overflow: auto;\r\n}\r\n.interaction-information {\r\n	display: grid;\r\n	margin: 0;\r\n	gap: 8px 12px;\r\n}\r\n.interaction-information dt {\r\n	overflow-wrap: anywhere;\r\n	color: #bac4cd;\r\n}\r\n.interaction-information dd {\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) > p {\r\n	flex-shrink: 0;\r\n	margin-bottom: 8px;\r\n	max-height: 30%;\r\n	overflow: auto;\r\n}\r\n.interaction-review {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.interaction-review-lines {\r\n	flex: 1 1 auto;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.interaction-review-lines p {\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-review-summary {\r\n	flex-shrink: 0;\r\n	white-space: pre-line;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-warning {\r\n	color: #e6c28b;\r\n	margin: 6px 0 0;\r\n}\r\n.interaction-panel [data-revert-vending],\r\n.interaction-panel [data-revert-quantity],\r\n.interaction-panel [data-revert-money] {\r\n	color: #ceaa70;\r\n}\r\n\r\n:host([data-menu-density]) .panel[data-view='information'] h2 {\r\n	font-size: var(--interaction-title);\r\n}\r\n:host([data-menu-density]) .panel[data-view='information'] button {\r\n	font-size: var(--interaction-text);\r\n	min-height: var(--interaction-control);\r\n}\r\n\r\n.interaction-panel .inventory-detail .menu-select + .menu-select,\r\n.interaction-panel .inventory-detail .menu-select + input,\r\n.interaction-panel .inventory-detail input:not([type='hidden']) + button,\r\n.interaction-panel .trade-editor [data-picker] {\r\n	margin-top: var(--panel-gap);\r\n}\r\n\r\n/* Storage shares control tokens with the other interaction menus. */\r\n.panel .warehouse-body .container-toolbar {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	flex-shrink: 0;\r\n}\r\n.panel .warehouse-body .storage-modes {\r\n	display: flex;\r\n	gap: 4px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel .warehouse-body .storage-modes button[aria-pressed='true'] {\r\n	background: #47647a;\r\n	border-color: #91b8d5;\r\n	color: #fff;\r\n}\r\n.panel .warehouse-body .container-source[hidden] {\r\n	display: none;\r\n}\r\n.panel .container-toolbar .container-source {\r\n	flex: 1 1 90px;\r\n	min-width: 0;\r\n}\r\n.panel .warehouse-body .container-capacity {\r\n	margin-left: auto;\r\n}\r\n.panel .warehouse-body .container-toolbar > input[type='search'] {\r\n	flex: 1 1 100%;\r\n	min-width: 0;\r\n	margin: 0;\r\n}\r\n.panel .container-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: var(--panel-gap);\r\n	margin: 10px 0;\r\n}\r\n.panel .container-form > label {\r\n	display: grid;\r\n	align-content: start;\r\n	gap: 6px;\r\n	min-width: 0;\r\n	font-size: var(--interaction-caption);\r\n	color: #bac4cd;\r\n}\r\n.panel .container-empty {\r\n	padding: var(--panel-gap);\r\n	color: #bac4cd;\r\n	line-height: 1.6;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/InteractionPhone.css?raw
+var InteractionPhone_default;
+var init_InteractionPhone = __esmMin((() => {
+	InteractionPhone_default = "/* Phone: compact two-column editing, short forms, fixed actions. */\r\n:host([data-menu-density='compact']) .panel.interaction-panel {\r\n	--menu-window-width: 780px;\r\n	--menu-window-height: 100%;\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .inventory-layout {\r\n	grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);\r\n	gap: 8px;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .inventory-detail {\r\n	padding: 8px;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel :is(button, h3, .inventory-item span, .ui-confirm) {\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel h2 {\r\n	font-size: var(--interaction-title);\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel button {\r\n	min-height: var(--interaction-control);\r\n	padding: 6px 8px;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .inventory-item {\r\n	min-height: 44px;\r\n}\r\n:host([data-menu-density='compact'])\r\n	.interaction-panel\r\n	.panel-body\r\n	input:not([type='checkbox']):not([type='radio']):not([type='hidden']),\r\n:host([data-menu-density='compact']) .interaction-panel .panel-body select:not([hidden]) {\r\n	width: 100%;\r\n	height: var(--interaction-control);\r\n	min-height: var(--interaction-control);\r\n	font-size: 16px;\r\n	padding: 6px 8px;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .menu-select {\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .game-select-trigger {\r\n	min-height: var(--interaction-control);\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .interaction-footer {\r\n	gap: 6px;\r\n	padding-top: 6px;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .interaction-status {\r\n	font-size: var(--interaction-caption);\r\n	line-height: 1.4;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .ui-confirm {\r\n	--menu-dialog-width: 440px;\r\n	padding: 12px;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .ui-confirm-actions button {\r\n	height: var(--interaction-control);\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel .interaction-warning {\r\n	font-size: var(--interaction-caption);\r\n	line-height: 1.4;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel[data-view='trade'] .trade-offers {\r\n	border-top: 1px solid #52606d;\r\n	margin-top: 12px;\r\n}\r\n:host([data-menu-density='compact']) .interaction-panel[data-view='vending'] [data-order] {\r\n	border-top: 1px solid #52606d;\r\n	margin-top: 12px;\r\n	padding-top: 8px;\r\n}\r\n:host([data-menu-density='compact']) .panel[data-view='information'] {\r\n	--menu-window-width: 520px;\r\n	--menu-window-height: auto;\r\n	max-height: 80%;\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='compact']) .interaction-information {\r\n	grid-template-columns: minmax(90px, 0.8fr) minmax(0, 1.2fr);\r\n}\r\n\r\n:host([data-menu-density='compact']) .panel .warehouse-body .storage-modes button {\r\n	min-width: 60px;\r\n}\r\n:host([data-menu-density='compact']) .panel .warehouse-body .container-toolbar {\r\n	gap: 6px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/InteractionTablet.css?raw
+var InteractionTablet_default;
+var init_InteractionTablet = __esmMin((() => {
+	InteractionTablet_default = "/* Tablet: wider details, separate editors and offers, larger type and controls. */\r\n:host([data-menu-density='spacious']) .panel.interaction-panel {\r\n	--menu-window-width: var(--menu-standard-width);\r\n	--menu-window-height: min(var(--menu-standard-height), 100%);\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .inventory-layout {\r\n	grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);\r\n	gap: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .inventory-detail {\r\n	padding: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel :is(button, h3, .inventory-item span, .ui-confirm) {\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel h2 {\r\n	font-size: var(--interaction-title);\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel button {\r\n	min-height: var(--interaction-control);\r\n	padding: 8px 12px;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .inventory-item {\r\n	min-height: 52px;\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.interaction-panel\r\n	.panel-body\r\n	input:not([type='checkbox']):not([type='radio']):not([type='hidden']),\r\n:host([data-menu-density='spacious']) .interaction-panel .panel-body select:not([hidden]) {\r\n	width: 100%;\r\n	height: var(--interaction-control);\r\n	min-height: var(--interaction-control);\r\n	font-size: 16px;\r\n	padding: 8px 10px;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .menu-select {\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .game-select-trigger {\r\n	min-height: var(--interaction-control);\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .interaction-footer {\r\n	gap: 12px;\r\n	padding-top: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .interaction-status {\r\n	font-size: var(--interaction-caption);\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .ui-confirm {\r\n	--menu-dialog-width: 560px;\r\n	padding: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .ui-confirm-actions button {\r\n	height: var(--interaction-control);\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel .interaction-warning {\r\n	font-size: var(--interaction-caption);\r\n	line-height: 1.5;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel[data-view='trade'] .inventory-layout {\r\n	grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.55fr);\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel[data-view='trade'] .inventory-detail {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 16px;\r\n	overflow: hidden;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel[data-view='trade'] :is(.trade-editor, .trade-offers) {\r\n	min-width: 0;\r\n	overflow: auto;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel[data-view='trade'] .trade-offers {\r\n	border-left: 1px solid #52606d;\r\n	padding-left: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel[data-view='vending'] .inventory-detail {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	align-content: start;\r\n	gap: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel[data-view='vending'] [data-fields] {\r\n	grid-column: 1 / -1;\r\n}\r\n:host([data-menu-density='spacious']) .interaction-panel[data-view='vending'] [data-order] {\r\n	border-left: 1px solid #52606d;\r\n	padding-left: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='information'] {\r\n	--menu-window-width: 640px;\r\n	--menu-window-height: auto;\r\n	max-height: min(520px, 80%);\r\n	font-size: var(--interaction-text);\r\n}\r\n:host([data-menu-density='spacious']) .interaction-information {\r\n	grid-template-columns: minmax(120px, 0.7fr) minmax(0, 1.3fr);\r\n	gap: 12px 20px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .panel .warehouse-body .container-toolbar > input[type='search'] {\r\n	flex: 1 1 180px;\r\n	width: 180px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .warehouse-body .storage-modes button {\r\n	min-width: 88px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .warehouse-body .inventory-layout {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);\r\n}\r\n";
+}));
+//#endregion
 //#region src/UI/Mobile/game/ChatChannels.js
 function matchesPreviewCategory(message, category) {
 	if (category === "all") return true;
@@ -363999,7 +363874,7 @@ var init_ChatPreview$1 = __esmMin((() => {
 //#region src/UI/Mobile/game/ChatPreview.css?raw
 var ChatPreview_default;
 var init_ChatPreview = __esmMin((() => {
-	ChatPreview_default = "/* Preview density follows the same viewport classification as game menus. */\r\n:host {\r\n	--chat-preview-line-height: 16px;\r\n	--chat-preview-tab-height: 22px;\r\n	--chat-preview-overhead: 48px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--chat-preview-line-height: 22px;\r\n	--chat-preview-tab-height: 24px;\r\n	--chat-preview-overhead: 54px;\r\n}\r\n.chat-preview {\r\n	--chat-preview-lines: var(--chat-preview-compact-lines, 3);\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview {\r\n	--chat-preview-lines: var(--chat-preview-spacious-lines, 5);\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview:not(.collapsed) {\r\n	width: min(420px, calc(100% - 410px));\r\n	padding: 0;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview [data-chat-preview] {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview-tabs button,\r\n:host([data-menu-density='spacious']) .chat-preview [data-chat-collapse] {\r\n	min-height: 24px;\r\n	font-size: 12px;\r\n}\r\n.chat-preview:not(.collapsed) {\r\n	height: auto;\r\n	min-height: 0;\r\n	max-height: none;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n}\r\n.chat-preview [data-chat-preview] {\r\n	height: min(\r\n		calc(var(--chat-preview-lines) * var(--chat-preview-line-height)),\r\n		max(\r\n			var(--chat-preview-line-height),\r\n			calc(var(--mobile-visible-height, 100dvh) * 0.35 - var(--chat-preview-overhead))\r\n		)\r\n	);\r\n	max-height: none;\r\n	line-height: var(--chat-preview-line-height);\r\n}\r\n.chat-preview-line {\r\n	min-height: var(--chat-preview-line-height);\r\n}\r\n.chat-preview-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	overflow-x: auto;\r\n	scrollbar-width: none;\r\n	padding-right: 34px;\r\n	margin-bottom: 6px;\r\n	touch-action: pan-x;\r\n}\r\n.chat-preview-tabs button,\r\n.chat-preview [data-chat-collapse] {\r\n	position: relative;\r\n	flex: 0 0 auto;\r\n	height: var(--chat-preview-tab-height);\r\n	min-height: var(--chat-preview-tab-height);\r\n	padding: 2px 7px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 5px;\r\n	background: rgba(25, 31, 38, 0.85);\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.chat-preview-tabs button[aria-pressed='true'] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.chat-preview-tabs b {\r\n	color: #ffcf76;\r\n	position: absolute;\r\n	right: 0;\r\n	top: -2px;\r\n}\r\n.chat-preview.collapsed .chat-preview-tabs {\r\n	display: none;\r\n}\r\n\r\n/* Each tab and the message area has its own border and background. */\r\n.chat-preview-open {\r\n	padding: 7px 10px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: rgba(25, 31, 38, 0.68);\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview-open {\r\n	padding: 10px 12px;\r\n}\r\n.chat-preview [data-chat-preview] {\r\n	width: 100%;\r\n}\r\n\r\n.chat-preview [data-chat-collapse] {\r\n	position: absolute;\r\n	top: 0;\r\n	right: 0;\r\n	width: 28px;\r\n	line-height: 1;\r\n}\r\n.chat-preview:has(.chat-preview-tabs[hidden]) .chat-preview-open {\r\n	padding-right: 38px;\r\n}\r\n";
+	ChatPreview_default = "/* Preview density follows the same viewport classification as game menus. */\r\n:host {\r\n	--chat-preview-line-height: 16px;\r\n	--chat-preview-tab-height: 22px;\r\n	--chat-preview-overhead: 48px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--chat-preview-line-height: 22px;\r\n	--chat-preview-tab-height: 30px;\r\n	--chat-preview-overhead: 60px;\r\n}\r\n.chat-preview {\r\n	--chat-preview-lines: var(--chat-preview-compact-lines, 3);\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview {\r\n	--chat-preview-lines: var(--chat-preview-spacious-lines, 5);\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview:not(.collapsed) {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, max-content) 28px minmax(0, 1fr);\r\n	width: min(420px, calc(100% - 410px));\r\n	padding: 0;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview [data-chat-preview] {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview-tabs button,\r\n:host([data-menu-density='spacious']) .chat-preview [data-chat-collapse] {\r\n	min-height: var(--chat-preview-tab-height);\r\n	font-size: 14px;\r\n}\r\n.chat-preview:not(.collapsed) {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, max-content) 28px minmax(0, 1fr);\r\n	height: auto;\r\n	min-height: 0;\r\n	max-height: none;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n}\r\n.chat-preview [data-chat-preview] {\r\n	height: min(\r\n		calc(var(--chat-preview-lines) * var(--chat-preview-line-height)),\r\n		max(\r\n			var(--chat-preview-line-height),\r\n			calc(var(--mobile-visible-height, 100dvh) * 0.35 - var(--chat-preview-overhead))\r\n		)\r\n	);\r\n	max-height: none;\r\n	line-height: var(--chat-preview-line-height);\r\n}\r\n.chat-preview-line {\r\n	min-height: var(--chat-preview-line-height);\r\n}\r\n.chat-preview-tabs {\r\n	display: flex;\r\n	gap: 0;\r\n	overflow-x: auto;\r\n	scrollbar-width: none;\r\n	padding-right: 0;\r\n	grid-column: 1;\r\n	grid-row: 1;\r\n	min-width: 0;\r\n	margin-bottom: -1px;\r\n	position: relative;\r\n	z-index: 1;\r\n	touch-action: pan-x;\r\n}\r\n.chat-preview-tabs button,\r\n.chat-preview [data-chat-collapse] {\r\n	position: relative;\r\n	flex: 0 0 auto;\r\n	height: var(--chat-preview-tab-height);\r\n	min-height: var(--chat-preview-tab-height);\r\n	padding: 2px 7px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 5px;\r\n	background: rgba(25, 31, 38, 0.85);\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.chat-preview-tabs button {\r\n	border-radius: 0;\r\n}\r\n.chat-preview-tabs button:first-child {\r\n	border-top-left-radius: 6px;\r\n}\r\n.chat-preview-tabs button + button {\r\n	border-left: 0;\r\n}\r\n.chat-preview-tabs button[aria-pressed='true'] {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border-bottom-color: transparent;\r\n	color: #ffe1ae;\r\n}\r\n.chat-preview-tabs b {\r\n	color: #ffcf76;\r\n	position: absolute;\r\n	right: 0;\r\n	top: -2px;\r\n}\r\n.chat-preview.collapsed .chat-preview-tabs {\r\n	display: none;\r\n}\r\n\r\n/* Folder tabs overlap the message border by one pixel to join the active page. */\r\n.chat-preview-open {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	padding: 7px 10px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: rgba(25, 31, 38, 0.68);\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview-open {\r\n	padding: 10px 12px;\r\n}\r\n.chat-preview [data-chat-preview] {\r\n	width: 100%;\r\n}\r\n\r\n.chat-preview [data-chat-collapse] {\r\n	position: absolute;\r\n	top: 0;\r\n	right: 0;\r\n	width: 28px;\r\n	line-height: 1;\r\n}\r\n.chat-preview:has(.chat-preview-tabs[hidden]) .chat-preview-open {\r\n	padding-right: 38px;\r\n}\r\n\r\n.chat-preview:has(.chat-preview-tabs:not([hidden])) .chat-preview-open {\r\n	border-top-left-radius: 0;\r\n}\r\n.chat-preview:has(.chat-preview-tabs:not([hidden])) [data-chat-collapse] {\r\n	position: relative;\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 0;\r\n	margin-bottom: -1px;\r\n	border-left: 0;\r\n	border-radius: 0 6px 0 0;\r\n	z-index: 1;\r\n}\r\n.chat-preview [data-chat-collapse] svg {\r\n	width: 14px;\r\n	height: 14px;\r\n	display: block;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .chat-preview-tabs button {\r\n	padding-inline: 10px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/StatusPanel.js
@@ -364657,6 +364532,276 @@ var init_MailPanel$1 = __esmMin((() => {
 	init_RagnarokText();
 }));
 //#endregion
+//#region src/UI/Mobile/game/SettingsPanel.js
+/** Graphics/audio use a draft; camera adjustments take effect immediately. */
+function createSettingsPanel(body, service, initialSection = "画面") {
+	let pickupEditor;
+	let draft = service.snapshot();
+	let activeSection = initialSection;
+	const host = body.getRootNode().host;
+	const scene = () => host?.dataset.menuDensity || menuDensity(window.innerWidth, window.innerHeight);
+	let updateScene = () => {};
+	const observer = new MutationObserver(() => updateScene());
+	if (host) observer.observe(host, {
+		attributes: true,
+		attributeFilter: ["data-menu-density"]
+	});
+	const resize = () => updateScene();
+	if (!host) window.addEventListener("resize", resize);
+	const notify = (message) => showToast(body, message);
+	function render() {
+		pickupEditor?.destroy();
+		body.replaceChildren();
+		const form = document.createElement("form");
+		form.className = "settings-form";
+		form.onsubmit = (event) => event.preventDefault();
+		const tabs = document.createElement("div");
+		tabs.className = "settings-tabs";
+		tabs.setAttribute("role", "group");
+		tabs.setAttribute("aria-label", "设置分类");
+		const content = document.createElement("div");
+		content.className = "settings-content";
+		const sections = /* @__PURE__ */ new Map();
+		for (const name of [
+			"画面",
+			"特效",
+			"声音",
+			"镜头",
+			"拾取"
+		]) {
+			const section = document.createElement("section");
+			section.className = "settings-section";
+			section.setAttribute("aria-label", name);
+			section.hidden = name !== activeSection;
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = name;
+			button.setAttribute("aria-pressed", String(name === activeSection));
+			button.onclick = () => {
+				activeSection = name;
+				for (const [label, entry] of sections) {
+					entry.section.hidden = label !== name;
+					entry.button.setAttribute("aria-pressed", String(label === name));
+				}
+				content.scrollTop = 0;
+				footer.hidden = name === "镜头" || name === "拾取";
+				pickupEditor.footer.hidden = name !== "拾取";
+			};
+			sections.set(name, {
+				section,
+				button
+			});
+			tabs.append(button);
+			content.append(section);
+		}
+		form.append(tabs, content);
+		const field = (section, label, input) => {
+			const row = document.createElement("label");
+			row.className = "settings-field";
+			const caption = document.createElement("span");
+			caption.textContent = label;
+			row.append(caption, input);
+			sections.get(section).section.append(row);
+			return row;
+		};
+		const displayKeys = [
+			"quality",
+			"fpslimit",
+			"performanceMode",
+			"viewArea",
+			"cursor",
+			"pixelPerfectSprites"
+		];
+		for (const [key, label, range, max, step] of service.fields) {
+			const input = document.createElement(Array.isArray(range) ? "select" : "input");
+			input.dataset.setting = key;
+			if (Array.isArray(range)) {
+				for (const value of range) {
+					const option = document.createElement("option");
+					option.value = String(value);
+					option.textContent = value === -1 ? "不限制" : String(value);
+					input.append(option);
+				}
+				input.value = String(draft.graphics[key]);
+			} else if (range === void 0) {
+				input.type = "checkbox";
+				input.checked = draft.graphics[key];
+			} else {
+				input.type = "number";
+				input.min = range;
+				input.max = max;
+				input.step = step;
+				input.value = draft.graphics[key];
+				input.inputMode = "decimal";
+			}
+			input.oninput = () => {
+				draft.graphics[key] = input.type === "checkbox" ? input.checked : Number(input.value);
+			};
+			field(displayKeys.includes(key) ? "画面" : "特效", key === "quality" ? "渲染比例（%）" : label, input);
+		}
+		const previewLines = document.createElement("select");
+		previewLines.dataset.setting = "chatPreviewLines";
+		for (const value of [
+			2,
+			3,
+			4,
+			5,
+			6,
+			7,
+			8
+		]) {
+			const option = document.createElement("option");
+			option.value = value;
+			option.textContent = `${value} 行`;
+			previewLines.append(option);
+		}
+		const settingKey = () => scene() === "spacious" ? "chatPreviewSpaciousLines" : "chatPreviewCompactLines";
+		updateScene = () => {
+			previewLines.value = String(draft.interface[settingKey()]);
+		};
+		updateScene();
+		previewLines.oninput = () => {
+			draft.interface[settingKey()] = Number(previewLines.value);
+			service.preview?.(draft.interface);
+		};
+		field("画面", "聊天行数", previewLines);
+		const previewTabs = document.createElement("input");
+		previewTabs.type = "checkbox";
+		previewTabs.dataset.setting = "chatPreviewTabs";
+		previewTabs.checked = draft.interface.chatPreviewTabs;
+		previewTabs.oninput = () => {
+			draft.interface.chatPreviewTabs = previewTabs.checked;
+			service.preview?.(draft.interface);
+		};
+		field("画面", "显示聊天分类标签", previewTabs);
+		const duration = document.createElement("input");
+		duration.type = "number";
+		duration.min = 1;
+		duration.max = 10;
+		duration.step = 1;
+		duration.dataset.setting = "toastDuration";
+		duration.value = draft.interface.toastDuration;
+		duration.oninput = () => {
+			draft.interface.toastDuration = Number(duration.value);
+		};
+		field("画面", "通知显示时长（秒）", duration);
+		for (const [key, name] of [["BGM", "背景音乐"], ["Sound", "音效"]]) {
+			const enabled = document.createElement("input");
+			enabled.type = "checkbox";
+			enabled.checked = draft.audio[key].play;
+			enabled.dataset.audio = key;
+			enabled.oninput = () => {
+				draft.audio[key].play = enabled.checked;
+			};
+			field("声音", name, enabled);
+			const volume = document.createElement("input");
+			volume.type = "range";
+			volume.min = 0;
+			volume.max = 100;
+			volume.step = 1;
+			volume.value = draft.audio[key].volume * 100;
+			volume.oninput = () => {
+				draft.audio[key].volume = Number(volume.value) / 100;
+			};
+			const row = field("声音", name + "音量", volume);
+			row.classList.add("settings-volume");
+			const value = document.createElement("span");
+			value.className = "settings-volume-value";
+			value.textContent = `${volume.value}%`;
+			volume.addEventListener("input", () => {
+				value.textContent = `${volume.value}%`;
+			});
+			row.append(value);
+		}
+		for (const name of [
+			"画面",
+			"特效",
+			"声音"
+		]) {
+			const section = sections.get(name).section;
+			const rows = [...section.children];
+			const switches = rows.filter((row) => row.querySelector("input[type=\"checkbox\"]"));
+			const values = rows.filter((row) => !row.querySelector("input[type=\"checkbox\"]"));
+			switches[0]?.classList.add("settings-switch-start");
+			section.append(...values, ...switches);
+		}
+		pickupEditor = createPickupSettingsPanel(sections.get("拾取").section, draft.pickup);
+		const camera = sections.get("镜头").section;
+		camera.classList.add("camera-section");
+		const cameraButton = (label, action) => {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = label;
+			button.onclick = () => service.camera(action);
+			return button;
+		};
+		const reset = cameraButton("重置镜头", "reset");
+		reset.className = "camera-reset";
+		camera.append(reset);
+		for (const [name, actions] of [
+			["旋转", [["左转", "left"], ["右转", "right"]]],
+			["缩放", [["拉近", "zoomIn"], ["拉远", "zoomOut"]]],
+			["高度", [["抬高", "up"], ["降低", "down"]]]
+		]) {
+			const group = document.createElement("div");
+			group.className = "camera-group";
+			group.setAttribute("role", "group");
+			group.setAttribute("aria-label", name);
+			const controls = document.createElement("div");
+			controls.className = "camera-controls";
+			for (const [label, action] of actions) controls.append(cameraButton(label, action));
+			group.append(controls);
+			camera.append(group);
+		}
+		const footer = document.createElement("div");
+		footer.className = "settings-footer";
+		footer.hidden = activeSection === "镜头" || activeSection === "拾取";
+		const buttons = document.createElement("div");
+		buttons.className = "settings-actions";
+		for (const [label, action] of [["保存", () => {
+			notify(service.save({
+				...draft,
+				pickup: service.snapshot().pickup
+			}));
+		}], ["恢复默认", () => {
+			confirmAction(body, "确认恢复全部画面、特效、声音和拾取设置为默认值？", () => {
+				const message = service.save(service.snapshot(true));
+				draft = service.snapshot();
+				render();
+				notify(message);
+				body.querySelector(".settings-tabs [aria-pressed=true]")?.focus();
+			}, {});
+		}]]) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = label;
+			button.onclick = () => {
+				action();
+				if (!form.isConnected) body.querySelector(".settings-tabs [aria-pressed=true]")?.focus();
+			};
+			buttons.append(button);
+		}
+		footer.append(buttons);
+		pickupEditor.footer.hidden = activeSection !== "拾取";
+		form.append(footer, pickupEditor.footer);
+		body.append(form);
+	}
+	render();
+	return () => {
+		pickupEditor.flush();
+		pickupEditor.destroy();
+		observer.disconnect();
+		window.removeEventListener("resize", resize);
+		service.preview?.(service.snapshot().interface);
+	};
+}
+var init_SettingsPanel = __esmMin((() => {
+	init_PickupSettingsPanel$1();
+	init_Confirmation();
+	init_MenuLayout();
+	init_Toast();
+}));
+//#endregion
 //#region src/UI/Mobile/game/BankPanel.js
 function createBankPanel(body, service) {
 	body.innerHTML = "<form class=\"bank-form\"><dl><dt>持有 Zeny</dt><dd data-wallet></dd><dt>银行余额</dt><dd data-bank></dd></dl><label>金额<input data-amount type=\"number\" min=\"1\" max=\"2147483647\" step=\"1\" inputmode=\"numeric\"></label><div class=\"inventory-actions\"><button data-max=\"deposit\">最大可存</button><button data-max=\"withdraw\">最大可取</button><button data-action=\"deposit\">存入</button><button data-action=\"withdraw\">取出</button></div></form>";
@@ -364699,11 +364844,88 @@ var init_BankPanel = __esmMin((() => {
 	init_Feedback();
 }));
 //#endregion
+//#region src/UI/Mobile/game/InteractionPanel.js
+/** UI helpers shared by server-driven flows; device layouts are defined separately. */
+function interactionReview(lines, summary, warning = "") {
+	const content = document.createElement("div");
+	content.className = "interaction-review";
+	const list = document.createElement("div");
+	list.className = "interaction-review-lines";
+	for (const line of lines) {
+		const p = document.createElement("p");
+		p.textContent = line;
+		list.append(p);
+	}
+	const totals = document.createElement("div");
+	totals.className = "interaction-review-summary";
+	const strong = document.createElement("strong");
+	strong.textContent = summary;
+	totals.append(strong);
+	if (warning) {
+		const p = document.createElement("p");
+		p.className = "interaction-warning";
+		p.textContent = warning;
+		list.prepend(p);
+	}
+	content.append(list, totals);
+	return content;
+}
+function interactionFooter(body) {
+	const footer = document.createElement("div");
+	footer.className = "interaction-footer";
+	const status = document.createElement("span");
+	status.className = "interaction-status";
+	status.setAttribute("role", "status");
+	footer.append(status);
+	body.append(footer);
+	return {
+		footer,
+		status
+	};
+}
+function inputDraft(fields, changed = () => {}) {
+	let values = fields.map((field) => field.value);
+	const dirty = () => fields.some((field, i) => field.isConnected && field.value !== values[i]);
+	for (const field of fields) field.addEventListener("input", changed);
+	return {
+		dirty,
+		accept() {
+			values = fields.map((field) => field.value);
+			changed();
+		},
+		reset() {
+			fields.forEach((field, i) => {
+				field.value = values[i];
+			});
+			changed();
+		},
+		focus() {
+			fields.find((field, i) => field.value !== values[i])?.focus();
+		}
+	};
+}
+var init_InteractionPanel = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Mobile/game/VendingPanel.js
 function createVendingPanel(body, service) {
-	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\"></div><section class=\"inventory-detail\"><div data-fields></div><div data-selected></div><div data-order></div><button data-submit></button><button data-cancel>取消开店</button></section></div>";
+	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\"></div><section class=\"inventory-detail\"><div data-fields></div><div data-selected></div><div data-order></div></section></div>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), nodes = /* @__PURE__ */ new Map();
+	const { footer, status } = interactionFooter(body);
+	for (const [key, text] of [["submit", "核对开店"], ["cancel", "取消开店"]]) {
+		const b = document.createElement("button");
+		b.type = "button";
+		b.dataset[key] = "";
+		b.textContent = text;
+		footer.append(b);
+	}
+	let draft, amountInput, priceInput;
+	function ready() {
+		if (!draft?.dirty()) return true;
+		feedback("数量或单价尚未保存，请先保存或撤销修改", "error");
+		draft.focus();
+		return false;
+	}
 	let selected = null, key = "";
 	const initial = service.snapshot();
 	$("[data-cancel]").hidden = Boolean(initial.owned);
@@ -364711,14 +364933,21 @@ function createVendingPanel(body, service) {
 	if (!initial.owned) {
 		$("[data-fields]").innerHTML = "<label>摊位名称<input data-title maxlength=\"24\"></label><label data-budget-label>收购预算<input data-budget type=\"number\" min=\"1\" step=\"1\"></label>";
 		$("[data-budget-label]").hidden = initial.mode !== "buy";
+		$("[data-title]").required = true;
+		$("[data-budget]").required = initial.mode === "buy";
+		$("[data-budget]").setAttribute("aria-label", "收购预算");
+		$("[data-title]").setAttribute("aria-label", "摊位名称");
 		$("[data-fields]").oninput = () => {
 			update();
 		};
 	}
 	$("[data-submit]").onclick = () => {
+		if (!ready()) return;
 		const snapshot = service.snapshot();
+		if (!snapshot.owned && (!$("[data-title]").reportValidity() || snapshot.mode === "buy" && !$("[data-budget]").reportValidity())) return;
 		const signature = JSON.stringify(snapshot.order);
 		const title = $("[data-title]")?.value, budget = Number($("[data-budget]")?.value);
+		const content = interactionReview((snapshot.owned ? snapshot.items : snapshot.order).map((row) => `${row.name} × ${row.count} · 单价 ${row.price} Zeny`), snapshot.owned ? "关闭后停止摆摊" : `合计：${snapshot.total} Zeny${snapshot.mode === "buy" ? "\n收购预算：" + budget + " Zeny" : ""}`);
 		confirmAction(body, snapshot.owned ? "确认关闭摊位？" : `确认开店「${title}」？`, () => {
 			if (JSON.stringify(service.snapshot().order) !== signature) {
 				feedback("订单已变化，请重新核对", "error");
@@ -364727,11 +364956,14 @@ function createVendingPanel(body, service) {
 			const result = snapshot.owned ? service.closeStore() : service.submit(title, budget);
 			feedback(result, ["已请求关闭摊位", "等待服务器开店结果"].includes(result) ? "info" : "error");
 			update();
-		}, {});
+		}, { content });
 	};
 	function update() {
 		const state = service.snapshot();
 		$("[data-cancel]").disabled = Boolean(state.pending);
+		status.textContent = state.pending ? "等待服务器回复…" : draft?.dirty() ? "数量或单价已修改，尚未保存" : state.owned ? "摊位营业中" : `已选 ${state.order.length}/${state.slots} 栏`;
+		for (const field of $("[data-fields]").querySelectorAll("input")) field.disabled = !state.allowed;
+		if ($("[data-budget]")) $("[data-budget]").max = String(Math.min(state.money ?? 2147483647, 2147483647));
 		for (const [id, node] of nodes) if (!state.items.some((item) => item.index === id)) {
 			node.remove();
 			nodes.delete(id);
@@ -364742,6 +364974,7 @@ function createVendingPanel(body, service) {
 				node = document.createElement("button");
 				node.className = "inventory-item";
 				node.onclick = () => {
+					if (!ready()) return;
 					selected = item.index;
 					key = "";
 					update();
@@ -364749,27 +364982,34 @@ function createVendingPanel(body, service) {
 				nodes.set(item.index, node);
 				$(".inventory-list").append(node);
 			}
+			node.disabled = !state.allowed;
 			setListItemText(node, item.name, `× ${item.count}${state.owned ? " · " + item.price + " Zeny" : ""}`);
 			node.setAttribute("aria-pressed", String(selected === item.index));
 		}
-		const item = state.items.find((row) => row.index === selected), next = JSON.stringify([item && {
-			...item,
-			icon: void 0
-		}, state.allowed]);
+		const item = state.items.find((row) => row.index === selected), next = JSON.stringify([
+			item?.index,
+			item?.ID,
+			item?.identity,
+			state.owned
+		]);
 		if (next !== key) {
 			key = next;
 			const panel = $("[data-selected]");
 			panel.replaceChildren();
+			draft = null;
 			if (item) {
 				const description = document.createElement("p");
 				description.className = "item-description";
 				description.textContent = item.description;
 				const title = document.createElement("h3");
 				title.textContent = item.name;
-				panel.append(title, description);
+				panel.append(title);
 				if (!state.owned) {
 					const amount = document.createElement("input"), price = document.createElement("input");
+					amountInput = amount;
+					priceInput = price;
 					for (const input of [amount, price]) {
+						input.required = true;
 						input.type = "number";
 						input.min = "0";
 						input.step = "1";
@@ -364779,16 +365019,43 @@ function createVendingPanel(body, service) {
 					price.value = String(item.price);
 					price.setAttribute("aria-label", "单价");
 					const button = document.createElement("button");
-					button.textContent = "保存数量与单价（数量 0 移除）";
+					button.textContent = "保存数量与单价";
+					const hint = document.createElement("p");
+					hint.textContent = "数量设为 0 可移除商品";
 					button.disabled = !state.allowed;
 					button.onclick = () => {
-						feedback(service.set(item.index, item.identity, Number(amount.value), Number(price.value)), "error");
+						if (!amount.reportValidity() || !price.reportValidity()) return;
+						const error = service.set(item.index, item.identity, Number(amount.value), Number(price.value));
+						if (error) feedback(error, "error");
+						else {
+							draft.accept();
+							feedback("数量与单价已保存", "success");
+						}
 						update();
 					};
-					panel.append(amount, price, button);
+					const revert = document.createElement("button");
+					revert.type = "button";
+					revert.textContent = "撤销修改";
+					revert.dataset.revertVending = "";
+					revert.onclick = () => draft.reset();
+					for (const [text, field] of [["数量", amount], ["单价（Zeny）", price]]) {
+						const label = document.createElement("label");
+						label.className = "interaction-field";
+						label.append(text, field);
+						panel.append(label);
+					}
+					panel.append(button, revert, hint);
+					draft = inputDraft([amount, price], update);
 				}
+				panel.append(description);
 			} else panel.textContent = "点选物品查看详情";
 		}
+		if (item && !state.owned && amountInput) {
+			amountInput.max = String(state.mode === "sell" ? Math.min(item.count, 32767) : 9999);
+			priceInput.max = "2147483647";
+		}
+		for (const control of $("[data-selected]").querySelectorAll("input,button")) control.disabled = !state.allowed;
+		if ($("[data-revert-vending]")) $("[data-revert-vending]").hidden = !draft?.dirty();
 		$("[data-order]").textContent = state.owned ? `剩余预算：${state.budget ?? "—"}\n${state.log.join("\n")}` : `${state.order.length}/${state.slots} 栏 · 合计 ${state.total} Zeny\n` + state.order.map((row) => `${row.name} × ${row.count} · 单价 ${row.price}`).join("\n");
 		$("[data-submit]").textContent = state.owned ? "关闭摊位" : "核对开店";
 		$("[data-submit]").disabled = !state.allowed;
@@ -364797,6 +365064,7 @@ function createVendingPanel(body, service) {
 	return { update };
 }
 var init_VendingPanel = __esmMin((() => {
+	init_InteractionPanel();
 	init_Confirmation();
 	init_Feedback();
 	init_ListItemText();
@@ -364804,9 +365072,44 @@ var init_VendingPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/TradePanel.js
 function createTradePanel(body, service) {
-	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可交易物品\"></div><section class=\"inventory-detail\"><div data-picker></div><label>Zeny <input data-money type=\"number\" min=\"0\" step=\"1\" value=\"0\"></label><button data-send-money>设置金额</button><h3>我方报价</h3><div data-own></div><h3>对方报价</h3><div data-peer></div><p data-phase></p><button data-lock>锁定报价</button><button data-execute>确认成交</button><button data-cancel>取消交易</button></section></div>";
+	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可交易物品\"></div><section class=\"inventory-detail\"><div class=\"trade-editor\"><label class=\"interaction-field\">Zeny <input data-money type=\"number\" min=\"0\" step=\"1\" value=\"0\"></label><button data-send-money>设置金额</button><button data-revert-money>撤销金额</button><div data-picker></div></div><div class=\"trade-offers\"><h3>我方报价</h3><div data-own></div><h3>对方报价</h3><div data-peer></div></div></section></div>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), nodes = /* @__PURE__ */ new Map();
+	const { footer, status } = interactionFooter(body);
+	status.dataset.phase = "";
+	for (const [key, text] of [
+		["lock", "锁定报价"],
+		["execute", "确认成交"],
+		["cancel", "取消交易"]
+	]) {
+		const button = document.createElement("button");
+		button.type = "button";
+		button.dataset[key] = "";
+		button.textContent = text;
+		footer.append(button);
+	}
+	let quantityDraft, quantityInput;
+	$("[data-money]").required = true;
+	$("[data-money]").setAttribute("aria-label", "交易金额");
+	$("[data-money]").value = String(service.snapshot().money);
+	$("[data-money]").oninput = () => update();
+	$("[data-revert-money]").onclick = () => {
+		$("[data-money]").value = String(service.snapshot().money);
+		update();
+	};
+	function ready() {
+		if (Number($("[data-money]").value) !== service.snapshot().money || !$("[data-money]").checkValidity()) {
+			feedback("金额尚未设置，请先设置或撤销金额", "error");
+			$("[data-money]").focus();
+			return false;
+		}
+		if (quantityDraft?.dirty()) {
+			feedback("物品数量尚未加入交易，请先加入或撤销修改", "error");
+			quantityDraft.focus();
+			return false;
+		}
+		return true;
+	}
 	let preview = null;
 	let selected = null, pickerKey = "";
 	function action(result) {
@@ -364820,10 +365123,21 @@ function createTradePanel(body, service) {
 		].includes(result) ? "info" : "error");
 		update();
 	}
-	$("[data-send-money]").onclick = () => action(service.setMoney(Number($("[data-money]").value)));
-	$("[data-lock]").onclick = () => action(service.lock());
+	$("[data-send-money]").onclick = () => {
+		if ($("[data-money]").reportValidity()) action(service.setMoney(Number($("[data-money]").value)));
+	};
+	$("[data-lock]").onclick = () => {
+		if (ready()) action(service.lock());
+	};
 	$("[data-execute]").onclick = () => {
+		if (!ready()) return;
 		const state = service.snapshot();
+		const content = interactionReview([
+			"我方物品：",
+			...state.offered.map((row) => `${row.name} × ${row.count}`),
+			"对方物品：",
+			...state.received.map((row) => `${row.name} × ${row.count}`)
+		], `我方金额：${state.money} Zeny\n对方金额：${state.peerMoney} Zeny`, "请核对双方物品和金额，确认后等待服务器完成交易。");
 		const signature = JSON.stringify([
 			state.offered,
 			state.received,
@@ -364842,7 +365156,7 @@ function createTradePanel(body, service) {
 				return;
 			}
 			action(service.execute());
-		}, {});
+		}, { content });
 	};
 	$("[data-cancel]").onclick = () => action(service.cancel());
 	function update() {
@@ -364858,6 +365172,7 @@ function createTradePanel(body, service) {
 				node = document.createElement("button");
 				node.className = "inventory-item";
 				node.onclick = () => {
+					if (!ready()) return;
 					selected = item.index;
 					preview = null;
 					pickerKey = "";
@@ -364866,28 +365181,30 @@ function createTradePanel(body, service) {
 				nodes.set(item.index, node);
 				$(".inventory-list").append(node);
 			}
+			node.disabled = !active || state.ownLocked;
 			setListItemText(node, item.name, `× ${item.count}`);
 			node.setAttribute("aria-pressed", String(selected === item.index));
 		}
 		const item = preview ? state[preview.side].find((entry) => entry.index === preview.index) : state.items.find((entry) => entry.index === selected);
 		const key = JSON.stringify([
-			item && {
-				...item,
-				icon: void 0
-			},
-			active,
-			state.ownLocked,
+			item?.index,
+			item?.ID,
+			item?.identity,
 			preview
 		]);
 		if (key !== pickerKey) {
 			pickerKey = key;
 			const picker = $("[data-picker]");
 			picker.replaceChildren();
+			quantityDraft = null;
 			if (item) {
 				const text = document.createElement("p");
 				text.textContent = item.description;
 				const input = document.createElement("input");
+				quantityInput = input;
 				input.type = "number";
+				input.required = true;
+				input.step = "1";
 				input.min = "1";
 				input.max = String(item.count);
 				input.value = "1";
@@ -364895,14 +365212,34 @@ function createTradePanel(body, service) {
 				const button = document.createElement("button");
 				button.textContent = "加入交易";
 				button.disabled = !active || state.ownLocked;
-				button.onclick = () => action(service.add(item.index, item.identity, Number(input.value)));
+				button.onclick = () => {
+					if (!input.reportValidity()) return;
+					const result = service.add(item.index, item.identity, Number(input.value));
+					if (result === "等待服务器确认物品") quantityDraft.accept();
+					action(result);
+				};
 				const title = document.createElement("h3");
 				title.textContent = item.name;
 				picker.append(title);
 				if (preview) picker.append(text);
-				else picker.append(text, input, button);
+				else {
+					const revert = document.createElement("button");
+					revert.type = "button";
+					revert.textContent = "撤销修改";
+					revert.dataset.revertQuantity = "";
+					revert.onclick = () => quantityDraft.reset();
+					picker.append(input, button, revert, text);
+					quantityDraft = inputDraft([input], update);
+				}
 			} else picker.textContent = "点击左侧物品设置数量";
 		}
+		if (item && !preview && quantityInput) quantityInput.max = String(item.count);
+		for (const control of $("[data-picker]").querySelectorAll("input,button")) control.disabled = !active || state.ownLocked;
+		const revert = $("[data-revert-quantity]");
+		if (revert) revert.hidden = !quantityDraft?.dirty();
+		$("[data-revert-money]").hidden = Number($("[data-money]").value) === state.money && $("[data-money]").checkValidity();
+		$("[data-revert-money]").disabled = !active || state.ownLocked;
+		$("[data-money]").max = String(Math.min(state.balance ?? 2147483647, 2147483647));
 		for (const [selector, side, money] of [[
 			"[data-own]",
 			"offered",
@@ -364926,6 +365263,7 @@ function createTradePanel(body, service) {
 				const button = document.createElement("button");
 				button.textContent = `查看：${entry.name} × ${entry.count}`;
 				button.onclick = () => {
+					if (!ready()) return;
 					preview = {
 						side,
 						index: entry.index
@@ -364950,6 +365288,7 @@ function createTradePanel(body, service) {
 	return { update };
 }
 var init_TradePanel = __esmMin((() => {
+	init_InteractionPanel();
 	init_Confirmation();
 	init_Feedback();
 	init_ListItemText();
@@ -364960,11 +365299,12 @@ function createEnchantPanel(body, service) {
 	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可附魔装备\"></div><section class=\"inventory-detail\" aria-label=\"附魔详情\"></section></div>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
-	let key = "", choiceKey = null;
+	let key = "", choiceKey = null, editingId = "";
 	const nodes = /* @__PURE__ */ new Map();
+	const { footer, status } = interactionFooter(body);
 	function update() {
 		const state = service.snapshot();
-		feedback.update(state.message, state.messageKind);
+		status.textContent = state.message || (state.pending ? "等待服务器回复…" : "请选择装备和附魔方式");
 		const ids = new Set(state.items.map((item) => item.index));
 		for (const [id, node] of nodes) if (!ids.has(id)) {
 			node.remove();
@@ -364976,7 +365316,8 @@ function createEnchantPanel(body, service) {
 				b = document.createElement("button");
 				b.className = "inventory-item";
 				b.onclick = () => {
-					const error = service.select(item.index, item.ID);
+					const live = service.snapshot().items.find((row) => row.index === item.index);
+					const error = live ? service.select(live.index, live.ID) : "装备已变化";
 					if (error) {
 						feedback(error, "error");
 						return;
@@ -364990,7 +365331,11 @@ function createEnchantPanel(body, service) {
 			}
 			b.textContent = item.name;
 			b.disabled = !state.allowed;
+			b.setAttribute("aria-pressed", String(state.selected?.index === item.index));
 		}
+		const identity = JSON.stringify(state.selected);
+		if (identity !== editingId) choiceKey = null;
+		editingId = identity;
 		const next = JSON.stringify([
 			state.selected,
 			state.choices,
@@ -365000,6 +365345,7 @@ function createEnchantPanel(body, service) {
 		if (next === key) return;
 		key = next;
 		detail.replaceChildren();
+		footer.querySelector("button")?.remove();
 		if (!state.selected) {
 			detail.textContent = "请选择装备";
 			return;
@@ -365008,7 +365354,9 @@ function createEnchantPanel(body, service) {
 		select.setAttribute("aria-label", "附魔方式");
 		select.add(new Option("请选择附魔方式", ""));
 		for (const choice of state.choices) select.add(new Option(choice.name, choice.key));
+		if (!state.choices.some((choice) => choice.key === choiceKey)) choiceKey = null;
 		select.value = choiceKey || "";
+		select.disabled = !state.allowed;
 		select.onchange = () => {
 			choiceKey = select.value;
 			key = "";
@@ -365032,17 +365380,29 @@ function createEnchantPanel(body, service) {
 		confirm.textContent = "核对附魔";
 		confirm.disabled = !state.allowed;
 		confirm.onclick = () => {
+			const selectedIdentity = JSON.stringify(state.selected);
 			confirmAction(body, "确认附魔？", () => {
+				if (JSON.stringify(service.snapshot().selected) !== selectedIdentity) {
+					feedback("装备已变化，请重新核对", "error");
+					return;
+				}
 				const error = service.confirm(choice.key, JSON.stringify(choice));
 				if (error) feedback(error, "error");
-			}, {});
+			}, { content: interactionReview([
+				`装备：${state.items.find((row) => row.index === state.selected.index)?.name || "已选装备"}`,
+				`方式：${choice.name}`,
+				summary.textContent,
+				...choice.results?.length ? [`可能获得：${choice.results.join("、")}`] : []
+			], `费用：${choice.zeny} Zeny`, warning.textContent) });
 		};
-		detail.append(warning, confirm);
+		detail.append(warning);
+		footer.append(confirm);
 	}
 	update();
 	return { update };
 }
 var init_EnchantPanel = __esmMin((() => {
+	init_InteractionPanel();
 	init_Confirmation();
 	init_Feedback();
 }));
@@ -365052,10 +365412,11 @@ function createRefinementPanel(body, service) {
 	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可强化装备\"></div><section class=\"inventory-detail\" aria-label=\"强化详情\"></section></div>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail"), nodes = /* @__PURE__ */ new Map();
-	let key = "";
+	const { footer, status } = interactionFooter(body);
+	let key = "", editingId = "";
 	function update() {
 		const state = service.snapshot();
-		feedback.update(state.message, state.messageKind);
+		status.textContent = state.message || (state.pending ? "等待服务器结果…" : "请选择装备和材料");
 		const ids = new Set(state.items.map((item) => item.index));
 		for (const [id, node] of nodes) if (!ids.has(id)) {
 			node.remove();
@@ -365078,6 +365439,7 @@ function createRefinementPanel(body, service) {
 			}
 			button.textContent = item.name;
 			button.disabled = !state.allowed;
+			button.setAttribute("aria-pressed", String(state.selected?.index === item.index));
 		}
 		const next = JSON.stringify([
 			state.selected,
@@ -365089,7 +365451,15 @@ function createRefinementPanel(body, service) {
 		]);
 		if (key === next) return;
 		key = next;
+		const identity = JSON.stringify(state.selected);
+		const previous = identity === editingId ? {
+			material: detail.querySelector("select")?.value,
+			blessing: detail.querySelector("input")?.value,
+			checked: detail.querySelector("input")?.checked
+		} : {};
+		editingId = identity;
 		detail.replaceChildren();
+		footer.querySelector("button")?.remove();
 		if (!state.offer) {
 			detail.textContent = "请选择装备";
 			return;
@@ -365099,24 +365469,31 @@ function createRefinementPanel(body, service) {
 		const materials = document.createElement("select");
 		materials.setAttribute("aria-label", "强化材料");
 		for (const material of state.materials) materials.add(new Option(`${material.name} × ${material.amount ?? 1} · ${material.zeny ?? material.price} Zeny · 持有 ${material.owned}`, material.index));
+		if ([...materials.options].some((option) => option.value === previous.material)) materials.value = previous.material;
+		materials.disabled = !state.allowed;
 		const chance = document.createElement("p");
 		const blessing = document.createElement("input");
 		blessing.type = "number";
 		blessing.min = "0";
 		blessing.step = "1";
-		blessing.value = "0";
+		blessing.value = previous.blessing ?? "0";
+		blessing.required = true;
 		blessing.setAttribute("aria-label", "祝福次数");
 		let protection;
 		if (state.kind === "refine") {
 			blessing.type = "checkbox";
+			blessing.required = false;
 			blessing.setAttribute("aria-label", "使用铁匠的祝福");
-			blessing.disabled = !state.offer.blacksmithBlessing;
+			blessing.checked = Boolean(previous.checked && state.offer.blacksmithBlessing);
+			blessing.disabled = !state.allowed || !state.offer.blacksmithBlessing;
 			protection = `使用铁匠的祝福：${state.offer.blacksmithBlessing || 0} 个`;
 		} else {
 			blessing.max = state.offer.blessing_info?.max_blessing || 0;
+			blessing.disabled = !state.allowed;
 			protection = `祝福次数（每次消耗 ${state.offer.blessing_info?.amount || 0} 个，最多 ${blessing.max} 次）`;
 		}
 		const label = document.createElement("label");
+		label.className = "interaction-field";
 		label.textContent = protection;
 		label.append(blessing);
 		const confirm = document.createElement("button");
@@ -365137,11 +365514,18 @@ function createRefinementPanel(body, service) {
 		details();
 		confirm.disabled = !state.allowed || !state.materials.length;
 		confirm.onclick = () => {
+			if (!blessing.reportValidity()) return;
 			const choice = selected();
-			const signature = JSON.stringify([state.selected, state.offer]);
+			const terms = (value) => [
+				value.selected,
+				value.offer,
+				value.materials.map(({ owned, ...row }) => row)
+			];
+			const signature = JSON.stringify(terms(state));
+			const material = state.materials.find((row) => row.index === choice.material);
 			confirmAction(body, "确认强化？", () => {
 				const current = service.snapshot();
-				if (JSON.stringify([current.selected, current.offer]) !== signature) {
+				if (JSON.stringify(terms(current)) !== signature) {
 					feedback("强化内容已变化，请重新核对", "error");
 					return;
 				}
@@ -365152,111 +365536,151 @@ function createRefinementPanel(body, service) {
 				}
 				key = "";
 				update();
-			}, {});
+			}, { content: interactionReview([
+				`装备：${state.items.find((row) => row.index === state.selected?.index)?.name || "已选装备"}`,
+				`材料：${material?.name} × ${material?.amount ?? 1}`,
+				`祝福：${choice.blessing}`,
+				chance.textContent
+			], `费用：${material?.zeny ?? material?.price ?? 0} Zeny`, warning.textContent) });
 		};
-		detail.append(warning, materials, chance, label, confirm);
+		detail.append(warning, materials, chance, label);
+		footer.append(confirm);
 	}
 	update();
 	return { update };
 }
 var init_RefinementPanel = __esmMin((() => {
+	init_InteractionPanel();
 	init_Confirmation();
 	init_Feedback();
 }));
 //#endregion
 //#region src/UI/Mobile/game/MaterialsPanel.js
 function createMaterialsPanel(body, service) {
-	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"材料列表\"></div><section class=\"inventory-detail\" aria-label=\"材料详情\"></section></div><div class=\"skills-toolbar\"><button type=\"button\" data-review>核对材料</button><button type=\"button\" data-clear>清空材料</button></div>";
-	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
-	let selected = null, key = "";
-	const nodes = /* @__PURE__ */ new Map();
-	const status = createFeedback(body);
-	function update() {
-		const state = service.snapshot();
-		status.update(state.message);
-		$("[data-clear]").disabled = !state.allowed;
-		const ids = new Set(state.items.map((item) => item.index));
-		for (const [id, node] of nodes) if (!ids.has(id)) {
-			node.remove();
-			nodes.delete(id);
-		}
-		for (const item of state.items) {
-			let b = nodes.get(item.index);
-			if (!b) {
-				b = document.createElement("button");
-				b.className = "inventory-item";
-				b.onclick = () => {
-					selected = item.index;
-					key = "";
-					update();
-				};
-				nodes.set(item.index, b);
-				list.append(b);
-			}
-			b.textContent = `${item.name} × ${item.count}`;
-		}
-		const item = state.items.find((entry) => entry.index === selected);
-		const next = JSON.stringify([item && {
-			...item,
-			icon: void 0
-		}, state.allowed]);
-		if (next === key) return;
-		key = next;
-		detail.replaceChildren();
-		if (!item) {
-			detail.textContent = state.instruction || "点选物品，输入转换数量";
-			return;
-		}
-		const name = document.createElement("p");
-		name.textContent = `${item.name}${item.description ? "\n" + item.description : ""}`;
-		name.style.whiteSpace = "pre-line";
-		const form = document.createElement("form");
-		const input = document.createElement("input");
-		input.type = "number";
-		input.min = "0";
-		input.max = item.count;
-		input.step = "1";
-		input.value = state.order.find((row) => row.index === item.index)?.count || item.requiredCount || 1;
-		input.setAttribute("aria-label", "材料数量");
-		const save = document.createElement("button");
-		save.type = "submit";
-		save.textContent = "加入材料";
-		save.disabled = !state.allowed;
-		form.append(input, save);
-		form.onsubmit = (e) => {
-			e.preventDefault();
-			const error = service.set(item.index, item.ID, Number(input.value));
-			status(error || "材料已更新", error ? "error" : "success");
-		};
-		detail.append(name, form);
-	}
-	$("[data-review]").onclick = () => {
-		const state = service.snapshot();
-		if (!state.allowed || !state.order.length) {
-			status("请先选择材料", "info");
-			return;
-		}
+	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"材料列表\"></div><section class=\"inventory-detail\" aria-label=\"材料详情\"></section></div>";
+	const $ = (selector) => body.querySelector(selector);
+	const { footer, status } = interactionFooter(body);
+	const feedback = createFeedback(body), nodes = /* @__PURE__ */ new Map();
+	let selected, draft, input, title, description, revert, state;
+	const keyOf = (item) => `${item.index}:${item.ID}`;
+	const review = button("核对材料", () => {
+		update();
+		if (!ready() || !state.allowed || !state.order.length) return;
 		const signature = JSON.stringify(state.order);
-		confirmAction(body, "确认提交材料？", () => {
+		confirmAction(body, "确认提交以下材料？", () => {
 			if (JSON.stringify(service.snapshot().order) !== signature) {
-				status("材料已变化，请重新核对", "error");
+				feedback("材料已变化，请重新核对", "error");
 				return;
 			}
-			status(service.confirm(), "error");
+			const error = service.confirm();
+			if (error) feedback(error, "error");
 			update();
-		}, {});
-	};
-	$("[data-clear]").onclick = () => {
+		}, { content: interactionReview(state.order.map((row) => `${row.name} × ${row.count}${row.description ? "\n" + row.description : ""}`), `共 ${state.order.length} 种材料`, "确认后会消耗材料或改变物品，请核对数量与结果。") });
+	});
+	const clear = button("清空材料", () => {
 		service.clear();
-		key = "";
+		selected = null;
+		draft = null;
 		update();
-	};
+	});
+	footer.append(review, clear);
+	function button(text, action) {
+		const b = document.createElement("button");
+		b.type = "button";
+		b.textContent = text;
+		b.onclick = action;
+		return b;
+	}
+	function ready() {
+		if (!draft?.dirty()) return true;
+		feedback("数量尚未加入材料，请先加入或撤销修改", "error");
+		draft.focus();
+		return false;
+	}
+	function select(item) {
+		if (!ready()) return;
+		selected = keyOf(item);
+		title = document.createElement("h3");
+		description = document.createElement("p");
+		description.className = "item-description";
+		const form = document.createElement("form");
+		form.className = "interaction-form";
+		const label = document.createElement("label");
+		label.textContent = "材料数量";
+		input = document.createElement("input");
+		input.type = "number";
+		input.min = 0;
+		input.step = 1;
+		input.required = true;
+		input.setAttribute("aria-label", "材料数量");
+		input.value = String(state.order.find((row) => row.index === item.index)?.count ?? item.requiredCount ?? 1);
+		label.append(input);
+		const save = button("加入材料", () => {});
+		save.type = "submit";
+		revert = button("撤销修改", () => draft.reset());
+		form.append(label, save, revert);
+		form.onsubmit = (event) => {
+			event.preventDefault();
+			if (!input.reportValidity()) return;
+			const error = service.set(item.index, item.ID, Number(input.value));
+			if (error) feedback(error, "error");
+			else {
+				draft.accept();
+				feedback("材料已更新", "success");
+			}
+			update();
+		};
+		$(".inventory-detail").replaceChildren(title, form, description);
+		draft = inputDraft([input], update);
+		update();
+	}
+	function update() {
+		state = service.snapshot();
+		status.textContent = state.pending ? "等待服务器回复…" : draft?.dirty() ? "数量已修改，尚未加入材料" : state.message || `已选 ${state.order.length} 种材料`;
+		clear.disabled = !state.allowed;
+		review.disabled = !state.allowed || !state.order.length && !draft?.dirty();
+		const keys = new Set(state.items.map(keyOf));
+		for (const [key, node] of nodes) if (!keys.has(key)) {
+			node.remove();
+			nodes.delete(key);
+		}
+		for (const item of state.items) {
+			const key = keyOf(item);
+			let node = nodes.get(key);
+			if (!node) {
+				node = button("", () => {
+					const live = service.snapshot().items.find((row) => keyOf(row) === key);
+					if (live) select(live);
+				});
+				node.className = "inventory-item";
+				nodes.set(key, node);
+				$(".inventory-list").append(node);
+			}
+			const count = state.order.find((row) => row.index === item.index)?.count;
+			node.textContent = `${item.name} × ${item.count}${count ? " · 已选 " + count : ""}`;
+			node.disabled = !state.allowed;
+			node.setAttribute("aria-pressed", String(selected === key));
+		}
+		const item = state.items.find((row) => keyOf(row) === selected);
+		if (!item) {
+			selected = null;
+			draft = null;
+			$(".inventory-detail").textContent = state.items.length ? state.instruction || "点选物品，输入数量后加入材料" : "没有可用材料";
+		} else {
+			title.textContent = item.name;
+			description.textContent = item.description || "";
+			input.max = String(item.count);
+			revert.hidden = !draft?.dirty();
+			for (const control of $(".inventory-detail").querySelectorAll("button,input")) control.disabled = !state.allowed;
+		}
+	}
 	update();
 	return { update };
 }
 var init_MaterialsPanel = __esmMin((() => {
 	init_Confirmation();
 	init_Feedback();
+	init_InteractionPanel();
 }));
 //#endregion
 //#region src/UI/Mobile/game/SelectionPanel.js
@@ -365264,11 +365688,14 @@ function createSelectionPanel(body, service) {
 	body.innerHTML = "<p data-warning></p><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可选列表\"></div><section class=\"inventory-detail\" aria-label=\"选项详情\"></section></div>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
-	let selected = null, key = "";
+	let selected = null, key = "", editingId = null;
 	const nodes = /* @__PURE__ */ new Map();
+	const { footer, status } = interactionFooter(body);
 	function update() {
 		const state = service.snapshot();
-		$("[data-warning]").textContent = state.warning;
+		$("[data-warning]").textContent = state.warning || "";
+		$("[data-warning]").hidden = !state.warning;
+		status.textContent = state.allowed ? "选择条目后核对确认" : "当前不可操作，请等待服务器回复";
 		for (const entry of state.entries) {
 			let b = nodes.get(entry.id);
 			if (!b) {
@@ -365288,19 +365715,31 @@ function createSelectionPanel(body, service) {
 			if (entry.icon) b.querySelector("img").src = entry.icon;
 			b.setAttribute("aria-pressed", String(selected === entry.id));
 		}
+		for (const [id, node] of nodes) if (!state.entries.some((entry) => entry.id === id)) {
+			node.remove();
+			nodes.delete(id);
+		} else node.disabled = !state.allowed;
 		const entry = state.entries.find((e) => e.id === selected);
+		if (!entry) selected = null;
 		const preview = detail.querySelector(".selection-preview");
 		if (preview && entry) {
 			preview.hidden = !entry.icon;
 			if (entry.icon) preview.src = entry.icon;
 		}
-		const next = JSON.stringify([entry && {
-			...entry,
-			icon: void 0
-		}, state.allowed]);
+		const next = JSON.stringify([
+			entry && {
+				...entry,
+				icon: void 0
+			},
+			state.allowed,
+			state.materials
+		]);
 		if (next === key) return;
 		key = next;
+		const previous = editingId === selected ? [...detail.querySelectorAll("select")].map((select) => select.value) : [];
+		editingId = selected;
 		detail.replaceChildren();
+		footer.querySelector("button")?.remove();
 		if (!entry) {
 			detail.textContent = state.entries.length ? "点选条目后确认" : "没有可选条目";
 			return;
@@ -365316,6 +365755,8 @@ function createSelectionPanel(body, service) {
 			select.setAttribute("aria-label", `附加材料 ${index + 1}`);
 			select.add(new Option("不使用附加材料", "0"));
 			for (const material of state.materials) select.add(new Option(`${material.name} × ${material.count}`, material.id));
+			if ([...select.options].some((option) => option.value === previous[index])) select.value = previous[index];
+			select.disabled = !state.allowed;
 			materials.push(select);
 			detail.append(select);
 		}
@@ -365324,9 +365765,10 @@ function createSelectionPanel(body, service) {
 		button.disabled = !state.allowed;
 		button.onclick = () => {
 			const chosen = materials.map((select) => Number(select.value)).filter(Boolean);
+			const content = interactionReview([entry.description || entry.name, ...materials.filter((select) => select.value !== "0").map((select) => select.selectedOptions[0].textContent)], `选择：${entry.name}`, state.warning || "");
 			confirmAction(body, `确认选择「${entry.name}」？`, () => {
 				feedback(service.choose(entry.id, chosen), "error");
-			}, {});
+			}, { content });
 		};
 		if (entry.preview) {
 			const img = document.createElement("img");
@@ -365337,12 +365779,15 @@ function createSelectionPanel(body, service) {
 			if (entry.icon) img.src = entry.icon;
 			detail.append(img);
 		}
-		detail.append(title, description, button);
+		detail.prepend(title);
+		detail.append(description);
+		footer.append(button);
 	}
 	update();
 	return { update };
 }
 var init_SelectionPanel = __esmMin((() => {
+	init_InteractionPanel();
 	init_Confirmation();
 	init_Feedback();
 }));
@@ -365697,7 +366142,56 @@ var init_ChatEmotions = __esmMin((() => {
 		["no1", "赞"],
 		["rock", "石头"],
 		["scissors", "剪刀"],
-		["paper", "布"]
+		["paper", "布"],
+		["lv2", "大爱心"],
+		["wah", "大笑"],
+		["swt2", "满头大汗"],
+		["hmm", "挠头"],
+		["??", "困惑"],
+		["omg", "震惊"],
+		["oh", "赞成"],
+		["X", "反对"],
+		["hlp", "求助"],
+		["go", "出发"],
+		["sob", "哭泣"],
+		["gg", "坏笑"],
+		["kis", "亲吻"],
+		["kis2", "飞吻"],
+		["pif", "不满"],
+		["ok", "好的"],
+		["bzz", "凝视"],
+		["rice", "肚子饿"],
+		["awsm", "酷"],
+		["meh", "吐舌"],
+		["shy", "害羞"],
+		["pat", "摸头"],
+		["mp", "补充魔力"],
+		["slur", "垂涎"],
+		["com", "过来"],
+		["yawn", "打哈欠"],
+		["grat", "恭喜"],
+		["hp", "补充生命"],
+		["fsh", "灵光一闪"],
+		["spin", "晕头转向"],
+		["sigh", "叹气"],
+		["dum", "哼歌"],
+		["crwd", "叽叽喳喳"],
+		["desp", "失意"],
+		["love", "爱恋"],
+		["mobile", "手机"],
+		["mail", "邮件"],
+		["antenna1", "一格信号"],
+		["antenna2", "两格信号"],
+		["antenna3", "满格信号"],
+		["hum", "哼哼"],
+		["abs", "无语"],
+		["oops", "哎呀"],
+		["spit", "吐口水"],
+		["ene", "精力充沛"],
+		["panic", "惊慌"],
+		["whisp", "低语"],
+		["dice", "掷骰子"],
+		["antenna0", "无信号"]
 	];
 }));
 //#endregion
@@ -365909,8 +366403,11 @@ var init_QuestsPanel = __esmMin((() => {
 //#region src/UI/Mobile/game/ContainerPanel.js
 function createContainerPanel(body, actions, initialSource) {
 	body.innerHTML = "<div class=\"container-toolbar\"></div><div class=\"inventory-layout\"><div class=\"inventory-list\"></div><section class=\"inventory-detail\"></section></div>";
+	const warehouse = initialSource === "storage";
+	body.classList.toggle("warehouse-body", warehouse);
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector);
+	const { footer, status } = interactionFooter(body);
 	const sourceSelect = document.createElement("select");
 	sourceSelect.setAttribute("aria-label", "物品所在位置");
 	const category = document.createElement("select");
@@ -365923,7 +366420,26 @@ function createContainerPanel(body, actions, initialSource) {
 	]) category.add(new Option(text, key));
 	const capacityLabel = document.createElement("span");
 	capacityLabel.className = "container-capacity";
-	$(".container-toolbar").append(sourceSelect, category, capacityLabel);
+	const sourceField = document.createElement("div");
+	sourceField.className = "container-source";
+	sourceField.append(sourceSelect);
+	const search = document.createElement("input");
+	search.type = "search";
+	search.placeholder = "搜索名称或物品 ID";
+	search.setAttribute("aria-label", "搜索仓库物品");
+	const modes = document.createElement("div");
+	modes.className = "storage-modes";
+	if (warehouse) for (const [value, title] of [["storage", "取出"], ["inventory", "存入"]]) {
+		const tab = button(title, () => {
+			source = value;
+			reset();
+			update();
+		});
+		tab.dataset.mode = value;
+		modes.append(tab);
+	}
+	$(".container-toolbar").append(...warehouse ? [modes] : [], sourceField, category, capacityLabel);
+	if (warehouse) $(".container-toolbar").append(search);
 	let source = initialSource, selected = null, state;
 	const nodes = /* @__PURE__ */ new Map();
 	function button(text, fn) {
@@ -365935,6 +366451,7 @@ function createContainerPanel(body, actions, initialSource) {
 	}
 	function reset() {
 		selected = null;
+		footer.querySelectorAll("button").forEach((node) => node.remove());
 		$(".inventory-detail").textContent = "点击物品选择转移位置和数量";
 	}
 	sourceSelect.onchange = () => {
@@ -365943,10 +366460,17 @@ function createContainerPanel(body, actions, initialSource) {
 		update();
 	};
 	category.onchange = () => update();
+	search.oninput = () => update();
+	function targets() {
+		return state.containers.filter((entry) => entry !== source && (!warehouse || source === "storage" || entry === "storage"));
+	}
 	function select(item) {
+		if (!item) return;
+		footer.querySelectorAll("button").forEach((node) => node.remove());
 		selected = {
 			index: item.index,
-			ID: item.ID
+			ID: item.ID,
+			identity: item.identity
 		};
 		const title = document.createElement("h3");
 		title.textContent = item.name;
@@ -365955,6 +366479,7 @@ function createContainerPanel(body, actions, initialSource) {
 		description.className = "item-description";
 		const amount = document.createElement("input");
 		amount.type = "number";
+		amount.required = true;
 		amount.min = "1";
 		amount.max = String(item.count);
 		amount.step = "1";
@@ -365962,34 +366487,59 @@ function createContainerPanel(body, actions, initialSource) {
 		amount.setAttribute("aria-label", "转移数量");
 		const destination = document.createElement("select");
 		destination.setAttribute("aria-label", "转移到");
-		for (const target of state.containers.filter((entry) => entry !== source)) destination.add(new Option(labels[target], target));
+		for (const target of targets()) destination.add(new Option(labels[target], target));
 		const count = document.createElement("p");
 		count.className = "container-item-count";
 		count.textContent = `当前数量：${item.count}`;
 		const transfer = button("确认转移", () => {
-			const result = actions.transfer(source, destination.value, item.index, item.ID, Number(amount.value));
+			if (!amount.reportValidity() || !destination.value) return;
+			const result = actions.transfer(source, destination.value, item.index, item.ID, Number(amount.value), item.identity);
 			feedback(result, result === "已请求转移，等待服务器更新" ? "info" : "error");
 			update();
 		});
-		$(".inventory-detail").replaceChildren(title, count, destination, amount, button("全部数量", () => {
+		const form = document.createElement("div");
+		form.className = "container-form";
+		for (const [text, control] of [["转移到", destination], ["转移数量", amount]]) {
+			const label = document.createElement("label");
+			label.append(document.createTextNode(text), control);
+			form.append(label);
+		}
+		$(".inventory-detail").replaceChildren(title, count, form, description);
+		footer.append(button("全部数量", () => {
 			amount.value = String(state.items.find((entry) => entry.index === item.index && entry.ID === item.ID)?.count || 0);
-		}), transfer, description);
+		}), transfer);
+		update();
 	}
 	function update() {
 		state = actions.snapshot(source);
-		const optionsKey = state.containers.join(",");
-		if (sourceSelect.dataset.options !== optionsKey) {
-			sourceSelect.replaceChildren(...state.containers.map((key) => new Option(labels[key], key)));
-			sourceSelect.dataset.options = optionsKey;
-			sourceSelect.value = source;
+		if (warehouse && source !== "storage" && !state.containers.includes(source) && state.containers.includes("inventory")) {
+			source = "inventory";
+			reset();
+			state = actions.snapshot(source);
 		}
-		const capacity = state.capacity;
+		status.textContent = state.transferStatus || (state.allowed ? warehouse ? `${labels[source]} → ${source === "storage" ? targets().map((key) => labels[key]).join(" / ") : "仓库"}` : "选择物品、位置和数量后转移" : "当前不可操作，请等待服务器更新");
+		for (const tab of modes.children) {
+			tab.setAttribute("aria-pressed", String(source === "storage" === (tab.dataset.mode === "storage")));
+			tab.disabled = !state.allowed || state.pending;
+		}
+		sourceField.hidden = warehouse && source === "storage";
+		const sources = state.containers.filter((entry) => !warehouse || entry !== "storage");
+		const optionsKey = sources.join(",");
+		if (sourceSelect.dataset.options !== optionsKey) {
+			sourceSelect.replaceChildren(...sources.map((key) => new Option(labels[key], key)));
+			sourceSelect.dataset.options = optionsKey;
+		}
+		sourceSelect.value = source;
+		sourceSelect.disabled = !state.allowed || state.pending;
+		const capacity = warehouse ? state.storageCapacity : state.capacity;
 		const unavailable = !state.containers.includes(source);
 		capacityLabel.hidden = unavailable || !capacity;
-		capacityLabel.textContent = capacity && !unavailable ? `格数：${capacity.current}/${capacity.limit}${capacity.weight === void 0 ? "" : ` · 重量：${capacity.weight}/${capacity.maxWeight}`}` : "";
+		capacityLabel.textContent = capacity && !unavailable ? `${warehouse ? "仓库" : ""}格数：${capacity.current}/${capacity.limit}${capacity.weight === void 0 ? "" : ` · 重量：${capacity.weight}/${capacity.maxWeight}`}` : "";
 		if (unavailable && source !== "cart") feedback.update(`${labels[source]}当前不可用`);
 		const keys = /* @__PURE__ */ new Set();
-		for (const item of state.items.filter((entry) => category.value === "all" || entry.category === category.value)) {
+		const query = search.value.trim().toLocaleLowerCase();
+		const visible = state.items.filter((entry) => (category.value === "all" || entry.category === category.value) && (!warehouse || !query || entry.name.toLocaleLowerCase().includes(query) || String(entry.ID).includes(query)));
+		for (const item of visible) {
 			const key = `${source}:${item.index}:${item.ID}`;
 			keys.add(key);
 			let node = nodes.get(key);
@@ -366000,21 +366550,39 @@ function createContainerPanel(body, actions, initialSource) {
 				nodes.set(key, node);
 				$(".inventory-list").append(node);
 			}
+			node.setAttribute("aria-pressed", String(selected?.index === item.index && selected?.ID === item.ID && selected?.identity === item.identity));
 			setListItemText(node, item.name, `×${item.count}`);
+			node.querySelector("img").hidden = !item.icon;
+			node.querySelector("img").alt = "";
 			if (item.icon && node.querySelector("img").getAttribute("src") !== item.icon) node.querySelector("img").src = item.icon;
-			node.disabled = !state.allowed;
+			node.disabled = !state.allowed || state.pending;
 		}
 		for (const [key, node] of nodes) if (!keys.has(key)) {
 			node.remove();
 			nodes.delete(key);
 		}
-		const item = state.items.find((entry) => entry.index === selected?.index && entry.ID === selected?.ID);
+		let empty = $(".container-empty");
+		if (!visible.length && !empty) {
+			empty = document.createElement("p");
+			empty.className = "container-empty";
+			$(".inventory-list").append(empty);
+		}
+		if (visible.length) empty?.remove();
+		else empty.textContent = unavailable ? `${labels[source]}当前不可用` : state.items.length ? "没有符合条件的物品" : "这里没有可转移的物品";
+		const item = visible.find((entry) => entry.index === selected?.index && entry.ID === selected?.ID && entry.identity === selected?.identity);
 		if (selected && !item) reset();
 		else if (item) {
 			$(".container-item-count").textContent = `当前数量：${item.count}`;
 			$(".inventory-detail input").max = String(item.count);
+			const destination = $(".inventory-detail select"), value = destination.value;
+			const destinations = targets();
+			if ([...destination.options].map((option) => option.value).join(",") !== destinations.join(",")) {
+				destination.replaceChildren(...destinations.map((key) => new Option(labels[key], key)));
+				if (destinations.includes(value)) destination.value = value;
+			}
 		}
-		for (const node of $(".inventory-detail").querySelectorAll("button,input,select")) node.disabled = !state.allowed;
+		for (const node of footer.querySelectorAll("button")) node.disabled = !state.allowed || state.pending || unavailable || !$(".inventory-detail select")?.value;
+		for (const node of $(".inventory-detail").querySelectorAll("button,input,select")) node.disabled = !state.allowed || state.pending || unavailable;
 	}
 	reset();
 	update();
@@ -366022,6 +366590,7 @@ function createContainerPanel(body, actions, initialSource) {
 }
 var labels;
 var init_ContainerPanel = __esmMin((() => {
+	init_InteractionPanel();
 	init_Feedback();
 	init_ListItemText();
 	labels = {
@@ -366031,101 +366600,192 @@ var init_ContainerPanel = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/UI/Mobile/game/ShopPanel.css?raw
+var ShopPanel_default;
+var init_ShopPanel$1 = __esmMin((() => {
+	ShopPanel_default = ":host([data-menu-density]) .panel[data-view='shop'] {\r\n	--shop-text: var(--interaction-text);\r\n	--shop-control: var(--interaction-control);\r\n	font-size: var(--shop-text);\r\n}\r\n:host([data-menu-density]) .panel[data-view='shop'] .inventory-layout {\r\n	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);\r\n}\r\n:host([data-menu-density]) .panel[data-view='shop'] :is(button, h3, .inventory-item strong, .inventory-item span) {\r\n	font-size: var(--shop-text);\r\n}\r\n:host([data-menu-density]) .panel[data-view='shop'] button {\r\n	min-height: var(--shop-control);\r\n}\r\n.shop-summary {\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shop-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	padding-top: 8px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.shop-status {\r\n	flex: 1 1 100px;\r\n	color: #bac4cd;\r\n	font-size: var(--panel-label);\r\n}\r\n.shop-footer button {\r\n	flex-shrink: 0;\r\n}\r\n.shop-quantity {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: end;\r\n	gap: 8px;\r\n}\r\n.shop-quantity label {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n}\r\n:host([data-menu-density]) .panel[data-view='shop'] .shop-quantity input[aria-label] {\r\n	width: 100%;\r\n	min-width: 0;\r\n	flex: 1;\r\n	height: var(--shop-control);\r\n	min-height: var(--shop-control);\r\n	font-size: 16px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	padding: 6px 8px;\r\n	background: #111a23;\r\n	color: inherit;\r\n}\r\n.shop-price,\r\n.shop-review p {\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n	line-height: 1.6;\r\n}\r\n.shop-empty {\r\n	color: #bac4cd;\r\n}\r\n:host([data-menu-density]) .panel[data-view='shop'] .ui-confirm {\r\n	font-size: var(--shop-text);\r\n}\r\n:host([data-menu-density]) .panel[data-view='shop'] .ui-confirm-actions button {\r\n	height: var(--shop-control);\r\n	font-size: var(--shop-text);\r\n}\r\n.shop-review > strong {\r\n	display: block;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 10px;\r\n}\r\n\r\n/* Only order lines scroll; the question, total and confirmation remain visible. */\r\n.panel[data-view='shop'] .ui-confirm-body:has(.shop-review) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.panel[data-view='shop'] .ui-confirm-body:has(.shop-review) > p {\r\n	flex-shrink: 0;\r\n}\r\n.shop-review {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.shop-review-lines {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.shop-review > strong {\r\n	flex-shrink: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n";
+}));
+//#endregion
 //#region src/UI/Mobile/game/ShopPanel.js
-/** Shop orders use explicit quantities and a separate review before sending. */
+/** Edit an order locally and revalidate the reviewed terms before submission. */
 function createShopPanel(body, service) {
-	body.innerHTML = "<div class=\"shop-summary\"></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"商店物品\"></div><section class=\"inventory-detail\"></section></div><div class=\"shop-footer\"></div>";
+	body.innerHTML = "<div class=\"shop-summary\"></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"商店物品\"></div><section class=\"inventory-detail\" aria-label=\"物品详情\">请选择物品</section></div><div class=\"shop-footer\"><span class=\"shop-status\" role=\"status\"></span></div>";
 	const $ = (selector) => body.querySelector(selector);
 	const nodes = /* @__PURE__ */ new Map();
-	let selected = null;
-	let state;
-	const status = createFeedback(body);
-	function button(label, fn) {
+	let selected = null, state, input, price, title, description, appliedQuantity;
+	const feedback = createFeedback(body);
+	const keyOf = (item) => `${item.index}:${item.ID}`;
+	const currency = () => state.currency || "Zeny";
+	const signature = (snapshot) => JSON.stringify([
+		snapshot.mode,
+		snapshot.currency,
+		snapshot.total,
+		snapshot.items.filter((item) => item.quantity).map(({ index, ID, name, quantity, price: unitPrice, limit, materials }) => ({
+			index,
+			ID,
+			name,
+			quantity,
+			price: unitPrice,
+			limit,
+			materials
+		}))
+	]);
+	function button(label, action) {
 		const node = document.createElement("button");
 		node.type = "button";
 		node.textContent = label;
-		node.onclick = fn;
+		node.onclick = action;
 		return node;
 	}
+	const hasQuantityDraft = () => selected && input && input.value !== appliedQuantity;
+	function requireAppliedQuantity() {
+		if (!hasQuantityDraft()) return true;
+		feedback("数量尚未应用，请先点击“设置数量”或“撤销修改”", "error");
+		input.focus();
+		return false;
+	}
 	function detail(item) {
-		selected = item;
-		const title = document.createElement("h3");
-		title.textContent = item.name;
-		const price = document.createElement("p");
-		price.textContent = `单价：${item.price} ${state.currency || "Zeny"} · 数量上限：${item.limit}`;
-		if (item.materials?.length) price.textContent += "\n材料：" + item.materials.map((material) => `${material.name}${material.refine_level ? `（精炼 +${material.refine_level}）` : ""} ×${material.amount}`).join("、");
-		const input = document.createElement("input");
+		if (!requireAppliedQuantity()) return;
+		selected = keyOf(item);
+		title = document.createElement("h3");
+		price = document.createElement("p");
+		price.className = "shop-price";
+		const form = document.createElement("form");
+		form.className = "shop-quantity";
+		const label = document.createElement("label");
+		label.textContent = "数量";
+		input = document.createElement("input");
 		input.type = "number";
+		input.required = true;
 		input.min = "0";
-		input.max = String(item.limit);
 		input.step = "1";
-		input.value = String(item.quantity || 1);
+		input.value = String(item.quantity || Math.min(1, item.limit));
 		input.setAttribute("aria-label", "交易数量");
-		const description = document.createElement("p");
+		appliedQuantity = input.value;
+		input.oninput = update;
+		label.append(input);
+		const set = button("设置数量", () => {});
+		set.type = "submit";
+		form.onsubmit = (event) => {
+			event.preventDefault();
+			if (!input.reportValidity()) return;
+			const message = service.set(item.index, item.ID, Number(input.value));
+			if (message) feedback(message, "error");
+			else {
+				appliedQuantity = input.value;
+				feedback("订单数量已更新", "success");
+			}
+			update();
+		};
+		const remove = button("移出订单", () => {
+			const message = service.set(item.index, item.ID, 0);
+			if (message) feedback(message, "error");
+			else input.value = appliedQuantity = "0";
+			update();
+		});
+		const revert = button("撤销修改", () => {
+			input.value = appliedQuantity;
+			update();
+		});
+		revert.dataset.revertQuantity = "";
+		form.append(label, set, remove, revert);
+		description = document.createElement("p");
 		description.className = "item-description";
-		description.textContent = item.description;
-		$(".inventory-detail").replaceChildren(title, price, input, button("设置数量", () => {
-			status(service.set(item.index, item.ID, Number(input.value)), "error");
-			update();
-		}), button("移出订单", () => {
-			status(service.set(item.index, item.ID, 0), "error");
-			input.value = "0";
-			update();
-		}), description);
+		$(".inventory-detail").replaceChildren(title, price, form, description);
+		update();
 	}
 	function review() {
-		const signature = JSON.stringify(state.items.filter((entry) => entry.quantity));
-		confirmAction(body, state.mode === "buy" ? "确认购买所选物品？" : "确认出售所选物品？", () => {
-			if (JSON.stringify(service.snapshot().items.filter((entry) => entry.quantity)) !== signature) {
-				status("订单已变化，请重新核对", "error");
+		update();
+		if (!state.allowed || !requireAppliedQuantity() || !state.items.some((item) => item.quantity)) return;
+		const reviewed = signature(state);
+		const content = document.createElement("div");
+		content.className = "shop-review";
+		const lines = document.createElement("div");
+		lines.className = "shop-review-lines";
+		content.append(lines);
+		for (const item of state.items.filter((entry) => entry.quantity)) {
+			const line = document.createElement("p");
+			line.textContent = `${item.name} × ${item.quantity} · ${item.price * item.quantity} ${currency()}`;
+			if (item.materials?.length) line.textContent += "\n材料：" + item.materials.map((m) => `${m.name}${m.refine_level ? `（精炼 +${m.refine_level}）` : ""} × ${m.amount * item.quantity}`).join("、");
+			lines.append(line);
+		}
+		const total = document.createElement("strong");
+		total.textContent = `${state.mode === "buy" ? "支付" : "获得"}合计：${state.total} ${currency()}`;
+		content.append(total);
+		confirmAction(body, state.mode === "buy" ? "确认购买以下物品？" : "确认出售以下物品？", () => {
+			if (signature(service.snapshot()) !== reviewed) {
+				feedback("订单已变化，请重新核对", "error");
+				update();
 				return;
 			}
 			const result = service.submit();
-			status(result, result === "已提交，等待服务器回复" ? "info" : "error");
+			feedback(result, result === "已提交，等待服务器回复" ? "info" : "error");
 			update();
-		}, {});
+		}, { content });
 	}
 	const reviewButton = button("核对订单", review);
 	const clearButton = button("清空订单", () => {
 		if (service.clear()) {
 			selected = null;
 			$(".inventory-detail").textContent = "请选择物品";
-			status("订单已清空", "success");
+			feedback("订单已清空", "success");
 			update();
 		}
 	});
 	$(".shop-footer").append(reviewButton, clearButton);
+	const empty = document.createElement("p");
+	empty.className = "shop-empty";
+	$(".inventory-list").append(empty);
 	function update() {
 		state = service.snapshot();
-		$(".shop-summary").textContent = `持有：${state.money} ${state.currency || "Zeny"} · 订单合计：${state.total} ${state.currency || "Zeny"}`;
+		$(".shop-summary").textContent = `持有：${state.money} ${currency()} · ${state.mode === "buy" ? "支付" : "获得"}合计：${state.total} ${currency()}`;
+		$(".shop-status").textContent = state.pending ? "等待服务器回复…" : hasQuantityDraft() ? "数量已修改，尚未应用" : `已选 ${state.items.filter((item) => item.quantity).length} 种物品`;
 		clearButton.disabled = !state.allowed;
-		reviewButton.disabled = !state.allowed || !state.items.some((item) => item.quantity);
+		reviewButton.disabled = !state.allowed || !hasQuantityDraft() && !state.items.some((item) => item.quantity);
+		empty.hidden = state.items.length > 0;
+		empty.textContent = state.mode === "sell" ? "没有可出售的物品" : "商店暂无商品";
 		const keys = /* @__PURE__ */ new Set();
 		for (const item of state.items) {
-			const key = `${item.index}:${item.ID}`;
+			const key = keyOf(item);
 			keys.add(key);
 			let node = nodes.get(key);
 			if (!node) {
 				node = button("", () => {
-					detail(state.items.find((entry) => entry.index === item.index && entry.ID === item.ID));
+					const current = state.items.find((entry) => keyOf(entry) === key);
+					if (current) detail(current);
 				});
 				node.className = "inventory-item";
-				node.append(document.createElement("img"), document.createElement("span"));
+				const image = document.createElement("img");
+				image.alt = "";
+				node.append(image, document.createElement("span"));
 				$(".inventory-list").append(node);
 				nodes.set(key, node);
 			}
 			node.disabled = !state.allowed;
-			setListItemText(node, item.name, `${item.price} ${state.currency || "Zeny"}${item.quantity ? ` · 已选 ${item.quantity}` : ""}`);
-			if (item.icon && node.querySelector("img").getAttribute("src") !== item.icon) node.querySelector("img").src = item.icon;
+			node.setAttribute("aria-pressed", String(selected === key));
+			setListItemText(node, item.name, `${item.price} ${currency()}${item.limit === 0 ? " · 无库存" : ""}${item.quantity ? ` · 已选 ${item.quantity}` : ""}`);
+			const image = node.querySelector("img");
+			image.hidden = !item.icon;
+			if (item.icon && image.getAttribute("src") !== item.icon) image.src = item.icon;
 		}
 		for (const [key, node] of nodes) if (!keys.has(key)) {
 			node.remove();
 			nodes.delete(key);
 		}
-		if (selected && !state.items.some((item) => item.index === selected.index && item.ID === selected.ID)) {
+		const item = state.items.find((entry) => keyOf(entry) === selected);
+		if (selected && !item) {
 			selected = null;
 			$(".inventory-detail").textContent = "物品已经变化，请重新选择";
 		}
+		if (item) {
+			title.textContent = item.name;
+			description.textContent = item.description || "";
+			price.textContent = `单价：${item.price} ${currency()} · 数量上限：${item.limit}`;
+			if (item.materials?.length) price.textContent += "\n材料：" + item.materials.map((m) => `${m.name}${m.refine_level ? `（精炼 +${m.refine_level}）` : ""} × ${m.amount}`).join("、");
+			input.max = String(item.limit);
+		}
+		const revert = $("[data-revert-quantity]");
+		if (revert) revert.hidden = !hasQuantityDraft();
 		for (const node of $(".inventory-detail").querySelectorAll("button,input")) node.disabled = !state.allowed;
 	}
 	update();
@@ -366137,47 +366797,89 @@ var init_ShopPanel = __esmMin((() => {
 	init_ListItemText();
 }));
 //#endregion
+//#region src/UI/Mobile/game/NPCPanel.css?raw
+var NPCPanel_default;
+var init_NPCPanel$1 = __esmMin((() => {
+	NPCPanel_default = "/* Dimensions and type scales are registered in MenuLayout.css. */\r\n:host([data-menu-density]) .panel[data-view='npc'] > .panel-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n	overflow: hidden;\r\n	font-size: var(--npc-text);\r\n}\r\n:host([data-menu-density]) .panel[data-view='npc'] h2 {\r\n	font-size: var(--npc-title);\r\n}\r\n:host([data-menu-density]) .panel[data-view='npc'] button {\r\n	min-height: var(--npc-control);\r\n	font-size: var(--npc-text);\r\n	line-height: 1.4;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.npc-content {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	flex: 1 1 auto;\r\n	display: flow-root;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: inherit;\r\n	line-height: 1.6;\r\n	overflow-wrap: anywhere;\r\n}\r\n.npc-cutin {\r\n	float: right;\r\n	width: auto;\r\n	max-width: 30%;\r\n	max-height: var(--npc-image-height);\r\n	object-fit: contain;\r\n	margin: 0 0 8px 12px;\r\n	pointer-events: none;\r\n}\r\n.npc-options {\r\n	display: grid;\r\n	gap: 8px;\r\n	clear: both;\r\n	padding-top: 10px;\r\n}\r\n.npc-options button {\r\n	width: 100%;\r\n	text-align: left;\r\n	padding: 8px 12px;\r\n}\r\n.npc-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 10px;\r\n}\r\n.npc-actions > button {\r\n	min-width: 88px;\r\n}\r\n.npc-status {\r\n	color: #bac4cd;\r\n	margin-right: auto;\r\n}\r\n.npc-input-form {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 8px;\r\n	width: 100%;\r\n}\r\n:host([data-menu-density]) .panel[data-view='npc'] .npc-input-form input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: var(--npc-control);\r\n	min-height: var(--npc-control);\r\n	font-size: 16px;\r\n	color: inherit;\r\n	background: #111a23;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	padding: 6px 10px;\r\n	box-sizing: border-box;\r\n}\r\n.npc-input-form button {\r\n	min-width: 72px;\r\n}\r\n.npc-error {\r\n	grid-column: 1 / -1;\r\n	color: #ff9b8d;\r\n	font-size: var(--npc-text);\r\n}\r\n";
+}));
+//#endregion
 //#region src/UI/Mobile/game/NPCPanel.js
+/** Shared presentation for NPC text, choices, input and buy/sell prompts. */
 function createNPCPanel(body, state) {
 	body.replaceChildren();
-	const feedback = createFeedback(body);
+	const content = document.createElement("div");
+	content.className = "npc-content";
 	const text = document.createElement("div");
 	text.className = "npc-lines";
 	text.textContent = (state.lines || []).join("\n");
-	body.append(text);
+	text.hidden = !text.textContent;
+	content.append(text);
+	const footer = document.createElement("div");
+	footer.className = "npc-actions";
+	body.append(content, footer);
 	updateNPCCutin(body, state);
-	function button(label, respond) {
+	function button(parent, label, respond) {
 		const node = document.createElement("button");
 		node.type = "button";
 		node.textContent = label;
 		node.onclick = respond;
-		body.append(node);
+		parent.append(node);
 	}
 	if (state.kind === "deal") {
-		button("购买", () => state.respond(0));
-		button("出售", () => state.respond(1));
+		text.hidden = false;
+		text.textContent ||= "请选择购买或出售物品。";
+		button(footer, "购买", () => state.respond(0));
+		button(footer, "出售", () => state.respond(1));
 		return;
 	}
-	if (state.mode === "menu") for (const option of state.options) button(option.text, () => state.respond(option.value));
-	if (state.mode === "next") button("下一步", () => state.respond());
-	if (state.mode === "close") button("结束对话", () => state.respond());
-	if (state.mode === "waiting") feedback("等待 NPC 回复…");
+	if (state.mode === "menu") {
+		const options = document.createElement("div");
+		options.className = "npc-options";
+		options.setAttribute("role", "group");
+		options.setAttribute("aria-label", "对话选项");
+		for (const option of state.options) button(options, option.text, () => state.respond(option.value));
+		content.append(options);
+		footer.hidden = true;
+	}
+	if (state.mode === "next") button(footer, "下一步", () => state.respond());
+	if (state.mode === "close") button(footer, "结束对话", () => state.respond());
+	if (state.mode === "waiting") {
+		const status = document.createElement("span");
+		status.className = "npc-status";
+		status.setAttribute("role", "status");
+		status.textContent = "等待 NPC 回复…";
+		footer.append(status);
+	}
 	if (["number", "text"].includes(state.mode)) {
-		const form = document.createElement("form"), input = document.createElement("input"), submit = document.createElement("button");
+		const form = document.createElement("form");
+		form.className = "npc-input-form";
+		const input = document.createElement("input");
 		input.type = "text";
 		input.inputMode = state.mode === "number" ? "numeric" : "text";
 		input.setAttribute("aria-label", state.mode === "number" ? "输入数字" : "输入文字");
+		input.placeholder = state.mode === "number" ? "请输入数字" : "请输入文字";
 		input.maxLength = state.mode === "text" ? 255 : 11;
+		const submit = document.createElement("button");
 		submit.type = "submit";
 		submit.textContent = "确定";
-		form.append(input, submit);
+		const error = document.createElement("span");
+		error.className = "npc-error";
+		error.id = "npc-input-error";
+		error.setAttribute("role", "status");
+		error.hidden = true;
+		input.setAttribute("aria-describedby", error.id);
+		form.append(input, submit, error);
 		form.onsubmit = (event) => {
 			event.preventDefault();
 			const result = state.respond(input.value);
-			if (typeof result === "string") feedback(result, "error");
+			const invalid = typeof result === "string";
+			error.textContent = invalid ? result : "";
+			error.hidden = !invalid;
+			input.setAttribute("aria-invalid", String(invalid));
 		};
-		body.append(form);
+		footer.append(form);
 	}
+	footer.hidden = !footer.childElementCount;
 }
 function updateNPCCutin(body, state) {
 	let image = body.querySelector(".npc-cutin");
@@ -366189,13 +366891,11 @@ function updateNPCCutin(body, state) {
 		image = document.createElement("img");
 		image.alt = "";
 		image.className = "npc-cutin";
-		body.prepend(image);
+		body.querySelector(".npc-content").prepend(image);
 	}
 	if (image.getAttribute("src") !== state.image) image.src = state.image;
 }
-var init_NPCPanel = __esmMin((() => {
-	init_Feedback();
-}));
+var init_NPCPanel = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Mobile/game/AttributesPanel.js
 function createAttributesPanel(body, actions) {
@@ -366853,10 +367553,30 @@ function createInventoryPanel(body, actions) {
 		if (!item.worn) ops.append(button("丢弃", () => chooseDrop(item)));
 		const reason = document.createElement("p");
 		reason.textContent = item.reason;
+		reason.className = "inventory-item-reason";
+		reason.hidden = !item.reason;
 		const content = document.createElement("div");
 		content.className = "inventory-item-description";
-		content.append(title, count, reason, description);
+		const heading = document.createElement("div");
+		heading.className = "inventory-item-overview";
+		const summary = document.createElement("div");
+		summary.className = "inventory-item-summary";
+		summary.append(title, count, reason, description);
+		heading.append(summary);
+		content.append(heading);
 		detail.replaceChildren(content, ops);
+		actions.preview(item.index, item.ID).then((preview) => {
+			if (!content.isConnected || !preview) return;
+			const source = preview.art || preview.image || item.icon;
+			if (source) {
+				const image = document.createElement("img");
+				image.className = `inventory-item-picture${preview.art ? " is-illustration" : ""}`;
+				image.alt = item.name;
+				image.src = source;
+				heading.prepend(image);
+				heading.classList.add("has-picture");
+			}
+		});
 	}
 	function chooseDrop(item) {
 		binding = true;
@@ -367163,19 +367883,25 @@ var init_ShortcutPanel = __esmMin((() => {
 //#region src/UI/Mobile/game/GameHUD.html?raw
 var GameHUD_default$2;
 var init_GameHUD$2 = __esmMin((() => {
-	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<div class=\"chat-preview surface\">\r\n		<nav class=\"chat-preview-tabs\" data-chat-preview-tabs aria-label=\"聊天预览分类\"></nav>\r\n		<button class=\"chat-preview-open\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n			<span data-chat-preview>暂无消息</span>\r\n		</button>\r\n		<button data-chat-collapse aria-label=\"收起聊天预览\" title=\"收起聊天预览\">‹</button>\r\n		<button data-chat-expand aria-label=\"展开聊天预览\" title=\"展开聊天预览\" hidden>\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷键\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷键\">›</button\r\n				><button data-panel=\"shortcuts\">快捷键</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能位置 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能位置 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能位置 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能位置 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能位置 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能位置 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop mobile-menu-viewport\" hidden>\r\n		<section\r\n			class=\"panel surface mobile-menu-window\"\r\n			role=\"dialog\"\r\n			aria-modal=\"true\"\r\n			aria-labelledby=\"mobile-game-panel-title\"\r\n		>\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\">\r\n					<button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button>\r\n				</div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
+	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<div class=\"chat-preview surface\">\r\n		<nav class=\"chat-preview-tabs\" data-chat-preview-tabs aria-label=\"聊天预览分类\"></nav>\r\n		<button class=\"chat-preview-open\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n			<span data-chat-preview>暂无消息</span>\r\n		</button>\r\n		<button data-chat-collapse aria-label=\"收起聊天预览\" title=\"收起聊天预览\">\r\n			<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\">\r\n				<path\r\n					d=\"m4 6 4 4 4-4\"\r\n					fill=\"none\"\r\n					stroke=\"currentColor\"\r\n					stroke-width=\"1.5\"\r\n					stroke-linecap=\"round\"\r\n					stroke-linejoin=\"round\"\r\n				/>\r\n			</svg>\r\n		</button>\r\n		<button data-chat-expand aria-label=\"展开聊天预览\" title=\"展开聊天预览\" hidden>\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷键\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷键\">›</button\r\n				><button data-panel=\"shortcuts\">快捷键</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能位置 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能位置 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能位置 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能位置 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能位置 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能位置 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop mobile-menu-viewport\" hidden>\r\n		<section\r\n			class=\"panel surface mobile-menu-window\"\r\n			role=\"dialog\"\r\n			aria-modal=\"true\"\r\n			aria-labelledby=\"mobile-game-panel-title\"\r\n		>\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\">\r\n					<button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button>\r\n				</div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.css?raw
 var GameHUD_default$1;
 var init_GameHUD$1 = __esmMin((() => {
-	GameHUD_default$1 = ":host {\r\n	/* Keep text metrics stable when the mobile keyboard changes the viewport. */\r\n	-webkit-text-size-adjust: 100%;\r\n	text-size-adjust: 100%;\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	height: 64px;\r\n	min-height: 64px;\r\n	max-height: 64px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	width: calc(100% - 48px);\r\n	height: 48px;\r\n	max-height: 48px;\r\n	line-height: 16px;\r\n	font-size: 11px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n	overflow-y: auto;\r\n	scrollbar-width: none;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n[data-chat-preview]::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.chat-preview-line {\r\n	display: block;\r\n	min-height: 16px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small [data-chat-unread] {\r\n	position: absolute;\r\n	right: 0;\r\n	bottom: 16px;\r\n}\r\n.chat-preview small {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 7px;\r\n	display: block;\r\n	text-align: right;\r\n	line-height: 16px;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	z-index: 10;\r\n	background: #0003;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 14px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 12px;\r\n	line-height: 1.6;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud {\r\n	height: var(--mobile-layout-height);\r\n}\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] {\r\n	--gauge-color: #4588ba;\r\n}\r\n.profile [data-ap] {\r\n	--gauge-color: #b28c35;\r\n}\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp {\r\n	--gauge-color: #ff0000;\r\n}\r\n";
+	GameHUD_default$1 = ":host {\r\n	/* Keep text metrics stable when the mobile keyboard changes the viewport. */\r\n	-webkit-text-size-adjust: 100%;\r\n	text-size-adjust: 100%;\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	height: 64px;\r\n	min-height: 64px;\r\n	max-height: 64px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	width: calc(100% - 48px);\r\n	height: 48px;\r\n	max-height: 48px;\r\n	line-height: 16px;\r\n	font-size: 11px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n	overflow-y: auto;\r\n	scrollbar-width: none;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n[data-chat-preview]::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.chat-preview-line {\r\n	display: block;\r\n	min-height: 16px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small [data-chat-unread] {\r\n	position: absolute;\r\n	right: 0;\r\n	bottom: 16px;\r\n}\r\n.chat-preview small {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 7px;\r\n	display: block;\r\n	text-align: right;\r\n	line-height: 16px;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	z-index: 10;\r\n	background: #0003;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 14px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud {\r\n	height: var(--mobile-layout-height);\r\n}\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] {\r\n	--gauge-color: #4588ba;\r\n}\r\n.profile [data-ap] {\r\n	--gauge-color: #b28c35;\r\n}\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp {\r\n	--gauge-color: #ff0000;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/GameHUDResponsive.css?raw
+var GameHUDResponsive_default;
+var init_GameHUDResponsive = __esmMin((() => {
+	GameHUDResponsive_default = "/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */\r\n.settings-body {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.settings-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.settings-tabs {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.settings-tabs button {\r\n	flex: 1;\r\n}\r\n.settings-tabs [aria-pressed='true'] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.settings-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.settings-section {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\r\n	gap: 0 20px;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-width: 0;\r\n	min-height: 54px;\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #35414d;\r\n}\r\n.settings-field > span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-field small {\r\n	display: block;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n}\r\n.settings-form .settings-field input,\r\n.settings-form .settings-field select {\r\n	flex: 0 0 auto;\r\n	width: 100px;\r\n	max-width: 45%;\r\n	min-height: 36px;\r\n	margin: 0;\r\n	padding: 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.settings-form .settings-field input[type='checkbox'] {\r\n	appearance: none;\r\n	width: 42px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	padding: 3px;\r\n	border-radius: 20px;\r\n	background: #384653;\r\n}\r\n.settings-field input[type='checkbox']::before {\r\n	content: '';\r\n	display: block;\r\n	width: 18px;\r\n	height: 18px;\r\n	border-radius: 50%;\r\n	background: #d2dae1;\r\n}\r\n.settings-form .settings-field input[type='checkbox']:checked {\r\n	background: #806334;\r\n	border-color: #ceaa70;\r\n}\r\n.settings-field input[type='checkbox']:checked::before {\r\n	transform: translateX(16px);\r\n	background: #ffe1ae;\r\n}\r\n.settings-field input:focus-visible,\r\n.settings-field select:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.settings-field.settings-volume {\r\n	flex-wrap: wrap;\r\n}\r\n.settings-form .settings-field input[type='range'] {\r\n	flex: 1;\r\n	min-width: 80px;\r\n	max-width: none;\r\n	padding: 0;\r\n	border: 0;\r\n	accent-color: #ceaa70;\r\n	background: transparent;\r\n}\r\n.settings-volume-value {\r\n	width: 38px;\r\n	text-align: right;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.settings-footer {\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n}\r\n.settings-footer p {\r\n	color: #ceaa70;\r\n	font-size: 11px;\r\n}\r\n.settings-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.settings-actions button {\r\n	flex: 1;\r\n}\r\n.profile-panel .character-details {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 0;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.character-details dt,\r\n.character-details dd {\r\n	padding: 12px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	align-content: center;\r\n}\r\n.character-details dt {\r\n	color: #bac4cd;\r\n}\r\n.character-details dd {\r\n	font-weight: 600;\r\n	font-variant-numeric: tabular-nums;\r\n	overflow-wrap: anywhere;\r\n}\r\n.character-details dt:first-child,\r\n.character-details dd:nth-child(2) {\r\n	color: #ffe1ae;\r\n	font-size: 18px;\r\n}\r\n.character-details dt:nth-last-child(-n + 2),\r\n.character-details dd:last-child {\r\n	border-bottom: 0;\r\n}\r\n/* Use available viewport space, not device names; phone landscape stays compact. */\r\n\r\n:host([data-menu-density='spacious']) {\r\n	font-size: 15px;\r\n}\r\n:host([data-menu-density='spacious']) .top-left {\r\n	width: 320px;\r\n	gap: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .profile {\r\n	padding: 12px 14px;\r\n	gap: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .profile-heading > span {\r\n	font-size: 14px;\r\n	max-width: 145px;\r\n}\r\n:host([data-menu-density='spacious']) .profile-bars {\r\n	grid-template-columns: 28px minmax(0, 1fr);\r\n	gap: 7px 6px;\r\n}\r\n:host([data-menu-density='spacious']) .profile label {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .profile meter {\r\n	height: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .profile label span {\r\n	min-width: 0;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .profile-actions button {\r\n	min-height: 44px;\r\n	padding: 8px 14px;\r\n}\r\n:host([data-menu-density='spacious']) [data-status-icons] img {\r\n	width: 28px;\r\n	height: 28px;\r\n}\r\n:host([data-menu-density='spacious']) .map {\r\n	width: 144px;\r\n	gap: 3px;\r\n}\r\n:host([data-menu-density='spacious']) .map canvas {\r\n	width: 128px;\r\n	height: 128px;\r\n}\r\n:host([data-menu-density='spacious']) .map span {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .map small {\r\n	font-size: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .battle-dock {\r\n	--battle-gap: 8px;\r\n	width: 366px;\r\n}\r\n:host([data-menu-density='spacious']) .combat {\r\n	gap: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .combat .skill {\r\n	font-size: 24px;\r\n	border-radius: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .skill img {\r\n	width: 40px;\r\n	height: 40px;\r\n	bottom: 5px;\r\n}\r\n:host([data-menu-density='spacious']) .skill small {\r\n	font-size: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .battle-status {\r\n	min-height: 40px;\r\n	font-size: 14px;\r\n	padding: 7px 10px;\r\n}\r\n:host([data-menu-density='spacious']) .battle-tools button,\r\n:host([data-menu-density='spacious']) .battle-status button {\r\n	min-height: 44px;\r\n	font-size: 14px;\r\n	padding: 6px 8px;\r\n}\r\n:host([data-menu-density='spacious']) .shortcut-tools,\r\n:host([data-menu-density='spacious']) .skill-actions {\r\n	height: 44px;\r\n}\r\n:host([data-menu-density='spacious']) .shortcut-tools button {\r\n	min-width: 40px;\r\n	min-height: 44px;\r\n}\r\n:host([data-menu-density='spacious']) .shortcut-tools span,\r\n:host([data-menu-density='spacious']) .skill-actions button {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .skill-prompt {\r\n	height: 40px;\r\n	font-size: 14px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .profile-heading strong {\r\n	font-size: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .profile meter::-webkit-meter-inner-element {\r\n	position: relative;\r\n	display: block;\r\n	height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .profile meter::-webkit-meter-bar {\r\n	top: 0;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MenuPanels.css?raw
 var MenuPanels_default;
 var init_MenuPanels = __esmMin((() => {
-	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	background: #191f26;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 12px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n:host(:not([data-menu-density='spacious'])) .panel {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel button {\r\n	min-height: 30px;\r\n	padding: 3px 7px;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel header {\r\n	padding: 4px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body {\r\n	padding: 8px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) {\r\n	flex-wrap: nowrap;\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 0;\r\n	min-width: 0;\r\n	padding: 3px 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions {\r\n	gap: 4px;\r\n	margin-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions button {\r\n	flex: 0 1 auto;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.social-form, .bank-form) > label {\r\n	flex-direction: row;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.social-form, .bank-form)\r\n	> label\r\n	> :is(input, select, textarea) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .social-form label > input[type='checkbox'] {\r\n	flex: 0 0 18px;\r\n	width: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel-body\r\n	:is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	padding: 3px 6px;\r\n	line-height: 1.25;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body textarea {\r\n	min-height: 60px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n:host(:not([data-menu-density='spacious'])) .panel .character-details :is(dt, dd) {\r\n	padding: 6px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-section {\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n	gap: 0 12px;\r\n	padding: 2px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-field {\r\n	min-height: 38px;\r\n	gap: 6px;\r\n	padding: 3px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer {\r\n	padding-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer p {\r\n	margin: 4px 0 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-actions {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-range-stepper button {\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	padding: 3px 6px;\r\n	line-height: 1.3;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot)\r\n	img {\r\n	width: 28px;\r\n	height: 28px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .equipment-slot {\r\n	min-height: 52px;\r\n	padding: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	.settings-form\r\n	.settings-field\r\n	:is(input:not([type='checkbox']), select) {\r\n	min-height: 30px;\r\n	padding: 3px 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form .settings-field input[type='range'] {\r\n	padding: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choices {\r\n	grid-template-columns: minmax(0, 1fr);\r\n	grid-auto-rows: minmax(44px, max-content);\r\n	gap: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice {\r\n	min-height: 44px;\r\n	padding: 6px 8px;\r\n	gap: 8px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice span {\r\n	min-width: 0;\r\n	font-size: 12px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice img {\r\n	position: static;\r\n	flex: 0 0 28px;\r\n	width: 28px;\r\n	height: 28px;\r\n	object-fit: contain;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-editor .shortcut-current {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-config {\r\n	margin-top: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-selected img {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-list {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card {\r\n	min-height: 32px;\r\n	padding: 4px 6px;\r\n	gap: 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card .auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card span {\r\n	gap: 2px 4px;\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-tabs [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.settings-section.camera-section {\r\n	display: block;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-allocation {\r\n	gap: 3px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-row {\r\n	padding-bottom: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-results dl {\r\n	gap: 4px 8px;\r\n	line-height: 1.3;\r\n}\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n	background: #18212b;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n}\r\n\r\n/* Compact forms and the shared catalog dropdown for every mobile menu. */\r\n.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	padding: 3px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.panel-body textarea {\r\n	min-height: 60px;\r\n	padding: 5px 6px;\r\n}\r\n.panel .menu-select {\r\n	min-width: 0;\r\n	height: auto;\r\n	min-height: 28px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {\r\n	flex: 1 1 120px;\r\n}\r\n.panel .social-form > label > .menu-select {\r\n	width: 100%;\r\n	flex: none;\r\n}\r\n.panel .menu-select .game-select-menu {\r\n	position: fixed;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n.panel .menu-select .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.panel :is([data-review], [data-evolution]):empty {\r\n	display: none;\r\n}\r\n.panel[data-view='bank'] .bank-form {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form dl {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form > label {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel[data-view='bank'] .bank-form > label > input {\r\n	width: min(240px, 75%);\r\n	flex: none;\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	margin: 6px 0;\r\n}\r\n.panel[data-view='vending'] label > input {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n\r\n.panel[data-view='inventory'] .inventory-toolbar {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel[data-view='inventory'] .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item {\r\n	min-width: 0;\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item img {\r\n	flex-shrink: 0;\r\n}\r\n.panel[data-view='inventory'] .inventory-list > p {\r\n	grid-column: 1 / -1;\r\n}\r\n\r\n/* Clamp list names only; quantities, status and full detail text stay separate. */\r\n.panel .list-item-text {\r\n	display: block;\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.panel .list-item-name,\r\n.panel .equipment-slot > span,\r\n.panel .equipment-candidate > span {\r\n	display: -webkit-box;\r\n	-webkit-box-orient: vertical;\r\n	-webkit-line-clamp: var(--list-name-lines, 2);\r\n	overflow: hidden;\r\n	overflow-wrap: anywhere;\r\n	white-space: normal;\r\n	line-height: 1.4;\r\n	max-height: calc(var(--list-name-lines, 2) * 1.4em);\r\n	min-width: 0;\r\n}\r\n.panel .list-item-meta {\r\n	display: block;\r\n	margin-top: 2px;\r\n	font-size: 11px;\r\n	line-height: 1.4;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .list-item-meta[hidden] {\r\n	display: none;\r\n}\r\n\r\n/* Compact selectors leave room for their icon and secondary information. */\r\n.panel[data-view='skills'] .list-item-name,\r\n.panel[data-view='social'] .list-item-name,\r\n.panel .shortcut-choice .list-item-name,\r\n.panel .equipment-slot > span {\r\n	--list-name-lines: 1;\r\n}\r\n\r\n/* A row with secondary information has one name line and one metadata line. */\r\n.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {\r\n	--list-name-lines: 1;\r\n}\r\n.panel .list-item-meta {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n\r\n/* Keep category controls and section edges clear in every viewport. */\r\n.panel .settings-form {\r\n	position: relative;\r\n	gap: 12px;\r\n}\r\n.panel .settings-section {\r\n	padding: 10px 12px;\r\n}\r\n.panel .settings-footer {\r\n	padding-block: 8px;\r\n}\r\n\r\n/* Converted native selects need their own width, independent of hidden inputs. */\r\n.panel .settings-field > .menu-select {\r\n	width: 100px;\r\n	min-width: 100px;\r\n}\r\n\r\n.camera-reset {\r\n	width: 100%;\r\n	margin-bottom: 12px;\r\n}\r\n.camera-group {\r\n	min-width: 0;\r\n	margin: 0 0 12px;\r\n}\r\n.camera-group:last-child {\r\n	margin-bottom: 0;\r\n}\r\n\r\n.panel .settings-switch-start {\r\n	grid-column: 1;\r\n}\r\n\r\n.panel .inventory-item-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	min-height: 0;\r\n}\r\n.inventory-item-description {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.panel .inventory-item-detail > .inventory-actions {\r\n	flex-shrink: 0;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #465461;\r\n}\r\n\r\n.panel[data-view='status'] .status-title {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel[data-view='status'] .status-duration {\r\n	flex: none;\r\n	color: #bac4cd;\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel-navigation {\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.skills-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	gap: 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.skills-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	padding: 10px 2px 4px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.skills-footer > strong {\r\n	min-width: 0;\r\n	color: #ceaa70;\r\n	font-size: var(--panel-label);\r\n	overflow-wrap: anywhere;\r\n}\r\n.skills-reset {\r\n	flex: none;\r\n}\r\n.panel .skills-reset > button {\r\n	width: auto;\r\n	padding: 3px 6px;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.skills-browser > .inventory-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.container-toolbar .container-capacity {\r\n	font-size: var(--panel-label);\r\n	color: #bac4cd;\r\n}\r\n\r\n.panel .skills-browser > .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .skills-browser .inventory-item {\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel .skills-browser .inventory-item img {\r\n	width: 24px;\r\n	height: 24px;\r\n	flex-shrink: 0;\r\n}\r\n\r\n@media (max-width: 520px) {\r\n	.panel .skills-browser .inventory-item {\r\n		flex-direction: column;\r\n		align-items: flex-start;\r\n	}\r\n}\r\n\r\n.attribute-editor {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-editor .attribute-allocation {\r\n	display: grid;\r\n	grid-template-columns: max-content minmax(100px, 1fr) max-content repeat(3, 32px);\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	column-gap: 6px;\r\n	row-gap: 0;\r\n	min-width: max-content;\r\n	overflow: visible;\r\n}\r\n.panel .attribute-row {\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	min-height: 34px;\r\n	gap: 6px;\r\n	padding: 4px 0 3px;\r\n}\r\n.attribute-row > :is(strong, .attribute-value, small) {\r\n	white-space: nowrap;\r\n}\r\n.attribute-row .attribute-value {\r\n	text-align: right;\r\n}\r\n.attribute-increments {\r\n	display: grid;\r\n	grid-template-columns: subgrid;\r\n	grid-column: span 3;\r\n}\r\n.panel .attribute-increments button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	text-align: center;\r\n	width: 32px;\r\n	min-width: 32px;\r\n	padding: 2px 0;\r\n}\r\n.attribute-layout > .attribute-results {\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-results > dl {\r\n	align-content: start;\r\n	row-gap: 0;\r\n}\r\n.attribute-results > dl > :is(dt, dd) {\r\n	min-height: 22px;\r\n	box-sizing: border-box;\r\n	padding: 1px 0;\r\n	line-height: 1.3;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.attribute-results > dl > dd {\r\n	justify-content: flex-end;\r\n}\r\n.attribute-footer {\r\n	justify-content: space-between;\r\n	padding-top: 6px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.attribute-footer > strong {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.attribute-plan-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-left: auto;\r\n}\r\n.panel .attribute-plan-actions button {\r\n	width: auto;\r\n	min-height: 28px;\r\n	padding: 3px 8px;\r\n	font-size: 12px;\r\n	white-space: nowrap;\r\n}\r\n@media (max-width: 520px) {\r\n	.attribute-editor .attribute-allocation,\r\n	.panel .attribute-row {\r\n		column-gap: 4px;\r\n	}\r\n	.attribute-footer {\r\n		gap: 6px;\r\n	}\r\n}\r\n\r\n@media (max-height: 450px) {\r\n	.attribute-results > dl > :is(dt, dd) {\r\n		min-height: 18px;\r\n		padding: 0;\r\n		font-size: 11px;\r\n	}\r\n}\r\n\r\n.shortcut-pages {\r\n	display: flex;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n	min-width: 0;\r\n}\r\n.shortcut-pages > .slot-picker {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .shortcut-pages > button {\r\n	flex: 0 0 24px;\r\n	width: 24px;\r\n	min-width: 24px;\r\n	padding: 0;\r\n	font-size: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n/* Share the footer row height without changing the original controls. */\r\n.panel .skills-layout {\r\n	grid-template-rows: minmax(0, 1fr) auto;\r\n}\r\n.panel .skills-layout > section {\r\n	display: grid;\r\n	grid-row: 1 / span 2;\r\n	grid-template-rows: subgrid;\r\n	row-gap: 8px;\r\n}\r\n.panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	margin-top: 0;\r\n	padding-top: 4px;\r\n	padding-bottom: 0;\r\n}\r\n.panel .skills-layout :is(.skills-reset > button, .inventory-actions > button) {\r\n	min-height: 28px;\r\n	padding-top: 3px;\r\n	padding-bottom: 3px;\r\n}\r\n\r\n/* Chat preview and conversation panel. */\r\n.chat-preview {\r\n	left: max(12px, env(safe-area-inset-left));\r\n	right: auto;\r\n	width: min(300px, calc(100% - 224px));\r\n	min-width: 96px;\r\n}\r\n[data-chat-unread] {\r\n	display: inline-block;\r\n	border-radius: 8px;\r\n	padding: 0 5px;\r\n	background: #954b42;\r\n	color: white;\r\n}\r\n.chat-body {\r\n	gap: 8px;\r\n	padding: 10px;\r\n}\r\n.chat-conversation {\r\n	display: grid;\r\n	grid-template-columns: 88px minmax(0, 1fr);\r\n	gap: 8px;\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 8px;\r\n	border: 1px solid #465461;\r\n	border-radius: 8px;\r\n	overflow: hidden;\r\n}\r\n.chat-filters {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	padding-right: 8px;\r\n	border-right: 1px solid #465461;\r\n}\r\n.panel .chat-filters > button {\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	min-height: 32px;\r\n	padding: 6px 8px;\r\n	border: 0;\r\n	border-radius: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n	text-align: left;\r\n	font-size: var(--panel-label);\r\n	white-space: nowrap;\r\n}\r\n.panel .chat-filters > button[aria-pressed='true'] {\r\n	background: #ceaa701a;\r\n	box-shadow: inset 2px 0 #ceaa70;\r\n	color: #ffe1aa;\r\n}\r\n.chat-content {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.panel .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.chat-conversation {\r\n		grid-template-columns: 72px minmax(0, 1fr);\r\n		gap: 6px;\r\n		padding: 6px;\r\n	}\r\n	.chat-filters {\r\n		padding-right: 6px;\r\n	}\r\n}\r\n.chat-body .chat-log {\r\n	padding: 2px 4px;\r\n	overscroll-behavior: contain;\r\n}\r\n.chat-log p {\r\n	margin: 0 0 6px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-log [data-channel='private'] {\r\n	color: #e5b6e9;\r\n}\r\n.chat-log [data-channel='party'] {\r\n	color: #a6d7ed;\r\n}\r\n.chat-log [data-channel='guild'] {\r\n	color: #acd7a0;\r\n}\r\n.chat-log [data-channel='system'] {\r\n	color: #b4bdc7;\r\n}\r\n.panel .chat-form {\r\n	display: grid;\r\n	grid-template-columns: 78px minmax(0, 1fr) 56px 56px;\r\n	gap: 6px;\r\n	margin: 0;\r\n}\r\n.panel .chat-form > [aria-label='私聊对象'] {\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > :is(input, button, select, .menu-select) {\r\n	min-width: 0;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > input {\r\n	padding: 5px 7px;\r\n	font-size: 16px;\r\n}\r\n.panel .chat-form > button {\r\n	padding: 3px;\r\n}\r\n.panel .chat-form > [data-emotions] {\r\n	font-size: 22px;\r\n}\r\n.chat-emotions {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));\r\n	gap: 5px;\r\n	max-height: 100px;\r\n	overflow-y: auto;\r\n	flex: none;\r\n}\r\n.panel .chat-emotions button {\r\n	padding: 3px;\r\n	font-size: 21px;\r\n}\r\n@media (max-width: 600px) {\r\n	.chat-preview {\r\n		width: min(200px, calc(100% - 224px));\r\n		bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px));\r\n	}\r\n}\r\n\r\n.panel .chat-form > :is(input, button),\r\n.panel .chat-form .menu-select > button {\r\n	height: 32px;\r\n	min-height: 32px;\r\n}\r\n\r\n/* Override compact generic inputs so iOS cannot zoom the chat composer. */\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label],\r\n.panel.chat-panel .chat-form > button,\r\n.panel.chat-panel .chat-form .game-select-trigger {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	min-height: 32px;\r\n	max-height: 32px;\r\n}\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label] {\r\n	font-size: 16px;\r\n	padding: 3px 6px;\r\n}\r\n\r\n.chat-emotions {\r\n	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));\r\n	min-height: 44px;\r\n}\r\n.panel .chat-emotions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 1px;\r\n	min-height: 44px;\r\n}\r\n.chat-emotions img {\r\n	display: block;\r\n	width: 40px;\r\n	height: 40px;\r\n	image-rendering: pixelated;\r\n}\r\n\r\n.chat-content:has(.chat-emotions:not([hidden])) > .chat-log {\r\n	display: none;\r\n}\r\n.chat-body .chat-emotions {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n	grid-auto-rows: 44px;\r\n	align-content: start;\r\n}\r\n\r\n.chat-preview {\r\n	pointer-events: auto;\r\n}\r\n.chat-preview-open {\r\n	display: block;\r\n	width: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	text-align: left;\r\n}\r\n.chat-preview [data-chat-collapse] {\r\n	position: absolute;\r\n	right: 3px;\r\n	top: 2px;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	color: #bac4cd;\r\n	font-size: 20px;\r\n}\r\n.chat-preview.collapsed {\r\n	width: 40px;\r\n	min-width: 40px;\r\n	height: 36px;\r\n	min-height: 36px;\r\n	padding: 0;\r\n}\r\n.chat-preview [data-chat-expand] {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	border-radius: inherit;\r\n	color: #ffd27f;\r\n}\r\n[data-chat-expand] [data-chat-unread] {\r\n	position: absolute;\r\n	right: -5px;\r\n	top: -6px;\r\n	font-size: 10px;\r\n	line-height: 16px;\r\n}\r\n\r\n.chat-body .chat-log {\r\n	font-size: 14px;\r\n	line-height: 1.6;\r\n}\r\n.panel.chat-panel .chat-form > button {\r\n	font-size: 14px;\r\n	white-space: nowrap;\r\n	line-height: 1;\r\n	padding: 0 8px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-body .chat-log {\r\n	font-size: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form {\r\n	grid-template-columns: 100px minmax(0, 1fr) 72px 72px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > button {\r\n	font-size: 16px;\r\n	padding: 0 12px;\r\n}\r\n\r\n/* Center footer contents within equal top/bottom spacing, including subgrid rows. */\r\n:host([data-menu-density='spacious']) .panel .attribute-footer,\r\n:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	align-items: center;\r\n	align-content: center;\r\n	padding-block: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.skills-reset, .attribute-plan-actions) {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.panel\r\n	:is(.attribute-footer, .skills-footer, .skills-layout .inventory-actions)\r\n	button {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	line-height: 1.2;\r\n}\r\n\r\n/* Include the owning body's bottom space in the footer instead of padding it twice. */\r\n:host([data-menu-density='spacious']) .panel:is([data-view='attributes'], [data-view='skills']) > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .skills-layout > section {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-footer,\r\n:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	padding-block: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation {\r\n	grid-template-columns: max-content minmax(72px, 1fr) max-content repeat(3, 56px);\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-increments button {\r\n	width: 56px;\r\n	min-width: 56px;\r\n	padding-inline: 4px;\r\n	font-size: 14px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation,\r\n:host([data-menu-density='spacious']) .panel .attribute-results > dl {\r\n	row-gap: 4px;\r\n}\r\n";
+	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	background: #191f26;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 12px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n:host(:not([data-menu-density='spacious'])) .panel {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel button {\r\n	min-height: 30px;\r\n	padding: 3px 7px;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel header {\r\n	padding: 4px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body {\r\n	padding: 8px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) {\r\n	flex-wrap: nowrap;\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 0;\r\n	min-width: 0;\r\n	padding: 3px 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions {\r\n	gap: 4px;\r\n	margin-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions button {\r\n	flex: 0 1 auto;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.social-form, .bank-form) > label {\r\n	flex-direction: row;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.social-form, .bank-form)\r\n	> label\r\n	> :is(input, select, textarea) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .social-form label > input[type='checkbox'] {\r\n	flex: 0 0 18px;\r\n	width: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel-body\r\n	:is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	padding: 3px 6px;\r\n	line-height: 1.25;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body textarea {\r\n	min-height: 60px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n:host(:not([data-menu-density='spacious'])) .panel .character-details :is(dt, dd) {\r\n	padding: 6px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-section {\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n	gap: 0 12px;\r\n	padding: 2px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-field {\r\n	min-height: 38px;\r\n	gap: 6px;\r\n	padding: 3px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer {\r\n	padding-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer p {\r\n	margin: 4px 0 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-actions {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-range-stepper button {\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	padding: 3px 6px;\r\n	line-height: 1.3;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot)\r\n	img {\r\n	width: 28px;\r\n	height: 28px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .equipment-slot {\r\n	min-height: 52px;\r\n	padding: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	.settings-form\r\n	.settings-field\r\n	:is(input:not([type='checkbox']), select) {\r\n	min-height: 30px;\r\n	padding: 3px 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form .settings-field input[type='range'] {\r\n	padding: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choices {\r\n	grid-template-columns: minmax(0, 1fr);\r\n	grid-auto-rows: minmax(44px, max-content);\r\n	gap: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice {\r\n	min-height: 44px;\r\n	padding: 6px 8px;\r\n	gap: 8px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice span {\r\n	min-width: 0;\r\n	font-size: 12px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice img {\r\n	position: static;\r\n	flex: 0 0 28px;\r\n	width: 28px;\r\n	height: 28px;\r\n	object-fit: contain;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-editor .shortcut-current {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-config {\r\n	margin-top: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-selected img {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-list {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card {\r\n	min-height: 32px;\r\n	padding: 4px 6px;\r\n	gap: 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card .auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card span {\r\n	gap: 2px 4px;\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-tabs [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-attribute-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.settings-section.camera-section {\r\n	display: block;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-allocation {\r\n	gap: 3px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-row {\r\n	padding-bottom: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-results dl {\r\n	gap: 4px 8px;\r\n	line-height: 1.3;\r\n}\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n	background: #18212b;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n}\r\n\r\n/* Compact forms and the shared catalog dropdown for every mobile menu. */\r\n.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	padding: 3px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.panel-body textarea {\r\n	min-height: 60px;\r\n	padding: 5px 6px;\r\n}\r\n.panel .menu-select {\r\n	min-width: 0;\r\n	height: auto;\r\n	min-height: 28px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {\r\n	flex: 1 1 120px;\r\n}\r\n.panel .social-form > label > .menu-select {\r\n	width: 100%;\r\n	flex: none;\r\n}\r\n.panel .menu-select .game-select-menu {\r\n	position: fixed;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n.panel .menu-select .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.panel :is([data-review], [data-evolution]):empty {\r\n	display: none;\r\n}\r\n.panel[data-view='bank'] .bank-form {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form dl {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form > label {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel[data-view='bank'] .bank-form > label > input {\r\n	width: min(240px, 75%);\r\n	flex: none;\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	margin: 6px 0;\r\n}\r\n.panel[data-view='vending'] label > input {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n\r\n.panel[data-view='inventory'] .inventory-toolbar {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel[data-view='inventory'] .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item {\r\n	min-width: 0;\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item img {\r\n	flex-shrink: 0;\r\n}\r\n.panel[data-view='inventory'] .inventory-list > p {\r\n	grid-column: 1 / -1;\r\n}\r\n\r\n/* Clamp list names only; quantities, status and full detail text stay separate. */\r\n.panel .list-item-text {\r\n	display: block;\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.panel .list-item-name,\r\n.panel .equipment-slot > span,\r\n.panel .equipment-candidate > span {\r\n	display: -webkit-box;\r\n	-webkit-box-orient: vertical;\r\n	-webkit-line-clamp: var(--list-name-lines, 2);\r\n	overflow: hidden;\r\n	overflow-wrap: anywhere;\r\n	white-space: normal;\r\n	line-height: 1.4;\r\n	max-height: calc(var(--list-name-lines, 2) * 1.4em);\r\n	min-width: 0;\r\n}\r\n.panel .list-item-meta {\r\n	display: block;\r\n	margin-top: 2px;\r\n	font-size: 11px;\r\n	line-height: 1.4;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .list-item-meta[hidden] {\r\n	display: none;\r\n}\r\n\r\n/* Compact selectors leave room for their icon and secondary information. */\r\n.panel[data-view='skills'] .list-item-name,\r\n.panel[data-view='social'] .list-item-name,\r\n.panel .shortcut-choice .list-item-name,\r\n.panel .equipment-slot > span {\r\n	--list-name-lines: 1;\r\n}\r\n\r\n/* A row with secondary information has one name line and one metadata line. */\r\n.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {\r\n	--list-name-lines: 1;\r\n}\r\n.panel .list-item-meta {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n\r\n/* Keep category controls and section edges clear in every viewport. */\r\n.panel .settings-form {\r\n	position: relative;\r\n	gap: 12px;\r\n}\r\n.panel .settings-section {\r\n	padding: 10px 12px;\r\n}\r\n.panel .settings-footer {\r\n	padding-block: 8px;\r\n}\r\n\r\n/* Converted native selects need their own width, independent of hidden inputs. */\r\n.panel .settings-field > .menu-select {\r\n	width: 100px;\r\n	min-width: 100px;\r\n}\r\n\r\n.camera-reset {\r\n	width: 100%;\r\n	margin-bottom: 12px;\r\n}\r\n.camera-group {\r\n	min-width: 0;\r\n	margin: 0 0 12px;\r\n}\r\n.camera-group:last-child {\r\n	margin-bottom: 0;\r\n}\r\n\r\n.panel .settings-switch-start {\r\n	grid-column: 1;\r\n}\r\n\r\n.panel .inventory-item-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	min-height: 0;\r\n}\r\n.inventory-item-description {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.panel .inventory-item-detail > .inventory-actions {\r\n	flex-shrink: 0;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #465461;\r\n}\r\n\r\n.panel[data-view='status'] .status-title {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel[data-view='status'] .status-duration {\r\n	flex: none;\r\n	color: #bac4cd;\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel-navigation {\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.skills-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	gap: 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.skills-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	padding: 10px 2px 4px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.skills-footer > strong {\r\n	min-width: 0;\r\n	color: #ceaa70;\r\n	font-size: var(--panel-label);\r\n	overflow-wrap: anywhere;\r\n}\r\n.skills-reset {\r\n	flex: none;\r\n}\r\n.panel .skills-reset > button {\r\n	width: auto;\r\n	padding: 3px 6px;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.skills-browser > .inventory-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.container-toolbar .container-capacity {\r\n	font-size: var(--panel-label);\r\n	color: #bac4cd;\r\n}\r\n\r\n.panel .skills-browser > .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .skills-browser .inventory-item {\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel .skills-browser .inventory-item img {\r\n	width: 24px;\r\n	height: 24px;\r\n	flex-shrink: 0;\r\n}\r\n\r\n@media (max-width: 520px) {\r\n	.panel .skills-browser .inventory-item {\r\n		flex-direction: column;\r\n		align-items: flex-start;\r\n	}\r\n}\r\n\r\n.attribute-editor {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-editor .attribute-allocation {\r\n	display: grid;\r\n	grid-template-columns: max-content minmax(0, 1fr) max-content repeat(3, var(--panel-attribute-width));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	column-gap: 6px;\r\n	row-gap: 0;\r\n	min-width: 0;\r\n	overflow: visible;\r\n}\r\n.panel .attribute-row {\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	min-height: 34px;\r\n	gap: 6px;\r\n	padding: 4px 0 3px;\r\n}\r\n.attribute-row > :is(strong, .attribute-value, small) {\r\n	white-space: nowrap;\r\n}\r\n.attribute-row .attribute-value {\r\n	text-align: right;\r\n}\r\n.attribute-increments {\r\n	display: grid;\r\n	grid-template-columns: subgrid;\r\n	grid-column: span 3;\r\n}\r\n.panel .attribute-increments button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	text-align: center;\r\n	width: 32px;\r\n	min-width: 32px;\r\n	padding: 2px 0;\r\n}\r\n.attribute-layout > .attribute-results {\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-results > dl {\r\n	align-content: start;\r\n	row-gap: 0;\r\n}\r\n.attribute-results > dl > :is(dt, dd) {\r\n	min-height: 22px;\r\n	box-sizing: border-box;\r\n	padding: 1px 0;\r\n	line-height: 1.3;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.attribute-results > dl > dd {\r\n	justify-content: flex-end;\r\n}\r\n.attribute-footer {\r\n	justify-content: space-between;\r\n	padding-top: 6px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.attribute-footer > strong {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.attribute-plan-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-left: auto;\r\n}\r\n.panel .attribute-plan-actions button {\r\n	width: auto;\r\n	min-height: 28px;\r\n	padding: 3px 8px;\r\n	font-size: 12px;\r\n	white-space: nowrap;\r\n}\r\n@media (max-width: 520px) {\r\n	.attribute-editor .attribute-allocation,\r\n	.panel .attribute-row {\r\n		column-gap: 4px;\r\n	}\r\n	.attribute-footer {\r\n		gap: 6px;\r\n	}\r\n}\r\n\r\n@media (max-height: 450px) {\r\n	.attribute-results > dl > :is(dt, dd) {\r\n		min-height: 18px;\r\n		padding: 0;\r\n		font-size: 11px;\r\n	}\r\n}\r\n\r\n.shortcut-pages {\r\n	display: flex;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n	min-width: 0;\r\n}\r\n.shortcut-pages > .slot-picker {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .shortcut-pages > button {\r\n	flex: 0 0 30px;\r\n	width: 30px;\r\n	min-width: 30px;\r\n	padding: 0;\r\n	font-size: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n/* Share the footer row height without changing the original controls. */\r\n.panel .skills-layout {\r\n	grid-template-rows: minmax(0, 1fr) auto;\r\n}\r\n.panel .skills-layout > section {\r\n	display: grid;\r\n	grid-row: 1 / span 2;\r\n	grid-template-rows: subgrid;\r\n	row-gap: 8px;\r\n}\r\n.panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	margin-top: 0;\r\n	padding-top: 4px;\r\n	padding-bottom: 0;\r\n}\r\n.panel .skills-layout :is(.skills-reset > button, .inventory-actions > button) {\r\n	min-height: 28px;\r\n	padding-top: 3px;\r\n	padding-bottom: 3px;\r\n}\r\n\r\n/* Chat preview and conversation panel. */\r\n.chat-preview {\r\n	left: max(12px, env(safe-area-inset-left));\r\n	right: auto;\r\n	width: min(300px, calc(100% - 224px));\r\n	min-width: 96px;\r\n}\r\n[data-chat-unread] {\r\n	display: inline-block;\r\n	border-radius: 8px;\r\n	padding: 0 5px;\r\n	background: #954b42;\r\n	color: white;\r\n}\r\n.chat-body {\r\n	gap: 8px;\r\n	padding: 10px;\r\n}\r\n.chat-conversation {\r\n	display: grid;\r\n	grid-template-columns: 88px minmax(0, 1fr);\r\n	gap: 8px;\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 8px;\r\n	border: 1px solid #465461;\r\n	border-radius: 8px;\r\n	overflow: hidden;\r\n}\r\n.chat-filters {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	padding-right: 8px;\r\n	border-right: 1px solid #465461;\r\n}\r\n.panel .chat-filters > button {\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	min-height: 32px;\r\n	padding: 6px 8px;\r\n	border: 0;\r\n	border-radius: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n	text-align: left;\r\n	font-size: var(--panel-label);\r\n	white-space: nowrap;\r\n}\r\n.panel .chat-filters > button[aria-pressed='true'] {\r\n	background: #ceaa701a;\r\n	box-shadow: inset 2px 0 #ceaa70;\r\n	color: #ffe1aa;\r\n}\r\n.chat-content {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.panel .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.chat-conversation {\r\n		grid-template-columns: 72px minmax(0, 1fr);\r\n		gap: 6px;\r\n		padding: 6px;\r\n	}\r\n	.chat-filters {\r\n		padding-right: 6px;\r\n	}\r\n}\r\n.chat-body .chat-log {\r\n	padding: 2px 4px;\r\n	overscroll-behavior: contain;\r\n}\r\n.chat-log p {\r\n	margin: 0 0 6px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-log [data-channel='private'] {\r\n	color: #e5b6e9;\r\n}\r\n.chat-log [data-channel='party'] {\r\n	color: #a6d7ed;\r\n}\r\n.chat-log [data-channel='guild'] {\r\n	color: #acd7a0;\r\n}\r\n.chat-log [data-channel='system'] {\r\n	color: #b4bdc7;\r\n}\r\n.panel .chat-form {\r\n	display: grid;\r\n	grid-template-columns: 78px minmax(0, 1fr) 56px 56px;\r\n	gap: 6px;\r\n	margin: 0;\r\n}\r\n.panel .chat-form > [aria-label='私聊对象'] {\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > :is(input, button, select, .menu-select) {\r\n	min-width: 0;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > input {\r\n	padding: 5px 7px;\r\n	font-size: 16px;\r\n}\r\n.panel .chat-form > button {\r\n	padding: 3px;\r\n}\r\n.panel .chat-form > [data-emotions] {\r\n	font-size: 22px;\r\n}\r\n.chat-emotions {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));\r\n	gap: 5px;\r\n	max-height: 100px;\r\n	overflow-y: auto;\r\n	flex: none;\r\n}\r\n.panel .chat-emotions button {\r\n	padding: 3px;\r\n	font-size: 21px;\r\n}\r\n@media (max-width: 600px) {\r\n	.chat-preview {\r\n		width: min(200px, calc(100% - 224px));\r\n		bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px));\r\n	}\r\n}\r\n\r\n.panel .chat-form > :is(input, button),\r\n.panel .chat-form .menu-select > button {\r\n	height: 32px;\r\n	min-height: 32px;\r\n}\r\n\r\n/* Override compact generic inputs so iOS cannot zoom the chat composer. */\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label],\r\n.panel.chat-panel .chat-form > button,\r\n.panel.chat-panel .chat-form .game-select-trigger {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	min-height: 32px;\r\n	max-height: 32px;\r\n}\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label] {\r\n	font-size: 16px;\r\n	padding: 3px 6px;\r\n}\r\n\r\n.chat-emotions {\r\n	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));\r\n	min-height: 44px;\r\n}\r\n.panel .chat-emotions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 1px;\r\n	min-height: 44px;\r\n}\r\n.chat-emotions img {\r\n	display: block;\r\n	width: 40px;\r\n	height: 40px;\r\n	image-rendering: pixelated;\r\n}\r\n\r\n.chat-content:has(.chat-emotions:not([hidden])) > .chat-log {\r\n	display: none;\r\n}\r\n.chat-body .chat-emotions {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n	grid-auto-rows: 44px;\r\n	align-content: start;\r\n}\r\n\r\n.chat-preview {\r\n	pointer-events: auto;\r\n}\r\n.chat-preview-open {\r\n	display: block;\r\n	width: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	text-align: left;\r\n}\r\n.chat-preview [data-chat-collapse] {\r\n	position: absolute;\r\n	right: 3px;\r\n	top: 2px;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	color: #bac4cd;\r\n	font-size: 20px;\r\n}\r\n.chat-preview.collapsed {\r\n	width: 40px;\r\n	min-width: 40px;\r\n	height: 36px;\r\n	min-height: 36px;\r\n	padding: 0;\r\n}\r\n.chat-preview [data-chat-expand] {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	border-radius: inherit;\r\n	color: #ffd27f;\r\n}\r\n[data-chat-expand] [data-chat-unread] {\r\n	position: absolute;\r\n	right: -5px;\r\n	top: -6px;\r\n	font-size: 10px;\r\n	line-height: 16px;\r\n}\r\n\r\n.chat-body .chat-log {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.5;\r\n}\r\n.panel.chat-panel .chat-form > button {\r\n	font-size: var(--panel-text);\r\n	white-space: nowrap;\r\n	line-height: 1;\r\n	padding: 0 8px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-body .chat-log {\r\n	font-size: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form {\r\n	grid-template-columns: 100px minmax(0, 1fr) 72px 72px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > button {\r\n	font-size: 16px;\r\n	padding: 0 12px;\r\n}\r\n\r\n/* Center footer contents within equal top/bottom spacing, including subgrid rows. */\r\n:host([data-menu-density='spacious']) .panel .attribute-footer,\r\n:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	align-items: center;\r\n	align-content: center;\r\n	padding-block: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.skills-reset, .attribute-plan-actions) {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.panel\r\n	:is(.attribute-footer, .skills-footer, .skills-layout .inventory-actions)\r\n	button {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	line-height: 1.2;\r\n}\r\n\r\n/* Include the owning body's bottom space in the footer instead of padding it twice. */\r\n:host([data-menu-density='spacious']) .panel:is([data-view='attributes'], [data-view='skills']) > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .skills-layout > section {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-footer,\r\n:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	padding-block: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-increments button {\r\n	width: 56px;\r\n	min-width: 56px;\r\n	padding-inline: 4px;\r\n	font-size: 14px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation,\r\n:host([data-menu-density='spacious']) .panel .attribute-results > dl {\r\n	row-gap: 4px;\r\n}\r\n\r\n/* Attribute increments retain their own compact scale, independent of form controls. */\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments button {\r\n	width: var(--panel-attribute-width);\r\n	min-width: var(--panel-attribute-width);\r\n	height: var(--panel-attribute-control);\r\n	min-height: var(--panel-attribute-control);\r\n	padding: 2px 0;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-editor .attribute-allocation {\r\n	row-gap: 0;\r\n}\r\n\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-row {\r\n	min-height: 36px;\r\n	grid-template-rows: 28px;\r\n	padding: 4px 0 3px;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments {\r\n	align-items: center;\r\n}\r\n\r\n/* Keep the last row's geometry while removing the trailing divider. */\r\n.panel .attribute-row:last-child {\r\n	border-bottom-color: transparent;\r\n}\r\n\r\n/* Subgrids must use their parent's gutters or edge tracks can spill outward. */\r\n.panel .attribute-row,\r\n.panel .attribute-increments {\r\n	column-gap: inherit;\r\n}\r\n\r\n/* Phone chat uses the shared compact reading scale; inputs retain 16px to prevent iOS zoom. */\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel.chat-panel\r\n	:is(.chat-filters > button, .game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel.chat-panel header h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .chat-log p {\r\n	margin-bottom: 4px;\r\n}\r\n\r\n/* Footer padding owns the full space below the divider, including the outer edge. */\r\n:host([data-menu-density='spacious']) .panel.settings-panel > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-footer {\r\n	padding-block: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-actions,\r\n:host([data-menu-density='spacious']) .panel .settings-actions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-row {\r\n	min-height: 62px;\r\n	padding-block: 8px;\r\n}\r\n.inventory-item-overview {\r\n	--inventory-picture-width: 72px;\r\n	--inventory-picture-height: 96px;\r\n	display: grid;\r\n	gap: 10px;\r\n	align-items: start;\r\n	margin-bottom: 10px;\r\n}\r\n.inventory-item-overview.has-picture {\r\n	grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n.inventory-item-summary {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .inventory-item-summary h3 {\r\n	margin: 0 0 8px;\r\n}\r\n.inventory-item-summary p {\r\n	margin: 0;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-picture {\r\n	display: block;\r\n	width: var(--inventory-picture-width);\r\n	height: var(--inventory-picture-height);\r\n	box-sizing: border-box;\r\n	border: 1px solid #65717b;\r\n	border-radius: 4px;\r\n	background: #19212a;\r\n	box-shadow: 0 2px 6px #0005;\r\n	object-fit: contain;\r\n	object-position: left top;\r\n	margin: 0;\r\n}\r\n.inventory-item-summary > .item-description {\r\n	border-top: 1px solid #465461;\r\n	padding-top: 10px;\r\n	margin-top: 10px;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-summary > .inventory-item-reason {\r\n	margin: 8px 0 0;\r\n	color: #ceaa70;\r\n}\r\n:host([data-menu-density='spacious']) .inventory-item-overview {\r\n	--inventory-picture-width: 96px;\r\n	--inventory-picture-height: 128px;\r\n	gap: 12px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MailPanel.css?raw
@@ -367196,6 +367922,11 @@ ${PickupSettingsPanel_default}
 ${MobileSelect_default}
 ${MailPanel_default}
 ${MenuLayout_default}
+${NPCPanel_default}
+${ShopPanel_default}
+${InteractionPanel_default}
+${InteractionPhone_default}
+${InteractionTablet_default}
 ${ChatPreview_default}</style>${GameHUD_default$2}`;
 	const $ = (selector) => root.querySelector(selector);
 	const abort = new AbortController();
@@ -367368,6 +368099,17 @@ ${ChatPreview_default}</style>${GameHUD_default$2}`;
 		if (!currentPanel) lastTrigger = root.activeElement;
 		currentPanel = panel;
 		$(".panel").dataset.view = panel;
+		$(".panel").classList.toggle("interaction-panel", [
+			"materials",
+			"transformation",
+			"refinement",
+			"enchant",
+			"selection",
+			"trade",
+			"vending",
+			"storage",
+			"cart"
+		].includes(panel));
 		backdropPointer = null;
 		dismissBackdrop = false;
 		backdrop.hidden = false;
@@ -367404,7 +368146,8 @@ ${ChatPreview_default}</style>${GameHUD_default$2}`;
 			npc: serverState?.title || "NPC 对话"
 		}[panel]);
 		$("[data-close]").disabled = serverState?.canClose === false;
-		$("[data-back]").hidden = panel === "menu" || panel === "chat";
+		$("[data-close]").title = panel === "npc" && serverState?.canClose === false ? "请先完成当前对话步骤" : "关闭";
+		$("[data-back]").hidden = panel === "menu" || panel === "chat" || panel === "npc";
 		$("[data-back]").disabled = serverState?.canClose === false;
 		body.replaceChildren();
 		statusPanel = null;
@@ -367460,6 +368203,7 @@ ${ChatPreview_default}</style>${GameHUD_default$2}`;
 		backdrop.classList.toggle("chat-backdrop", panel === "chat");
 		if (panel === "information") {
 			const list = document.createElement("dl");
+			list.className = "interaction-information";
 			for (const [label, value] of serverState.rows) {
 				const term = document.createElement("dt"), description = document.createElement("dd");
 				term.textContent = label;
@@ -367634,6 +368378,7 @@ ${ChatPreview_default}</style>${GameHUD_default$2}`;
 		});
 		if (panel === "inventory") inventoryPanel = createInventoryPanel(body, {
 			snapshot: actions.inventorySnapshot,
+			preview: actions.inventoryPreview,
 			act: actions.inventoryAct,
 			drop: actions.inventoryDrop,
 			shortcuts: actions.shortcutSnapshot,
@@ -367691,7 +368436,7 @@ ${ChatPreview_default}</style>${GameHUD_default$2}`;
 		dismissBackdrop = false;
 	});
 	listen(backdrop, "click", (event) => {
-		if (event.target === backdrop && dismissBackdrop) close();
+		if (event.target === backdrop && dismissBackdrop && currentPanel !== "npc") close();
 		dismissBackdrop = false;
 	});
 	listen(root, "keydown", (event) => {
@@ -367874,6 +368619,9 @@ ${ChatPreview_default}</style>${GameHUD_default$2}`;
 	};
 }
 var init_GameHUDView = __esmMin((() => {
+	init_InteractionPanel$1();
+	init_InteractionPhone();
+	init_InteractionTablet();
 	init_ChatPreview$1();
 	init_ChatPreview();
 	init_MenuLayout$1();
@@ -367904,7 +368652,9 @@ var init_GameHUDView = __esmMin((() => {
 	init_ChatPanel();
 	init_QuestsPanel();
 	init_ContainerPanel();
+	init_ShopPanel$1();
 	init_ShopPanel();
+	init_NPCPanel$1();
 	init_NPCPanel();
 	init_AttributesPanel();
 	init_SkillsPanel();
@@ -368125,6 +368875,7 @@ var init_GameHUD = __esmMin((() => {
 			equipmentSnapshot: () => equipment.snapshot(),
 			equipmentAct: (...args) => equipment.act(...args),
 			inventorySnapshot: () => inventory.snapshot(),
+			inventoryPreview: (...args) => inventory.preview(...args),
 			inventoryDrop: (...args) => inventory.drop(...args),
 			inventoryAct: (...args) => inventory.act(...args),
 			bindInventory: (index, id, slot) => inventory.canBind(index, id) && shortcuts.configure(slot, {
@@ -372376,7 +373127,7 @@ function onUpdateSubmitList$1(item) {
 		root.querySelector(".submit_button_enabled").style.display = "none";
 		root.querySelector(".submit_button_disabled").style.display = "block";
 		root.querySelector(".make_disabled").style.display = "none";
-		root.querySelector(".make_enabled").style.display = "inline-block";
+		root.querySelector(".make_enabled").style.display = "";
 	}
 	adjustSubmittedMatList();
 	updateAvailableMatList$1(item.ITID, item.index, sourceItem.count, false);
@@ -372977,7 +373728,7 @@ function onUpdateSubmitList(item) {
 	root.querySelector(".submit_button_enabled").style.display = "block";
 	root.querySelector(".submit_button_disabled").style.display = "none";
 	root.querySelector(".make_disabled").style.display = "none";
-	root.querySelector(".make_enabled").style.display = "inline-block";
+	root.querySelector(".make_enabled").style.display = "";
 	onCheckSubmittedItem(item);
 	updateAvailableMatList(item.ITID, item.index, true);
 }
@@ -382087,6 +382838,7 @@ function onStorageList(pkt) {
 */
 function onStorageItemAdded(pkt) {
 	StorageController.getUI().addItem(Object.assign({}, pkt));
+	acknowledgeStorageTransfer("add", pkt);
 }
 /**
 * Remove item from storage
@@ -382094,7 +382846,8 @@ function onStorageItemAdded(pkt) {
 * @param {object} pkt - PACKET.ZC.DELETE_ITEM_FROM_STORE
 */
 function onStorageItemRemoved(pkt) {
-	StorageController.getUI().removeItem(pkt.index, pkt.count);
+	if (pkt.count > 0) StorageController.getUI().removeItem(pkt.index, pkt.count);
+	acknowledgeStorageTransfer("remove", pkt);
 }
 /**
 * Server want you to close the storage
@@ -382179,6 +382932,7 @@ function StorageEngine() {
 }
 var itemBuffer, InvTypeName;
 var init_Storage = __esmMin((() => {
+	init_StorageTransfer();
 	init_Inventory();
 	init_Equipment();
 	init_CartItems();
