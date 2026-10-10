@@ -16,7 +16,7 @@ import { mobileNPC } from './MobileNPC.js';
 import DB from 'DB/DBManager.js';
 import Sound from 'Audio/SoundManager.js';
 import BGM from 'Audio/BGM.js';
-import Client from 'Core/Client.js';
+import { loadNPCIllustration } from './NPCIllustration.js';
 import Session from 'Engine/SessionStorage.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
@@ -231,7 +231,9 @@ function onDealSelection(pkt) {
  * Receive NPC image to display
  * @param {object} pkt - PACKET.ZC.SHOW_IMAGE
  */
+let cutinGeneration = 0;
 function onCutin(pkt) {
+	const generation = ++cutinGeneration;
 	// Only one instance of cutin
 	const cutin = document.getElementById('cutin');
 	if (cutin) {
@@ -243,11 +245,8 @@ function onCutin(pkt) {
 		return;
 	}
 
-	if (pkt.imageName.indexOf('.') === -1) {
-		pkt.imageName += '.bmp';
-	}
-
-	Client.loadFile(DB.INTERFACE_PATH + 'illust/' + pkt.imageName, function (url) {
+	loadNPCIllustration(pkt.imageName, function (url) {
+		if (generation !== cutinGeneration) return;
 		const img = new Image();
 		img.decoding = 'async';
 		img.src = url;
