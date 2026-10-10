@@ -95354,7 +95354,7 @@ var init_NpcNameTranslations_zh_CN = __esmMin((() => {
 	Bazo = "巴佐";
 	Beatrice = "贝娅特丽丝";
 	Bebete = "贝贝特";
-	Beeryu = "苏伊·斯莉尔";
+	Beeryu = "贝里尤";
 	Beggar = "乞丐";
 	Begnahd = "贝格纳德";
 	Belder = "贝尔德";
@@ -95478,7 +95478,7 @@ var init_NpcNameTranslations_zh_CN = __esmMin((() => {
 	Charleston = "查尔斯顿";
 	Charlotte = "夏洛特";
 	Charlron = "查尔伦";
-	Cheehee = "智姬";
+	Cheehee = "琪熙";
 	Chef = "厨师";
 	Chenchenlie = "陈晨莉";
 	Chepet = "玩偶熊";
@@ -96403,7 +96403,7 @@ var init_NpcNameTranslations_zh_CN = __esmMin((() => {
 	Philofontes = "菲洛丰特斯";
 	Philopontes = "特斯";
 	Philopontess = "菲洛蓬特斯";
-	Phoenix = "凤凰";
+	Phoenix = "菲尼克斯";
 	Phrenetan = "弗雷内坦";
 	Physics = "物理装置";
 	Piamette = "皮亚密特";
@@ -99365,7 +99365,7 @@ var init_NpcNameTranslations_zh_CN = __esmMin((() => {
 		"Master Armor Craftsman": "防具制作大师",
 		"Master Assist": "助理盖尔·马鲁比茨",
 		"Master Kavaruk": "卡瓦鲁克大师",
-		"Master Miller": "磨坊大师",
+		"Master Miller": "米勒大师",
 		"Master of Hunting": "狩猎大师",
 		"Master of Property": "属性大师",
 		"Master of Relics": "遗物强化师",
