@@ -96,3 +96,17 @@ it('keeps new page instructions and newly requested portraits after next', () =>
  mobileNPC.menu({NAID:7,msg:'普隆德拉:艾尔贝塔'});
  expect(interactionSnapshot()).toMatchObject({lines:['请选择目的地：'],image:'new.bmp',mode:'menu'});
 });
+
+it('does not restore a late card illustration after the dialogue closes', () => {
+ const pending = [];
+ Client.loadFile.mockImplementation((file, done, failed) => pending.push({ file, done, failed }));
+ mobileNPC.message({ NAID: 7, msg: '研究委托' });
+ mobileNPC.cutin({ imageName: '캐럿카드', type: 3 });
+ pending[0].failed();
+ expect(pending[1].file).toContain('cardbmp/캐럿카드.bmp');
+ mobileNPC.closeScript({ NAID: 7 });
+ pending[1].done('late-card.bmp');
+ expect(interactionSnapshot()).toBeNull();
+ mobileNPC.message({ NAID: 7, msg: '新对话' });
+ expect(interactionSnapshot().image).toBe('');
+});

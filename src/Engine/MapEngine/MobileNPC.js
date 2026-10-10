@@ -1,6 +1,6 @@
 import DB from 'DB/DBManager.js';
 import EntityManager from 'Renderer/EntityManager.js';
-import Client from 'Core/Client.js';
+import { loadNPCIllustration } from './NPCIllustration.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import {
@@ -119,8 +119,7 @@ export const mobileNPC = {
 		const state = interactionSnapshot();
 		if (state?.kind === 'npc') showInteraction({ ...state, image: '' });
 		if (!pkt.imageName || ![0, 1, 2, 3, 4].includes(pkt.type)) return;
-		const filename = pkt.imageName.includes('.') ? pkt.imageName : pkt.imageName + '.bmp';
-		Client.loadFile(`${DB.INTERFACE_PATH}illust/${filename}`, image => {
+		loadNPCIllustration(pkt.imageName, image => {
 			if (generation !== cutinGeneration) return;
 			cutinImage = image;
 			const latest = interactionSnapshot();
