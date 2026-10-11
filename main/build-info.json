@@ -1,18 +1,18 @@
 {
-  "buildId": "mv3cgx03",
-  "builtAt": "2026-10-11T04:50:05.715Z",
+  "buildId": "mv3dx077",
+  "builtAt": "2026-10-11T05:30:35.971Z",
   "artifacts": {
-    "index.html": "b5031374836c1ac09199742385fd225efc34003134357ddc9b0b57f94eabb5b4",
-    "api.html": "9e3a184d3b19681bea230e5f4ceb90234266b3daf5d03c7f0e350d335a989ea7",
+    "index.html": "390cc2e9ff419c062bab641fca223077ae6d315e1b21a17036a8a5ce1c013ec8",
+    "api.html": "fe70461cbb3cec90387e89838228687a9cc77a4f7da5518f5b495d8ea4c3d23d",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
     "debug.js": "c144a24aa6a8d67a8e4050ce169072260054025cf1b11f37f2b8b52ee325fbfe",
     "debug-upload.js": "01260bb90f2303ee1c9d6389821517f32052c506fd54d03de0cc15298230d34d",
-    "Online.js": "f647248615b639011d8c613bc481909c47f2f6cf83b76a9b23325fcecb90d77d",
+    "Online.js": "2da13116c0eba1093067f82ccce2f2807a6bbdfacc028534b5ce3344d7bcc45a",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
     "Config.happyro.js": "734d9684bbef5d6a7ad793e59ac84723cfd9c3428bee98519e19105202b76b46",
     "data/navigation/catalog.json": "1d776db02d792659dcba74cb8ecaf971de767c7ecab39724d245d39f177f4279",
     "data/navigation/graph.json": "faa9ce30aae5a71f41660ff9cafcc8b4c8c0730ac2350a50bf529a36d2a8267b",
     "data/monsters/catalog.json": "0bd0f3ea9bf043d5a92b1ad0e5064a03ea7ea91ed0585559cfc95bb0718ab46f",
-    "data/world/npc-assets.json": "aab8e4aeb64f2afaf4354e2cf90db2413343763b9922a6856aa76ec5c1103da4"
+    "data/world/npc-assets.json": "a8e9930ca889438c2d91b763bbc5dc42428066dcf60e1225021f4f85f42ae4f8"
   }
 }
