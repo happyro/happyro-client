@@ -378059,6 +378059,19 @@ var init_MapState = __esmMin((() => {
 	MapFlag = MapState_default.MapFlag;
 }));
 //#endregion
+//#region src/Engine/MapEngine/NPCIllustration.js
+/** Load NPC portraits and the card illustrations used by Eden research quests. */
+function loadNPCIllustration(imageName, onload) {
+	const filename = imageName.includes(".") ? imageName : `${imageName}.bmp`;
+	Client.loadFile(`${DB.INTERFACE_PATH}illust/${filename}`, onload, () => {
+		Client.loadFile(`${DB.INTERFACE_PATH}cardbmp/${filename}`, onload);
+	});
+}
+var init_NPCIllustration = __esmMin((() => {
+	init_Client();
+	init_DBManager();
+}));
+//#endregion
 //#region src/Engine/MapEngine/MobileNPC.js
 function send(Packet, id, fields = {}) {
 	const packet = new Packet();
@@ -378103,7 +378116,7 @@ function present(state) {
 			if (mode === "menu" && !state.options.some((option) => option.value === value)) return "请选择有效选项";
 			if (mode === "next") {
 				cutinImage = "";
-				cutinGeneration++;
+				cutinGeneration$1++;
 				present({
 					...state,
 					lines: [],
@@ -378126,21 +378139,21 @@ function present(state) {
 		}
 	});
 }
-var cutinImage, cutinGeneration, mobileNPC;
+var cutinImage, cutinGeneration$1, mobileNPC;
 var init_MobileNPC = __esmMin((() => {
 	init_DBManager();
 	init_EntityManager();
-	init_Client();
+	init_NPCIllustration();
 	init_NetworkManager();
 	init_PacketStructure();
 	init_ServerInteraction();
 	init_RagnarokText();
 	cutinImage = "";
-	cutinGeneration = 0;
+	cutinGeneration$1 = 0;
 	subscribeInteraction((state) => {
 		if (!state) {
 			cutinImage = "";
-			cutinGeneration++;
+			cutinGeneration$1++;
 		}
 	});
 	mobileNPC = {
@@ -378198,7 +378211,7 @@ var init_MobileNPC = __esmMin((() => {
 			});
 		},
 		cutin(pkt) {
-			const generation = ++cutinGeneration;
+			const generation = ++cutinGeneration$1;
 			cutinImage = "";
 			const state = interactionSnapshot();
 			if (state?.kind === "npc") showInteraction({
@@ -378212,9 +378225,8 @@ var init_MobileNPC = __esmMin((() => {
 				3,
 				4
 			].includes(pkt.type)) return;
-			const filename = pkt.imageName.includes(".") ? pkt.imageName : pkt.imageName + ".bmp";
-			Client.loadFile(`${DB.INTERFACE_PATH}illust/${filename}`, (image) => {
-				if (generation !== cutinGeneration) return;
+			loadNPCIllustration(pkt.imageName, (image) => {
+				if (generation !== cutinGeneration$1) return;
 				cutinImage = image;
 				const latest = interactionSnapshot();
 				if (latest?.kind === "npc") showInteraction({
@@ -378415,16 +378427,13 @@ function onDealSelection(pkt) {
 	};
 	WinDeal.append();
 }
-/**
-* Receive NPC image to display
-* @param {object} pkt - PACKET.ZC.SHOW_IMAGE
-*/
 function onCutin(pkt) {
+	const generation = ++cutinGeneration;
 	const cutin = document.getElementById("cutin");
 	if (cutin) document.body.removeChild(cutin);
 	if (!pkt.imageName.length) return;
-	if (pkt.imageName.indexOf(".") === -1) pkt.imageName += ".bmp";
-	Client.loadFile(DB.INTERFACE_PATH + "illust/" + pkt.imageName, function(url) {
+	loadNPCIllustration(pkt.imageName, function(url) {
+		if (generation !== cutinGeneration) return;
 		const img = new Image();
 		img.decoding = "async";
 		img.src = url;
@@ -378541,13 +378550,14 @@ function NPCEngine$2() {
 	Network.hookPacket(PACKET.ZC.CLOSE_SCRIPT, Platform.isMobile ? mobileNPC.closeScript : onCloseScript);
 	Network.hookPacket(PACKET.ZC.DYNAMICNPC_CREATE_RESULT, onDynamicNPCCreateRequest);
 }
+var cutinGeneration;
 var init_NPC = __esmMin((() => {
 	init_Platform();
 	init_MobileNPC();
 	init_DBManager();
 	init_SoundManager();
 	init_BGM();
-	init_Client();
+	init_NPCIllustration();
 	init_SessionStorage();
 	init_NetworkManager();
 	init_PacketStructure();
@@ -378559,6 +378569,7 @@ var init_NPC = __esmMin((() => {
 	init_MiniMap();
 	init_ChatBox();
 	init_GUIComponent();
+	cutinGeneration = 0;
 	/**
 	* Next button pressed
 	*
