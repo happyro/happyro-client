@@ -1,9 +1,9 @@
 {
-  "buildId": "mv50npa5",
-  "builtAt": "2026-10-12T08:54:59.261Z",
+  "buildId": "mv53ji8e",
+  "builtAt": "2026-10-12T10:15:42.350Z",
   "artifacts": {
-    "index.html": "f0174eb5fa991b79fe2aabb43ccda56e6ab95f2777d7b4e8b9ccb4bfaa0be43b",
-    "api.html": "d40d309ce10fbaf7d771dd87bdb07fd7506776a5c0c067976ced6b5952df9c5d",
+    "index.html": "812cb029c3e42fdf241f1caaddb2be773b6a322d223bf344b8ad9b7e24bdd568",
+    "api.html": "44631d0d636c51168300de4f0a22f8eed614d01e64f47cff706ae682c10605b5",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
     "debug.js": "c144a24aa6a8d67a8e4050ce169072260054025cf1b11f37f2b8b52ee325fbfe",
     "debug-upload.js": "01260bb90f2303ee1c9d6389821517f32052c506fd54d03de0cc15298230d34d",
