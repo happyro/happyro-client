@@ -1646,3 +1646,664 @@
 	transform: scale(var(--panel-list-image-scale));
 	margin: calc(20px * (var(--panel-list-image-scale) - 1));
 }
+
+/* Phone item search occupies one row; filters and the grant action share the next. */
+:host([data-phone-screen]) .mobile-adventure .adventure-content[data-feature='items'] .catalog-toolbar {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 5px;
+}
+:host([data-phone-screen]) .mobile-adventure .adventure-content[data-feature='items'] .catalog-search {
+	grid-column: 1 / -1;
+	width: 100%;
+	min-width: 0;
+}
+:host([data-phone-screen]) .mobile-adventure .adventure-content[data-feature='items'] .catalog-toolbar > :is(.game-select, button) {
+	width: 100%;
+	min-width: 0;
+	margin: 0;
+}
+
+/* Phone portrait catalog tabs share ordering; actions stay at the bottom. */
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .game-tools-tab {
+	display:grid;
+	grid-template-columns:minmax(0,1fr) auto;
+	grid-template-rows:minmax(0,1fr) 21px minmax(0,1fr) 9px 32px 4px auto;
+	grid-template-areas:"map map" "divider divider" "list list" "controls-divider controls-divider" "search pages" ". ." "actions actions";
+	height:100%;
+	min-height:0;
+	column-gap:6px;
+	row-gap:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) :is(.catalog-layout, .catalog-detail) {
+	display:contents;
+	container-type:normal;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='maps'] .map-detail-body {
+	grid-area:map;
+	display:grid;
+	grid-template-columns:minmax(0,3fr) minmax(0,2fr);
+	grid-template-rows:minmax(0,1fr);
+	min-height:0;
+	overflow:auto;
+	padding:6px 6px 0;
+	gap:6px;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='maps'] .catalog-map-picker {
+	height:100%;
+	min-height:0;
+	min-width:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='maps'] .map-npc-list {
+	height:100%;
+	min-height:0;
+	min-width:0;
+	overflow:hidden;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='maps'] .map-npc-scroll {
+	max-height:none;
+	min-height:0;
+	overflow:auto;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-browser {
+	display:contents;
+	width:auto;
+	min-height:0;
+	overflow:hidden;
+	border:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-list {
+	grid-area:list;
+	padding-top:0;
+	border-top:1px solid #65717b;
+	flex:1;
+	min-height:0;
+	overflow:auto;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-toolbar {
+	grid-area:search;
+	border-bottom:0;
+	display:flex;
+	margin:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-action-panel {
+	grid-area:actions;
+	position:static;
+	margin:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-detail > .empty-detail {
+	grid-area:map;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-summary {
+	display:none;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-pagination {
+	grid-area:pages;
+	align-self:center;
+	min-height:0;
+	padding:0 6px 0 0;
+	gap:4px;
+	border:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-page {
+	display:none;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-toolbar {
+	min-width:0;
+	padding:0 0 0 6px;
+	align-items:center;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-search {
+	width:100%;
+	min-width:0;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='maps'] .map-npc-text small {
+	display:none;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='maps'] .map-npc-row {
+	height:auto;
+	min-height:32px;
+	padding:4px;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='maps'] .map-npc-text strong {
+	white-space:normal;
+	overflow-wrap:anywhere;
+}
+
+.mobile-adventure .monster-information {
+	display: contents;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .game-tools-tab {
+	display:grid;
+	grid-template-columns:minmax(0,1fr) 78px 36px 36px;
+	grid-template-rows:minmax(0,1.15fr) 21px minmax(0,.85fr) 9px 32px 4px auto;
+	grid-template-areas:"info info info info" "divider divider divider divider" "list list list list" "controls-divider controls-divider controls-divider controls-divider" "search filter pages pages" ". . . ." "actions actions actions actions";
+	height:100%;
+	min-height:0;
+	column-gap:6px;
+	row-gap:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] :is(.monster-layout, .monster-detail) {
+	display:contents;
+	container-type:normal;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-information {
+	grid-area:info;
+	display:flex;
+	flex-direction:column;
+	min-height:0;
+	min-width:0;
+	overflow:auto;
+	padding:6px 6px 0;
+	gap:6px;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-browser {
+	display:contents;
+	width:auto;
+	min-width:0;
+	min-height:0;
+	overflow:hidden;
+	border:0;
+	border-top:1px solid #65717b;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-list {
+	grid-area:list;
+	padding-top:0;
+	border-top:1px solid #65717b;
+	flex:1;
+	min-height:0;
+	overflow:auto;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-toolbar {
+	display:contents;
+	flex-wrap:nowrap;
+	min-width:0;
+	margin:0;
+	border-bottom:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-search {
+	grid-area:search;
+	align-self:center;
+	margin-left:6px;
+	flex:1 1 0;
+	min-width:0;
+	width:calc(100% - 6px);
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-toolbar .game-select {
+	grid-area:filter;
+	align-self:center;
+	width:100%;
+	flex:0 1 100px;
+	min-width:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .summon-panel {
+	grid-area:actions;
+	padding-right:100px;
+	min-height:40px;
+	position:static;
+	margin:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-detail > .empty-detail {
+	grid-area:info;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-resources {
+	flex:0 0 auto;
+	grid-template-columns:minmax(0,11fr) minmax(0,9fr);
+	gap:6px;
+	align-items:start;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] :is(.monster-summary, .page-label) {
+	display:none;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-pagination {
+	grid-area:pages;
+	align-self:center;
+	min-height:0;
+	padding:0 6px 0 0;
+	gap:4px;
+	border:0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .catalog-scope-option {
+	grid-row:7;
+	grid-column:2 / -1;
+	justify-self:end;
+	align-self:center;
+	margin:0 6px 0 0;
+	z-index:2;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .summon-panel button {
+	min-width:0;
+	padding-inline:6px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='maps'] .catalog-list,
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-list {
+	border-top: 0;
+}
+
+/* Separate the list from compact search controls without scrolling the line. */
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='monsters'], [data-feature='npcs'], [data-feature='items']) .game-tools-tab::before {
+	content:'';
+	grid-area:controls-divider;
+	box-sizing:border-box;
+	height:9px;
+	margin:0;
+	border-block:4px solid #191f26;
+	background:#65717b;
+	pointer-events:none;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='monsters'], [data-feature='npcs'], [data-feature='items']) :is(.catalog-list, .monster-list) {
+	padding-bottom:0;
+}
+
+/* Keep the divider and its 10px clearances outside both scroll containers. */
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='monsters'], [data-feature='npcs'], [data-feature='items']) .game-tools-tab::after {
+	content:'';
+	grid-area:divider;
+	box-sizing:border-box;
+	height:21px;
+	margin:0;
+	border-block:10px solid #191f26;
+	background:#65717b;
+	pointer-events:none;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .drop-group > h4 {
+	margin:0;
+	padding:5px 6px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .drop-group > div {
+	padding:3px 6px 3px 14px;
+	gap:4px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .drop-group > div > span {
+	min-width:0;
+	overflow-wrap:anywhere;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .drop-group em {
+	flex:0 0 auto;
+	white-space:nowrap;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-location {
+	height:32px;
+	min-height:32px;
+	flex-direction:row;
+	align-items:center;
+	padding:4px 6px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-location strong {
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	text-align:left;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-location small {
+	display:none;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .npc-detail-body {
+	grid-area:map;
+	display:grid;
+	grid-template-columns:minmax(0,3fr) minmax(0,2fr);
+	grid-template-rows:minmax(0,1fr);
+	min-height:0;
+	padding:6px 6px 0;
+	gap:6px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] :is(.npc-map-picker, .npc-detail-info) {
+	min-width:0;
+	min-height:0;
+	height:100%;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .catalog-toolbar {
+	display:contents;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .catalog-search {
+	grid-area:search;
+	align-self:center;
+	margin-left:6px;
+	width:calc(100% - 6px);
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .catalog-scope-option {
+	grid-area:actions;
+	justify-self:end;
+	align-self:center;
+	margin-right:6px;
+	z-index:2;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .catalog-action-panel {
+	padding-right:100px;
+	min-height:40px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .catalog-teleport {
+	min-width:0;
+	white-space:normal;
+	padding-inline:6px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .npc-detail-info .catalog-metadata div {
+	flex-direction:column;
+	align-items:flex-start;
+	gap:2px;
+	padding:4px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .npc-detail-info .catalog-metadata strong {
+	text-align:left;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .catalog-list {
+	border-top:0;
+}
+
+.mobile-adventure .monster-empty-compact {
+	display:none;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-locations-empty {
+	margin:6px 0;
+	padding:0 6px;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-empty-full {
+	display:none;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='monsters'] .monster-empty-compact {
+	display:inline;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='npcs'] .npc-detail-info .catalog-metadata span {
+	display:none;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .game-tools-tab {
+	grid-template-columns:repeat(6,minmax(0,1fr));
+	grid-template-rows:minmax(0,1.15fr) 21px minmax(0,.85fr) 9px 32px 0px 32px 4px auto;
+	grid-template-areas:"map map map map map map" "divider divider divider divider divider divider" "list list list list list list" "controls-divider controls-divider controls-divider controls-divider controls-divider controls-divider" "search search search search search search" ". . . . . ." "filters filters filters filters pages pages" ". . . . . ." "actions actions actions actions actions actions";
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .item-detail-content {
+	grid-area:map;
+	min-height:0;
+	min-width:0;
+	overflow:auto;
+	padding:6px 6px 0;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .item-overview {
+	display:grid;
+	grid-template-columns:clamp(64px,22vw,88px) minmax(0,1fr);
+	gap:6px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .item-portrait {
+	width:100%;
+	height:100%;
+	min-height:64px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .item-overview .catalog-metadata {
+	grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .item-overview .catalog-metadata div {
+	flex-direction:row;
+	align-items:center;
+	gap:2px;
+	padding:4px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .item-overview .catalog-metadata div:nth-child(-n+2) {
+	grid-column:1 / -1;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .item-overview .catalog-metadata strong {
+	text-align:right;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-toolbar {
+	display:contents;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-search {
+	grid-area:search;
+	align-self:center;
+	margin:0 6px;
+	width:calc(100% - 12px);
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-toolbar > .game-select {
+	grid-row:7;
+	min-width:0;
+	height:28px;
+	align-self:center;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-toolbar > .game-select:nth-of-type(1) {
+	grid-column:1 / 3;
+	margin-left:6px;
+	width:calc(100% - 6px);
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-toolbar > .game-select:nth-of-type(2) {
+	grid-column:3 / 5;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-list {
+	border-top:0;
+}
+
+/* Mobile item actions share one footer; landscape search stays on one row. */
+.mobile-adventure .item-grant-panel {
+	gap:5px;
+}
+.mobile-adventure .item-grant-panel :is(.item-grant, .zeny-grant-open) {
+	min-width:0;
+	padding-inline:6px;
+}
+:host([data-orientation='landscape']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-toolbar {
+	display:flex;
+	flex-wrap:nowrap;
+	gap:6px;
+}
+:host([data-orientation='landscape']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-search {
+	flex:1 1 0;
+	min-width:0;
+	width:auto;
+}
+:host([data-orientation='landscape']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-toolbar > .game-select {
+	flex:0 1 140px;
+	min-width:0;
+	width:140px;
+}
+
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-pagination {
+	display:grid;
+	grid-template-columns:repeat(2,minmax(0,1fr));
+	gap:6px;
+	height:28px;
+	width:100%;
+	box-sizing:border-box;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='items'] .catalog-pagination button {
+	width:100%;
+	min-width:0;
+	height:28px;
+	min-height:28px;
+	padding:0;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-layout {
+	display:grid;
+	grid-template-columns:minmax(0,35fr) minmax(0,65fr);
+	grid-template-rows:minmax(0,1fr);
+	min-height:0;
+	overflow:hidden;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] :is(.character-job-browser, .character-detail) {
+	display:flex;
+	width:auto;
+	min-width:0;
+	min-height:0;
+	overflow:hidden;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-browser {
+	border-right:1px solid #65717b;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-detail {
+	border-top:0;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-emblem {
+	display:none;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-list {
+	grid-template-columns:minmax(0,1fr);
+	padding:6px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-row {
+	height:auto;
+	min-height:44px;
+	padding:5px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-row .monster-row-text {
+	min-width:0;
+	width:100%;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-row :is(strong,small) {
+	white-space:normal;
+	overflow-wrap:anywhere;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-summary {
+	height:auto;
+	min-height:25px;
+	flex-basis:auto;
+	padding:4px 6px;
+	line-height:17px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-detail-scroll {
+	flex:1 1 0;
+	min-height:0;
+	overflow-y:auto;
+	padding:0 6px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-detail-scroll .management-form {
+	--character-form-columns:1;
+	grid-template-columns:minmax(0,1fr);
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-summary {
+	flex-direction:column;
+	align-items:stretch;
+	gap:4px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-summary > div:last-child {
+	text-align:left;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .selected-job {
+	gap:6px;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .selected-job button {
+	width:100%;
+	min-width:0;
+	white-space:normal;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-toolbar {
+	display:flex;
+	flex-wrap:nowrap;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-toolbar .catalog-search {
+	min-width:0;
+	flex:1 1 0;
+}
+
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content[data-feature='character'] .character-job-toolbar > .game-select {
+	width:100px;
+	min-width:0;
+	flex:0 0 100px;
+}
+
+/* Mobile action footers keep actions together on the trailing edge. */
+.mobile-adventure :is(.catalog-action-panel, .summon-panel) {
+	justify-content:flex-end;
+	flex:0 0 auto;
+	height:auto;
+	flex-wrap:wrap;
+}
+.mobile-adventure :is(.catalog-status, .summon-status):empty {
+	display:none;
+}
+.mobile-adventure :is(.catalog-action-panel, .summon-panel) > :is(.catalog-status, .summon-status):not(:empty) {
+	order:1;
+	flex:1 0 100%;
+	min-width:0;
+	white-space:normal;
+	overflow-wrap:anywhere;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='monsters'], [data-feature='npcs']) :is(.summon-panel, .catalog-action-panel) {
+	padding-left:100px;
+	padding-right:6px;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .adventure-content:is([data-feature='monsters'], [data-feature='npcs']) .catalog-scope-option {
+	grid-column:1 / -1;
+	justify-self:start;
+	margin:0 0 0 6px;
+}
+
+.mobile-adventure.game-tools-window .item-grant-quantity {
+	flex-basis:clamp(116px, 32vw, 160px);
+	width:clamp(116px, 32vw, 160px);
+	border-color:#65717b;
+	background:#283541;
+}
+.mobile-adventure.game-tools-window .item-grant-quantity > span {
+	padding-inline:3px;
+	background:#394753;
+	border-color:#65717b;
+}
+.mobile-adventure.game-tools-window .item-grant-quantity > .item-grant-amount {
+	height:100%;
+	min-height:0;
+	border:0;
+	border-radius:0;
+	padding:0 4px;
+	color:#f5f2e9;
+	background:#283541;
+}
+
+:host([data-menu-density='spacious']) .mobile-adventure.game-tools-window .item-grant-quantity {
+	height:var(--panel-control);
+}
+:host([data-menu-density='spacious']) .mobile-adventure.game-tools-window .item-grant-quantity > .item-grant-amount {
+	height:100%;
+	min-height:0;
+	padding:0 4px;
+}

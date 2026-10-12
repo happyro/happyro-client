@@ -341,6 +341,7 @@ function mount(container, context = {}) {
 				? '后台未开放 Mini / MVP 召唤'
 				: '';
 		detail.innerHTML = `
+			${context.mobile ? '<div class="monster-information">' : ''}
 			<div class="monster-overview"><div class="monster-heading">
 				<span class="monster-portrait${monster.atlas === null ? ' no-image' : ''}" style="${atlasStyle(state.catalog, monster, 96)}"></span>
 				${context.mobile ? '' : `<div><h3>${escapeHtml(monster.name)}</h3><p>${escapeHtml(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.kind === 'mvp' ? 'MVP' : monster.kind === 'mini' ? 'Mini' : '普通'}</span></div>`}
@@ -374,10 +375,11 @@ function mount(container, context = {}) {
 										return `<button type="button" data-spawn-map="${escapeHtml(spawn.mapName)}" class="monster-location${state.selectedSpawn?.mapName === spawn.mapName ? ' selected' : ''}"><strong>${escapeHtml(displayName)}</strong><small>${escapeHtml(spawn.mapName)}</small></button>`;
 									})
 									.join('')
-							: '<p>暂无常驻刷新地图</p>'
+							: `<p class="monster-locations-empty">${context.mobile ? '<span class="monster-empty-full">暂无常驻刷新地图</span><span class="monster-empty-compact">无</span>' : '暂无常驻刷新地图'}</p>`
 					}</div>
 				</section>
 			</div>
+			${context.mobile ? '</div>' : ''}
 			<div class="summon-panel">
 				<button class="summon-button" type="button" ${disabled ? 'disabled' : ''}>${state.pending ? '召唤中...' : '召唤'}</button>
 				<button class="monster-map-teleport" type="button" ${teleportTarget && teleportState.canTeleport ? '' : 'disabled'}>传送到地图</button>
