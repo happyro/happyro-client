@@ -1,3 +1,4 @@
+import { requestArrivalPreview } from './ArrivalPreviewService.js';
 import DB from 'DB/DBManager.js';
 import { getMapChannel } from 'DB/Map/MapChannels.js';
 import MiniMapTable from 'DB/Map/MiniMapTable.js';
@@ -25,7 +26,6 @@ import { remainingPathFromPosition } from 'UI/Components/Navigation/NavigationAu
 import MapRenderer from 'Renderer/MapRenderer.js';
 import {
 	canvasToMapCoordinate,
-	findDefaultMapCoordinate,
 	findNearestWalkableCoordinate,
 	loadCatalogMap,
 	loadCatalogMapImage,
@@ -46,6 +46,9 @@ function mount(container, context = {}) {
 	let actionState = {};
 	let routeState = {};
 	let selectedCoordinate = null;
+	let routeSelected = false;
+	let arrivalPreview = null;
+	let arrivalAbort = null;
 	let loadedMap = null;
 	let loadingMapName = '';
 	let loadToken = 0;
@@ -186,7 +189,27 @@ function mount(container, context = {}) {
 					Number.isFinite(context.initialMap.x) &&
 					Number.isFinite(context.initialMap.y)
 						? { x: context.initialMap.x, y: context.initialMap.y }
-						: findDefaultMapCoordinate(null, normalizeAdventureMap(map.mapName));
+						: { x: 0, y: 0, automatic: true };
+				routeSelected = Boolean(
+					context.initialMap?.id === map.id &&
+					Number.isFinite(context.initialMap.x) &&
+					Number.isFinite(context.initialMap.y)
+				);
+				arrivalAbort?.abort();
+				arrivalAbort = new AbortController();
+				const signal = arrivalAbort.signal;
+				arrivalPreview = null;
+				requestArrivalPreview(map.mapName, signal)
+					.then(point => {
+						if (signal.aborted) return;
+						arrivalPreview = point;
+						api.refreshDetail();
+					})
+					.catch(() => {
+						if (signal.aborted) return;
+						arrivalPreview = null;
+						api.refreshDetail();
+					});
 				loadedMap = null;
 				selectedNpcKey = '';
 				npcAvailability = {};
@@ -217,7 +240,7 @@ function mount(container, context = {}) {
 				selectedCoordinate = { x: selectedNpc.x, y: selectedNpc.y };
 			}
 			const target = selectedCoordinate ? { ...map, ...selectedCoordinate } : null;
-			const routeTarget = target && !target.automatic ? target : null;
+			const routeTarget = routeSelected && target && !target.automatic ? target : null;
 			const currentMap = getCurrentAdventureMap();
 			const sameMap = normalizeAdventureMap(map.mapName) === currentMap;
 			const currentPosition = getCurrentAdventurePosition();
@@ -301,7 +324,7 @@ function mount(container, context = {}) {
 				drawWorldMapPreview(
 					canvas,
 					loadedMap?.image,
-					selectedNpc || selectedCoordinate?.automatic ? null : selectedCoordinate,
+					selectedNpc ? null : selectedCoordinate?.automatic ? arrivalPreview : selectedCoordinate,
 					loadedMap?.gat,
 					{
 						path: sameMap && routeMatches ? remainingPathFromPosition(routeState.path, position) : [],
@@ -321,6 +344,11 @@ function mount(container, context = {}) {
 				const raw = canvasToMapCoordinate(canvas, event, loadedMap?.gat);
 				selectedNpcKey = '';
 				selectedCoordinate = findNearestWalkableCoordinate(loadedMap?.gat, raw);
+				routeSelected = Boolean(selectedCoordinate);
+				if (!selectedCoordinate) {
+					api.refreshDetail();
+					return;
+				}
 				const nextTarget = { ...map, ...selectedCoordinate };
 				if (!sameMap || !previewAdventureRoute(nextTarget)) api.refreshDetail();
 			});
@@ -341,6 +369,7 @@ function mount(container, context = {}) {
 				row.addEventListener('click', () => {
 					if (selectedNpcKey === row.dataset.npcKey) return;
 					selectedNpcKey = row.dataset.npcKey;
+					routeSelected = true;
 					const npc = mapNpcs.find(entry => npcCatalogKey(entry) === selectedNpcKey);
 					selectedCoordinate = { x: npc.x, y: npc.y };
 					if (!sameMap || !previewAdventureRoute({ ...map, ...selectedCoordinate })) api.refreshDetail();
@@ -353,8 +382,9 @@ function mount(container, context = {}) {
 	});
 
 	const clearMapMarker = () => {
+		routeSelected = false;
 		selectedNpcKey = '';
-		selectedCoordinate = findDefaultMapCoordinate(null, normalizeAdventureMap(loadingMapName));
+		selectedCoordinate = { x: 0, y: 0, automatic: true };
 		pendingSelectionClear = '';
 	};
 	const unsubscribeActions = subscribeAdventureActions(state => {
@@ -388,6 +418,7 @@ function mount(container, context = {}) {
 	}, 500);
 
 	return () => {
+		arrivalAbort?.abort();
 		loadToken += 1;
 		mapNpcsToken += 1;
 		npcAvailabilityToken += 1;
