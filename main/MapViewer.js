@@ -78022,6 +78022,7 @@ function init$15(packetver) {
 		packets_len[3325] = 32;
 		packets_len[3329] = 32;
 		packets_len[3327] = 8;
+		packets_len[3332] = -1;
 		console.log("%c[Network] Packet Length initialized ", "color:#007000", packetver);
 	} else console.error(`[Network] Failed to load packet lengths for year ${selectedYear} (path: ${modulePath})`);
 }
@@ -78233,7 +78234,7 @@ var init_Platform = __esmMin((() => {
 //#region src/UI/Mobile/game/MenuLayout.css?raw
 var MenuLayout_default;
 var init_MenuLayout$1 = __esmMin((() => {
-	MenuLayout_default = "/* Shared mobile menu dimensions, typography and control density. */\r\n:host {\r\n	--interaction-text: var(--panel-text);\r\n	--interaction-title: var(--panel-title);\r\n	--interaction-control: var(--panel-control);\r\n	--interaction-caption: var(--panel-caption);\r\n	--npc-width: 520px;\r\n	--npc-max-height: 80%;\r\n	--npc-min-height: 220px;\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-bar-height: calc(var(--npc-control) + 9px);\r\n	--npc-image-height: 140px;\r\n	--menu-standard-width: 1040px;\r\n	--menu-standard-height: 640px;\r\n	--menu-home-width: 560px;\r\n	--menu-dialog-width: 420px;\r\n	--menu-dialog-height: 480px;\r\n	--menu-picker-width: 640px;\r\n	--menu-editor-height: 160px;\r\n	--menu-edge-x: 16px;\r\n	--menu-edge-y: 12px;\r\n	--menu-dialog-inset: 32px;\r\n	--panel-gap: 6px;\r\n	--panel-control: 30px;\r\n	--panel-attribute-control: 26px;\r\n	--panel-attribute-width: 32px;\r\n	--panel-label: 11px;\r\n	--panel-heading: 12px;\r\n	--panel-text: 12px;\r\n	--panel-title: 14px;\r\n	--panel-caption: 10px;\r\n	--panel-control-padding: 4px 8px;\r\n	--panel-list-image-scale: 1;\r\n	--panel-detail-image: 96px;\r\n	--panel-detail-image-scale: 1;\r\n	--panel-item-image: 96px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--npc-width: 640px;\r\n	--npc-max-height: min(520px, 80%);\r\n	--npc-min-height: 320px;\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-image-height: 200px;\r\n	--menu-edge-x: 24px;\r\n	--menu-edge-y: 24px;\r\n	--panel-gap: 12px;\r\n	--panel-control: 44px;\r\n	--panel-attribute-control: 44px;\r\n	--panel-attribute-width: 56px;\r\n	--panel-label: 14px;\r\n	--panel-heading: 16px;\r\n	--panel-text: 16px;\r\n	--panel-title: 18px;\r\n	--panel-caption: 14px;\r\n	--panel-control-padding: 8px 12px;\r\n	--panel-list-image-scale: 1.4;\r\n	--panel-detail-image: 112px;\r\n	--panel-detail-image-scale: 1.166667;\r\n	--panel-item-image: 128px;\r\n}\r\n.mobile-menu-viewport {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(var(--menu-edge-y), env(safe-area-inset-top)) max(var(--menu-edge-x), env(safe-area-inset-right))\r\n		max(var(--menu-edge-y), env(safe-area-inset-bottom)) max(var(--menu-edge-x), env(safe-area-inset-left));\r\n	box-sizing: border-box;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.mobile-menu-window {\r\n	--menu-window-width: 600px;\r\n	--menu-window-height: auto;\r\n	width: min(var(--menu-window-width), 100%);\r\n	height: var(--menu-window-height);\r\n	max-height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n/* Preserve compact phone sizes, with every exception registered here. */\r\n.panel:is(\r\n	.inventory-panel,\r\n	.equipment-panel,\r\n	.auto-config-panel,\r\n	.shortcut-panel,\r\n	.settings-panel,\r\n	.chat-panel,\r\n	[data-view='bank'],\r\n	[data-view='pet'],\r\n	[data-view='companions']\r\n) {\r\n	--menu-window-width: 780px;\r\n	--menu-window-height: 100%;\r\n}\r\n.panel[data-view='menu'] {\r\n	--menu-window-width: 420px;\r\n}\r\n.panel.profile-panel {\r\n	--menu-window-width: 400px;\r\n}\r\n.panel.settings-panel {\r\n	--menu-window-width: 600px;\r\n}\r\n.mobile-adventure {\r\n	container: menu-content / inline-size;\r\n	--menu-window-width: 100%;\r\n	--menu-window-height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window {\r\n	--menu-window-width: var(--menu-standard-width);\r\n	--menu-window-height: min(var(--menu-standard-height), 100%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='menu'] {\r\n	--menu-window-width: var(--menu-home-width);\r\n	--menu-window-height: auto;\r\n	max-height: min(var(--menu-standard-height), 100%);\r\n}\r\n.mobile-menu-window > header,\r\n.mobile-menu-window > nav {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-menu-window > .panel-body,\r\n.mobile-menu-window > .adventure-content {\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.panel-body {\r\n	padding: 8px;\r\n}\r\n.panel header {\r\n	padding: 4px 10px;\r\n}\r\n.panel {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel button {\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .panel header {\r\n	padding: 12px 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel-body {\r\n	padding: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host([data-menu-density='spacious']) .panel button {\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.panel\r\n	:is(.auto-skill-card strong, .auto-help, [data-skill-count], [data-auto-summary]) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	min-height: var(--panel-control);\r\n}\r\n/* Space-constrained keyboard layouts scroll content rather than hiding actions. */\r\n:host(.keyboard-open) .mobile-menu-viewport {\r\n	height: var(--mobile-visible-height);\r\n}\r\n:host(.keyboard-open) .mobile-menu-window {\r\n	max-height: 100%;\r\n}\r\n.mobile-menu-dialog {\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	max-height: min(var(--menu-dialog-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n}\r\n.mobile-menu-dialog[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.mobile-menu-dialog .container {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.mobile-menu-dialog .btns {\r\n	flex-shrink: 0;\r\n}\r\n/* The editor remains full-screen on phones; tablets get a bounded nested dialog. */\r\n:host([data-menu-density='spacious']) .mobile-menu-editor {\r\n	inset: var(--mobile-visual-top, 0px) 0 auto;\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	height: min(var(--menu-editor-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n	margin: max(12px, calc((var(--mobile-visible-height, 100dvh) - var(--menu-editor-height)) / 2)) auto 0;\r\n	border: 1px solid #657584;\r\n	border-radius: 10px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor::backdrop {\r\n	background: #0006;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor:has(textarea) {\r\n	--menu-editor-height: 320px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor section {\r\n	position: static;\r\n	height: 100%;\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	padding: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor #editor-title {\r\n	position: static;\r\n	width: auto;\r\n	height: auto;\r\n	clip-path: none;\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor main {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	min-height: 0;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor button {\r\n	grid-row: 3;\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor [data-done] {\r\n	grid-column: 2;\r\n}\r\n:host([data-menu-density='spacious']) .panel .auto-range-stepper button {\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n}\r\n.mobile-menu-dialog {\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n}\r\n\r\n.mobile-menu-editor {\r\n	position: fixed;\r\n	inset: 0;\r\n	width: 100%;\r\n	max-width: none;\r\n	max-height: none;\r\n	margin: 0;\r\n}\r\n\r\n/* One scroll area for every mobile select, including adventure tools. */\r\n.mobile-menu-window .game-select-menu[popover] {\r\n	overflow: auto;\r\n	color: inherit;\r\n}\r\n.mobile-menu-window .game-select-menu[popover] .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > :is(input[aria-label], button),\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form .game-select-trigger {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n\r\n/* All tablet form controls share one height, including feature-specific forms. */\r\n:host([data-menu-density='spacious'])\r\n	.mobile-menu-window\r\n	input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']),\r\n:host([data-menu-density='spacious']) .mobile-menu-window select:not([hidden]) {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n	padding: 6px 8px;\r\n	font-size: var(--panel-text);\r\n	line-height: normal;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window textarea {\r\n	min-height: calc(var(--panel-control) * 2);\r\n	font-size: var(--panel-text);\r\n	padding: 8px;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select, .game-select-trigger) {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n/* Shared tablet typography for confirmations, pickers and number prompts. */\r\n:host([data-menu-density='spacious']) .ui-confirm {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.6;\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm :is(button, input, select, textarea) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm .ui-confirm-actions button,\r\n:host([data-menu-density='spacious']) .ui-confirm .drop-quantity-buttons button {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n}\r\n\r\n:host([data-menu-density='spacious']) .ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n\r\n/* NPC conversations remain compact on both phones and tablets. */\r\n:host .panel[data-view='npc'] {\r\n	--menu-window-width: var(--npc-width);\r\n	--menu-window-height: auto;\r\n	min-height: min(var(--npc-min-height), var(--npc-max-height));\r\n	max-height: var(--npc-max-height);\r\n}\r\n\r\n:host([data-menu-density='spacious']) .mobile-menu-editor input {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor textarea {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor #editor-title {\r\n	font-size: var(--panel-title);\r\n}\r\n\r\n/* Camera controls stay compact and let players see the scene while adjusting it. */\r\n.hud:has(> .camera-backdrop:not([hidden])) > :is(.top-left, .chat-preview, .battle-dock) {\r\n	display: none;\r\n}\r\n.backdrop.camera-backdrop {\r\n	background: transparent;\r\n	justify-items: start;\r\n}\r\n:host .panel[data-view='camera'] {\r\n	--menu-window-width: 280px;\r\n	--menu-window-height: auto;\r\n	background: rgb(25 31 38 / 75%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='camera'] {\r\n	--menu-window-width: 320px;\r\n}\r\n.panel[data-view='camera'] button {\r\n	background: rgb(35 47 58 / 80%);\r\n}\r\n.panel[data-view='camera'] button:active {\r\n	background: rgb(67 92 110 / 95%);\r\n}\r\n";
+	MenuLayout_default = "/* Shared mobile menu dimensions, typography and control density. */\r\n:host {\r\n	--interaction-text: var(--panel-text);\r\n	--interaction-title: var(--panel-title);\r\n	--interaction-control: var(--panel-control);\r\n	--interaction-caption: var(--panel-caption);\r\n	--npc-width: 520px;\r\n	--npc-max-height: 80%;\r\n	--npc-min-height: 220px;\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-bar-height: calc(var(--npc-control) + 9px);\r\n	--npc-image-height: 140px;\r\n	--menu-standard-width: 1040px;\r\n	--menu-standard-height: 640px;\r\n	--menu-home-width: 560px;\r\n	--menu-dialog-width: 420px;\r\n	--menu-dialog-height: 480px;\r\n	--menu-picker-width: 640px;\r\n	--menu-editor-height: 160px;\r\n	--menu-edge-x: 16px;\r\n	--menu-edge-y: 12px;\r\n	--menu-dialog-inset: 32px;\r\n	--panel-gap: 6px;\r\n	--panel-control: 30px;\r\n	--panel-attribute-control: 26px;\r\n	--panel-attribute-width: 32px;\r\n	--panel-label: 11px;\r\n	--panel-heading: 12px;\r\n	--panel-text: 12px;\r\n	--panel-title: 14px;\r\n	--panel-caption: 10px;\r\n	--panel-control-padding: 4px 8px;\r\n	--panel-list-image-scale: 1;\r\n	--panel-detail-image: 96px;\r\n	--panel-detail-image-scale: 1;\r\n	--panel-item-image: 96px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--npc-width: 640px;\r\n	--npc-max-height: min(520px, 80%);\r\n	--npc-min-height: 320px;\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-image-height: 200px;\r\n	--menu-edge-x: 24px;\r\n	--menu-edge-y: 24px;\r\n	--panel-gap: 12px;\r\n	--panel-control: 44px;\r\n	--panel-attribute-control: 44px;\r\n	--panel-attribute-width: 56px;\r\n	--panel-label: 14px;\r\n	--panel-heading: 16px;\r\n	--panel-text: 16px;\r\n	--panel-title: 18px;\r\n	--panel-caption: 14px;\r\n	--panel-control-padding: 8px 12px;\r\n	--panel-list-image-scale: 1.4;\r\n	--panel-detail-image: 112px;\r\n	--panel-detail-image-scale: 1.166667;\r\n	--panel-item-image: 128px;\r\n}\r\n.mobile-menu-viewport {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(var(--menu-edge-y), env(safe-area-inset-top)) max(var(--menu-edge-x), env(safe-area-inset-right))\r\n		max(var(--menu-edge-y), env(safe-area-inset-bottom)) max(var(--menu-edge-x), env(safe-area-inset-left));\r\n	box-sizing: border-box;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.mobile-menu-window {\r\n	--menu-window-width: 600px;\r\n	--menu-window-height: auto;\r\n	width: min(var(--menu-window-width), 100%);\r\n	height: var(--menu-window-height);\r\n	max-height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n/* Preserve compact phone sizes, with every exception registered here. */\r\n.panel:is(\r\n	.inventory-panel,\r\n	.equipment-panel,\r\n	.auto-config-panel,\r\n	.shortcut-panel,\r\n	.settings-panel,\r\n	.chat-panel,\r\n	[data-view='bank'],\r\n	[data-view='pet'],\r\n	[data-view='companions']\r\n) {\r\n	--menu-window-width: 780px;\r\n	--menu-window-height: 100%;\r\n}\r\n.panel[data-view='menu'] {\r\n	--menu-window-width: 420px;\r\n}\r\n.panel.profile-panel {\r\n	--menu-window-width: 400px;\r\n}\r\n.panel.settings-panel {\r\n	--menu-window-width: 600px;\r\n}\r\n.mobile-adventure {\r\n	container: menu-content / inline-size;\r\n	--menu-window-width: 100%;\r\n	--menu-window-height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window {\r\n	--menu-window-width: var(--menu-standard-width);\r\n	--menu-window-height: min(var(--menu-standard-height), 100%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='menu'] {\r\n	--menu-window-width: var(--menu-home-width);\r\n	--menu-window-height: auto;\r\n	max-height: min(var(--menu-standard-height), 100%);\r\n}\r\n.mobile-menu-window > header,\r\n.mobile-menu-window > nav {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-menu-window > .panel-body,\r\n.mobile-menu-window > .adventure-content {\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.panel-body {\r\n	padding: 8px;\r\n}\r\n.panel header {\r\n	padding: 4px 10px;\r\n}\r\n.panel {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel button {\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .panel header {\r\n	padding: 12px 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel-body {\r\n	padding: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host([data-menu-density='spacious']) .panel button {\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-skill-card strong, .auto-help, [data-skill-count]) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	min-height: var(--panel-control);\r\n}\r\n/* Space-constrained keyboard layouts scroll content rather than hiding actions. */\r\n:host(.keyboard-open) .mobile-menu-viewport {\r\n	height: var(--mobile-visible-height);\r\n}\r\n:host(.keyboard-open) .mobile-menu-window {\r\n	max-height: 100%;\r\n}\r\n.mobile-menu-dialog {\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	max-height: min(var(--menu-dialog-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n}\r\n.mobile-menu-dialog[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.mobile-menu-dialog .container {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.mobile-menu-dialog .btns {\r\n	flex-shrink: 0;\r\n}\r\n/* Portrait phones and tablets use a bounded editor; short landscape phones use a strip. */\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor {\r\n	inset: var(--mobile-visual-top, 0px) 0 auto;\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	height: min(var(--menu-editor-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n	margin: max(12px, calc((var(--mobile-visible-height, 100dvh) - var(--menu-editor-height)) / 2)) auto 0;\r\n	border: 1px solid #657584;\r\n	border-radius: 10px;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor::backdrop {\r\n	background: #0006;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor:has(textarea) {\r\n	--menu-editor-height: 320px;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor section {\r\n	position: static;\r\n	height: 100%;\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	padding: 12px;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor #editor-title {\r\n	position: static;\r\n	width: auto;\r\n	height: auto;\r\n	clip-path: none;\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor main {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	min-height: 0;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor button {\r\n	grid-row: 3;\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor [data-done] {\r\n	grid-column: 2;\r\n}\r\n:host([data-menu-density='spacious']) .panel .auto-range-stepper button {\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n}\r\n.mobile-menu-dialog {\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n}\r\n\r\n.mobile-menu-editor {\r\n	position: fixed;\r\n	inset: 0;\r\n	width: 100%;\r\n	max-width: none;\r\n	max-height: none;\r\n	margin: 0;\r\n}\r\n\r\n/* One scroll area for every mobile select, including adventure tools. */\r\n.mobile-menu-window .game-select-menu[popover] {\r\n	overflow: auto;\r\n	color: inherit;\r\n}\r\n.mobile-menu-window .game-select-menu[popover] .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > :is(input[aria-label], button),\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form .game-select-trigger {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n\r\n/* All tablet form controls share one height, including feature-specific forms. */\r\n:host([data-menu-density='spacious'])\r\n	.mobile-menu-window\r\n	input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']),\r\n:host([data-menu-density='spacious']) .mobile-menu-window select:not([hidden]) {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n	padding: 6px 8px;\r\n	font-size: var(--panel-text);\r\n	line-height: normal;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window textarea {\r\n	min-height: calc(var(--panel-control) * 2);\r\n	font-size: var(--panel-text);\r\n	padding: 8px;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select, .game-select-trigger) {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n/* Shared tablet typography for confirmations, pickers and number prompts. */\r\n:host([data-menu-density='spacious']) .ui-confirm {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.6;\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm :is(button, input, select, textarea) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm .ui-confirm-actions button,\r\n:host([data-menu-density='spacious']) .ui-confirm .drop-quantity-buttons button {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n}\r\n\r\n:host([data-menu-density='spacious']) .ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n\r\n/* NPC conversations remain compact on both phones and tablets. */\r\n:host .panel[data-view='npc'] {\r\n	--menu-window-width: var(--npc-width);\r\n	--menu-window-height: auto;\r\n	min-height: min(var(--npc-min-height), var(--npc-max-height));\r\n	max-height: var(--npc-max-height);\r\n}\r\n\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor input {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor textarea {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor #editor-title {\r\n	font-size: var(--panel-title);\r\n}\r\n\r\n/* Camera controls stay compact and let players see the scene while adjusting it. */\r\n.hud:has(> .camera-backdrop:not([hidden])) > :is(.top-left, .chat-preview, .battle-dock) {\r\n	display: none;\r\n}\r\n.backdrop.camera-backdrop {\r\n	background: transparent;\r\n	justify-items: start;\r\n}\r\n:host .panel[data-view='camera'] {\r\n	--menu-window-width: 280px;\r\n	--menu-window-height: auto;\r\n	background: rgb(25 31 38 / 75%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='camera'] {\r\n	--menu-window-width: 320px;\r\n}\r\n.panel[data-view='camera'] button {\r\n	background: rgb(35 47 58 / 80%);\r\n}\r\n.panel[data-view='camera'] button:active {\r\n	background: rgb(67 92 110 / 95%);\r\n}\r\n\r\n/* Skills and shortcut candidates share one two-column card layout in every orientation. */\r\n:host([data-menu-density]) .panel :is(.skills-browser > .inventory-list, .shortcut-choices) {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n:host([data-menu-density]) .panel :is(.skills-browser .inventory-item, .shortcut-choice) {\r\n	display: flex;\r\n	flex-direction: row;\r\n	align-items: center;\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n	gap: 5px;\r\n	text-align: left;\r\n}\r\n:host([data-menu-density]) .panel :is(.skills-browser .inventory-item, .shortcut-choice) img {\r\n	position: static;\r\n	flex: 0 0 24px;\r\n	width: 24px;\r\n	height: 24px;\r\n	object-fit: contain;\r\n}\r\n:host([data-menu-density]) .panel :is(.skills-browser .inventory-item, .shortcut-choice) span {\r\n	min-width: 0;\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n:host([data-menu-density]) .panel .slot-picker .shortcut-slot-prefix {\r\n	display: inline;\r\n	font: inherit;\r\n	color: inherit;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MenuLayout.js
@@ -78242,6 +78243,7 @@ function menuDensity(width, height) {
 }
 function updateMenuLayout(host, width, height) {
 	host.dataset.menuDensity = menuDensity(width, height);
+	host.dataset.orientation = width < height ? "portrait" : "landscape";
 }
 var MENU_BREAKPOINT;
 var init_MenuLayout = __esmMin((() => {
@@ -192037,6 +192039,19 @@ var init_PacketStructure = __esmMin((() => {
 		pkt_buf.writeUChar(this.clienttype);
 		return pkt_buf;
 	};
+	PACKET.CA.SESSION_LOGIN = function() {
+		this.ID = "";
+		this.Ticket = "";
+		this.clienttype = 0;
+	};
+	PACKET.CA.SESSION_LOGIN.prototype.build = function() {
+		const pkt = new BinaryWriter(91);
+		pkt.writeShort(3333);
+		pkt.writeString(this.ID, 24);
+		pkt.writeString(this.Ticket, 64);
+		pkt.writeUChar(this.clienttype);
+		return pkt;
+	};
 	PACKET.CH.ENTER = function PACKET_CH_ENTER() {
 		this.AID = 0;
 		this.AuthCode = 0;
@@ -204467,6 +204482,12 @@ var init_PacketStructure = __esmMin((() => {
 		while (fp.tell() < end) this.typeList.push(fp.readUChar());
 	};
 	PACKET.ZC.SELECTCART.size = -1;
+	PACKET.ZC.HAPPYRO_NPC_NAME = function PACKET_ZC_HAPPYRO_NPC_NAME(fp, end) {
+		if (end - fp.tell() < 5) throw new Error("Truncated NPC name packet");
+		this.AID = fp.readULong();
+		this.CName = fp.readString(end - fp.tell());
+	};
+	PACKET.ZC.HAPPYRO_NPC_NAME.size = -1;
 	PACKET.CZ.SELECTCART = function PACKET_CZ_SELECTCART() {
 		this.identity = 0;
 		this.type = 0;
@@ -238655,7 +238676,8 @@ var init_PacketRegister = __esmMin((() => {
 		3327: PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT,
 		3323: PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT,
 		3325: PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT,
-		3329: PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT
+		3329: PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT,
+		3332: PACKET.ZC.HAPPYRO_NPC_NAME
 	};
 }));
 //#endregion
@@ -241165,10 +241187,18 @@ function Packets(name, Struct, size) {
 * @param {boolean} is zone server ?
 */
 function connect(host, port, callback, isZone) {
+	const attempt = ++connectionAttempt;
+	let completed = false;
 	const socket = _socketFactory ? _socketFactory(host, port) : defaultSocketFactory(host, port);
+	socket.connectionId = attempt;
 	socket.isZone = !!isZone;
 	socket.onClose = onClose$9;
 	socket.onComplete = function onComplete(success) {
+		if (attempt !== connectionAttempt || completed) {
+			if (attempt !== connectionAttempt) socket.close();
+			return;
+		}
+		completed = true;
 		let msg = "Fail";
 		let color = "red";
 		if (success) {
@@ -241195,7 +241225,7 @@ function connect(host, port, callback, isZone) {
 */
 function sendPacket(Packet) {
 	const pkt = Packet.build();
-	if (packetDump) {
+	if (packetDump && new DataView(pkt.buffer).getUint16(0, true) !== 3333) {
 		const id = new BinaryReader(pkt.buffer).readUShort();
 		console.log("%c[Network] Dump Send: \n%cPacket ID: 0x%s\nPacket Name: %s\nLength: %d\nContent:\n%s", "color:#007070", "color:inherit", id.toString(16), Packet.constructor.name, pkt.buffer.byteLength, utilsBufferToHexString(pkt.buffer).toUpperCase());
 	}
@@ -241358,6 +241388,7 @@ function onClose$9() {
 * Is this needed ?
 */
 function close$1() {
+	connectionAttempt++;
 	let idx;
 	if (_socket) {
 		const s = _socket;
@@ -241380,6 +241411,7 @@ function close$1() {
 function setPing(callback) {
 	if (_socket) {
 		if (_socket.ping) clearInterval(_socket.ping);
+		_socket.pingCallback = callback;
 		_socket.ping = setInterval(callback, 1e4);
 		while (_sockets.length > 1) if (_socket !== _sockets[0]) {
 			_sockets[0].close();
@@ -241418,7 +241450,7 @@ function utilsLongToIP(long) {
 function utilsBufferToHexString(buffer) {
 	return [...new Uint8Array(buffer)].map((x) => x.toString(16).padStart(2, "0") + " ").join("");
 }
-var _sockets, _socketFactory, _socket, _save_buffer, _frameTimer, _onDisconnect, packetDump, Network;
+var _sockets, _socketFactory, connectionAttempt, _socket, _save_buffer, _frameTimer, _onDisconnect, packetDump, Network;
 var init_NetworkManager = __esmMin((() => {
 	init_Configs();
 	init_BinaryReader();
@@ -241433,6 +241465,7 @@ var init_NetworkManager = __esmMin((() => {
 	init_preload_helper();
 	_sockets = [];
 	_socketFactory = null;
+	connectionAttempt = 0;
 	_socket = null;
 	_save_buffer = null;
 	_frameTimer = null;
@@ -241458,9 +241491,17 @@ var init_NetworkManager = __esmMin((() => {
 		count = keys.length;
 		for (i = 0; i < count; ++i) registerPacket(keys[i], PacketRegister_default[keys[i]]);
 		return {
+			get connectionId() {
+				return _socket?.connectionId;
+			},
 			sendPacket,
 			send: send$5,
 			setPing,
+			requestPing() {
+				if (!_socket?.pingCallback) return false;
+				_socket.pingCallback();
+				return true;
+			},
 			connect,
 			hookPacket,
 			close: close$1,
@@ -242137,6 +242178,10 @@ var init_KeyEventHandler = __esmMin((() => {
 }));
 //#endregion
 //#region src/Preferences/Camera.js
+/** Apply the phone portrait framing without changing the saved zoom. */
+function viewportCameraZoom(zoom, step, maximum) {
+	return Platform.isMobile && !spacious && Platform.orientation === "portrait" ? Math.min(zoom + 3 * step, maximum) : zoom;
+}
 var spacious, DEFAULT_CAMERA_ZOOM, Camera_default;
 var init_Camera$1 = __esmMin((() => {
 	init_Preferences$1();
@@ -253827,7 +253872,7 @@ var init_Announce$2 = __esmMin((() => {
 //#region src/UI/Components/Announce/Announce.css?raw
 var Announce_default$1;
 var init_Announce$1 = __esmMin((() => {
-	Announce_default$1 = ":host {\r\n	top: 40px;\r\n	left: 0px;\r\n}\r\n\r\n#Announce canvas {\r\n	display: block;\r\n}\r\n";
+	Announce_default$1 = ":host {\r\n	top: calc(var(--mobile-item-notification-top, 8px) + 32px);\r\n	left: 0px;\r\n}\r\n\r\n#Announce canvas {\r\n	display: block;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Announce/Announce.js
@@ -258811,6 +258856,83 @@ var init_GameInputIntent = __esmMin((() => {
 	listeners$4 = /* @__PURE__ */ new Set();
 }));
 //#endregion
+//#region src/UI/Components/GameTools/CityArrivalPoints.js
+var cityArrivalPoints;
+var init_CityArrivalPoints = __esmMin((() => {
+	cityArrivalPoints = {
+		prontera: {
+			x: 149,
+			y: 89,
+			npc: "kaf_prontera5"
+		},
+		geffen: {
+			x: 120,
+			y: 65,
+			npc: "kaf_geffen"
+		},
+		payon: {
+			x: 181,
+			y: 101,
+			npc: "kaf_payon"
+		},
+		morocc: {
+			x: 160,
+			y: 255,
+			npc: "kaf_morocc2"
+		},
+		alberta: {
+			x: 31,
+			y: 229,
+			npc: "kaf_alberta"
+		},
+		aldebaran: {
+			x: 143,
+			y: 116,
+			npc: "kaf_aldebaran"
+		},
+		izlude: {
+			x: 128,
+			y: 145,
+			npc: "Kafra Employee#iz"
+		},
+		yuno: {
+			x: 152,
+			y: 184,
+			npc: "kaf_yuno"
+		},
+		lighthalzen: {
+			x: 164,
+			y: 97,
+			npc: "kaf_lighthalzen"
+		},
+		einbroch: {
+			x: 62,
+			y: 203,
+			npc: "kaf_einbroch2"
+		},
+		einbech: {
+			x: 181,
+			y: 129,
+			npc: "kaf_einbech"
+		},
+		rachel: {
+			x: 109,
+			y: 135,
+			npc: "CoolEventCorpStaffRachel"
+		},
+		veins: {
+			x: 208,
+			y: 125,
+			npc: "CoolEventCorpStaffVeins"
+		},
+		hugel: {
+			x: 88,
+			y: 165,
+			npc: "CoolEventCorpStaffHugel"
+		}
+	};
+}));
+//#endregion
 //#region src/UI/Components/GameTools/WorldAssetService.js
 function loadNpcAssets() {
 	if (!npcAssetsPromise) npcAssetsPromise = fetch(new URL("./data/world/npc-assets.json", window.location.href)).then((response) => {
@@ -258909,15 +259031,21 @@ function findNearestWalkableCoordinate(gat, target, maxRadius = 12) {
 	};
 	return target;
 }
-function findDefaultMapCoordinate(gat) {
-	if (!gat?.width || !gat?.height) return null;
-	return findNearestWalkableCoordinate(gat, {
-		x: Math.floor(gat.width / 2),
-		y: Math.floor(gat.height / 2)
-	}, Math.max(gat.width, gat.height));
+function findDefaultMapCoordinate(gat, mapName) {
+	const arrival = cityArrivalPoints[mapName];
+	if (arrival) return findNearestWalkableCoordinate(gat, {
+		x: arrival.x,
+		y: arrival.y
+	});
+	return {
+		x: 0,
+		y: 0,
+		automatic: true
+	};
 }
 var npcAssetsPromise, mapImagePromises, mapResourcePromises;
 var init_WorldAssetService = __esmMin((() => {
+	init_CityArrivalPoints();
 	init_Client();
 	init_DBManager();
 	init_MiniMapTable();
@@ -259297,6 +259425,14 @@ function subscribeAdventureActions(listener) {
 	listeners$3.add(listener);
 	listener(getAdventureActionState());
 	return () => listeners$3.delete(listener);
+}
+/** Reserved uint16 pair requests a random safe cell, distinct from the (0,0) default arrival. */
+function teleportToRandomCell(mapName, onComplete = null) {
+	return teleportToCoordinate({
+		mapName,
+		x: 65535,
+		y: 65535
+	}, onComplete);
 }
 function teleportToCoordinate(target, onComplete = null) {
 	if (!getAdventureActionState(target).canTeleport || !target?.mapName || !Number.isFinite(target.x) || !Number.isFinite(target.y)) return false;
@@ -268571,11 +268707,7 @@ function requestAutoCombatTeleport(intervalSeconds) {
 		success: false
 	};
 	ticket = attempt;
-	if (!teleportToCoordinate({
-		mapName: attempt.map,
-		x: 0,
-		y: 0
-	}, (packet) => {
+	if (!teleportToRandomCell(attempt.map, (packet) => {
 		if (ticket !== attempt) return;
 		if (packet.result !== 0) {
 			ticket = null;
@@ -280018,6 +280150,10 @@ function createGameAutoCombat(enabled) {
 			return {
 				id: skill.SKID,
 				name: SkillInfo_generated_default[skill.SKID]?.SkillName || `技能 ${skill.SKID}`,
+				loadIcon: (callback) => {
+					const name = SkillInfo_generated_default[skill.SKID]?.Name;
+					if (name) Client.loadFile(`${DB.INTERFACE_PATH}item/${name}.bmp`, callback);
+				},
 				level: skill.level,
 				type: skill.type,
 				available: !reason,
@@ -280100,6 +280236,8 @@ var init_GameAutoCombat = __esmMin((() => {
 	init_SkillList();
 	init_SkillTargetSelection();
 	init_SkillUse();
+	init_Client();
+	init_DBManager();
 	init_SkillInfo_generated();
 	init_SkillCooldowns();
 	init_GameCommands();
@@ -280201,7 +280339,7 @@ function createAutoCombatPanel(body, actions) {
 		...state.teleport
 	};
 	body.innerHTML = `
-		<div class="auto-layout">
+		<div class="auto-layout" data-menu-layout="form">
 			<section class="auto-target-section" aria-labelledby="auto-target-title">
 				<h3 id="auto-target-title">攻击目标</h3>
 				<button type="button" data-all-species>全部魔物</button>
@@ -280227,7 +280365,7 @@ function createAutoCombatPanel(body, actions) {
 				<div class="auto-skill-list" data-auto-skills></div>
 			</section>
 		</div>
-		<div class="auto-config-footer"><div><strong data-auto-summary></strong></div><span data-auto-save-status role="status">修改后自动保存</span></div>`;
+		<div class="auto-save-error" hidden><span data-auto-save-status role="status"></span></div>`;
 	const $ = (selector) => body.querySelector(selector);
 	const limits = AUTO_COMBAT_RANGE_LIMITS;
 	for (const [key, title, maximum] of [[
@@ -280407,7 +280545,14 @@ function createAutoCombatPanel(body, actions) {
 			reason.textContent = skill.reason;
 			detail.append(reason);
 		}
-		label.append(input, detail);
+		const icon = document.createElement("img");
+		icon.className = "auto-skill-icon";
+		icon.alt = "";
+		icon.width = icon.height = 24;
+		label.append(input, icon, detail);
+		skill.loadIcon?.((url) => {
+			if (url) icon.src = url;
+		});
 		const scroller = $("[data-auto-skills]");
 		let press, cancelled = false;
 		label.onpointerdown = (event) => {
@@ -280447,11 +280592,9 @@ function createAutoCombatPanel(body, actions) {
 		const count = selectedSkills().length;
 		const targets = selectedSpecies();
 		for (const button of body.querySelectorAll("[data-species]")) button.setAttribute("aria-checked", String(chosenSpecies.has(Number(button.dataset.species))));
-		const targetLabel = targets.length > 1 ? `${targets.length} 种魔物` : targets[0]?.name || "全部魔物";
 		$("[data-all-species]").setAttribute("aria-pressed", String(!targets.length));
 		$("[data-normal-attack]").setAttribute("aria-pressed", String(count === 0));
 		$("[data-skill-count]").textContent = count ? `已选 ${count} 项` : "未选技能";
-		$("[data-auto-summary]").textContent = `${targetLabel} · ${count ? `${count} 个技能` : "普通攻击"}`;
 	}
 	$("[data-all-species]").onclick = () => {
 		chosenSpecies.clear();
@@ -280463,17 +280606,16 @@ function createAutoCombatPanel(body, actions) {
 	};
 	function save() {
 		const ok = actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }, { ...teleport }) !== false;
-		$("[data-auto-save-status]").textContent = ok ? "已保存" : "保存失败，请重试";
+		$("[data-auto-save-status]").textContent = ok ? "" : "保存失败，请重试";
 		$("[data-auto-save-status]").dataset.error = String(!ok);
-		$("[data-auto-retry]").hidden = ok;
+		$(".auto-save-error").hidden = ok;
 	}
 	const retry = document.createElement("button");
 	retry.type = "button";
 	retry.dataset.autoRetry = "";
 	retry.textContent = "重试";
-	retry.hidden = true;
 	retry.onclick = save;
-	$(".auto-config-footer").append(retry);
+	$(".auto-save-error").append(retry);
 	updateSummary();
 	ready = true;
 }
@@ -280676,15 +280818,291 @@ var init_AdventureControlService = __esmMin((() => {
 	init_SessionStorage();
 }));
 //#endregion
+//#region src/UI/Components/Confirmation.css?raw
+var Confirmation_default;
+var init_Confirmation$1 = __esmMin((() => {
+	Confirmation_default = ".ui-confirm {\r\n	position: fixed;\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n	width: min(var(--menu-dialog-width, 380px), calc(100% - var(--menu-dialog-inset, 32px)));\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px))\r\n	);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	border: 1px solid #657584;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	font:\r\n		13px/1.6 Arial,\r\n		sans-serif;\r\n	white-space: normal;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: #0008;\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-top: 12px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	flex: none;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 56px;\r\n	height: var(--panel-control, 30px);\r\n	min-height: var(--panel-control, 30px);\r\n	padding: 3px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	color: #f5f2e9;\r\n	background: #394753;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n	cursor: pointer;\r\n}\r\n.ui-confirm .ui-confirm-actions button:focus-visible {\r\n	outline: 2px solid #ceaa70;\r\n	outline-offset: 2px;\r\n}\r\n.ui-confirm input {\r\n	box-sizing: border-box;\r\n	max-width: 100%;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.ui-confirm .ui-confirm-field > span {\r\n	flex: none;\r\n}\r\n.ui-confirm .ui-confirm-field > :is(input, select) {\r\n	flex: 1;\r\n	width: 100%;\r\n	min-width: 0;\r\n	min-height: 36px;\r\n	padding: 6px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #25313b;\r\n	color: inherit;\r\n	font:\r\n		16px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field + .ui-confirm-field {\r\n	margin-top: 12px;\r\n}\r\n\r\n.ui-confirm .equipment-picker-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	max-height: min(40dvh, 280px);\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm .equipment-picker-list button {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.ui-confirm .equipment-candidate img {\r\n	width: 24px;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	object-fit: contain;\r\n}\r\n.ui-confirm .equipment-candidate span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n.ui-confirm:has(.equipment-picker-layout) {\r\n	width: min(\r\n		var(--menu-picker-width, 640px),\r\n		calc(100% - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-width, 100vw)\r\n	);\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-height, 100dvh)\r\n	);\r\n	overflow: hidden;\r\n}\r\n.ui-confirm[open]:has(.equipment-picker-layout) {\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body > p,\r\n.ui-confirm:has(.equipment-picker-layout) > .ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm .equipment-picker-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);\r\n	gap: 12px;\r\n	height: min(50dvh, 380px);\r\n	min-height: 0;\r\n	flex: 0 1 auto;\r\n}\r\n.ui-confirm .equipment-picker-layout > .equipment-picker-list {\r\n	max-height: none;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	overflow-wrap: anywhere;\r\n	padding-left: 12px;\r\n	border-left: 1px solid #465461;\r\n}\r\n.ui-confirm .equipment-picker-preview > :first-child {\r\n	margin-top: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview .item-description {\r\n	white-space: pre-line;\r\n}\r\n\r\n.ui-confirm .shortcut-fields .ui-confirm-field > .menu-select {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.ui-confirm .drop-quantity {\r\n	gap: 6px;\r\n}\r\n.ui-confirm .ui-confirm-field.drop-quantity > input {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	padding: 3px 6px;\r\n	font-size: 12px;\r\n}\r\n.ui-confirm .drop-quantity > input,\r\n.panel .ui-confirm .ui-confirm-field.drop-quantity > input[type='number'],\r\n.ui-confirm .drop-quantity-buttons button {\r\n	box-sizing: border-box;\r\n	height: 28px;\r\n	min-height: 28px;\r\n}\r\n.ui-confirm .drop-quantity-buttons {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	flex: none;\r\n	gap: 4px;\r\n}\r\n.ui-confirm .drop-quantity-buttons button {\r\n	flex: none;\r\n	width: auto;\r\n	min-width: 26px;\r\n	padding: 3px 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #394753;\r\n	color: inherit;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.ui-confirm-body {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/ConfirmationDesktop.css?raw
+var ConfirmationDesktop_default;
+var init_ConfirmationDesktop = __esmMin((() => {
+	ConfirmationDesktop_default = "/* Preserve the original adventure-tool confirmation card independently of mobile menus. */\r\n.ui-confirm {\r\n	position: fixed;\r\n	inset: auto;\r\n	left: var(--confirm-center-x);\r\n	top: var(--confirm-center-y);\r\n	transform: translate(-50%, -50%);\r\n	margin: 0;\r\n	width: min(360px, calc(var(--confirm-max-width, 100vw) - 40px));\r\n	max-height: calc(var(--confirm-max-height, 100dvh) - 40px);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	background: #fff;\r\n	color: #202225;\r\n	border: 1px solid #8b929a;\r\n	border-radius: 0;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: rgb(0 0 0 / 55%);\r\n	clip-path: var(--confirm-owner-clip);\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.ui-confirm .ui-confirm-field input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Confirmation.js
+/** Modal confirmation shared by menus and adventure tools. Returns a cancellation function. */
+function confirmAction(container, message, action, { content, bounds, cancelled = () => {} } = {}) {
+	active$2.get(container)?.();
+	const dialog = document.createElement("dialog");
+	dialog.className = "ui-confirm";
+	dialog.setAttribute("aria-label", "操作确认");
+	const style = document.createElement("style");
+	const desktopOwner = container.closest("[data-feedback-theme=\"desktop\"]");
+	style.textContent = desktopOwner ? ConfirmationDesktop_default : Confirmation_default;
+	const text = document.createElement("p");
+	text.textContent = message;
+	text.tabIndex = -1;
+	text.autofocus = true;
+	const buttons = document.createElement("div");
+	buttons.className = "ui-confirm-actions";
+	const cancel = document.createElement("button");
+	cancel.type = "button";
+	cancel.dataset.cancel = "";
+	cancel.textContent = "取消";
+	const confirm = document.createElement("button");
+	confirm.type = "button";
+	confirm.dataset.confirm = "";
+	confirm.textContent = "确认";
+	const resize = bounds || desktopOwner ? new ResizeObserver(() => fitBounds()) : null;
+	function fitBounds() {
+		if (!bounds && !desktopOwner) return;
+		const rect = (bounds || desktopOwner).getBoundingClientRect();
+		if (desktopOwner) {
+			dialog.style.setProperty("--confirm-center-x", `${rect.left + rect.width / 2}px`);
+			dialog.style.setProperty("--confirm-center-y", `${rect.top + rect.height / 2}px`);
+			dialog.style.setProperty("--confirm-owner-clip", `inset(${rect.top}px ${Math.max(0, window.innerWidth - rect.right)}px ${Math.max(0, window.innerHeight - rect.bottom)}px ${rect.left}px)`);
+		}
+		dialog.style.setProperty("--confirm-max-width", `${rect.width}px`);
+		dialog.style.setProperty("--confirm-max-height", `${rect.height}px`);
+	}
+	let finished = false;
+	const finish = (accepted) => {
+		if (finished) return;
+		finished = true;
+		observer.disconnect();
+		resize?.disconnect();
+		dialog.close();
+		dialog.remove();
+		if (active$2.get(container) === dismiss) active$2.delete(container);
+		if (accepted && container.isConnected) action();
+		else cancelled();
+	};
+	const dismiss = () => finish(false);
+	const visible = () => {
+		for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
+		return container.isConnected && dialog.isConnected;
+	};
+	const observer = new MutationObserver(() => {
+		if (!visible()) dismiss();
+	});
+	cancel.onclick = dismiss;
+	confirm.onclick = () => {
+		if (content && ![...content.querySelectorAll("input, select, textarea")].every((field) => field.reportValidity())) return;
+		finish(true);
+	};
+	dialog.addEventListener("cancel", (event) => {
+		event.preventDefault();
+		dismiss();
+	});
+	buttons.append(cancel, confirm);
+	const body = document.createElement("div");
+	body.className = "ui-confirm-body";
+	body.append(text);
+	if (content) body.append(content);
+	dialog.append(style, body);
+	dialog.append(buttons);
+	container.append(dialog);
+	active$2.set(container, dismiss);
+	const options = {
+		childList: true,
+		subtree: true,
+		attributes: true,
+		attributeFilter: ["hidden", "style"]
+	};
+	observer.observe(document.body, options);
+	const root = container.getRootNode();
+	if (root instanceof ShadowRoot) observer.observe(root, options);
+	fitBounds();
+	if (bounds || desktopOwner) resize.observe(bounds || desktopOwner);
+	dialog.showModal();
+	return dismiss;
+}
+function requestConfirmation(container, message) {
+	return new Promise((resolve) => confirmAction(container, message, () => resolve(true), { cancelled: () => resolve(false) }));
+}
+var active$2;
+var init_Confirmation = __esmMin((() => {
+	init_Confirmation$1();
+	init_ConfirmationDesktop();
+	active$2 = /* @__PURE__ */ new WeakMap();
+}));
+//#endregion
+//#region src/UI/Game/PickupItemPicker.js
+/** Keep selection across pages until the user explicitly confirms. */
+function openPickupItemPicker(container, { excluded, image, clearImages, confirm }) {
+	const existing = new Set(excluded.map((item) => item.id));
+	const selected = /* @__PURE__ */ new Map();
+	const dialog = document.createElement("dialog");
+	dialog.className = "pickup-picker";
+	dialog.setAttribute("aria-label", "添加排除物品");
+	dialog.innerHTML = `
+		<div class="pickup-search"><input type="search" aria-label="搜索排除物品" placeholder="输入物品名称或 ID"><button type="button" data-search>搜索</button></div>
+		<div class="pickup-search-status" role="status" hidden></div>
+		<div class="pickup-results" aria-label="可选物品" tabindex="-1" autofocus></div>
+		<footer><span data-selected>已选 0 件</span><nav class="pickup-pagination" aria-label="物品搜索分页"><button type="button" data-previous disabled>上一页</button><span data-page>1 / 1</span><button type="button" data-next disabled>下一页</button></nav>
+		<div class="pickup-picker-actions"><button type="button" data-cancel>取消</button><button type="button" data-confirm disabled>确认添加</button></div></footer>`;
+	const $ = (selector) => dialog.querySelector(selector);
+	const input = $("input");
+	const results = $(".pickup-results");
+	const status = $(".pickup-search-status");
+	const previous = $("[data-previous]");
+	const next = $("[data-next]");
+	let requestId = 0, page = 1, total = 0, closed = false;
+	function close() {
+		if (closed) return;
+		closed = true;
+		requestId++;
+		dialog.close();
+		dialog.remove();
+		clearImages();
+	}
+	function updateSelection() {
+		$("[data-selected]").textContent = `已选 ${selected.size} 件`;
+		$("[data-confirm]").disabled = !selected.size;
+	}
+	async function search(targetPage = 1) {
+		const query = input.value.trim(), token = ++requestId;
+		if (!query) {
+			status.hidden = false;
+			status.textContent = "请输入物品名称或 ID";
+			return;
+		}
+		previous.disabled = next.disabled = true;
+		results.setAttribute("aria-busy", "true");
+		status.hidden = true;
+		try {
+			const response = await searchAdventureItems({
+				query,
+				page: targetPage,
+				perPage: 20
+			});
+			if (closed || token !== requestId) return;
+			clearImages();
+			results.replaceChildren();
+			results.scrollTop = 0;
+			for (const item of response.data) {
+				const name = item.names?.["zh-CN"] || item.AegisName;
+				const row = document.createElement("label");
+				row.className = "pickup-item";
+				const checkbox = document.createElement("input");
+				checkbox.type = "checkbox";
+				checkbox.dataset.itemId = item.Id;
+				checkbox.checked = existing.has(item.Id) || selected.has(item.Id);
+				checkbox.disabled = existing.has(item.Id);
+				checkbox.onchange = () => {
+					if (checkbox.checked) selected.set(item.Id, {
+						id: item.Id,
+						name
+					});
+					else selected.delete(item.Id);
+					updateSelection();
+				};
+				const title = document.createElement("span");
+				title.textContent = `${name} · ${item.Id}${existing.has(item.Id) ? "（已排除）" : ""}`;
+				row.append(checkbox, image(item.icon), title);
+				results.append(row);
+			}
+			if (!response.data.length) results.textContent = "没有找到物品";
+			page = targetPage;
+			total = response.total;
+			$("[data-page]").textContent = `${page} / ${Math.max(1, Math.ceil(total / 20))}`;
+			status.hidden = true;
+			status.textContent = "";
+		} catch {
+			if (!closed && token === requestId) {
+				status.hidden = false;
+				status.textContent = "搜索失败，请重试";
+			}
+		} finally {
+			if (!closed && token === requestId) {
+				results.removeAttribute("aria-busy");
+				previous.disabled = page <= 1;
+				next.disabled = total <= page * 20;
+			}
+		}
+	}
+	input.oninput = () => {
+		requestId++;
+		clearImages();
+		results.replaceChildren();
+		results.removeAttribute("aria-busy");
+		status.hidden = true;
+		status.textContent = "";
+		page = 1;
+		total = 0;
+		$("[data-page]").textContent = "1 / 1";
+		previous.disabled = next.disabled = true;
+	};
+	input.onkeydown = (event) => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			search();
+		}
+	};
+	$("[data-search]").onclick = () => search();
+	previous.onclick = () => search(page - 1);
+	next.onclick = () => search(page + 1);
+	for (const button of dialog.querySelectorAll("[data-cancel]")) button.onclick = close;
+	$("[data-confirm]").onclick = () => {
+		const items = [...selected.values()];
+		close();
+		if (container.isConnected) confirm(items);
+	};
+	dialog.addEventListener("cancel", (event) => {
+		event.preventDefault();
+		close();
+	});
+	dialog.addEventListener("keydown", (event) => event.stopPropagation());
+	container.append(dialog);
+	dialog.showModal();
+	return close;
+}
+var init_PickupItemPicker = __esmMin((() => {
+	init_AdventureControlService();
+}));
+//#endregion
 //#region src/UI/Game/PickupSettingsPanel.js
 /** Shared pickup editor with immediate switches and debounced numeric persistence. */
 function createPickupSettingsPanel(section, draft, persist = savePickupSettings) {
 	section.classList.add("pickup-section");
 	let timer;
+	let destroyed = false;
+	const imageUrls = /* @__PURE__ */ new Set();
+	const excludedImageUrls = /* @__PURE__ */ new Set();
+	const placeholder = "data:image/svg+xml," + encodeURIComponent("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><rect x=\"1\" y=\"1\" width=\"22\" height=\"22\" rx=\"4\" fill=\"#253442\" stroke=\"#65717b\"/><path d=\"m6 8 6-3 6 3v8l-6 3-6-3zm0 0 6 3 6-3m-6 3v8\" fill=\"none\" stroke=\"#bac4cd\" stroke-linejoin=\"round\"/></svg>");
+	function clearImages(urls = imageUrls) {
+		urls.forEach((url) => URL.revokeObjectURL(url));
+		urls.clear();
+	}
+	function itemImage(path, urls) {
+		const image = document.createElement("img");
+		image.className = "pickup-item-icon";
+		image.width = image.height = 24;
+		image.src = placeholder;
+		image.alt = "暂无图片";
+		image.onerror = () => {
+			image.onerror = null;
+			image.src = placeholder;
+			image.alt = "暂无图片";
+		};
+		if (path) loadAdventureAsset(path.replace("/api/adventure-tools", "")).then((url) => {
+			if (destroyed || !image.isConnected) {
+				URL.revokeObjectURL(url);
+				return;
+			}
+			urls.add(url);
+			image.alt = "";
+			image.src = url;
+		}).catch(() => {});
+		return image;
+	}
 	const status = document.createElement("span");
 	status.className = "pickup-save-status";
 	status.setAttribute("role", "status");
-	status.textContent = "修改后自动保存";
+	const feedback = document.createElement("div");
+	feedback.className = "pickup-save-error";
+	feedback.hidden = true;
 	const retry = document.createElement("button");
 	retry.type = "button";
 	retry.textContent = "重试";
@@ -280695,8 +281113,9 @@ function createPickupSettingsPanel(section, draft, persist = savePickupSettings)
 		const valid = validPickupSettings(draft);
 		const ok = valid && persist(structuredClone(draft)) !== false;
 		const invalidInput = section.querySelector("[aria-invalid=\"true\"]");
-		status.textContent = ok ? invalidInput ? "数值无效，保留上次有效配置" : "已保存" : valid ? "保存失败，请重试" : "数值无效，保留上次有效配置";
+		status.textContent = ok ? invalidInput ? "数值无效，保留上次有效配置" : "" : valid ? "保存失败，请重试" : "数值无效，保留上次有效配置";
 		status.dataset.error = String(!ok || !!invalidInput);
+		feedback.hidden = ok && !invalidInput;
 		retry.hidden = ok || !valid;
 		return ok;
 	}
@@ -280707,8 +281126,10 @@ function createPickupSettingsPanel(section, draft, persist = savePickupSettings)
 			clearTimeout(timer);
 			if (input.validity.valid) changed();
 			input.setAttribute("aria-invalid", String(!input.validity.valid));
-			status.textContent = input.validity.valid ? "等待保存…" : "数值无效，保留上次有效配置";
+			status.textContent = input.validity.valid ? "" : "数值无效，保留上次有效配置";
 			status.dataset.error = String(!input.validity.valid);
+			feedback.hidden = input.validity.valid;
+			retry.hidden = true;
 			if (input.validity.valid) timer = setTimeout(save, 400);
 		};
 		input.onblur = save;
@@ -280735,13 +281156,13 @@ function createPickupSettingsPanel(section, draft, persist = savePickupSettings)
 	enabled.type = "checkbox";
 	enabled.checked = draft.enabled;
 	enabled.dataset.pickup = "enabled";
-	section.append(label("自动拾取", enabled));
+	const enabledRow = label("自动拾取", enabled);
+	enabledRow.classList.add("pickup-enabled");
+	section.append(enabledRow);
 	const controls = document.createElement("fieldset");
 	controls.className = "pickup-controls";
-	controls.disabled = !draft.enabled;
 	enabled.oninput = () => {
 		draft.enabled = enabled.checked;
-		controls.disabled = !draft.enabled;
 		save();
 	};
 	const limits = document.createElement("div");
@@ -280796,24 +281217,12 @@ function createPickupSettingsPanel(section, draft, persist = savePickupSettings)
 	const heading = document.createElement("h4");
 	heading.textContent = "排除物品";
 	controls.append(heading);
-	const columns = document.createElement("div");
-	columns.className = "pickup-columns";
-	const searchColumn = document.createElement("section");
-	searchColumn.className = "pickup-column pickup-search-column";
-	searchColumn.setAttribute("aria-label", "搜索物品");
-	const excludedColumn = document.createElement("section");
-	excludedColumn.className = "pickup-column pickup-excluded-column";
-	excludedColumn.setAttribute("aria-label", "已排除物品");
-	const searchTitle = document.createElement("h5");
-	searchTitle.textContent = "搜索物品";
-	const excludedTitle = document.createElement("h5");
-	excludedTitle.textContent = "已排除物品";
-	searchColumn.append(searchTitle);
-	excludedColumn.append(excludedTitle);
-	columns.append(searchColumn, excludedColumn);
-	controls.append(columns);
+	const excludedTitle = document.createElement("p");
 	const excluded = document.createElement("div");
 	excluded.className = "pickup-excluded";
+	excluded.setAttribute("aria-label", "已排除物品");
+	const selected = /* @__PURE__ */ new Set();
+	let closePicker, cancelClear;
 	function button(text, action) {
 		const b = document.createElement("button");
 		b.type = "button";
@@ -280821,112 +281230,90 @@ function createPickupSettingsPanel(section, draft, persist = savePickupSettings)
 		b.onclick = action;
 		return b;
 	}
-	function renderExcluded() {
-		excluded.replaceChildren();
-		excludedTitle.textContent = `已排除物品（${draft.excluded.length}）`;
-		for (const item of draft.excluded) {
-			const row = document.createElement("div");
-			row.className = "pickup-item";
-			const name = document.createElement("span");
-			name.textContent = `${item.name} · ${item.id}`;
-			row.append(name, button("移除", () => {
-				draft.excluded = draft.excluded.filter((entry) => entry.id !== item.id);
+	const add = button("添加", () => {
+		closePicker?.();
+		closePicker = openPickupItemPicker(section, {
+			excluded: draft.excluded,
+			image: (path) => itemImage(path, imageUrls),
+			clearImages,
+			confirm: (items) => {
+				for (const item of items) if (!draft.excluded.some((entry) => entry.id === item.id)) draft.excluded.push(item);
 				renderExcluded();
 				save();
-			}));
+			}
+		});
+	});
+	const remove = button("删除", () => {
+		draft.excluded = draft.excluded.filter((item) => !selected.has(item.id));
+		selected.clear();
+		renderExcluded();
+		save();
+	});
+	const clear = button("清空", () => {
+		cancelClear = confirmAction(section, `确认清空全部 ${draft.excluded.length} 件排除物品？`, () => {
+			draft.excluded = [];
+			selected.clear();
+			renderExcluded();
+			save();
+		});
+	});
+	const toolbar = document.createElement("div");
+	toolbar.className = "pickup-toolbar";
+	toolbar.append(add, remove, clear);
+	controls.append(toolbar, excludedTitle, excluded);
+	function updateSelection() {
+		remove.disabled = !selected.size;
+		clear.disabled = !draft.excluded.length;
+		excludedTitle.textContent = `已排除 ${draft.excluded.length} 件 · 已选 ${selected.size} 件`;
+	}
+	function renderExcluded() {
+		clearImages(excludedImageUrls);
+		excluded.replaceChildren();
+		for (const item of draft.excluded) {
+			const row = document.createElement("label");
+			row.className = "pickup-item";
+			const checkbox = document.createElement("input");
+			checkbox.type = "checkbox";
+			checkbox.dataset.excludedId = item.id;
+			checkbox.checked = selected.has(item.id);
+			checkbox.onchange = () => {
+				if (checkbox.checked) selected.add(item.id);
+				else selected.delete(item.id);
+				updateSelection();
+			};
+			const name = document.createElement("span");
+			name.textContent = `${item.name} · ${item.id}`;
+			row.append(checkbox, itemImage(`/items/${item.id}/icon`, excludedImageUrls), name);
 			excluded.append(row);
 		}
 		if (!draft.excluded.length) excluded.textContent = "暂无排除物品";
-		section.querySelectorAll("[data-exclude-id]").forEach((control) => {
-			control.disabled = draft.excluded.some((item) => item.id === Number(control.dataset.excludeId));
-		});
+		updateSelection();
 	}
 	renderExcluded();
-	excludedColumn.append(excluded);
-	const searchRow = document.createElement("div");
-	searchRow.className = "pickup-search";
-	const input = document.createElement("input");
-	input.type = "search";
-	input.placeholder = "输入物品名称或 ID";
-	input.setAttribute("aria-label", "搜索排除物品");
-	const results = document.createElement("div");
-	results.className = "pickup-results";
-	results.setAttribute("aria-live", "polite");
-	results.textContent = "输入名称或 ID 搜索，将物品加入右侧排除列表。";
-	let requestId = 0;
-	async function search(page = 1) {
-		const query = input.value.trim(), token = ++requestId;
-		results.replaceChildren();
-		if (!query) return;
-		results.textContent = "搜索中…";
-		try {
-			const response = await searchAdventureItems({
-				query,
-				page,
-				perPage: 20
-			});
-			if (token !== requestId || !section.isConnected) return;
-			results.replaceChildren();
-			for (const item of response.data) {
-				const name = item.names?.["zh-CN"] || item.AegisName;
-				const row = document.createElement("div");
-				row.className = "pickup-item";
-				const title = document.createElement("span");
-				title.textContent = `${name} · ${item.Id}`;
-				const add = button("排除", () => {
-					if (!draft.excluded.some((entry) => entry.id === item.Id)) draft.excluded.push({
-						id: item.Id,
-						name
-					});
-					renderExcluded();
-					save();
-					add.disabled = true;
-				});
-				add.dataset.excludeId = String(item.Id);
-				add.disabled = draft.excluded.some((entry) => entry.id === item.Id);
-				row.append(title, add);
-				results.append(row);
-			}
-			if (!response.data.length) results.textContent = "没有找到物品";
-			if (page > 1) results.append(button("上一页", () => search(page - 1)));
-			if (response.total > page * 20) results.append(button("下一页", () => search(page + 1)));
-		} catch {
-			if (token === requestId) results.textContent = "搜索失败，请重试";
-		}
-	}
-	input.oninput = () => {
-		requestId++;
-		results.replaceChildren();
-	};
-	input.onkeydown = (event) => {
-		if (event.key === "Enter") {
-			event.preventDefault();
-			search();
-		}
-	};
-	searchRow.append(input, button("搜索", () => search()));
-	searchColumn.append(searchRow, results);
 	const note = document.createElement("p");
 	note.className = "pickup-note";
 	note.textContent = "自动走向并拾取符合配置的地面物品，包括自己丢弃的物品。手动拾取不受这些配置影响。设置保存在当前浏览器，按角色区分。";
-	const footer = document.createElement("div");
-	footer.className = "pickup-save-footer";
-	footer.append(status, retry);
-	section.append(controls, note, footer);
+	feedback.append(status, retry);
+	section.append(controls, note, feedback);
 	return {
-		footer,
 		flush: () => {
 			if (timer) save();
 		},
 		destroy: () => {
+			destroyed = true;
+			clearImages(excludedImageUrls);
+			clearImages();
 			clearTimeout(timer);
-			requestId++;
+			closePicker?.();
+			cancelClear?.();
 		}
 	};
 }
 var init_PickupSettingsPanel$1 = __esmMin((() => {
 	init_PickupSettings();
 	init_AdventureControlService();
+	init_Confirmation();
+	init_PickupItemPicker();
 }));
 //#endregion
 //#region src/UI/Components/AutoCombat/AutoCombatView.js
@@ -280946,7 +281333,7 @@ function createAutoCombatView(root, actions, pickup) {
 				<button type="button" data-close aria-label="关闭战斗辅助">关闭</button>
 				</header>
 				<div id="combat-panel" role="tabpanel" aria-labelledby="combat-tab" class="desktop-combat-panel">
-				<div class="combat-runtime"><div><strong>自动战斗</strong><span class="combat-status" role="status" data-status></span></div><button type="button" class="game-switch" role="switch" aria-label="自动战斗" data-toggle aria-checked="false"></button></div>
+				<div class="combat-runtime"><strong>自动战斗</strong><button type="button" class="game-switch" role="switch" aria-label="自动战斗" data-toggle aria-checked="false"></button></div>
 					<div class="auto-config-body"></div>
 				</div>
 				<div id="pickup-panel" role="tabpanel" aria-labelledby="pickup-tab" class="desktop-pickup-panel" hidden>
@@ -280961,7 +281348,6 @@ function createAutoCombatView(root, actions, pickup) {
 	function finishClose() {
 		pickupEditor?.flush();
 		pickupEditor?.destroy();
-		pickupEditor?.footer.remove();
 		backdrop.hidden = true;
 		root.getRootNode().host?.removeAttribute("data-settings-open");
 		$(".auto-config-body").replaceChildren();
@@ -280985,7 +281371,6 @@ function createAutoCombatView(root, actions, pickup) {
 		if (!backdrop.hidden) return;
 		createAutoCombatPanel($(".auto-config-body"), actions);
 		pickupEditor = createPickupSettingsPanel($(".desktop-pickup-scroll"), structuredClone(pickup.load()), pickup.save);
-		$("#pickup-panel").append(pickupEditor.footer);
 		selectTab("combat");
 		backdrop.hidden = false;
 		root.getRootNode().host?.setAttribute("data-settings-open", "");
@@ -281043,7 +281428,6 @@ function createAutoCombatView(root, actions, pickup) {
 	}, { signal: abort.signal });
 	function update(state) {
 		$("[data-toggle]").setAttribute("aria-checked", String(state.active));
-		$("[data-status]").textContent = state.status;
 		const picking = pickup.load().enabled;
 		$("[data-settings]").title = `战斗辅助 · 战斗${state.active ? "开启" : "关闭"} · 拾取${picking ? "开启" : "关闭"}`;
 	}
@@ -281055,7 +281439,6 @@ function createAutoCombatView(root, actions, pickup) {
 		destroy() {
 			root.getRootNode().host?.removeAttribute("data-settings-open");
 			pickupEditor?.destroy();
-			pickupEditor?.footer.remove();
 			abort.abort();
 			root.replaceChildren();
 		}
@@ -281069,19 +281452,19 @@ var init_AutoCombatView = __esmMin((() => {
 //#region src/UI/Components/AutoCombat/AutoCombat.css?raw
 var AutoCombat_default$1;
 var init_AutoCombat$1 = __esmMin((() => {
-	AutoCombat_default$1 = ":host {\r\n	position: fixed !important;\r\n	right: 16px;\r\n	bottom: 24px;\r\n	pointer-events: none;\r\n	color: #f4f0e6;\r\n	font:\r\n		13px Arial,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	font: inherit;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	padding: 7px 12px;\r\n	cursor: pointer;\r\n}\r\nbutton:hover {\r\n	border-color: #ceaa70;\r\n}\r\nbutton:focus-visible,\r\ninput:focus-visible {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n[data-toggle][aria-checked='true'] {\r\n	border-color: #ceaa70;\r\n	background: #493c26;\r\n}\r\n.combat-status {\r\n	display: block;\r\n	margin-top: 8px;\r\n	color: #ceaa70;\r\n	overflow-wrap: anywhere;\r\n	font-size: 12px;\r\n}\r\n.combat-backdrop {\r\n	position: fixed;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0006;\r\n	pointer-events: auto;\r\n	padding: 16px;\r\n}\r\n.combat-dialog {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(760px, 100%);\r\n	height: min(560px, 100%);\r\n	max-height: calc(100dvh - 32px);\r\n	padding: 16px;\r\n	gap: 14px;\r\n	background: #18212b;\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 8px 32px #0008;\r\n}\r\n.combat-dialog header {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.combat-dialog h2 {\r\n	margin: 0;\r\n	font-size: 17px;\r\n}\r\n\r\n:host {\r\n	--assist-surface: #18212b;\r\n	--assist-border: #52606d;\r\n	--assist-accent: #ceaa70;\r\n	color-scheme: dark;\r\n}\r\n* {\r\n	scrollbar-width: thin;\r\n	scrollbar-color: #65717b #111a23;\r\n}\r\n::-webkit-scrollbar {\r\n	width: 8px;\r\n	height: 8px;\r\n}\r\n::-webkit-scrollbar-track {\r\n	background: #111a23;\r\n}\r\n::-webkit-scrollbar-thumb {\r\n	background: #65717b;\r\n	border: 2px solid #111a23;\r\n	border-radius: 6px;\r\n}\r\n.combat-launcher {\r\n	position: relative;\r\n	display: grid;\r\n	place-items: center;\r\n	width: 40px;\r\n	height: 40px;\r\n	padding: 9px;\r\n	pointer-events: auto;\r\n	background: #18212be8;\r\n	box-shadow: 0 2px 8px #0005;\r\n}\r\n.combat-launcher svg {\r\n	width: 22px;\r\n	height: 22px;\r\n	fill: none;\r\n	stroke: currentColor;\r\n	stroke-width: 1.5;\r\n}\r\n\r\n.combat-dialog {\r\n	width: min(820px, 100%);\r\n	height: min(600px, 100%);\r\n	gap: 12px;\r\n	background: var(--assist-surface);\r\n	border-color: var(--assist-border);\r\n}\r\n.combat-dialog > header {\r\n	flex-shrink: 0;\r\n}\r\n.combat-subtitle {\r\n	display: block;\r\n	margin-top: 5px;\r\n	font-size: 12px;\r\n	color: #bac4cd;\r\n}\r\n.combat-runtime {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 10px 12px;\r\n	border: 1px solid var(--assist-border);\r\n	border-radius: 8px;\r\n	background: #111a23;\r\n}\r\n.combat-status {\r\n	margin-top: 4px;\r\n}\r\n.combat-runtime button {\r\n	flex-shrink: 0;\r\n	min-width: 100px;\r\n}\r\n.combat-tabs {\r\n	flex: 1;\r\n	display: flex;\r\n	flex-shrink: 0;\r\n	border-bottom: 1px solid var(--assist-border);\r\n	gap: 6px;\r\n}\r\n.combat-tabs button {\r\n	min-width: 112px;\r\n	border-radius: 6px 6px 0 0;\r\n	border-bottom: 0;\r\n	padding: 10px 16px;\r\n	color: #bac4cd;\r\n}\r\n.combat-tabs [aria-selected='true'] {\r\n	color: #f4f0e6;\r\n	background: #33404c;\r\n	border-color: var(--assist-accent);\r\n	box-shadow: inset 0 2px var(--assist-accent);\r\n}\r\n.desktop-combat-panel,\r\n.desktop-pickup-panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	gap: 12px;\r\n}\r\n.desktop-pickup-scroll {\r\n	overflow: auto;\r\n	min-height: 0;\r\n	flex: 1;\r\n	padding-right: 8px;\r\n}\r\n.combat-dialog .settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	min-height: 38px;\r\n	gap: 12px;\r\n}\r\n.combat-dialog input {\r\n	font: inherit;\r\n	color: inherit;\r\n	accent-color: var(--assist-accent);\r\n}\r\n.combat-dialog input[type='number'],\r\n.combat-dialog input[type='search'] {\r\n	min-height: 34px;\r\n	padding: 6px 8px;\r\n	background: #111a23;\r\n	border: 1px solid var(--assist-border);\r\n	border-radius: 6px;\r\n}\r\n.combat-dialog input[type='checkbox'] {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n}\r\n.combat-dialog .pickup-limits .settings-field {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n}\r\n.combat-dialog h3,\r\n.combat-dialog h4 {\r\n	font-size: 13px;\r\n}\r\n.combat-dialog .auto-species-list,\r\n.combat-dialog .auto-skill-list,\r\n.combat-dialog .auto-skill-card strong,\r\n.combat-dialog .auto-range-settings,\r\n.combat-dialog .auto-teleport-settings {\r\n	font-size: 13px;\r\n}\r\n.combat-dialog .auto-help,\r\n.combat-dialog .auto-skill-card small,\r\n.combat-dialog [data-skill-count],\r\n.combat-dialog [data-auto-summary] {\r\n	font-size: 12px;\r\n}\r\n.combat-dialog .auto-range-stepper button {\r\n	padding: 0;\r\n}\r\n.combat-dialog .auto-target-section {\r\n	padding-right: 8px;\r\n}\r\n.combat-dialog .auto-config-footer {\r\n	min-height: 48px;\r\n	font-size: 12px;\r\n}\r\n\r\n:host([data-settings-open]) {\r\n	z-index: 1000 !important;\r\n}\r\n.combat-dialog .pickup-section > .settings-field:first-child {\r\n	margin-bottom: 12px;\r\n	display: flex;\r\n	justify-content: flex-start;\r\n	gap: 16px;\r\n}\r\n.combat-dialog .pickup-section > .settings-field:first-child > span {\r\n	flex: none;\r\n}\r\n";
+	AutoCombat_default$1 = ":host {\r\n	position: fixed !important;\r\n	right: 16px;\r\n	bottom: 24px;\r\n	pointer-events: none;\r\n	color: #f4f0e6;\r\n	font:\r\n		13px Arial,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	font: inherit;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	padding: 7px 12px;\r\n	cursor: pointer;\r\n}\r\nbutton:hover {\r\n	border-color: #ceaa70;\r\n}\r\nbutton:focus-visible,\r\ninput:focus-visible {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n[data-toggle][aria-checked='true'] {\r\n	border-color: #ceaa70;\r\n	background: #493c26;\r\n}\r\n.combat-backdrop {\r\n	position: fixed;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0006;\r\n	pointer-events: auto;\r\n	padding: 16px;\r\n}\r\n.combat-dialog {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(760px, 100%);\r\n	height: min(560px, 100%);\r\n	max-height: calc(100dvh - 32px);\r\n	padding: 16px;\r\n	gap: 14px;\r\n	background: #18212b;\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 8px 32px #0008;\r\n}\r\n.combat-dialog header {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.combat-dialog h2 {\r\n	margin: 0;\r\n	font-size: 17px;\r\n}\r\n\r\n:host {\r\n	--assist-surface: #18212b;\r\n	--assist-border: #52606d;\r\n	--assist-accent: #ceaa70;\r\n	color-scheme: dark;\r\n}\r\n* {\r\n	scrollbar-width: thin;\r\n	scrollbar-color: #65717b #111a23;\r\n}\r\n::-webkit-scrollbar {\r\n	width: 8px;\r\n	height: 8px;\r\n}\r\n::-webkit-scrollbar-track {\r\n	background: #111a23;\r\n}\r\n::-webkit-scrollbar-thumb {\r\n	background: #65717b;\r\n	border: 2px solid #111a23;\r\n	border-radius: 6px;\r\n}\r\n.combat-launcher {\r\n	position: relative;\r\n	display: grid;\r\n	place-items: center;\r\n	width: 40px;\r\n	height: 40px;\r\n	padding: 9px;\r\n	pointer-events: auto;\r\n	background: #18212be8;\r\n	box-shadow: 0 2px 8px #0005;\r\n}\r\n.combat-launcher svg {\r\n	width: 22px;\r\n	height: 22px;\r\n	fill: none;\r\n	stroke: currentColor;\r\n	stroke-width: 1.5;\r\n}\r\n\r\n.combat-dialog {\r\n	width: min(820px, 100%);\r\n	height: min(600px, 100%);\r\n	gap: 12px;\r\n	background: var(--assist-surface);\r\n	border-color: var(--assist-border);\r\n}\r\n.combat-dialog > header {\r\n	flex-shrink: 0;\r\n}\r\n.combat-subtitle {\r\n	display: block;\r\n	margin-top: 5px;\r\n	font-size: 12px;\r\n	color: #bac4cd;\r\n}\r\n.combat-runtime,\r\n.combat-dialog .pickup-section > .pickup-enabled {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 10px 12px;\r\n	border: 1px solid var(--assist-border);\r\n	border-radius: 8px;\r\n	background: #111a23;\r\n}\r\n.combat-runtime button {\r\n	flex-shrink: 0;\r\n	min-width: 100px;\r\n}\r\n.combat-tabs {\r\n	flex: 1;\r\n	display: flex;\r\n	flex-shrink: 0;\r\n	border-bottom: 1px solid var(--assist-border);\r\n	gap: 6px;\r\n}\r\n.combat-tabs button {\r\n	min-width: 112px;\r\n	border-radius: 6px 6px 0 0;\r\n	border-bottom: 0;\r\n	padding: 10px 16px;\r\n	color: #bac4cd;\r\n}\r\n.combat-tabs [aria-selected='true'] {\r\n	color: #f4f0e6;\r\n	background: #33404c;\r\n	border-color: var(--assist-accent);\r\n	box-shadow: inset 0 2px var(--assist-accent);\r\n}\r\n.desktop-combat-panel,\r\n.desktop-pickup-panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	gap: 12px;\r\n}\r\n.desktop-pickup-scroll {\r\n	overflow: auto;\r\n	min-height: 0;\r\n	flex: 1;\r\n	padding-right: 8px;\r\n}\r\n.combat-dialog .settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	min-height: 38px;\r\n	gap: 12px;\r\n}\r\n.combat-dialog input {\r\n	font: inherit;\r\n	color: inherit;\r\n	accent-color: var(--assist-accent);\r\n}\r\n.combat-dialog input[type='number'],\r\n.combat-dialog input[type='search'] {\r\n	min-height: 34px;\r\n	padding: 6px 8px;\r\n	background: #111a23;\r\n	border: 1px solid var(--assist-border);\r\n	border-radius: 6px;\r\n}\r\n.combat-dialog input[type='checkbox'] {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n}\r\n.combat-dialog .pickup-limits .settings-field {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n}\r\n.combat-dialog h3,\r\n.combat-dialog h4 {\r\n	font-size: 13px;\r\n}\r\n.combat-dialog .auto-species-list,\r\n.combat-dialog .auto-skill-list,\r\n.combat-dialog .auto-skill-card strong,\r\n.combat-dialog .auto-range-settings,\r\n.combat-dialog .auto-teleport-settings {\r\n	font-size: 13px;\r\n}\r\n.combat-dialog .auto-help,\r\n.combat-dialog .auto-skill-card small,\r\n.combat-dialog [data-skill-count] {\r\n	font-size: 12px;\r\n}\r\n.combat-dialog .auto-range-stepper button {\r\n	padding: 0;\r\n}\r\n.combat-dialog .auto-target-section {\r\n	padding-right: 8px;\r\n}\r\n\r\n:host([data-settings-open]) {\r\n	z-index: 1000 !important;\r\n}\r\n.combat-dialog .pickup-section > .pickup-enabled {\r\n	width: 100%;\r\n	margin: 0 0 12px;\r\n}\r\n.combat-dialog .pickup-enabled > span {\r\n	font-weight: bold;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Game/PickupSettingsPanel.css?raw
 var PickupSettingsPanel_default;
 var init_PickupSettingsPanel = __esmMin((() => {
-	PickupSettingsPanel_default = ".settings-section.pickup-section {\r\n	display: block;\r\n}\r\n.pickup-controls {\r\n	border: 0;\r\n	padding: 0;\r\n	margin: 0;\r\n	min-width: 0;\r\n}\r\n.pickup-controls:disabled {\r\n	opacity: 0.5;\r\n}\r\n.pickup-categories {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 0 20px;\r\n}\r\n.pickup-search,\r\n.pickup-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	padding: 6px 0;\r\n}\r\n.pickup-search input {\r\n	flex: 1;\r\n	min-width: 0;\r\n	padding: 8px;\r\n	color: inherit;\r\n	background: #111a23;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n}\r\n.pickup-item span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.pickup-item button {\r\n	flex-shrink: 0;\r\n}\r\n.pickup-note {\r\n	font-size: 12px;\r\n	color: #b8c4cf;\r\n	line-height: 1.6;\r\n}\r\n.pickup-excluded {\r\n	color: #d7dfeb;\r\n}\r\n\r\n.pickup-columns {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	align-items: stretch;\r\n	margin-bottom: 10px;\r\n}\r\n.pickup-column {\r\n	min-width: 0;\r\n	padding: 10px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 8px;\r\n	background: #141d26;\r\n}\r\n.pickup-column h5 {\r\n	margin: 0 0 8px;\r\n	font: inherit;\r\n	font-weight: 600;\r\n}\r\n.pickup-results,\r\n.pickup-excluded {\r\n	max-height: 240px;\r\n	min-height: 80px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	font-size: 12px;\r\n}\r\n.pickup-item {\r\n	border-bottom: 1px solid #34414d;\r\n}\r\n.pickup-item:last-child {\r\n	border-bottom: 0;\r\n}\r\n.pickup-search {\r\n	padding-top: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.pickup-columns {\r\n		gap: 6px;\r\n	}\r\n	.pickup-column {\r\n		padding: 6px;\r\n	}\r\n	.pickup-search {\r\n		flex-wrap: wrap;\r\n	}\r\n	.pickup-search input {\r\n		flex-basis: 100%;\r\n	}\r\n	.pickup-item {\r\n		flex-wrap: wrap;\r\n		gap: 4px;\r\n	}\r\n	.pickup-item span {\r\n		flex-basis: 100%;\r\n	}\r\n}\r\n\r\n.pickup-limits {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n.pickup-limits .settings-field {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.pickup-section .pickup-limits .settings-field input {\r\n	width: 100%;\r\n	max-width: none;\r\n}\r\n\r\n.pickup-save-footer {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n	margin-top: 12px;\r\n	padding: 10px 0;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.pickup-save-status {\r\n	font-size: 12px;\r\n	color: #bac4cd;\r\n}\r\n.pickup-save-status[data-error='true'] {\r\n	color: #ff9b8d;\r\n}\r\n.pickup-section input[aria-invalid='true'] {\r\n	border-color: #ff9b8d;\r\n	outline: 1px solid #ff9b8d;\r\n}\r\n";
+	PickupSettingsPanel_default = ".settings-section.pickup-section {\r\n	display: block;\r\n}\r\n.pickup-controls {\r\n	border: 0;\r\n	padding: 0;\r\n	margin: 0;\r\n	min-width: 0;\r\n}\r\n.pickup-categories {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 0 20px;\r\n}\r\n.pickup-search,\r\n.pickup-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	padding: 6px 0;\r\n}\r\n.pickup-search input {\r\n	flex: 1;\r\n	min-width: 0;\r\n	padding: 8px;\r\n	color: inherit;\r\n	background: #111a23;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n}\r\n.pickup-item span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.pickup-note {\r\n	font-size: 12px;\r\n	color: #b8c4cf;\r\n	line-height: 1.6;\r\n}\r\n.pickup-excluded {\r\n	color: #d7dfeb;\r\n}\r\n\r\n.pickup-excluded {\r\n	max-height: 320px;\r\n	min-height: 80px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	font-size: 12px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n}\r\n.pickup-item {\r\n	border-bottom: 1px solid #34414d;\r\n	cursor: pointer;\r\n}\r\n.pickup-item:last-child {\r\n	border-bottom: 0;\r\n}\r\n.pickup-item input[type='checkbox'] {\r\n	flex: 0 0 auto;\r\n	width: 18px;\r\n	height: 18px;\r\n	min-height: 0;\r\n	margin: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.pickup-toolbar {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 10px;\r\n}\r\n\r\n.pickup-limits {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n.pickup-limits .settings-field {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.pickup-section .pickup-limits .settings-field input {\r\n	width: 100%;\r\n	max-width: none;\r\n}\r\n\r\n.pickup-save-error:not([hidden]) {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n	margin-top: 12px;\r\n}\r\n.pickup-save-status {\r\n	font-size: 12px;\r\n	color: #bac4cd;\r\n}\r\n.pickup-save-status[data-error='true'] {\r\n	color: #ff9b8d;\r\n}\r\n.pickup-section input[aria-invalid='true'] {\r\n	border-color: #ff9b8d;\r\n	outline: 1px solid #ff9b8d;\r\n}\r\n\r\n.pickup-section > .pickup-enabled {\r\n	width: calc((100% - 12px) / 2);\r\n}\r\n.pickup-pagination {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 10px;\r\n	margin-top: 12px;\r\n}\r\n.pickup-item-icon {\r\n	flex: 0 0 24px;\r\n	width: 24px;\r\n	height: 24px;\r\n	object-fit: contain;\r\n}\r\n.pickup-results {\r\n	scrollbar-gutter: stable;\r\n}\r\n.pickup-results[aria-busy='true'] {\r\n	opacity: 0.6;\r\n}\r\n.pickup-search-status {\r\n	min-height: 18px;\r\n	margin-bottom: 6px;\r\n	font-size: 12px;\r\n	color: #b8c4cf;\r\n}\r\n\r\n.pickup-picker {\r\n	position: fixed;\r\n	inset: 0;\r\n	margin: auto;\r\n	width: min(640px, calc(100vw - 32px));\r\n	height: min(560px, calc(var(--mobile-visible-height, 100dvh) - 32px));\r\n	max-width: calc(100vw - 32px);\r\n	max-height: calc(var(--mobile-visible-height, 100dvh) - 32px);\r\n	box-sizing: border-box;\r\n	padding: 14px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	background: #191f26;\r\n	color: #f4f0e6;\r\n	font: inherit;\r\n	overflow: hidden;\r\n	pointer-events: auto;\r\n}\r\n.pickup-picker[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n}\r\n.pickup-picker::backdrop {\r\n	background: #0008;\r\n}\r\n.pickup-picker > footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	flex-shrink: 0;\r\n}\r\n.pickup-picker-actions > span {\r\n	flex: 1;\r\n	margin: 0;\r\n}\r\n.pickup-picker .pickup-search,\r\n.pickup-picker .pickup-pagination,\r\n.pickup-picker .pickup-search-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	padding: 0;\r\n}\r\n.pickup-picker .pickup-results {\r\n	flex: 1;\r\n	height: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.pickup-picker .pickup-pagination {\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n.pickup-picker button {\r\n	font: inherit;\r\n	color: inherit;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #283541;\r\n	padding: 7px 12px;\r\n	min-height: max(30px, var(--panel-control, 34px));\r\n	cursor: pointer;\r\n}\r\n.pickup-picker button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.pickup-picker button:focus-visible,\r\n.pickup-picker input:focus-visible {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 2px;\r\n}\r\n\r\n.pickup-picker > footer {\r\n	justify-content: space-between;\r\n	flex-wrap: wrap;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 10px;\r\n}\r\n.pickup-picker-actions {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	margin-left: auto;\r\n}\r\n:host([data-menu-density]) .panel .pickup-picker .pickup-search input[type='search'],\r\n.pickup-picker .pickup-search input,\r\n.pickup-picker .pickup-search button {\r\n	box-sizing: border-box;\r\n	height: max(30px, var(--panel-control, 34px));\r\n	min-height: max(30px, var(--panel-control, 34px));\r\n	font: inherit;\r\n	font-size: var(--panel-label, 13px);\r\n	padding: 3px 9px;\r\n}\r\n.pickup-item,\r\n.pickup-item input[type='checkbox'] {\r\n	-webkit-tap-highlight-color: transparent;\r\n	user-select: none;\r\n}\r\n.pickup-section .pickup-item input[type='checkbox'] {\r\n	appearance: none;\r\n	-webkit-appearance: none;\r\n	box-sizing: border-box;\r\n	border: 1px solid #7f8b97;\r\n	border-radius: 3px;\r\n	background: #253442;\r\n	position: relative;\r\n	padding: 0;\r\n}\r\n.pickup-section .pickup-item input[type='checkbox']:checked {\r\n	background: #a7803b;\r\n	border-color: #e6c17d;\r\n}\r\n.pickup-section .pickup-item input[type='checkbox']:checked::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 5px;\r\n	top: 2px;\r\n	width: 4px;\r\n	height: 8px;\r\n	border: solid #fff;\r\n	border-width: 0 2px 2px 0;\r\n	transform: rotate(45deg);\r\n}\r\n.pickup-section .pickup-item input[type='checkbox']:disabled {\r\n	opacity: 0.5;\r\n}\r\n.pickup-section .pickup-item input[type='checkbox']:focus-visible {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 2px;\r\n}\r\n.pickup-picker > footer {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.pickup-picker .pickup-picker-actions {\r\n	justify-self: end;\r\n	margin: 0;\r\n	gap: 6px;\r\n}\r\n.pickup-picker .pickup-pagination {\r\n	justify-content: center;\r\n	flex-wrap: nowrap;\r\n	gap: 6px;\r\n}\r\n.pickup-picker > footer button,\r\n.pickup-picker > footer span {\r\n	white-space: nowrap;\r\n}\r\n@media (max-width: 520px) {\r\n	.pickup-picker {\r\n		width: calc(100vw - 16px);\r\n		max-width: calc(100vw - 16px);\r\n		padding-inline: 10px;\r\n	}\r\n	.pickup-picker > footer {\r\n		gap: 4px;\r\n	}\r\n	.panel .pickup-picker > footer button,\r\n	.pickup-picker > footer button {\r\n		padding-inline: 3px;\r\n		font-size: 11px;\r\n	}\r\n	.pickup-picker > footer span {\r\n		font-size: 11px;\r\n	}\r\n	.pickup-picker .pickup-pagination,\r\n	.pickup-picker .pickup-picker-actions {\r\n		gap: 4px;\r\n	}\r\n}\r\n.panel > header.has-combat-tabs > h2 {\r\n	position: absolute;\r\n	width: 1px;\r\n	height: 1px;\r\n	padding: 0;\r\n	margin: -1px;\r\n	overflow: hidden;\r\n	clip-path: inset(50%);\r\n}\r\n.panel > header .combat-settings-tabs {\r\n	flex: 1;\r\n	min-width: 0;\r\n	justify-content: flex-start;\r\n}\r\n.panel > header .combat-settings-tabs button {\r\n	flex: 0 1 auto;\r\n	white-space: nowrap;\r\n}\r\n.pickup-picker .pickup-results:focus {\r\n	outline: none;\r\n}\r\n.mobile-pickup-settings {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.mobile-pickup-settings > .pickup-section {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n\r\n.pickup-section > .pickup-enabled {\r\n	margin-top: 4px;\r\n	margin-bottom: 12px;\r\n}\r\n.pickup-controls {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.pickup-controls > h4,\r\n.pickup-controls > p {\r\n	margin: 0;\r\n}\r\n.pickup-categories {\r\n	row-gap: 8px;\r\n}\r\n:is(.panel, .combat-dialog) .pickup-section .pickup-limits .settings-field {\r\n	padding-block: 8px;\r\n	gap: 8px;\r\n}\r\n.pickup-section > .pickup-note {\r\n	margin-block: 12px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Game/AutoCombatPanel.css?raw
 var AutoCombatPanel_default;
 var init_AutoCombatPanel = __esmMin((() => {
-	AutoCombatPanel_default = ".auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-auto-save-status] {\r\n	font-size: 12px;\r\n	color: #bac4cd;\r\n}\r\n[data-auto-save-status][data-error='true'] {\r\n	color: #ff9b8d;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n\r\n.auto-range-settings,\r\n.auto-teleport-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4,\r\n.auto-teleport-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.auto-skill-list {\r\n	touch-action: pan-y;\r\n}\r\n.auto-skill-card {\r\n	width: 100%;\r\n	text-align: left;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	font-style: normal;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n\r\n.auto-teleport-settings {\r\n	margin-top: 12px;\r\n}\r\n.auto-teleport-toggle {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n}\r\n.auto-teleport-toggle input {\r\n	width: 18px;\r\n	height: 18px;\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-teleport-settings .auto-help {\r\n	margin-bottom: 0;\r\n}\r\n";
+	AutoCombatPanel_default = ".auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-save-error:not([hidden]) {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-auto-save-status] {\r\n	font-size: 12px;\r\n	color: #bac4cd;\r\n}\r\n[data-auto-save-status][data-error='true'] {\r\n	color: #ff9b8d;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n\r\n.auto-range-settings,\r\n.auto-teleport-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4,\r\n.auto-teleport-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.auto-skill-list {\r\n	touch-action: pan-y;\r\n}\r\n.auto-skill-card {\r\n	width: 100%;\r\n	text-align: left;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	font-style: normal;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n\r\n.auto-teleport-settings {\r\n	margin-top: 12px;\r\n}\r\n.auto-teleport-toggle {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n}\r\n.auto-teleport-toggle input {\r\n	width: 18px;\r\n	height: 18px;\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-teleport-settings .auto-help {\r\n	margin-bottom: 0;\r\n}\r\n\r\n.auto-skill-card .auto-skill-icon {\r\n	flex: 0 0 24px;\r\n	width: 24px;\r\n	height: 24px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.auto-skill-icon:not([src]) {\r\n	visibility: hidden;\r\n}\r\n.auto-skill-card,\r\n.auto-species-card,\r\n.auto-teleport-toggle {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/GameSwitch.css?raw
@@ -284595,7 +284978,7 @@ function getStatus() {
 		unavailable: routeMatches && navigationState.unavailable
 	};
 }
-function update$1(active, message) {
+function update(active, message) {
 	status = {
 		active,
 		message
@@ -284616,7 +284999,7 @@ function previewAdventureRoute(nextTarget) {
 	timer$1 = null;
 	target = { ...nextTarget };
 	navigationStarted = false;
-	update$1(false, "");
+	update(false, "");
 	const position = getCurrentAdventurePosition();
 	Navigation_default.navigateTo({
 		startMap: getCurrentAdventureMap(),
@@ -284640,7 +285023,7 @@ function startAdventureRoute(nextTarget) {
 	timer$1 = null;
 	target = { ...nextTarget };
 	navigationStarted = false;
-	update$1(true, "");
+	update(true, "");
 	const position = getCurrentAdventurePosition();
 	Navigation_default.navigateTo({
 		startMap: getCurrentAdventureMap(),
@@ -284660,7 +285043,7 @@ function stopAdventureRoute(message = "") {
 	clearInterval(timer$1);
 	timer$1 = null;
 	navigationStarted = false;
-	update$1(false, message);
+	update(false, message);
 	if (message === "已到达目的地") {
 		target = null;
 		Navigation_default.clear();
@@ -284712,7 +285095,7 @@ var init_AdventureRouteService = __esmMin((() => {
 			clearInterval(timer$1);
 			timer$1 = null;
 			navigationStarted = false;
-			update$1(false, "");
+			update(false, "");
 			return;
 		}
 		if (status.active && navigationStarted && !nextState.active && !nextState.pending) {
@@ -284774,7 +285157,7 @@ function visible(container) {
 /** One viewport-level notification shared by every UI, including shadow roots. */
 function showToast(container, message, kind = "success") {
 	if (kind === "pending" || !message || !visible(container)) return;
-	active$2?.dismiss();
+	active$1?.dismiss();
 	const owner = ownerOf(container);
 	const element = document.createElement("div");
 	element.className = `ui-toast ${kind}`;
@@ -284792,7 +285175,7 @@ function showToast(container, message, kind = "success") {
 		clearTimeout(record.timer);
 		record.observer.disconnect();
 		element.remove();
-		if (active$2 === record) active$2 = null;
+		if (active$1 === record) active$1 = null;
 	};
 	shadow.append(style, content);
 	const observer = new MutationObserver(() => {
@@ -284804,7 +285187,7 @@ function showToast(container, message, kind = "success") {
 		observer,
 		timer: setTimeout(dismiss, settings.toastDuration * 1e3)
 	};
-	active$2 = record;
+	active$1 = record;
 	(desktopOwner || document.body).append(element);
 	const options = {
 		subtree: true,
@@ -284817,9 +285200,9 @@ function showToast(container, message, kind = "success") {
 	if (root instanceof ShadowRoot) observer.observe(root, options);
 }
 function clearToast(container) {
-	if (active$2?.owner === ownerOf(container)) active$2.dismiss();
+	if (active$1?.owner === ownerOf(container)) active$1.dismiss();
 }
-var active$2;
+var active$1;
 var init_Toast = __esmMin((() => {
 	init_Interface();
 	init_Toast$1();
@@ -285134,7 +285517,7 @@ function mountRemoteCatalogBrowser(container, options) {
 			${options.filterHtml || ""}
 			${options.toolbarActionHtml || ""}
 		</div>
-		<div class="catalog-layout">
+		<div class="catalog-layout" data-menu-layout="split">
 			<section class="catalog-browser">
 				<div class="catalog-summary">正在加载资料...</div><div class="catalog-list"></div>
 				<div class="catalog-pagination"><button class="catalog-prev" type="button" aria-label="上一页"><span aria-hidden="true">‹</span></button><span class="catalog-page"></span><button class="catalog-next" type="button" aria-label="下一页"><span aria-hidden="true">›</span></button></div>
@@ -285435,11 +285818,7 @@ function mount$5(container, context = {}) {
 				selectedCoordinate = context.initialMap?.id === map.id && Number.isFinite(context.initialMap.x) && Number.isFinite(context.initialMap.y) ? {
 					x: context.initialMap.x,
 					y: context.initialMap.y
-				} : {
-					x: 0,
-					y: 0,
-					random: true
-				};
+				} : findDefaultMapCoordinate(null, normalizeAdventureMap(map.mapName));
 				loadedMap = null;
 				selectedNpcKey = "";
 				npcAvailability = {};
@@ -285447,7 +285826,6 @@ function mount$5(container, context = {}) {
 				loadCatalogMap(map.mapName).then((resource) => {
 					if (token !== loadToken) return;
 					loadedMap = resource;
-					if (selectedCoordinate?.random && normalizeAdventureMap(map.mapName) !== getCurrentAdventureMap()) selectedCoordinate = findDefaultMapCoordinate(resource?.gat) || selectedCoordinate;
 					api.refreshDetail();
 				});
 				mapNpcs = [];
@@ -285472,7 +285850,7 @@ function mount$5(container, context = {}) {
 				...map,
 				...selectedCoordinate
 			} : null;
-			const routeTarget = target && !target.random ? target : null;
+			const routeTarget = target && !target.automatic ? target : null;
 			const currentMap = getCurrentAdventureMap();
 			const sameMap = normalizeAdventureMap(map.mapName) === currentMap;
 			const currentPosition = getCurrentAdventurePosition();
@@ -285481,7 +285859,7 @@ function mount$5(container, context = {}) {
 			const routePending = routeMatches && routeState.pending && !routeState.walking;
 			const routeUnavailable = routeMatches && routeState.unavailable;
 			const targetActionState = getAdventureActionState(target);
-			const canTeleport = target && (!target.random || sameMap) && loadedMap && Number.isFinite(target.x) && Number.isFinite(target.y) && targetActionState.canTeleport;
+			const canTeleport = target && loadedMap && Number.isFinite(target.x) && Number.isFinite(target.y) && targetActionState.canTeleport;
 			const currentMapName = DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
 			const npcListScrollTop = detail.querySelector(".map-npc-scroll")?.scrollTop || 0;
 			const npcActionState = selectedNpc ? {
@@ -285491,7 +285869,7 @@ function mount$5(container, context = {}) {
 			const canTeleportNpc = selectedNpc ? npcTeleportEnabled(selectedNpc, npcAvailability[npcCatalogKey(selectedNpc)], npcActionState) : false;
 			const canTeleportHere = selectedNpc ? canTeleportNpc : canTeleport;
 			const mapStatus = !SessionStorage_default.NavigationTeleportAllowed ? "当前账号没有传送权限" : "";
-			const selectionLabel = selectedNpc ? `${selectedNpc.name} · ${selectedNpc.x}, ${selectedNpc.y}` : selectedCoordinate?.random ? "随机位置" : selectedCoordinate ? `${selectedCoordinate.x}, ${selectedCoordinate.y}` : "点击地图选择位置";
+			const selectionLabel = selectedNpc ? `${selectedNpc.name} · ${selectedNpc.x}, ${selectedNpc.y}` : selectedCoordinate?.automatic ? "自动选择安全落点" : selectedCoordinate ? `${selectedCoordinate.x}, ${selectedCoordinate.y}` : "点击地图选择位置";
 			detail.innerHTML = `<div class="map-heading"><div><h3>${escapeCatalogHtml(map.name)}</h3><p>${escapeCatalogHtml(map.id)}</p><small class="map-current-position">角色位置：${escapeCatalogHtml(currentMapName)} (${currentPosition.x}, ${currentPosition.y})</small></div><strong>${escapeCatalogHtml(selectionLabel)}</strong></div>
 					<div class="map-detail-body">
 					<button class="catalog-map-picker" type="button" aria-label="在${escapeCatalogHtml(map.name)}选择坐标"><canvas class="catalog-map" width="480" height="360"></canvas></button>
@@ -285527,7 +285905,7 @@ function mount$5(container, context = {}) {
 				lastPositionKey = positionKey;
 				const label = detail.querySelector(".map-current-position");
 				if (label) label.textContent = `角色位置：${currentMapName} (${position.x}, ${position.y})`;
-				drawWorldMapPreview(canvas, loadedMap?.image, selectedNpc || selectedCoordinate?.random ? null : selectedCoordinate, loadedMap?.gat, {
+				drawWorldMapPreview(canvas, loadedMap?.image, selectedNpc || selectedCoordinate?.automatic ? null : selectedCoordinate, loadedMap?.gat, {
 					path: sameMap && routeMatches ? remainingPathFromPosition(routeState.path, position) : [],
 					player: sameMap ? {
 						...position,
@@ -285580,11 +285958,7 @@ function mount$5(container, context = {}) {
 	});
 	const clearMapMarker = () => {
 		selectedNpcKey = "";
-		selectedCoordinate = {
-			x: 0,
-			y: 0,
-			random: true
-		};
+		selectedCoordinate = findDefaultMapCoordinate(null, normalizeAdventureMap(loadingMapName));
 		pendingSelectionClear = "";
 	};
 	const unsubscribeActions = subscribeAdventureActions((state) => {
@@ -285823,7 +286197,7 @@ function mount$4(container, context = {}) {
 		]
 	})}
 		</div>
-		<div class="monster-layout">
+		<div class="monster-layout" data-menu-layout="split">
 			<section class="monster-browser">
 				<div class="monster-summary">正在加载魔物资料...</div>
 				<div class="monster-list"></div>
@@ -286283,116 +286657,6 @@ var init_NpcCatalogTab = __esmMin((() => {
 		label: "NPC 图鉴",
 		mount: mount$3
 	};
-}));
-//#endregion
-//#region src/UI/Components/Confirmation.css?raw
-var Confirmation_default;
-var init_Confirmation$1 = __esmMin((() => {
-	Confirmation_default = ".ui-confirm {\r\n	position: fixed;\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n	width: min(var(--menu-dialog-width, 380px), calc(100% - var(--menu-dialog-inset, 32px)));\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px))\r\n	);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	border: 1px solid #657584;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	font:\r\n		13px/1.6 Arial,\r\n		sans-serif;\r\n	white-space: normal;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: #0008;\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-top: 12px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	flex: none;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 56px;\r\n	height: var(--panel-control, 30px);\r\n	min-height: var(--panel-control, 30px);\r\n	padding: 3px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	color: #f5f2e9;\r\n	background: #394753;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n	cursor: pointer;\r\n}\r\n.ui-confirm .ui-confirm-actions button:focus-visible {\r\n	outline: 2px solid #ceaa70;\r\n	outline-offset: 2px;\r\n}\r\n.ui-confirm input {\r\n	box-sizing: border-box;\r\n	max-width: 100%;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.ui-confirm .ui-confirm-field > span {\r\n	flex: none;\r\n}\r\n.ui-confirm .ui-confirm-field > :is(input, select) {\r\n	flex: 1;\r\n	width: 100%;\r\n	min-width: 0;\r\n	min-height: 36px;\r\n	padding: 6px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #25313b;\r\n	color: inherit;\r\n	font:\r\n		16px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field + .ui-confirm-field {\r\n	margin-top: 12px;\r\n}\r\n\r\n.ui-confirm .equipment-picker-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	max-height: min(40dvh, 280px);\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm .equipment-picker-list button {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.ui-confirm .equipment-candidate img {\r\n	width: 24px;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	object-fit: contain;\r\n}\r\n.ui-confirm .equipment-candidate span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n.ui-confirm:has(.equipment-picker-layout) {\r\n	width: min(\r\n		var(--menu-picker-width, 640px),\r\n		calc(100% - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-width, 100vw)\r\n	);\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-height, 100dvh)\r\n	);\r\n	overflow: hidden;\r\n}\r\n.ui-confirm[open]:has(.equipment-picker-layout) {\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body > p,\r\n.ui-confirm:has(.equipment-picker-layout) > .ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm .equipment-picker-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);\r\n	gap: 12px;\r\n	height: min(50dvh, 380px);\r\n	min-height: 0;\r\n	flex: 0 1 auto;\r\n}\r\n.ui-confirm .equipment-picker-layout > .equipment-picker-list {\r\n	max-height: none;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	overflow-wrap: anywhere;\r\n	padding-left: 12px;\r\n	border-left: 1px solid #465461;\r\n}\r\n.ui-confirm .equipment-picker-preview > :first-child {\r\n	margin-top: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview .item-description {\r\n	white-space: pre-line;\r\n}\r\n\r\n.ui-confirm .shortcut-fields .ui-confirm-field > .menu-select {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.ui-confirm .drop-quantity {\r\n	gap: 6px;\r\n}\r\n.ui-confirm .ui-confirm-field.drop-quantity > input {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	padding: 3px 6px;\r\n	font-size: 12px;\r\n}\r\n.ui-confirm .drop-quantity > input,\r\n.panel .ui-confirm .ui-confirm-field.drop-quantity > input[type='number'],\r\n.ui-confirm .drop-quantity-buttons button {\r\n	box-sizing: border-box;\r\n	height: 28px;\r\n	min-height: 28px;\r\n}\r\n.ui-confirm .drop-quantity-buttons {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	flex: none;\r\n	gap: 4px;\r\n}\r\n.ui-confirm .drop-quantity-buttons button {\r\n	flex: none;\r\n	width: auto;\r\n	min-width: 26px;\r\n	padding: 3px 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #394753;\r\n	color: inherit;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.ui-confirm-body {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/ConfirmationDesktop.css?raw
-var ConfirmationDesktop_default;
-var init_ConfirmationDesktop = __esmMin((() => {
-	ConfirmationDesktop_default = "/* Preserve the original adventure-tool confirmation card independently of mobile menus. */\r\n.ui-confirm {\r\n	position: fixed;\r\n	inset: auto;\r\n	left: var(--confirm-center-x);\r\n	top: var(--confirm-center-y);\r\n	transform: translate(-50%, -50%);\r\n	margin: 0;\r\n	width: min(360px, calc(var(--confirm-max-width, 100vw) - 40px));\r\n	max-height: calc(var(--confirm-max-height, 100dvh) - 40px);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	background: #fff;\r\n	color: #202225;\r\n	border: 1px solid #8b929a;\r\n	border-radius: 0;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: rgb(0 0 0 / 55%);\r\n	clip-path: var(--confirm-owner-clip);\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.ui-confirm .ui-confirm-field input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Confirmation.js
-/** Modal confirmation shared by menus and adventure tools. Returns a cancellation function. */
-function confirmAction(container, message, action, { content, bounds, cancelled = () => {} } = {}) {
-	active$1.get(container)?.();
-	const dialog = document.createElement("dialog");
-	dialog.className = "ui-confirm";
-	dialog.setAttribute("aria-label", "操作确认");
-	const style = document.createElement("style");
-	const desktopOwner = container.closest("[data-feedback-theme=\"desktop\"]");
-	style.textContent = desktopOwner ? ConfirmationDesktop_default : Confirmation_default;
-	const text = document.createElement("p");
-	text.textContent = message;
-	text.tabIndex = -1;
-	text.autofocus = true;
-	const buttons = document.createElement("div");
-	buttons.className = "ui-confirm-actions";
-	const cancel = document.createElement("button");
-	cancel.type = "button";
-	cancel.dataset.cancel = "";
-	cancel.textContent = "取消";
-	const confirm = document.createElement("button");
-	confirm.type = "button";
-	confirm.dataset.confirm = "";
-	confirm.textContent = "确认";
-	const resize = bounds || desktopOwner ? new ResizeObserver(() => fitBounds()) : null;
-	function fitBounds() {
-		if (!bounds && !desktopOwner) return;
-		const rect = (bounds || desktopOwner).getBoundingClientRect();
-		if (desktopOwner) {
-			dialog.style.setProperty("--confirm-center-x", `${rect.left + rect.width / 2}px`);
-			dialog.style.setProperty("--confirm-center-y", `${rect.top + rect.height / 2}px`);
-			dialog.style.setProperty("--confirm-owner-clip", `inset(${rect.top}px ${Math.max(0, window.innerWidth - rect.right)}px ${Math.max(0, window.innerHeight - rect.bottom)}px ${rect.left}px)`);
-		}
-		dialog.style.setProperty("--confirm-max-width", `${rect.width}px`);
-		dialog.style.setProperty("--confirm-max-height", `${rect.height}px`);
-	}
-	let finished = false;
-	const finish = (accepted) => {
-		if (finished) return;
-		finished = true;
-		observer.disconnect();
-		resize?.disconnect();
-		dialog.close();
-		dialog.remove();
-		if (active$1.get(container) === dismiss) active$1.delete(container);
-		if (accepted && container.isConnected) action();
-		else cancelled();
-	};
-	const dismiss = () => finish(false);
-	const visible = () => {
-		for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
-		return container.isConnected && dialog.isConnected;
-	};
-	const observer = new MutationObserver(() => {
-		if (!visible()) dismiss();
-	});
-	cancel.onclick = dismiss;
-	confirm.onclick = () => {
-		if (content && ![...content.querySelectorAll("input, select, textarea")].every((field) => field.reportValidity())) return;
-		finish(true);
-	};
-	dialog.addEventListener("cancel", (event) => {
-		event.preventDefault();
-		dismiss();
-	});
-	buttons.append(cancel, confirm);
-	const body = document.createElement("div");
-	body.className = "ui-confirm-body";
-	body.append(text);
-	if (content) body.append(content);
-	dialog.append(style, body);
-	dialog.append(buttons);
-	container.append(dialog);
-	active$1.set(container, dismiss);
-	const options = {
-		childList: true,
-		subtree: true,
-		attributes: true,
-		attributeFilter: ["hidden", "style"]
-	};
-	observer.observe(document.body, options);
-	const root = container.getRootNode();
-	if (root instanceof ShadowRoot) observer.observe(root, options);
-	fitBounds();
-	if (bounds || desktopOwner) resize.observe(bounds || desktopOwner);
-	dialog.showModal();
-	return dismiss;
-}
-function requestConfirmation(container, message) {
-	return new Promise((resolve) => confirmAction(container, message, () => resolve(true), { cancelled: () => resolve(false) }));
-}
-var active$1;
-var init_Confirmation = __esmMin((() => {
-	init_Confirmation$1();
-	init_ConfirmationDesktop();
-	active$1 = /* @__PURE__ */ new WeakMap();
 }));
 //#endregion
 //#region src/UI/Components/GameTools/GameToolsNumberPrompt.js
@@ -287128,7 +287392,7 @@ function mount$1(container, context = {}) {
 				label
 			}))]
 		})}</div>
-			<div class="character-layout"><section class="character-job-browser">
+			<div class="character-layout" data-menu-layout="split"><section class="character-job-browser">
 			<div class="character-job-summary"></div><div class="character-job-list"></div>
 		</section><section class="character-detail"></section></div>`;
 		const searchInput = container.querySelector(".character-job-toolbar .catalog-search");
@@ -288287,12 +288551,12 @@ var init_EquipmentSockets = __esmMin((() => {
 //#region src/UI/Game/ItemOperationFeedback.js
 /** Only menu requests receive feedback; unrelated inventory updates are silent. */
 function beginItemOperation(entity, action, index) {
-	if (!pending$3.has(entity)) pending$3.set(entity, /* @__PURE__ */ new Map());
-	const requests = pending$3.get(entity), key = `${action}:${index}`;
+	if (!pending$2.has(entity)) pending$2.set(entity, /* @__PURE__ */ new Map());
+	const requests = pending$2.get(entity), key = `${action}:${index}`;
 	requests.set(key, (requests.get(key) || 0) + 1);
 }
 function finishItemOperation(entity, action, index, success) {
-	const requests = pending$3.get(entity), key = `${action}:${index}`;
+	const requests = pending$2.get(entity), key = `${action}:${index}`;
 	const count = requests?.get(key);
 	if (!count) return;
 	if (count === 1) requests.delete(key);
@@ -288304,11 +288568,11 @@ function finishItemOperation(entity, action, index, success) {
 function receiveItemOperationResult(entity, action, packet) {
 	finishItemOperation(entity, action, action === "drop" ? packet.Index : action === "card" ? packet.cardIndex : packet.index, action === "drop" ? packet.count > 0 : action === "card" ? packet.result === 0 : Number(packet.result) === 1);
 }
-var pending$3, labels$2;
+var pending$2, labels$2;
 var init_ItemOperationFeedback = __esmMin((() => {
 	init_Toast();
 	init_ConnectionLifecycle();
-	pending$3 = /* @__PURE__ */ new WeakMap();
+	pending$2 = /* @__PURE__ */ new WeakMap();
 	labels$2 = {
 		use: "使用",
 		equip: "穿戴",
@@ -288317,7 +288581,7 @@ var init_ItemOperationFeedback = __esmMin((() => {
 		card: "镶嵌"
 	};
 	onConnectionEnd(() => {
-		pending$3 = /* @__PURE__ */ new WeakMap();
+		pending$2 = /* @__PURE__ */ new WeakMap();
 	});
 }));
 //#endregion
@@ -311554,7 +311818,7 @@ var init_Camera = __esmMin((() => {
 			if (this.enable1STPerson) this.MIN_ZOOM = 0;
 			else if (this.enable3RDPerson) this.MIN_ZOOM = .2;
 			else this.MIN_ZOOM = C_MIN_ZOOM;
-			__vitePreload(() => Promise.resolve().then(() => (init_MapRenderer(), MapRenderer_exports)).then((MapRenderer) => {
+			return __vitePreload(() => Promise.resolve().then(() => (init_MapRenderer(), MapRenderer_exports)).then((MapRenderer) => {
 				this.currentMap = MapRenderer.default.currentMap;
 				if (DB.isIndoor(this.currentMap)) {
 					this.zoomFinal = Camera_default.indoorZoom ?? DEFAULT_CAMERA_ZOOM;
@@ -311705,7 +311969,9 @@ var init_Camera = __esmMin((() => {
 				this.position[1] = -this.target.position[1];
 				this.position[2] = this.target.position[2];
 			}
-			this.zoom += (this.zoomFinal - this.zoom) * lerp * 2;
+			const maximum = Math.abs(this.altitudeRange) * (DB.isIndoor(this.currentMap) ? this.MAX_ZOOM_INDOOR : this.MAX_ZOOM);
+			const zoom = viewportCameraZoom(this.zoomFinal, this.zoomStep * this.zoomStepMult, maximum);
+			this.zoom += (zoom - this.zoom) * Math.min(lerp * 2, 1);
 			let zOffset = 0;
 			if (this.state == this.states.first_person) zOffset = 2;
 			else if (this.state == this.states.third_person && this.zoomFinal < Math.abs(this.altitudeRange) * C_THIRDPERSON_TRESHOLD_ZOOM) zOffset = 1.5;
@@ -359250,7 +359516,7 @@ var init_GUIComponent = __esmMin((() => {
 				const target = e.target;
 				if (target.closest && target.closest(CLICKABLE_SELECTOR)) {
 					if (!_hovering) {
-						_savedType = _Cursor?.getActualType() ?? 0;
+						_savedType = this.mouseMode === GUIComponent.MouseMode.CROSS ? _Cursor?.getActualType() ?? 0 : _Cursor?.ACTION?.DEFAULT ?? 0;
 						_hovering = true;
 					}
 					if ((_Cursor?.getActualType() ?? 0) !== (_Cursor?.ACTION?.CLICK ?? 0)) _Cursor?.setType(_Cursor?.ACTION?.CLICK ?? 0);
@@ -359267,7 +359533,7 @@ var init_GUIComponent = __esmMin((() => {
 				const target = e.target;
 				if (target.closest && target.closest(CLICKABLE_SELECTOR)) {
 					if (!_hovering) {
-						_savedType = _Cursor?.getActualType() ?? 0;
+						_savedType = this.mouseMode === GUIComponent.MouseMode.CROSS ? _Cursor?.getActualType() ?? 0 : _Cursor?.ACTION?.DEFAULT ?? 0;
 						_hovering = true;
 					}
 					_Cursor?.setType(_Cursor?.ACTION?.CLICK ?? 0, true, 1);
@@ -359677,94 +359943,330 @@ var init_GUIComponent = __esmMin((() => {
 	};
 }));
 //#endregion
-//#region src/UI/RotationGuard.js
-function update() {
-	if (!overlay) return;
-	const portrait = Platform.orientation === "portrait";
-	overlay.hidden = !portrait || !pending$2 && Boolean(portraitPanel?.isConnected);
-	if (!portrait && pending$2) {
-		const proceed = pending$2;
-		pending$2 = null;
-		cancelOnDisconnect?.();
-		cancelOnDisconnect = null;
-		overlay.querySelector("button").hidden = true;
-		proceed();
+//#region src/Engine/Auth/GameSession.js
+function createGameSession(fetchRequest = (...args) => fetch(...args)) {
+	let token;
+	let available = false;
+	let queue = Promise.resolve();
+	function enqueue(operation) {
+		const result = queue.then(operation);
+		queue = result.catch(() => {});
+		return result;
 	}
-}
-function blockKeys(event) {
-	if (overlay && !overlay.hidden && !overlay.contains(event.target)) {
-		event.preventDefault();
-		event.stopImmediatePropagation();
+	async function request(operation, body = {}) {
+		const response = await fetchRequest(`/api/game-session/${operation}`, {
+			method: "POST",
+			credentials: "same-origin",
+			cache: "no-store",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				...body,
+				...token ? { token } : {}
+			}),
+			signal: AbortSignal.timeout(7e3)
+		});
+		if (response.status === 401) {
+			available = false;
+			token = void 0;
+			return null;
+		}
+		if (!response.ok) throw new Error("登录会话服务暂时不可用");
+		if (response.status === 204) return null;
+		const result = await response.json();
+		token = result.token;
+		available = true;
+		return result;
 	}
+	return {
+		get available() {
+			return available;
+		},
+		create: (accountId, webToken, persistent) => enqueue(() => request("create", {
+			accountId,
+			webToken,
+			persistent
+		})),
+		resume: () => enqueue(() => request("resume")),
+		revoke: () => {
+			available = false;
+			return enqueue(async () => {
+				await request("revoke");
+				token = void 0;
+				available = false;
+			});
+		}
+	};
 }
-function release() {
-	window.removeEventListener("keydown", blockKeys, true);
-	pending$2 = null;
-	cancelOnDisconnect?.();
-	cancelOnDisconnect = null;
-	unsubscribe$1?.();
-	unsubscribe$1 = null;
-	overlay?.remove();
-	overlay = null;
-}
-function requireLandscape(proceed) {
-	if (!Platform.isMobile) {
-		proceed();
-		return;
+var GameSession_default;
+var init_GameSession = __esmMin((() => {
+	GameSession_default = createGameSession();
+}));
+//#endregion
+//#region src/Engine/Recovery/RecoveryController.js
+/** In-memory recovery intent. No credentials, packets or game state are retained. */
+function createRecoveryController({ probe, close, capture, present, login, restore, setTimer = setTimeout, clearTimer = clearTimeout, visible = () => true }) {
+	let state = "idle";
+	let target = null;
+	let presentation = null;
+	let timer = null;
+	let generation = 0;
+	let pinPassed = false;
+	let characters = [];
+	let enterCharacter = null;
+	let listComplete = false;
+	const clear = () => {
+		generation++;
+		clearTimer(timer);
+		timer = null;
+	};
+	const show = (next, message) => {
+		state = next;
+		present(next, message);
+	};
+	const armTimeout = (delay, callback) => {
+		clear();
+		const current = generation;
+		timer = setTimer(() => {
+			if (generation === current) callback();
+		}, delay);
+	};
+	function cancel() {
+		clear();
+		target = presentation = null;
+		characters = [];
+		enterCharacter = null;
+		show("idle");
 	}
-	if (overlay) return;
-	overlay = document.createElement("div");
-	overlay.id = "ro-rotation-guard";
-	overlay.setAttribute("role", "dialog");
-	overlay.setAttribute("aria-modal", "true");
-	overlay.setAttribute("aria-label", "请将设备旋转至横屏");
-	overlay.innerHTML = `<style>
-		#ro-rotation-guard { position:fixed; inset:0; width:100%; height:100dvh; box-sizing:border-box; z-index:99999; background:#f8f9fb;
-			color:#242830; display:flex; flex-direction:column; align-items:center;
-			justify-content:center; gap:16px; margin:0; padding:24px; text-align:center;
-			font:16px/1.5 system-ui,sans-serif; touch-action:none; }
-		#ro-rotation-guard[hidden], #ro-rotation-guard button[hidden] { display:none; }
-		#ro-rotation-guard > span { flex:0 0 auto; }
-		#ro-rotation-guard button { flex:0 0 auto; min-height:38px; padding:8px 24px; border:1px solid #dce1e8;
-			border-radius:10px; background:transparent; color:inherit; font:inherit; }
-	</style><span>请将设备旋转至横屏</span><button type="button">返回选角</button>`;
-	for (const type of [
-		"touchstart",
-		"touchmove",
-		"touchend",
-		"pointerdown",
-		"pointerup",
-		"click",
-		"wheel"
-	]) overlay.addEventListener(type, (event) => event.stopPropagation(), { passive: true });
-	overlay.addEventListener("keydown", (event) => event.stopPropagation());
-	overlay.querySelector("button").addEventListener("click", release);
-	document.body.appendChild(overlay);
-	window.addEventListener("keydown", blockKeys, true);
-	pending$2 = proceed;
-	cancelOnDisconnect = onConnectionEnd(() => {
-		if (pending$2) release();
+	function disconnected(message) {
+		if (!target || state === "idle" || state === "disconnected") return false;
+		if (state === "playing" || state === "checking" || state === "transition") presentation = capture();
+		clear();
+		state = "disconnected";
+		close();
+		present(state, message);
+		return true;
+	}
+	function trySelect() {
+		if (state !== "selecting" || !pinPassed) return;
+		const character = characters.find((char) => char.GID === target.characterId);
+		if (!character) {
+			if (listComplete) cancel();
+			return;
+		}
+		armTimeout(3e4, () => disconnected("恢复角色超时，请重新登录。"));
+		show("restoring");
+		enterCharacter(character);
+	}
+	return {
+		get state() {
+			return state;
+		},
+		cancel,
+		disconnected,
+		ready(identity) {
+			const recover = state === "restoring" && target?.accountId === identity.accountId && target.characterId === identity.characterId && target.serverKey === identity.serverKey;
+			clear();
+			if (recover && presentation) restore(presentation);
+			target = { ...identity };
+			presentation = null;
+			show("playing");
+		},
+		check() {
+			if (state !== "playing" || !visible()) return;
+			armTimeout(12e3, () => disconnected("服务器暂时没有响应，请重新登录恢复角色。"));
+			show("checking");
+			if (!probe()) disconnected();
+		},
+		pong() {
+			if (state !== "checking") return;
+			clear();
+			show("playing");
+		},
+		hidden() {
+			if (state === "checking") {
+				clear();
+				show("playing");
+			}
+		},
+		transition() {
+			if (state === "checking" || state === "playing") {
+				clear();
+				show("transition");
+			}
+		},
+		beginLogin(resume = true) {
+			if (state !== "disconnected" && state !== "restoring") return;
+			clear();
+			if (!resume) target = presentation = null;
+			show(resume ? "authenticating" : "idle");
+			login();
+		},
+		loginAccepted(accountId, serverKey, servers) {
+			if (state !== "authenticating") return null;
+			if (accountId !== target.accountId || serverKey !== target.serverKey) {
+				cancel();
+				return null;
+			}
+			const server = servers.find((s) => s.ip === target.charServer.ip && s.port === target.charServer.port && s.name === target.charServer.name);
+			if (!server) {
+				cancel();
+				return null;
+			}
+			pinPassed = false;
+			characters = [];
+			enterCharacter = null;
+			listComplete = false;
+			show("selecting");
+			return server;
+		},
+		characterList(list, enter) {
+			if (state !== "selecting") return;
+			characters.push(...list);
+			enterCharacter = enter;
+			trySelect();
+		},
+		charactersComplete() {
+			listComplete = true;
+			trySelect();
+		},
+		pin(stateCode) {
+			if (state !== "selecting") return;
+			pinPassed = stateCode === 0;
+			trySelect();
+		}
+	};
+}
+var init_RecoveryController = __esmMin((() => {}));
+//#endregion
+//#region src/Engine/Recovery/GameRecovery.js
+async function logoutRecovery() {
+	automaticAttempted = true;
+	recovery.disconnected();
+	const { default: login } = await __vitePreload(async () => {
+		const { default: login } = await Promise.resolve().then(() => (init_LoginEngine(), LoginEngine_exports));
+		return { default: login };
+	}, void 0, import.meta.url);
+	if (await login.logout()) recovery.beginLogin(false);
+	else present$1("disconnected");
+}
+function tryAutomaticRecovery() {
+	if (document.hidden || automaticAttempted || !GameSession_default.available || recovery.state !== "disconnected") return;
+	automaticAttempted = true;
+	recovery.beginLogin();
+}
+function present$1(state, message) {
+	if (state === "playing") automaticAttempted = false;
+	if (state === "disconnected") queueMicrotask(tryAutomaticRecovery);
+	dialog?.remove();
+	dialog = null;
+	if (state === "checking") {
+		checking = true;
+		frozenBeforeCheck = SessionStorage_default.FreezeUI;
+		SessionStorage_default.FreezeUI = true;
+	} else if (checking) {
+		checking = false;
+		SessionStorage_default.FreezeUI = state === "disconnected" ? true : frozenBeforeCheck;
+	}
+	if (![
+		"checking",
+		"disconnected",
+		"restoring"
+	].includes(state)) return;
+	const waiting = state === "checking";
+	const restoring = state === "restoring";
+	dialog = showMobileDialog({
+		title: waiting ? "正在检查连接" : restoring ? "正在恢复角色" : "连接已断开",
+		text: message || (waiting ? "正在确认服务器连接，请稍候。" : restoring ? "正在重新获取角色和地图状态。" : "恢复连接后将自动进入原角色。未完成的交易和其他操作不会重复提交。"),
+		buttons: waiting ? [] : restoring ? [{
+			name: "退出登录",
+			callback: logoutRecovery
+		}] : [{
+			name: GameSession_default.available ? "恢复连接" : "重新登录并恢复",
+			primary: true,
+			callback: () => recovery.beginLogin()
+		}, {
+			name: "退出登录",
+			callback: logoutRecovery
+		}]
 	});
-	unsubscribe$1 = Platform.onOrientationChange(update);
-	update();
 }
-function allowPortraitPanel(element) {
-	portraitPanel = element;
-	update();
-	return () => {
-		if (portraitPanel === element) portraitPanel = null;
-		update();
+function rememberCharServer(server) {
+	charServer = {
+		ip: server.ip,
+		port: server.port,
+		name: server.name
 	};
 }
-var overlay, unsubscribe$1, cancelOnDisconnect, pending$2, portraitPanel, RotationGuard_default;
-var init_RotationGuard = __esmMin((() => {
-	init_Platform();
-	init_ConnectionLifecycle();
-	RotationGuard_default = {
-		requireLandscape,
-		release,
-		allowPortraitPanel
+function recoverLogin(accountId, servers) {
+	return recovery.loginAccepted(accountId, serverKey(), servers);
+}
+function gameRecoveryReady(cleanup) {
+	prepareLogin = cleanup;
+	frozenBeforeCheck = false;
+	SessionStorage_default.FreezeUI = false;
+	recovery.ready({
+		accountId: SessionStorage_default.AID,
+		characterId: SessionStorage_default.GID,
+		serverKey: serverKey(),
+		charServer
+	});
+}
+var dialog, frozenBeforeCheck, checking, charServer, prepareLogin, automaticAttempted, serverKey, recovery;
+var init_GameRecovery = __esmMin((() => {
+	init_GameSession();
+	init_NetworkManager();
+	init_SessionStorage();
+	init_Configs();
+	init_Camera();
+	init_MapRenderer();
+	init_MessageDialog();
+	init_RecoveryController();
+	init_preload_helper();
+	frozenBeforeCheck = false;
+	checking = false;
+	automaticAttempted = false;
+	serverKey = () => {
+		const server = Configs.getServer();
+		return `${server.address}:${server.port}`;
 	};
+	recovery = createRecoveryController({
+		probe: () => Network.requestPing(),
+		close: () => {
+			SessionStorage_default.Playing = false;
+			SessionStorage_default.FreezeUI = true;
+			Network.close();
+		},
+		capture: () => ({
+			map: MapRenderer.currentMap,
+			zoom: Camera.zoomFinal,
+			angle: [...Camera.angleFinal]
+		}),
+		restore: (view) => {
+			if (view.map !== MapRenderer.currentMap) return;
+			Camera.zoom = Camera.zoomFinal = view.zoom;
+			Camera.angle.set(view.angle);
+			Camera.angleFinal.set(view.angle);
+		},
+		present: present$1,
+		login: () => {
+			prepareLogin?.();
+			SessionStorage_default.FreezeUI = frozenBeforeCheck = false;
+			__vitePreload(() => Promise.resolve().then(() => (init_LoginEngine(), LoginEngine_exports)).then((module) => module.default.reload(true)), void 0, import.meta.url);
+		},
+		visible: () => !document.hidden
+	});
+	window.addEventListener("online", () => {
+		recovery.check();
+		tryAutomaticRecovery();
+	});
+	window.addEventListener("pageshow", () => recovery.check());
+	document.addEventListener("visibilitychange", () => {
+		if (document.hidden) recovery.hidden();
+		else {
+			recovery.check();
+			tryAutomaticRecovery();
+		}
+	});
 }));
 //#endregion
 //#region src/UI/Game/PickupCatalog.js
@@ -361165,6 +361667,50 @@ var init_GameVending = __esmMin((() => {
 	ownedStore = null;
 }));
 //#endregion
+//#region src/UI/Mobile/game/ScreenWakeLock.js
+/** Keep the visible game awake; the browser retains control over power policy. */
+function createScreenWakeLock() {
+	let disposed = false;
+	let pending = false;
+	let lock = null;
+	async function release() {
+		const previous = lock;
+		lock = null;
+		if (previous && !previous.released) try {
+			await previous.release();
+		} catch {}
+	}
+	async function acquire() {
+		if (disposed || document.hidden || pending || lock && !lock.released || !navigator.wakeLock) return;
+		pending = true;
+		try {
+			const requested = await navigator.wakeLock.request("screen");
+			if (disposed || document.hidden) {
+				await requested.release();
+				return;
+			}
+			lock = requested;
+			requested.addEventListener("release", () => {
+				if (lock === requested) lock = null;
+			}, { once: true });
+		} catch {} finally {
+			pending = false;
+		}
+	}
+	function visibilityChanged() {
+		if (document.hidden) release();
+		else acquire();
+	}
+	document.addEventListener("visibilitychange", visibilityChanged);
+	acquire();
+	return () => {
+		disposed = true;
+		document.removeEventListener("visibilitychange", visibilityChanged);
+		release();
+	};
+}
+var init_ScreenWakeLock = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Mobile/game/MobileInputEditor.css?raw
 var MobileInputEditor_default;
 var init_MobileInputEditor$1 = __esmMin((() => {
@@ -361217,7 +361763,8 @@ function createMobileInputEditor(host) {
 			}
 			overlay.style.setProperty("--mobile-visible-height", `${visual?.height || window.innerHeight}px`);
 			overlay.style.setProperty("--mobile-visual-top", `${visual?.offsetTop || 0}px`);
-			if (overlay.dataset.menuDensity === "spacious") {
+			overlay.dataset.editorLayout = overlay.dataset.menuDensity === "spacious" || layoutHeight > layoutWidth ? "dialog" : "strip";
+			if (overlay.dataset.editorLayout === "dialog") {
 				content.style.removeProperty("top");
 				content.style.removeProperty("height");
 				dialog.style.removeProperty("height");
@@ -361337,6 +361884,24 @@ var init_MobileInputEditor = __esmMin((() => {
 	init_MenuLayout();
 	init_MobileInputEditor$1();
 	editable = "textarea, input:not([type]), input[type=text], input[type=search], input[type=number], input[type=password], input[type=email], input[type=url], input[type=tel]";
+}));
+//#endregion
+//#region src/UI/Mobile/game/MenuContentComponents.css?raw
+var MenuContentComponents_default;
+var init_MenuContentComponents = __esmMin((() => {
+	MenuContentComponents_default = "/* Component-specific responsive details; shared column behavior lives in MenuContentLayout.css. */\r\n\r\n.mobile-adventure {\r\n	container-name: menu-window menu-content;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail),\r\n.mobile-adventure :is(.catalog-detail, .monster-detail, .character-detail) {\r\n	container: menu-detail / inline-size;\r\n}\r\n.panel .slot-picker button {\r\n	container: shortcut-slot / inline-size;\r\n}\r\n@container shortcut-slot (width < 64px) {\r\n	:host([data-menu-density]) .panel .slot-picker :is(.shortcut-slot-prefix, button > span) {\r\n		display: none;\r\n	}\r\n	:host([data-menu-density]) .panel .slot-picker strong {\r\n		text-align: center;\r\n	}\r\n}\r\n@container menu-window (width < 640px) {\r\n	:host([data-menu-density]) .panel :is(.shop-transfer, .bank-transfer) {\r\n		flex-direction: row;\r\n	}\r\n	:host([data-menu-density]) .panel :is(.shop-transfer, .bank-transfer) button {\r\n		transform: rotate(90deg);\r\n	}\r\n	:host([data-menu-density]) .panel .bank-layout {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-density]) .panel .bank-account {\r\n		padding: 8px;\r\n	}\r\n	:host([data-menu-density]) .panel .warehouse-body:has([data-menu-columns='2']) .container-toolbar {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-density]) .panel :is(.container-toolbar, .skills-toolbar, .shop-footer) {\r\n		flex-wrap: wrap;\r\n	}\r\n	:host([data-menu-density])\r\n		.mobile-adventure\r\n		:is(\r\n			.catalog-browser,\r\n			.monster-browser,\r\n			.character-job-browser,\r\n			.catalog-detail,\r\n			.monster-detail,\r\n			.character-detail\r\n		) {\r\n		display: flex;\r\n		flex-direction: column;\r\n		width: auto;\r\n		min-width: 0;\r\n		min-height: 0;\r\n		border-right: 0;\r\n		overflow: auto;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure :is(.catalog-detail, .monster-detail, .character-detail) {\r\n		padding: 6px;\r\n		gap: 6px;\r\n		border-top: 1px solid #65717b;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure :is(.catalog-toolbar, .monster-toolbar) {\r\n		display: flex;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure .monster-toolbar {\r\n		flex-wrap: nowrap;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure .monster-search {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure .monster-toolbar > .game-select {\r\n		flex: 0 0 64px;\r\n		width: 64px;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure [data-back] {\r\n		display: none;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure :is(.catalog-list, .monster-list, .character-job-list) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure .settings-rate-columns {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-density]) .panel .chat-conversation {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-template-rows: auto minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-density]) .panel .chat-filters {\r\n		flex-direction: row;\r\n		overflow-x: auto;\r\n		border-right: 0;\r\n	}\r\n	:host([data-menu-density]) .panel .chat-filters button {\r\n		width: auto;\r\n		flex-shrink: 0;\r\n	}\r\n	:host([data-menu-density]) .panel .chat-form {\r\n		grid-template-columns: minmax(0, 1fr) auto auto;\r\n	}\r\n	:host([data-menu-density]) .panel .chat-form > input[aria-label='聊天内容'] {\r\n		grid-column: 1 / -1;\r\n		grid-row: 1;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure .settings-grid {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-density])\r\n		.panel\r\n		.chat-form:has(input[aria-label='私聊对象']:not([hidden]))\r\n		> input[aria-label='聊天内容'] {\r\n		grid-row: 2;\r\n	}\r\n	:host([data-menu-density]) .panel :is(.pickup-categories, .pickup-limits) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-density]) .panel .skills-layout > section {\r\n		grid-column: auto;\r\n		grid-row: auto;\r\n		grid-template-rows: minmax(0, 1fr) auto;\r\n	}\r\n}\r\n@container menu-window (width < 800px) {\r\n	:host([data-menu-density='spacious']) .panel .attribute-results {\r\n		border-left: 0;\r\n		border-right: 0;\r\n	}\r\n	:host([data-menu-density='spacious']) .panel .attribute-results {\r\n		border-top: 1px solid #52606d;\r\n		padding: var(--panel-gap) 0 0;\r\n	}\r\n	:host([data-menu-density='spacious']) .panel .attribute-footer {\r\n		flex-wrap: wrap;\r\n		gap: var(--panel-gap);\r\n	}\r\n	:host([data-menu-density='spacious']) .panel .attribute-plan-actions {\r\n		flex-wrap: wrap;\r\n	}\r\n}\r\n@container menu-detail (width < 360px) {\r\n	:host([data-menu-density])\r\n		:is(.panel, .mobile-adventure)\r\n		:is(.inventory-item-overview, .monster-overview, .item-overview) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure .monster-stats {\r\n		grid-column: 1;\r\n		grid-row: auto;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure .item-portrait {\r\n		height: 96px;\r\n	}\r\n}\r\n@container menu-detail (width < 460px) {\r\n	:host([data-menu-density]) .mobile-adventure .character-detail-scroll .management-form {\r\n		--character-form-columns: 1;\r\n	}\r\n}\r\n@container menu-detail (width < 540px) {\r\n	:host([data-menu-density]) .mobile-adventure :is(.map-detail-body, .npc-detail-body) {\r\n		flex: 0 0 auto;\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-template-rows: auto auto;\r\n		min-height: 0;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure :is(.catalog-map-picker, .npc-map-picker) {\r\n		height: clamp(160px, 25dvh, 280px);\r\n		min-height: 160px;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure :is(.npc-detail-info, .map-npc-list) {\r\n		height: auto;\r\n		min-height: 0;\r\n		overflow: visible;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure .map-npc-scroll {\r\n		max-height: 240px;\r\n	}\r\n	:host([data-menu-density]) .mobile-adventure .monster-resources {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n@container menu-window (640px <= width < 900px) {\r\n	:host([data-menu-density='spacious']) .panel [data-menu-layout='shop'] > .inventory-detail {\r\n		grid-column: 1 / -1;\r\n	}\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/MenuContentLayout.css?raw
+var MenuContentLayout_default;
+var init_MenuContentLayout = __esmMin((() => {
+	MenuContentLayout_default = "/* Shared layout contracts. Components opt in with data-menu-layout. */\r\n\r\n.mobile-menu-window {\r\n	container: menu-window / inline-size;\r\n}\r\n:host([data-menu-density]) :is(.panel, .mobile-adventure) [data-menu-layout='split'] > * {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	max-width: 100%;\r\n}\r\n:host([data-menu-density]) .panel [data-menu-layout='form'] > * {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	max-width: 100%;\r\n}\r\n@container menu-window (width < 640px) {\r\n	:host([data-menu-density])\r\n		:is(.panel, .mobile-adventure)\r\n		:is([data-menu-layout='split'], [data-menu-layout='form']) {\r\n		display: grid;\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n		gap: var(--panel-gap);\r\n		min-width: 0;\r\n		min-height: 0;\r\n	}\r\n	:host([data-menu-density]) .panel :is([data-menu-layout='columns'], [data-menu-layout='shop']) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-template-rows: none;\r\n		grid-auto-rows: minmax(180px, 1fr);\r\n		overflow-y: auto;\r\n		overscroll-behavior: contain;\r\n	}\r\n	:host([data-menu-density]) .panel [data-menu-layout='shop'] {\r\n		grid-template-rows: minmax(180px, 1fr) auto minmax(180px, 1fr) minmax(180px, 1fr);\r\n	}\r\n}\r\n@container menu-window (width < 800px) {\r\n	:host([data-menu-density='spacious']) .panel [data-menu-layout='form'] {\r\n		display: grid;\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n		gap: var(--panel-gap);\r\n		min-width: 0;\r\n		min-height: 0;\r\n	}\r\n}\r\n@container menu-window (640px <= width < 900px) {\r\n	:host([data-menu-density='spacious']) .panel [data-menu-layout='columns']:not([data-menu-columns='2']) {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n		grid-template-rows: repeat(2, minmax(180px, 1fr));\r\n		overflow-y: auto;\r\n	}\r\n	:host([data-menu-density='spacious'])\r\n		.panel\r\n		[data-menu-layout='columns']:not([data-menu-columns='2'])\r\n		> :last-child {\r\n		grid-column: 1 / -1;\r\n	}\r\n	:host([data-menu-density='spacious']) .panel [data-menu-layout='shop'] {\r\n		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);\r\n		grid-template-rows: repeat(2, minmax(180px, 1fr));\r\n		overflow-y: auto;\r\n	}\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/MenuPortrait.css?raw
+var MenuPortrait_default;
+var init_MenuPortrait = __esmMin((() => {
+	MenuPortrait_default = "/* Orientation controls viewport height and the pickup dialog, never content columns. */\r\n:host([data-orientation='portrait']) {\r\n	--menu-standard-height: 100%;\r\n	--menu-edge-y: 2dvh;\r\n}\r\n:host([data-orientation='portrait']) .panel .pickup-picker {\r\n	width: min(420px, calc(100vw - 32px));\r\n	max-width: calc(100vw - 32px);\r\n	height: calc(var(--mobile-visible-height, 100dvh) * 0.8);\r\n	padding: 14px;\r\n}\r\n:host([data-orientation='portrait'][data-menu-density='spacious']) .panel .pickup-picker {\r\n	width: min(var(--menu-picker-width), calc(100vw - 48px));\r\n}\r\n:host([data-orientation='portrait']) .panel .pickup-picker > footer {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1.3fr);\r\n	justify-items: stretch;\r\n	gap: 8px;\r\n}\r\n:host([data-orientation='portrait']) .panel .pickup-picker [data-selected] {\r\n	grid-column: 1 / 4;\r\n	grid-row: 1;\r\n}\r\n:host([data-orientation='portrait']) .panel .pickup-picker [data-page] {\r\n	grid-column: 4;\r\n	grid-row: 1;\r\n	text-align: right;\r\n}\r\n:host([data-orientation='portrait']) .panel .pickup-picker :is(.pickup-pagination, .pickup-picker-actions) {\r\n	display: contents;\r\n}\r\n:host([data-orientation='portrait']) .panel .pickup-picker > footer button {\r\n	grid-row: 2;\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n	font-size: var(--panel-label, 13px);\r\n}\r\n:host([data-orientation='portrait']) .panel .pickup-picker > footer span {\r\n	font-size: var(--panel-label, 13px);\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Feedback.js
@@ -361494,6 +362059,9 @@ var init_AdventureTools$1 = __esmMin((() => {
 //#region src/UI/Mobile/game/AdventureTools.js
 var Tools, view$1, disposers, generation, abort$1, previousFreeze$1, inputOwned, AdventureTools_default;
 var init_AdventureTools = __esmMin((() => {
+	init_MenuContentComponents();
+	init_MenuContentLayout();
+	init_MenuPortrait();
 	init_MenuLayout$1();
 	init_Feedback();
 	init_AdventureActionService();
@@ -361503,7 +362071,6 @@ var init_AdventureTools = __esmMin((() => {
 	init_MobileViewport();
 	init_GUIComponent();
 	init_UIManager();
-	init_RotationGuard();
 	init_SessionStorage();
 	init_ConnectionLifecycle();
 	init_GameToolsTabs();
@@ -361514,7 +362081,7 @@ var init_AdventureTools = __esmMin((() => {
 	init_ItemCatalogTab$1();
 	init_GameSelect$1();
 	init_AdventureTools$1();
-	Tools = new GUIComponent("MobileAdventureTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default + AdventureTools_default$1 + MobileSelect_default + MenuLayout_default);
+	Tools = new GUIComponent("MobileAdventureTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default + AdventureTools_default$1 + MobileSelect_default + MenuLayout_default + MenuPortrait_default + MenuContentLayout_default + MenuContentComponents_default);
 	Tools.render = () => "<div class=\"adventure-mount mobile-menu-viewport\"></div>";
 	Tools.needFocus = false;
 	Tools.nativeScrolling = true;
@@ -361540,7 +362107,6 @@ var init_AdventureTools = __esmMin((() => {
 		previousFreeze$1 = SessionStorage_default.FreezeUI;
 		inputOwned = true;
 		SessionStorage_default.FreezeUI = true;
-		disposers.push(RotationGuard_default.allowPortraitPanel(this._host));
 		abort$1 = new AbortController();
 		const mount = this.getRoot().querySelector(".adventure-mount");
 		const context = {
@@ -363623,10 +364189,51 @@ var init_StatusIcons = __esmMin((() => {
 	StatusIcons_default = UIManager.addComponent(StatusIcons);
 }));
 //#endregion
+//#region src/UI/Mobile/game/HUDNotificationInset.js
+/** Keep viewport-level notifications below the actual portrait HUD, including safe-area padding. */
+function bindHUDNotificationInset(root) {
+	const host = root.host;
+	const panels = [...root.querySelectorAll(".top-left, .top-right, .orientation-hint")];
+	const property = "--mobile-notification-top";
+	const itemProperty = "--mobile-item-notification-top";
+	const update = () => {
+		if (host.dataset.orientation !== "portrait" || !host.isConnected) {
+			document.body.style.removeProperty(property);
+			document.body.style.removeProperty(itemProperty);
+			return;
+		}
+		const bottom = Math.max(0, ...panels.map((panel) => panel.getBoundingClientRect().bottom));
+		const top = Math.ceil(bottom) + 12;
+		document.body.style.setProperty(property, `${top}px`);
+		document.body.style.setProperty(itemProperty, `${Math.max(top, Math.round((top + 32) * .9))}px`);
+	};
+	const size = new ResizeObserver(update);
+	for (const panel of panels) size.observe(panel);
+	const orientation = new MutationObserver(update);
+	orientation.observe(host, {
+		attributes: true,
+		attributeFilter: ["data-orientation", "style"]
+	});
+	update();
+	return () => {
+		size.disconnect();
+		orientation.disconnect();
+		document.body.style.removeProperty(property);
+		document.body.style.removeProperty(itemProperty);
+	};
+}
+var init_HUDNotificationInset = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/GameHUDPortrait.css?raw
+var GameHUDPortrait_default;
+var init_GameHUDPortrait = __esmMin((() => {
+	GameHUDPortrait_default = ".orientation-hint {\r\n	display: none;\r\n}\r\n\r\n/* Width-based rules remain stable when the software keyboard opens. */\r\n@media (max-width: 600px) {\r\n	.top-left {\r\n		width: min(188px, calc(100% - 132px));\r\n	}\r\n	.battle-dock {\r\n		width: min(270px, calc(100% - 32px));\r\n	}\r\n	.orientation-hint:not([hidden]) {\r\n		position: absolute;\r\n		top: max(200px, calc(env(safe-area-inset-top) + 184px));\r\n		left: max(12px, env(safe-area-inset-left));\r\n		right: max(12px, env(safe-area-inset-right));\r\n		display: flex;\r\n		align-items: center;\r\n		justify-content: space-between;\r\n		gap: 8px;\r\n		padding: 6px 10px;\r\n		pointer-events: auto;\r\n	}\r\n	.orientation-hint button {\r\n		flex-shrink: 0;\r\n		min-height: 36px;\r\n		border: 0;\r\n		background: transparent;\r\n		color: #ffe1ae;\r\n	}\r\n}\r\n\r\n.portrait-chat-button {\r\n	display: none;\r\n}\r\n:host([data-orientation='portrait']) .profile-actions {\r\n	display: grid;\r\n	grid-template-columns: repeat(4, minmax(0, 1fr));\r\n	gap: 4px;\r\n}\r\n:host([data-orientation='portrait']) .portrait-chat-button {\r\n	display: block;\r\n}\r\n:host([data-orientation='portrait']) .chat-preview,\r\n:host([data-orientation='portrait']) .chat-preview:not(.collapsed) {\r\n	display: none;\r\n}\r\n:host([data-orientation='portrait']) .profile meter {\r\n	height: 14px;\r\n}\r\n:host([data-orientation='portrait']) .profile meter::-webkit-meter-inner-element {\r\n	position: relative;\r\n	display: block;\r\n	height: 100%;\r\n}\r\n:host([data-orientation='portrait']) .profile meter::-webkit-meter-bar {\r\n	top: 0;\r\n}\r\n:host([data-orientation='portrait']) .profile label > span {\r\n	font-size: 10px;\r\n	line-height: 14px;\r\n}\r\n\r\n:host([data-orientation='portrait']) .profile-actions button {\r\n	min-width: 0;\r\n	padding: 4px 2px;\r\n	white-space: nowrap;\r\n}\r\n:host([data-orientation='portrait']) .profile-actions [data-status-icons] {\r\n	display: none;\r\n}\r\n\r\n:host([data-orientation='portrait']) {\r\n	--portrait-map-width: 115.2px;\r\n	--portrait-map-canvas: 105.6px;\r\n	--portrait-profile-width: 188px;\r\n}\r\n:host([data-orientation='portrait'][data-menu-density='spacious']) {\r\n	--portrait-map-width: 172.8px;\r\n	--portrait-map-canvas: 153.6px;\r\n	--portrait-profile-width: 320px;\r\n}\r\n:host([data-orientation='portrait']) .map {\r\n	width: var(--portrait-map-width);\r\n}\r\n:host([data-orientation='portrait']) .map canvas {\r\n	width: var(--portrait-map-canvas);\r\n	height: var(--portrait-map-canvas);\r\n}\r\n:host([data-orientation='portrait']) .top-left {\r\n	width: min(var(--portrait-profile-width), calc(100% - var(--portrait-map-width) - 36px));\r\n}\r\n";
+}));
+//#endregion
 //#region src/UI/Mobile/game/InteractionPanel.css?raw
 var InteractionPanel_default;
 var init_InteractionPanel$1 = __esmMin((() => {
-	InteractionPanel_default = "/* Structure and colors only. Phone and tablet geometry live in separate files. */\r\n.interaction-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 10px;\r\n}\r\n.interaction-status {\r\n	flex: 1;\r\n	min-width: 0;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-footer > button {\r\n	flex-shrink: 0;\r\n}\r\n.interaction-panel .inventory-detail {\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .interaction-form {\r\n	display: flex;\r\n	align-items: end;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n}\r\n.interaction-panel .interaction-form > label {\r\n	flex-basis: 100%;\r\n	display: grid;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-field,\r\n.interaction-panel [data-fields] > label {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.interaction-panel label > input:not([type='checkbox']) {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.interaction-panel [data-order],\r\n.interaction-panel [data-picker] p {\r\n	white-space: pre-line;\r\n	line-height: 1.6;\r\n}\r\n.trade-offers > div {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n}\r\n.trade-offers button {\r\n	text-align: left;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel [data-warning] {\r\n	flex-shrink: 0;\r\n	max-height: 22%;\r\n	overflow: auto;\r\n}\r\n.interaction-information {\r\n	display: grid;\r\n	margin: 0;\r\n	gap: 8px 12px;\r\n}\r\n.interaction-information dt {\r\n	overflow-wrap: anywhere;\r\n	color: #bac4cd;\r\n}\r\n.interaction-information dd {\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) > p {\r\n	flex-shrink: 0;\r\n	margin-bottom: 8px;\r\n	max-height: 30%;\r\n	overflow: auto;\r\n}\r\n.interaction-review {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.interaction-review-lines {\r\n	flex: 1 1 auto;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.interaction-review-lines p {\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-review-summary {\r\n	flex-shrink: 0;\r\n	white-space: pre-line;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-warning {\r\n	color: #e6c28b;\r\n	margin: 6px 0 0;\r\n}\r\n.interaction-panel [data-revert-vending],\r\n.interaction-panel [data-revert-quantity],\r\n.interaction-panel [data-revert-money] {\r\n	color: #ceaa70;\r\n}\r\n\r\n:host([data-menu-density]) .panel[data-view='information'] h2 {\r\n	font-size: var(--interaction-title);\r\n}\r\n:host([data-menu-density]) .panel[data-view='information'] button {\r\n	font-size: var(--interaction-text);\r\n	min-height: var(--interaction-control);\r\n}\r\n\r\n.interaction-panel .inventory-detail .menu-select + .menu-select,\r\n.interaction-panel .inventory-detail .menu-select + input,\r\n.interaction-panel .inventory-detail input:not([type='hidden']) + button,\r\n.interaction-panel .trade-editor [data-picker] {\r\n	margin-top: var(--panel-gap);\r\n}\r\n\r\n/* Storage shares control tokens with the other interaction menus. */\r\n.panel .warehouse-body .container-toolbar {\r\n	display: grid;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	flex-shrink: 0;\r\n}\r\n.panel .warehouse-body .storage-modes {\r\n	display: flex;\r\n	gap: 4px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel .warehouse-body .storage-modes button[aria-pressed='true'] {\r\n	background: #47647a;\r\n	border-color: #91b8d5;\r\n	color: #fff;\r\n}\r\n.panel .warehouse-body .container-source[hidden] {\r\n	display: none;\r\n}\r\n.panel .container-toolbar .container-source {\r\n	flex: 1 1 90px;\r\n	min-width: 0;\r\n}\r\n.panel .warehouse-body .container-capacity {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .warehouse-body .interaction-footer {\r\n	box-sizing: content-box;\r\n	min-height: var(--interaction-control);\r\n}\r\n.panel .container-form > label[hidden] {\r\n	display: none;\r\n}\r\n.panel .warehouse-body .container-toolbar > input[type='search'] {\r\n	width: 100%;\r\n	min-width: 0;\r\n	margin: 0;\r\n}\r\n.panel .container-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: var(--panel-gap);\r\n	margin: 10px 0;\r\n}\r\n.panel .container-form > label {\r\n	display: grid;\r\n	align-content: start;\r\n	gap: 6px;\r\n	min-width: 0;\r\n	font-size: var(--interaction-caption);\r\n	color: #bac4cd;\r\n}\r\n.panel .container-empty {\r\n	padding: var(--panel-gap);\r\n	color: #bac4cd;\r\n	line-height: 1.6;\r\n}\r\n\r\n.panel .warehouse-body .container-quantity {\r\n	width: clamp(120px, 15vw, 180px);\r\n	display: flex;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	flex: 0 0 auto;\r\n	white-space: nowrap;\r\n	font-size: var(--interaction-caption);\r\n}\r\n.panel .warehouse-body .container-quantity input {\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: var(--interaction-control);\r\n	margin: 0;\r\n}\r\n\r\n.panel .container-item-heading {\r\n	display: flex;\r\n	align-items: baseline;\r\n	gap: var(--panel-gap);\r\n}\r\n.panel .container-item-heading h3 {\r\n	flex: 1;\r\n	min-width: 0;\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .container-item-heading .container-item-count {\r\n	flex: 0 0 auto;\r\n	margin: 0;\r\n	font-size: var(--interaction-text);\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel .warehouse-body .container-filters > :is(select, .menu-select) {\r\n	flex: 1 1 90px;\r\n	min-width: 90px;\r\n}\r\n.panel .warehouse-body .container-source {\r\n	flex: 0 1 100px;\r\n}\r\n\r\n.panel .warehouse-body .container-filters {\r\n	padding-right: 2px;\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-width: 0;\r\n}\r\n\r\n:host([data-menu-density]) .panel .warehouse-body .container-item-heading h3 {\r\n	font-size: var(--panel-title);\r\n	line-height: 1.4;\r\n}\r\n\r\n/* Shared frames: headings and scroll areas belong to the same bordered column. */\r\n.interaction-panel .interaction-columns {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.25fr);\r\n	gap: var(--panel-gap);\r\n	flex: 1;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.interaction-panel .interaction-column {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	border: 1px solid #52606d;\r\n	border-radius: 6px;\r\n	overflow: hidden;\r\n	background: #19212a;\r\n}\r\n.interaction-panel .interaction-column-title {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #52606d;\r\n	background: #24313d;\r\n	flex: 0 0 auto;\r\n	color: #f5f2e9;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content {\r\n	display: block;\r\n	flex: 1;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	padding: var(--panel-gap);\r\n	border: 0;\r\n	border-radius: 0;\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n	scrollbar-color: #65717b #19212a;\r\n	scrollbar-width: thin;\r\n}\r\n.interaction-column-content > :first-child {\r\n	margin-top: 0;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-column-content .inventory-item {\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.interaction-panel .interaction-order-item {\r\n	display: block;\r\n	width: 100%;\r\n	margin: 0 0 var(--panel-gap);\r\n	text-align: left;\r\n	overflow-wrap: anywhere;\r\n	background: #24313d;\r\n	border: 1px solid #52606d;\r\n}\r\n.interaction-panel .interaction-order-item span {\r\n	display: block;\r\n}\r\n.interaction-panel .interaction-columns .interaction-field,\r\n.interaction-panel .interaction-toolbar > label {\r\n	display: grid;\r\n	gap: 4px;\r\n	align-items: start;\r\n	min-width: 0;\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-field:has(input[type='checkbox']) {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.interaction-panel .interaction-inline-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers > section + section {\r\n	border-top: 1px solid #52606d;\r\n	margin-top: var(--panel-gap);\r\n	padding-top: var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers h3 {\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers p {\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-toolbar {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	flex-shrink: 0;\r\n}\r\n.interaction-panel .interaction-toolbar[hidden] {\r\n	display: none;\r\n}\r\n.interaction-panel .interaction-toolbar > label {\r\n	margin: 0;\r\n}\r\n.interaction-panel .interaction-toolbar > label[hidden] {\r\n	display: none;\r\n}\r\n.interaction-panel .interaction-toolbar:not(:has([data-budget-label]:not([hidden]))) {\r\n	grid-template-columns: minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-columns [data-order] {\r\n	margin: 0;\r\n	padding: 0;\r\n	border: 0;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-footer {\r\n	min-height: var(--interaction-control);\r\n	padding-block: var(--panel-gap);\r\n	box-sizing: content-box;\r\n}\r\n:host([data-menu-density]) .panel.interaction-panel > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n\r\n.interaction-panel .interaction-columns.interaction-columns-two {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);\r\n}\r\n\r\n.interaction-panel .interaction-pricing {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content.trade-offers {\r\n	display: grid;\r\n	grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	overflow: hidden;\r\n}\r\n.interaction-panel .trade-offers > section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.interaction-panel .trade-offers > section > div {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	scrollbar-width: thin;\r\n	scrollbar-color: #65717b #19212a;\r\n}\r\n.interaction-panel .trade-offers > section + section {\r\n	margin-top: 0;\r\n}\r\n\r\n:host([data-menu-density]) .panel .warehouse-body:has(.interaction-columns-two) .container-toolbar {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);\r\n	gap: var(--panel-gap);\r\n}\r\n\r\n.interaction-order-item:has(> img) {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.interaction-order-item > img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	flex: none;\r\n}\r\n";
+	InteractionPanel_default = "/* Structure and colors only. Phone and tablet geometry live in separate files. */\r\n.interaction-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 10px;\r\n}\r\n.interaction-status {\r\n	flex: 1;\r\n	min-width: 0;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-footer > button {\r\n	flex-shrink: 0;\r\n}\r\n.interaction-panel .inventory-detail {\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .interaction-form {\r\n	display: flex;\r\n	align-items: end;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n}\r\n.interaction-panel .interaction-form > label {\r\n	flex-basis: 100%;\r\n	display: grid;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-field,\r\n.interaction-panel [data-fields] > label {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.interaction-panel label > input:not([type='checkbox']) {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.interaction-panel [data-order],\r\n.interaction-panel [data-picker] p {\r\n	white-space: pre-line;\r\n	line-height: 1.6;\r\n}\r\n.trade-offers > div {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n}\r\n.trade-offers button {\r\n	text-align: left;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel [data-warning] {\r\n	flex-shrink: 0;\r\n	max-height: 22%;\r\n	overflow: auto;\r\n}\r\n.interaction-information {\r\n	display: grid;\r\n	margin: 0;\r\n	gap: 8px 12px;\r\n}\r\n.interaction-information dt {\r\n	overflow-wrap: anywhere;\r\n	color: #bac4cd;\r\n}\r\n.interaction-information dd {\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) > p {\r\n	flex-shrink: 0;\r\n	margin-bottom: 8px;\r\n	max-height: 30%;\r\n	overflow: auto;\r\n}\r\n.interaction-review {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.interaction-review-lines {\r\n	flex: 1 1 auto;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.interaction-review-lines p {\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-review-summary {\r\n	flex-shrink: 0;\r\n	white-space: pre-line;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-warning {\r\n	color: #e6c28b;\r\n	margin: 6px 0 0;\r\n}\r\n.interaction-panel [data-revert-vending],\r\n.interaction-panel [data-revert-quantity],\r\n.interaction-panel [data-revert-money] {\r\n	color: #ceaa70;\r\n}\r\n\r\n:host([data-menu-density]) .panel[data-view='information'] h2 {\r\n	font-size: var(--interaction-title);\r\n}\r\n:host([data-menu-density]) .panel[data-view='information'] button {\r\n	font-size: var(--interaction-text);\r\n	min-height: var(--interaction-control);\r\n}\r\n\r\n.interaction-panel .inventory-detail .menu-select + .menu-select,\r\n.interaction-panel .inventory-detail .menu-select + input,\r\n.interaction-panel .inventory-detail input:not([type='hidden']) + button,\r\n.interaction-panel .trade-editor [data-picker] {\r\n	margin-top: var(--panel-gap);\r\n}\r\n\r\n/* Storage shares control tokens with the other interaction menus. */\r\n.panel .warehouse-body .container-toolbar {\r\n	display: grid;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	flex-shrink: 0;\r\n}\r\n.panel .warehouse-body .storage-modes {\r\n	display: flex;\r\n	gap: 4px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel .warehouse-body .storage-modes button[aria-pressed='true'] {\r\n	background: #47647a;\r\n	border-color: #91b8d5;\r\n	color: #fff;\r\n}\r\n.panel .warehouse-body .container-source[hidden] {\r\n	display: none;\r\n}\r\n.panel .container-toolbar .container-source {\r\n	flex: 1 1 90px;\r\n	min-width: 0;\r\n}\r\n.panel .warehouse-body .container-capacity {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .warehouse-body .interaction-footer {\r\n	box-sizing: content-box;\r\n	min-height: var(--interaction-control);\r\n}\r\n.panel .container-form > label[hidden] {\r\n	display: none;\r\n}\r\n.panel .warehouse-body .container-toolbar > input[type='search'] {\r\n	width: 100%;\r\n	min-width: 0;\r\n	margin: 0;\r\n}\r\n.panel .container-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: var(--panel-gap);\r\n	margin: 10px 0;\r\n}\r\n.panel .container-form > label {\r\n	display: grid;\r\n	align-content: start;\r\n	gap: 6px;\r\n	min-width: 0;\r\n	font-size: var(--interaction-caption);\r\n	color: #bac4cd;\r\n}\r\n.panel .container-empty {\r\n	padding: var(--panel-gap);\r\n	color: #bac4cd;\r\n	line-height: 1.6;\r\n}\r\n\r\n.panel .warehouse-body .container-quantity {\r\n	width: clamp(120px, 15vw, 180px);\r\n	display: flex;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	flex: 0 0 auto;\r\n	white-space: nowrap;\r\n	font-size: var(--interaction-caption);\r\n}\r\n.panel .warehouse-body .container-quantity input {\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: var(--interaction-control);\r\n	margin: 0;\r\n}\r\n\r\n.panel .container-item-heading {\r\n	display: flex;\r\n	align-items: baseline;\r\n	gap: var(--panel-gap);\r\n}\r\n.panel .container-item-heading h3 {\r\n	flex: 1;\r\n	min-width: 0;\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .container-item-heading .container-item-count {\r\n	flex: 0 0 auto;\r\n	margin: 0;\r\n	font-size: var(--interaction-text);\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel .warehouse-body .container-filters > :is(select, .menu-select) {\r\n	flex: 1 1 90px;\r\n	min-width: 90px;\r\n}\r\n.panel .warehouse-body .container-source {\r\n	flex: 0 1 100px;\r\n}\r\n\r\n.panel .warehouse-body .container-filters {\r\n	padding-right: 2px;\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-width: 0;\r\n}\r\n\r\n:host([data-menu-density]) .panel .warehouse-body .container-item-heading h3 {\r\n	font-size: var(--panel-title);\r\n	line-height: 1.4;\r\n}\r\n\r\n/* Shared frames: headings and scroll areas belong to the same bordered column. */\r\n.interaction-panel .interaction-columns {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.25fr);\r\n	gap: var(--panel-gap);\r\n	flex: 1;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.interaction-panel .interaction-column {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	border: 1px solid #52606d;\r\n	border-radius: 6px;\r\n	overflow: hidden;\r\n	background: #19212a;\r\n}\r\n.interaction-panel .interaction-column-title {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #52606d;\r\n	background: #24313d;\r\n	flex: 0 0 auto;\r\n	color: #f5f2e9;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content {\r\n	display: block;\r\n	flex: 1;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	padding: var(--panel-gap);\r\n	border: 0;\r\n	border-radius: 0;\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n	scrollbar-color: #65717b #19212a;\r\n	scrollbar-width: thin;\r\n}\r\n.interaction-column-content > :first-child {\r\n	margin-top: 0;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-column-content .inventory-item {\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.interaction-panel .interaction-order-item {\r\n	display: block;\r\n	width: 100%;\r\n	margin: 0 0 var(--panel-gap);\r\n	text-align: left;\r\n	overflow-wrap: anywhere;\r\n	background: #24313d;\r\n	border: 1px solid #52606d;\r\n}\r\n.interaction-panel .interaction-order-item span {\r\n	display: block;\r\n}\r\n.interaction-panel .interaction-columns .interaction-field,\r\n.interaction-panel .interaction-toolbar > label {\r\n	display: grid;\r\n	gap: 4px;\r\n	align-items: start;\r\n	min-width: 0;\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-field:has(input[type='checkbox']) {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.interaction-panel .interaction-inline-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers > section + section {\r\n	border-top: 1px solid #52606d;\r\n	margin-top: var(--panel-gap);\r\n	padding-top: var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers h3 {\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers p {\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-toolbar {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	flex-shrink: 0;\r\n}\r\n.interaction-panel .interaction-toolbar[hidden] {\r\n	display: none;\r\n}\r\n.interaction-panel .interaction-toolbar > label {\r\n	margin: 0;\r\n}\r\n.interaction-panel .interaction-toolbar > label[hidden] {\r\n	display: none;\r\n}\r\n.interaction-panel .interaction-toolbar:not(:has([data-budget-label]:not([hidden]))) {\r\n	grid-template-columns: minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-columns [data-order] {\r\n	margin: 0;\r\n	padding: 0;\r\n	border: 0;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-footer {\r\n	min-height: var(--interaction-control);\r\n	padding-block: var(--panel-gap);\r\n	box-sizing: content-box;\r\n}\r\n:host([data-menu-density]) .panel.interaction-panel > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n\r\n.interaction-panel .interaction-columns[data-menu-columns='2'] {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);\r\n}\r\n\r\n.interaction-panel .interaction-pricing {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content.trade-offers {\r\n	display: grid;\r\n	grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	overflow: hidden;\r\n}\r\n.interaction-panel .trade-offers > section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.interaction-panel .trade-offers > section > div {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	scrollbar-width: thin;\r\n	scrollbar-color: #65717b #19212a;\r\n}\r\n.interaction-panel .trade-offers > section + section {\r\n	margin-top: 0;\r\n}\r\n\r\n:host([data-menu-density]) .panel .warehouse-body:has([data-menu-columns='2']) .container-toolbar {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);\r\n	gap: var(--panel-gap);\r\n}\r\n\r\n.interaction-order-item:has(> img) {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.interaction-order-item > img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	flex: none;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/InteractionPhone.css?raw
@@ -363739,6 +364346,7 @@ function createChatPreview(root) {
 	function configure(settings) {
 		for (const [scene, key] of [["compact", "chatPreviewCompactLines"], ["spacious", "chatPreviewSpaciousLines"]]) if (settings[key]) container.style.setProperty(`--chat-preview-${scene}-lines`, settings[key]);
 		else container.style.removeProperty(`--chat-preview-${scene}-lines`);
+		container.classList.toggle("without-tabs", !settings.chatPreviewTabs);
 		tabs.hidden = !settings.chatPreviewTabs;
 		if (!settings.chatPreviewTabs) {
 			category = "all";
@@ -363777,13 +364385,13 @@ var init_ChatPreview$1 = __esmMin((() => {
 //#region src/UI/Mobile/game/ChatPreview.css?raw
 var ChatPreview_default;
 var init_ChatPreview = __esmMin((() => {
-	ChatPreview_default = "/* Preview density follows the same viewport classification as game menus. */\r\n:host {\r\n	--chat-preview-line-height: 16px;\r\n	--chat-preview-tab-height: 22px;\r\n	--chat-preview-overhead: 48px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--chat-preview-line-height: 22px;\r\n	--chat-preview-tab-height: 30px;\r\n	--chat-preview-overhead: 60px;\r\n}\r\n.chat-preview {\r\n	--chat-preview-lines: var(--chat-preview-compact-lines, 3);\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview {\r\n	--chat-preview-lines: var(--chat-preview-spacious-lines, 5);\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview:not(.collapsed) {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, max-content) 28px minmax(0, 1fr);\r\n	width: min(420px, calc(100% - 410px));\r\n	padding: 0;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview [data-chat-preview] {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview-tabs button,\r\n:host([data-menu-density='spacious']) .chat-preview [data-chat-collapse] {\r\n	min-height: var(--chat-preview-tab-height);\r\n	font-size: 14px;\r\n}\r\n.chat-preview:not(.collapsed) {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, max-content) 28px minmax(0, 1fr);\r\n	height: auto;\r\n	min-height: 0;\r\n	max-height: none;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n}\r\n.chat-preview [data-chat-preview] {\r\n	height: min(\r\n		calc(var(--chat-preview-lines) * var(--chat-preview-line-height)),\r\n		max(\r\n			var(--chat-preview-line-height),\r\n			calc(var(--mobile-visible-height, 100dvh) * 0.35 - var(--chat-preview-overhead))\r\n		)\r\n	);\r\n	max-height: none;\r\n	line-height: var(--chat-preview-line-height);\r\n}\r\n.chat-preview-line {\r\n	min-height: var(--chat-preview-line-height);\r\n}\r\n.chat-preview-tabs {\r\n	display: flex;\r\n	gap: 0;\r\n	overflow-x: auto;\r\n	scrollbar-width: none;\r\n	padding-right: 0;\r\n	grid-column: 1;\r\n	grid-row: 1;\r\n	min-width: 0;\r\n	margin-bottom: -1px;\r\n	position: relative;\r\n	z-index: 1;\r\n	touch-action: pan-x;\r\n}\r\n.chat-preview-tabs button,\r\n.chat-preview [data-chat-collapse] {\r\n	position: relative;\r\n	flex: 0 0 auto;\r\n	height: var(--chat-preview-tab-height);\r\n	min-height: var(--chat-preview-tab-height);\r\n	padding: 2px 7px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 5px;\r\n	background: rgba(25, 31, 38, 0.85);\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.chat-preview-tabs button {\r\n	border-radius: 0;\r\n}\r\n.chat-preview-tabs button:first-child {\r\n	border-top-left-radius: 6px;\r\n}\r\n.chat-preview-tabs button + button {\r\n	border-left: 0;\r\n}\r\n.chat-preview-tabs button[aria-pressed='true'] {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border-bottom-color: transparent;\r\n	color: #ffe1ae;\r\n}\r\n.chat-preview-tabs b {\r\n	color: #ffcf76;\r\n	position: absolute;\r\n	right: 0;\r\n	top: -2px;\r\n}\r\n.chat-preview.collapsed .chat-preview-tabs {\r\n	display: none;\r\n}\r\n\r\n/* Folder tabs overlap the message border by one pixel to join the active page. */\r\n.chat-preview-open {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	padding: 7px 10px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: rgba(25, 31, 38, 0.68);\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview-open {\r\n	padding: 10px 12px;\r\n}\r\n.chat-preview [data-chat-preview] {\r\n	width: 100%;\r\n}\r\n\r\n.chat-preview [data-chat-collapse] {\r\n	position: absolute;\r\n	top: 0;\r\n	right: 0;\r\n	width: 28px;\r\n	line-height: 1;\r\n}\r\n.chat-preview:has(.chat-preview-tabs[hidden]) .chat-preview-open {\r\n	padding-right: 38px;\r\n}\r\n\r\n.chat-preview:has(.chat-preview-tabs:not([hidden])) .chat-preview-open {\r\n	border-top-left-radius: 0;\r\n}\r\n.chat-preview:has(.chat-preview-tabs:not([hidden])) [data-chat-collapse] {\r\n	position: relative;\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 0;\r\n	margin-bottom: -1px;\r\n	border-left: 0;\r\n	border-radius: 0 6px 0 0;\r\n	z-index: 1;\r\n}\r\n.chat-preview [data-chat-collapse] svg {\r\n	width: 14px;\r\n	height: 14px;\r\n	display: block;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .chat-preview-tabs button {\r\n	padding-inline: 10px;\r\n}\r\n";
+	ChatPreview_default = "/* Preview density follows the same viewport classification as game menus. */\r\n:host {\r\n	--chat-preview-line-height: 16px;\r\n	--chat-preview-tab-height: 22px;\r\n	--chat-preview-overhead: 48px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--chat-preview-line-height: 22px;\r\n	--chat-preview-tab-height: 30px;\r\n	--chat-preview-overhead: 60px;\r\n}\r\n.chat-preview {\r\n	--chat-preview-lines: var(--chat-preview-compact-lines, 3);\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview {\r\n	--chat-preview-lines: var(--chat-preview-spacious-lines, 5);\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview:not(.collapsed) {\r\n	display: grid;\r\n	grid-template-columns: 44px minmax(0, max-content) minmax(0, 1fr);\r\n	width: min(420px, calc(100% - 410px));\r\n	padding: 0;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview [data-chat-preview] {\r\n	font-size: 14px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview-tabs button,\r\n:host([data-menu-density='spacious']) .chat-preview [data-chat-collapse] {\r\n	min-height: var(--chat-preview-tab-height);\r\n	font-size: 14px;\r\n}\r\n.chat-preview:not(.collapsed) {\r\n	display: grid;\r\n	grid-template-columns: 44px minmax(0, max-content) minmax(0, 1fr);\r\n	height: auto;\r\n	min-height: 0;\r\n	max-height: none;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n}\r\n.chat-preview [data-chat-preview] {\r\n	height: min(\r\n		calc(var(--chat-preview-lines) * var(--chat-preview-line-height)),\r\n		max(\r\n			var(--chat-preview-line-height),\r\n			calc(var(--mobile-visible-height, 100dvh) * 0.35 - var(--chat-preview-overhead))\r\n		)\r\n	);\r\n	max-height: none;\r\n	line-height: var(--chat-preview-line-height);\r\n}\r\n.chat-preview-line {\r\n	min-height: var(--chat-preview-line-height);\r\n}\r\n.chat-preview-tabs {\r\n	display: flex;\r\n	gap: 0;\r\n	overflow-x: auto;\r\n	scrollbar-width: none;\r\n	padding-right: 0;\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n	min-width: 0;\r\n	margin-bottom: -1px;\r\n	position: relative;\r\n	z-index: 1;\r\n	touch-action: pan-x;\r\n}\r\n.chat-preview-tabs button,\r\n.chat-preview [data-chat-collapse] {\r\n	position: relative;\r\n	flex: 0 0 auto;\r\n	height: var(--chat-preview-tab-height);\r\n	min-height: var(--chat-preview-tab-height);\r\n	padding: 2px 7px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 5px;\r\n	background: rgba(25, 31, 38, 0.85);\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.chat-preview-tabs button {\r\n	border-radius: 0;\r\n}\r\n.chat-preview-tabs button:first-child {\r\n	border-left: 0;\r\n}\r\n.chat-preview-tabs button:last-child {\r\n	border-top-right-radius: 6px;\r\n}\r\n.chat-preview-tabs button + button {\r\n	border-left: 0;\r\n}\r\n.chat-preview-tabs button[aria-pressed='true'] {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border-bottom-color: transparent;\r\n	color: #ffe1ae;\r\n}\r\n.chat-preview-tabs b {\r\n	color: #ffcf76;\r\n	position: absolute;\r\n	right: 0;\r\n	top: -2px;\r\n}\r\n.chat-preview.collapsed .chat-preview-tabs {\r\n	display: none;\r\n}\r\n\r\n/* Folder tabs overlap the message border by one pixel to join the active page. */\r\n.chat-preview-open {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	padding: 7px 10px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: rgba(25, 31, 38, 0.68);\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\n:host([data-menu-density='spacious']) .chat-preview-open {\r\n	padding: 10px 12px;\r\n}\r\n.chat-preview [data-chat-preview] {\r\n	width: 100%;\r\n}\r\n\r\n.chat-preview [data-chat-collapse] {\r\n	position: relative;\r\n	grid-column: 1;\r\n	grid-row: 1;\r\n	top: 0;\r\n	right: 0;\r\n	width: 44px;\r\n	line-height: 1;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 0;\r\n	margin-bottom: -1px;\r\n	border-left: 1px solid #65717b;\r\n	border-radius: 6px 0 0 0;\r\n	z-index: 1;\r\n}\r\n.chat-preview .chat-preview-open {\r\n	border-top-left-radius: 0;\r\n}\r\n.chat-preview.without-tabs [data-chat-collapse] {\r\n	border-radius: 6px 6px 0 0;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .chat-preview-tabs button {\r\n	padding-inline: 10px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/StatusPanel.js
 /** Keep selection and scroll positions while remaining durations update. */
 function createStatusPanel(body) {
-	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"状态列表\"></div><section class=\"inventory-detail\" aria-label=\"状态说明\"><p class=\"item-description\"></p></section></div>";
+	body.innerHTML = "<div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"状态列表\"></div><section class=\"inventory-detail\" aria-label=\"状态说明\"><p class=\"item-description\"></p></section></div>";
 	const list = body.querySelector(".inventory-list");
 	const description = body.querySelector(".item-description");
 	const nodes = /* @__PURE__ */ new Map();
@@ -363924,6 +364532,62 @@ function createMenuSelects(container) {
 }
 var init_MenuSelects = __esmMin((() => {
 	init_GameSelect();
+}));
+//#endregion
+//#region src/UI/Mobile/game/CombatSettingsPanel.js
+/** Keep both editors mounted while switching tabs so pending edits are retained. */
+function createCombatSettingsPanel(body, actions, header) {
+	body.innerHTML = `<div class="settings-tabs" role="tablist" aria-label="战斗辅助设置">
+		<button type="button" role="tab" id="mobile-combat-tab" aria-controls="mobile-combat-settings" aria-selected="true" aria-pressed="true" data-assist-tab="combat">战斗设置</button>
+		<button type="button" role="tab" id="mobile-pickup-tab" aria-controls="mobile-pickup-settings" aria-selected="false" aria-pressed="false" tabindex="-1" data-assist-tab="pickup">拾取设置</button>
+		</div>
+		<div class="auto-config-body" id="mobile-combat-settings" role="tabpanel" aria-labelledby="mobile-combat-tab"></div>
+		<div class="mobile-pickup-settings" id="mobile-pickup-settings" role="tabpanel" aria-labelledby="mobile-pickup-tab" hidden><section class="settings-section"></section></div>`;
+	const tabBar = body.querySelector("[role=tablist]");
+	tabBar.classList.add("combat-settings-tabs");
+	header.insertBefore(tabBar, header.querySelector(".panel-navigation"));
+	header.classList.add("has-combat-tabs");
+	const combat = body.querySelector("#mobile-combat-settings");
+	const pickup = body.querySelector("#mobile-pickup-settings");
+	createAutoCombatPanel(combat, actions);
+	const editor = createPickupSettingsPanel(pickup.querySelector("section"), loadPickupSettings());
+	const tabs = [...tabBar.querySelectorAll("[data-assist-tab]")];
+	function select(name) {
+		for (const tab of tabs) {
+			const active = tab.dataset.assistTab === name;
+			tab.setAttribute("aria-selected", String(active));
+			tab.setAttribute("aria-pressed", String(active));
+			tab.tabIndex = active ? 0 : -1;
+		}
+		combat.hidden = name !== "combat";
+		pickup.hidden = name !== "pickup";
+	}
+	for (const tab of tabs) {
+		tab.onclick = () => select(tab.dataset.assistTab);
+		tab.onkeydown = (event) => {
+			if (![
+				"ArrowLeft",
+				"ArrowRight",
+				"Home",
+				"End"
+			].includes(event.key)) return;
+			event.preventDefault();
+			const target = event.key === "Home" ? tabs[0] : event.key === "End" ? tabs[1] : tabs.find((item) => item !== tab);
+			select(target.dataset.assistTab);
+			target.focus({ preventScroll: true });
+		};
+	}
+	return () => {
+		tabBar.remove();
+		header.classList.remove("has-combat-tabs");
+		editor.flush();
+		editor.destroy();
+	};
+}
+var init_CombatSettingsPanel = __esmMin((() => {
+	init_AutoCombatPanel$1();
+	init_PickupSettingsPanel$1();
+	init_PickupSettings();
 }));
 //#endregion
 //#region src/UI/Mobile/game/CompanionsPanel.js
@@ -364224,6 +364888,7 @@ function createMailPanel(body, service) {
 	body.replaceChildren();
 	const toolbar = node(body, "div", "mail-toolbar");
 	const layout = node(body, "div", "mail-layout");
+	layout.dataset.menuLayout = "split";
 	const list = node(layout, "section", "mail-browser");
 	const pane = node(layout, "section", "mail-pane");
 	const detail = node(pane, "div", "mail-detail");
@@ -364481,9 +365146,8 @@ function createCameraPanel(body, adjustCamera) {
 var init_CameraPanel = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Mobile/game/SettingsPanel.js
-/** Graphics/audio use a draft; pickup settings save automatically. */
+/** Graphics and audio settings use a draft until saved. */
 function createSettingsPanel(body, service, initialSection = "画面") {
-	let pickupEditor;
 	let draft = service.snapshot();
 	let activeSection = initialSection;
 	const host = body.getRootNode().host;
@@ -364498,7 +365162,6 @@ function createSettingsPanel(body, service, initialSection = "画面") {
 	if (!host) window.addEventListener("resize", resize);
 	const notify = (message) => showToast(body, message);
 	function render() {
-		pickupEditor?.destroy();
 		body.replaceChildren();
 		const form = document.createElement("form");
 		form.className = "settings-form";
@@ -364513,8 +365176,7 @@ function createSettingsPanel(body, service, initialSection = "画面") {
 		for (const name of [
 			"画面",
 			"特效",
-			"声音",
-			"拾取"
+			"声音"
 		]) {
 			const section = document.createElement("section");
 			section.className = "settings-section";
@@ -364531,8 +365193,6 @@ function createSettingsPanel(body, service, initialSection = "画面") {
 					entry.button.setAttribute("aria-pressed", String(label === name));
 				}
 				content.scrollTop = 0;
-				footer.hidden = name === "拾取";
-				pickupEditor.footer.hidden = name !== "拾取";
 			};
 			sections.set(name, {
 				section,
@@ -364672,10 +365332,8 @@ function createSettingsPanel(body, service, initialSection = "画面") {
 			switches[0]?.classList.add("settings-switch-start");
 			section.append(...values, ...switches);
 		}
-		pickupEditor = createPickupSettingsPanel(sections.get("拾取").section, draft.pickup);
 		const footer = document.createElement("div");
 		footer.className = "settings-footer";
-		footer.hidden = activeSection === "拾取";
 		const buttons = document.createElement("div");
 		buttons.className = "settings-actions";
 		for (const [label, action] of [["保存", () => {
@@ -364684,8 +365342,11 @@ function createSettingsPanel(body, service, initialSection = "画面") {
 				pickup: service.snapshot().pickup
 			}));
 		}], ["恢复默认", () => {
-			confirmAction(body, "确认恢复全部画面、特效、声音和拾取设置为默认值？", () => {
-				const message = service.save(service.snapshot(true));
+			confirmAction(body, "确认恢复全部画面、特效和声音设置为默认值？", () => {
+				const message = service.save({
+					...service.snapshot(true),
+					pickup: service.snapshot().pickup
+				});
 				draft = service.snapshot();
 				render();
 				notify(message);
@@ -364702,21 +365363,17 @@ function createSettingsPanel(body, service, initialSection = "画面") {
 			buttons.append(button);
 		}
 		footer.append(buttons);
-		pickupEditor.footer.hidden = activeSection !== "拾取";
-		form.append(footer, pickupEditor.footer);
+		form.append(footer);
 		body.append(form);
 	}
 	render();
 	return () => {
-		pickupEditor.flush();
-		pickupEditor.destroy();
 		observer.disconnect();
 		window.removeEventListener("resize", resize);
 		service.preview?.(service.snapshot().interface);
 	};
 }
 var init_SettingsPanel = __esmMin((() => {
-	init_PickupSettingsPanel$1();
 	init_Confirmation();
 	init_MenuLayout();
 	init_Toast();
@@ -364874,6 +365531,8 @@ function inputDraft(fields, changed = () => {}) {
 function interactionColumns(body, columns) {
 	const layout = document.createElement("div");
 	layout.className = "interaction-columns";
+	layout.dataset.menuLayout = "columns";
+	layout.dataset.menuColumns = String(columns.length);
 	for (const { title, className, content } of columns) {
 		const column = document.createElement("section");
 		column.className = "interaction-column";
@@ -365843,7 +366502,7 @@ var init_MaterialsPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/SelectionPanel.js
 function createSelectionPanel(body, service) {
-	body.innerHTML = "<p data-warning></p><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可选列表\"></div><section class=\"inventory-detail\" aria-label=\"选项详情\"></section></div>";
+	body.innerHTML = "<p data-warning></p><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"可选列表\"></div><section class=\"inventory-detail\" aria-label=\"选项详情\"></section></div>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, key = "", editingId = null;
@@ -365952,7 +366611,7 @@ var init_SelectionPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/SocialPanel.js
 function createSocialPanel(body, service, whisper) {
-	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"社交分类\"><option value=\"friends\">好友</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option></select><button type=\"button\" data-refresh>刷新公会</button></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"社交列表\"></div><section class=\"inventory-detail\" aria-label=\"社交详情\"></section></div>";
+	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"社交分类\"><option value=\"friends\">好友</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option></select><button type=\"button\" data-refresh>刷新公会</button></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"社交列表\"></div><section class=\"inventory-detail\" aria-label=\"社交详情\"></section></div>";
 	const $ = (selector) => body.querySelector(selector), detail = $(".inventory-detail"), list = $(".inventory-list");
 	let state, selected = null, lastKey = "", listKey = "";
 	const status = createFeedback(body);
@@ -366465,7 +367124,7 @@ var init_ChatPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/QuestsPanel.js
 function createQuestsPanel(body, actions) {
-	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"任务分类\"><option value=\"all\">全部任务</option><option value=\"1\">进行中</option><option value=\"0\">已暂停</option><option value=\"2\">已完成</option></select></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"任务列表\"></div><section class=\"inventory-detail\" aria-label=\"任务详情\"></section></div>";
+	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"任务分类\"><option value=\"all\">全部任务</option><option value=\"1\">进行中</option><option value=\"0\">已暂停</option><option value=\"2\">已完成</option></select></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"任务列表\"></div><section class=\"inventory-detail\" aria-label=\"任务详情\"></section></div>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, state, detailKey = "";
@@ -366560,7 +367219,7 @@ var init_QuestsPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/ContainerPanel.js
 function createContainerPanel(body, actions, initialSource) {
-	body.innerHTML = "<div class=\"container-toolbar\"></div><div class=\"inventory-layout\"><div class=\"inventory-list\"></div><section class=\"inventory-detail\"></section></div>";
+	body.innerHTML = "<div class=\"container-toolbar\"></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\"></div><section class=\"inventory-detail\"></section></div>";
 	const primary = initialSource;
 	const isCart = primary === "cart";
 	if (isCart) {
@@ -366571,7 +367230,6 @@ function createContainerPanel(body, actions, initialSource) {
 			title: "物品说明",
 			className: "inventory-detail"
 		}]);
-		body.querySelector(".interaction-columns").classList.add("interaction-columns-two");
 		const toolbar = document.createElement("div");
 		toolbar.className = "container-toolbar";
 		body.prepend(toolbar);
@@ -366814,7 +367472,7 @@ var init_ShopPanel$1 = __esmMin((() => {
 //#region src/UI/Mobile/game/ShopPanel.js
 /** Move quantities between the catalogue and order; submit through the original service. */
 function createShopPanel(body, service) {
-	body.innerHTML = "<div class=\"shop-layout\"><section class=\"shop-catalog\"><h3>商品列表</h3><div class=\"inventory-list shop-catalog-list\" aria-label=\"商店物品\"></div></section><div class=\"shop-transfer\"></div><section class=\"shop-order\"><h3>待购买物品</h3><div class=\"inventory-list shop-order-list\" aria-label=\"待交易物品\"></div></section><section class=\"inventory-detail\" aria-label=\"物品详情\">请选择物品查看说明</section></div><div class=\"shop-footer\"><span class=\"shop-summary\"></span></div>";
+	body.innerHTML = "<div class=\"shop-layout\" data-menu-layout=\"shop\"><section class=\"shop-catalog\"><h3>商品列表</h3><div class=\"inventory-list shop-catalog-list\" aria-label=\"商店物品\"></div></section><div class=\"shop-transfer\"></div><section class=\"shop-order\"><h3>待购买物品</h3><div class=\"inventory-list shop-order-list\" aria-label=\"待交易物品\"></div></section><section class=\"inventory-detail\" aria-label=\"物品详情\">请选择物品查看说明</section></div><div class=\"shop-footer\"><span class=\"shop-summary\"></span></div>";
 	const $ = (selector) => body.querySelector(selector);
 	const feedback = createFeedback(body);
 	const lists = [/* @__PURE__ */ new Map(), /* @__PURE__ */ new Map()];
@@ -367140,7 +367798,7 @@ var init_NPCPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/AttributesPanel.js
 function createAttributesPanel(body, actions) {
-	body.innerHTML = "<div class=\"attribute-toolbar\"><div class=\"attribute-tabs\" role=\"group\" aria-label=\"素质分类\"></div></div><div class=\"attribute-layout\"><section class=\"attribute-editor\"><div class=\"attribute-allocation\" aria-label=\"素质加点\"></div></section><section class=\"attribute-results\" aria-label=\"相关数值\"><dl></dl></section></div><div class=\"attribute-footer\"><strong data-attribute-points></strong><div class=\"attribute-plan-actions\"><button type=\"button\" class=\"point-reset-button\" data-reset-points>重置素质点</button><button type=\"button\" data-clear-plan>清除预加点</button><button type=\"button\" data-apply-plan>确认</button></div></div>";
+	body.innerHTML = "<div class=\"attribute-toolbar\"><div class=\"attribute-tabs\" role=\"group\" aria-label=\"素质分类\"></div></div><div class=\"attribute-layout\" data-menu-layout=\"form\"><section class=\"attribute-editor\"><div class=\"attribute-allocation\" aria-label=\"素质加点\"></div></section><section class=\"attribute-results\" aria-label=\"相关数值\"><dl></dl></section></div><div class=\"attribute-footer\"><strong data-attribute-points></strong><div class=\"attribute-plan-actions\"><button type=\"button\" class=\"point-reset-button\" data-reset-points>重置素质点</button><button type=\"button\" data-clear-plan>清除预加点</button><button type=\"button\" data-apply-plan>确认</button></div></div>";
 	const $ = (selector) => body.querySelector(selector);
 	const toolbar = $(".attribute-toolbar");
 	const feedback = createFeedback(body);
@@ -367357,7 +368015,7 @@ var init_PointResetControl = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/SkillsPanel.js
 function createSkillsPanel(body, actions) {
-	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"转职分类\"><option value=\"all\">全部转职</option></select><select aria-label=\"技能分类\"><option value=\"all\">全部技能</option><option value=\"active\">已学主动</option><option value=\"passive\">已学被动</option><option value=\"locked\">未学习</option></select></div><div class=\"inventory-layout skills-layout\"><section class=\"skills-browser\"><div class=\"inventory-list\" aria-label=\"技能列表\"></div><div class=\"skills-footer\"><div class=\"skills-reset\"></div><strong data-skill-points></strong></div></section><section class=\"inventory-detail inventory-item-detail\" aria-label=\"技能详情\"></section></div>";
+	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"转职分类\"><option value=\"all\">全部转职</option></select><select aria-label=\"技能分类\"><option value=\"all\">全部技能</option><option value=\"active\">已学主动</option><option value=\"passive\">已学被动</option><option value=\"locked\">未学习</option></select></div><div class=\"inventory-layout skills-layout\" data-menu-layout=\"split\"><section class=\"skills-browser\"><div class=\"inventory-list\" aria-label=\"技能列表\"></div><div class=\"skills-footer\"><div class=\"skills-reset\"></div><strong data-skill-points></strong></div></section><section class=\"inventory-detail inventory-item-detail\" aria-label=\"技能详情\"></section></div>";
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, key = "", state, dismiss;
 	const nodes = /* @__PURE__ */ new Map();
@@ -367527,7 +368185,7 @@ var init_SkillsPanel = __esmMin((() => {
 //#region src/UI/Mobile/game/EquipmentPanel.js
 /** Independent touch equipment view; server snapshots own all item and stat values. */
 function createEquipmentPanel(body, actions) {
-	body.innerHTML = "<nav class=\"equipment-tabs\" aria-label=\"装备分类\"></nav><div class=\"equipment-layout\"><div class=\"equipment-slots\" aria-label=\"装备部位\"></div><section class=\"equipment-detail inventory-item-detail\" aria-label=\"装备详情\"></section></div><dl class=\"equipment-stats\" hidden></dl>";
+	body.innerHTML = "<nav class=\"equipment-tabs\" aria-label=\"装备分类\"></nav><div class=\"equipment-layout\" data-menu-layout=\"split\"><div class=\"equipment-slots\" aria-label=\"装备部位\"></div><section class=\"equipment-detail inventory-item-detail\" aria-label=\"装备详情\"></section></div><dl class=\"equipment-stats\" hidden></dl>";
 	const $ = (selector) => body.querySelector(selector);
 	const slotsRoot = $(".equipment-slots"), detail = $(".equipment-detail");
 	let group = "normal", selected = "HEAD_TOP", dismiss, detailKey = "";
@@ -367715,7 +368373,7 @@ var init_EquipmentPanel = __esmMin((() => {
 //#region src/UI/Mobile/game/InventoryPanel.js
 /** Touch-only inventory presentation. Actions receive inventory indices, never DOM-derived item data. */
 function createInventoryPanel(body, actions) {
-	body.innerHTML = "<div class=\"inventory-toolbar\"></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"物品列表\"></div><section class=\"inventory-detail inventory-item-detail\" aria-label=\"物品详情\"></section></div>";
+	body.innerHTML = "<div class=\"inventory-toolbar\"></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"物品列表\"></div><section class=\"inventory-detail inventory-item-detail\" aria-label=\"物品详情\"></section></div>";
 	const $ = (selector) => body.querySelector(selector);
 	const list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, state = [], detailKey = "", binding = false, dismiss;
@@ -367838,9 +368496,9 @@ function createInventoryPanel(body, actions) {
 			if (!entries.length) continue;
 			const section = document.createElement("section");
 			section.className = "inventory-sockets";
-			const heading = document.createElement("h4");
-			heading.textContent = label;
-			section.append(heading);
+			const socketHeading = document.createElement("h4");
+			socketHeading.textContent = label;
+			section.append(socketHeading);
 			for (const entry of entries) {
 				const details = document.createElement("details");
 				const name = document.createElement("summary");
@@ -368017,7 +368675,7 @@ function createShortcutPanel(body, actions) {
 	let index, selected, dismiss;
 	body.innerHTML = `
 		<div class="shortcut-pages"><button type="button" data-page-step="-1" aria-label="上一组快捷键">‹</button><div class="slot-picker" role="group" aria-label="选择快捷键"></div><button type="button" data-page-step="1" aria-label="下一组快捷键">›</button></div>
-		<div class="shortcut-layout">
+		<div class="shortcut-layout" data-menu-layout="split">
 			<section class="shortcut-browser">
 				<div class="shortcut-filters">
 					<select aria-label="技能类型" data-skill-filter><option value="all">技能类型</option><option value="skills">全部技能</option></select>
@@ -368027,7 +368685,7 @@ function createShortcutPanel(body, actions) {
 			</section>
 			<section class="shortcut-editor" aria-label="编辑快捷键">
 				<div class="shortcut-current"><strong data-slot-title></strong><span data-current></span></div>
-				<p data-choice-hint>从左侧选择技能或道具，再保存到当前位置。</p>
+				<p data-choice-hint>从列表选择技能或道具，再保存到当前位置。</p>
 				<form class="shortcut-config" hidden>
 					<div class="shortcut-selected"><img alt="" data-choice-icon><strong data-choice></strong></div>
 					<label class="shortcut-level">施放等级 <select aria-label="技能等级"></select></label>
@@ -368064,7 +368722,10 @@ function createShortcutPanel(body, actions) {
 				button.type = "button";
 				button.dataset.index = slot.index;
 				const title = document.createElement("strong");
-				title.textContent = `位置 ${slot.index + 1}`;
+				const prefix = document.createElement("span");
+				prefix.className = "shortcut-slot-prefix";
+				prefix.textContent = "位置 ";
+				title.append(prefix, String(slot.index + 1));
 				button.append(title, document.createElement("span"));
 				button.onclick = () => chooseSlot(slot.index);
 				picker.append(button);
@@ -368077,7 +368738,8 @@ function createShortcutPanel(body, actions) {
 		for (const slot of visible) {
 			const button = picker.querySelector(`[data-index="${slot.index}"]`);
 			if (button) {
-				button.querySelector("span").textContent = `${slot.name}${slot.binding?.isSkill ? ` · Lv.${slot.binding.count}` : ""}`;
+				button.setAttribute("aria-label", `位置 ${slot.index + 1}：${slot.name}`);
+				button.querySelector(":scope > span").textContent = `${slot.name}${slot.binding?.isSkill ? ` · Lv.${slot.binding.count}` : ""}`;
 				button.setAttribute("aria-pressed", String(slot.index === index));
 			}
 			if (slot.index === index) {
@@ -368256,13 +368918,13 @@ var init_ShortcutPanel = __esmMin((() => {
 //#region src/UI/Mobile/game/GameHUD.html?raw
 var GameHUD_default$2;
 var init_GameHUD$2 = __esmMin((() => {
-	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n			<button class=\"surface camera-button\" data-panel=\"camera\">镜头</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<div class=\"chat-preview surface\">\r\n		<nav class=\"chat-preview-tabs\" data-chat-preview-tabs aria-label=\"聊天预览分类\"></nav>\r\n		<button class=\"chat-preview-open\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n			<span data-chat-preview>暂无消息</span>\r\n		</button>\r\n		<button data-chat-collapse aria-label=\"收起聊天预览\" title=\"收起聊天预览\">\r\n			<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\">\r\n				<path\r\n					d=\"m4 6 4 4 4-4\"\r\n					fill=\"none\"\r\n					stroke=\"currentColor\"\r\n					stroke-width=\"1.5\"\r\n					stroke-linecap=\"round\"\r\n					stroke-linejoin=\"round\"\r\n				/>\r\n			</svg>\r\n		</button>\r\n		<button data-chat-expand aria-label=\"展开聊天预览\" title=\"展开聊天预览\" hidden>\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷键\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷键\">›</button\r\n				><button data-panel=\"shortcuts\">快捷键</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能位置 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能位置 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能位置 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能位置 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能位置 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能位置 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop mobile-menu-viewport\" hidden>\r\n		<section\r\n			class=\"panel surface mobile-menu-window\"\r\n			role=\"dialog\"\r\n			aria-modal=\"true\"\r\n			aria-labelledby=\"mobile-game-panel-title\"\r\n		>\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\">\r\n					<button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button>\r\n				</div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
+	GameHUD_default$2 = "<div class=\"hud\">\r\n	<aside class=\"orientation-hint surface\" data-orientation-hint aria-label=\"屏幕方向建议\">\r\n		<span>竖屏也能玩，横屏战斗视野更宽。</span>\r\n		<button type=\"button\" data-dismiss-orientation aria-label=\"关闭横屏建议\">知道了</button>\r\n	</aside>\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n			<button class=\"surface portrait-chat-button\" data-panel=\"chat\">聊天</button>\r\n			<button class=\"surface camera-button\" data-panel=\"camera\">镜头</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<div class=\"chat-preview surface\">\r\n		<nav class=\"chat-preview-tabs\" data-chat-preview-tabs aria-label=\"聊天预览分类\"></nav>\r\n		<button class=\"chat-preview-open\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n			<span data-chat-preview>暂无消息</span>\r\n		</button>\r\n		<button data-chat-collapse aria-label=\"收起聊天预览\" title=\"收起聊天预览\">收起</button>\r\n		<button data-chat-expand aria-label=\"展开聊天预览\" title=\"展开聊天预览\" hidden>\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷键\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷键\">›</button\r\n				><button data-panel=\"shortcuts\">快捷键</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能位置 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能位置 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能位置 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能位置 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能位置 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能位置 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop mobile-menu-viewport\" hidden>\r\n		<section\r\n			class=\"panel surface mobile-menu-window\"\r\n			role=\"dialog\"\r\n			aria-modal=\"true\"\r\n			aria-labelledby=\"mobile-game-panel-title\"\r\n		>\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\">\r\n					<button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button>\r\n				</div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.css?raw
 var GameHUD_default$1;
 var init_GameHUD$1 = __esmMin((() => {
-	GameHUD_default$1 = ":host {\r\n	/* Keep text metrics stable when the mobile keyboard changes the viewport. */\r\n	-webkit-text-size-adjust: 100%;\r\n	text-size-adjust: 100%;\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	--battle-button-padding: 5px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px var(--battle-button-padding);\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	height: 64px;\r\n	min-height: 64px;\r\n	max-height: 64px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	width: calc(100% - 48px);\r\n	height: 48px;\r\n	max-height: 48px;\r\n	line-height: 16px;\r\n	font-size: 11px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n	overflow-y: auto;\r\n	scrollbar-width: none;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n[data-chat-preview]::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.chat-preview-line {\r\n	display: block;\r\n	min-height: 16px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small [data-chat-unread] {\r\n	position: absolute;\r\n	right: 0;\r\n	bottom: 16px;\r\n}\r\n.chat-preview small {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 7px;\r\n	display: block;\r\n	text-align: right;\r\n	line-height: 16px;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	z-index: 10;\r\n	background: #0003;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px var(--battle-button-padding);\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 14px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-filters {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	margin-bottom: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.shortcut-filters select {\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud {\r\n	height: var(--mobile-layout-height);\r\n}\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] {\r\n	--gauge-color: #4588ba;\r\n}\r\n.profile [data-ap] {\r\n	--gauge-color: #b28c35;\r\n}\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp {\r\n	--gauge-color: #ff0000;\r\n}\r\n";
+	GameHUD_default$1 = ":host {\r\n	/* Keep text metrics stable when the mobile keyboard changes the viewport. */\r\n	-webkit-text-size-adjust: 100%;\r\n	text-size-adjust: 100%;\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	--battle-button-padding: 5px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px var(--battle-button-padding);\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	height: 64px;\r\n	min-height: 64px;\r\n	max-height: 64px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	width: calc(100% - 48px);\r\n	height: 48px;\r\n	max-height: 48px;\r\n	line-height: 16px;\r\n	font-size: 11px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n	overflow-y: auto;\r\n	scrollbar-width: none;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n[data-chat-preview]::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.chat-preview-line {\r\n	display: block;\r\n	min-height: 16px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small [data-chat-unread] {\r\n	position: absolute;\r\n	right: 0;\r\n	bottom: 16px;\r\n}\r\n.chat-preview small {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 7px;\r\n	display: block;\r\n	text-align: right;\r\n	line-height: 16px;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	z-index: 10;\r\n	background: #0003;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px var(--battle-button-padding);\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 14px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-filters {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	margin-bottom: 0;\r\n	flex-shrink: 0;\r\n}\r\n.shortcut-filters select {\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud {\r\n	height: var(--mobile-layout-height);\r\n}\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] {\r\n	--gauge-color: #4588ba;\r\n}\r\n.profile [data-ap] {\r\n	--gauge-color: #b28c35;\r\n}\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp {\r\n	--gauge-color: #ff0000;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDResponsive.css?raw
@@ -368274,7 +368936,7 @@ var init_GameHUDResponsive = __esmMin((() => {
 //#region src/UI/Mobile/game/MenuPanels.css?raw
 var MenuPanels_default;
 var init_MenuPanels = __esmMin((() => {
-	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	background: #191f26;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 12px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n:host(:not([data-menu-density='spacious'])) .panel {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel button {\r\n	min-height: 30px;\r\n	padding: 3px 7px;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel header {\r\n	padding: 4px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body {\r\n	padding: 8px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) {\r\n	flex-wrap: nowrap;\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 0;\r\n	min-width: 0;\r\n	padding: 3px 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions {\r\n	gap: 4px;\r\n	margin-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions button {\r\n	flex: 0 1 auto;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.social-form, .bank-form) > label {\r\n	flex-direction: row;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.social-form, .bank-form)\r\n	> label\r\n	> :is(input, select, textarea) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .social-form label > input[type='checkbox'] {\r\n	flex: 0 0 18px;\r\n	width: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel-body\r\n	:is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	padding: 3px 6px;\r\n	line-height: 1.25;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body textarea {\r\n	min-height: 60px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n:host(:not([data-menu-density='spacious'])) .panel .character-details :is(dt, dd) {\r\n	padding: 6px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-section {\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n	gap: 0 12px;\r\n	padding: 2px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-field {\r\n	min-height: 38px;\r\n	gap: 6px;\r\n	padding: 3px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer {\r\n	padding-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer p {\r\n	margin: 4px 0 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-actions {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-range-stepper button {\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	padding: 3px 6px;\r\n	line-height: 1.3;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot)\r\n	img {\r\n	width: 28px;\r\n	height: 28px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .equipment-slot {\r\n	min-height: 52px;\r\n	padding: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	.settings-form\r\n	.settings-field\r\n	:is(input:not([type='checkbox']), select) {\r\n	min-height: 30px;\r\n	padding: 3px 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form .settings-field input[type='range'] {\r\n	padding: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choices {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: minmax(44px, max-content);\r\n	gap: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice {\r\n	min-height: 44px;\r\n	padding: 6px 8px;\r\n	gap: 8px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice span {\r\n	min-width: 0;\r\n	font-size: 12px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice img {\r\n	position: static;\r\n	flex: 0 0 28px;\r\n	width: 28px;\r\n	height: 28px;\r\n	object-fit: contain;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-editor .shortcut-current {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-config {\r\n	margin-top: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-selected img {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-list {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card {\r\n	min-height: 32px;\r\n	padding: 4px 6px;\r\n	gap: 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card .auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card span {\r\n	gap: 2px 4px;\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-tabs [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-attribute-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.camera-section {\r\n	display: block;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-allocation {\r\n	gap: 3px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-row {\r\n	padding-bottom: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-results dl {\r\n	gap: 4px 8px;\r\n	line-height: 1.3;\r\n}\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n	background: #18212b;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n}\r\n\r\n/* Compact forms and the shared catalog dropdown for every mobile menu. */\r\n.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	padding: 3px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.panel-body textarea {\r\n	min-height: 60px;\r\n	padding: 5px 6px;\r\n}\r\n.panel .menu-select {\r\n	min-width: 0;\r\n	height: auto;\r\n	min-height: 28px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {\r\n	flex: 1 1 120px;\r\n}\r\n.panel .social-form > label > .menu-select {\r\n	width: 100%;\r\n	flex: none;\r\n}\r\n.panel .menu-select .game-select-menu {\r\n	position: fixed;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n.panel .menu-select .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.panel :is([data-review], [data-evolution]):empty {\r\n	display: none;\r\n}\r\n\r\n.panel .bank-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	align-items: stretch;\r\n}\r\n.panel .bank-account {\r\n	display: flex;\r\n	flex-direction: column;\r\n	justify-content: center;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	min-width: 0;\r\n	padding: 16px 8px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n}\r\n.panel .bank-account h3 {\r\n	margin: 0;\r\n	font-size: var(--panel-title);\r\n}\r\n.panel .bank-account strong {\r\n	font-size: var(--panel-title);\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .bank-transfer {\r\n	display: flex;\r\n	flex-direction: column;\r\n	justify-content: center;\r\n	gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density]) .panel[data-view='bank'] .bank-transfer button {\r\n	width: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n.panel .bank-amount-controls {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr) auto;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n}\r\n:host([data-menu-density]) .panel[data-view='bank'] .bank-amount-controls input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: 16px;\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	margin: 6px 0;\r\n}\r\n.panel[data-view='vending'] label > input {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n\r\n.panel[data-view='inventory'] .inventory-toolbar {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel[data-view='inventory'] .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item {\r\n	min-width: 0;\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item img {\r\n	flex-shrink: 0;\r\n}\r\n.panel[data-view='inventory'] .inventory-list > p {\r\n	grid-column: 1 / -1;\r\n}\r\n\r\n/* Clamp list names only; quantities, status and full detail text stay separate. */\r\n.panel .list-item-text {\r\n	display: block;\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.panel .list-item-name,\r\n.panel .equipment-slot > span,\r\n.panel .equipment-candidate > span {\r\n	display: -webkit-box;\r\n	-webkit-box-orient: vertical;\r\n	-webkit-line-clamp: var(--list-name-lines, 2);\r\n	overflow: hidden;\r\n	overflow-wrap: anywhere;\r\n	white-space: normal;\r\n	line-height: 1.4;\r\n	max-height: calc(var(--list-name-lines, 2) * 1.4em);\r\n	min-width: 0;\r\n}\r\n.panel .list-item-meta {\r\n	display: block;\r\n	margin-top: 2px;\r\n	font-size: 11px;\r\n	line-height: 1.4;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .list-item-meta[hidden] {\r\n	display: none;\r\n}\r\n\r\n/* Compact selectors leave room for their icon and secondary information. */\r\n.panel[data-view='skills'] .list-item-name,\r\n.panel[data-view='social'] .list-item-name,\r\n.panel .shortcut-choice .list-item-name,\r\n.panel .equipment-slot > span {\r\n	--list-name-lines: 1;\r\n}\r\n\r\n/* A row with secondary information has one name line and one metadata line. */\r\n.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {\r\n	--list-name-lines: 1;\r\n}\r\n.panel .list-item-meta {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n\r\n/* Keep category controls and section edges clear in every viewport. */\r\n.panel .settings-form {\r\n	position: relative;\r\n	gap: 12px;\r\n}\r\n.panel .settings-section {\r\n	padding: 10px 12px;\r\n}\r\n.panel .settings-footer {\r\n	padding-block: 8px;\r\n}\r\n\r\n/* Converted native selects need their own width, independent of hidden inputs. */\r\n.panel .settings-field > .menu-select {\r\n	width: 100px;\r\n	min-width: 100px;\r\n}\r\n\r\n.camera-reset {\r\n	width: 100%;\r\n	margin-bottom: 12px;\r\n}\r\n.camera-group {\r\n	min-width: 0;\r\n	margin: 0 0 12px;\r\n}\r\n.camera-group:last-child {\r\n	margin-bottom: 0;\r\n}\r\n\r\n.panel .settings-switch-start {\r\n	grid-column: 1;\r\n}\r\n\r\n.panel .inventory-item-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	min-height: 0;\r\n}\r\n.inventory-item-description {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.panel .inventory-item-detail > .inventory-actions {\r\n	flex-shrink: 0;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #465461;\r\n}\r\n\r\n.panel[data-view='status'] .status-title {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel[data-view='status'] .status-duration {\r\n	flex: none;\r\n	color: #bac4cd;\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel-navigation {\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.skills-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	gap: 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.skills-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	padding: 10px 2px 4px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.skills-footer > strong {\r\n	min-width: 0;\r\n	color: #ceaa70;\r\n	font-size: var(--panel-label);\r\n	overflow-wrap: anywhere;\r\n}\r\n.skills-reset {\r\n	flex: none;\r\n}\r\n.panel .skills-reset > button {\r\n	width: auto;\r\n	padding: 3px 6px;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.skills-browser > .inventory-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.container-toolbar .container-capacity {\r\n	font-size: var(--panel-label);\r\n	color: #bac4cd;\r\n}\r\n\r\n.panel .skills-browser > .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .skills-browser .inventory-item {\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel .skills-browser .inventory-item img {\r\n	width: 24px;\r\n	height: 24px;\r\n	flex-shrink: 0;\r\n}\r\n\r\n@media (max-width: 520px) {\r\n	.panel .skills-browser .inventory-item {\r\n		flex-direction: column;\r\n		align-items: flex-start;\r\n	}\r\n}\r\n\r\n.attribute-editor {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-editor .attribute-allocation {\r\n	display: grid;\r\n	grid-template-columns: max-content minmax(0, 1fr) max-content repeat(3, var(--panel-attribute-width));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	column-gap: 8px;\r\n	row-gap: 0;\r\n	min-width: 0;\r\n	overflow: visible;\r\n}\r\n.panel .attribute-row {\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	min-height: 34px;\r\n	gap: 6px;\r\n	padding: 4px 0 3px;\r\n}\r\n.attribute-row > :is(strong, .attribute-value, small) {\r\n	white-space: nowrap;\r\n}\r\n.attribute-row .attribute-value {\r\n	text-align: right;\r\n}\r\n.attribute-increments {\r\n	display: grid;\r\n	grid-template-columns: subgrid;\r\n	grid-column: span 3;\r\n}\r\n.panel .attribute-increments button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	text-align: center;\r\n	width: 32px;\r\n	min-width: 32px;\r\n	padding: 2px 0;\r\n}\r\n.attribute-layout > .attribute-results {\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-results > dl {\r\n	align-content: start;\r\n	row-gap: 0;\r\n}\r\n.attribute-results > dl > :is(dt, dd) {\r\n	min-height: 22px;\r\n	box-sizing: border-box;\r\n	padding: 1px 0;\r\n	line-height: 1.3;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.attribute-results > dl > dd {\r\n	justify-content: flex-end;\r\n}\r\n.attribute-footer {\r\n	justify-content: space-between;\r\n	padding-top: 6px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.attribute-footer > strong {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.attribute-plan-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-left: auto;\r\n}\r\n.panel .attribute-plan-actions button {\r\n	width: auto;\r\n	min-height: 28px;\r\n	padding: 3px 8px;\r\n	font-size: 12px;\r\n	white-space: nowrap;\r\n}\r\n@media (max-width: 520px) {\r\n	.attribute-editor .attribute-allocation,\r\n	.panel .attribute-row {\r\n		column-gap: 4px;\r\n	}\r\n	.attribute-footer {\r\n		gap: 6px;\r\n	}\r\n}\r\n\r\n@media (max-height: 450px) {\r\n	.attribute-results > dl > :is(dt, dd) {\r\n		min-height: 18px;\r\n		padding: 0;\r\n		font-size: 11px;\r\n	}\r\n}\r\n\r\n.shortcut-pages {\r\n	display: flex;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n	min-width: 0;\r\n}\r\n.shortcut-pages > .slot-picker {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .shortcut-pages > button {\r\n	flex: 0 0 30px;\r\n	width: 30px;\r\n	min-width: 30px;\r\n	padding: 0;\r\n	font-size: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n/* Share the footer row height without changing the original controls. */\r\n.panel .skills-layout {\r\n	grid-template-rows: minmax(0, 1fr) auto;\r\n}\r\n.panel .skills-layout > section {\r\n	display: grid;\r\n	grid-row: 1 / span 2;\r\n	grid-template-rows: subgrid;\r\n	row-gap: 8px;\r\n}\r\n.panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	margin-top: 0;\r\n	padding-top: 4px;\r\n	padding-bottom: 0;\r\n}\r\n.panel .skills-layout :is(.skills-reset > button, .inventory-actions > button) {\r\n	min-height: 28px;\r\n	padding-top: 3px;\r\n	padding-bottom: 3px;\r\n}\r\n\r\n/* Chat preview and conversation panel. */\r\n.chat-preview {\r\n	left: max(12px, env(safe-area-inset-left));\r\n	right: auto;\r\n	width: min(300px, calc(100% - 224px));\r\n	min-width: 96px;\r\n}\r\n[data-chat-unread] {\r\n	display: inline-block;\r\n	border-radius: 8px;\r\n	padding: 0 5px;\r\n	background: #954b42;\r\n	color: white;\r\n}\r\n.chat-body {\r\n	gap: 8px;\r\n	padding: 10px;\r\n}\r\n.chat-conversation {\r\n	display: grid;\r\n	grid-template-columns: 88px minmax(0, 1fr);\r\n	gap: 8px;\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 8px;\r\n	border: 1px solid #465461;\r\n	border-radius: 8px;\r\n	overflow: hidden;\r\n}\r\n.chat-filters {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	padding-right: 8px;\r\n	border-right: 1px solid #465461;\r\n}\r\n.panel .chat-filters > button {\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	min-height: 32px;\r\n	padding: 6px 8px;\r\n	border: 0;\r\n	border-radius: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n	text-align: left;\r\n	font-size: var(--panel-label);\r\n	white-space: nowrap;\r\n}\r\n.panel .chat-filters > button[aria-pressed='true'] {\r\n	background: #ceaa701a;\r\n	box-shadow: inset 2px 0 #ceaa70;\r\n	color: #ffe1aa;\r\n}\r\n.chat-content {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.panel .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.chat-conversation {\r\n		grid-template-columns: 72px minmax(0, 1fr);\r\n		gap: 6px;\r\n		padding: 6px;\r\n	}\r\n	.chat-filters {\r\n		padding-right: 6px;\r\n	}\r\n}\r\n.chat-body .chat-log {\r\n	padding: 2px 4px;\r\n	overscroll-behavior: contain;\r\n}\r\n.chat-log p {\r\n	margin: 0 0 6px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-log [data-channel='private'] {\r\n	color: #e5b6e9;\r\n}\r\n.chat-log [data-channel='party'] {\r\n	color: #a6d7ed;\r\n}\r\n.chat-log [data-channel='guild'] {\r\n	color: #acd7a0;\r\n}\r\n.chat-log [data-channel='system'] {\r\n	color: #b4bdc7;\r\n}\r\n.panel .chat-form {\r\n	display: grid;\r\n	grid-template-columns: 78px minmax(0, 1fr) 56px 56px;\r\n	gap: 6px;\r\n	margin: 0;\r\n}\r\n.panel .chat-form > [aria-label='私聊对象'] {\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > :is(input, button, select, .menu-select) {\r\n	min-width: 0;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > input {\r\n	padding: 5px 7px;\r\n	font-size: 16px;\r\n}\r\n.panel .chat-form > button {\r\n	padding: 3px;\r\n}\r\n.panel .chat-form > [data-emotions] {\r\n	font-size: 22px;\r\n}\r\n.chat-emotions {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));\r\n	gap: 5px;\r\n	max-height: 100px;\r\n	overflow-y: auto;\r\n	flex: none;\r\n}\r\n.panel .chat-emotions button {\r\n	padding: 3px;\r\n	font-size: 21px;\r\n}\r\n@media (max-width: 600px) {\r\n	.chat-preview {\r\n		width: min(200px, calc(100% - 224px));\r\n		bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px));\r\n	}\r\n}\r\n\r\n.panel .chat-form > :is(input, button),\r\n.panel .chat-form .menu-select > button {\r\n	height: 32px;\r\n	min-height: 32px;\r\n}\r\n\r\n/* Override compact generic inputs so iOS cannot zoom the chat composer. */\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label],\r\n.panel.chat-panel .chat-form > button,\r\n.panel.chat-panel .chat-form .game-select-trigger {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	min-height: 32px;\r\n	max-height: 32px;\r\n}\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label] {\r\n	font-size: 16px;\r\n	padding: 3px 6px;\r\n}\r\n\r\n.chat-emotions {\r\n	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));\r\n	min-height: 44px;\r\n}\r\n.panel .chat-emotions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 1px;\r\n	min-height: 44px;\r\n}\r\n.chat-emotions img {\r\n	display: block;\r\n	width: 40px;\r\n	height: 40px;\r\n	image-rendering: pixelated;\r\n}\r\n\r\n.chat-content:has(.chat-emotions:not([hidden])) > .chat-log {\r\n	display: none;\r\n}\r\n.chat-body .chat-emotions {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n	grid-auto-rows: 44px;\r\n	align-content: start;\r\n}\r\n\r\n.chat-preview {\r\n	pointer-events: auto;\r\n}\r\n.chat-preview-open {\r\n	display: block;\r\n	width: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	text-align: left;\r\n}\r\n.chat-preview [data-chat-collapse] {\r\n	position: absolute;\r\n	right: 3px;\r\n	top: 2px;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	color: #bac4cd;\r\n	font-size: 20px;\r\n}\r\n.chat-preview.collapsed {\r\n	width: 40px;\r\n	min-width: 40px;\r\n	height: 36px;\r\n	min-height: 36px;\r\n	padding: 0;\r\n}\r\n.chat-preview [data-chat-expand] {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	border-radius: inherit;\r\n	color: #ffd27f;\r\n}\r\n[data-chat-expand] [data-chat-unread] {\r\n	position: absolute;\r\n	right: -5px;\r\n	top: -6px;\r\n	font-size: 10px;\r\n	line-height: 16px;\r\n}\r\n\r\n.chat-body .chat-log {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.5;\r\n}\r\n.panel.chat-panel .chat-form > button {\r\n	font-size: var(--panel-text);\r\n	white-space: nowrap;\r\n	line-height: 1;\r\n	padding: 0 8px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-body .chat-log {\r\n	font-size: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form {\r\n	grid-template-columns: 100px minmax(0, 1fr) 72px 72px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > button {\r\n	font-size: 16px;\r\n	padding: 0 12px;\r\n}\r\n\r\n/* Center footer contents within equal top/bottom spacing, including subgrid rows. */\r\n:host([data-menu-density='spacious']) .panel .attribute-footer,\r\n:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	align-items: center;\r\n	align-content: center;\r\n	padding-block: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.skills-reset, .attribute-plan-actions) {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.panel\r\n	:is(.attribute-footer, .skills-footer, .skills-layout .inventory-actions)\r\n	button {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	line-height: 1.2;\r\n}\r\n\r\n/* Include the owning body's bottom space in the footer instead of padding it twice. */\r\n:host([data-menu-density='spacious']) .panel:is([data-view='attributes'], [data-view='skills']) > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .skills-layout > section {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-footer,\r\n:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	padding-block: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-increments button {\r\n	width: 56px;\r\n	min-width: 56px;\r\n	padding-inline: 4px;\r\n	font-size: 14px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation,\r\n:host([data-menu-density='spacious']) .panel .attribute-results > dl {\r\n	row-gap: 4px;\r\n}\r\n\r\n/* Attribute increments retain their own compact scale, independent of form controls. */\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments button {\r\n	width: var(--panel-attribute-width);\r\n	min-width: var(--panel-attribute-width);\r\n	height: var(--panel-attribute-control);\r\n	min-height: var(--panel-attribute-control);\r\n	padding: 2px 0;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-editor .attribute-allocation {\r\n	column-gap: 5px;\r\n	row-gap: 0;\r\n}\r\n\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-row {\r\n	min-height: 36px;\r\n	grid-template-rows: 28px;\r\n	padding: 4px 0 3px;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments {\r\n	align-items: center;\r\n}\r\n\r\n/* Keep the last row's geometry while removing the trailing divider. */\r\n.panel .attribute-row:last-child {\r\n	border-bottom-color: transparent;\r\n}\r\n\r\n/* Subgrids must use their parent's gutters or edge tracks can spill outward. */\r\n.panel .attribute-row,\r\n.panel .attribute-increments {\r\n	column-gap: inherit;\r\n}\r\n\r\n/* Phone chat uses the shared compact reading scale; inputs retain 16px to prevent iOS zoom. */\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel.chat-panel\r\n	:is(.chat-filters > button, .game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel.chat-panel header h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .chat-log p {\r\n	margin-bottom: 4px;\r\n}\r\n\r\n/* Footer padding owns the full space below the divider, including the outer edge. */\r\n:host([data-menu-density='spacious']) .panel.settings-panel > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-footer {\r\n	padding-block: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-actions,\r\n:host([data-menu-density='spacious']) .panel .settings-actions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-row {\r\n	min-height: 62px;\r\n	padding-block: 8px;\r\n}\r\n.inventory-item-overview {\r\n	--inventory-picture-width: 87.12px;\r\n	display: grid;\r\n	gap: 10px;\r\n	align-items: start;\r\n	margin-bottom: 10px;\r\n}\r\n.inventory-item-overview {\r\n	grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n.inventory-item-summary {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .inventory-item-summary h3 {\r\n	margin: 0 0 8px;\r\n}\r\n.inventory-item-summary p {\r\n	margin: 0;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-picture {\r\n	display: block;\r\n	width: var(--inventory-picture-width);\r\n	height: auto;\r\n	box-sizing: border-box;\r\n	border: 1px solid #65717b;\r\n	border-radius: 4px;\r\n	background: #19212a;\r\n	box-shadow: 0 2px 6px #0005;\r\n	object-fit: contain;\r\n	object-position: left top;\r\n	margin: 0;\r\n}\r\n.inventory-item-summary > .item-description {\r\n	border-top: 1px solid #465461;\r\n	padding-top: 10px;\r\n	margin-top: 10px;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-summary > .inventory-item-reason {\r\n	margin: 8px 0 0;\r\n	color: #ceaa70;\r\n}\r\n:host([data-menu-density='spacious']) .inventory-item-overview {\r\n	--inventory-picture-width: 116.16px;\r\n	gap: 12px;\r\n}\r\n\r\n.inventory-item-media {\r\n	min-width: 0;\r\n}\r\n.inventory-item-metadata {\r\n	margin-top: 8px;\r\n	overflow-wrap: anywhere;\r\n	font-size: var(--panel-text);\r\n}\r\n.inventory-item-metadata p {\r\n	margin: 0;\r\n	line-height: 1.5;\r\n}\r\n\r\n.inventory-sockets { margin-top: 1em; }\r\n.inventory-sockets h4 { margin: 0 0 6px; font: inherit; font-weight: 700; }\r\n.inventory-sockets details { margin-top: 4px; border: 1px solid var(--panel-border, #a99b87); border-radius: 4px; }\r\n.inventory-sockets summary { padding: 8px; cursor: pointer; overflow-wrap: anywhere; }\r\n.inventory-sockets .item-description { padding: 0 8px 8px; margin: 0; white-space: pre-wrap; }\r\n";
+	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	background: #191f26;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 12px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n:host(:not([data-menu-density='spacious'])) .panel {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel button {\r\n	min-height: 30px;\r\n	padding: 3px 7px;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel header {\r\n	padding: 4px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body {\r\n	padding: 8px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) {\r\n	flex-wrap: nowrap;\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 0;\r\n	min-width: 0;\r\n	padding: 3px 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions {\r\n	gap: 4px;\r\n	margin-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions button {\r\n	flex: 0 1 auto;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.social-form, .bank-form) > label {\r\n	flex-direction: row;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.social-form, .bank-form)\r\n	> label\r\n	> :is(input, select, textarea) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .social-form label > input[type='checkbox'] {\r\n	flex: 0 0 18px;\r\n	width: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel-body\r\n	:is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	padding: 3px 6px;\r\n	line-height: 1.25;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body textarea {\r\n	min-height: 60px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n:host(:not([data-menu-density='spacious'])) .panel .character-details :is(dt, dd) {\r\n	padding: 6px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-section {\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n	gap: 0 12px;\r\n	padding: 2px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-field {\r\n	min-height: 38px;\r\n	gap: 6px;\r\n	padding: 3px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer {\r\n	padding-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer p {\r\n	margin: 4px 0 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-actions {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-range-stepper button {\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	padding: 3px 6px;\r\n	line-height: 1.3;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot)\r\n	img {\r\n	width: 28px;\r\n	height: 28px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .equipment-slot {\r\n	min-height: 52px;\r\n	padding: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	.settings-form\r\n	.settings-field\r\n	:is(input:not([type='checkbox']), select) {\r\n	min-height: 30px;\r\n	padding: 3px 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form .settings-field input[type='range'] {\r\n	padding: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-editor .shortcut-current {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-config {\r\n	margin-top: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-selected img {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-list {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card {\r\n	min-height: 32px;\r\n	padding: 4px 6px;\r\n	gap: 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card .auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card span {\r\n	gap: 2px 4px;\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-tabs [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-attribute-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.camera-section {\r\n	display: block;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-allocation {\r\n	gap: 3px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-row {\r\n	padding-bottom: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-results dl {\r\n	gap: 4px 8px;\r\n	line-height: 1.3;\r\n}\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n	background: #18212b;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n}\r\n\r\n/* Compact forms and the shared catalog dropdown for every mobile menu. */\r\n.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	padding: 3px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.panel-body textarea {\r\n	min-height: 60px;\r\n	padding: 5px 6px;\r\n}\r\n.panel .menu-select {\r\n	min-width: 0;\r\n	height: auto;\r\n	min-height: 28px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {\r\n	flex: 1 1 120px;\r\n}\r\n.panel .social-form > label > .menu-select {\r\n	width: 100%;\r\n	flex: none;\r\n}\r\n.panel .menu-select .game-select-menu {\r\n	position: fixed;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n.panel .menu-select .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.panel :is([data-review], [data-evolution]):empty {\r\n	display: none;\r\n}\r\n\r\n.panel .bank-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	align-items: stretch;\r\n}\r\n.panel .bank-account {\r\n	display: flex;\r\n	flex-direction: column;\r\n	justify-content: center;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	min-width: 0;\r\n	padding: 16px 8px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n}\r\n.panel .bank-account h3 {\r\n	margin: 0;\r\n	font-size: var(--panel-title);\r\n}\r\n.panel .bank-account strong {\r\n	font-size: var(--panel-title);\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .bank-transfer {\r\n	display: flex;\r\n	flex-direction: column;\r\n	justify-content: center;\r\n	gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density]) .panel[data-view='bank'] .bank-transfer button {\r\n	width: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n.panel .bank-amount-controls {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr) auto;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n}\r\n:host([data-menu-density]) .panel[data-view='bank'] .bank-amount-controls input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: 16px;\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	margin: 6px 0;\r\n}\r\n.panel[data-view='vending'] label > input {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n\r\n.panel[data-view='inventory'] .inventory-toolbar {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel[data-view='inventory'] .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item {\r\n	min-width: 0;\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item img {\r\n	flex-shrink: 0;\r\n}\r\n.panel[data-view='inventory'] .inventory-list > p {\r\n	grid-column: 1 / -1;\r\n}\r\n\r\n/* Clamp list names only; quantities, status and full detail text stay separate. */\r\n.panel .list-item-text {\r\n	display: block;\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.panel .list-item-name,\r\n.panel .equipment-slot > span,\r\n.panel .equipment-candidate > span {\r\n	display: -webkit-box;\r\n	-webkit-box-orient: vertical;\r\n	-webkit-line-clamp: var(--list-name-lines, 2);\r\n	overflow: hidden;\r\n	overflow-wrap: anywhere;\r\n	white-space: normal;\r\n	line-height: 1.4;\r\n	max-height: calc(var(--list-name-lines, 2) * 1.4em);\r\n	min-width: 0;\r\n}\r\n.panel .list-item-meta {\r\n	display: block;\r\n	margin-top: 2px;\r\n	font-size: 11px;\r\n	line-height: 1.4;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .list-item-meta[hidden] {\r\n	display: none;\r\n}\r\n\r\n/* Compact selectors leave room for their icon and secondary information. */\r\n.panel[data-view='skills'] .list-item-name,\r\n.panel[data-view='social'] .list-item-name,\r\n.panel .shortcut-choice .list-item-name,\r\n.panel .equipment-slot > span {\r\n	--list-name-lines: 1;\r\n}\r\n\r\n/* A row with secondary information has one name line and one metadata line. */\r\n.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {\r\n	--list-name-lines: 1;\r\n}\r\n.panel .list-item-meta {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n\r\n/* Keep category controls and section edges clear in every viewport. */\r\n.panel .settings-form {\r\n	position: relative;\r\n	gap: 12px;\r\n}\r\n.panel .settings-section {\r\n	padding: 10px 12px;\r\n}\r\n.panel .settings-footer {\r\n	padding-block: 8px;\r\n}\r\n\r\n/* Converted native selects need their own width, independent of hidden inputs. */\r\n.panel .settings-field > .menu-select {\r\n	width: 100px;\r\n	min-width: 100px;\r\n}\r\n\r\n.camera-reset {\r\n	width: 100%;\r\n	margin-bottom: 12px;\r\n}\r\n.camera-group {\r\n	min-width: 0;\r\n	margin: 0 0 12px;\r\n}\r\n.camera-group:last-child {\r\n	margin-bottom: 0;\r\n}\r\n\r\n.panel .settings-switch-start {\r\n	grid-column: 1;\r\n}\r\n\r\n.panel .inventory-item-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	min-height: 0;\r\n}\r\n.inventory-item-description {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.panel .inventory-item-detail > .inventory-actions {\r\n	flex-shrink: 0;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #465461;\r\n}\r\n\r\n.panel[data-view='status'] .status-title {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel[data-view='status'] .status-duration {\r\n	flex: none;\r\n	color: #bac4cd;\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel-navigation {\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.skills-browser,\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	gap: 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.shortcut-browser {\r\n	gap: 4px;\r\n}\r\n.skills-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	padding: 10px 2px 4px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.skills-footer > strong {\r\n	min-width: 0;\r\n	color: #ceaa70;\r\n	font-size: var(--panel-label);\r\n	overflow-wrap: anywhere;\r\n}\r\n.skills-reset {\r\n	flex: none;\r\n}\r\n.panel .skills-reset > button {\r\n	width: auto;\r\n	padding: 3px 6px;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.skills-browser > .inventory-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.container-toolbar .container-capacity {\r\n	font-size: var(--panel-label);\r\n	color: #bac4cd;\r\n}\r\n\r\n.attribute-editor {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-editor .attribute-allocation {\r\n	display: grid;\r\n	grid-template-columns: max-content minmax(0, 1fr) max-content repeat(3, var(--panel-attribute-width));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	column-gap: 8px;\r\n	row-gap: 0;\r\n	min-width: 0;\r\n	overflow: visible;\r\n}\r\n.panel .attribute-row {\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	min-height: 34px;\r\n	gap: 6px;\r\n	padding: 4px 0 3px;\r\n}\r\n.attribute-row > :is(strong, .attribute-value, small) {\r\n	white-space: nowrap;\r\n}\r\n.attribute-row .attribute-value {\r\n	text-align: right;\r\n}\r\n.attribute-increments {\r\n	display: grid;\r\n	grid-template-columns: subgrid;\r\n	grid-column: span 3;\r\n}\r\n.panel .attribute-increments button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	text-align: center;\r\n	width: 32px;\r\n	min-width: 32px;\r\n	padding: 2px 0;\r\n}\r\n.attribute-layout > .attribute-results {\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-results > dl {\r\n	align-content: start;\r\n	row-gap: 0;\r\n}\r\n.attribute-results > dl > :is(dt, dd) {\r\n	min-height: 22px;\r\n	box-sizing: border-box;\r\n	padding: 1px 0;\r\n	line-height: 1.3;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.attribute-results > dl > dd {\r\n	justify-content: flex-end;\r\n}\r\n.attribute-footer {\r\n	justify-content: space-between;\r\n	padding-top: 6px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.attribute-footer > strong {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.attribute-plan-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-left: auto;\r\n}\r\n.panel .attribute-plan-actions button {\r\n	width: auto;\r\n	min-height: 28px;\r\n	padding: 3px 8px;\r\n	font-size: 12px;\r\n	white-space: nowrap;\r\n}\r\n@media (max-width: 520px) {\r\n	.attribute-editor .attribute-allocation,\r\n	.panel .attribute-row {\r\n		column-gap: 4px;\r\n	}\r\n	.attribute-footer {\r\n		gap: 6px;\r\n	}\r\n}\r\n\r\n@media (max-height: 450px) {\r\n	.attribute-results > dl > :is(dt, dd) {\r\n		min-height: 18px;\r\n		padding: 0;\r\n		font-size: 11px;\r\n	}\r\n}\r\n\r\n.shortcut-pages {\r\n	display: flex;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n	min-width: 0;\r\n}\r\n.shortcut-pages > .slot-picker {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .shortcut-pages > button {\r\n	flex: 0 0 30px;\r\n	width: 30px;\r\n	min-width: 30px;\r\n	padding: 0;\r\n	font-size: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n/* Share the footer row height without changing the original controls. */\r\n.panel .skills-layout {\r\n	grid-template-rows: minmax(0, 1fr) auto;\r\n}\r\n.panel .skills-layout > section {\r\n	display: grid;\r\n	grid-row: 1 / span 2;\r\n	grid-template-rows: subgrid;\r\n	row-gap: 8px;\r\n}\r\n.panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	margin-top: 0;\r\n	padding-top: 4px;\r\n	padding-bottom: 0;\r\n}\r\n.panel .skills-layout :is(.skills-reset > button, .inventory-actions > button) {\r\n	min-height: 28px;\r\n	padding-top: 3px;\r\n	padding-bottom: 3px;\r\n}\r\n\r\n/* Chat preview and conversation panel. */\r\n.chat-preview {\r\n	left: max(12px, env(safe-area-inset-left));\r\n	right: auto;\r\n	width: min(300px, calc(100% - 224px));\r\n	min-width: 96px;\r\n}\r\n[data-chat-unread] {\r\n	display: inline-block;\r\n	border-radius: 8px;\r\n	padding: 0 5px;\r\n	background: #954b42;\r\n	color: white;\r\n}\r\n.chat-body {\r\n	gap: 8px;\r\n	padding: 10px;\r\n}\r\n.chat-conversation {\r\n	display: grid;\r\n	grid-template-columns: 88px minmax(0, 1fr);\r\n	gap: 8px;\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 8px;\r\n	border: 1px solid #465461;\r\n	border-radius: 8px;\r\n	overflow: hidden;\r\n}\r\n.chat-filters {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	padding-right: 8px;\r\n	border-right: 1px solid #465461;\r\n}\r\n.panel .chat-filters > button {\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	min-height: 32px;\r\n	padding: 6px 8px;\r\n	border: 0;\r\n	border-radius: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n	text-align: left;\r\n	font-size: var(--panel-label);\r\n	white-space: nowrap;\r\n}\r\n.panel .chat-filters > button[aria-pressed='true'] {\r\n	background: #ceaa701a;\r\n	box-shadow: inset 2px 0 #ceaa70;\r\n	color: #ffe1aa;\r\n}\r\n.chat-content {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.panel .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.chat-conversation {\r\n		grid-template-columns: 72px minmax(0, 1fr);\r\n		gap: 6px;\r\n		padding: 6px;\r\n	}\r\n	.chat-filters {\r\n		padding-right: 6px;\r\n	}\r\n}\r\n.chat-body .chat-log {\r\n	padding: 2px 4px;\r\n	overscroll-behavior: contain;\r\n}\r\n.chat-log p {\r\n	margin: 0 0 6px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-log [data-channel='private'] {\r\n	color: #e5b6e9;\r\n}\r\n.chat-log [data-channel='party'] {\r\n	color: #a6d7ed;\r\n}\r\n.chat-log [data-channel='guild'] {\r\n	color: #acd7a0;\r\n}\r\n.chat-log [data-channel='system'] {\r\n	color: #b4bdc7;\r\n}\r\n.panel .chat-form {\r\n	display: grid;\r\n	grid-template-columns: 78px minmax(0, 1fr) 56px 56px;\r\n	gap: 6px;\r\n	margin: 0;\r\n}\r\n.panel .chat-form > [aria-label='私聊对象'] {\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > :is(input, button, select, .menu-select) {\r\n	min-width: 0;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > input {\r\n	padding: 5px 7px;\r\n	font-size: 16px;\r\n}\r\n.panel .chat-form > button {\r\n	padding: 3px;\r\n}\r\n.panel .chat-form > [data-emotions] {\r\n	font-size: 22px;\r\n}\r\n.chat-emotions {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));\r\n	gap: 5px;\r\n	max-height: 100px;\r\n	overflow-y: auto;\r\n	flex: none;\r\n}\r\n.panel .chat-emotions button {\r\n	padding: 3px;\r\n	font-size: 21px;\r\n}\r\n@media (max-width: 600px) {\r\n	.chat-preview {\r\n		width: min(200px, calc(100% - 224px));\r\n		bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px));\r\n	}\r\n}\r\n\r\n.panel .chat-form > :is(input, button),\r\n.panel .chat-form .menu-select > button {\r\n	height: 32px;\r\n	min-height: 32px;\r\n}\r\n\r\n/* Override compact generic inputs so iOS cannot zoom the chat composer. */\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label],\r\n.panel.chat-panel .chat-form > button,\r\n.panel.chat-panel .chat-form .game-select-trigger {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	min-height: 32px;\r\n	max-height: 32px;\r\n}\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label] {\r\n	font-size: 16px;\r\n	padding: 3px 6px;\r\n}\r\n\r\n.chat-emotions {\r\n	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));\r\n	min-height: 44px;\r\n}\r\n.panel .chat-emotions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 1px;\r\n	min-height: 44px;\r\n}\r\n.chat-emotions img {\r\n	display: block;\r\n	width: 40px;\r\n	height: 40px;\r\n	image-rendering: pixelated;\r\n}\r\n\r\n.chat-content:has(.chat-emotions:not([hidden])) > .chat-log {\r\n	display: none;\r\n}\r\n.chat-body .chat-emotions {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n	grid-auto-rows: 44px;\r\n	align-content: start;\r\n}\r\n\r\n.chat-preview {\r\n	pointer-events: auto;\r\n}\r\n.chat-preview-open {\r\n	display: block;\r\n	width: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	text-align: left;\r\n}\r\n.chat-preview [data-chat-collapse] {\r\n	position: absolute;\r\n	right: 3px;\r\n	top: 2px;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	color: #bac4cd;\r\n	font-size: 20px;\r\n}\r\n.chat-preview.collapsed {\r\n	width: 40px;\r\n	min-width: 40px;\r\n	height: 36px;\r\n	min-height: 36px;\r\n	padding: 0;\r\n}\r\n.chat-preview [data-chat-expand] {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	border-radius: inherit;\r\n	color: #ffd27f;\r\n}\r\n[data-chat-expand] [data-chat-unread] {\r\n	position: absolute;\r\n	right: -5px;\r\n	top: -6px;\r\n	font-size: 10px;\r\n	line-height: 16px;\r\n}\r\n\r\n.chat-body .chat-log {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.5;\r\n}\r\n.panel.chat-panel .chat-form > button {\r\n	font-size: var(--panel-text);\r\n	white-space: nowrap;\r\n	line-height: 1;\r\n	padding: 0 8px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-body .chat-log {\r\n	font-size: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form {\r\n	grid-template-columns: 100px minmax(0, 1fr) 72px 72px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > button {\r\n	font-size: 16px;\r\n	padding: 0 12px;\r\n}\r\n\r\n/* Center footer contents within equal top/bottom spacing, including subgrid rows. */\r\n:host([data-menu-density='spacious']) .panel .attribute-footer,\r\n:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	align-items: center;\r\n	align-content: center;\r\n	padding-block: 8px;\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.skills-reset, .attribute-plan-actions) {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.panel\r\n	:is(.attribute-footer, .skills-footer, .skills-layout .inventory-actions)\r\n	button {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	line-height: 1.2;\r\n}\r\n\r\n/* Include the owning body's bottom space in the footer instead of padding it twice. */\r\n:host([data-menu-density='spacious']) .panel:is([data-view='attributes'], [data-view='skills']) > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .skills-layout > section {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-footer,\r\n:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n	padding-block: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-increments button {\r\n	width: 56px;\r\n	min-width: 56px;\r\n	padding-inline: 4px;\r\n	font-size: 14px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation,\r\n:host([data-menu-density='spacious']) .panel .attribute-results > dl {\r\n	row-gap: 4px;\r\n}\r\n\r\n/* Attribute increments retain their own compact scale, independent of form controls. */\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments button {\r\n	width: var(--panel-attribute-width);\r\n	min-width: var(--panel-attribute-width);\r\n	height: var(--panel-attribute-control);\r\n	min-height: var(--panel-attribute-control);\r\n	padding: 2px 0;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-editor .attribute-allocation {\r\n	column-gap: 5px;\r\n	row-gap: 0;\r\n}\r\n\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-row {\r\n	min-height: 36px;\r\n	grid-template-rows: 28px;\r\n	padding: 4px 0 3px;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments {\r\n	align-items: center;\r\n}\r\n\r\n/* Keep the last row's geometry while removing the trailing divider. */\r\n.panel .attribute-row:last-child {\r\n	border-bottom-color: transparent;\r\n}\r\n\r\n/* Subgrids must use their parent's gutters or edge tracks can spill outward. */\r\n.panel .attribute-row,\r\n.panel .attribute-increments {\r\n	column-gap: inherit;\r\n}\r\n\r\n/* Phone chat uses the shared compact reading scale; inputs retain 16px to prevent iOS zoom. */\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel.chat-panel\r\n	:is(.chat-filters > button, .game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel.chat-panel header h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .chat-log p {\r\n	margin-bottom: 4px;\r\n}\r\n\r\n/* Footer padding owns the full space below the divider, including the outer edge. */\r\n:host([data-menu-density='spacious']) .panel.settings-panel > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-footer {\r\n	padding-block: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-actions,\r\n:host([data-menu-density='spacious']) .panel .settings-actions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-row {\r\n	min-height: 62px;\r\n	padding-block: 8px;\r\n}\r\n.inventory-item-overview {\r\n	--inventory-picture-width: 87.12px;\r\n	display: grid;\r\n	gap: 10px;\r\n	align-items: start;\r\n	margin-bottom: 10px;\r\n}\r\n.inventory-item-overview {\r\n	grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n.inventory-item-summary {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .inventory-item-summary h3 {\r\n	margin: 0 0 8px;\r\n}\r\n.inventory-item-summary p {\r\n	margin: 0;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-picture {\r\n	display: block;\r\n	width: var(--inventory-picture-width);\r\n	height: auto;\r\n	box-sizing: border-box;\r\n	border: 1px solid #65717b;\r\n	border-radius: 4px;\r\n	background: #19212a;\r\n	box-shadow: 0 2px 6px #0005;\r\n	object-fit: contain;\r\n	object-position: left top;\r\n	margin: 0;\r\n}\r\n.inventory-item-summary > .item-description {\r\n	border-top: 1px solid #465461;\r\n	padding-top: 10px;\r\n	margin-top: 10px;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-summary > .inventory-item-reason {\r\n	margin: 8px 0 0;\r\n	color: #ceaa70;\r\n}\r\n:host([data-menu-density='spacious']) .inventory-item-overview {\r\n	--inventory-picture-width: 116.16px;\r\n	gap: 12px;\r\n}\r\n\r\n.inventory-item-media {\r\n	min-width: 0;\r\n}\r\n.inventory-item-metadata {\r\n	margin-top: 8px;\r\n	overflow-wrap: anywhere;\r\n	font-size: var(--panel-text);\r\n}\r\n.inventory-item-metadata p {\r\n	margin: 0;\r\n	line-height: 1.5;\r\n}\r\n\r\n.inventory-sockets {\r\n	margin-top: 1em;\r\n}\r\n.inventory-sockets h4 {\r\n	margin: 0 0 6px;\r\n	font: inherit;\r\n	font-weight: 700;\r\n}\r\n.inventory-sockets details {\r\n	margin-top: 4px;\r\n	border: 1px solid var(--panel-border, #a99b87);\r\n	border-radius: 4px;\r\n}\r\n.inventory-sockets summary {\r\n	padding: 8px;\r\n	cursor: pointer;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-sockets .item-description {\r\n	padding: 0 8px 8px;\r\n	margin: 0;\r\n	white-space: pre-wrap;\r\n}\r\n\r\n/* Touch feedback must not look like a checked state during scrolling. */\r\n.panel :is(label, input[type='checkbox'], [role='checkbox'], [role='switch']) {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n.panel input[type='checkbox']:not(.game-switch):not(.settings-field input):not(.pickup-item input) {\r\n	appearance: none;\r\n	-webkit-appearance: none;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	width: 18px;\r\n	height: 18px;\r\n	padding: 0;\r\n	border: 1px solid #7f8b97;\r\n	border-radius: 3px;\r\n	background: #253442;\r\n}\r\n.panel input[type='checkbox']:not(.game-switch):not(.settings-field input):not(.pickup-item input):checked {\r\n	background: #a7803b;\r\n	border-color: #e6c17d;\r\n}\r\n.panel input[type='checkbox']:not(.game-switch):not(.settings-field input):not(.pickup-item input):checked::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 5px;\r\n	top: 2px;\r\n	width: 4px;\r\n	height: 8px;\r\n	border: solid #fff;\r\n	border-width: 0 2px 2px 0;\r\n	transform: rotate(45deg);\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MailPanel.css?raw
@@ -368301,11 +368963,24 @@ ${InteractionPanel_default}
 ${InteractionPhone_default}
 ${InteractionTablet_default}
 ${ChatPreview_default}
-${GameSwitch_default}</style>${GameHUD_default$2}`;
+${GameSwitch_default}
+${GameHUDPortrait_default}
+${MenuPortrait_default}
+${MenuContentLayout_default}
+${MenuContentComponents_default}</style>${GameHUD_default$2}`;
 	const $ = (selector) => root.querySelector(selector);
 	const abort = new AbortController();
+	const orientationHint = Preferences.get("OrientationHint", { dismissed: false }, 1);
+	$("[data-orientation-hint]").hidden = orientationHint.dismissed;
+	$("[data-dismiss-orientation]").addEventListener("click", () => {
+		orientationHint.dismissed = true;
+		orientationHint.save();
+		$("[data-orientation-hint]").hidden = true;
+	}, { signal: abort.signal });
 	const chatPreview = createChatPreview(root);
+	const releaseNotificationInset = bindHUDNotificationInset(root);
 	let settingsCleanup;
+	let combatSettingsCleanup;
 	const chatDisplay = Preferences.get("ChatPreview", { collapsed: false }, 1);
 	let currentPanel = null;
 	let statusPanel = null;
@@ -368416,6 +369091,8 @@ ${GameSwitch_default}</style>${GameHUD_default$2}`;
 	function close(notify = true) {
 		menuSelects.close();
 		if (!currentPanel || notify && serverState?.canClose === false) return;
+		combatSettingsCleanup?.();
+		combatSettingsCleanup = null;
 		settingsCleanup?.();
 		settingsCleanup = null;
 		clearToast(body);
@@ -368481,6 +369158,8 @@ ${GameSwitch_default}</style>${GameHUD_default$2}`;
 		if (currentPanel === "status") statusPanel?.update(snapshot.statuses || []);
 	}
 	function open(panel, slotIndex) {
+		combatSettingsCleanup?.();
+		combatSettingsCleanup = null;
 		settingsCleanup?.();
 		settingsCleanup = null;
 		clearToast(body);
@@ -368608,10 +369287,7 @@ ${GameSwitch_default}</style>${GameHUD_default$2}`;
 			}
 			body.append(list);
 		}
-		if (panel === "autoCombat") createAutoCombatPanel(body, {
-			...actions.autoCombat,
-			close
-		});
+		if (panel === "autoCombat") combatSettingsCleanup = createCombatSettingsPanel(body, actions.autoCombat, $(".panel > header"));
 		if (panel === "settings") settingsCleanup = createSettingsPanel(body, {
 			...actions.settings,
 			preview: (settings) => chatPreview.configure(settings)
@@ -369012,6 +369688,7 @@ ${GameSwitch_default}</style>${GameHUD_default$2}`;
 		close,
 		destroy() {
 			chatPreview.destroy();
+			releaseNotificationInset();
 			menuSelects.destroy();
 			close(false);
 			abort.abort();
@@ -369020,6 +369697,11 @@ ${GameSwitch_default}</style>${GameHUD_default$2}`;
 	};
 }
 var init_GameHUDView = __esmMin((() => {
+	init_MenuContentComponents();
+	init_MenuContentLayout();
+	init_HUDNotificationInset();
+	init_MenuPortrait();
+	init_GameHUDPortrait();
 	init_InteractionPanel$1();
 	init_InteractionPhone();
 	init_InteractionTablet();
@@ -369036,7 +369718,7 @@ var init_GameHUDView = __esmMin((() => {
 	init_GameSelect$1();
 	init_WorldMapPreview();
 	init_MapPreviewLayout();
-	init_AutoCombatPanel$1();
+	init_CombatSettingsPanel();
 	init_AutoCombatPanel();
 	init_GameSwitch();
 	init_CompanionsPanel();
@@ -369151,8 +369833,9 @@ function snapshot() {
 	});
 	diagnostics.end("mobile.hud", diagnosticStart);
 }
-var HUD, view, controls, shortcuts, autoCombat, inventory, equipment, containers, skills, attributes, quests, chat, social, unsubscribe, unsubscribeOrientation, unsubscribeInteraction, abort, previousFreeze, modal, updateViewport, disposeInputEditor, GameHUD_default;
+var HUD, view, controls, shortcuts, autoCombat, inventory, equipment, containers, skills, attributes, quests, chat, social, unsubscribe, unsubscribeOrientation, unsubscribeInteraction, abort, previousFreeze, modal, updateViewport, disposeInputEditor, releaseScreenWakeLock, GameHUD_default;
 var init_GameHUD = __esmMin((() => {
+	init_ScreenWakeLock();
 	init_MiniMapImage();
 	init_MobileInputEditor();
 	init_WorldAssetService();
@@ -369206,10 +369889,11 @@ var init_GameHUD = __esmMin((() => {
 	HUD.actions = {};
 	HUD.onAppend = function() {
 		HUD.onRemove(false);
+		releaseScreenWakeLock = createScreenWakeLock();
 		updateViewport = createMobileViewport(HUD._host);
 		disposeInputEditor = createMobileInputEditor(HUD._host);
 		abort = new AbortController();
-		const enabled = () => Boolean(!SessionStorage_default.FreezeUI && SessionStorage_default.Playing && !document.hidden && Platform.orientation === "landscape" && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
+		const enabled = () => Boolean(!SessionStorage_default.FreezeUI && SessionStorage_default.Playing && !document.hidden && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
 		autoCombat = createGameAutoCombatRuntime({
 			enabled,
 			isMoving: () => controls?.isMoving() || false,
@@ -369400,7 +370084,7 @@ var init_GameHUD = __esmMin((() => {
 		document.addEventListener("visibilitychange", () => {
 			if (document.hidden) cancel();
 		}, { signal: abort.signal });
-		unsubscribeOrientation = Platform.onOrientationChange(() => cancel());
+		unsubscribeOrientation = Platform.onOrientationChange(cancelSceneInput);
 		for (const type of ["resize", "scroll"]) window.visualViewport?.addEventListener(type, updateViewport, { signal: abort.signal });
 		window.addEventListener("resize", updateViewport, { signal: abort.signal });
 		const viewport = updateViewport;
@@ -369408,6 +370092,8 @@ var init_GameHUD = __esmMin((() => {
 		updateViewport();
 	};
 	HUD.onRemove = function(resetInteraction = true) {
+		releaseScreenWakeLock?.();
+		releaseScreenWakeLock = null;
 		disposeInputEditor?.();
 		disposeInputEditor = null;
 		updateViewport?.destroy();
@@ -374985,7 +375671,7 @@ var init_MapName$2 = __esmMin((() => {
 //#region src/UI/Components/MapName/MapName.css?raw
 var MapName_default$1;
 var init_MapName$1 = __esmMin((() => {
-	MapName_default$1 = ":host {\r\n	top: 90px;\r\n	left: 50%;\r\n	width: 500px;\r\n	height: 190px;\r\n	margin-left: -250px;\r\n	opacity: 0;\r\n	transition: opacity 1s ease-out;\r\n}\r\n#MapName {\r\n	position: absolute;\r\n	height: 190px;\r\n	width: 500px;\r\n}\r\n\r\n#MapName .container .mapbg {\r\n	height: 190px;\r\n	width: 500px;\r\n	position: relative;\r\n	background-size: contain;\r\n}\r\n\r\n#MapName .mapsubtitle {\r\n	height: 30px;\r\n	width: 500px;\r\n	position: relative;\r\n	color: white;\r\n	font-weight: bolder;\r\n	text-align: center;\r\n	top: 70px;\r\n	font-size: 16px;\r\n}\r\n\r\n#MapName .maptitle {\r\n	height: 80px;\r\n	width: 500px;\r\n	text-align: center;\r\n	font-size: 36px;\r\n	position: relative;\r\n	top: 70px;\r\n	color: white;\r\n	font-weight: bolder;\r\n}\r\n\r\n/*Half size for small screens, eg: mobile in landscape*/\r\n@media (max-width: 1000px) {\r\n	:host {\r\n		height: 95px;\r\n		width: 250px;\r\n		margin-left: -125px;\r\n	}\r\n	#MapName {\r\n		height: 95px;\r\n		width: 250px;\r\n	}\r\n	#MapName .container .mapbg {\r\n		height: 95px;\r\n		width: 250px;\r\n		position: relative;\r\n	}\r\n\r\n	#MapName .mapsubtitle {\r\n		height: 15px;\r\n		width: 250px;\r\n		position: relative;\r\n		color: white;\r\n		font-weight: bolder;\r\n		text-align: center;\r\n		top: 35px;\r\n	}\r\n\r\n	#MapName .maptitle {\r\n		height: 40px;\r\n		width: 250px;\r\n		text-align: center;\r\n		font-size: 18px;\r\n		position: relative;\r\n		top: 35px;\r\n		color: white;\r\n		font-weight: bolder;\r\n	}\r\n}\r\n";
+	MapName_default$1 = ":host {\r\n	top: calc(var(--mobile-notification-top, 18px) + 72px);\r\n	left: 50%;\r\n	width: 500px;\r\n	height: 190px;\r\n	margin-left: -250px;\r\n	opacity: 0;\r\n	transition: opacity 1s ease-out;\r\n}\r\n#MapName {\r\n	position: absolute;\r\n	height: 190px;\r\n	width: 500px;\r\n}\r\n\r\n#MapName .container .mapbg {\r\n	height: 190px;\r\n	width: 500px;\r\n	position: relative;\r\n	background-size: contain;\r\n}\r\n\r\n#MapName .mapsubtitle {\r\n	height: 30px;\r\n	width: 500px;\r\n	position: relative;\r\n	color: white;\r\n	font-weight: bolder;\r\n	text-align: center;\r\n	top: 70px;\r\n	font-size: 16px;\r\n}\r\n\r\n#MapName .maptitle {\r\n	height: 80px;\r\n	width: 500px;\r\n	text-align: center;\r\n	font-size: 36px;\r\n	position: relative;\r\n	top: 70px;\r\n	color: white;\r\n	font-weight: bolder;\r\n}\r\n\r\n/*Half size for small screens, eg: mobile in landscape*/\r\n@media (max-width: 1000px) {\r\n	:host {\r\n		height: 95px;\r\n		width: 250px;\r\n		margin-left: -125px;\r\n	}\r\n	#MapName {\r\n		height: 95px;\r\n		width: 250px;\r\n	}\r\n	#MapName .container .mapbg {\r\n		height: 95px;\r\n		width: 250px;\r\n		position: relative;\r\n	}\r\n\r\n	#MapName .mapsubtitle {\r\n		height: 15px;\r\n		width: 250px;\r\n		position: relative;\r\n		color: white;\r\n		font-weight: bolder;\r\n		text-align: center;\r\n		top: 35px;\r\n	}\r\n\r\n	#MapName .maptitle {\r\n		height: 40px;\r\n		width: 250px;\r\n		text-align: center;\r\n		font-size: 18px;\r\n		position: relative;\r\n		top: 35px;\r\n		color: white;\r\n		font-weight: bolder;\r\n	}\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/MapName/MapName.js
@@ -380364,6 +381050,10 @@ function EntityEngine() {
 	Network.hookPacket(PACKET.ZC.NOTIFY_CHAT, onEntityTalk);
 	Network.hookPacket(PACKET.ZC.SHOWSCRIPT, onEntityTalk);
 	Network.hookPacket(PACKET.ZC.NPC_CHAT, onEntityTalkColor);
+	Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_NAME, (pkt) => {
+		const entity = EntityManager.get(pkt.AID);
+		if (entity) localizeEntityName(entity, pkt.CName);
+	});
 	Network.hookPacket(PACKET.ZC.ACK_REQNAME, onEntityIdentity);
 	Network.hookPacket(PACKET.ZC.ACK_REQNAMEALL, onEntityIdentity);
 	Network.hookPacket(PACKET.ZC.ACK_REQNAMEALL2, onEntityIdentity);
@@ -380642,7 +381332,7 @@ var init_ItemObtain$2 = __esmMin((() => {
 //#region src/UI/Components/ItemObtain/ItemObtain.css?raw
 var ItemObtain_default$1;
 var init_ItemObtain$1 = __esmMin((() => {
-	ItemObtain_default$1 = ":host {\r\n	top: 50px;\r\n	left: 0px;\r\n	pointer-events: none;\r\n}\r\n\r\n#ItemObtain {\r\n	position: relative;\r\n	width: auto;\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	letter-spacing: 0px;\r\n	pointer-events: auto;\r\n}\r\n#ItemObtain .content {\r\n	border: 1px solid #c1c6c2;\r\n	height: 25px;\r\n	padding-left: 10px;\r\n	padding-right: 15px;\r\n	border-radius: 5px;\r\n	white-space: nowrap;\r\n	line-height: 25px;\r\n}\r\n#ItemObtain img {\r\n	vertical-align: -6px;\r\n}\r\n";
+	ItemObtain_default$1 = ":host {\r\n	top: var(--mobile-item-notification-top, 50px);\r\n	left: 0px;\r\n	pointer-events: none;\r\n}\r\n\r\n#ItemObtain {\r\n	position: relative;\r\n	width: auto;\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	letter-spacing: 0px;\r\n	pointer-events: auto;\r\n}\r\n#ItemObtain .content {\r\n	border: 1px solid #c1c6c2;\r\n	height: 25px;\r\n	padding-left: 10px;\r\n	padding-right: 15px;\r\n	border-radius: 5px;\r\n	white-space: nowrap;\r\n	line-height: 25px;\r\n}\r\n#ItemObtain img {\r\n	vertical-align: -6px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ItemObtain/ItemObtain.js
@@ -383953,9 +384643,14 @@ var init_Sense = __esmMin((() => {
 }));
 //#endregion
 //#region src/Engine/MapEngine/SkillFail.js
+/** Basic skill response subtype 1 is reserved for emotion requests. */
+function isEmotionFailure(pkt) {
+	return Boolean(pkt && !pkt.result && pkt.SKID === 1 && pkt.NUM === 1);
+}
 /** Keep server-provided quantities and item IDs; never infer an unreported cause. */
 function skillFailMessage(pkt, { skillName, itemName } = {}) {
 	if (!pkt || pkt.result) return "";
+	if (isEmotionFailure(pkt) && emotionFailureReasons[pkt.cause]) return emotionFailureReasons[pkt.cause];
 	let reason = skillFailReasons[pkt.cause];
 	if (pkt.cause === 71 || pkt.cause === 72) {
 		const item = pkt.itemId ? itemName?.(pkt.itemId) || `物品 #${pkt.itemId}` : "指定物品";
@@ -383985,7 +384680,7 @@ function skillFailMessage(pkt, { skillName, itemName } = {}) {
 	const name = skillName?.(pkt.SKID);
 	return `${name ? `「${name}」` : "技能"}使用失败：${reason}。`;
 }
-var skillFailReasons, requiredStateReasons, ammoNames;
+var skillFailReasons, emotionFailureReasons, requiredStateReasons, ammoNames;
 var init_SkillFail = __esmMin((() => {
 	skillFailReasons = {
 		0: "未通过技能判定，服务端未提供具体原因",
@@ -384080,6 +384775,12 @@ var init_SkillFail = __esmMin((() => {
 		112: "未满足技能要求的姿态或环境条件",
 		113: "缺少技能要求的前置状态",
 		114: "未装备技能要求的弹药"
+	};
+	emotionFailureReasons = {
+		0: "发送表情需要「基础技能」Lv.2，或「新基础技能」Lv.1，请先在技能界面学习。",
+		4: "表情发送太快了，请稍后再试。",
+		11: "这个表情不能主动发送，请选择其它表情。",
+		23: "当前状态不能发送表情，请稍后再试。"
 	};
 	requiredStateReasons = {
 		1: "需要先进入隐匿状态",
@@ -384217,6 +384918,7 @@ function onSkillResult(pkt) {
 		itemName: (id) => DB.getItemInfo(id)?.identifiedDisplayName
 	});
 	ChatBox_default.addText(text, ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
+	if (isEmotionFailure(pkt)) showToast(document.body, text, "error");
 }
 /**
 * List of skills
@@ -384728,6 +385430,7 @@ var init_Skill = __esmMin((() => {
 	init_Renderer();
 	init_SkillList();
 	init_CartDecoration();
+	init_Toast();
 	init_SkillFail();
 	init_CompanionSkillAction();
 	init_SnowWeather();
@@ -389639,6 +390342,7 @@ var init_Achievement = __esmMin((() => {
 * TODO: check the time ?
 */
 function onPong(pkt) {
+	recovery.pong();
 	const SP = SessionStorage_default.ping;
 	SP.returned = true;
 	SP.pongTime = 0;
@@ -389805,8 +390509,8 @@ function onConnectionAccepted$2(pkt) {
 * @param {object} pkt - PACKET.ZC.REFUSE_ENTER
 */
 function onConnectionRefused$2(pkt) {
+	recovery.cancel();
 	UIManager.getComponent("WinLoading").remove();
-	RotationGuard_default.release();
 	UIManager.showErrorBox(DB.getMessage(9));
 }
 /**
@@ -389815,11 +390519,16 @@ function onConnectionRefused$2(pkt) {
 * @param {object} pkt - PACKET.ZC.NPCACK_MAPMOVE
 */
 function onMapChange(pkt) {
+	const generation = ++mapLoadGeneration;
+	const connectionId = Network.connectionId;
+	const isCurrentLoad = () => generation === mapLoadGeneration && connectionId === Network.connectionId && SessionStorage_default.Playing;
+	recovery.transition();
 	prepareAutoCombatTeleportMap(pkt.mapName);
 	stopAutoPickup();
 	GameTools_default.prepareMapTransition();
 	Navigation_default.prepareMapTransition();
 	MapRenderer.onLoad = () => {
+		if (!isCurrentLoad()) return;
 		SessionStorage_default.Entity.set({
 			PosDir: [
 				pkt.xPos,
@@ -389875,7 +390584,7 @@ function onMapChange(pkt) {
 			SignboardManager.add(parseInt(x), parseInt(y), signboardData);
 		}
 		Camera.setTarget(SessionStorage_default.Entity);
-		Camera.init();
+		const cameraReady = Camera.init();
 		appendGameComponent(Controller$5.getUI());
 		Controller$5.getUI().setMap(MapRenderer.currentMap);
 		if (Configs.get("enableMapName")) {
@@ -389937,6 +390646,9 @@ function onMapChange(pkt) {
 			Network.sendPacket(new PACKET.CZ.PC_CASH_POINT_ITEMLIST());
 			SessionStorage_default.requestCashShop = false;
 		}
+		cameraReady.then(() => {
+			if (isCurrentLoad()) gameRecoveryReady(prepareRecoveryLogin);
+		});
 		if (PacketVerManager_default.value >= 20130320) Network.sendPacket(new PACKET.CZ.BLOCKING_PLAY_CANCEL());
 	};
 	MapRenderer.setMap(pkt.mapName);
@@ -389947,12 +390659,19 @@ function onMapChange(pkt) {
 * @param {object} pkt - PACKET.ZC.NPCACK_SERVERMOVE
 */
 function onServerChange(pkt) {
+	recovery.transition();
 	MapEngine.init(pkt.addr.ip, pkt.addr.port, pkt.mapName);
 }
 /**
 * Ask the server to disconnect
 */
-function onExitRequest$2() {
+async function onExitRequest$2() {
+	const { default: login } = await __vitePreload(async () => {
+		const { default: login } = await Promise.resolve().then(() => (init_LoginEngine(), LoginEngine_exports));
+		return { default: login };
+	}, void 0, import.meta.url);
+	if (!await login.logout()) return;
+	recovery.cancel();
 	const pkt = new PACKET.CZ.REQUEST_QUIT();
 	Network.sendPacket(pkt);
 	Events.setTimeout(() => {
@@ -389973,7 +390692,7 @@ function onExitFail(pkt) {
 * @param {object} pkt - PACKET.ZC.REFUSE_QUIT
 */
 function onExitSuccess() {
-	RotationGuard_default.release();
+	recovery.cancel();
 	if (PacketVerManager_default.value >= 20170315 && SessionStorage_default.WebToken) ShortCut_default.saveToServer();
 	stopAutoPickup();
 	WhisperBox.clearAll();
@@ -390016,6 +390735,7 @@ function onResurectionRequest() {
 function onRestartAnswer(pkt) {
 	if (!pkt.type) ChatBox_default.addText(DB.getMessage(502), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 	else {
+		recovery.cancel();
 		stopAutoPickup();
 		WhisperBox.clearAll();
 		GuildEngine.guild_id = 0;
@@ -390299,6 +391019,29 @@ function onConfigUpdate(type, val) {
 /**
 * Go back from map-server to char-server
 */
+function prepareRecoveryLogin() {
+	mapLoadGeneration++;
+	Network.close();
+	Navigation_default.clear();
+	stopAutoPickup();
+	UIManager.removeComponents();
+	WhisperBox.clearAll();
+	GuildEngine.guild_id = 0;
+	StatusIcons_default.clean();
+	ShortCut_default.clean();
+	Controller$3.getUI().clean();
+	controller.getUI().clean();
+	CashShop_default.clean();
+	SessionStorage_default.Achievement = null;
+	SessionStorage_default.moveAction = null;
+	SessionStorage_default.autoFollow = false;
+	SessionStorage_default.autoFollowTarget = null;
+	Mouse.intersect = false;
+	Renderer.stop();
+	MapRenderer.free();
+	SessionStorage_default.Entity = null;
+	SessionStorage_default.Playing = false;
+}
 function onRestart() {
 	__vitePreload(() => Promise.resolve().then(() => (init_CharEngine(), CharEngine_exports)).then((m) => m.default.reload()), void 0, import.meta.url);
 }
@@ -390313,8 +391056,9 @@ function onReassemblyAuth(pkt) {
 		return;
 	}
 }
-var _mapName, _isInitialised, snCounter, chatLines, packetMap, MapEngine, _walkTimer, _walkLastTick;
+var _mapName, mapLoadGeneration, _isInitialised, snCounter, chatLines, packetMap, MapEngine, _walkTimer, _walkLastTick;
 var init_MapEngine = __esmMin((() => {
+	init_GameRecovery();
 	init_AutoCombatTeleport();
 	init_GameAutoPickup();
 	init_GameCompanions();
@@ -390323,7 +391067,6 @@ var init_MapEngine = __esmMin((() => {
 	init_GameVending();
 	init_Platform();
 	init_GamePresentation();
-	init_RotationGuard();
 	init_DBManager();
 	init_Configs();
 	init_SoundManager();
@@ -390437,6 +391180,7 @@ var init_MapEngine = __esmMin((() => {
 	init_Achievement();
 	init_preload_helper();
 	_mapName = "";
+	mapLoadGeneration = 0;
 	_isInitialised = false;
 	snCounter = 0;
 	chatLines = 0;
@@ -390454,6 +391198,9 @@ var init_MapEngine = __esmMin((() => {
 		* @param {string} mapName
 		*/
 		static init(ip, port, mapName) {
+			Network.onDisconnect = () => {
+				if (!recovery.disconnected()) UIManager.showErrorBox(DB.getMessage(1));
+			};
 			_mapName = mapName;
 			const forceAddress = Configs.get("forceUseAddress");
 			const server_info = Configs.getServer();
@@ -390462,8 +391209,7 @@ var init_MapEngine = __esmMin((() => {
 				MapRenderer.currentMap = "";
 				if (!success) {
 					UIManager.getComponent("WinLoading").remove();
-					RotationGuard_default.release();
-					UIManager.showErrorBox(DB.getMessage(1));
+					if (!recovery.disconnected()) UIManager.showErrorBox(DB.getMessage(1));
 					return;
 				}
 				let pkt;
@@ -393276,7 +394022,9 @@ var CharEngine_exports = /* @__PURE__ */ __exportAll({ default: () => CharEngine
 * Request to go back to Login Window
 */
 function onExitRequest$1() {
-	__vitePreload(() => Promise.resolve().then(() => (init_LoginEngine(), LoginEngine_exports)).then((m) => m.default.reload()), void 0, import.meta.url);
+	__vitePreload(() => Promise.resolve().then(() => (init_LoginEngine(), LoginEngine_exports)).then(async (m) => {
+		if (await m.default.logout()) m.default.reload();
+	}), void 0, import.meta.url);
 }
 /**
 * Server send character list chunk
@@ -393289,6 +394037,8 @@ function onCharacterListChunk(pkt) {
 	pkt.charInfo.forEach((charInfo) => {
 		ChSel.addCharacter(charInfo);
 	});
+	recovery.characterList(pkt.charInfo, enterGame);
+	if (remainingCharacterPages > 0 && --remainingCharacterPages === 0) recovery.charactersComplete();
 }
 /**
 * Connection accepted from char-server
@@ -393323,6 +394073,8 @@ function onConnectionAccepted$1(pkt) {
 	ChSel.onCancelDeleteRequest = onCancelDeleteRequest;
 	ChSel.append();
 	ChSel.setInfo(pkt);
+	recovery.characterList(pkt.charInfo || [], enterGame);
+	if (pkt.charInfo) recovery.charactersComplete();
 	/**
 	* In PACKETVERs < 20180124 that support pincode auth, we're supposed to
 	* show a button that will ask the server to perform it.
@@ -393342,8 +394094,8 @@ function onConnectionAccepted$1(pkt) {
 * @param {object} pkt - PACKET.HC.REFUSE_SELECTCHAR
 */
 function onSelectionRefused(pkt) {
+	recovery.cancel();
 	UIManager.getComponent("WinLoading").remove();
-	RotationGuard_default.release();
 	let msg_id;
 	switch (pkt.ErrorCode) {
 		case 0:
@@ -393374,6 +394126,7 @@ function onSelectionRefused(pkt) {
 * @param {object} pkt - PACKET.HC.REFUSE_ENTER
 */
 function onConnectionRefused$1(pkt) {
+	recovery.cancel();
 	UIManager.getComponent("WinLoading").remove();
 	let msg_id;
 	switch (pkt.ErrorCode) {
@@ -393399,7 +394152,7 @@ function onConnectionRefused$1(pkt) {
 * @param {object} pkt - PACKET.HC.NOTIFY_ACCESSIBLE_MAPNAME
 */
 function onMapUnavailable(pkt) {
-	RotationGuard_default.release();
+	recovery.cancel();
 	UIManager.getComponent("WinLoading").remove();
 	UIManager.showMessageBox(DB.getMessage(1811), "ok", () => {
 		UIManager.getComponent("WinLoading").remove();
@@ -393651,6 +394404,7 @@ function onUserPincodeResetReq() {
 	PincodeWindow_default.onPincodeReset = onPincodeReset;
 }
 function onPincodeCheckSuccess(pkt) {
+	queueMicrotask(() => recovery.pin(pkt.State));
 	if (!PincodeWindow_default.__active && pkt.State == 0) {
 		console.log("Pincode is disabled.");
 		return;
@@ -393749,7 +394503,8 @@ function onPincodeCheckSuccess(pkt) {
 * @param {object} entity to connect with
 */
 function onConnectRequest(entity) {
-	RotationGuard_default.requireLandscape(() => enterGame(entity));
+	recovery.cancel();
+	enterGame(entity);
 }
 function enterGame(entity) {
 	SoundManager.play("¹öÆ°¼Ò¸®.wav");
@@ -393767,12 +394522,14 @@ function enterGame(entity) {
 */
 function onCharListNotify(charListInfo) {
 	const total = Math.max(charListInfo.TotalCnt, 1);
+	remainingCharacterPages = total;
 	for (let i = 0; i < total; i++) {
 		const pkt = new PACKET.CH.CHARLIST_REQ();
 		Network.sendPacket(pkt);
 	}
 }
-function onReceiveMapInfo(pkt) {
+function onReceiveMapInfo(pkt, connectionId = Network.connectionId) {
+	if (!connectionId || connectionId !== Network.connectionId) return;
 	if (!DB.isLoaded) {
 		if (!DB.startedLazyInit) {
 			DB.lazyInit();
@@ -393787,7 +394544,7 @@ function onReceiveMapInfo(pkt) {
 			DB.startedLazyInit = false;
 			return;
 		}
-		setTimeout(() => onReceiveMapInfo(pkt), 100);
+		setTimeout(() => onReceiveMapInfo(pkt, connectionId), 100);
 		return;
 	}
 	DB.startedLazyInit = false;
@@ -393795,9 +394552,9 @@ function onReceiveMapInfo(pkt) {
 	SessionStorage_default.GID = pkt.GID;
 	MapEngine.init(pkt.addr.ip, pkt.addr.port, pkt.mapName);
 }
-var _server$1, _creationSlot, _pincodeAttempts, _inAuthPincodeReset, _resettingPincode, _creatingPincode, CharEngine, retryCount;
+var _server$1, _creationSlot, _pincodeAttempts, remainingCharacterPages, _inAuthPincodeReset, _resettingPincode, _creatingPincode, CharEngine, retryCount;
 var init_CharEngine = __esmMin((() => {
-	init_RotationGuard();
+	init_GameRecovery();
 	init_DBManager();
 	init_Configs();
 	init_Events();
@@ -393820,12 +394577,14 @@ var init_CharEngine = __esmMin((() => {
 	_server$1 = null;
 	_creationSlot = 0;
 	_pincodeAttempts = 0;
+	remainingCharacterPages = 0;
 	_inAuthPincodeReset = false;
 	_resettingPincode = false;
 	_creatingPincode = false;
 	CharEngine = class CharEngine {
 		static init(server) {
-			RotationGuard_default.release();
+			rememberCharServer(server);
+			remainingCharacterPages = 0;
 			BGM.play("01.mp3");
 			MapEngine.needsUIVerUpdate = _server$1 !== server;
 			_server$1 = server;
@@ -393875,7 +394634,7 @@ var init_CharEngine = __esmMin((() => {
 		* Reload Char-Select
 		*/
 		static reload() {
-			RotationGuard_default.release();
+			recovery.cancel();
 			Network.close();
 			Background_default.setLoginBackground(() => {
 				UIManager.removeComponents();
@@ -397137,7 +397896,7 @@ var init_Rijndael = __esmMin((() => {
 //#region src/UI/Components/WinLogin/WinLogin/WinLogin.html?raw
 var WinLogin_default$5;
 var init_WinLogin$6 = __esmMin((() => {
-	WinLogin_default$5 = "<div id=\"WinLogin\">\r\n	<ui-image src=\"login_interface/win_login.bmp\"></ui-image>\r\n	<!-- User Auth -->\r\n	<input class=\"user\" type=\"text\" value=\"\" />\r\n	<input class=\"pass\" type=\"password\" value=\"\" />\r\n	<button class=\"save\" type=\"button\" role=\"checkbox\" aria-label=\"记住账号\" aria-checked=\"false\">记住账号</button>\r\n\r\n	<!-- Buttons -->\r\n	<button\r\n		class=\"btn signup\"\r\n		type=\"button\"\r\n		data-background=\"login_interface/btn_request.bmp\"\r\n		data-hover=\"login_interface/btn_request_a.bmp\"\r\n		data-down=\"login_interface/btn_request_b.bmp\"\r\n	></button>\r\n	<button\r\n		class=\"btn connect\"\r\n		type=\"submit\"\r\n		data-background=\"login_interface/btn_connect.bmp\"\r\n		data-hover=\"login_interface/btn_connect_a.bmp\"\r\n		data-down=\"login_interface/btn_connect_b.bmp\"\r\n	></button>\r\n	<button\r\n		class=\"btn exit\"\r\n		type=\"button\"\r\n		data-background=\"login_interface/btn_exit.bmp\"\r\n		data-hover=\"login_interface/btn_exit_a.bmp\"\r\n		data-down=\"login_interface/btn_exit_b.bmp\"\r\n	></button>\r\n</div>\r\n";
+	WinLogin_default$5 = "<div id=\"WinLogin\">\r\n	<ui-image src=\"login_interface/win_login.bmp\"></ui-image>\r\n	<!-- User Auth -->\r\n	<input class=\"user\" type=\"text\" value=\"\" />\r\n	<input class=\"pass\" type=\"password\" value=\"\" />\r\n	<button class=\"save\" type=\"button\" role=\"checkbox\" aria-label=\"保持登录\" aria-checked=\"false\">保持登录</button>\r\n\r\n	<!-- Buttons -->\r\n	<button\r\n		class=\"btn signup\"\r\n		type=\"button\"\r\n		data-background=\"login_interface/btn_request.bmp\"\r\n		data-hover=\"login_interface/btn_request_a.bmp\"\r\n		data-down=\"login_interface/btn_request_b.bmp\"\r\n	></button>\r\n	<button\r\n		class=\"btn connect\"\r\n		type=\"submit\"\r\n		data-background=\"login_interface/btn_connect.bmp\"\r\n		data-hover=\"login_interface/btn_connect_a.bmp\"\r\n		data-down=\"login_interface/btn_connect_b.bmp\"\r\n	></button>\r\n	<button\r\n		class=\"btn exit\"\r\n		type=\"button\"\r\n		data-background=\"login_interface/btn_exit.bmp\"\r\n		data-hover=\"login_interface/btn_exit_a.bmp\"\r\n		data-down=\"login_interface/btn_exit_b.bmp\"\r\n	></button>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinLogin/WinLogin/WinLogin.css?raw
@@ -397158,7 +397917,7 @@ function createWinLogin({ name, htmlText, cssText }) {
 	Component.render = () => htmlText;
 	Component.needFocus = false;
 	const _preferences = Preferences.get("WinLogin", {
-		saveID: true,
+		keepLogin: false,
 		ID: ""
 	}, 1);
 	let _inputUsername;
@@ -397187,7 +397946,7 @@ function createWinLogin({ name, htmlText, cssText }) {
 		root.querySelector(".exit").addEventListener("click", exit);
 	};
 	Component.onAppend = function onAppend() {
-		_inputUsername.value = _preferences.saveID ? normalizeRememberedAccount(_preferences.ID) : "";
+		_inputUsername.value = normalizeRememberedAccount(_preferences.ID);
 		_inputPassword.value = "";
 		updateSaveButton();
 		if (_preferences.ID.length) _inputPassword.focus();
@@ -397216,12 +397975,12 @@ function createWinLogin({ name, htmlText, cssText }) {
 		return true;
 	};
 	function toggleSaveButton() {
-		_preferences.saveID = !_preferences.saveID;
+		_preferences.keepLogin = !_preferences.keepLogin;
 		updateSaveButton();
 	}
 	function updateSaveButton() {
-		_buttonSave.classList.toggle("is-checked", _preferences.saveID);
-		_buttonSave.setAttribute("aria-checked", String(_preferences.saveID));
+		_buttonSave.classList.toggle("is-checked", _preferences.keepLogin);
+		_buttonSave.setAttribute("aria-checked", String(_preferences.keepLogin));
 	}
 	function exit() {
 		Component.onExitRequest();
@@ -397230,15 +397989,9 @@ function createWinLogin({ name, htmlText, cssText }) {
 	function connect() {
 		const user = _inputUsername.value;
 		const pass = _inputPassword.value;
-		if (_preferences.saveID) {
-			_preferences.saveID = true;
-			_preferences.ID = normalizeRememberedAccount(user);
-		} else {
-			_preferences.saveID = false;
-			_preferences.ID = "";
-		}
+		_preferences.ID = normalizeRememberedAccount(user);
 		_preferences.save();
-		Component.onConnectionRequest(user, pass);
+		Component.onConnectionRequest(user, pass, !!_preferences.keepLogin);
 		return false;
 	}
 	function signup() {
@@ -397279,7 +398032,7 @@ var init_WinLogin$4 = __esmMin((() => {
 //#region src/UI/Components/WinLogin/WinLoginV2/WinLoginV2.html?raw
 var WinLoginV2_default$2;
 var init_WinLoginV2$2 = __esmMin((() => {
-	WinLoginV2_default$2 = "<div id=\"WinLogin\" class=\"win_login\">\r\n	<div class=\"win_login\">\r\n		<ui-image src=\"login_interface/bg_login.tga\"></ui-image>\r\n		<!-- User Auth -->\r\n		<div class=\"server-name\">HappyRO</div>\r\n		<input id=\"user\" class=\"user\" type=\"text\" value=\"\" />\r\n		<input id=\"pass\" class=\"pass\" type=\"password\" value=\"\" />\r\n		<button id=\"save\" class=\"save\" type=\"button\" role=\"checkbox\" aria-label=\"记住账号\" aria-checked=\"false\">\r\n			记住账号\r\n		</button>\r\n\r\n		<!-- Buttons -->\r\n		<button\r\n			id=\"btn_connect\"\r\n			class=\"btn connect\"\r\n			type=\"submit\"\r\n			data-background=\"login_interface/bt_start_normal.bmp\"\r\n			data-hover=\"login_interface/bt_start_over.bmp\"\r\n			data-down=\"login_interface/bt_start_press.bmp\"\r\n		></button>\r\n		<button\r\n			id=\"btn_signup\"\r\n			class=\"btn signup\"\r\n			type=\"button\"\r\n			data-localized-label=\"注册\"\r\n			data-background=\"login_interface/bt_join_normal.bmp\"\r\n			data-hover=\"login_interface/bt_join_over.bmp\"\r\n			data-down=\"login_interface/bt_join_press.bmp\"\r\n		></button>\r\n		<button id=\"btn_exit\" class=\"btn exit\" type=\"button\"></button>\r\n	</div>\r\n</div>\r\n";
+	WinLoginV2_default$2 = "<div id=\"WinLogin\" class=\"win_login\">\r\n	<div class=\"win_login\">\r\n		<ui-image src=\"login_interface/bg_login.tga\"></ui-image>\r\n		<!-- User Auth -->\r\n		<div class=\"server-name\">HappyRO</div>\r\n		<input id=\"user\" class=\"user\" type=\"text\" value=\"\" />\r\n		<input id=\"pass\" class=\"pass\" type=\"password\" value=\"\" />\r\n		<button id=\"save\" class=\"save\" type=\"button\" role=\"checkbox\" aria-label=\"保持登录\" aria-checked=\"false\">\r\n			保持登录\r\n		</button>\r\n\r\n		<!-- Buttons -->\r\n		<button\r\n			id=\"btn_connect\"\r\n			class=\"btn connect\"\r\n			type=\"submit\"\r\n			data-background=\"login_interface/bt_start_normal.bmp\"\r\n			data-hover=\"login_interface/bt_start_over.bmp\"\r\n			data-down=\"login_interface/bt_start_press.bmp\"\r\n		></button>\r\n		<button\r\n			id=\"btn_signup\"\r\n			class=\"btn signup\"\r\n			type=\"button\"\r\n			data-localized-label=\"注册\"\r\n			data-background=\"login_interface/bt_join_normal.bmp\"\r\n			data-hover=\"login_interface/bt_join_over.bmp\"\r\n			data-down=\"login_interface/bt_join_press.bmp\"\r\n		></button>\r\n		<button id=\"btn_exit\" class=\"btn exit\" type=\"button\"></button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinLogin/WinLoginV2/WinLoginV2.css?raw
@@ -397336,13 +398089,31 @@ var init_WinLogin$3 = __esmMin((() => {
 //#endregion
 //#region src/Engine/LoginEngine.js
 var LoginEngine_exports = /* @__PURE__ */ __exportAll({ default: () => LoginEngine });
+async function resumeSession() {
+	const generation = ++authGeneration;
+	loading.append();
+	try {
+		const credentials = await GameSession_default.resume();
+		if (generation !== authGeneration) return;
+		if (credentials) {
+			onConnectionRequest(credentials.username, "", credentials.persistent, credentials.ticket);
+			return;
+		}
+	} catch {}
+	if (generation !== authGeneration) return;
+	loading.remove();
+	Controller.getUI().append();
+}
 /**
 * Trying to connect to Login server
 *
 * @param {string} username
 * @param {string} password
 */
-function onConnectionRequest(username, password) {
+function onConnectionRequest(username, password, persistent = false, ticket = null) {
+	++authGeneration;
+	sessionTicketLogin = !!ticket;
+	keepLogin = persistent;
 	SoundManager.play("¹öÆ°¼Ò¸®.wav");
 	Controller.getUI().remove();
 	loading.append();
@@ -397395,7 +398166,13 @@ function onConnectionRequest(username, password) {
 				pkt.HashValue = hash;
 				Network.sendPacket(pkt);
 			}
-			if (Configs.get("loginMode") == "han") {
+			if (ticket) {
+				pkt = new PACKET.CA.SESSION_LOGIN();
+				pkt.ID = username;
+				pkt.Ticket = ticket;
+				pkt.clienttype = parseInt(_server.langtype, 10);
+				Network.sendPacket(pkt);
+			} else if (Configs.get("loginMode") == "han") {
 				const paddedPassword = /* @__PURE__ */ new Uint8Array(24);
 				for (let i = 0; i < password.length; i++) paddedPassword[i] = password.charCodeAt(i);
 				const encryptedPassword = Rijndael.encrypt(paddedPassword, Configs.get("rijndaelKey"), Configs.get("rijndaelChain"), 24, "ecb");
@@ -397426,7 +398203,9 @@ function onConnectionRequest(username, password) {
 /**
 * Go back to intro window
 */
-function onExitRequest() {
+async function onExitRequest() {
+	if (!await LoginEngine.logout()) return;
+	recovery.cancel();
 	__vitePreload(() => Promise.resolve().then(() => (init_GameEngine(), GameEngine_exports)).then((GameEngine) => {
 		GameEngine.default.reload();
 	}), void 0, import.meta.url);
@@ -397449,7 +398228,17 @@ function onCharServerSelected(index) {
 *
 * @param {object} pkt - PACKET.AC.ACCEPT_LOGIN
 */
-function onConnectionAccepted(pkt) {
+async function onConnectionAccepted(pkt) {
+	const generation = authGeneration;
+	const connectionId = Network.connectionId;
+	if (!sessionTicketLogin && pkt.webAuthToken) try {
+		if (!await GameSession_default.create(pkt.AID, pkt.webAuthToken, keepLogin)) throw new Error("Session creation refused");
+	} catch {
+		showToast(document.body, "登录成功，但未能保存登录状态。此次断线后需重新登录。", "error");
+	}
+	if (generation !== authGeneration || connectionId !== Network.connectionId) return;
+	sessionTicketLogin = false;
+	if (SessionStorage_default.AID && SessionStorage_default.AID !== pkt.AID) UIManager.getComponent("ChatBox")?.clean();
 	UIManager.removeComponents();
 	SessionStorage_default.AuthCode = pkt.AuthCode;
 	SessionStorage_default.AID = pkt.AID;
@@ -397457,6 +398246,7 @@ function onConnectionAccepted(pkt) {
 	SessionStorage_default.Sex = pkt.Sex;
 	if (PacketVerManager_default.value >= 20170315) SessionStorage_default.WebToken = pkt.webAuthToken;
 	_charServers = pkt.ServerList;
+	const recoveryServer = recoverLogin(pkt.AID, _charServers);
 	let i;
 	const count = _charServers.length;
 	const list = new Array(count);
@@ -397465,14 +398255,16 @@ function onConnectionAccepted(pkt) {
 		list[i] += _charServers[i].name;
 		list[i] += _charServers[i].state ? DB.getMessage(484) : " " + DB.getMessage(483).replace("%d", _charServers[i].usercount);
 	}
-	if (count === 1 && Configs.get("skipServerList")) {
+	if (recoveryServer || count === 1 && Configs.get("skipServerList")) {
 		loading.append();
-		SessionStorage_default.ServerName = _charServers[0].name;
+		const selectedServer = recoveryServer || _charServers[0];
+		SessionStorage_default.ServerName = selectedServer.name;
 		Network.onDisconnect = null;
-		CharEngine.init(_charServers[0]);
+		CharEngine.init(selectedServer);
 	} else {
 		WinList_default.onIndexSelected = onCharServerSelected;
-		WinList_default.onExitRequest = () => {
+		WinList_default.onExitRequest = async () => {
+			if (!await LoginEngine.logout()) return;
 			Network.close();
 			WinList_default.remove();
 			Controller.getUI().append();
@@ -397643,7 +398435,19 @@ function onInternationalConnectionRefused(pkt) {
 *
 * @param {object} pkt - PACKET.AC.REFUSE_LOGIN
 */
+function retryPendingSession(code) {
+	if (!sessionTicketLogin || code !== 8 || resumeRetries >= 3) return false;
+	resumeRetries++;
+	Network.close();
+	const generation = authGeneration;
+	setTimeout(() => {
+		if (generation === authGeneration) resumeSession();
+	}, 1500);
+	return true;
+}
 function onConnectionRefused(pkt) {
+	if (retryPendingSession(pkt.ErrorCode)) return;
+	sessionTicketLogin = false;
 	loading.remove();
 	let error = 9;
 	switch (pkt.ErrorCode) {
@@ -397845,6 +398649,10 @@ function onConnectionRefused(pkt) {
 * @param {object} pkt - PACKET.SC.NOTIFY_BAN
 */
 function onServerClosed(pkt) {
+	if (retryPendingSession(pkt.ErrorCode)) return;
+	if (!sessionTicketLogin) LoginEngine.logout();
+	sessionTicketLogin = false;
+	recovery.cancel();
 	loading.remove();
 	let msg_id;
 	switch (pkt.ErrorCode) {
@@ -397941,9 +398749,11 @@ function onServerClosed(pkt) {
 	}, true);
 	Network.close();
 }
-var _server, _charServers, _loginID, LoginEngine;
+var _server, _charServers, _loginID, authGeneration, sessionTicketLogin, keepLogin, suppressAutoLogin, resumeRetries, LoginEngine;
 var init_LoginEngine = __esmMin((() => {
-	init_RotationGuard();
+	init_Toast();
+	init_GameSession();
+	init_GameRecovery();
 	init_CodepageManager();
 	init_DBManager();
 	init_BGM();
@@ -397969,12 +398779,19 @@ var init_LoginEngine = __esmMin((() => {
 	_server = null;
 	_charServers = [];
 	_loginID = "";
+	authGeneration = 0;
+	sessionTicketLogin = false;
+	keepLogin = false;
+	suppressAutoLogin = false;
+	resumeRetries = 0;
 	LoginEngine = class {
 		/**
 		* Init Game
 		*/
 		static init(server) {
-			RotationGuard_default.release();
+			++authGeneration;
+			resumeRetries = 0;
+			recovery.cancel();
 			const q = new Queue();
 			const old_server = _server;
 			Configs.setServer(server);
@@ -398034,7 +398851,10 @@ var init_LoginEngine = __esmMin((() => {
 				onConnectionRequest.apply(null, autoLogin);
 				Configs.set("autoLogin", null);
 			} else q.add(function() {
-				Controller.getUI().append();
+				if (suppressAutoLogin) {
+					suppressAutoLogin = false;
+					Controller.getUI().append();
+				} else resumeSession();
 			});
 			if (PacketVerManager_default.value < 20170315) Network.hookPacket(PACKET.AC.ACCEPT_LOGIN, onConnectionAccepted);
 			else Network.hookPacket(PACKET.AC.ACCEPT_LOGIN3, onConnectionAccepted);
@@ -398051,13 +398871,27 @@ var init_LoginEngine = __esmMin((() => {
 		/**
 		* Reload WinLogin
 		*/
-		static reload() {
-			RotationGuard_default.release();
+		static async logout() {
+			++authGeneration;
+			suppressAutoLogin = true;
+			try {
+				await GameSession_default.revoke();
+			} catch {
+				UIManager.showErrorBox("退出登录未完成，请恢复网络后重试。");
+				return false;
+			}
+			return true;
+		}
+		static reload(preserveRecovery = false) {
+			++authGeneration;
+			if (!preserveRecovery) recovery.cancel();
+			resumeRetries = 0;
 			UIManager.removeComponents();
 			Controller.getUI().onConnectionRequest = onConnectionRequest;
 			Controller.getUI().onExitRequest = onExitRequest;
-			Controller.getUI().append();
 			Network.close();
+			if (preserveRecovery && GameSession_default.available) resumeSession();
+			else Controller.getUI().append();
 		}
 		/**
 		* setLoadedServer()
@@ -398850,7 +399684,7 @@ var init_ConsoleManager = __esmMin((() => {
 //#region src/UI/Mobile/WinLogin/WinLogin.html?raw
 var WinLogin_default$2;
 var init_WinLogin$2 = __esmMin((() => {
-	WinLogin_default$2 = "<div class=\"m-login\">\r\n	<div class=\"m-login__card\">\r\n		<h1 class=\"m-login__title\">HappyRO</h1>\r\n		<form class=\"m-login__form\" autocomplete=\"on\" onsubmit=\"return false\">\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-user\">账号</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-user\"\r\n					name=\"username\"\r\n					type=\"text\"\r\n					autocomplete=\"username\"\r\n					inputmode=\"text\"\r\n					enterkeyhint=\"next\"\r\n					placeholder=\"请输入账号\"\r\n				/>\r\n			</div>\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-pass\">密码</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-pass\"\r\n					name=\"password\"\r\n					type=\"password\"\r\n					autocomplete=\"current-password\"\r\n					enterkeyhint=\"go\"\r\n					placeholder=\"请输入密码\"\r\n				/>\r\n			</div>\r\n			<button\r\n				class=\"m-login__save\"\r\n				type=\"button\"\r\n				role=\"checkbox\"\r\n				aria-checked=\"false\"\r\n				aria-label=\"记住账号\"\r\n			>\r\n				<span class=\"m-login__check\" aria-hidden=\"true\"></span>\r\n				记住账号\r\n			</button>\r\n		</form>\r\n		<div class=\"m-login__actions\">\r\n			<button class=\"m-login__btn m-login__btn--primary m-login__connect\" type=\"button\">登录</button>\r\n			<button class=\"m-login__btn m-login__btn--secondary m-login__signup\" type=\"button\">注册</button>\r\n		</div>\r\n	</div>\r\n</div>\r\n\r\n<dialog class=\"m-signup\" aria-labelledby=\"m-signup-title\" aria-describedby=\"m-signup-description\">\r\n	<h2 id=\"m-signup-title\">注册账号</h2>\r\n	<div id=\"m-signup-description\">\r\n		<div class=\"m-signup__automatic\">\r\n			<p>在登录页即可创建账号：</p>\r\n			<ol>\r\n				<li>账号末尾加 <strong>_M</strong>（男）或 <strong>_F</strong>（女）。</li>\r\n				<li>输入要设置的密码，点击“登录”。</li>\r\n			</ol>\r\n			<p class=\"m-signup__example\">例如：<strong>happyro_M</strong><br>下次登录使用 <strong>happyro</strong> 即可。</p>\r\n		</div>\r\n		<p class=\"m-signup__external\" hidden>即将在新页面打开账号注册。</p>\r\n	</div>\r\n	<div class=\"m-signup__actions\">\r\n		<button class=\"m-login__btn m-login__btn--secondary m-signup__cancel\" type=\"button\">取消</button>\r\n		<button class=\"m-login__btn m-login__btn--primary m-signup__confirm\" type=\"button\" autofocus>知道了</button>\r\n	</div>\r\n</dialog>\r\n";
+	WinLogin_default$2 = "<div class=\"m-login\">\r\n	<div class=\"m-login__card\">\r\n		<h1 class=\"m-login__title\">HappyRO</h1>\r\n		<form class=\"m-login__form\" autocomplete=\"on\" onsubmit=\"return false\">\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-user\">账号</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-user\"\r\n					name=\"username\"\r\n					type=\"text\"\r\n					autocomplete=\"username\"\r\n					inputmode=\"text\"\r\n					enterkeyhint=\"next\"\r\n					placeholder=\"请输入账号\"\r\n				/>\r\n			</div>\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-pass\">密码</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-pass\"\r\n					name=\"password\"\r\n					type=\"password\"\r\n					autocomplete=\"current-password\"\r\n					enterkeyhint=\"go\"\r\n					placeholder=\"请输入密码\"\r\n				/>\r\n			</div>\r\n			<button\r\n				class=\"m-login__save\"\r\n				type=\"button\"\r\n				role=\"checkbox\"\r\n				aria-checked=\"false\"\r\n				aria-label=\"保持登录\"\r\n			>\r\n				<span class=\"m-login__check\" aria-hidden=\"true\"></span>\r\n				保持登录\r\n			</button>\r\n		</form>\r\n		<div class=\"m-login__actions\">\r\n			<button class=\"m-login__btn m-login__btn--primary m-login__connect\" type=\"button\">登录</button>\r\n			<button class=\"m-login__btn m-login__btn--secondary m-login__signup\" type=\"button\">注册</button>\r\n		</div>\r\n	</div>\r\n</div>\r\n\r\n<dialog class=\"m-signup\" aria-labelledby=\"m-signup-title\" aria-describedby=\"m-signup-description\">\r\n	<h2 id=\"m-signup-title\">注册账号</h2>\r\n	<div id=\"m-signup-description\">\r\n		<div class=\"m-signup__automatic\">\r\n			<p>在登录页即可创建账号：</p>\r\n			<ol>\r\n				<li>账号末尾加 <strong>_M</strong>（男）或 <strong>_F</strong>（女）。</li>\r\n				<li>输入要设置的密码，点击“登录”。</li>\r\n			</ol>\r\n			<p class=\"m-signup__example\">例如：<strong>happyro_M</strong><br>下次登录使用 <strong>happyro</strong> 即可。</p>\r\n		</div>\r\n		<p class=\"m-signup__external\" hidden>即将在新页面打开账号注册。</p>\r\n	</div>\r\n	<div class=\"m-signup__actions\">\r\n		<button class=\"m-login__btn m-login__btn--secondary m-signup__cancel\" type=\"button\">取消</button>\r\n		<button class=\"m-login__btn m-login__btn--primary m-signup__confirm\" type=\"button\" autofocus>知道了</button>\r\n	</div>\r\n</dialog>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/WinLogin/WinLogin.css?raw
@@ -398861,22 +399695,21 @@ var init_WinLogin$1 = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/WinLogin/WinLogin.js
 function _toggleSave() {
-	_preferences.saveID = !_preferences.saveID;
+	_preferences.keepLogin = !_preferences.keepLogin;
 	_updateSave();
 }
 function _updateSave() {
-	_btnSave.setAttribute("aria-checked", String(_preferences.saveID));
+	_btnSave.setAttribute("aria-checked", String(_preferences.keepLogin));
 }
 function _connect() {
 	if (_signupDialog.open) return;
 	const user = _inputUser.value.trim();
 	const pass = _inputPass.value;
-	if (_preferences.saveID) _preferences.ID = normalizeRememberedAccount(user);
-	else _preferences.ID = "";
+	_preferences.ID = normalizeRememberedAccount(user);
 	_preferences.save();
 	_inputUser.blur();
 	_inputPass.blur();
-	MobileWinLogin.onConnectionRequest(user, pass);
+	MobileWinLogin.onConnectionRequest(user, pass, !!_preferences.keepLogin);
 }
 function _signup() {
 	const root = MobileWinLogin._shadow;
@@ -398905,7 +399738,7 @@ var init_WinLogin = __esmMin((() => {
 	MobileWinLogin.render = () => WinLogin_default$2;
 	MobileWinLogin.mouseMode = GUIComponent.MouseMode.FREEZE;
 	_preferences = Preferences.get("WinLogin", {
-		saveID: true,
+		keepLogin: false,
 		ID: ""
 	}, 1);
 	MobileWinLogin.init = function init() {
@@ -398927,7 +399760,7 @@ var init_WinLogin = __esmMin((() => {
 		});
 	};
 	MobileWinLogin.onAppend = function onAppend() {
-		_inputUser.value = _preferences.saveID ? normalizeRememberedAccount(_preferences.ID) : "";
+		_inputUser.value = normalizeRememberedAccount(_preferences.ID);
 		_inputPass.value = "";
 		_updateSave();
 	};
