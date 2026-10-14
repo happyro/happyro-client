@@ -4040,7 +4040,8 @@ PACKET.CZ.REQ_TRADE_BUYING_STORE = function PACKET_CZ_REQ_TRADE_BUYING_STORE() {
 };
 PACKET.CZ.REQ_TRADE_BUYING_STORE.prototype.build = function () {
 	const ver = this.getPacketVersion();
-	const len = 2 + 2 + 4 + 4 + this.itemList.length * 6; // ver[2] = -1
+	const itemLength = PACKETVER.value >= 20181121 ? 8 : 6;
+	const len = 2 + 2 + 4 + 4 + this.itemList.length * itemLength; // ver[2] = -1
 	const pkt = new BinaryWriter(len);
 	let i, count;
 
@@ -4051,7 +4052,8 @@ PACKET.CZ.REQ_TRADE_BUYING_STORE.prototype.build = function () {
 
 	for (i = 0, count = this.itemList.length; i < count; ++i) {
 		pkt.writeUShort(this.itemList[i].index);
-		pkt.writeUShort(this.itemList[i].ITID);
+		if (PACKETVER.value >= 20181121) pkt.writeULong(this.itemList[i].ITID);
+		else pkt.writeUShort(this.itemList[i].ITID);
 		pkt.writeShort(this.itemList[i].count);
 	}
 
@@ -8201,9 +8203,8 @@ PACKET.ZC.PC_CASH_POINT_ITEMLIST = function PACKET_ZC_PC_CASH_POINT_ITEMLIST(fp,
 	this.KafraPoint = fp.readULong();
 	this.CashPoint = fp.readULong();
 	this.itemList = (function () {
-		const div = PACKETVER.value >= 20181121 ? 13 : 11;
-		const itemListLen = end - fp.tell();
-		const itemLen = itemListLen % 20 === 0 ? 20 : itemListLen % 18 == 0 ? 18 : div;
+		// Server cash-shop entries have a fixed layout; item count cannot identify a format.
+		const itemLen = PACKETVER.value >= 20181121 ? 13 : 11;
 		const count = ((end - fp.tell()) / itemLen) | 0;
 		const out = new Array(count);
 		for (let i = 0; i < count; ++i) {
@@ -8212,11 +8213,6 @@ PACKET.ZC.PC_CASH_POINT_ITEMLIST = function PACKET_ZC_PC_CASH_POINT_ITEMLIST(fp,
 			out[i].discountprice = fp.readLong();
 			out[i].type = fp.readUChar();
 			out[i].ITID = PACKETVER.value >= 20181121 ? fp.readULong() : fp.readUShort();
-			if (itemLen >= 18) {
-				out[i].viewSprite = fp.readUShort();
-				out[i].location = fp.readLong();
-				out[i].unused = fp.readUChar();
-			}
 		}
 		return out;
 	})();

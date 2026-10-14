@@ -1,8 +1,14 @@
+import { createCompanionLayout } from './CompanionLayout.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 export function createCompanionsPanel(body, service) {
-	body.innerHTML =
-		'<dl data-info></dl><div class="social-form"><label>生命体名称<input data-companion-name maxlength="23"></label><div class="inventory-actions" data-actions></div></div><h3>技能</h3><p>主动技能可从战斗快捷栏的配置入口绑定。</p><div class="inventory-list" data-skills></div>';
+	createCompanionLayout(body, {
+		nameAttribute: 'data-companion-name',
+		nameLabel: '生命体名称',
+		sectionTitle: '技能',
+		contentAttribute: 'data-skills'
+	});
+	body.dataset.companionKind = service.snapshot().kind;
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector);
 	let dismiss,
@@ -10,7 +16,7 @@ export function createCompanionsPanel(body, service) {
 		nameDirty = false,
 		learning = null,
 		skillKey = '',
-		lastMessage = '';
+		lastMessage = service.snapshot().message || '';
 	const labels = {
 		feed: '喂食',
 		rename: '改名',
@@ -77,7 +83,8 @@ export function createCompanionsPanel(body, service) {
 					: `确认${label}？`
 			);
 		};
-		$('[data-actions]').append(button);
+		if (action === 'rename') $('[data-companion-name]').parentElement.append(button);
+		else $('[data-actions]').append(button);
 	}
 	$('[data-companion-name]').oninput = () => {
 		nameDirty = true;
@@ -94,7 +101,7 @@ export function createCompanionsPanel(body, service) {
 		if (!s.allowed) cancel();
 		if (!nameDirty) $('[data-companion-name]').value = info?.szName || '';
 		$('[data-companion-name]').parentElement.hidden = s.kind !== 'homunculus';
-		$('[data-companion-name]').disabled = !s.allowed || Boolean(info?.bModified);
+		$('[data-companion-name]').disabled = !s.canRename;
 		const rows = info
 			? [
 					['名称', s.kind === 'homunculus' ? info.szName : info.name],
@@ -130,16 +137,24 @@ export function createCompanionsPanel(body, service) {
 			$('[data-info]').append(dt, dd);
 		}
 		for (const b of body.querySelectorAll('[data-action]'))
-			b.disabled = !s.allowed || (b.dataset.action === 'rename' && Boolean(info?.bModified));
+			b.disabled = !s.allowed || (b.dataset.action === 'rename' && !s.canRename);
 		const key = JSON.stringify(s.skills);
 		if (key !== skillKey) {
 			skillKey = key;
 			$('[data-skills]').replaceChildren();
+			if (!s.skills.length) {
+				const empty = document.createElement('p');
+				empty.textContent = '暂无技能';
+				$('[data-skills]').append(empty);
+			}
 			for (const skill of s.skills) {
 				const entry = document.createElement('div'),
 					button = document.createElement('button');
-				entry.textContent = `${skill.name} · Lv.${skill.level} · ${skill.type ? '主动' : '被动'} `;
-				button.textContent = '学习一级';
+				entry.className = 'companion-skill';
+				const description = document.createElement('span');
+				description.textContent = `${skill.name} · Lv.${skill.level} · ${skill.type ? '主动' : '被动'}`;
+				entry.append(description);
+				button.textContent = skill.level ? '升级一级' : '学习一级';
 				button.disabled = !skill.learnable;
 				button.onclick = () => {
 					cancel();

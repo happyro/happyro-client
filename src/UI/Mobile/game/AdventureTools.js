@@ -1,3 +1,4 @@
+import menuNavigationCSS from './MenuNavigation.css?raw';
 import menuContentComponentsCSS from './MenuContentComponents.css?raw';
 import menuContentLayoutCSS from './MenuContentLayout.css?raw';
 import menuPortraitCSS from './MenuPortrait.css?raw';
@@ -31,7 +32,8 @@ const Tools = new GUIComponent(
 		menuLayoutCSS +
 		menuPortraitCSS +
 		menuContentLayoutCSS +
-		menuContentComponentsCSS
+		menuContentComponentsCSS +
+		menuNavigationCSS
 );
 Tools.render = () => '<div class="adventure-mount mobile-menu-viewport"></div>';
 Tools.needFocus = false;
@@ -53,8 +55,6 @@ Tools.openMap = function (target, back) {
 	this.append();
 };
 Tools.onAppend = async function () {
-	// Screen size keeps narrow tablet windows and software keyboards out of phone-only rules.
-	this._host.toggleAttribute('data-phone-screen', Math.min(screen.width, screen.height) < 600);
 	const initialMap = this.initialMap;
 	const backToMenu = this.backToMenu;
 	this.backToMenu = null;

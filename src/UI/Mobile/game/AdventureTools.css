@@ -1103,7 +1103,13 @@
 	display: flex;
 	flex: 1;
 	min-width: 0;
-	gap: 4px;
+	gap: 0;
+	align-self: stretch;
+	align-items: flex-end;
+	position: relative;
+	z-index: 1;
+	margin-bottom: -1px;
+	touch-action: pan-x;
 	overflow-x: auto;
 	scrollbar-width: none;
 }
@@ -1114,11 +1120,6 @@
 	flex: 0 0 auto;
 	min-width: 48px;
 	white-space: nowrap;
-}
-.mobile-adventure .adventure-tabs button[aria-selected='true'] {
-	background: #57452c;
-	border-color: #ffca67;
-	color: #ffd27f;
 }
 .adventure-header > button {
 	flex-shrink: 0;
@@ -1500,9 +1501,6 @@
 :host([data-menu-density='spacious']) .adventure-header,
 :host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-toolbar, .monster-toolbar) {
 	padding: var(--adventure-padding) 16px;
-	gap: 8px;
-}
-:host([data-menu-density='spacious']) .adventure-tabs {
 	gap: 8px;
 }
 :host([data-menu-density='spacious']) .mobile-adventure button {
@@ -2316,7 +2314,6 @@
 }
 .mobile-adventure.game-tools-window .settings-form .setting-number em {
 	flex:0 0 auto;
-	padding:0 4px;
 	border-color:#65717b;
 	background:#394753;
 }
@@ -2431,4 +2428,28 @@
  justify-self: end;
  width: 76px;
  justify-content: flex-end;
+}
+
+/* Fit all three rate inputs within the phone portrait settings panel. */
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .settings-drop-table {
+ min-width: 0;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .settings-drop-table .setting-number {
+ width: 100%;
+ min-width: 0;
+}
+
+/* Phone job actions use the same columns and control size as progression actions. */
+:host([data-phone-screen]) .mobile-adventure .character-detail-scroll .selected-job > .management-form-actions {
+ display: grid;
+ grid-template-columns: repeat(4, minmax(0, 1fr));
+ width: 100%; min-width: 0; gap: 6px 8px;
+}
+:host([data-phone-screen]) .mobile-adventure .character-detail-scroll .selected-job > .management-form-actions > button {
+ width: 100%; min-width: 0; margin: 0;
+ min-height: var(--panel-control);
+ white-space: normal;
+}
+:host([data-phone-screen][data-orientation='portrait']) .mobile-adventure .character-detail-scroll .selected-job > .management-form-actions {
+ grid-template-columns: minmax(0, 1fr);
 }

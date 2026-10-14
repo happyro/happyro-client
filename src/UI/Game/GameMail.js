@@ -1,4 +1,5 @@
 import Session from 'Engine/SessionStorage.js';
+import { validateMailRecipient, validateMailContent } from 'Utils/MailText.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
@@ -41,7 +42,7 @@ export function openGameMail(canOperate = () => true) {
 		attachments = [],
 		recipient = null,
 		messageKind = 'info',
-		message = '正在读取邮件',
+		message = '',
 		revision = 0,
 		weight = 0;
 	const setMessage = (text, kind) => {
@@ -131,8 +132,9 @@ export function openGameMail(canOperate = () => true) {
 		validate() {
 			if (!allowed() || !writing) return;
 			const name = draft.receiver.trim();
-			if (!name || bytes(name) > 23 || /[\0\t\r\n]/.test(name)) {
-				setMessage('收件人姓名无效（最多 23 字节）', 'error');
+			const error = validateMailRecipient(name);
+			if (error) {
+				setMessage(error, 'error');
 				return;
 			}
 			recipient = null;
@@ -160,19 +162,17 @@ export function openGameMail(canOperate = () => true) {
 		remove(index, count) {
 			if (!allowed() || !writing) return;
 			const item = attachments.find(i => i.index === index);
-			if (!item || !Number.isInteger(count) || count <= 0 || count > item.count) return;
+			if (!item || !Number.isInteger(count) || count <= 0 || count > item.count) {
+				setMessage('附件已变化，请重新选择', 'error');
+				return;
+			}
 			request('REQ_REMOVE_RODEX_ITEM', { index, count }, { kind: 'remove', index });
 		},
 		review() {
 			if (!allowed() || !writing) return { error: '当前无法发送' };
 			if (!recipient || recipient.name !== draft.receiver.trim()) return { error: '请先校验收件人' };
-			if (
-				!draft.title.trim() ||
-				bytes(draft.title) > 39 ||
-				bytes(draft.body) > 499 ||
-				/[\0]/.test(draft.title + draft.body)
-			)
-				return { error: '标题最多 39 字节，正文最多 499 字节，标题不能为空' };
+			const error = validateMailContent(draft.title, draft.body);
+			if (error) return { error };
 			if (!Number.isInteger(draft.zeny) || draft.zeny < 0 || draft.zeny > 2147483647)
 				return { error: '附件金额无效' };
 			const fee = attachments.length * 2500 + Math.floor(draft.zeny * 0.02);
@@ -223,7 +223,7 @@ export function openGameMail(canOperate = () => true) {
 			attachments = [];
 			recipient = null;
 			revision++;
-			setMessage('已取消写信', 'info');
+			setMessage('', 'info');
 		},
 		close() {
 			if (closed || interactionSnapshot()?.token !== token) return;
@@ -241,7 +241,7 @@ export function openGameMail(canOperate = () => true) {
 				selected = null;
 				deleting.clear();
 				pending = null;
-				setMessage(list.length ? '请选择邮件' : '暂无邮件', 'info');
+				setMessage('', 'info');
 				revision++;
 				return;
 			}
@@ -258,14 +258,16 @@ export function openGameMail(canOperate = () => true) {
 				details.delete(id);
 				deleting.delete(id);
 				if (selected === id) selected = null;
-				setMessage('邮件已删除', 'success');
+				setMessage('', 'info');
 				revision++;
 				return;
 			}
 			if (!pending || pending.kind !== kind) return;
 			const wait = pending;
 			if (['read', 'items', 'zeny'].includes(kind) && key(pkt) !== wait.key) return;
-			if (['add', 'remove'].includes(kind) && pkt.index !== wait.index) return;
+			// Failed add replies contain only the result; their item index is zero.
+			if (kind === 'add' && !pkt.result && pkt.index !== wait.index) return;
+			if (kind === 'remove' && pkt.index !== wait.index) return;
 			pending = null;
 			if (kind === 'read') {
 				details.set(wait.key, { ...list.find(m => key(m) === wait.key), ...pkt });
@@ -289,7 +291,7 @@ export function openGameMail(canOperate = () => true) {
 					attachments = [];
 					recipient = null;
 					Object.assign(draft, { receiver: pkt.receiveName || '', title: '', body: '', zeny: 0 });
-					setMessage('填写收件人并校验后发送', 'info');
+					setMessage('', 'info');
 				} else setMessage('当前无法写信', 'error');
 			}
 			if (kind === 'validate') {
@@ -305,8 +307,16 @@ export function openGameMail(canOperate = () => true) {
 					if (item) item.count += pkt.count;
 					else attachments.push({ ...pkt, identity: wait.identity });
 					weight = pkt.weight;
-					setMessage('附件已添加', 'success');
-				} else setMessage('无法附加该物品：请核对限制、数量及重量', 'error');
+					setMessage('', 'info');
+				} else {
+					const reasons = {
+						1: '附件重量超限',
+						2: '无法添加该物品',
+						3: '附件种类已达上限',
+						4: '该物品无法邮寄'
+					};
+					setMessage(reasons[pkt.result] || '无法添加该物品', 'error');
+				}
 			}
 			if (kind === 'remove') {
 				if (pkt.result) {
@@ -314,7 +324,7 @@ export function openGameMail(canOperate = () => true) {
 					if (item) item.count -= pkt.count;
 					attachments = attachments.filter(i => i.count > 0);
 					weight = pkt.weight;
-					setMessage('附件已移除', 'success');
+					setMessage('', 'info');
 				} else setMessage('移除附件失败', 'error');
 			}
 			if (kind === 'send') {

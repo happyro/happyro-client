@@ -48,3 +48,25 @@
 `src/UI/Components/QuantityStepper.js` 的 `createQuantityStepper` 返回 `element`、原生 `input` 与 `setBounds({ min, max })`。移动端 NPC 购买和冒险工具发放复用该组件，固定顺序为 −10、−1、输入框、+1、+10。组件自带局部样式，按钮与输入框共用 `--quantity-control-height`（默认跟随 `--panel-control`），页面不再单独覆盖内部尺寸。
 
 调用方传入可访问标签、初始值和整数上下限；用户编辑与步进均发出原生 `input` 事件，兼容菜单键盘编辑器。动态库存通过 `beforeStep` 刷新，返回 `false` 可取消步进；`setBounds` 不修改草稿值，由原生校验提示越界。弹窗、确认、权限、实时业务校验与提交由调用方负责，组件不请求接口、不创建弹窗。
+
+## 移动菜单导航
+
+`src/UI/Mobile/game/MenuNavigation.css` 是菜单页签及顶部返回／关闭按钮的公共外观来源，由 `GameHUDView` 和 `AdventureTools` 在布局样式之后加载。分类栏添加 `menu-tabs`，通过现有 `aria-selected` 或 `aria-pressed` 表达选中状态，页面只负责位置、宽度与排列方向，不再单独定义选中颜色、边框和圆角。
+
+控件高度默认跟随 `--panel-control`；聊天预览通过 `--menu-tab-height` 保留紧凑尺寸。聊天分类保留宽屏纵向和窄竖屏横向布局。顶部动作与底部提交按钮分开管理，不以全局 `button` 规则覆盖业务动作。
+
+顶部返回／关闭按钮及页签底部统一保留 6px 外边距。所有位置的页签均保留完整底边框与整组四角圆角，不再将选中页签底边隐藏，也不在内容区叠加直角连接线。
+
+## 移动弹窗输入
+
+`src/UI/Mobile/game/MobileModalInput.css` 由移动确认弹窗与 `MobileInputEditor` 共用，统一数量步进输入与键盘编辑浮层的字体、颜色、边框及焦点。单行输入高度为 `max(36px, --panel-control)`，数量加减按钮使用同一高度；输入字号统一为 16px。规则限定在移动弹窗内部，避免底层菜单表单覆盖，也不覆盖桌面确认弹窗或其它数量组件。
+
+## 桌面冒险工具按钮
+
+`GameToolsButtons.css` 是桌面冒险工具操作按钮的公共外观层，仅由桌面 `GameTools` 加载。角色表单、分页及确认弹窗按钮为 28px 高，底部操作栏按钮为 24px 高以保留上下空白；共用柔和灰色小圆角外观与悬停／按下／禁用／键盘焦点状态；宽度由页面布局决定，角色按钮跟随输入框列宽。页签、列表项、下拉框、开关和文字链接不使用操作按钮外观。
+
+## 桌面浅色主题
+
+`DesktopLightTheme.css` 集中管理桌面浅色背景、边框、文字、交互色及滚动条，仅由桌面战斗辅助及冒险工具加载。`AutoCombatLight.css` 与 `GameToolsLight.css` 负责各窗口的外观映射；共享业务组件和移动端样式不依赖这些文件。主题层不修改列表比例、角色表单列宽或底栏按钮高度。
+
+桌面浅色窗口须设置 `GUIComponent.nativeScrolling = true`，让浏览器滚动条主题实际生效；否则框架会注入旧 RO 自绘滚动条并将 `overflow-y` 改为 `hidden`。验收须在真实 GUIComponent 窗口检查无 `.ro-custom-scrollbar`，并验证滚轮移动。

@@ -1,14 +1,20 @@
+import { createCompanionLayout } from './CompanionLayout.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 export function createPetPanel(body, service) {
-	body.innerHTML =
-		'<button data-refresh>刷新宠物状态</button><dl data-info></dl><div class="social-form"><label>宠物名称<input data-name maxlength="23"></label><div class="inventory-actions" data-actions></div></div><div data-evolution></div>';
+	createCompanionLayout(body, {
+		nameAttribute: 'data-name',
+		nameLabel: '宠物名称',
+		sectionTitle: '进化',
+		contentAttribute: 'data-evolution',
+		refresh: true
+	});
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector);
 	let dismiss,
 		lastPet = null,
 		evoKey = '',
-		lastMessage = '',
+		lastMessage = service.snapshot().message || '',
 		nameDirty = false;
 	function cancel() {
 		dismiss?.();
@@ -46,7 +52,8 @@ export function createPetPanel(body, service) {
 				`${label}${action === 'rename' ? '为「' + $('[data-name]').value + '」' : ''}？`
 			);
 		};
-		$('[data-actions]').append(b);
+		if (action === 'rename') $('[data-name]').parentElement.append(b);
+		else $('[data-actions]').append(b);
 	}
 	$('[data-refresh]').onclick = () => {
 		cancel();
@@ -67,7 +74,7 @@ export function createPetPanel(body, service) {
 					['饱食度', `${info.nFullness} / 100`],
 					['亲密度', info.nRelationship],
 					['饰品', state.accessory ? '已装备' : '未装备'],
-					['自动喂食', state.autoFeed ? '已开启' : '未开启']
+					['自动喂食', state.supportsAutoFeed ? (state.autoFeed ? '已开启' : '未开启') : '不支持']
 				]
 			: [['状态', '暂无已召唤的宠物']];
 		$('[data-info]').replaceChildren();
@@ -84,22 +91,44 @@ export function createPetPanel(body, service) {
 			cancel();
 		}
 		if (!nameDirty) $('[data-name]').value = info?.szName || '';
-		const nextKey = JSON.stringify(state.evolutions);
+		const nextKey = JSON.stringify([state.evolutions, info?.nRelationship, state.accessory]);
 		if (nextKey !== evoKey) {
 			evoKey = nextKey;
 			$('[data-evolution]').replaceChildren();
+			if (!state.evolutions.length) {
+				const empty = document.createElement('p');
+				empty.textContent = '暂无可用进化';
+				$('[data-evolution]').append(empty);
+			}
 			for (const evo of state.evolutions) {
 				const title = document.createElement('h3');
 				title.textContent = `进化为 ${evo.name}`;
 				$('[data-evolution]').append(title);
-				for (const mat of evo.materials) {
+				const requirements = [
+					{ name: '亲密度', owned: info.nRelationship, count: evo.intimacyRequired },
+					...evo.materials
+				];
+				for (const mat of requirements) {
 					const p = document.createElement('p');
-					p.textContent = `${mat.name}：${mat.owned} / ${mat.count}`;
+					p.className = 'pet-evolution-requirement';
+					p.classList.toggle('is-missing', mat.owned < mat.count);
+					const label = document.createElement('span'),
+						value = document.createElement('strong');
+					label.textContent = mat.name + '：';
+					value.textContent = `${mat.owned} / ${mat.count}`;
+					p.append(label, value);
 					$('[data-evolution]').append(p);
+				}
+				if (state.accessory) {
+					const hint = document.createElement('p');
+					hint.className = 'pet-evolution-accessory';
+					hint.textContent = '请先卸下宠物饰品';
+					$('[data-evolution]').append(hint);
 				}
 				const b = document.createElement('button');
 				b.type = 'button';
 				b.textContent = '进化为 ' + evo.name;
+				b.dataset.evolutionEgg = String(evo.egg);
 				b.onclick = () => prepare('evolve', evo.egg, '确认将宠物进化为 ' + evo.name + '？');
 				$('[data-evolution]').append(b);
 			}
@@ -109,6 +138,10 @@ export function createPetPanel(body, service) {
 		$('[data-name]').disabled = !state.allowed || Boolean(info?.bModified);
 		$('[data-action=rename]').disabled = !state.allowed || Boolean(info?.bModified);
 		$('[data-action=unequip]').disabled = !state.allowed || !state.accessory;
+		$('[data-action=autofeed]').disabled = !state.allowed || !state.supportsAutoFeed;
+		for (const button of body.querySelectorAll('[data-evolution-egg]'))
+			button.disabled =
+				!state.allowed || !state.evolutions.find(evo => evo.egg === Number(button.dataset.evolutionEgg))?.ready;
 		if (lastMessage !== state.message) {
 			lastMessage = state.message;
 			feedback.update(state.message, state.messageKind);

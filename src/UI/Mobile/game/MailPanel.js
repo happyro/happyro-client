@@ -1,6 +1,8 @@
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
-import { setListItemText } from './ListItemText.js';
+import { createQuantityStepper } from 'UI/Components/QuantityStepper.js';
+import ItemType from 'DB/Items/ItemType.js';
+import { setListItemText, setListItemIcon } from './ListItemText.js';
 import { toPlainRagnarokText } from 'Utils/RagnarokText.js';
 
 /** Mail owns its layout; the service owns server state and transaction validation. */
@@ -10,8 +12,10 @@ export function createMailPanel(body, service) {
 		page = 0,
 		term = '',
 		review = null;
-	let dismiss;
-	const feedback = createFeedback(body);
+	let dismiss,
+		quantityDialog = null,
+		itemCategory = 'all',
+		itemTerm = '';
 	const controls = new Map();
 	const node = (parent, tag, className, text) => {
 		const element = document.createElement(tag);
@@ -21,13 +25,16 @@ export function createMailPanel(body, service) {
 		return element;
 	};
 	body.replaceChildren();
+	const feedback = createFeedback(body);
 	const toolbar = node(body, 'div', 'mail-toolbar');
 	const layout = node(body, 'div', 'mail-layout');
 	layout.dataset.menuLayout = 'split';
 	const list = node(layout, 'section', 'mail-browser');
 	const pane = node(layout, 'section', 'mail-pane');
 	const detail = node(pane, 'div', 'mail-detail');
-	const detailFooter = node(pane, 'div', 'mail-actions mail-footer');
+	const footer = node(body, 'div', 'mail-footer');
+	const pagination = node(footer, 'div', 'mail-pagination');
+	const detailFooter = node(footer, 'div', 'mail-actions mail-footer-actions');
 	const para = (parent, text, className = 'mail-note') => node(parent, 'p', className, text);
 	const heading = (parent, text) => node(parent, 'h3', 'mail-heading', text);
 	const actions = parent => node(parent, 'div', 'mail-actions');
@@ -60,45 +67,140 @@ export function createMailPanel(body, service) {
 		return input;
 	};
 	const mailKey = mail => `${mail.openType}:${mail.MailID}`;
+	function attachmentRow(parent, item, remove) {
+		const card = node(parent, 'div', 'mail-attachment');
+		const summary = node(card, 'div', 'mail-attachment-summary');
+		summary.dataset.attachmentId = item.ID;
+		setListItemIcon(summary, item);
+		node(summary, 'span', 'mail-attachment-name', item.name);
+		node(summary, 'span', 'mail-attachment-count', `×${item.count}`);
+		if (remove) button(summary, '移除', remove);
+
+	}
+	function addAttachment(item) {
+		const capacity = state => {
+			const current = state.inventory.find(entry => entry.index === item.index && entry.ID === item.ID);
+			const attached = state.attachments.find(entry => entry.index === item.index);
+			return state.allowed && state.writing && current && (attached || state.attachments.length < 5)
+				? Math.max(0, Math.min(32767, current.count - (attached?.count || 0)))
+				: 0;
+		};
+		const max = capacity(service.snapshot());
+		if (!max) {
+			feedback('无法继续添加该物品', 'error');
+			return;
+		}
+		const stepper = createQuantityStepper({
+			label: '附件数量',
+			min: 1,
+			max,
+			beforeStep: () => {
+				update();
+				return Boolean(quantityDialog);
+			}
+		});
+		const finish = () => {
+			quantityDialog = null;
+			dismiss = null;
+		};
+		dismiss = confirmAction(
+			body,
+			`添加「${item.name}」`,
+			() => {
+				finish();
+				const count = Number(stepper.input.value);
+				if (!Number.isInteger(count) || count < 1 || count > capacity(service.snapshot())) {
+					feedback('数量或物品状态已变化，请重新选择', 'error');
+					return;
+				}
+				service.add(item.index, item.ID, count);
+				update();
+			},
+			{ content: stepper.element, cancelled: finish }
+		);
+		quantityDialog = { stepper, capacity };
+		stepper.input.addEventListener('keydown', event => {
+			if (event.key === 'Enter' && !event.isComposing) {
+				event.preventDefault();
+				body.querySelector('dialog [data-confirm]')?.click();
+			}
+		});
+	}
 	function renderCompose(state) {
-		heading(toolbar, '写邮件');
-		button(actions(toolbar), '取消写信', () => {
+		button(detailFooter, '取消', () => {
 			service.cancelCompose();
 			clearReview();
 		});
-		heading(list, '添加附件');
-		const quantity = field(list, '每次添加数量', 1, () => {}, 'number');
-		quantity.min = 1;
-		quantity.max = 32767;
-		quantity.inputMode = 'numeric';
-		const inventory = node(list, 'div', 'mail-rows');
-		for (const item of state.inventory) {
-			const row = button(inventory, '', () => service.add(item.index, item.ID, Number(quantity.value)));
-			row.className = 'mail-row';
-			setListItemText(row, item.name, `持有 ${item.count} · 点击添加`);
+		const filters = node(list, 'div', 'mail-item-filters');
+		const search = node(filters, 'input', 'mail-item-search');
+		search.type = 'search';
+		search.placeholder = '搜索物品名称或 ID';
+		search.setAttribute('aria-label', '搜索附件物品');
+		search.value = itemTerm;
+		search.oninput = () => { itemTerm = search.value; };
+		search.onchange = () => {
+			list.querySelector('.mail-item-list')?.scrollTo(0, 0);
+			render();
+			update();
+		};
+		controls.set(search, false);
+		const category = node(filters, 'select', '');
+		category.setAttribute('aria-label', '附件物品分类');
+		for (const [value, label] of [
+			['all', '全部'],
+			['usable', '消耗品'],
+			['equipment', '装备'],
+			['card', '卡片'],
+			['other', '其他']
+		])
+			category.add(new Option(label, value));
+		category.value = itemCategory;
+		controls.set(category, false);
+		category.onchange = () => {
+			itemCategory = category.value;
+			list.querySelector('.mail-item-list')?.scrollTo(0, 0);
+			render();
+			update();
+		};
+		const inventory = node(list, 'div', 'mail-rows mail-item-list');
+		const query = itemTerm.trim().toLocaleLowerCase();
+		const items = state.inventory.filter(
+			item =>
+				(!query || item.name.toLocaleLowerCase().includes(query) || String(item.ID).includes(query)) &&
+				(itemCategory === 'all' ||
+				(itemCategory === 'card'
+					? item.type === ItemType.CARD
+					: itemCategory === 'other'
+						? item.category === 'other' && item.type !== ItemType.CARD
+						: item.category === itemCategory))
+		);
+		for (const item of items) {
+			const row = button(inventory, '', () => addAttachment(item));
+			row.className = 'inventory-item mail-item';
+			row.dataset.itemIndex = item.index;
+			row.dataset.itemId = item.ID;
+			setListItemIcon(row, item);
+			setListItemText(row, item.name, `×${item.count}`);
 		}
-		if (!state.inventory.length) para(inventory, '背包中没有可添加的物品。', 'mail-empty');
-		node(list, 'div', 'mail-browser-footer', `${state.inventory.length} 种可选物品`);
+		if (!items.length) para(inventory, query ? '没有匹配的物品' : '该分类暂无可添加物品', 'mail-empty');
 		const form = node(detail, 'div', 'mail-form');
 		field(form, '收件人', state.draft.receiver, value => service.change('receiver', value));
-		button(actions(form), '校验收件人', () => service.validate());
-		field(form, '标题（最多 39 字节）', state.draft.title, value => service.change('title', value));
-		field(form, '正文（最多 499 字节）', state.draft.body, value => service.change('body', value), 'textarea');
-		const amount = field(form, '附加 Zeny', state.draft.zeny, value => service.change('zeny', value), 'number');
+		button(form.lastElementChild, '校验', () => service.validate());
+		field(form, '标题', state.draft.title, value => service.change('title', value));
+		field(form, '正文', state.draft.body, value => service.change('body', value), 'textarea');
+		const amount = field(form, 'Zeny', state.draft.zeny, value => service.change('zeny', value), 'number');
 		amount.min = 0;
 		amount.max = 2147483647;
 		amount.inputMode = 'numeric';
 		const attachments = node(detail, 'section', 'mail-attachments');
 		heading(attachments, `附件（${state.attachments.length}）`);
+		const attachmentList = node(attachments, 'div', 'mail-attachment-list');
 		for (const item of state.attachments) {
-			const card = node(attachments, 'div', 'mail-attachment');
-			para(card, `${item.name} × ${item.count}`, 'mail-attachment-name');
-			para(card, item.description);
-			button(actions(card), '移除', () => service.remove(item.index, item.count));
+			attachmentRow(attachmentList, item, () => service.remove(item.index, item.count));
 		}
-		if (!state.attachments.length) para(attachments, '尚未添加附件');
-		para(attachments, `附件重量：${state.weight}；限制以服务器为准。`);
-		para(detail, '邮费：每种附件 2500 Zeny，加附加金额的 2%；最终以服务器为准。');
+		if (!state.attachments.length) para(attachmentList, '暂无附件', 'mail-empty');
+
+
 		button(detailFooter, '发送邮件', () => {
 			review = service.review();
 			if (review.error) {
@@ -156,7 +258,8 @@ export function createMailPanel(body, service) {
 			clearReview();
 			service.refresh();
 		});
-		button(tools, '写信', () => service.compose()).className = 'mail-primary';
+		const writeRow = node(toolbar, 'div', 'mail-write-row');
+		button(writeRow, '写信', () => service.compose()).className = 'mail-primary';
 		search.onkeydown = event => {
 			if (event.key === 'Enter' && !event.isComposing) {
 				event.preventDefault();
@@ -184,7 +287,7 @@ export function createMailPanel(body, service) {
 			);
 		}
 		if (!rows.length) para(messages, term ? '没有匹配的邮件' : '暂无邮件', 'mail-empty');
-		const pagination = node(list, 'div', 'mail-pagination');
+		pagination.hidden = false;
 		const previous = button(
 			pagination,
 			'‹',
@@ -195,7 +298,7 @@ export function createMailPanel(body, service) {
 			page === 0
 		);
 		previous.setAttribute('aria-label', '上一页');
-		node(pagination, 'span', '', `${page + 1} / ${pages} · ${rows.length} 封`);
+
 		const next = button(
 			pagination,
 			'›',
@@ -210,6 +313,7 @@ export function createMailPanel(body, service) {
 		if (!mail || mail.openType !== tab) {
 			heading(detail, '邮件详情');
 			para(detail, '请选择一封邮件查看内容。', 'mail-empty');
+			for (const label of ['领取金额', '领取物品', '删除邮件']) button(detailFooter, label, () => {}, true);
 			return;
 		}
 		heading(detail, mail.title || '（无标题）');
@@ -218,53 +322,83 @@ export function createMailPanel(body, service) {
 		const attachments = node(detail, 'section', 'mail-attachments');
 		heading(attachments, '附加金额与物品');
 		para(attachments, `${mail.zeny} Zeny`, 'mail-attachment-name');
+		const attachmentList = node(attachments, 'div', 'mail-attachment-list');
 		for (const item of mail.describedItems) {
-			const card = node(attachments, 'div', 'mail-attachment');
-			para(card, `${item.name} × ${item.count}`, 'mail-attachment-name');
-			para(card, item.description);
+			attachmentRow(attachmentList, item);
 		}
+		if (!mail.describedItems.length) para(attachmentList, '暂无附件', 'mail-empty');
 		if (mail.zeny || mail.ItemList.length) para(attachments, '领取前请预留背包容量和负重。');
 		const footer = detailFooter;
-		if (mail.zeny) button(footer, '领取金额', () => service.claim('zeny'));
-		if (mail.ItemList.length) button(footer, '领取物品', () => service.claim('items'));
-		if (!mail.zeny && !mail.ItemList.length) {
-			button(footer, '删除邮件', () => {
-				const selected = state.selected;
-				dismiss = confirmAction(
-					body,
-					'确定删除这封邮件？',
-					() => {
-						dismiss = null;
-						if (service.snapshot().selected !== selected) {
-							feedback('邮件已变化，请重新确认', 'error');
-							return;
-						}
-						service.delete();
-						update();
-					},
-					{}
-				);
-			});
+		button(footer, '领取金额', () => service.claim('zeny'), !mail.zeny);
+		button(footer, '领取物品', () => service.claim('items'), !mail.ItemList.length);
+		{
+			button(
+				footer,
+				'删除邮件',
+				() => {
+					const selected = state.selected;
+					dismiss = confirmAction(
+						body,
+						'确定删除这封邮件？',
+						() => {
+							dismiss = null;
+							if (service.snapshot().selected !== selected) {
+								feedback('邮件已变化，请重新确认', 'error');
+								return;
+							}
+							service.delete();
+							update();
+						},
+						{}
+					);
+				},
+				Boolean(mail.zeny || mail.ItemList.length)
+			);
 		}
 	}
 	function render() {
 		const state = service.snapshot();
+		const keepComposeScroll = state.writing && body.dataset.mailWriting === 'true';
+		const detailScroll = keepComposeScroll ? detail.scrollTop : 0;
+		const inventoryScroll = keepComposeScroll ? list.querySelector('.mail-item-list')?.scrollTop || 0 : 0;
 		version = state.revision;
+		layout.dataset.writing = String(state.writing);
+		body.dataset.mailWriting = String(state.writing);
 		controls.clear();
 		clearReview();
 		toolbar.replaceChildren();
 		list.replaceChildren();
 		detail.replaceChildren();
 		detailFooter.replaceChildren();
+		pagination.replaceChildren();
+		pagination.hidden = true;
 		if (state.writing) renderCompose(state);
 		else renderInbox(state);
+		// Server replies rebuild compose content; retain both independently scrolled panels.
+		detail.scrollTop = detailScroll;
+		const inventory = list.querySelector('.mail-item-list');
+		if (inventory) inventory.scrollTop = inventoryScroll;
 	}
 	function update() {
 		const state = service.snapshot();
 		if (version !== state.revision) render();
+		if (quantityDialog) {
+			const max = quantityDialog.capacity(state);
+			if (!max) clearReview();
+			else quantityDialog.stepper.setBounds({ min: 1, max });
+		}
+		for (const row of list.querySelectorAll('[data-item-index]')) {
+			const item = state.inventory.find(
+				item => item.index === Number(row.dataset.itemIndex) && item.ID === Number(row.dataset.itemId)
+			);
+			if (item) setListItemIcon(row, item);
+		}
+		for (const row of detail.querySelectorAll('[data-attachment-id]')) {
+			const item = [...state.attachments, ...(state.detail?.describedItems || [])].find(item => item.ID === Number(row.dataset.attachmentId));
+			if (item) setListItemIcon(row, item);
+		}
 		for (const [control, disabled] of controls) control.disabled = disabled || !state.allowed;
-		const message = ['暂无邮件', '请选择邮件'].includes(state.message) ? '' : state.message;
-		feedback.update(message, state.messageKind);
+		feedback.update(state.message, state.messageKind);
 	}
 	render();
 	update();

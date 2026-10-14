@@ -1,3 +1,4 @@
+import { allowSocialText } from './SocialText.js';
 /**
  * Engine/MapEngine/Group.js
  *
@@ -75,6 +76,7 @@ class GroupEngine {
 	 * @param {string} party name
 	 */
 	static onRequestCreationEasy(name) {
+		if (!allowSocialText({ name })) return false;
 		if (Session.hasParty) {
 			return;
 		}
@@ -94,6 +96,7 @@ class GroupEngine {
 	 * @param {number} option 2
 	 */
 	static onRequestCreation(name, pickupRule, divisionRule) {
+		if (!allowSocialText({ name })) return false;
 		if (Session.hasParty) {
 			return;
 		}
@@ -113,6 +116,7 @@ class GroupEngine {
 	 * @param {string} pseudo
 	 */
 	static onRequestInvitation(AID, pseudo) {
+		if (!allowSocialText({ name: pseudo })) return false;
 		if (!Session.hasParty || !Session.isPartyLeader) {
 			return;
 		}
@@ -415,7 +419,7 @@ function onPartyOption(pkt) {
 
 	ChatBox.addText(
 		DB.getMessage(291) + '  - ' + DB.getMessage(292) + '  : ' + DB.getMessage(287 + pkt.expOption),
-		ChatBox.TYPE.PRIVATE,
+		ChatBox.TYPE.INFO,
 		ChatBox.FILTER.PARTY_SETUP
 	);
 
@@ -423,14 +427,14 @@ function onPartyOption(pkt) {
 	if (pkt.ItemPickupRule !== undefined) {
 		ChatBox.addText(
 			DB.getMessage(291) + '  - ' + DB.getMessage(293) + '  : ' + DB.getMessage(289 + pkt.ItemPickupRule),
-			ChatBox.TYPE.PRIVATE,
+			ChatBox.TYPE.INFO,
 			ChatBox.FILTER.PARTY_SETUP
 		);
 	}
 	if (pkt.ItemDivisionRule !== undefined) {
 		ChatBox.addText(
 			DB.getMessage(291) + '  - ' + DB.getMessage(738) + '  : ' + DB.getMessage(287 + pkt.ItemDivisionRule),
-			ChatBox.TYPE.PRIVATE,
+			ChatBox.TYPE.INFO,
 			ChatBox.FILTER.PARTY_SETUP
 		);
 	}

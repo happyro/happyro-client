@@ -58,14 +58,7 @@ function onPrivateMessage(pkt) {
 
 	// Fallback to main ChatBox
 	ChatBox.addText(
-		'[ ' +
-			prefix +
-			' <span class="nickname-link" data-nickname="' +
-			pkt.sender +
-			'" style="cursor:pointer; text-decoration:underline;">' +
-			pkt.sender +
-			'</span> ] : ' +
-			msg,
+		[`[ ${prefix} `, { kind: 'nickname', text: pkt.sender }, ' ] : ', msg],
 		ChatBox.TYPE.PRIVATE,
 		ChatBox.FILTER.WHISPER
 	);
@@ -87,20 +80,15 @@ function onPrivateMessageSent(pkt) {
 				WhisperBox.addText(user, Session.Entity.display.name + ' : ' + msg, '#ffff00');
 			} else {
 				ChatBox.addText(
-					'[ To <span class="nickname-link" data-nickname="' +
-						user +
-						'" style="cursor:pointer; text-decoration:underline;">' +
-						user +
-						'</span> ] : ' +
-						msg,
-					ChatBox.TYPE.PRIVATE,
+					['[ To ', { kind: 'nickname', text: user }, ' ] : ', msg],
+					ChatBox.TYPE.PRIVATE | ChatBox.TYPE.SELF,
 					ChatBox.FILTER.WHISPER
 				);
 			}
 		}
 	} else {
 		const errorMsg = '(' + user + ') : ' + DB.getMessage(147 + pkt.result);
-		ChatBox.addText(errorMsg, ChatBox.TYPE.PRIVATE, ChatBox.FILTER.WHISPER);
+		ChatBox.addText(errorMsg, ChatBox.TYPE.ERROR, ChatBox.FILTER.WHISPER);
 	}
 
 	ChatBox.PrivateMessageStorage.nick = '';

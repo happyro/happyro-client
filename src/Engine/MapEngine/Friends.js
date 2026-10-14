@@ -1,3 +1,4 @@
+import { allowSocialText } from './SocialText.js';
 /**
  * Engine/MapEngine/Friends.js
  *
@@ -59,6 +60,7 @@ class FriendEngine {
 	 * @param {string} name
 	 */
 	static addFriend(name) {
+		if (!allowSocialText({ name })) return false;
 		const pkt = new PACKET.CZ.ADD_FRIENDS();
 		pkt.name = name;
 
@@ -128,7 +130,7 @@ class FriendEngine {
 			}
 		}
 
-		ChatBox.addText('[ 致好友 ]：' + pkt.msg, ChatBox.TYPE.PRIVATE, ChatBox.FILTER.WHISPER);
+		ChatBox.addText('[ 致好友 ]：' + pkt.msg, ChatBox.TYPE.PRIVATE | ChatBox.TYPE.SELF, ChatBox.FILTER.WHISPER);
 	}
 }
 /**

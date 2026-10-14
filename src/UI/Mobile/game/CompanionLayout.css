@@ -1,0 +1,64 @@
+/* Shared mobile layout for pets, homunculi and mercenaries. */
+:host([data-menu-density]) .panel:is([data-view='pet'], [data-view='companions']) > .panel-body {
+ display: flex; flex-direction: column; min-height: 0; overflow: hidden; gap: 6px;
+}
+:host([data-menu-density]) .panel .companion-layout {
+ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; flex: 1; min-height: 0;
+}
+:host([data-menu-density]) .panel :is(.companion-info, .companion-content) {
+ min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+ padding: 8px; border: 1px solid #52606d; border-radius: 10px; background: #19212a;
+}
+:host([data-menu-density]) .panel :is(.companion-info, .companion-content) > h3 { margin: 0 0 8px; color: #f6d9a5; }
+:host([data-menu-density]) .panel .companion-info [data-info] {
+ display: grid; grid-template-columns: auto minmax(0, 1fr); margin: 0; padding: 0; border: 0; border-radius: 0; gap: 0 12px;
+}
+:host([data-menu-density]) .panel .companion-info :is(dt, dd) { padding: 6px 0; margin: 0; min-width: 0; }
+:host([data-menu-density]) .panel .companion-info dd { text-align: right; }
+:host([data-menu-density]) .panel .companion-footer {
+ flex: 0 0 auto; display: flex; flex-direction: column; gap: 6px;
+ border-top: 1px solid #52606d; padding-top: 6px;
+}
+:host([data-menu-density]) .panel .companion-name {
+ display: flex; align-items: center; gap: 6px; margin: 0; min-width: 0;
+}
+:host([data-menu-density]) .panel .companion-name > span { flex: 0 0 auto; color: #bac4cd; }
+:host([data-menu-density]) .panel .companion-name > input { flex: 1; min-width: 0; width: 0; }
+:host([data-menu-density]) .panel .companion-footer .inventory-actions {
+ display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; margin: 0; padding: 0;
+}
+:host([data-menu-density]) .panel .companion-footer button {
+ flex: 0 0 auto; height: var(--panel-control); min-height: var(--panel-control); padding: 3px 6px; margin: 0;
+}
+:host([data-menu-density]) .panel .companion-skill {
+ display: flex; align-items: center; gap: 8px; justify-content: space-between;
+ border-top: 1px solid #35414d; padding: 8px 0;
+}
+:host([data-menu-density]) .panel .companion-skill > span { min-width: 0; overflow-wrap: anywhere; }
+:host([data-menu-density]) .panel .companion-skill > button { flex: 0 0 auto; }
+:host([data-menu-density][data-orientation='portrait']) .panel .companion-layout {
+ grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+/* Phone rename fields use their placeholder and accessible name instead of a duplicate caption. */
+:host([data-phone-screen]) .panel .companion-name > span { display: none; }
+
+/* Fill each wrapped action row while retaining the available space for its labels. */
+:host([data-phone-screen]) .panel:is([data-view='pet'], [data-view='companions']:has(.companion-name:not([hidden])))
+ .companion-footer .inventory-actions > button {
+ flex: 1 0 auto;
+}
+
+/* Mercenary skills have fixed levels; their phone menu has no learning action. */
+:host([data-phone-screen]) .panel [data-companion-kind='mercenary'] .companion-skill > button { display: none; }
+
+/* Pet requirements share the companion panels' spacing and readable value alignment. */
+:host([data-phone-screen]) .panel .pet-evolution-requirement {
+ display: flex; justify-content: space-between; gap: 12px; margin: 0; padding: 7px 0;
+ border-bottom: 1px solid #35414d;
+}
+:host([data-phone-screen]) .panel .pet-evolution-requirement strong { white-space: nowrap; font-weight: normal; }
+:host([data-phone-screen]) .panel .pet-evolution-requirement.is-missing strong,
+:host([data-phone-screen]) .panel .pet-evolution-accessory { color: #f6d9a5; }
+:host([data-phone-screen]) .panel [data-evolution] > h3 { margin: 0 0 6px; font-size: inherit; }
+:host([data-phone-screen]) .panel [data-evolution] > button { margin-top: 10px; }

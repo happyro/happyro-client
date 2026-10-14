@@ -117,13 +117,22 @@ export function createPickupSettingsPanel(section, draft, persist = savePickupSe
 	section.append(enabledRow);
 	const controls = document.createElement('fieldset');
 	controls.className = 'pickup-controls';
+	const rules = document.createElement('div');
+	rules.className = 'pickup-rules-group';
+	const rulesHeading = document.createElement('h3');
+	rulesHeading.className = 'pickup-rules-title';
+	rulesHeading.textContent = '拾取规则';
+	rules.append(rulesHeading);
+	const exclusions = document.createElement('div');
+	exclusions.className = 'pickup-exclusions-group';
+	controls.append(rules, exclusions);
 	enabled.oninput = () => {
 		draft.enabled = enabled.checked;
 		save();
 	};
 	const limits = document.createElement('div');
 	limits.className = 'pickup-limits';
-	controls.append(limits);
+	rules.append(limits);
 	const range = document.createElement('input');
 	range.type = 'number';
 	range.min = 1;
@@ -153,7 +162,7 @@ export function createPickupSettingsPanel(section, draft, persist = savePickupSe
 	const batchHelp = document.createElement('p');
 	batchHelp.className = 'pickup-note';
 	batchHelp.textContent = '自动战斗时，打完当前目标再拾取本轮物品；达到时限后重新找怪，没有怪物则继续拾取。';
-	controls.append(batchHelp);
+	rules.append(batchHelp);
 	const categories = document.createElement('div');
 	categories.className = 'pickup-categories';
 	categories.setAttribute('role', 'group');
@@ -171,10 +180,10 @@ export function createPickupSettingsPanel(section, draft, persist = savePickupSe
 		};
 		categories.append(label(text, input));
 	}
-	controls.append(categories);
+	rules.append(categories);
 	const heading = document.createElement('h4');
 	heading.textContent = '排除物品';
-	controls.append(heading);
+	exclusions.append(heading);
 	const excludedTitle = document.createElement('p');
 	const excluded = document.createElement('div');
 	excluded.className = 'pickup-excluded';
@@ -219,15 +228,22 @@ export function createPickupSettingsPanel(section, draft, persist = savePickupSe
 	const toolbar = document.createElement('div');
 	toolbar.className = 'pickup-toolbar';
 	toolbar.append(add, remove, clear);
-	controls.append(toolbar, excludedTitle, excluded);
+	exclusions.append(toolbar, excludedTitle, excluded);
 	function updateSelection() {
 		remove.disabled = !selected.size;
 		clear.disabled = !draft.excluded.length;
 		excludedTitle.textContent = `已排除 ${draft.excluded.length} 件 · 已选 ${selected.size} 件`;
 	}
 	function renderExcluded() {
+		const scrollPositions = [];
+		if (section.closest('.mobile-pickup-settings')) {
+			for (let node = excluded; node; node = node.parentElement) {
+				if (node.scrollHeight > node.clientHeight) scrollPositions.push([node, node.scrollTop]);
+				if (node === section) break;
+			}
+		}
+		const fragment = document.createDocumentFragment();
 		clearImages(excludedImageUrls);
-		excluded.replaceChildren();
 		for (const item of draft.excluded) {
 			const row = document.createElement('label');
 			row.className = 'pickup-item';
@@ -243,10 +259,13 @@ export function createPickupSettingsPanel(section, draft, persist = savePickupSe
 			const name = document.createElement('span');
 			name.textContent = `${item.name} · ${item.id}`;
 			row.append(checkbox, itemImage(`/items/${item.id}/icon`, excludedImageUrls), name);
-			excluded.append(row);
+			fragment.append(row);
 		}
-		if (!draft.excluded.length) excluded.textContent = '暂无排除物品';
+		if (!draft.excluded.length) fragment.append('暂无排除物品');
+		excluded.replaceChildren(fragment);
 		updateSelection();
+		// Clamp only to the final list height, never the temporary empty-list height.
+		for (const [node, top] of scrollPositions) node.scrollTop = top;
 	}
 	renderExcluded();
 	const note = document.createElement('p');

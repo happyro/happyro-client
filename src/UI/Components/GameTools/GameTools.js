@@ -8,6 +8,10 @@ import UIManager from 'UI/UIManager.js';
 import Preferences from 'Core/Preferences.js';
 import htmlText from './GameTools.html?raw';
 import cssText from './GameTools.css?raw';
+import buttonCssText from './GameToolsButtons.css?raw';
+import lightThemeCssText from '../DesktopLightTheme.css?raw';
+import lightCssText from './GameToolsLight.css?raw';
+import tabsCssText from '../DesktopTabs.css?raw';
 import itemCatalogCssText from './ItemCatalogTab.css?raw';
 import gameSelectCssText from './GameSelect.css?raw';
 import { getGameToolsTabs } from './GameToolsRegistry.js';
@@ -16,7 +20,9 @@ import { loadAdventureControlBootstrap } from './AdventureControlService.js';
 import { notifyMonsterSpawnConfig, notifyMonsterSpawnResult } from './MonsterCatalogTab.js';
 
 const preferences = Preferences.get('GameTools', { tab: 'maps' }, 2.0);
-const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText);
+const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText + lightThemeCssText + buttonCssText + lightCssText + tabsCssText);
+// Use the desktop theme scrollbars instead of the legacy RO image scrollbar.
+GameTools.nativeScrolling = true;
 const mountedTabs = new Map();
 let activeTabId;
 let capabilities;
@@ -94,7 +100,7 @@ GameTools.renderTabs = function renderTabs({ reopening = false } = {}) {
 	}
 	if (!tabs.length) return;
 	const selected = tabs.find(tab => tab.id === preferences.tab) || tabs[0];
-	root.querySelector('.tab-list').innerHTML = tabs
+	root.querySelector('.desktop-tab-group').innerHTML = tabs
 		.map(
 			tab =>
 				`<button class="tab-button${tab.id === selected.id ? ' active' : ''}" type="button" role="tab" data-tab="${tab.id}">${tab.label}</button>`

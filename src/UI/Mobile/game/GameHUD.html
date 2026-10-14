@@ -26,12 +26,20 @@
 		</button>
 	</div>
 	<div class="chat-preview surface">
-		<nav class="chat-preview-tabs" data-chat-preview-tabs aria-label="聊天预览分类"></nav>
+		<nav class="chat-preview-tabs menu-tabs" data-chat-preview-tabs aria-label="聊天预览分类"></nav>
 		<button class="chat-preview-open" data-panel="chat" aria-label="打开聊天">
 			<span data-chat-preview>暂无消息</span>
 		</button>
 		<button data-chat-collapse aria-label="收起聊天预览" title="收起聊天预览">收起</button>
 		<button data-chat-expand aria-label="展开聊天预览" title="展开聊天预览" hidden>
+			<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+				<path d="M4 4h16v12H9l-5 4V4Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+				<path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="1.5" /></svg
+			><b data-chat-unread hidden></b>
+		</button>
+	</div>
+	<div class="portrait-chat-launch surface">
+		<button data-panel="chat" aria-label="打开聊天" title="打开聊天">
 			<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
 				<path d="M4 4h16v12H9l-5 4V4Z" fill="none" stroke="currentColor" stroke-width="1.5" />
 				<path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="1.5" /></svg

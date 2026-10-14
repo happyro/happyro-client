@@ -1,0 +1,86 @@
+/* Desktop-only skin: shared combat/pickup components retain their mobile theme. */
+:host {
+ --assist-surface: var(--desktop-surface);
+ --assist-border: #d3d7db;
+ --assist-accent: var(--desktop-success);
+ color: var(--desktop-text);
+ color-scheme: light;
+}
+button,
+.pickup-picker button {
+ background: var(--desktop-button);
+ border-color: var(--desktop-border);
+ border-radius: 4px;
+ color: var(--desktop-text);
+ box-shadow: none;
+}
+button:not(.combat-launcher):hover:not(:disabled),
+.pickup-picker button:hover:not(:disabled) { background: var(--desktop-hover); border-color: var(--desktop-focus-border); }
+button:not(.combat-launcher):active:not(:disabled),
+.pickup-picker button:active:not(:disabled) { background: var(--desktop-pressed); }
+button:disabled { opacity: .55; }
+button:focus-visible,
+.pickup-picker button:focus-visible,
+.pickup-picker input:focus-visible { outline-color: #676e75; }
+.combat-dialog input:focus-visible { outline: none; border-color: var(--desktop-focus-border); }
+.combat-launcher {
+ background-color: #e8ecef;
+ background-image: linear-gradient(#ffffff99, #ffffff00);
+ border-color: #b7bfc6;
+ border-radius: 10px;
+ color: #58636d;
+ box-shadow: inset 0 1px var(--desktop-card), 0 2px 6px #0002;
+ transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+.combat-dialog,
+.pickup-picker {
+ background: var(--assist-surface);
+ border-color: var(--desktop-border);
+ border-radius: 4px;
+ color: var(--desktop-text);
+ border-radius: 8px;
+ box-shadow: 0 10px 28px #0003, 0 1px 4px #0001;
+}
+.combat-dialog > header { padding-bottom: 10px; border-bottom: 1px solid var(--desktop-divider); }
+.combat-dialog > header .combat-tabs.desktop-tab-group { margin-right: auto; }
+.combat-runtime,
+.combat-dialog .desktop-pickup-panel > .pickup-enabled { background: #eceff1; border-color: var(--desktop-divider); border-radius: 6px; }
+.combat-dialog :is(.auto-range-settings, .auto-teleport-settings, .auto-species-card, .auto-skill-card),
+.pickup-excluded { background: var(--desktop-card); border-color: var(--desktop-divider); border-radius: 6px; color: var(--desktop-text); }
+.combat-dialog :is(.auto-species-card, .auto-skill-card):hover { background: var(--desktop-button); border-color: #9ca3aa; }
+.combat-dialog :is(.auto-species-card, .auto-skill-card)[aria-checked='true'],
+.combat-dialog [data-normal-attack][aria-pressed='true'] { background: var(--desktop-selected); border-color: var(--desktop-selected-border); color: var(--desktop-text); }
+.combat-dialog .auto-species-check { border-color: var(--desktop-border); background: var(--desktop-card); color: var(--desktop-text); }
+.combat-dialog [aria-checked='true'] .auto-species-check { background: var(--desktop-success); border-color: var(--desktop-success); color: var(--desktop-card); }
+.combat-dialog .auto-range-stepper button { background: var(--desktop-button); border-color: var(--desktop-border); border-radius: 4px; }
+.combat-dialog .auto-range-stepper button:hover:not(:disabled) { background: var(--desktop-hover); }
+.combat-dialog :is(input[type='number'], input[type='search']),
+.pickup-picker .pickup-search input { background: var(--desktop-card); border-color: var(--desktop-border); border-radius: 4px; color: var(--desktop-text); }
+.combat-dialog :is(.auto-help, .auto-skill-card small, [data-skill-count], [data-auto-save-status], .combat-subtitle),
+.pickup-note, .pickup-search-status, .pickup-save-status { color: var(--desktop-muted); }
+.combat-dialog :is([data-range-summary], [data-auto-feedback]) { color: #376a47; }
+.combat-dialog [data-auto-save-status][data-error='true'],
+.pickup-save-status[data-error='true'] { color: #a61d24; }
+.pickup-section input[aria-invalid='true'] { border-color: #a61d24; outline-color: #a61d24; }
+.pickup-item, .pickup-picker > footer { border-color: #d1d5d8; }
+.pickup-section .pickup-item input[type='checkbox'] { border-color: var(--desktop-border); border-radius: 4px; background: var(--desktop-card); }
+.pickup-section .pickup-item input[type='checkbox']:checked { background: var(--desktop-success); border-color: var(--desktop-success); }
+.pickup-section .pickup-item input[type='checkbox']:focus-visible { outline-color: #676e75; }
+.pickup-picker input[type='checkbox'] { accent-color: var(--desktop-success); }
+.combat-dialog .game-switch[role='switch'] { background: #d8dce0; border-color: #9da5ad; }
+.combat-dialog .game-switch[role='switch']::before { background: var(--desktop-card); }
+.combat-dialog .game-switch[role='switch']:is(:checked, [aria-checked='true']) { background: var(--desktop-success); border-color: var(--desktop-success); }
+.combat-dialog .game-switch[role='switch']:focus-visible { outline-color: #676e75; }
+
+.combat-dialog .ui-confirm { background: var(--desktop-card); color: var(--desktop-text); border-color: var(--desktop-border); border-radius: 4px; }
+.combat-dialog .ui-confirm .ui-confirm-actions button { background: var(--desktop-button); color: var(--desktop-text); border-color: var(--desktop-border); border-radius: 4px; }
+.combat-dialog .ui-confirm .ui-confirm-actions button:hover:not(:disabled) { background: var(--desktop-hover); border-color: var(--desktop-focus-border); }
+.combat-dialog .ui-confirm .ui-confirm-actions button:focus-visible { outline-color: #676e75; }
+
+.combat-launcher:hover:not(:disabled) { background-color: #fafbfc; border-color: #929fa9; color: #374b5a; }
+.combat-launcher:active:not(:disabled),
+.combat-launcher[aria-expanded='true'] { background-color: #e2e8ec; border-color: #929fa9; box-shadow: inset 0 1px 3px #0001; }
+@media (prefers-reduced-motion: reduce) { .combat-launcher { transition: none; } }
+
+/* Leave breathing room between settings navigation and its content. */
+.combat-dialog { row-gap: 16px; }
