@@ -1,0 +1,22 @@
+/* Bottom tabs own equal inner spacing. Placement remains a feature decision. */
+:host([data-menu-density][data-menu-arrangement]) .panel[data-view] .menu-bottom-tabs:not(.menu-bottom-tabs--stacked),
+:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view] .menu-bottom-tabs--stacked {
+ --menu-tab-spacing: 6px;
+ display: flex;
+ width: 100%;
+ flex-shrink: 0;
+ align-items: center;
+ border-top: 1px solid #52606d;
+ padding-block: var(--menu-tab-spacing);
+ margin: 0;
+ box-sizing: border-box;
+}
+/* Collapse only the gap before the following footer: tab padding owns that space. */
+:host([data-menu-density][data-menu-arrangement]) .panel[data-view] .menu-bottom-tabs:not(.menu-bottom-tabs--stacked) + .menu-footer,
+:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view] .menu-bottom-tabs--stacked ~ .menu-footer {
+ margin-top: -6px;
+}
+:host([data-menu-density][data-menu-arrangement]) .panel[data-view] :has(> .menu-bottom-tabs:not(.menu-bottom-tabs--stacked)),
+:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view] :has(> .menu-bottom-tabs--stacked) {
+ row-gap: 6px;
+}

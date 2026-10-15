@@ -1,3 +1,4 @@
+import { createMenuField } from './MenuFormControls.js';
 import { interactionColumns, interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
@@ -43,7 +44,7 @@ export function createVendingPanel(body, service) {
 	$('[data-cancel]').onclick = () => service.close();
 	if (!initial.owned) {
 		$('[data-fields]').innerHTML =
-			'<label>摊位名称<input data-title maxlength="24"></label><label data-budget-label>收购预算<input data-budget type="number" min="1" step="1"></label>';
+			'<label>摊位名称<input data-menu-control="field" data-title maxlength="24"></label><label data-budget-label>收购预算<input data-menu-control="field" data-budget type="number" min="1" step="1"></label>';
 		$('[data-budget-label]').hidden = initial.mode !== 'buy';
 		$('[data-title]').required = true;
 		$('[data-budget]').required = initial.mode === 'buy';
@@ -87,9 +88,8 @@ export function createVendingPanel(body, service) {
 		);
 	};
 	function update() {
-		const phone = body.getRootNode().host.hasAttribute('data-phone-screen');
 		layout.children[2].querySelector('.interaction-column-title').textContent =
-			phone && initial.owned ? '物品详情' : '物品说明与定价';
+			initial.owned ? '物品详情' : '物品说明与定价';
 		const state = service.snapshot();
 		$('[data-cancel]').disabled = Boolean(state.pending);
 		status.textContent = state.pending
@@ -143,8 +143,8 @@ export function createVendingPanel(body, service) {
 					const pricing = document.createElement('div');
 					pricing.className = 'interaction-pricing';
 					panel.append(pricing);
-					const amount = document.createElement('input'),
-						price = document.createElement('input');
+					const amount = createMenuField(),
+						price = createMenuField();
 					amountInput = amount;
 					priceInput = price;
 					for (const input of [amount, price]) {
@@ -200,7 +200,6 @@ export function createVendingPanel(body, service) {
 		if ($('[data-revert-vending]')) $('[data-revert-vending]').hidden = !draft?.dirty();
 		const order = $('[data-order]');
 		const orderKey = JSON.stringify([
-			phone,
 			state.owned,
 			state.order,
 			state.owned ? state.items : null,
@@ -215,8 +214,8 @@ export function createVendingPanel(body, service) {
 				const log = document.createElement('p');
 				log.textContent =
 					state.mode === 'buy'
-						? `剩余预算：${state.budget ?? '—'} Z\n${state.log.join('\n') || (phone ? '暂无成交记录' : '')}`
-						: state.log.join('\n') || (phone ? '暂无成交记录' : '');
+						? `剩余预算：${state.budget ?? '—'} Z\n${state.log.join('\n') || '暂无成交记录'}`
+						: state.log.join('\n') || '暂无成交记录';
 				log.className = 'vending-transactions';
 				order.append(log);
 			}

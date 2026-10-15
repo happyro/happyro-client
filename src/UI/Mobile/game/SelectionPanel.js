@@ -1,3 +1,4 @@
+import { createMenuField } from './MenuFormControls.js';
 import { createEquipmentFilters } from 'UI/Game/EquipmentFilters.js';
 import { interactionReview, interactionFooter } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
@@ -84,7 +85,7 @@ export function createSelectionPanel(body, service) {
 		const materials = [];
 		if (entry.materials) {
 			for (let index = 0; index < 3; index++) {
-				const select = document.createElement('select');
+				const select = createMenuField('select');
 				select.setAttribute('aria-label', `附加材料 ${index + 1}`);
 				select.add(new Option('不使用附加材料', '0'));
 				for (const material of state.materials)
@@ -111,9 +112,12 @@ export function createSelectionPanel(body, service) {
 				`选择：${entry.name}`,
 				state.warning || ''
 			);
+			if (state.equipment) {
+				content.prepend(content.querySelector('.interaction-review-summary'));
+			}
 			confirmAction(
 				body,
-				`确认选择「${entry.name}」？`,
+				state.equipment ? '' : `确认选择「${entry.name}」？`,
 				() => {
 					feedback(service.choose(entry.id, chosen), 'error');
 				},

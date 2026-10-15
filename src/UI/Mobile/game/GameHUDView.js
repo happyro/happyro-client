@@ -1,3 +1,10 @@
+import { bindChatPreviewLayout } from './ChatPreviewLayout.js';
+import menuNarrowTabletCSS from './MenuNarrowTablet.css?raw';
+import menuButtonSizingCSS from './MenuButtonSizing.css?raw';
+import menuBottomTabsCSS from './MenuBottomTabs.css?raw';
+import menuFeatureStyles from './MenuFeatureStyles.js';
+import menuFormControlsCSS from './MenuFormControls.css?raw';
+import menuChromeCSS from './MenuChrome.css?raw';
 import menuActionButtonsCSS from './MenuActionButtons.css?raw';
 import vendingCSS from './VendingPanel.css?raw';
 import companionLayoutCSS from './CompanionLayout.css?raw';
@@ -83,7 +90,7 @@ ${menuContentComponentsCSS}
 ${companionLayoutCSS}
 ${menuNavigationCSS}
 ${menuActionButtonsCSS}
-${vendingCSS}</style>${html}`;
+${vendingCSS}${menuChromeCSS}${menuFeatureStyles}${menuBottomTabsCSS}${menuFormControlsCSS}${menuButtonSizingCSS}${menuNarrowTabletCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	const orientationHint = Preferences.get('OrientationHint', { dismissed: false }, 1.0);
@@ -102,6 +109,7 @@ ${vendingCSS}</style>${html}`;
 	let settingsCleanup;
 	let combatSettingsCleanup;
 	const chatDisplay = Preferences.get('ChatPreview', { collapsed: false }, 1.0);
+	let chatPreviewCramped = false;
 	let currentPanel = null;
 	let statusPanel = null;
 	let serverState = null;
@@ -675,16 +683,26 @@ ${vendingCSS}</style>${html}`;
 		$('h2').focus();
 	}
 	function renderChatDisplay() {
-		$('.chat-preview').classList.toggle('collapsed', chatDisplay.collapsed);
-		$('.chat-preview-open').hidden = chatDisplay.collapsed;
-		$('[data-chat-collapse]').hidden = chatDisplay.collapsed;
-		$('[data-chat-expand]').hidden = !chatDisplay.collapsed;
+		const collapsed = chatDisplay.collapsed || chatPreviewCramped;
+		$('.chat-preview').classList.toggle('collapsed', collapsed);
+		$('.chat-preview-open').hidden = collapsed;
+		$('[data-chat-collapse]').hidden = collapsed;
+		const expand = $('[data-chat-expand]');
+		expand.hidden = !collapsed;
+		const label = chatPreviewCramped ? '打开聊天' : '展开聊天预览';
+		expand.setAttribute('aria-label', label);
+		expand.title = label;
 	}
+
 	for (const [selector, collapsed] of [
 		['[data-chat-collapse]', true],
 		['[data-chat-expand]', false]
 	]) {
 		listen($(selector), 'click', () => {
+			if (!collapsed && chatPreviewCramped) {
+				open('chat');
+				return;
+			}
 			chatDisplay.collapsed = collapsed;
 			chatDisplay.save();
 			renderChatDisplay();
@@ -693,6 +711,13 @@ ${vendingCSS}</style>${html}`;
 		});
 	}
 	renderChatDisplay();
+	const releaseChatPreviewLayout = bindChatPreviewLayout(root, cramped => {
+		const focused = $('.chat-preview').contains(root.activeElement);
+		chatPreviewCramped = cramped;
+		renderChatDisplay();
+		updateMessages();
+		if (focused) $(chatDisplay.collapsed || cramped ? '[data-chat-expand]' : '[data-chat-collapse]').focus();
+	});
 	for (const button of root.querySelectorAll('[data-panel]'))
 		listen(button, 'click', () => open(button.dataset.panel));
 	listen($('[data-close]'), 'click', () => close());
@@ -903,6 +928,7 @@ ${vendingCSS}</style>${html}`;
 		},
 		close,
 		destroy() {
+			releaseChatPreviewLayout();
 			chatPreview.destroy();
 			releaseNotificationInset();
 			menuSelects.destroy();
