@@ -1,3 +1,4 @@
+import { servantWeaponEffectIds } from 'DB/Skills/ServantWeaponEffects.js';
 /**
  * Engine/MapEngine/Entity.js
  *
@@ -21,6 +22,7 @@ import StatusState from 'DB/Status/StatusState.js';
 import Emotions from 'DB/Emotions.js';
 import SkillEffect from 'DB/Skills/SkillEffect.js';
 import SkillActionTable from 'DB/Skills/SkillAction.js';
+import { mechanicStatusEffects } from 'DB/Skills/MechanicEffects.js';
 import { fourthJobStatusEffects } from 'DB/Skills/FourthJobEffects.js';
 import EffectConst from 'DB/Effects/EffectConst.js';
 import PetMessageConst from 'DB/Pets/PetMessageConst.js';
@@ -315,6 +317,7 @@ function onEntityVanish(pkt) {
 			EffectConst.EF_CHOOKGI3,
 			EffectConst.EF_CHOOKGI_N
 		]); // Spirit spheres
+		EffectManager.remove(null, pkt.GID, servantWeaponEffectIds);
 		EffectManager.remove(null, pkt.GID, [
 			EffectConst.EF_CHOOKGI_FIRE,
 			EffectConst.EF_CHOOKGI_WIND,
@@ -1899,13 +1902,21 @@ function onEntityStatusChange(pkt) {
 
 	// TODO: add other status
 	switch (pkt.index) {
-		case StatusConst.SERVANTWEAPON:
 		case StatusConst.FIRE_CHARM_POWER:
 		case StatusConst.WATER_CHARM_POWER:
 		case StatusConst.WIND_CHARM_POWER:
 		case StatusConst.GROUND_CHARM_POWER:
 		case StatusConst.MYSTERY_POWDER: {
 			const effectId = fourthJobStatusEffects[pkt.index];
+			EffectManager.remove(null, pkt.AID, effectId);
+			if (pkt.state || !Object.prototype.hasOwnProperty.call(pkt, 'state')) {
+				EffectManager.spam({ effectId, ownerAID: pkt.AID, persistent: true });
+			}
+			break;
+		}
+		case StatusConst.NEUTRALBARRIER_MASTER:
+		case StatusConst.STEALTHFIELD_MASTER: {
+			const effectId = mechanicStatusEffects[pkt.index];
 			EffectManager.remove(null, pkt.AID, effectId);
 			if (pkt.state || !Object.prototype.hasOwnProperty.call(pkt, 'state')) {
 				EffectManager.spam({ effectId, ownerAID: pkt.AID, persistent: true });
