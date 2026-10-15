@@ -19070,7 +19070,7 @@ var MapLoader = class {
 		}
 		function onWorldReady(resourceWorld) {
 			if (!resourceWorld) {
-				loader.onload(false, `找不到文件“${mapname}”！`);
+				loader.onload(false, `找不到文件「${mapname}」！`);
 				return;
 			}
 			world = resourceWorld;
@@ -19079,7 +19079,7 @@ var MapLoader = class {
 		}
 		function onAltitudeReady(altitude) {
 			if (!altitude) {
-				loader.onload(false, `找不到文件“${world.files.gat}”！`);
+				loader.onload(false, `找不到文件「${world.files.gat}」！`);
 				return;
 			}
 			loader.setProgress(2);
@@ -19088,7 +19088,7 @@ var MapLoader = class {
 		}
 		function onGroundReady(ground) {
 			if (!ground) {
-				loader.onload(false, `找不到文件“${world.files.gnd}”！`);
+				loader.onload(false, `找不到文件「${world.files.gnd}」！`);
 				return;
 			}
 			loader.setProgress(3);
