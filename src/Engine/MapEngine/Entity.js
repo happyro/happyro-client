@@ -1,3 +1,5 @@
+import { syncWhiteImprison } from './WizardBodyState.js';
+import { updateWarlockSpheres } from './WarlockSphereState.js';
 import { servantWeaponEffectIds } from 'DB/Skills/ServantWeaponEffects.js';
 /**
  * Engine/MapEngine/Entity.js
@@ -15,6 +17,7 @@ import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 import DB from 'DB/DBManager.js';
 import { localizeEntityName } from './EntityName.js';
 import { localizeGuildPositionName } from 'DB/GuildPositionName.js';
+import SkillUnitId from 'DB/Skills/SkillUnitConst.js';
 import SkillId from 'DB/Skills/SkillConst.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import StatusConst from 'DB/Status/StatusConst.js';
@@ -31,7 +34,7 @@ import AttackEffect from 'DB/Monsters/AttackEffectTable.js';
 import Sound from 'Audio/SoundManager.js';
 import Events from 'Core/Events.js';
 import Guild from 'Engine/MapEngine/Guild.js';
-import { isFalconTargetAttackSkill } from 'Engine/MapEngine/FalconSkillMotion.js';
+import { moveSkillCompanions } from 'Engine/MapEngine/CompanionSkillMotion.js';
 import Session from 'Engine/SessionStorage.js';
 import Network from 'Network/NetworkManager.js';
 import PACKETVER from 'Network/PacketVerManager.js';
@@ -154,6 +157,7 @@ function onEntitySpam(pkt) {
 		}
 	}
 
+	syncWhiteImprison(entity, EffectManager);
 	localizeEntityName(entity);
 
 	if (pkt.effectState & StatusState.EffectState.FALCON && DB.isHunter(pkt.job)) {
@@ -1438,6 +1442,20 @@ function onEntityUseSkill(pkt) {
  * @param {object} pkt - PACKET.ZC.SKILL_ENTRY
  */
 function onSkillAppear(pkt) {
+	// Hidden traps still need a position for their triggered speech bubble.
+	if (pkt.job === SkillUnitId.UNT_DUMMYSKILL) {
+		EntityManager.get(pkt.AID)?.remove();
+		const entity = new Entity();
+		entity.GID = pkt.AID;
+		entity.position = [pkt.xPos, pkt.yPos, Altitude.getCellHeight(pkt.xPos, pkt.yPos)];
+		entity.objecttype = Entity.TYPE_EFFECT;
+		entity.effectColor[3] = 0;
+		entity.hideShadow = true;
+		entity.creatorGID = pkt.creatorAID;
+		entity.skillUnitId = pkt.job;
+		EntityManager.add(entity);
+		return;
+	}
 	EffectManager.spamSkillZone(pkt.job, pkt.xPos, pkt.yPos, pkt.AID, pkt.creatorAID);
 }
 
@@ -1547,39 +1565,7 @@ function onEntityUseSkillToAttack(pkt) {
 			}
 		}
 
-		if (srcEntity.falcon) {
-			if (isFalconTargetAttackSkill(pkt.SKID)) {
-				srcEntity.falcon.action = srcEntity.action;
-				srcEntity.falcon.walk.speed = 35;
-
-				srcEntity.falcon.walkToNonWalkableGround(
-					srcEntity.falcon.position[0],
-					srcEntity.falcon.position[1],
-					dstEntity.position[0],
-					dstEntity.position[1],
-					0,
-					true,
-					true
-				);
-			}
-		}
-
-		if (srcEntity.wug) {
-			if (pkt.SKID == SkillId.RA_WUGSTRIKE || pkt.SKID == SkillId.RA_WUGBITE) {
-				srcEntity.wug.action = srcEntity.action;
-				srcEntity.wug.walk.speed = 35;
-
-				srcEntity.wug.walkToNonWalkableGround(
-					srcEntity.wug.position[0],
-					srcEntity.wug.position[1],
-					dstEntity.position[0],
-					dstEntity.position[1],
-					1,
-					false,
-					true
-				);
-			}
-		}
+		moveSkillCompanions(srcEntity, dstEntity, pkt.SKID);
 	}
 
 	if (dstEntity) {
@@ -2130,7 +2116,7 @@ function onEntityStatusChange(pkt) {
 			} else {
 				entity.Summon1 = 0;
 			}
-			updateWarlockSpheres(entity);
+			updateWarlockSpheres(entity, EffectManager);
 			break;
 
 		case StatusConst.SUMMON2:
@@ -2139,7 +2125,7 @@ function onEntityStatusChange(pkt) {
 			} else {
 				entity.Summon2 = 0;
 			}
-			updateWarlockSpheres(entity);
+			updateWarlockSpheres(entity, EffectManager);
 			break;
 
 		case StatusConst.SUMMON3:
@@ -2148,7 +2134,7 @@ function onEntityStatusChange(pkt) {
 			} else {
 				entity.Summon3 = 0;
 			}
-			updateWarlockSpheres(entity);
+			updateWarlockSpheres(entity, EffectManager);
 			break;
 
 		case StatusConst.SUMMON4:
@@ -2157,7 +2143,7 @@ function onEntityStatusChange(pkt) {
 			} else {
 				entity.Summon4 = 0;
 			}
-			updateWarlockSpheres(entity);
+			updateWarlockSpheres(entity, EffectManager);
 			break;
 
 		case StatusConst.SUMMON5:
@@ -2166,7 +2152,7 @@ function onEntityStatusChange(pkt) {
 			} else {
 				entity.Summon5 = 0;
 			}
-			updateWarlockSpheres(entity);
+			updateWarlockSpheres(entity, EffectManager);
 			break;
 
 		case StatusConst.STEALTHFIELD:
@@ -2372,24 +2358,6 @@ function onEntityStatusChange(pkt) {
 	}
 }
 
-//Warlock sphere summons update
-function updateWarlockSpheres(entity) {
-	if (entity.Summon1 || entity.Summon2 || entity.Summon3 || entity.Summon4 || entity.Summon5) {
-		const EF_Init_Par = {
-			effectId: 'temporary_warlock_sphere',
-			ownerAID: entity.GID,
-			persistent: false
-		};
-
-		EffectManager.spam(EF_Init_Par);
-
-		entity.WarlockSpheres = true;
-	} else if (entity.WarlockSpheres) {
-		EffectManager.remove(null, entity.GID, 'temporary_warlock_sphere');
-		entity.WarlockSpheres = false;
-	}
-}
-
 /**
  * Update player option
  *
@@ -2412,6 +2380,7 @@ function onEntityOptionChange(pkt) {
 	);
 
 	entity.bodyState = pkt.bodyState;
+	syncWhiteImprison(entity, EffectManager);
 	entity.healthState = pkt.healthState;
 	entity.effectState = pkt.effectState;
 	entity.isPKModeON = pkt.isPKModeON;

@@ -1,3 +1,10 @@
+import { legacySupportSkillEffects } from './LegacySupportEffects.js';
+import { monkSkillEffects } from './MonkEffects.js';
+import { geneticSkillEffects } from './GeneticEffects.js';
+import { sorcererSkillEffects } from './SorcererEffects.js';
+import { assassinSkillEffects } from './AssassinEffects.js';
+import { crusaderSkillEffects } from './CrusaderEffects.js';
+import { wizardSkillEffects } from './WizardEffects.js';
 import { knightSkillEffects } from './KnightEffects.js';
 import { mechanicSkillEffects } from './MechanicEffects.js';
 /**
@@ -676,7 +683,7 @@ SkillEffect[SK.RK_FIGHTINGSPIRIT] = knightSkillEffects[SK.RK_FIGHTINGSPIRIT];
 SkillEffect[SK.RK_ABUNDANCE] = knightSkillEffects[SK.RK_ABUNDANCE];
 SkillEffect[SK.RK_PHANTOMTHRUST] = knightSkillEffects[SK.RK_PHANTOMTHRUST];
 // WL Warlock
-SkillEffect[SK.WL_WHITEIMPRISON] = { effectId: 802 }; //White Imprison
+SkillEffect[SK.WL_WHITEIMPRISON] = {}; // Body state drives White Imprison and its removal.
 SkillEffect[SK.WL_SOULEXPANSION] = {}; //Soul Expansion
 SkillEffect[SK.WL_FROSTMISTY] = { effectId: 726 }; //Frosty Misty
 SkillEffect[SK.WL_JACKFROST] = { effectId: 'ef_jackfrost', groundEffectId: 801 }; //Jack Frost
@@ -686,7 +693,7 @@ SkillEffect[SK.WL_SIENNAEXECRATE] = { effectId: 'ef_siennaexecrate' }; //Sienna 
 SkillEffect[SK.WL_STASIS] = { effectId: 799 }; //Stasis
 SkillEffect[SK.WL_DRAINLIFE] = {}; //Drain Life
 SkillEffect[SK.WL_CRIMSONROCK] = { effectId: 727 }; //Crimson Rock
-SkillEffect[SK.WL_HELLINFERNO] = { groundEffectId: 728, effectId: 800 }; //Hell Inferno
+SkillEffect[SK.WL_HELLINFERNO] = { successEffectId: 728 }; //Hell Inferno: one target cast, followed by fire/dark damage packets
 SkillEffect[SK.WL_COMET] = {}; //Comet
 SkillEffect[SK.WL_CHAINLIGHTNING] = {}; //Chain Lightning
 SkillEffect[SK.WL_CHAINLIGHTNING_ATK] = { effectId: 734 }; //Chain Lightning Attack
@@ -727,14 +734,14 @@ SkillEffect[SK.GC_CROSSRIPPERSLASHER] = { effectId: 769 }; //Cross Ripper Slashe
 SkillEffect[SK.AB_JUDEX] = { effectId: 718, hitEffectId: 152 }; //Judex
 SkillEffect[SK.AB_ANCILLA] = { effectId: 'ef_ancilla' }; //Ancilla
 SkillEffect[SK.AB_ADORAMUS] = { effectId: 721 }; //Adoramus
-SkillEffect[SK.AB_CLEMENTIA] = {}; //Crementia
-SkillEffect[SK.AB_CANTO] = {}; //Canto Candidus
+SkillEffect[SK.AB_CLEMENTIA] = { effectId: 42 }; //Crementia
+SkillEffect[SK.AB_CANTO] = { effectId: 37 }; //Canto Candidus
 SkillEffect[SK.AB_CHEAL] = { effectId: 313 }; //Coluceo Heal
 SkillEffect[SK.AB_EPICLESIS] = { groundCastEffectId: 883, groundEffectId: 754 }; //Epiclesis
-SkillEffect[SK.AB_PRAEFATIO] = {}; //Praefatio
+SkillEffect[SK.AB_PRAEFATIO] = { effectId: 112 }; //Praefatio
 SkillEffect[SK.AB_ORATIO] = { effectId: 755 /*effectId: 725*/ }; //Oratio
-SkillEffect[SK.AB_LAUDAAGNUS] = {}; //Lauda Agnus
-SkillEffect[SK.AB_LAUDARAMUS] = {}; //Lauda Ramus
+SkillEffect[SK.AB_LAUDAAGNUS] = { effectId: 748 }; //Lauda Agnus
+SkillEffect[SK.AB_LAUDARAMUS] = { effectId: 747 }; //Lauda Ramus
 SkillEffect[SK.AB_RENOVATIO] = {}; //Renovatio
 SkillEffect[SK.AB_HIGHNESSHEAL] = { effectId: 325, hitEffectId: 320 }; //Highness Heal //CHECK Info shows this has magic attack.
 SkillEffect[SK.AB_CLEARANCE] = { effectId: 753 }; //Clearance
@@ -743,7 +750,7 @@ SkillEffect[SK.AB_DUPLELIGHT] = { effectId: 'ef_duplelight' }; //Duple Light //C
 SkillEffect[SK.AB_DUPLELIGHT_MELEE] = {}; //Duple Light Melee
 SkillEffect[SK.AB_DUPLELIGHT_MAGIC] = {}; //Duple Light Magic
 SkillEffect[SK.AB_SILENTIUM] = {}; //Silentium //CHECk Marked magic attack as well. Hmmmm....
-SkillEffect[SK.AB_SECRAMENT] = {}; //Secrament
+SkillEffect[SK.AB_SECRAMENT] = { effectId: 'priest:secrament' }; //Secrament
 // RA Ranger
 SkillEffect[SK.RA_ARROWSTORM] = { effectId: 746 }; //Arrow Storm
 SkillEffect[SK.RA_FEARBREEZE] = {}; //Fear Breeze
@@ -1161,5 +1168,5 @@ SkillEffect[SK.GD_RESTORE] = {}; //Restoration
 SkillEffect[SK.GD_EMERGENCYCALL] = {}; //Urgent Call
 SkillEffect[SK.GD_ITEMEMERGENCYCALL] = {}; //Item Emergency Call
 
-Object.assign(SkillEffect, fourthJobSkillEffects);
+Object.assign(SkillEffect, legacySupportSkillEffects, fourthJobSkillEffects, wizardSkillEffects, crusaderSkillEffects, assassinSkillEffects, sorcererSkillEffects, geneticSkillEffects, monkSkillEffects);
 export default SkillEffect;

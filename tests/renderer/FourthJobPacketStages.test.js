@@ -31,6 +31,23 @@ Object.assign(SkillEffect, fourthJobSkillEffects);
 afterEach(() => vi.restoreAllMocks());
 
 describe('fourth-job packet effect stages', () => {
+ it.each(['MT_AXE_STOMP', 'MT_RUSH_QUAKE'])('plays %s activation once and preserves each victim hit', name => {
+  const spam = vi.spyOn(EffectManager, 'spam').mockImplementation(() => {});
+  const id = SK[name];
+  EffectManager.spamSkill(id, 1, null, 1000, 1);
+  EffectManager.spamSkillSuccess(id, 1, 1000, 1);
+  expect(spam).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
+   effectId: fourthJobSkillEffects[id].successEffectId
+  }));
+  spam.mockClear();
+  for (const victim of [2, 3, 4]) {
+   EffectManager.spamSkill(id, victim, null, 1100, 1);
+   EffectManager.spamSkillHit(id, victim, 1100, 1);
+  }
+  expect(spam).toHaveBeenCalledTimes(3);
+  expect(spam.mock.calls.every(([effect]) => effect.effectId === fourthJobSkillEffects[id].hitEffectId)).toBe(true);
+ });
+
  it('draws Midnight Fallen at the ground notification position, without replaying it on damage', () => {
   const spam = vi.spyOn(EffectManager, 'spam').mockImplementation(() => {});
   EffectManager.spamSkill(SK.NW_MIDNIGHT_FALLEN, 1, [120, 130, 0], 1000, 1);
@@ -42,4 +59,25 @@ describe('fourth-job packet effect stages', () => {
   EffectManager.spamSkill(SK.NW_MIDNIGHT_FALLEN, 2, null, 1200, 1);
   expect(spam).not.toHaveBeenCalled();
  });
+ it('plays Dancing Knife activation once without replaying it for periodic victims', () => {
+  const spam = vi.spyOn(EffectManager, 'spam').mockImplementation(() => {});
+  EffectManager.spamSkill(SK.SHC_DANCING_KNIFE, 1, null, 1000, 1);
+  EffectManager.spamSkillSuccess(SK.SHC_DANCING_KNIFE, 1, 1000, 1);
+  expect(spam).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
+   effectId: fourthJobSkillEffects[SK.SHC_DANCING_KNIFE].successEffectId,
+   ownerAID: 1
+  }));
+  spam.mockClear();
+  for (const tick of [1300, 1600, 1900]) {
+   for (const victim of [2, 3, 4]) {
+    EffectManager.spamSkill(SK.SHC_DANCING_KNIFE, victim, null, tick, 1);
+    EffectManager.spamSkillHit(SK.SHC_DANCING_KNIFE, victim, tick, 1);
+   }
+  }
+  expect(spam).toHaveBeenCalledTimes(9);
+  expect(spam.mock.calls.every(([effect]) =>
+   effect.effectId === fourthJobSkillEffects[SK.SHC_DANCING_KNIFE].hitEffectId
+  )).toBe(true);
+ });
+
 });

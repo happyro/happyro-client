@@ -1,3 +1,4 @@
+import { requestTalkieMessage, showTalkieMessage } from './TalkieBox.js';
 import { openMonsterInformation } from 'UI/Game/GameMonsterInformation.js';
 import Platform from 'UI/Platform.js';
 import { openGameSelection, selectionEntries } from 'UI/Game/GameSelection.js';
@@ -367,6 +368,7 @@ function onSelectSkillList(pkt) {
  * @param {object} pkt - PACKET.ZC.WARPLIST
  */
 function onTeleportList(pkt) {
+	const destinationLabel = name => /^random(?:\.gat)?$/i.test(name) ? '随机传送' : DB.getMapName(name, name);
 	if (Platform.isMobile) {
 		const send = mapName => {
 			const response = new PACKET.CZ.SELECT_WARPPOINT();
@@ -375,7 +377,7 @@ function onTeleportList(pkt) {
 			Network.sendPacket(response);
 		};
 		const entries = pkt.mapName
-			.map((name, index) => ({ id: index, name: DB.getMapName(name, name) }))
+			.map((name, index) => ({ id: index, name: destinationLabel(name) }))
 			.filter(entry => pkt.mapName[entry.id]);
 		openGameSelection(
 			'选择传送地点',
@@ -400,10 +402,10 @@ function onTeleportList(pkt) {
 		const mapNames = [];
 
 		for (let i = 0, count = pkt.mapName.length; i < count; ++i) {
-			mapNames[i] = DB.getMapName(pkt.mapName[i], pkt.mapName[i]);
+			mapNames[i] = destinationLabel(pkt.mapName[i]);
 		}
 
-		NpcMenu.setMenu(mapNames.join(':') + ':Cancel', pkt.SKID);
+		NpcMenu.setMenu(mapNames.join(':') + ':取消', pkt.SKID);
 		NpcMenu.ui.find('.title').text(DB.getMessage(213));
 	};
 
@@ -455,7 +457,7 @@ function onMemoResult(pkt) {
  */
 function onMakingarrowList(pkt) {
 	if (!pkt.arrowList.length) {
-		showToast(document.body, '没有可制作的箭矢', 'info');
+		showToast(document.body, '没有可选择的物品', 'info');
 		return;
 	}
 
@@ -469,7 +471,7 @@ function onMakingarrowList(pkt) {
 
 	if (Platform.isMobile) {
 		openGameSelection(
-			'制作箭矢',
+			'选择物品',
 			selectionEntries(
 				pkt.arrowList.map(item => item.index),
 				'item'
@@ -481,8 +483,7 @@ function onMakingarrowList(pkt) {
 	}
 	MakeArrowSelection.append();
 	MakeArrowSelection.setList(pkt.arrowList);
-	//MakeArrowSelection.setTitle(DB.getMessage(658));
-	MakeArrowSelection.setTitle('LIST');
+	MakeArrowSelection.setTitle('选择物品');
 }
 
 /**
@@ -543,6 +544,7 @@ function onRepairList(pkt) {
 			_pkt.index = index;
 			_pkt.itemId = item?.ITID || 0;
 			_pkt.RefiningLevel = item?.RefiningLevel || 0;
+			_pkt.grade = item?.grade || 0;
 			if (item) _pkt.slots = item.slot;
 			Network.sendPacket(_pkt);
 		}
@@ -773,7 +775,16 @@ Guild.onUseSkill =
  * @param {number} position x
  * @param {number} position y
  */
-SkillTargetSelection.onUseSkillToPos = function onUseSkillToPos(id, level, x, y) {
+SkillTargetSelection.onUseSkillToPos = function onUseSkillToPos(id, level, x, y, contents) {
+	if (id === SkillId.HT_TALKIEBOX && contents === undefined) {
+		const caster = Session.Entity;
+		const map = Session.mapState;
+		void requestTalkieMessage().then(message => {
+			if (message !== null && caster === Session.Entity && map === Session.mapState)
+				onUseSkillToPos(id, level, x, y, message);
+		});
+		return;
+	}
 	let entity;
 	let range;
 
@@ -822,7 +833,10 @@ SkillTargetSelection.onUseSkillToPos = function onUseSkillToPos(id, level, x, y)
 		return;
 	}
 	let pkt;
-	if (PACKETVER.value >= 20190904) {
+	if (id === SkillId.HT_TALKIEBOX) {
+		pkt = new PACKET.CZ.USE_SKILL_TOGROUNDMoreInfo();
+		pkt.contents = contents;
+	} else if (PACKETVER.value >= 20190904) {
 		pkt = new PACKET.CZ.USE_SKILL_TOGROUND3();
 	} else if (PACKETVER.value >= 20180307) {
 		pkt = new PACKET.CZ.USE_SKILL_TOGROUND2();
@@ -1021,6 +1035,7 @@ export default function SkillEngine() {
 	Network.hookPacket(PACKET.ZC.MILLENNIUMSHIELD, onMillenniumShield);
 	Network.hookPacket(PACKET.ZC.SKILL_POSTDELAY, onSetSkillDelay);
 	Network.hookPacket(PACKET.ZC.STARSKILL, onTaekwonMission);
+	Network.hookPacket(PACKET.ZC.TALKBOX_CHATCONTENTS, packet => showTalkieMessage(packet, EntityManager));
 	Network.hookPacket(PACKET.ZC.MSG_SKILL, onMessageSkill);
 	Network.hookPacket(PACKET.ZC.MONSTER_INFO, onSense);
 	Network.hookPacket(PACKET.ZC.DEVOTIONLIST, onDevotionList);

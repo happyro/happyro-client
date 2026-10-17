@@ -35,6 +35,31 @@ describe('fourth-job explicit skill effects', () => {
 		}
 	});
 
+	it('routes Abyss Chaser area starts once and keeps impacts separate', () => {
+		const dagger = fourthJobSkillEffects[SK.ABC_ABYSS_DAGGER];
+		expect(dagger.successEffectId).toBeDefined();
+		expect(dagger.hitEffectId).toBeDefined();
+		expect(dagger.effectId).toBeUndefined();
+		const rush = fourthJobSkillEffects[SK.ABC_UNLUCKY_RUSH];
+		expect(rush.successEffectIdOnCaster).toBeDefined();
+		expect(rush.hitEffectId).toBeDefined();
+		expect(rush.effectId).toBeUndefined();
+		const strike = fourthJobSkillEffects[SK.ABC_ABYSS_STRIKE];
+		expect(strike.groundCastEffectId).toBeDefined();
+		expect(strike.hitEffectId).toBeDefined();
+		expect(strike.effectId).toBeUndefined();
+	});
+
+	it('registers performer activations separately from victim damage', () => {
+		for (const name of ['TR_MYSTIC_SYMPHONY', 'TR_KVASIR_SONATA', 'TR_NIPELHEIM_REQUIEM', 'TR_PRON_MARCH']) {
+			const effect = fourthJobSkillEffects[SK[name]];
+			expect(effect.beginCastEffectId, name).toBeDefined();
+			expect(effect.successEffectId, name).toBeDefined();
+			expect(effect.effectId, name).toBeUndefined();
+		}
+		expect(fourthJobSkillEffects[SK.TR_METALIC_FURY].hitEffectId).toBeDefined();
+	});
+
 	it('keeps official floor layers behind entities and separates cross-slash impact', () => {
 		const cast = fourthJobRenderEffects[fourthJobSkillEffects[SK.WH_WILD_WALK].beginCastEffectId];
 		expect(cast.map(layer => layer.renderBeforeEntities)).toEqual([false, true]);
@@ -84,8 +109,10 @@ describe('fourth-job explicit skill effects', () => {
 		expect(mysteryStatus.map(layer => layer.renderBeforeEntities)).toEqual([false, true]);
 		expect(StatusConst.MAX).toBeGreaterThan(StatusConst.MYSTERY_POWDER);
 
-		const servantStatus = fourthJobRenderEffects[fourthJobStatusEffects[StatusConst.SERVANTWEAPON]];
-		expect(servantStatus).toMatchObject([{ attachedEntity: true, repeat: true }]);
+		// Servant weapon count notifications own the orbiting weapons.
+		expect(fourthJobStatusEffects[StatusConst.SERVANTWEAPON]).toBeUndefined();
+		const servantCast = fourthJobRenderEffects[fourthJobSkillEffects[SK.DK_SERVANTWEAPON].successEffectId];
+		expect(servantCast.every(layer => layer.attachedEntity && !layer.repeat)).toBe(true);
 
 		const servantShot = fourthJobRenderEffects[fourthJobSkillEffects[SK.DK_SERVANTWEAPON_ATK].beforeHitEffectId];
 		expect(servantShot).toHaveLength(2);

@@ -72,7 +72,6 @@ ConvertItems.init = function init() {
 
 	this.material = [];
 
-	this.draggable(root.querySelector('.head'));
 	root.querySelector('.footer .extend').addEventListener('mousedown', onResize);
 	root.querySelector('ui-button.trade').addEventListener('click', onMessageModel);
 	root.querySelector('ui-button.cancel').addEventListener('click', onClose);
@@ -216,7 +215,7 @@ ConvertItems.validItemSend = function validItemSend(valid_material) {
 	MakeModelMessage.remove();
 
 	const inforMaterialList = {
-		Type: 0,
+		Type: ItemListWindowSelection.type,
 		Action: valid_material ? 1 : 0,
 		MaterialList: valid_material ? this.material : []
 	};
@@ -293,7 +292,7 @@ ConvertItems.onRemove = function onRemove() {
  */
 ConvertItems.setTitle = function setTitle(title) {
 	const root = ConvertItems.getRoot();
-	const text = root.querySelector('.head .text');
+	const text = root.querySelector('.titlebar .text');
 	if (text) {
 		text.textContent = title;
 	}

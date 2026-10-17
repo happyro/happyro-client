@@ -1,3 +1,9 @@
+import { legacySupportRenderEffects } from '../Skills/LegacySupportEffects.js';
+import { monkRenderEffects } from '../Skills/MonkEffects.js';
+import { geneticRenderEffects } from '../Skills/GeneticEffects.js';
+import { sorcererRenderEffects } from '../Skills/SorcererEffects.js';
+import { assassinRenderEffects } from '../Skills/AssassinEffects.js';
+import { crusaderRenderEffects } from '../Skills/CrusaderEffects.js';
 /**
  * @module DB/Effects/EffectTable
  *
@@ -9,6 +15,7 @@
 
 import RainWeatherEffect from 'Renderer/Effects/RainWeather.js';
 import { servantWeaponRenderEffects } from '../Skills/ServantWeaponEffects.js';
+import { wizardRenderEffects } from '../Skills/WizardEffects.js';
 import { knightRenderEffects } from '../Skills/KnightEffects.js';
 import { mechanicRenderEffects } from '../Skills/MechanicEffects.js';
 import { fourthJobRenderEffects } from '../Skills/FourthJobEffects.js';
@@ -67,9 +74,16 @@ const GravityEffects = SongEffects.GravityEffects;
 const EvillandEffects = SongEffects.EvillandEffects;
 
 export default {
+	...legacySupportRenderEffects,
+	...monkRenderEffects,
+	...geneticRenderEffects,
 	...fourthJobRenderEffects,
 	...mechanicRenderEffects,
 	...knightRenderEffects,
+	...wizardRenderEffects,
+	...sorcererRenderEffects,
+	...crusaderRenderEffects,
+	...assassinRenderEffects,
 	...servantWeaponRenderEffects,
 	...fourthJobGroundEffects,
 	/// Common parameters
@@ -3476,13 +3490,6 @@ export default {
 		}
 	],
 
-	119: [
-		{
-			//EF_DETECTING	Detect
-			wav: 'effect/hunter_detecting',
-			attachedEntity: true
-		}
-	],
 
 	120: [
 		{
@@ -8605,13 +8612,6 @@ export default {
 
 	//385: [{}],	//EF_LINKLIGHT	   Soul Change (Visual Effect)
 
-	386: [
-		{
-			//EF_TRUESIGHT	   True Sight
-			wav: 'effect/hunter_detecting',
-			attachedEntity: true
-		}
-	],
 
 	387: [
 		{
@@ -8637,13 +8637,6 @@ export default {
 		}
 	],
 
-	389: [
-		{
-			//windwalk	//EF_PORTAL4	Wind Walk
-			wav: 'effect/\xc0\xa9\xb5\xe5\xbf\xf6\xc5\xa9', //Ŕ©µĺżöĹ©
-			attachedEntity: true
-		}
-	],
 
 	390: [
 		{
@@ -12220,12 +12213,6 @@ export default {
 		}
 	],
 
-	719: [
-		{
-			//EF_FORESTLIGHT5	   Renovatio (light beam)
-			wav: 'effect/ab_renovation'
-		}
-	],
 	//720: [{}],	//EF_SOULBREAKER3	   Yellow version of Soul Breaker
 
 	721: [
@@ -15603,12 +15590,11 @@ export default {
 		}
 	],
 
-	ef_duplelight: [
-		{
-			wav: 'effect/ab_duplelight',
-			attachedEntity: true
-		}
-	],
+	'priest:secrament': [{
+		type: 'STR', file: 'new_secrament/new_secrament/new_secrament',
+		texturePath: 'new_secrament/new_secrament/', attachedEntity: true
+	}],
+
 
 	ef_wugbite: [
 		{

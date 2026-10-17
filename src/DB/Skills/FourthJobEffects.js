@@ -292,7 +292,7 @@ export const fourthJobEffectResources = {
 	},
 	SHC_SHADOW_EXCEED: { effectId: 'shadow_exceed/shadow_exceed/shadow_exceed' },
 	SHC_DANCING_KNIFE: {
-		effectIdOnCaster: 'dancing_knife/dancing_knife_cast/dancing_knife_cast',
+		successEffectId: 'dancing_knife/dancing_knife_cast/dancing_knife_cast',
 		hitEffectId: 'dancing_knife/dancing_knife_hit/dancing_knife_hit'
 	},
 	SHC_SAVAGE_IMPACT: { hitEffectId: 'savage_impact/savage_impact_hit/savage_impact_hit' },
@@ -308,14 +308,14 @@ export const fourthJobEffectResources = {
 		]
 	},
 	MT_AXE_STOMP: {
-		effectId: [
+		successEffectId: [
 			'new_axe_stomp/new_axe_stomp/new_axe_stomp',
 			'new_axe_stomp/new_axe_stomp_bottom/new_axe_stomp_bottom'
 		],
 		hitEffectId: 'new_axe_stomp/new_axe_stomp_hit/new_axe_stomp_hit'
 	},
 	MT_RUSH_QUAKE: {
-		effectId: [
+		successEffectId: [
 			'new_rush_quake/new_rush_quake/new_rush_quake',
 			'new_rush_quake/new_rush_quake_bottom/new_rush_quake'
 		],
@@ -341,18 +341,33 @@ export const fourthJobEffectResources = {
 		hitEffectId: 'mystery_illusion/mystery_illusion_hit/mystery_illusion_hit'
 	},
 	AG_VIOLENT_QUAKE: {
-		beginCastEffectId: 'violentquake/violentquake_cast/violentquake_cast',
+		beginCastEffectId: 'violentquake/violentquake_cast/violentquake_cast'
+	},
+	AG_VIOLENT_QUAKE_ATK: {
+		groundCastEffectId: 'violentquake/violentquake/violentquake_01',
 		hitEffectId: 'violentquake/violentquake_hit/violentquake_hit'
 	},
 	AG_SOUL_VC_STRIKE: { hitEffectId: 'soul_vc_strike/soul_vc_strike_hit/soul_vc_strike_hit' },
 	AG_STRANTUM_TREMOR: { hitEffectId: 'strantumtremor/strantumtremor_hit/strantumtremor_hit' },
-	AG_ALL_BLOOM: { hitEffectId: 'allbloom/allbloom_hit/allbloom_hit' },
+	AG_ALL_BLOOM: { beginCastEffectId: 'allbloom/allbloom_cast/allbloom_cast' },
+	AG_ALL_BLOOM_ATK: {
+		groundCastEffectId: 'allbloom/allbloom_bomb/allbloom_bomb01',
+		hitEffectId: 'allbloom/allbloom_hit/allbloom_hit'
+	},
+	AG_ALL_BLOOM_ATK2: {
+		groundCastEffectId: 'allbloom/allbloom_bomb/allbloom_bomb02',
+		hitEffectId: 'allbloom/allbloom_hit/allbloom_hit'
+	},
 	AG_CRYSTAL_IMPACT: { hitEffectId: 'crystal_impact/crystal_impact_hit/crystal_impact_hit' },
 	AG_TORNADO_STORM: { hitEffectId: 'tornadostorm/tornadostorm_hit/tornadostorm_hit' },
 	AG_ASTRAL_STRIKE: {
 		beginCastEffectId: 'astralstrike/astralstrike_cast/astralstrike_cast',
-		hitEffectId: 'astralstrike/astralstrike/astralstrike'
+		groundCastEffectId: 'astralstrike/astralstrike/astralstrike'
 	},
+	AG_ASTRAL_STRIKE_ATK: { hitEffectId: 'astralstrike/astralstrike_sub_1/astralstrike_sub_1' },
+	AG_CRIMSON_ARROW_ATK: { hitEffectId: 'crimsonarrow/crimsonarrow_hit/crimsonarrow_hit' },
+	AG_CRYSTAL_IMPACT_ATK: { hitEffectId: 'crystal_impact/crystal_impact_hit/crystal_impact_hit' },
+	AG_DESTRUCTIVE_HURRICANE_CLIMAX: { hitEffectId: 'destructive_hurricane/destructive_hurricane_hit/destructive_hurricane_hit' },
 	AG_CLIMAX: { effectId: 'climax/climax/climax' },
 	AG_ROCK_DOWN: { hitEffectId: 'rockdown/rockdown_hit/rockdown_hit' },
 	AG_STORM_CANNON: { hitEffectId: 'stormcannon/stormcannon/stormcannon' },
@@ -364,6 +379,10 @@ export const fourthJobEffectResources = {
 			'rain_of_crystal/rain_of_crystal_casting_bottom/rain_of_crystal_casting_bottom'
 		]
 	},
+	CD_DILECTIO_HEAL: {
+		beginCastEffectId: ['new_dilectioheal/new_dilectioheal_cast/new_dilectioheal_cast', 'new_dilectioheal/new_dilectioheal_cast_bottom/new_dilectioheal_cast_bottom'],
+		effectId: ['new_dilectioheal/new_dilectioheal_target/new_dilectioheal_target', 'new_dilectioheal/new_dilectioheal_target_bottom/new_dilectioheal_target_bottom']
+	},
 	CD_MEDIALE_VOTUM: { effectId: 'medialevotum/medialevotum/medialevotum' },
 	CD_ARGUTUS_VITA: { effectId: 'argutusvita/argutusvita/argutusvita' },
 	CD_ARGUTUS_TELUM: { effectId: 'argutustelum/argutustelum/argutustelum' },
@@ -372,7 +391,8 @@ export const fourthJobEffectResources = {
 	CD_EFFLIGO: { hitEffectId: 'effligo/effligo_hit/effligo_hit' },
 	CD_COMPETENTIA: { effectId: 'competentia/competentia/competentia' },
 	CD_PNEUMATICUS_PROCELLA: {
-		beginCastEffectId: 'pneumaticusprocella/pneumaticusprocella_cast/pneumaticusprocella_cast'
+		beginCastEffectId: 'pneumaticusprocella/pneumaticusprocella_cast/pneumaticusprocella_cast',
+		hitEffectId: 'pneumaticusprocella/pneumaticusprocella_target/pneumaticusprocella_target'
 	},
 	CD_RELIGIO: { effectId: 'religio/religio/religio' },
 	CD_BENEDICTUM: { effectId: 'benedictum/benedictum/benedictum' },
@@ -438,11 +458,11 @@ export const fourthJobEffectResources = {
 		]
 	},
 	ABC_ABYSS_DAGGER: {
-		effectId: 'abyss_dagger/abyss_dagger/abyss_dagger',
+		successEffectId: 'abyss_dagger/abyss_dagger/abyss_dagger',
 		hitEffectId: 'abyss_dagger/abyss_dagger_hit/abyss_dagger_hit'
 	},
 	ABC_UNLUCKY_RUSH: {
-		effectId: 'unlucky_rush/unlucky_rush_cast/unlucky_rush_cast',
+		successEffectIdOnCaster: 'unlucky_rush/unlucky_rush_cast/unlucky_rush_cast',
 		hitEffectId: 'unlucky_rush/unlucky_rush_hit/unlucky_rush_hit'
 	},
 	ABC_CHAIN_REACTION_SHOT: {
@@ -472,7 +492,7 @@ export const fourthJobEffectResources = {
 			'abyss_strike/abyss_strike_cast/abyss_strike_cast',
 			'abyss_strike/abyss_strike_cast_bottom/abyss_strike_cast_bottom'
 		],
-		effectId: [
+		groundCastEffectId: [
 			'abyss_strike/abyss_strike/abyss_strike',
 			'abyss_strike/abyss_strike_bottom/abyss_strike_bottom',
 			'abyss_strike/abyss_strike_ground/abyss_strike_ground',
@@ -544,12 +564,17 @@ export const fourthJobEffectResources = {
 		],
 		effectId: 'activity_burn/activity_burn/activity_burn'
 	},
+	EM_TERRA_DRIVE: {
+		beginCastEffectId: ['terradrive/terradrive_cast/terradrive_cast', 'terradrive/terradrive_cast_bottom/terradrive_cast_bottom'],
+		groundCastEffectId: ['terradrive/terradrive/terradrive', 'terradrive/terradrive_bottom/terradrive_bottom'],
+		hitEffectId: 'terradrive/terradrive_hit/terradrive_hit'
+	},
 	EM_DIAMOND_STORM: {
 		beginCastEffectId: [
 			'diamond_storm/diamond_storm_cast/diamond_storm_cast',
 			'diamond_storm/diamond_storm_cast_bottom/diamond_storm_cast_bottom'
 		],
-		effectId: [
+		groundCastEffectId: [
 			'diamond_storm/diamond_storm/diamond_storm',
 			'diamond_storm/diamond_storm_bottom/diamond_storm_bottom'
 		],
@@ -578,35 +603,35 @@ export const fourthJobEffectResources = {
 	},
 	EM_ELEMENTAL_BUSTER: { beginCastEffectId: 'elemental_buster/elemental_buster_cast/elemental_buster_cast' },
 	EM_ELEMENTAL_BUSTER_FIRE: {
-		effectId: [
+		successEffectId: [
 			'elemental_buster/elemental_buster/elemental_buster_fire/elemental_buster_fire',
 			'elemental_buster/elemental_buster/elemental_buster_fire_bottom/elemental_buster_fire_bottom'
 		],
 		hitEffectId: 'elemental_buster/elemental_buster_hit/elemental_buster_fire_hit/elemental_buster_fire_hit'
 	},
 	EM_ELEMENTAL_BUSTER_WATER: {
-		effectId: [
+		successEffectId: [
 			'elemental_buster/elemental_buster/elemental_buster_water/elemental_buster_water',
 			'elemental_buster/elemental_buster/elemental_buster_water_bottom/elemental_buster_water_bottom'
 		],
 		hitEffectId: 'elemental_buster/elemental_buster_hit/elemental_buster_water_hit/elemental_buster_water_hit'
 	},
 	EM_ELEMENTAL_BUSTER_WIND: {
-		effectId: [
+		successEffectId: [
 			'elemental_buster/elemental_buster/elemental_buster_wind/elemental_buster_wind',
 			'elemental_buster/elemental_buster/elemental_buster_wind_bottom/elemental_buster_wind_bottom'
 		],
 		hitEffectId: 'elemental_buster/elemental_buster_hit/elemental_buster_wind_hit/elemental_buster_wind_hit'
 	},
 	EM_ELEMENTAL_BUSTER_GROUND: {
-		effectId: [
+		successEffectId: [
 			'elemental_buster/elemental_buster/elemental_buster_land/elemental_buster_land',
 			'elemental_buster/elemental_buster/elemental_buster_land_bottom/elemental_buster_land_bottom'
 		],
 		hitEffectId: 'elemental_buster/elemental_buster_hit/elemental_buster_land_hit/elemental_buster_land_hit'
 	},
 	EM_ELEMENTAL_BUSTER_POISON: {
-		effectId: [
+		successEffectId: [
 			'elemental_buster/elemental_buster/elemental_buster_poison/elemental_buster_poison',
 			'elemental_buster/elemental_buster/elemental_buster_poison_bottom/elemental_buster_poison_bottom'
 		],
@@ -615,6 +640,23 @@ export const fourthJobEffectResources = {
 	IQ_JUDGE: {
 		effectId: ['4ig_judge/judge_start/judge_start', '4ig_judge/judge/judge', '4ig_judge/judge_aura/judge_aura']
 	},
+	TR_MYSTIC_SYMPHONY: {
+		beginCastEffectId: 'mysticsymphony/mysticsymphony_cast/mysticsymphony_cast',
+		successEffectId: 'mysticsymphony/mysticsymphony/mysticsymphony'
+	},
+	TR_KVASIR_SONATA: {
+		beginCastEffectId: ['4tr_kvasirsonata/kvasirsonata_cast/kvasirsonata_cast', '4tr_kvasirsonata/kvasirsonata_cast_bottom/kvasirsonata_cast_bottom'],
+		successEffectId: '4tr_kvasirsonata/kvasirsonata/kvasirsonata'
+	},
+	TR_NIPELHEIM_REQUIEM: {
+		beginCastEffectId: 'nipelheim/nipelheim_cast/nipelheim_cast',
+		successEffectId: 'nipelheim/nipelheim/nipelheim'
+	},
+	TR_PRON_MARCH: {
+		beginCastEffectId: ['pronmarch/pronmarch_cast/pronmarch_cast', 'pronmarch/pronmarch_cast_bottom/pronmarch_cast_bottom'],
+		successEffectId: 'pronmarch/pronmarch/pronmarch'
+	},
+	TR_METALIC_FURY: { hitEffectId: 'metalicfury/metalicfury/metalicfury' },
 	TR_ROSEBLOSSOM: {
 		beginCastEffectId: [
 			'roseblossom/roseblossom_cast/roseblossom_cast',
@@ -730,6 +772,12 @@ export const fourthJobStatusEffectResources = {
 		repeat: true
 	}
 };
+
+// Ground ticks have distinct server skill IDs; only reuse the victim impact.
+for (const element of ['WATER', 'GROUND', 'WIND', 'FIRE']) {
+	const name = `BO_ACIDIFIED_ZONE_${element}`;
+	fourthJobEffectResources[`${name}_ATK`] = { hitEffectId: fourthJobEffectResources[name].hitEffectId };
+}
 
 export const fourthJobSkillEffects = {};
 export const fourthJobRenderEffects = {};
