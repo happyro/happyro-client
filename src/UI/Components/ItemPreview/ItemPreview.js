@@ -245,6 +245,8 @@ const renderPreview = (function renderPreviewClosure() {
 		const preview = {
 			GID: Session.Entity.GID + '_PREVIEW',
 			job: Session.Entity.job,
+				characterAppearance: Session.Entity._characterAppearanceFailed ? 0 : Session.Entity.characterAppearance,
+				body: Session.Entity.body,
 			sex: Session.Entity.sex,
 			head: Session.Entity.head,
 			headpalette: Session.Entity.headpalette,

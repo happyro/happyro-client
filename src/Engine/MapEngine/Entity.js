@@ -158,7 +158,7 @@ function onEntitySpam(pkt) {
 	}
 
 	syncWhiteImprison(entity, EffectManager);
-	localizeEntityName(entity);
+	localizeEntityName(entity, pkt.name);
 
 	if (pkt.effectState & StatusState.EffectState.FALCON && DB.isHunter(pkt.job)) {
 		if (!entity.falcon) {
@@ -2833,6 +2833,10 @@ export default function EntityEngine() {
 	Network.hookPacket(PACKET.ZC.NOTIFY_CHAT, onEntityTalk);
 	Network.hookPacket(PACKET.ZC.SHOWSCRIPT, onEntityTalk);
 	Network.hookPacket(PACKET.ZC.NPC_CHAT, onEntityTalkColor);
+	Network.hookPacket(PACKET.ZC.HAPPYRO_CHARACTER_APPEARANCE, pkt => {
+		const entity = EntityManager.get(pkt.actorId);
+		if (entity) entity.characterAppearance = pkt.appearance;
+	});
 	Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_NAME, pkt => {
 		const entity = EntityManager.get(pkt.AID);
 		if (entity) localizeEntityName(entity, pkt.CName);

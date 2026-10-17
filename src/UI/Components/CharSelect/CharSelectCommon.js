@@ -49,7 +49,8 @@ export function createCharSelect(config) {
 		activationEvent = 'mousedown',
 		bitmapSkin = true,
 		onSelectionChange = () => {},
-		onSlotChange = () => {}
+		onSlotChange = () => {},
+		renderCharacterPreview = null
 	} = config;
 	function loadSkin(path, callback) {
 		if (bitmapSkin) Client.loadFile(path, callback);
@@ -84,6 +85,7 @@ export function createCharSelect(config) {
 	 * @var {Array} list of characters (index by slot)
 	 */
 	const _slots = [];
+	const _appearanceChoices = new Map();
 
 	/**
 	 * @var {Array} list of entities (index by slot)
@@ -344,6 +346,7 @@ export function createCharSelect(config) {
 	 * @param {object} pkt - packet structure
 	 */
 	Component.setInfo = function setInfo(pkt) {
+		_appearanceChoices.clear();
 		if (resetSelectionOnLogin) _index = 0;
 		if (gridLayout) {
 			Component.clearAllSlots();
@@ -549,7 +552,20 @@ export function createCharSelect(config) {
 	 *
 	 * @param {object} character data
 	 */
+	Component.updateCharacterAppearance = function updateCharacterAppearance(charId, appearance) {
+		if (!Number.isInteger(appearance) || appearance < 0 || appearance > 6) return;
+		_appearanceChoices.set(charId, appearance);
+		for (const character of _slots) {
+			if (character?.GID === charId) {
+				character.characterAppearance = appearance;
+				if (appearance && character.body >= 0) _entitySlots[character.CharNum]._body = character.body;
+				_entitySlots[character.CharNum].characterAppearance = appearance;
+			}
+		}
+	};
+
 	Component.addCharacter = function addCharacter(character) {
+		character.characterAppearance = _appearanceChoices.get(character.GID) || 0;
 		if (!('sex' in character) || character.sex === 99) {
 			character.sex = _sex;
 		}
@@ -560,6 +576,7 @@ export function createCharSelect(config) {
 			_slots[character.CharNum] = character;
 
 			_entitySlots[character.CharNum] ??= new Entity();
+			if (character.characterAppearance && character.body >= 0) _entitySlots[character.CharNum]._body = character.body;
 			_entitySlots[character.CharNum].set(character);
 			_entitySlots[character.CharNum].effectState =
 				_entitySlots[character.CharNum]._effectState & ~StatusConst.EffectState.INVISIBLE;
@@ -583,6 +600,7 @@ export function createCharSelect(config) {
 		_slots[character.CharNum] = character;
 
 		_entitySlots[character.CharNum] ??= new Entity();
+		if (character.characterAppearance && character.body >= 0) _entitySlots[character.CharNum]._body = character.body;
 		_entitySlots[character.CharNum].set(character);
 		_entitySlots[character.CharNum].effectState =
 			_entitySlots[character.CharNum]._effectState & ~StatusConst.EffectState.INVISIBLE;
@@ -1429,7 +1447,8 @@ export function createCharSelect(config) {
 				if (_slots[idx + i] && _slots[idx + i].DeleteDate) {
 					_entitySlots[idx + i].action = 2;
 				}
-				_entitySlots[idx + i].renderEntity();
+				if (renderCharacterPreview) renderCharacterPreview(_entitySlots[idx + i], _ctx[i]);
+				else _entitySlots[idx + i].renderEntity();
 			}
 		}
 	}
