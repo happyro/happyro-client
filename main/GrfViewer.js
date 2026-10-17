@@ -78018,6 +78018,8 @@ function init$17(packetver) {
 		packets_len[3325] = 32;
 		packets_len[3329] = 32;
 		packets_len[3335] = 28;
+		packets_len[3336] = 8;
+		packets_len[3337] = 8;
 		packets_len[3327] = 8;
 		packets_len[3332] = -1;
 		console.log("%c[Network] Packet Length initialized ", "color:#007000", packetver);
@@ -204546,6 +204548,16 @@ var init_PacketStructure = __esmMin((() => {
 		while (fp.tell() < end) this.typeList.push(fp.readUChar());
 	};
 	PACKET.ZC.SELECTCART.size = -1;
+	PACKET.ZC.HAPPYRO_RIDING_APPEARANCE = function PACKET_ZC_HAPPYRO_RIDING_APPEARANCE(fp) {
+		this.actorId = fp.readULong();
+		this.appearance = fp.readUShort();
+	};
+	PACKET.ZC.HAPPYRO_RIDING_APPEARANCE.size = 8;
+	PACKET.HC.HAPPYRO_CHARACTER_APPEARANCE = function PACKET_HC_HAPPYRO_CHARACTER_APPEARANCE(fp) {
+		this.charId = fp.readULong();
+		this.appearance = fp.readUShort();
+	};
+	PACKET.HC.HAPPYRO_CHARACTER_APPEARANCE.size = 8;
 	PACKET.ZC.HAPPYRO_NPC_NAME = function PACKET_ZC_HAPPYRO_NPC_NAME(fp, end) {
 		if (end - fp.tell() < 5) throw new Error("Truncated NPC name packet");
 		this.AID = fp.readULong();
@@ -238749,6 +238761,8 @@ var init_PacketRegister = __esmMin((() => {
 		3325: PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT,
 		3329: PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT,
 		3335: PACKET.ZC.HAPPYRO_ARRIVAL_PREVIEW,
+		3336: PACKET.ZC.HAPPYRO_RIDING_APPEARANCE,
+		3337: PACKET.HC.HAPPYRO_CHARACTER_APPEARANCE,
 		3332: PACKET.ZC.HAPPYRO_NPC_NAME
 	};
 }));
@@ -253949,7 +253963,7 @@ var init_ItemEffect = __esmMin((() => {
 }));
 //#endregion
 //#region src/DB/Emotions.js
-var list, i, j, count, size, commands$1, names$1, indexes, order, Emotions_default;
+var list, i, j, count, size, commands$1, names$2, indexes, order, Emotions_default;
 var init_Emotions = __esmMin((() => {
 	list = [
 		[
@@ -254395,7 +254409,7 @@ var init_Emotions = __esmMin((() => {
 		[86, -1]
 	];
 	commands$1 = {};
-	names$1 = {};
+	names$2 = {};
 	indexes = {};
 	order = {};
 	for (i = 0, count = list.length; i < count; ++i) {
@@ -254403,11 +254417,11 @@ var init_Emotions = __esmMin((() => {
 		for (j = 2; j < size; ++j) commands$1[list[i][j]] = i;
 		if (size > 0) indexes[i] = list[i][0];
 		if (size > 1 && list[i][1] > -1) order[list[i][1]] = list[i][0];
-		if (size > 2) names$1[list[i][0]] = list[i][2];
+		if (size > 2) names$2[list[i][0]] = list[i][2];
 	}
 	Emotions_default = {
 		commands: commands$1,
-		names: names$1,
+		names: names$2,
 		indexes,
 		order
 	};
@@ -258268,6 +258282,8 @@ function getSignature(config) {
 	return [
 		config.GID,
 		config.job,
+		config.ridingAppearance || 0,
+		config.body || 0,
 		config.sex,
 		config.head,
 		config.headpalette,
@@ -258286,6 +258302,7 @@ function createEquipmentPreviewEntity(getEntityClass) {
 		const nextSignature = getSignature(config);
 		if (entity && signature === nextSignature) return entity;
 		const EntityClass = getEntityClass();
+		entity?.clean?.();
 		entity = new EntityClass();
 		entity.set({
 			GID: config.GID,
@@ -258302,6 +258319,9 @@ function createEquipmentPreviewEntity(getEntityClass) {
 			accessory3: config.accessory3,
 			Robe: config.robe
 		});
+		if (config.ridingAppearance && config.body >= 0) entity._body = config.body;
+		if (config.body !== void 0) entity.body = config.body;
+		entity.ridingAppearance = config.ridingAppearance || 0;
 		entity.effectColor.set(CLEAN_COLOR);
 		entity.direction = config.direction;
 		entity.headDir = 0;
@@ -258495,6 +258515,8 @@ var init_ItemPreview$1 = __esmMin((() => {
 			const preview = {
 				GID: SessionStorage_default.Entity.GID + "_PREVIEW",
 				job: SessionStorage_default.Entity.job,
+				ridingAppearance: SessionStorage_default.Entity._ridingAppearanceFailed ? 0 : SessionStorage_default.Entity.ridingAppearance,
+				body: SessionStorage_default.Entity.body,
 				sex: SessionStorage_default.Entity.sex,
 				head: SessionStorage_default.Entity.head,
 				headpalette: SessionStorage_default.Entity.headpalette,
@@ -259236,6 +259258,8 @@ var init_SwitchEquip = __esmMin((() => {
 			const preview = {
 				GID: SessionStorage_default.Entity.GID + "_SWAPEQUIP",
 				job: SessionStorage_default.Entity.job,
+				ridingAppearance: SessionStorage_default.Entity._ridingAppearanceFailed ? 0 : SessionStorage_default.Entity.ridingAppearance,
+				body: SessionStorage_default.Entity.body,
 				sex: SessionStorage_default.Entity.sex,
 				head: SessionStorage_default.Entity.head,
 				headpalette: SessionStorage_default.Entity.headpalette,
@@ -259523,6 +259547,10 @@ var init_JobDisplayNameTable = __esmMin((() => {
 		4257: "风鹰",
 		4258: "帝国卫士",
 		4259: "生物学者",
+		4278: "风鹰",
+		4279: "机甲大师",
+		4280: "龙骑士",
+		4281: "帝国卫士",
 		4260: "深渊追踪者",
 		4261: "元素大师",
 		4262: "审判官",
@@ -286485,7 +286513,7 @@ var init_GameTools$2 = __esmMin((() => {
 //#region src/UI/Components/GameTools/GameTools.css?raw
 var GameTools_default$1;
 var init_GameTools$1 = __esmMin((() => {
-	GameTools_default$1 = ".game-tools-window {\r\n	--game-tools-footer-height: 36px;\r\n	position: relative;\r\n	isolation: isolate;\r\n	width: min(820px, calc(100vw - 24px));\r\n	height: min(620px, calc(100vh - 36px));\r\n	min-width: 520px;\r\n	min-height: 360px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background: #eef0f2;\r\n	border: 1px solid #73777d;\r\n	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);\r\n	color: #202225;\r\n	font:\r\n		12px Arial,\r\n		sans-serif;\r\n	box-sizing: border-box;\r\n}\r\n.titlebar {\r\n	position: relative;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	cursor: move;\r\n	background: linear-gradient(#f7f8f9, #cfd3d7);\r\n	border-bottom: 1px solid #8b9096;\r\n}\r\n.title {\r\n	line-height: 24px;\r\n	padding-left: 9px;\r\n	font-weight: bold;\r\n}\r\n.close {\r\n	position: absolute;\r\n	right: 5px;\r\n	top: 5px;\r\n	width: 14px;\r\n	height: 14px;\r\n	border: 1px solid #777;\r\n	background: #f4f4f4;\r\n	cursor: pointer;\r\n}\r\n.close::before,\r\n.close::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	width: 1px;\r\n	height: 9px;\r\n	background: #333;\r\n	transform: rotate(45deg);\r\n}\r\n.close::after {\r\n	transform: rotate(-45deg);\r\n}\r\n.tab-list {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	gap: 0;\r\n	align-items: end;\r\n	padding: 0 8px;\r\n	border-bottom: 1px solid #aeb2b7;\r\n	background: #e3e5e8;\r\n}\r\n.tab-button {\r\n	height: 28px;\r\n	padding: 0 14px;\r\n	border: 1px solid #aeb2b7;\r\n	border-bottom: none;\r\n	background: #d5d8dc;\r\n	cursor: pointer;\r\n}\r\n.tab-button.active {\r\n	background: #fff;\r\n	font-weight: bold;\r\n	height: 28px;\r\n	margin-bottom: -1px;\r\n}\r\n.tab-button + .tab-button { border-left: 0; }\r\n.tab-button:first-child { border-top-left-radius: 6px; }\r\n.tab-button:last-child { border-top-right-radius: 6px; }\r\n.tab-button:focus-visible { outline: 2px solid #3a789d; outline-offset: -3px; }\r\n.tab-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	background: #fff;\r\n}\r\n.game-tools-tab {\r\n	height: 100%;\r\n}\r\n\r\n.management-tab {\r\n	height: 100%;\r\n	min-height: 0;\r\n	background: #f7f8f9;\r\n}\r\n.character-attributes-tab {\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.character-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);\r\n}\r\n.character-job-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	border-right: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.character-job-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.character-job-row {\r\n	width: 100%;\r\n	height: 50px;\r\n	min-height: 50px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 5px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: #fff;\r\n	color: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.character-job-row.selected {\r\n	background: #dceaff;\r\n}\r\n.character-job-emblem {\r\n	width: 38px;\r\n	height: 38px;\r\n	flex: 0 0 38px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #c3cbd2;\r\n	background: #e3e9ee;\r\n	color: #526273;\r\n	font-size: 16px;\r\n	font-weight: bold;\r\n}\r\n.character-job-empty {\r\n	padding: 18px 8px;\r\n	color: #777;\r\n	text-align: center;\r\n}\r\n.character-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	background: #f7f8f9;\r\n}\r\n.character-detail .character-summary {\r\n	flex: 0 0 auto;\r\n	padding: 12px;\r\n	background: #fff;\r\n}\r\n.character-detail-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 0 14px;\r\n	overflow-y: auto;\r\n}\r\n.character-detail-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.selected-job {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 8px 10px;\r\n	border: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.selected-job div {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.selected-job small {\r\n	color: #6c7177;\r\n}\r\n.selected-job button,\r\n.character-actions button,\r\n.catalog-empty-state button {\r\n	height: 28px;\r\n	min-width: 88px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.selected-job button:disabled,\r\n.character-actions button:disabled,\r\n.catalog-empty-state button:disabled {\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n.character-actions {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 7px;\r\n	padding: 9px 12px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #fff;\r\n}\r\n.character-actions .management-status {\r\n	width: 100%;\r\n	min-height: 14px;\r\n	padding: 0;\r\n}\r\n.management-loading,\r\n.management-error {\r\n	height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #666;\r\n}\r\n.management-error,\r\n.management-status.error {\r\n	color: #a61d24;\r\n}\r\n.management-scroll {\r\n	height: 100%;\r\n	padding: 12px;\r\n	overflow-y: auto;\r\n	box-sizing: border-box;\r\n}\r\n.character-summary {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 20px;\r\n	padding: 0 0 10px;\r\n	border-bottom: 1px solid #d6d8db;\r\n}\r\n.character-summary h3,\r\n.character-summary p {\r\n	margin: 0;\r\n}\r\n.character-summary p,\r\n.character-summary span {\r\n	color: #666;\r\n}\r\n.character-summary > div:last-child {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: end;\r\n	gap: 3px;\r\n}\r\n.management-grid {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);\r\n	gap: 18px;\r\n}\r\n.management-tab section {\r\n	padding: 10px 0;\r\n}\r\n.management-tab section h4 {\r\n	margin: 0 0 8px;\r\n	font-size: 13px;\r\n}\r\n.management-tab section h4 small {\r\n	margin-left: 6px;\r\n	color: #777;\r\n	font-weight: normal;\r\n}\r\n.management-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));\r\n	gap: 10px 12px;\r\n}\r\n.management-form.progression-form {\r\n	grid-template-columns: repeat(4, minmax(0, 1fr));\r\n	align-items: start;\r\n}\r\n.management-form label {\r\n	display: grid;\r\n	min-width: 0;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	align-items: center;\r\n	gap: 5px;\r\n}\r\n.management-form label > span {\r\n	text-align: left;\r\n}\r\n.management-form-actions,\r\n.management-form > small {\r\n	grid-column: 1 / -1;\r\n}\r\n.management-form-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n}\r\n.character-attributes-tab .management-form > .management-form-actions {\r\n	display: grid;\r\n	grid-template-columns: subgrid;\r\n	column-gap: inherit;\r\n}\r\n.character-attributes-tab .management-form > .management-form-actions > button {\r\n	grid-column: auto;\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.management-form > small {\r\n	color: #686d72;\r\n	line-height: 1.6;\r\n}\r\n.character-summary {\r\n	flex-wrap: wrap;\r\n}\r\n.character-summary > div {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-grid label,\r\n.settings-footer label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.management-form input,\r\n.settings-form input {\r\n	height: 27px;\r\n	border: 1px solid #aeb2b7;\r\n	background: #fff;\r\n	box-sizing: border-box;\r\n}\r\n.management-form input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	padding: 2px 5px;\r\n}\r\n.management-form button,\r\n.maintenance-actions button,\r\n.settings-footer button {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.management-form button {\r\n	grid-column: 1 / -1;\r\n}\r\n.maintenance-actions {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.maintenance-actions h4 {\r\n	margin: 0 5px 0 0 !important;\r\n}\r\n.maintenance-actions span {\r\n	color: #666;\r\n}\r\n.management-status {\r\n	min-height: 18px;\r\n	padding-top: 5px;\r\n	color: #287233;\r\n}\r\n.settings-form {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.settings-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 4px 14px;\r\n	overflow-y: auto;\r\n}\r\n.settings-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.settings-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 7px 22px;\r\n}\r\n.settings-rate-columns {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 22px;\r\n}\r\n.settings-rate-list {\r\n	display: grid;\r\n	gap: 7px;\r\n}\r\n.settings-rate-list label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.settings-drop-scroll {\r\n	overflow-x: auto;\r\n}\r\n.settings-drop-table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n.settings-drop-table th,\r\n.settings-drop-table td {\r\n	padding: 5px 8px;\r\n	white-space: nowrap;\r\n	text-align: left;\r\n}\r\n.settings-drop-table tbody th {\r\n	font-weight: normal;\r\n}\r\n.settings-drop-table .setting-number {\r\n	width: 110px;\r\n	min-width: 110px;\r\n}\r\n.settings-drop-table .setting-number input {\r\n	width: 84px;\r\n	min-width: 84px;\r\n	flex-basis: 84px;\r\n}\r\n.setting-number {\r\n	width: 132px;\r\n	min-width: 132px;\r\n	flex: 0 0 132px;\r\n}\r\n.settings-grid .game-select {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	margin-right: 26px;\r\n	flex: 0 0 106px;\r\n}\r\n.setting-number {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.setting-number input {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	flex: 0 0 106px;\r\n	padding: 2px 5px;\r\n}\r\n.setting-number em {\r\n	width: 26px;\r\n	flex: 0 0 26px;\r\n	font-style: normal;\r\n	text-align: right;\r\n}\r\n.settings-footer {\r\n	flex: 0 0 48px;\r\n	display: grid;\r\n	grid-template-columns: 1fr auto;\r\n	align-items: center;\r\n	gap: 12px;\r\n	padding: 8px 14px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #eceef0;\r\n	box-sizing: border-box;\r\n}\r\n.settings-footer .management-status {\r\n	padding: 0;\r\n	text-align: right;\r\n}\r\n.settings-footer button {\r\n	padding: 0 14px;\r\n}\r\n\r\n@media (max-width: 680px) {\r\n	.management-grid,\r\n	.settings-grid,\r\n	.settings-rate-columns {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.settings-footer {\r\n		grid-template-columns: 1fr auto;\r\n	}\r\n	.settings-footer .management-status {\r\n		display: none;\r\n	}\r\n}\r\n@media (max-width: 640px) {\r\n	.character-layout {\r\n		grid-template-columns: minmax(140px, 32%) minmax(0, 1fr);\r\n	}\r\n	.character-job-toolbar {\r\n		flex: 0 0 auto;\r\n		flex-wrap: wrap;\r\n	}\r\n}\r\n.monster-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.monster-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.monster-search {\r\n	flex: 1;\r\n	min-width: 120px;\r\n	height: 27px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.monster-filter {\r\n	width: 116px;\r\n}\r\n.monster-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);\r\n}\r\n.monster-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.monster-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.monster-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.monster-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.monster-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-row.selected {\r\n	background: #dceaff;\r\n}\r\n.monster-thumb,\r\n.monster-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n	image-rendering: auto;\r\n}\r\n.no-image {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #85898d;\r\n	background: #f2f3f4;\r\n}\r\n.no-image::after {\r\n	content: '无图';\r\n	font-size: 11px;\r\n}\r\n.monster-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.monster-row-text strong,\r\n.monster-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.monster-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.monster-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.monster-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.monster-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.empty-detail {\r\n	margin: auto;\r\n	color: #85898d;\r\n}\r\n.monster-heading {\r\n	display: flex;\r\n	gap: 12px;\r\n	align-items: center;\r\n	padding-bottom: 10px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.monster-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.monster-heading h3 {\r\n	margin: 0 0 5px;\r\n	font-size: 18px;\r\n}\r\n.monster-heading p {\r\n	margin: 0 0 7px;\r\n	color: #70757a;\r\n}\r\n.monster-badge {\r\n	display: inline-block;\r\n	padding: 2px 6px;\r\n	border: 1px solid #b4b8bc;\r\n	background: #f3f4f5;\r\n}\r\n.monster-stats {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 10px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.monster-stats div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 6px;\r\n	background: #fafafa;\r\n}\r\n.monster-stats span {\r\n	color: #686d72;\r\n}\r\n.monster-resources {\r\n	flex: 1;\r\n	min-height: 70px;\r\n	margin-top: 10px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 10px;\r\n	overflow: hidden;\r\n}\r\n.monster-drops,\r\n.monster-locations {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	border: 1px solid #ddd;\r\n	padding: 0;\r\n	box-sizing: border-box;\r\n}\r\n.monster-drops > h4,\r\n.monster-locations > h4 {\r\n	position: sticky;\r\n	top: 0;\r\n	z-index: 1;\r\n	margin: 0;\r\n	padding: 6px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #ddd;\r\n}\r\n.drop-group h4 {\r\n	padding-inline: 6px;\r\n	margin: 7px 0 4px;\r\n}\r\n.drop-group div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	padding: 3px 6px;\r\n	border-bottom: 1px dotted #d6d6d6;\r\n}\r\n.drop-group em {\r\n	color: #62676c;\r\n	font-style: normal;\r\n}\r\n.summon-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	gap: 9px;\r\n	align-items: center;\r\n	margin: 0 -12px -12px;\r\n	padding: 9px 12px 10px;\r\n	background: white;\r\n	border-top: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n}\r\n.summon-button {\r\n	height: 29px;\r\n	min-width: 64px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.summon-button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.summon-panel span {\r\n	min-width: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	color: #64696e;\r\n}\r\n.management-form .game-select {\r\n	width: 112px;\r\n}\r\n\r\n.game-tools-tab,\r\n.world-catalog-tab {\r\n	position: relative;\r\n}\r\n.world-catalog-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.catalog-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-search {\r\n	flex: 1;\r\n	height: 27px;\r\n	min-width: 120px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.catalog-filter {\r\n	width: 124px;\r\n}\r\n.catalog-scope {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	white-space: nowrap;\r\n}\r\n.catalog-scope-option {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n	cursor: pointer;\r\n	user-select: none;\r\n}\r\n.catalog-scope-option input {\r\n	margin: 0;\r\n}\r\n.zeny-grant-open {\r\n	height: 27px;\r\n	padding: 0 10px;\r\n	white-space: nowrap;\r\n}\r\n.game-tools-number-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.game-tools-number-prompt input {\r\n	width: 180px;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);\r\n}\r\n.catalog-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.catalog-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.catalog-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.catalog-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.catalog-row.selected {\r\n	background: #dceaff;\r\n}\r\n.catalog-thumb,\r\n.catalog-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n}\r\n.catalog-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.catalog-row-text strong,\r\n.catalog-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.catalog-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.catalog-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.catalog-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.catalog-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-heading {\r\n	display: flex;\r\n	gap: 14px;\r\n	align-items: center;\r\n	padding-bottom: 12px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.catalog-portrait {\r\n	width: 112px;\r\n	height: 112px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.catalog-heading h3,\r\n.map-heading h3 {\r\n	margin: 0 0 6px;\r\n	font-size: 18px;\r\n}\r\n.catalog-heading p,\r\n.map-heading p {\r\n	margin: 0;\r\n	color: #70757a;\r\n}\r\n.catalog-metadata {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 12px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	max-width: 100%;\r\n}\r\n.catalog-metadata div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 8px;\r\n	background: #fafafa;\r\n}\r\n.catalog-metadata span {\r\n	color: #686d72;\r\n}\r\n.catalog-action-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: auto -12px -12px;\r\n	padding: 10px 12px;\r\n	border-top: 1px solid #ddd;\r\n	background: white;\r\n}\r\n.catalog-action-panel button {\r\n	height: 29px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.catalog-action-panel button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.catalog-status {\r\n	min-width: 0;\r\n	color: #64696e;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-status.error {\r\n	color: #a61d24;\r\n}\r\n.map-thumb {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 56px;\r\n	height: 42px;\r\n	background: #e3e9ee;\r\n	border: 1px solid #c3cbd2;\r\n	color: #59636d;\r\n	overflow: hidden;\r\n}\r\n.monster-location-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 2px;\r\n}\r\n.monster-location {\r\n	width: 100%;\r\n	padding: 5px 6px;\r\n	border: 1px solid transparent;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n.monster-location:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-location.selected {\r\n	border-color: #9ab4d2;\r\n	background: #dceaff;\r\n}\r\n.monster-location strong,\r\n.monster-location small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-location small {\r\n	margin-top: 2px;\r\n	color: #6c7177;\r\n}\r\n.monster-map-teleport {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.monster-map-teleport:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.map-thumb img,\r\n.map-thumb canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	object-fit: cover;\r\n}\r\n.map-thumb span {\r\n	margin: auto;\r\n	font-size: 10px;\r\n	color: #7b838b;\r\n}\r\n.map-row {\r\n	min-height: 50px;\r\n}\r\n.map-heading {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding-bottom: 9px;\r\n}\r\n.map-heading > strong {\r\n	color: #5f666d;\r\n}\r\n.map-current-position {\r\n	display: block;\r\n	margin-top: 4px;\r\n	color: #4f6479;\r\n}\r\n.map-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 168px;\r\n	gap: 8px;\r\n}\r\n.catalog-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n	cursor: crosshair;\r\n}\r\n.catalog-map {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: #17191c;\r\n}\r\n.map-npc-list {\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border: 1px solid #d8dade;\r\n	background: #fff;\r\n}\r\n.map-npc-scroll {\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: auto;\r\n}\r\n.map-npc-list h4 {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n	font-size: 12px;\r\n}\r\n.map-npc-list ul {\r\n	margin: 0;\r\n	padding: 0;\r\n	list-style: none;\r\n}\r\n.map-npc-row {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 8px;\r\n	border-bottom: 1px solid #f0f1f2;\r\n	cursor: pointer;\r\n}\r\n.map-npc-row.selected {\r\n	background: #e8f0fa;\r\n}\r\n.map-npc-text {\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.map-npc-text strong,\r\n.map-npc-text small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.map-npc-text small {\r\n	color: #686d72;\r\n}\r\n.map-npc-empty {\r\n	margin: 0;\r\n	padding: 10px 8px;\r\n	color: #686d72;\r\n}\r\n.npc-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 188px;\r\n	gap: 8px;\r\n}\r\n.npc-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n}\r\n.npc-detail-info {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.npc-detail-info .catalog-metadata {\r\n	grid-template-columns: 1fr;\r\n	margin-top: 0;\r\n	border-top: 0;\r\n}\r\n.npc-map-canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n@media (max-width: 640px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.catalog-layout,\r\n	.monster-layout {\r\n		grid-template-columns: minmax(140px, 32%) minmax(0, 1fr);\r\n	}\r\n	.catalog-metadata {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.catalog-action-panel {\r\n		flex-wrap: wrap;\r\n	}\r\n	.map-detail-body,\r\n	.npc-detail-body {\r\n		grid-template-columns: 1fr;\r\n		grid-template-rows: minmax(0, 1fr) 120px;\r\n	}\r\n}\r\n@media (max-width: 560px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.monster-layout {\r\n		grid-template-columns: minmax(140px, 32%) minmax(0, 1fr);\r\n	}\r\n	.monster-detail {\r\n		padding: 8px;\r\n	}\r\n	.summon-panel {\r\n		margin: 0 -8px -8px;\r\n		padding-inline: 8px;\r\n	}\r\n	.monster-heading {\r\n		align-items: flex-start;\r\n	}\r\n	.monster-stats {\r\n		grid-template-columns: 1fr;\r\n	}\r\n}\r\n\r\n.summon-panel .summon-status.success,\r\n.catalog-status.success,\r\n.management-status.success {\r\n	color: #237a3b;\r\n	font-weight: 600;\r\n}\r\n\r\n.summon-panel .summon-status.error {\r\n	color: #a61d24;\r\n	white-space: normal;\r\n}\r\n.settings-footer .management-status.error {\r\n	display: block;\r\n}\r\n\r\n.game-tools-tab[hidden] {\r\n	display: none !important;\r\n}\r\n\r\n.game-tools-window .catalog-empty-state { padding: 24px 12px; text-align: center; color: #62666c; }\r\n\r\n/* Keep list pagers and detail actions on the same baseline. */\r\n.monster-pagination,\r\n.catalog-pagination,\r\n.character-actions,\r\n.settings-footer,\r\n.summon-panel,\r\n.catalog-action-panel {\r\n	flex: 0 0 var(--game-tools-footer-height);\r\n	height: var(--game-tools-footer-height);\r\n	min-height: 0;\r\n	box-sizing: border-box;\r\n}\r\n.character-actions,\r\n.settings-footer,\r\n.summon-panel,\r\n.catalog-action-panel {\r\n	padding-block: 3px;\r\n	flex-wrap: nowrap;\r\n}\r\n.character-actions button,\r\n.settings-footer button,\r\n.summon-panel button,\r\n.catalog-action-panel button,\r\n.catalog-action-panel input {\r\n	height: 24px;\r\n	min-height: 0;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.monster-overview { display: contents; }\r\n\r\n/* Bordered detail lists share their final edge with the surrounding panel. */\r\n.game-tools-window .monster-drops,\r\n.game-tools-window .monster-locations {\r\n	padding-bottom: 0;\r\n}\r\n.game-tools-window .monster-drops > .drop-group:last-child > div:last-child,\r\n.game-tools-window .monster-location-list > .monster-location:last-child,\r\n.game-tools-window .map-npc-list .map-npc-row:last-child {\r\n	border-bottom: 0;\r\n}\r\n\r\n/* Shared joined labels for grant quantities and character numeric fields. */\r\n.game-tools-window :is(.item-grant-quantity, :where(.character-attributes-tab) .management-form > label) {\r\n	display:flex;\r\n	align-items:stretch;\r\n	gap:0;\r\n	min-width:0;\r\n	height:28px;\r\n	box-sizing:border-box;\r\n	border:1px solid var(--joined-field-border, #6d7f98);\r\n	border-radius:var(--joined-field-radius, 5px);\r\n	overflow:hidden;\r\n	background:white;\r\n}\r\n.game-tools-window :is(.item-grant-quantity, :where(.character-attributes-tab) .management-form > label) > span {\r\n	display:flex;\r\n	align-items:center;\r\n	padding:0 5px;\r\n	flex:0 0 auto;\r\n	border-right:1px solid var(--joined-field-border, #6d7f98);\r\n	background:var(--joined-field-label-background, #edf3f6);\r\n}\r\n.game-tools-window :is(.item-grant-quantity, :where(.character-attributes-tab) .management-form > label) > input {\r\n	flex:1 1 0;\r\n	width:0;\r\n	min-width:0;\r\n	max-width:none;\r\n	height:100%;\r\n	min-height:0;\r\n	box-sizing:border-box;\r\n	border:0;\r\n	border-radius:0;\r\n	padding:0 4px;\r\n	appearance:textfield;\r\n}\r\n.game-tools-window :is(.item-grant-amount, .character-attributes-tab .management-form input)::-webkit-inner-spin-button,\r\n.game-tools-window :is(.item-grant-amount, .character-attributes-tab .management-form input)::-webkit-outer-spin-button {\r\n	-webkit-appearance:none;\r\n	margin:0;\r\n}\r\n.game-tools-window :is(.item-grant-quantity, :where(.character-attributes-tab) .management-form > label):focus-within {\r\n	outline:2px solid var(--joined-field-border, #6d7f98);\r\n	outline-offset:1px;\r\n}\r\n\r\n.game-tools-window .item-grant-quantity {\r\n	flex:0 0 160px;\r\n	width:160px;\r\n}\r\n.game-tools-window .character-attributes-tab .management-form {\r\n	--character-label-width:calc(2em + 13px);\r\n}\r\n.game-tools-window .character-attributes-tab .progression-form {\r\n	--character-label-width:calc(5em + 13px);\r\n}\r\n.game-tools-window .character-attributes-tab .management-form.progression-form {\r\n	grid-template-columns:repeat(auto-fit, minmax(min(190px, 100%), 1fr));\r\n}\r\n.game-tools-window .character-attributes-tab [data-form='traits'] {\r\n	--character-label-width:calc(2em + 5ch + 13px);\r\n}\r\n.game-tools-window .character-attributes-tab .management-form > label > span {\r\n	box-sizing:border-box;\r\n	flex:0 0 var(--character-label-width);\r\n	width:var(--character-label-width);\r\n	max-width:none;\r\n	padding-inline:6px;\r\n	justify-content:flex-start;\r\n	text-align:left;\r\n	font-weight:normal;\r\n	white-space:nowrap;\r\n}\r\n.game-tools-window .character-attributes-tab .management-form > label > input {\r\n	padding-inline:6px;\r\n}\r\n\r\n/* Settings units form a single control with their numeric input. */\r\n.game-tools-window .settings-form .setting-number {\r\n	align-items:stretch;\r\n	gap:0;\r\n	border:1px solid var(--joined-field-border, #6d7f98);\r\n	border-radius:var(--joined-field-radius, 5px);\r\n	overflow:hidden;\r\n	box-sizing:border-box;\r\n	background:white;\r\n}\r\n.game-tools-window .settings-form .setting-number input {\r\n	flex:1 1 0;\r\n	width:0;\r\n	min-width:0;\r\n	border:0;\r\n	border-radius:0;\r\n	box-sizing:border-box;\r\n	appearance:textfield;\r\n}\r\n.game-tools-window .settings-form .setting-number input::-webkit-inner-spin-button,\r\n.game-tools-window .settings-form .setting-number input::-webkit-outer-spin-button {\r\n	-webkit-appearance:none;\r\n	margin:0;\r\n}\r\n.game-tools-window .settings-form .setting-number em {\r\n	display:flex;\r\n	align-items:center;\r\n	justify-content:center;\r\n	width:auto;\r\n	flex:0 0 auto;\r\n	padding:0 8px;\r\n	border-left:1px solid var(--joined-field-border, #6d7f98);\r\n	background:var(--joined-field-label-background, #edf3f6);\r\n	white-space:nowrap;\r\n}\r\n.game-tools-window .settings-form .setting-number:focus-within {\r\n	outline:2px solid var(--joined-field-border, #6d7f98);\r\n	outline-offset:1px;\r\n}\r\n/* Shared compact scope switch for desktop, tablet and phone layouts. */\r\n.game-tools-window .catalog-scope-option {\r\n	position:relative;\r\n	width:80px;\r\n	min-width:80px;\r\n	flex-shrink:0;\r\n	height:28px;\r\n	gap:0;\r\n	margin-left:auto;\r\n}\r\n.game-tools-window .catalog-scope-option > input {\r\n	position:absolute;\r\n	inset:0;\r\n	width:100%;\r\n	height:100%;\r\n	margin:0;\r\n	opacity:0;\r\n	cursor:pointer;\r\n	z-index:1;\r\n}\r\n.game-tools-window .catalog-scope-option > span {\r\n	box-sizing:border-box;\r\n	display:flex;\r\n	align-items:center;\r\n	justify-content:center;\r\n	width:100%;\r\n	height:100%;\r\n	padding:0 5px 0 27px;\r\n	border:1px solid #65717b;\r\n	border-radius:14px;\r\n	background:#283541;\r\n	color:#c9ced3;\r\n	font-size:11px;\r\n	line-height:1;\r\n	white-space:nowrap;\r\n}\r\n.game-tools-window .catalog-scope-option > span::before {\r\n	content:'';\r\n	position:absolute;\r\n	top:4px;\r\n	left:4px;\r\n	width:20px;\r\n	height:20px;\r\n	border-radius:50%;\r\n	background:#c9ced3;\r\n	transition:transform .15s ease;\r\n}\r\n.game-tools-window .catalog-scope-option > input:checked + span {\r\n	padding:0 27px 0 5px;\r\n	border-color:#d8b86c;\r\n	background:#66532c;\r\n	color:#fff1c9;\r\n}\r\n.game-tools-window .catalog-scope-option > input:checked + span::before {\r\n	transform:translateX(52px);\r\n	background:#f3d992;\r\n}\r\n.game-tools-window .catalog-scope-option > input:focus-visible + span {\r\n	outline:2px solid #f3d992;\r\n	outline-offset:2px;\r\n}\r\n.game-tools-window .catalog-scope-option > input:disabled {\r\n	cursor:default;\r\n}\r\n.game-tools-window .catalog-scope-option > input:disabled + span {\r\n	opacity:.5;\r\n}\r\n@media (prefers-reduced-motion:reduce) {\r\n	.game-tools-window .catalog-scope-option > span::before {\r\n		transition:none;\r\n	}\r\n}\r\n\r\n/* Match the desktop window's light theme. */\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > span {\r\n	border-color:#aeb2b7;\r\n	background:#edf0f2;\r\n	color:#4c545c;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > span::before {\r\n	background:#7b858e;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > input:checked + span {\r\n	border-color:#368354;\r\n	background:#368354;\r\n	color:#fff;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > input:checked + span::before {\r\n	background:#fff;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > input:focus-visible + span {\r\n	outline-color:#368354;\r\n}\r\n\r\n/* Successful catalog loads need no separate count row. */\r\n.game-tools-window :is(.catalog-summary, .monster-summary):empty { display:none; }\r\n.game-tools-window .character-detail-scroll .selected-job {\r\n padding:0;\r\n border:0;\r\n background:transparent;\r\n}\r\n\r\n/* Monster table titles and cells share one inset on every device. */\r\n.game-tools-window .monster-resources .monster-location,\r\n.game-tools-window .monster-resources .monster-location:hover { padding-inline: 6px; border-inline: 0; }\r\n.game-tools-window .monster-resources .monster-locations-empty { margin: 0; padding-inline: 6px; }\r\n\r\n/* Desktop adventure tools retain square controls and compact form rows. */\r\n.game-tools-window[data-feedback-theme='desktop'] .character-attributes-tab .management-form.progression-form {\r\n grid-template-columns: repeat(3, minmax(0, 1fr));\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .character-attributes-tab .progression-form > label:nth-child(3) {\r\n grid-column: 1;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .settings-grid .game-select {\r\n width: 132px;\r\n min-width: 132px;\r\n flex: 0 0 132px;\r\n margin-right: 0;\r\n}\r\n\r\n.game-tools-window[data-feedback-theme='desktop'] {\r\n --joined-field-border: #aeb2b7;\r\n --joined-field-label-background: #eceef0;\r\n --joined-field-radius: 0;\r\n}\r\n\r\n.game-tools-window[data-feedback-theme='desktop'] .settings-footer > button {\r\n grid-column: 2;\r\n justify-self: end;\r\n width: auto;\r\n}\r\n\r\n/* Focus changes the existing field edge instead of adding a second outer ring. */\r\n.game-tools-window[data-feedback-theme='desktop'] :is(.item-grant-quantity, .character-attributes-tab .management-form > label, .settings-form .setting-number):focus-within {\r\n outline: none;\r\n border-color: #858b91;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea):focus {\r\n outline: none;\r\n box-shadow: none;\r\n border-color: #858b91;\r\n}\r\n\r\n.game-tools-window .settings-form .setting-number.is-disabled {\r\n	opacity: 0.55;\r\n}\r\n\r\n.game-tools-window .character-attributes-tab .progression-form input:disabled {\r\n	opacity: .5;\r\n	cursor: not-allowed;\r\n}\r\n\r\n.character-riding-list { display: grid; gap: 8px; }\r\n.character-riding-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 8px 10px; border: 1px solid var(--desktop-border, #465461); border-radius: var(--desktop-radius, 6px); }\r\n.character-riding-row p { margin: 4px 0 0; }\r\n.character-riding-row .management-form-actions { grid-column: auto; margin: 0; }\r\n";
+	GameTools_default$1 = ".game-tools-window {\r\n	--game-tools-footer-height: 36px;\r\n	position: relative;\r\n	isolation: isolate;\r\n	width: min(820px, calc(100vw - 24px));\r\n	height: min(620px, calc(100vh - 36px));\r\n	min-width: 520px;\r\n	min-height: 360px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background: #eef0f2;\r\n	border: 1px solid #73777d;\r\n	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);\r\n	color: #202225;\r\n	font:\r\n		12px Arial,\r\n		sans-serif;\r\n	box-sizing: border-box;\r\n}\r\n.titlebar {\r\n	position: relative;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	cursor: move;\r\n	background: linear-gradient(#f7f8f9, #cfd3d7);\r\n	border-bottom: 1px solid #8b9096;\r\n}\r\n.title {\r\n	line-height: 24px;\r\n	padding-left: 9px;\r\n	font-weight: bold;\r\n}\r\n.close {\r\n	position: absolute;\r\n	right: 5px;\r\n	top: 5px;\r\n	width: 14px;\r\n	height: 14px;\r\n	border: 1px solid #777;\r\n	background: #f4f4f4;\r\n	cursor: pointer;\r\n}\r\n.close::before,\r\n.close::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	width: 1px;\r\n	height: 9px;\r\n	background: #333;\r\n	transform: rotate(45deg);\r\n}\r\n.close::after {\r\n	transform: rotate(-45deg);\r\n}\r\n.tab-list {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	gap: 0;\r\n	align-items: end;\r\n	padding: 0 8px;\r\n	border-bottom: 1px solid #aeb2b7;\r\n	background: #e3e5e8;\r\n}\r\n.tab-button {\r\n	height: 28px;\r\n	padding: 0 14px;\r\n	border: 1px solid #aeb2b7;\r\n	border-bottom: none;\r\n	background: #d5d8dc;\r\n	cursor: pointer;\r\n}\r\n.tab-button.active {\r\n	background: #fff;\r\n	font-weight: bold;\r\n	height: 28px;\r\n	margin-bottom: -1px;\r\n}\r\n.tab-button + .tab-button { border-left: 0; }\r\n.tab-button:first-child { border-top-left-radius: 6px; }\r\n.tab-button:last-child { border-top-right-radius: 6px; }\r\n.tab-button:focus-visible { outline: 2px solid #3a789d; outline-offset: -3px; }\r\n.tab-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	background: #fff;\r\n}\r\n.game-tools-tab {\r\n	height: 100%;\r\n}\r\n\r\n.management-tab {\r\n	height: 100%;\r\n	min-height: 0;\r\n	background: #f7f8f9;\r\n}\r\n.character-attributes-tab {\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.character-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);\r\n}\r\n.character-job-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	border-right: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.character-job-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.character-job-row {\r\n	width: 100%;\r\n	height: 50px;\r\n	min-height: 50px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 5px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: #fff;\r\n	color: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.character-job-row.selected {\r\n	background: #dceaff;\r\n}\r\n.character-job-emblem {\r\n	width: 38px;\r\n	height: 38px;\r\n	flex: 0 0 38px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #c3cbd2;\r\n	background: #e3e9ee;\r\n	color: #526273;\r\n	font-size: 16px;\r\n	font-weight: bold;\r\n}\r\n.character-job-empty {\r\n	padding: 18px 8px;\r\n	color: #777;\r\n	text-align: center;\r\n}\r\n.character-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	background: #f7f8f9;\r\n}\r\n.character-detail .character-summary {\r\n	flex: 0 0 auto;\r\n	padding: 12px;\r\n	background: #fff;\r\n}\r\n.character-detail-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 0 14px;\r\n	overflow-y: auto;\r\n}\r\n.character-detail-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.selected-job {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 8px 10px;\r\n	border: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.selected-job div {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.selected-job small {\r\n	color: #6c7177;\r\n}\r\n.selected-job button,\r\n.character-actions button,\r\n.catalog-empty-state button {\r\n	height: 28px;\r\n	min-width: 88px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.selected-job button:disabled,\r\n.character-actions button:disabled,\r\n.catalog-empty-state button:disabled {\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n.character-actions {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 7px;\r\n	padding: 9px 12px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #fff;\r\n}\r\n.character-actions .management-status {\r\n	width: 100%;\r\n	min-height: 14px;\r\n	padding: 0;\r\n}\r\n.management-loading,\r\n.management-error {\r\n	height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #666;\r\n}\r\n.management-error,\r\n.management-status.error {\r\n	color: #a61d24;\r\n}\r\n.management-scroll {\r\n	height: 100%;\r\n	padding: 12px;\r\n	overflow-y: auto;\r\n	box-sizing: border-box;\r\n}\r\n.character-summary {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 20px;\r\n	padding: 0 0 10px;\r\n	border-bottom: 1px solid #d6d8db;\r\n}\r\n.character-summary h3,\r\n.character-summary p {\r\n	margin: 0;\r\n}\r\n.character-summary p,\r\n.character-summary span {\r\n	color: #666;\r\n}\r\n.character-summary > div:last-child {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: end;\r\n	gap: 3px;\r\n}\r\n.management-grid {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);\r\n	gap: 18px;\r\n}\r\n.management-tab section {\r\n	padding: 10px 0;\r\n}\r\n.management-tab section h4 {\r\n	margin: 0 0 8px;\r\n	font-size: 13px;\r\n}\r\n.management-tab section h4 small {\r\n	margin-left: 6px;\r\n	color: #777;\r\n	font-weight: normal;\r\n}\r\n.management-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));\r\n	gap: 10px 12px;\r\n}\r\n.management-form.progression-form {\r\n	grid-template-columns: repeat(4, minmax(0, 1fr));\r\n	align-items: start;\r\n}\r\n.management-form label {\r\n	display: grid;\r\n	min-width: 0;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	align-items: center;\r\n	gap: 5px;\r\n}\r\n.management-form label > span {\r\n	text-align: left;\r\n}\r\n.management-form-actions,\r\n.management-form > small {\r\n	grid-column: 1 / -1;\r\n}\r\n.management-form-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n}\r\n.character-attributes-tab .management-form > .management-form-actions {\r\n	display: grid;\r\n	grid-template-columns: subgrid;\r\n	column-gap: inherit;\r\n}\r\n.character-attributes-tab .management-form > .management-form-actions > button {\r\n	grid-column: auto;\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.management-form > small {\r\n	color: #686d72;\r\n	line-height: 1.6;\r\n}\r\n.character-summary {\r\n	flex-wrap: wrap;\r\n}\r\n.character-summary > div {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-grid label,\r\n.settings-footer label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.management-form input,\r\n.settings-form input {\r\n	height: 27px;\r\n	border: 1px solid #aeb2b7;\r\n	background: #fff;\r\n	box-sizing: border-box;\r\n}\r\n.management-form input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	padding: 2px 5px;\r\n}\r\n.management-form button,\r\n.maintenance-actions button,\r\n.settings-footer button {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.management-form button {\r\n	grid-column: 1 / -1;\r\n}\r\n.maintenance-actions {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.maintenance-actions h4 {\r\n	margin: 0 5px 0 0 !important;\r\n}\r\n.maintenance-actions span {\r\n	color: #666;\r\n}\r\n.management-status {\r\n	min-height: 18px;\r\n	padding-top: 5px;\r\n	color: #287233;\r\n}\r\n.settings-form {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.settings-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 4px 14px;\r\n	overflow-y: auto;\r\n}\r\n.settings-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.settings-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 7px 22px;\r\n}\r\n.settings-rate-columns {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 22px;\r\n}\r\n.settings-rate-list {\r\n	display: grid;\r\n	gap: 7px;\r\n}\r\n.settings-rate-list label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.settings-drop-scroll {\r\n	overflow-x: auto;\r\n}\r\n.settings-drop-table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n.settings-drop-table th,\r\n.settings-drop-table td {\r\n	padding: 5px 8px;\r\n	white-space: nowrap;\r\n	text-align: left;\r\n}\r\n.settings-drop-table tbody th {\r\n	font-weight: normal;\r\n}\r\n.settings-drop-table .setting-number {\r\n	width: 110px;\r\n	min-width: 110px;\r\n}\r\n.settings-drop-table .setting-number input {\r\n	width: 84px;\r\n	min-width: 84px;\r\n	flex-basis: 84px;\r\n}\r\n.setting-number {\r\n	width: 132px;\r\n	min-width: 132px;\r\n	flex: 0 0 132px;\r\n}\r\n.settings-grid .game-select {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	margin-right: 26px;\r\n	flex: 0 0 106px;\r\n}\r\n.setting-number {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.setting-number input {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	flex: 0 0 106px;\r\n	padding: 2px 5px;\r\n}\r\n.setting-number em {\r\n	width: 26px;\r\n	flex: 0 0 26px;\r\n	font-style: normal;\r\n	text-align: right;\r\n}\r\n.settings-footer {\r\n	flex: 0 0 48px;\r\n	display: grid;\r\n	grid-template-columns: 1fr auto;\r\n	align-items: center;\r\n	gap: 12px;\r\n	padding: 8px 14px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #eceef0;\r\n	box-sizing: border-box;\r\n}\r\n.settings-footer .management-status {\r\n	padding: 0;\r\n	text-align: right;\r\n}\r\n.settings-footer button {\r\n	padding: 0 14px;\r\n}\r\n\r\n@media (max-width: 680px) {\r\n	.management-grid,\r\n	.settings-grid,\r\n	.settings-rate-columns {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.settings-footer {\r\n		grid-template-columns: 1fr auto;\r\n	}\r\n	.settings-footer .management-status {\r\n		display: none;\r\n	}\r\n}\r\n@media (max-width: 640px) {\r\n	.character-layout {\r\n		grid-template-columns: minmax(140px, 32%) minmax(0, 1fr);\r\n	}\r\n	.character-job-toolbar {\r\n		flex: 0 0 auto;\r\n		flex-wrap: wrap;\r\n	}\r\n}\r\n.monster-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.monster-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.monster-search {\r\n	flex: 1;\r\n	min-width: 120px;\r\n	height: 27px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.monster-filter {\r\n	width: 116px;\r\n}\r\n.monster-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);\r\n}\r\n.monster-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.monster-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.monster-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.monster-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.monster-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-row.selected {\r\n	background: #dceaff;\r\n}\r\n.monster-thumb,\r\n.monster-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n	image-rendering: auto;\r\n}\r\n.no-image {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #85898d;\r\n	background: #f2f3f4;\r\n}\r\n.no-image::after {\r\n	content: '无图';\r\n	font-size: 11px;\r\n}\r\n.monster-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.monster-row-text strong,\r\n.monster-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.monster-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.monster-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.monster-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.monster-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.empty-detail {\r\n	margin: auto;\r\n	color: #85898d;\r\n}\r\n.monster-heading {\r\n	display: flex;\r\n	gap: 12px;\r\n	align-items: center;\r\n	padding-bottom: 10px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.monster-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.monster-heading h3 {\r\n	margin: 0 0 5px;\r\n	font-size: 18px;\r\n}\r\n.monster-heading p {\r\n	margin: 0 0 7px;\r\n	color: #70757a;\r\n}\r\n.monster-badge {\r\n	display: inline-block;\r\n	padding: 2px 6px;\r\n	border: 1px solid #b4b8bc;\r\n	background: #f3f4f5;\r\n}\r\n.monster-stats {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 10px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.monster-stats div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 6px;\r\n	background: #fafafa;\r\n}\r\n.monster-stats span {\r\n	color: #686d72;\r\n}\r\n.monster-resources {\r\n	flex: 1;\r\n	min-height: 70px;\r\n	margin-top: 10px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 10px;\r\n	overflow: hidden;\r\n}\r\n.monster-drops,\r\n.monster-locations {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	border: 1px solid #ddd;\r\n	padding: 0;\r\n	box-sizing: border-box;\r\n}\r\n.monster-drops > h4,\r\n.monster-locations > h4 {\r\n	position: sticky;\r\n	top: 0;\r\n	z-index: 1;\r\n	margin: 0;\r\n	padding: 6px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #ddd;\r\n}\r\n.drop-group h4 {\r\n	padding-inline: 6px;\r\n	margin: 7px 0 4px;\r\n}\r\n.drop-group div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	padding: 3px 6px;\r\n	border-bottom: 1px dotted #d6d6d6;\r\n}\r\n.drop-group em {\r\n	color: #62676c;\r\n	font-style: normal;\r\n}\r\n.summon-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	gap: 9px;\r\n	align-items: center;\r\n	margin: 0 -12px -12px;\r\n	padding: 9px 12px 10px;\r\n	background: white;\r\n	border-top: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n}\r\n.summon-button {\r\n	height: 29px;\r\n	min-width: 64px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.summon-button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.summon-panel span {\r\n	min-width: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	color: #64696e;\r\n}\r\n.management-form .game-select {\r\n	width: 112px;\r\n}\r\n\r\n.game-tools-tab,\r\n.world-catalog-tab {\r\n	position: relative;\r\n}\r\n.world-catalog-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.catalog-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-search {\r\n	flex: 1;\r\n	height: 27px;\r\n	min-width: 120px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.catalog-filter {\r\n	width: 124px;\r\n}\r\n.catalog-scope {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	white-space: nowrap;\r\n}\r\n.catalog-scope-option {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n	cursor: pointer;\r\n	user-select: none;\r\n}\r\n.catalog-scope-option input {\r\n	margin: 0;\r\n}\r\n.zeny-grant-open {\r\n	height: 27px;\r\n	padding: 0 10px;\r\n	white-space: nowrap;\r\n}\r\n.game-tools-number-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.game-tools-number-prompt input {\r\n	width: 180px;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);\r\n}\r\n.catalog-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.catalog-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.catalog-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.catalog-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.catalog-row.selected {\r\n	background: #dceaff;\r\n}\r\n.catalog-thumb,\r\n.catalog-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n}\r\n.catalog-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.catalog-row-text strong,\r\n.catalog-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.catalog-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.catalog-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.catalog-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.catalog-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-heading {\r\n	display: flex;\r\n	gap: 14px;\r\n	align-items: center;\r\n	padding-bottom: 12px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.catalog-portrait {\r\n	width: 112px;\r\n	height: 112px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.catalog-heading h3,\r\n.map-heading h3 {\r\n	margin: 0 0 6px;\r\n	font-size: 18px;\r\n}\r\n.catalog-heading p,\r\n.map-heading p {\r\n	margin: 0;\r\n	color: #70757a;\r\n}\r\n.catalog-metadata {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 12px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	max-width: 100%;\r\n}\r\n.catalog-metadata div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 8px;\r\n	background: #fafafa;\r\n}\r\n.catalog-metadata span {\r\n	color: #686d72;\r\n}\r\n.catalog-action-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: auto -12px -12px;\r\n	padding: 10px 12px;\r\n	border-top: 1px solid #ddd;\r\n	background: white;\r\n}\r\n.catalog-action-panel button {\r\n	height: 29px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.catalog-action-panel button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.catalog-status {\r\n	min-width: 0;\r\n	color: #64696e;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-status.error {\r\n	color: #a61d24;\r\n}\r\n.map-thumb {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 56px;\r\n	height: 42px;\r\n	background: #e3e9ee;\r\n	border: 1px solid #c3cbd2;\r\n	color: #59636d;\r\n	overflow: hidden;\r\n}\r\n.monster-location-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 2px;\r\n}\r\n.monster-location {\r\n	width: 100%;\r\n	padding: 5px 6px;\r\n	border: 1px solid transparent;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n.monster-location:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-location.selected {\r\n	border-color: #9ab4d2;\r\n	background: #dceaff;\r\n}\r\n.monster-location strong,\r\n.monster-location small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-location small {\r\n	margin-top: 2px;\r\n	color: #6c7177;\r\n}\r\n.monster-map-teleport {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.monster-map-teleport:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.map-thumb img,\r\n.map-thumb canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	object-fit: cover;\r\n}\r\n.map-thumb span {\r\n	margin: auto;\r\n	font-size: 10px;\r\n	color: #7b838b;\r\n}\r\n.map-row {\r\n	min-height: 50px;\r\n}\r\n.map-heading {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding-bottom: 9px;\r\n}\r\n.map-heading > strong {\r\n	color: #5f666d;\r\n}\r\n.map-current-position {\r\n	display: block;\r\n	margin-top: 4px;\r\n	color: #4f6479;\r\n}\r\n.map-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 168px;\r\n	gap: 8px;\r\n}\r\n.catalog-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n	cursor: crosshair;\r\n}\r\n.catalog-map {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: #17191c;\r\n}\r\n.map-npc-list {\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border: 1px solid #d8dade;\r\n	background: #fff;\r\n}\r\n.map-npc-scroll {\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: auto;\r\n}\r\n.map-npc-list h4 {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n	font-size: 12px;\r\n}\r\n.map-npc-list ul {\r\n	margin: 0;\r\n	padding: 0;\r\n	list-style: none;\r\n}\r\n.map-npc-row {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 8px;\r\n	border-bottom: 1px solid #f0f1f2;\r\n	cursor: pointer;\r\n}\r\n.map-npc-row.selected {\r\n	background: #e8f0fa;\r\n}\r\n.map-npc-text {\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.map-npc-text strong,\r\n.map-npc-text small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.map-npc-text small {\r\n	color: #686d72;\r\n}\r\n.map-npc-empty {\r\n	margin: 0;\r\n	padding: 10px 8px;\r\n	color: #686d72;\r\n}\r\n.npc-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 188px;\r\n	gap: 8px;\r\n}\r\n.npc-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n}\r\n.npc-detail-info {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.npc-detail-info .catalog-metadata {\r\n	grid-template-columns: 1fr;\r\n	margin-top: 0;\r\n	border-top: 0;\r\n}\r\n.npc-map-canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n@media (max-width: 640px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.catalog-layout,\r\n	.monster-layout {\r\n		grid-template-columns: minmax(140px, 32%) minmax(0, 1fr);\r\n	}\r\n	.catalog-metadata {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.catalog-action-panel {\r\n		flex-wrap: wrap;\r\n	}\r\n	.map-detail-body,\r\n	.npc-detail-body {\r\n		grid-template-columns: 1fr;\r\n		grid-template-rows: minmax(0, 1fr) 120px;\r\n	}\r\n}\r\n@media (max-width: 560px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.monster-layout {\r\n		grid-template-columns: minmax(140px, 32%) minmax(0, 1fr);\r\n	}\r\n	.monster-detail {\r\n		padding: 8px;\r\n	}\r\n	.summon-panel {\r\n		margin: 0 -8px -8px;\r\n		padding-inline: 8px;\r\n	}\r\n	.monster-heading {\r\n		align-items: flex-start;\r\n	}\r\n	.monster-stats {\r\n		grid-template-columns: 1fr;\r\n	}\r\n}\r\n\r\n.summon-panel .summon-status.success,\r\n.catalog-status.success,\r\n.management-status.success {\r\n	color: #237a3b;\r\n	font-weight: 600;\r\n}\r\n\r\n.summon-panel .summon-status.error {\r\n	color: #a61d24;\r\n	white-space: normal;\r\n}\r\n.settings-footer .management-status.error {\r\n	display: block;\r\n}\r\n\r\n.game-tools-tab[hidden] {\r\n	display: none !important;\r\n}\r\n\r\n.game-tools-window .catalog-empty-state { padding: 24px 12px; text-align: center; color: #62666c; }\r\n\r\n/* Keep list pagers and detail actions on the same baseline. */\r\n.monster-pagination,\r\n.catalog-pagination,\r\n.character-actions,\r\n.settings-footer,\r\n.summon-panel,\r\n.catalog-action-panel {\r\n	flex: 0 0 var(--game-tools-footer-height);\r\n	height: var(--game-tools-footer-height);\r\n	min-height: 0;\r\n	box-sizing: border-box;\r\n}\r\n.character-actions,\r\n.settings-footer,\r\n.summon-panel,\r\n.catalog-action-panel {\r\n	padding-block: 3px;\r\n	flex-wrap: nowrap;\r\n}\r\n.character-actions button,\r\n.settings-footer button,\r\n.summon-panel button,\r\n.catalog-action-panel button,\r\n.catalog-action-panel input {\r\n	height: 24px;\r\n	min-height: 0;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.monster-overview { display: contents; }\r\n\r\n/* Bordered detail lists share their final edge with the surrounding panel. */\r\n.game-tools-window .monster-drops,\r\n.game-tools-window .monster-locations {\r\n	padding-bottom: 0;\r\n}\r\n.game-tools-window .monster-drops > .drop-group:last-child > div:last-child,\r\n.game-tools-window .monster-location-list > .monster-location:last-child,\r\n.game-tools-window .map-npc-list .map-npc-row:last-child {\r\n	border-bottom: 0;\r\n}\r\n\r\n/* Shared joined labels for grant quantities and character numeric fields. */\r\n.game-tools-window :is(.item-grant-quantity, :where(.character-attributes-tab) .management-form > label) {\r\n	display:flex;\r\n	align-items:stretch;\r\n	gap:0;\r\n	min-width:0;\r\n	height:28px;\r\n	box-sizing:border-box;\r\n	border:1px solid var(--joined-field-border, #6d7f98);\r\n	border-radius:var(--joined-field-radius, 5px);\r\n	overflow:hidden;\r\n	background:white;\r\n}\r\n.game-tools-window :is(.item-grant-quantity, :where(.character-attributes-tab) .management-form > label) > span {\r\n	display:flex;\r\n	align-items:center;\r\n	padding:0 5px;\r\n	flex:0 0 auto;\r\n	border-right:1px solid var(--joined-field-border, #6d7f98);\r\n	background:var(--joined-field-label-background, #edf3f6);\r\n}\r\n.game-tools-window :is(.item-grant-quantity, :where(.character-attributes-tab) .management-form > label) > input {\r\n	flex:1 1 0;\r\n	width:0;\r\n	min-width:0;\r\n	max-width:none;\r\n	height:100%;\r\n	min-height:0;\r\n	box-sizing:border-box;\r\n	border:0;\r\n	border-radius:0;\r\n	padding:0 4px;\r\n	appearance:textfield;\r\n}\r\n.game-tools-window :is(.item-grant-amount, .character-attributes-tab .management-form input)::-webkit-inner-spin-button,\r\n.game-tools-window :is(.item-grant-amount, .character-attributes-tab .management-form input)::-webkit-outer-spin-button {\r\n	-webkit-appearance:none;\r\n	margin:0;\r\n}\r\n.game-tools-window :is(.item-grant-quantity, :where(.character-attributes-tab) .management-form > label):focus-within {\r\n	outline:2px solid var(--joined-field-border, #6d7f98);\r\n	outline-offset:1px;\r\n}\r\n\r\n.game-tools-window .item-grant-quantity {\r\n	flex:0 0 160px;\r\n	width:160px;\r\n}\r\n.game-tools-window .character-attributes-tab .management-form {\r\n	--character-label-width:calc(2em + 13px);\r\n}\r\n.game-tools-window .character-attributes-tab .progression-form {\r\n	--character-label-width:calc(5em + 13px);\r\n}\r\n.game-tools-window .character-attributes-tab .management-form.progression-form {\r\n	grid-template-columns:repeat(auto-fit, minmax(min(190px, 100%), 1fr));\r\n}\r\n.game-tools-window .character-attributes-tab [data-form='traits'] {\r\n	--character-label-width:calc(2em + 5ch + 13px);\r\n}\r\n.game-tools-window .character-attributes-tab .management-form > label > span {\r\n	box-sizing:border-box;\r\n	flex:0 0 var(--character-label-width);\r\n	width:var(--character-label-width);\r\n	max-width:none;\r\n	padding-inline:6px;\r\n	justify-content:flex-start;\r\n	text-align:left;\r\n	font-weight:normal;\r\n	white-space:nowrap;\r\n}\r\n.game-tools-window .character-attributes-tab .management-form > label > input {\r\n	padding-inline:6px;\r\n}\r\n\r\n/* Settings units form a single control with their numeric input. */\r\n.game-tools-window .settings-form .setting-number {\r\n	align-items:stretch;\r\n	gap:0;\r\n	border:1px solid var(--joined-field-border, #6d7f98);\r\n	border-radius:var(--joined-field-radius, 5px);\r\n	overflow:hidden;\r\n	box-sizing:border-box;\r\n	background:white;\r\n}\r\n.game-tools-window .settings-form .setting-number input {\r\n	flex:1 1 0;\r\n	width:0;\r\n	min-width:0;\r\n	border:0;\r\n	border-radius:0;\r\n	box-sizing:border-box;\r\n	appearance:textfield;\r\n}\r\n.game-tools-window .settings-form .setting-number input::-webkit-inner-spin-button,\r\n.game-tools-window .settings-form .setting-number input::-webkit-outer-spin-button {\r\n	-webkit-appearance:none;\r\n	margin:0;\r\n}\r\n.game-tools-window .settings-form .setting-number em {\r\n	display:flex;\r\n	align-items:center;\r\n	justify-content:center;\r\n	width:auto;\r\n	flex:0 0 auto;\r\n	padding:0 8px;\r\n	border-left:1px solid var(--joined-field-border, #6d7f98);\r\n	background:var(--joined-field-label-background, #edf3f6);\r\n	white-space:nowrap;\r\n}\r\n.game-tools-window .settings-form .setting-number:focus-within {\r\n	outline:2px solid var(--joined-field-border, #6d7f98);\r\n	outline-offset:1px;\r\n}\r\n/* Shared compact scope switch for desktop, tablet and phone layouts. */\r\n.game-tools-window .catalog-scope-option {\r\n	position:relative;\r\n	width:80px;\r\n	min-width:80px;\r\n	flex-shrink:0;\r\n	height:28px;\r\n	gap:0;\r\n	margin-left:auto;\r\n}\r\n.game-tools-window .catalog-scope-option > input {\r\n	position:absolute;\r\n	inset:0;\r\n	width:100%;\r\n	height:100%;\r\n	margin:0;\r\n	opacity:0;\r\n	cursor:pointer;\r\n	z-index:1;\r\n}\r\n.game-tools-window .catalog-scope-option > span {\r\n	box-sizing:border-box;\r\n	display:flex;\r\n	align-items:center;\r\n	justify-content:center;\r\n	width:100%;\r\n	height:100%;\r\n	padding:0 5px 0 27px;\r\n	border:1px solid #65717b;\r\n	border-radius:14px;\r\n	background:#283541;\r\n	color:#c9ced3;\r\n	font-size:11px;\r\n	line-height:1;\r\n	white-space:nowrap;\r\n}\r\n.game-tools-window .catalog-scope-option > span::before {\r\n	content:'';\r\n	position:absolute;\r\n	top:4px;\r\n	left:4px;\r\n	width:20px;\r\n	height:20px;\r\n	border-radius:50%;\r\n	background:#c9ced3;\r\n	transition:transform .15s ease;\r\n}\r\n.game-tools-window .catalog-scope-option > input:checked + span {\r\n	padding:0 27px 0 5px;\r\n	border-color:#d8b86c;\r\n	background:#66532c;\r\n	color:#fff1c9;\r\n}\r\n.game-tools-window .catalog-scope-option > input:checked + span::before {\r\n	transform:translateX(52px);\r\n	background:#f3d992;\r\n}\r\n.game-tools-window .catalog-scope-option > input:focus-visible + span {\r\n	outline:2px solid #f3d992;\r\n	outline-offset:2px;\r\n}\r\n.game-tools-window .catalog-scope-option > input:disabled {\r\n	cursor:default;\r\n}\r\n.game-tools-window .catalog-scope-option > input:disabled + span {\r\n	opacity:.5;\r\n}\r\n@media (prefers-reduced-motion:reduce) {\r\n	.game-tools-window .catalog-scope-option > span::before {\r\n		transition:none;\r\n	}\r\n}\r\n\r\n/* Match the desktop window's light theme. */\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > span {\r\n	border-color:#aeb2b7;\r\n	background:#edf0f2;\r\n	color:#4c545c;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > span::before {\r\n	background:#7b858e;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > input:checked + span {\r\n	border-color:#368354;\r\n	background:#368354;\r\n	color:#fff;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > input:checked + span::before {\r\n	background:#fff;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .catalog-scope-option > input:focus-visible + span {\r\n	outline-color:#368354;\r\n}\r\n\r\n/* Successful catalog loads need no separate count row. */\r\n.game-tools-window :is(.catalog-summary, .monster-summary):empty { display:none; }\r\n.game-tools-window .character-detail-scroll .selected-job {\r\n padding:0;\r\n border:0;\r\n background:transparent;\r\n}\r\n\r\n/* Monster table titles and cells share one inset on every device. */\r\n.game-tools-window .monster-resources .monster-location,\r\n.game-tools-window .monster-resources .monster-location:hover { padding-inline: 6px; border-inline: 0; }\r\n.game-tools-window .monster-resources .monster-locations-empty { margin: 0; padding-inline: 6px; }\r\n\r\n/* Desktop adventure tools retain square controls and compact form rows. */\r\n.game-tools-window[data-feedback-theme='desktop'] .character-attributes-tab .management-form.progression-form {\r\n grid-template-columns: repeat(3, minmax(0, 1fr));\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .character-attributes-tab .progression-form > label:nth-child(3) {\r\n grid-column: 1;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] .settings-grid .game-select {\r\n width: 132px;\r\n min-width: 132px;\r\n flex: 0 0 132px;\r\n margin-right: 0;\r\n}\r\n\r\n.game-tools-window[data-feedback-theme='desktop'] {\r\n --joined-field-border: #aeb2b7;\r\n --joined-field-label-background: #eceef0;\r\n --joined-field-radius: 0;\r\n}\r\n\r\n.game-tools-window[data-feedback-theme='desktop'] .settings-footer > button {\r\n grid-column: 2;\r\n justify-self: end;\r\n width: auto;\r\n}\r\n\r\n/* Focus changes the existing field edge instead of adding a second outer ring. */\r\n.game-tools-window[data-feedback-theme='desktop'] :is(.item-grant-quantity, .character-attributes-tab .management-form > label, .settings-form .setting-number):focus-within {\r\n outline: none;\r\n border-color: #858b91;\r\n}\r\n.game-tools-window[data-feedback-theme='desktop'] :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea):focus {\r\n outline: none;\r\n box-shadow: none;\r\n border-color: #858b91;\r\n}\r\n\r\n.game-tools-window .settings-form .setting-number.is-disabled {\r\n	opacity: 0.55;\r\n}\r\n\r\n.game-tools-window .character-attributes-tab .progression-form input:disabled {\r\n	opacity: .5;\r\n	cursor: not-allowed;\r\n}\r\n\r\n.character-appearance-mount { margin: 8px 0 0; font-size: 12px; }\r\n.character-riding-list { display: grid; gap: 8px; }\r\n.character-riding-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 8px 10px; border: 1px solid var(--desktop-border, #465461); border-radius: var(--desktop-radius, 6px); }\r\n.character-riding-row p { margin: 4px 0 0; }\r\n.character-riding-row .management-form-actions { grid-column: auto; margin: 0; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/GameTools/GameToolsButtons.css?raw
@@ -288888,12 +288916,61 @@ var init_JobPropertyTable = __esmMin((() => {
 	JPT[JobConst_default.SKY_EMPEROR2] = DJP(1, 0, 0, 0, 0, 0, 1, 0, 0, 1, JobConst_default.TAEKWON, JobConst_default.STAR, JobConst_default.STAR_EMPEROR, JobConst_default.SKY_EMPEROR);
 }));
 //#endregion
+//#region src/UI/Components/GameTools/CharacterAppearance.js
+function renderCharacterAppearance(rows, pending) {
+	const row = rows.find((entry) => entry.appearances?.length > 1);
+	if (!row) return "";
+	const mountName = row.appearance === 0 ? mountNames[row.kind] : appearanceMounts[row.appearance];
+	return `<section class="character-appearance"><h4>职业外观</h4>${renderGameSelect({
+		name: "character-appearance",
+		ariaLabel: "职业外观",
+		value: row.appearance,
+		options: row.appearances.map((value) => ({
+			value,
+			label: names$1[value]
+		})),
+		disabled: pending
+	})}${mountName ? `<p class="character-appearance-mount">骑乘外观：${mountName}</p>` : ""}</section>`;
+}
+var mountNames, appearanceMounts, names$1;
+var init_CharacterAppearance = __esmMin((() => {
+	init_GameSelect();
+	mountNames = {
+		peco: "大嘴鸟",
+		dragon: "龙",
+		gryphon: "狮鹫"
+	};
+	appearanceMounts = [
+		null,
+		"大嘴鸟",
+		"大嘴鸟",
+		"龙",
+		"大嘴鸟",
+		"大嘴鸟",
+		"狮鹫"
+	];
+	names$1 = [
+		"默认外观",
+		"骑士",
+		"骑士领主",
+		"符文骑士",
+		"十字军",
+		"圣殿十字军",
+		"皇家禁卫军"
+	];
+}));
+//#endregion
 //#region src/UI/Components/GameTools/CharacterRiding.js
 function renderCharacterRiding(rows, pending) {
 	return `<section class="character-riding"><h4>骑乘与随行</h4><div class="character-riding-list">${rows.length ? rows.map((row) => {
 		const action = actions[row.kind];
+		const title = [
+			"peco",
+			"dragon",
+			"gryphon"
+		].includes(row.kind) ? "骑乘" : names[row.kind];
 		const reason = row.reason === "riding_skill_required" ? `需学习「${skills$1[row.kind]}」` : reasons[row.reason] || row.reason;
-		return `<div class="character-riding-row"><div><strong>${names[row.kind]}</strong>${reason ? `<p>${escapeHtml$1(reason)}</p>` : ""}</div><div class="management-form-actions"><button type="button" data-riding-kind="${row.kind}" ${pending || row.reason ? "disabled" : ""}>${row.active ? action.disable : action.enable}</button></div></div>`;
+		return `<div class="character-riding-row"><div><strong>${title}</strong>${reason ? `<p>${escapeHtml$1(reason)}</p>` : ""}</div><div class="management-form-actions"><button type="button" data-riding-kind="${row.kind}" ${pending || row.reason ? "disabled" : ""}>${row.active ? action.disable : action.enable}</button></div></div>`;
 	}).join("") : "<p class=\"character-traits-unavailable\">当前职业没有可用的骑乘或随行功能</p>"}</div></section>`;
 }
 function ridingConfirmation(row) {
@@ -288906,12 +288983,16 @@ function ridingConfirmation(row) {
 		].includes(row.kind)) return `确认${actions[row.kind].disable}${names[row.kind]}？`;
 		if (row.kind === "warg_rider") return "确认从战狼上下骑？下骑后战狼会继续随行。";
 		if (row.kind === "mado") return "确认解除魔导机甲驾驶？";
-		return `确认从${names[row.kind]}上下来？`;
+		return "确认下骑？";
 	}
 	if (row.kind === "warg") return "确认召唤战狼？需携带狼笛，并按技能规则消耗 SP。";
 	if (row.kind === "hawk") return "确认召唤鹰？需携带猎鹰笛，并按技能规则消耗 SP。";
 	if (row.kind === "warg_rider") return "确认骑乘战狼？将按技能规则消耗 SP。";
-	return `确认${actions[row.kind].enable}${names[row.kind]}？${row.ticket ? "将消耗手推车免费使用券 ×1。" : row.fee ? `需支付 ${row.fee.toLocaleString()} Zeny。` : ""}`;
+	return `确认${[
+		"peco",
+		"dragon",
+		"gryphon"
+	].includes(row.kind) ? "骑乘" : `${actions[row.kind].enable}${names[row.kind]}`}？${row.ticket ? "将消耗手推车免费使用券 ×1。" : row.fee ? `需支付 ${row.fee.toLocaleString()} Zeny。` : ""}`;
 }
 var names, ridingActions, actions, skills$1, reasons;
 var init_CharacterRiding = __esmMin((() => {
@@ -289043,7 +289124,7 @@ function mount$1(container, context = {}) {
 			showToast(container, commands.find((command) => command.type === "character.progression.update" && command.payload.job_id !== void 0) ? `已转职为${getJobDisplayName(snapshot.job_id, "当前职业")}` : "操作成功");
 		} catch (error) {
 			showToast(container, error.message, "error");
-			if (commands.some((command) => command.type === "character.riding.update")) try {
+			if (commands.some((command) => command.type.startsWith("character.riding."))) try {
 				snapshot = await loadCurrentCharacter();
 			} catch {}
 		} finally {
@@ -289098,6 +289179,7 @@ function mount$1(container, context = {}) {
 			<div class="character-detail-scroll">
 				<section><h4>${escapeHtml$1(displayedJobName)} <small>ID ${displayedJobId}</small></h4><div class="selected-job"><span class="management-form-actions" data-menu-action-layout="job"><button type="button" data-action="vitals">恢复状态</button><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? "disabled" : ""}>${selectedJobId !== snapshot.job_id ? `转换为${escapeHtml$1(selectedJob?.name || `职业 ${selectedJobId}`)}` : "转换职业"}</button></span></div>
 				</section>
+				${renderCharacterAppearance(snapshot.riding, pending)}
 				${renderCharacterRiding(snapshot.riding, pending)}
 				<section><h4>等级与点数</h4><form data-form="progression" class="management-form progression-form">
 					<label><span>基础等级</span><input name="base_level" type="number" min="1" max="${snapshot.max_base_level}" value="${snapshot.base_level}" required></label>
@@ -289117,6 +289199,10 @@ function mount$1(container, context = {}) {
 					${context.mobile ? "" : "<small>直接设置特性值，不受当前特性点限制，不消耗剩余点数。</small>"}
 				</form></section>` : context.mobile ? "<section><h4>四转属性</h4><p class=\"character-traits-unavailable\">当前职业尚未开放四转属性</p></section>" : ""}
 			</div>`;
+		detail.querySelectorAll(".character-appearance [data-game-select]").forEach((root) => {
+			const { input } = mountGameSelect(root);
+			input.addEventListener("change", () => void submit("character.riding.appearance", { appearance: Number(input.value) }));
+		});
 		detail.querySelectorAll("[data-riding-kind]").forEach((button) => {
 			button.addEventListener("click", () => {
 				const row = snapshot.riding.find((entry) => entry.kind === button.dataset.ridingKind);
@@ -289239,6 +289325,7 @@ var init_CharacterMaintenanceTab = __esmMin((() => {
 	init_GameSelect();
 	init_AdventureControlService();
 	init_escapeHtml();
+	init_CharacterAppearance();
 	init_CharacterRiding();
 	init_Confirmation();
 	statFields = [
@@ -298431,6 +298518,8 @@ function createEquipment({ name, htmlText, cssText, entityRender = true, enchant
 			const preview = {
 				GID: SessionStorage_default.Entity.GID + "_EQUIP",
 				job: SessionStorage_default.Entity.job,
+				ridingAppearance: SessionStorage_default.Entity._ridingAppearanceFailed ? 0 : SessionStorage_default.Entity.ridingAppearance,
+				body: SessionStorage_default.Entity.body,
 				sex: SessionStorage_default.Entity.sex,
 				head: SessionStorage_default.Entity.head,
 				headpalette: SessionStorage_default.Entity.headpalette,
@@ -309131,7 +309220,7 @@ function get(GID) {
 /**
 * Remove effect from list
 */
-function remove(GID) {
+function remove$1(GID) {
 	const index = _list$3.findIndex((mapEffect) => mapEffect.name == GID);
 	if (index !== -1) _list$3.splice(index, 1);
 }
@@ -309168,7 +309257,7 @@ var init_Effects = __esmMin((() => {
 		add,
 		free: free$1,
 		get,
-		remove,
+		remove: remove$1,
 		spam
 	};
 }));
@@ -355098,6 +355187,81 @@ var init_EntityControl = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Jobs/MountTable.js
+var MountTable;
+var init_MountTable = __esmMin((() => {
+	init_JobConst();
+	MountTable = {};
+	MountTable[JobConst_default.KNIGHT] = JobConst_default.KNIGHT2;
+	MountTable[JobConst_default.KNIGHT_H] = JobConst_default.KNIGHT2_H;
+	MountTable[JobConst_default.KNIGHT_B] = JobConst_default.KNIGHT2_B;
+	MountTable[JobConst_default.CRUSADER] = JobConst_default.CRUSADER2;
+	MountTable[JobConst_default.CRUSADER_H] = JobConst_default.CRUSADER2_H;
+	MountTable[JobConst_default.CRUSADER_B] = JobConst_default.CRUSADER2_B;
+	MountTable[JobConst_default.CRUSADER_2ND] = JobConst_default.CRUSADER2_2ND;
+	MountTable[JobConst_default.RUNE_KNIGHT] = JobConst_default.RUNE_KNIGHT2;
+	MountTable[JobConst_default.RUNE_KNIGHT_H] = JobConst_default.RUNE_KNIGHT2_H;
+	MountTable[JobConst_default.RUNE_KNIGHT_B] = JobConst_default.RUNE_KNIGHT2_B;
+	MountTable[JobConst_default.RUNE_KNIGHT_2ND] = JobConst_default.RUNE_KNIGHT2_2ND;
+	MountTable[JobConst_default.ROYAL_GUARD] = JobConst_default.ROYAL_GUARD2;
+	MountTable[JobConst_default.ROYAL_GUARD_H] = JobConst_default.ROYAL_GUARD2_H;
+	MountTable[JobConst_default.ROYAL_GUARD_B] = JobConst_default.ROYAL_GUARD2_B;
+	MountTable[JobConst_default.ROYAL_GUARD_2ND] = JobConst_default.ROYAL_GUARD2_2ND;
+	MountTable[JobConst_default.RANGER] = JobConst_default.RANGER2;
+	MountTable[JobConst_default.RANGER_H] = JobConst_default.RANGER2_H;
+	MountTable[JobConst_default.RANGER_B] = JobConst_default.RANGER2_B;
+	MountTable[JobConst_default.RANGER_2ND] = JobConst_default.RANGER2_2ND;
+	MountTable[JobConst_default.MECHANIC] = JobConst_default.MECHANIC2;
+	MountTable[JobConst_default.MECHANIC_H] = JobConst_default.MECHANIC2_H;
+	MountTable[JobConst_default.MECHANIC_B] = JobConst_default.MECHANIC2_B;
+	MountTable[JobConst_default.MECHANIC_2ND] = JobConst_default.MECHANIC2_2ND;
+	MountTable[JobConst_default.WINDHAWK] = JobConst_default.WINDHAWK2;
+	MountTable[JobConst_default.MEISTER] = JobConst_default.MEISTER2;
+	MountTable[JobConst_default.DRAGON_KNIGHT] = JobConst_default.DRAGON_KNIGHT2;
+	MountTable[JobConst_default.IMPERIAL_GUARD] = JobConst_default.IMPERIAL_GUARD2;
+}));
+//#endregion
+//#region src/Renderer/Entity/RidingAppearance.js
+function ridingAppearanceJob(entity) {
+	const choice = entity._ridingAppearance || 0;
+	const stage = stages.get(entity._job) || 0;
+	if (!choice || entity._ridingAppearanceFailed || entity._allRidingState || entity._active_monster_transform || entity._monster_transform || entity._job_transform || entity.costume && entity.costume !== MountTable[entity._job]) return 0;
+	if (entity._body > 0 && entity._body !== entity._job && entity._body !== entity.costume) return 0;
+	if (choice >= 1 && choice <= 3 && stage > choice && stage <= 4 || choice >= 4 && choice <= 6 && stage > choice + 7 && stage <= 14) {
+		const base = appearances[choice];
+		return entity.costume === MountTable[entity._job] ? MountTable[base] : base;
+	}
+	return 0;
+}
+function ridingAppearanceBaseJob(entity) {
+	return ridingAppearanceJob(entity) ? appearances[entity._ridingAppearance] : entity._job;
+}
+var appearances, stages;
+var init_RidingAppearance = __esmMin((() => {
+	init_JobConst();
+	init_MountTable();
+	appearances = {
+		1: JobConst_default.KNIGHT,
+		2: JobConst_default.KNIGHT_H,
+		3: JobConst_default.RUNE_KNIGHT,
+		4: JobConst_default.CRUSADER,
+		5: JobConst_default.CRUSADER_H,
+		6: JobConst_default.ROYAL_GUARD
+	};
+	stages = /* @__PURE__ */ new Map([
+		[JobConst_default.KNIGHT, 1],
+		[JobConst_default.KNIGHT_H, 2],
+		[JobConst_default.RUNE_KNIGHT, 3],
+		[JobConst_default.RUNE_KNIGHT_H, 3],
+		[JobConst_default.DRAGON_KNIGHT, 4],
+		[JobConst_default.CRUSADER, 11],
+		[JobConst_default.CRUSADER_H, 12],
+		[JobConst_default.ROYAL_GUARD, 13],
+		[JobConst_default.ROYAL_GUARD_H, 13],
+		[JobConst_default.IMPERIAL_GUARD, 14]
+	]);
+}));
+//#endregion
 //#region src/Renderer/Entity/EntityAction.js
 /**
 * Action frames
@@ -355149,7 +355313,7 @@ function setAction(option) {
 	} else {
 		if (option.action === this.ACTION.ATTACK) {
 			if (this.objecttype === this.constructor.TYPE_PC) {
-				const attack = DB.getWeaponAction(this.weapon, this._job, this._sex);
+				const attack = DB.getWeaponAction(this.weapon, this._ridingAppearance ? ridingAppearanceBaseJob(this) : this._job, this._sex);
 				option.action = [
 					this.ACTION.ATTACK1,
 					this.ACTION.ATTACK2,
@@ -355286,6 +355450,7 @@ function Init$10() {
 }
 var init_EntityAction = __esmMin((() => {
 	init_DBManager();
+	init_RidingAppearance();
 }));
 //#endregion
 //#region src/Renderer/Entity/EntityCast.js
@@ -356316,40 +356481,6 @@ var init_ShadowTable = __esmMin((() => {
 	};
 }));
 //#endregion
-//#region src/DB/Jobs/MountTable.js
-var MountTable;
-var init_MountTable = __esmMin((() => {
-	init_JobConst();
-	MountTable = {};
-	MountTable[JobConst_default.KNIGHT] = JobConst_default.KNIGHT2;
-	MountTable[JobConst_default.KNIGHT_H] = JobConst_default.KNIGHT2_H;
-	MountTable[JobConst_default.KNIGHT_B] = JobConst_default.KNIGHT2_B;
-	MountTable[JobConst_default.CRUSADER] = JobConst_default.CRUSADER2;
-	MountTable[JobConst_default.CRUSADER_H] = JobConst_default.CRUSADER2_H;
-	MountTable[JobConst_default.CRUSADER_B] = JobConst_default.CRUSADER2_B;
-	MountTable[JobConst_default.CRUSADER_2ND] = JobConst_default.CRUSADER2_2ND;
-	MountTable[JobConst_default.RUNE_KNIGHT] = JobConst_default.RUNE_KNIGHT2;
-	MountTable[JobConst_default.RUNE_KNIGHT_H] = JobConst_default.RUNE_KNIGHT2_H;
-	MountTable[JobConst_default.RUNE_KNIGHT_B] = JobConst_default.RUNE_KNIGHT2_B;
-	MountTable[JobConst_default.RUNE_KNIGHT_2ND] = JobConst_default.RUNE_KNIGHT2_2ND;
-	MountTable[JobConst_default.ROYAL_GUARD] = JobConst_default.ROYAL_GUARD2;
-	MountTable[JobConst_default.ROYAL_GUARD_H] = JobConst_default.ROYAL_GUARD2_H;
-	MountTable[JobConst_default.ROYAL_GUARD_B] = JobConst_default.ROYAL_GUARD2_B;
-	MountTable[JobConst_default.ROYAL_GUARD_2ND] = JobConst_default.ROYAL_GUARD2_2ND;
-	MountTable[JobConst_default.RANGER] = JobConst_default.RANGER2;
-	MountTable[JobConst_default.RANGER_H] = JobConst_default.RANGER2_H;
-	MountTable[JobConst_default.RANGER_B] = JobConst_default.RANGER2_B;
-	MountTable[JobConst_default.RANGER_2ND] = JobConst_default.RANGER2_2ND;
-	MountTable[JobConst_default.MECHANIC] = JobConst_default.MECHANIC2;
-	MountTable[JobConst_default.MECHANIC_H] = JobConst_default.MECHANIC2_H;
-	MountTable[JobConst_default.MECHANIC_B] = JobConst_default.MECHANIC2_B;
-	MountTable[JobConst_default.MECHANIC_2ND] = JobConst_default.MECHANIC2_2ND;
-	MountTable[JobConst_default.WINDHAWK] = JobConst_default.WINDHAWK2;
-	MountTable[JobConst_default.MEISTER] = JobConst_default.MEISTER2;
-	MountTable[JobConst_default.DRAGON_KNIGHT] = JobConst_default.DRAGON_KNIGHT2;
-	MountTable[JobConst_default.IMPERIAL_GUARD] = JobConst_default.IMPERIAL_GUARD2;
-}));
-//#endregion
 //#region src/DB/Jobs/AllMountTable.js
 function duplicateEntry(origin) {
 	const value = AllMountTable[origin];
@@ -356607,6 +356738,9 @@ function hasTransformation() {
 /**
 * Returns the effective display job, considering all active transformations
 */
+function getRenderJob() {
+	return this._ridingAppearance && ridingAppearanceJob(this) || getEffectiveJob.call(this);
+}
 function getEffectiveJob() {
 	return this._active_monster_transform || this._monster_transform || this._job_transform || this.costume || this._job;
 }
@@ -356624,6 +356758,42 @@ function refreshHeadState() {
 	if (shouldSuppressHead.call(this)) suppressHeadSprites.call(this);
 	else if (!this.costume) restoreHeadSprites.call(this);
 }
+function loadAppearanceBody(path, args, onload, onerror) {
+	let stopped = false;
+	let ready = 0;
+	let timer;
+	const cancel = () => {
+		stopped = true;
+		clearTimeout(timer);
+		if (this._appearanceLoadCancel === cancel) this._appearanceLoadCancel = null;
+	};
+	const fail = () => {
+		if (!stopped) {
+			cancel();
+			onerror();
+		}
+	};
+	const loaded = () => {
+		if (stopped) return;
+		if (++ready === 2) {
+			cancel();
+			onload();
+		}
+	};
+	this._appearanceLoadCancel = cancel;
+	timer = setTimeout(fail, 8e3);
+	try {
+		Client.loadFile(path + ".act", (act) => {
+			if (stopped) return;
+			this.sound.preload(act.sounds);
+			loaded();
+		}, fail);
+		if (!stopped) Client.loadFile(path + ".spr", loaded, fail, args);
+	} catch (error) {
+		if (stopped) throw error;
+		fail();
+	}
+}
 /**
 * Updating job
 *
@@ -356632,7 +356802,11 @@ function refreshHeadState() {
 function UpdateBody(job) {
 	let baseJob;
 	const transformationSeq = this._transformationSeq || 0;
+	const appearanceEpoch = this._appearanceEpoch || 0;
+	const appearanceManaged = !!(this._ridingAppearance || this._appearanceBody);
+	const viewSeq = appearanceManaged ? this._viewSeq = (this._viewSeq || 0) + 1 : this._viewSeq;
 	if (job < 0) return;
+	this._appearanceLoadCancel?.();
 	const isTransformation = hasTransformation.call(this);
 	for (baseJob in MountTable) if (MountTable[baseJob] === job) {
 		this.costume = job;
@@ -356646,7 +356820,9 @@ function UpdateBody(job) {
 	}
 	if (!isTransformation) this._job = job;
 	this._effectiveJob = getEffectiveJob.call(this);
-	if (this.costume) job = this.costume;
+	const appearanceJob = this._ridingAppearance ? ridingAppearanceJob(this) : 0;
+	this._appearanceBody = appearanceJob;
+	job = appearanceJob || this.costume || job;
 	this.xSize = this.ySize = DB.isBaby(job) ? 4 : 5;
 	this.files.shadow.size = job in ShadowTable_default ? ShadowTable_default[job] : 1;
 	let path = this.isAdmin && !shouldSuppressHead.call(this) ? DB.getAdminPath(this._sex) : DB.getBodyPath(job, this._sex);
@@ -356711,10 +356887,11 @@ function UpdateBody(job) {
 		this.gr2 = null;
 		path = DB.getBodyPath(GR2_FALLBACK_JOB, this._sex);
 	} else this.gr2 = null;
-	Client.loadFile(path + ".act", (act) => this.sound.preload(act.sounds));
-	Client.loadFile(path + ".spr", function() {
+	const onBodyLoaded = function() {
 		const isStaleCallback = this._transformationSeq && this._transformationSeq > transformationSeq;
-		const currentJob = getEffectiveJob.call(this);
+		const currentJob = getRenderJob.call(this);
+		if (appearanceEpoch !== (this._appearanceEpoch || 0)) return;
+		if (appearanceManaged && (viewSeq !== this._viewSeq || isStaleCallback || job !== currentJob)) return;
 		if (!isStaleCallback && job === currentJob) {
 			this.files.body.spr = path + ".spr";
 			this.files.body.act = path + ".act";
@@ -356723,8 +356900,20 @@ function UpdateBody(job) {
 		this.bodypalette = this._bodypalette;
 		this.weapon = this._weapon;
 		this.shield = this._shield;
-	}.bind(this), null, { to_rgba: this.objecttype !== Entity.TYPE_PC });
-	if (PacketVerManager_default.value > 20141022 && this._body > 0) this.body = this._body;
+		if (appearanceManaged) this.robe = this._robe;
+	}.bind(this);
+	const bodyArgs = { to_rgba: this.objecttype !== Entity.TYPE_PC };
+	if (appearanceJob) loadAppearanceBody.call(this, path, bodyArgs, onBodyLoaded, () => {
+		if (appearanceEpoch !== (this._appearanceEpoch || 0) || viewSeq !== this._viewSeq) return;
+		this._ridingAppearanceFailed = true;
+		this._appearanceEpoch++;
+		UpdateBody.call(this, this._job);
+	});
+	else {
+		Client.loadFile(path + ".act", (act) => this.sound.preload(act.sounds));
+		Client.loadFile(path + ".spr", onBodyLoaded, null, bodyArgs);
+	}
+	if (PacketVerManager_default.value > 20141022 && this._body > 0 && !ridingAppearanceJob(this)) this.body = this._body;
 }
 /**
 * Get body value
@@ -356844,11 +357033,20 @@ function getBodyVal() {
 * @param {number} Body2 id
 */
 function UpdateBodyStyle(look) {
+	const appearanceManaged = !!this._ridingAppearance;
+	const appearanceEpoch = this._appearanceEpoch || 0;
+	if (appearanceManaged && look >= 0) this._body = look;
+	const viewSeq = this._viewSeq;
 	let path;
 	let Entity;
 	if (look < 0) return;
 	setTimeout(function() {
+		if (appearanceEpoch !== (this._appearanceEpoch || 0) || appearanceManaged && viewSeq !== this._viewSeq) return;
 		this._body = look;
+		if (ridingAppearanceJob(this)) {
+			UpdateBody.call(this, this._job);
+			return;
+		}
 		let job = this._job;
 		let cashMountCostume = false;
 		if (PacketVerManager_default.value <= 20231220) {
@@ -356868,6 +357066,7 @@ function UpdateBodyStyle(look) {
 		Entity = this.constructor;
 		Client.loadFile(path + ".act", (act) => this.sound.preload(act.sounds));
 		Client.loadFile(path + ".spr", function() {
+			if (appearanceEpoch !== (this._appearanceEpoch || 0) || appearanceManaged && viewSeq !== this._viewSeq) return;
 			this.files.body.spr = path + ".spr";
 			this.files.body.act = path + ".act";
 			this.bodypalette = this._bodypalette;
@@ -356883,7 +357082,7 @@ function UpdateBodyStyle(look) {
 */
 function UpdateBodyPalette(pal) {
 	this._bodypalette = pal;
-	if (pal <= 0) {
+	if (pal <= 0 || ridingAppearanceJob(this)) {
 		this.files.body.pal = null;
 		return;
 	}
@@ -356932,18 +357131,27 @@ function UpdateHeadPalette(pal) {
 */
 function UpdateGeneric(type, func, fallback) {
 	return function(val) {
+		const appearanceManaged = !!(this._ridingAppearance || this._appearanceBody);
+		const appearanceEpoch = this._appearanceEpoch || 0;
+		const request = appearanceManaged ? this._attachmentRequests ||= {} : null;
+		const sequence = request ? request[type] = (request[type] || 0) + 1 : 0;
+		const renderJob = this.renderJob;
+		const jobDependent = type === "weapon" || type === "shield" || type === "robe";
+		const current = () => appearanceEpoch === (this._appearanceEpoch || 0) && (!appearanceManaged || request[type] === sequence && (!jobDependent || this.renderJob === renderJob));
+		if (appearanceManaged) this["_" + type] = val;
 		let path;
 		const _this = this;
 		let _val = val;
 		if (val <= 0) {
 			this["_" + type] = 0;
+			if (appearanceManaged) this.files[type].spr = this.files[type].act = null;
 			return;
 		}
 		switch (type) {
 			case "weapon":
 			case "shield":
 			case "robe":
-				path = DB[func](val, this.job, this._sex);
+				path = DB[func](val, this.renderJob, this._sex);
 				break;
 			default: path = DB[func](val, this._sex);
 		}
@@ -356957,31 +357165,35 @@ function UpdateGeneric(type, func, fallback) {
 		function LoadView(filepath, final) {
 			Client.loadFile(filepath + ".act", (act) => _this.sound.preload(act.sounds));
 			Client.loadFile(filepath + ".spr", function() {
-				_this["_" + type] = _val;
+				if (!current()) return;
+				if (!appearanceManaged) _this["_" + type] = _val;
 				if (!(type === "accessory" || type === "accessory2" || type === "accessory3") || !shouldSuppressHead.call(_this)) {
 					_this.files[type].spr = filepath + ".spr";
 					_this.files[type].act = filepath + ".act";
 				}
 				if (type === "weapon") {
 					_this.sound.attackFile = DB.getWeaponSound(_val);
-					const trail_file = DB.getWeaponTrail(_val, _this.job, _this._sex);
+					const trail_file = DB.getWeaponTrail(_val, _this.renderJob, _this._sex);
 					if (trail_file) {
 						Client.loadFile(trail_file + ".act");
 						Client.loadFile(trail_file + ".spr", function() {
+							if (!current()) return;
 							_this.files["weapon_trail"].spr = trail_file + ".spr";
 							_this.files["weapon_trail"].act = trail_file + ".act";
 						});
 					}
 				}
 			}, function() {
+				if (!current()) return;
 				if (fallback && !final) {
 					_val = DB[fallback](val);
-					filepath = DB[func](_val, _this.job, _this._sex);
+					filepath = DB[func](_val, _this.renderJob, _this._sex);
 					if (filepath) LoadView(filepath, true);
 				} else if (type === "robe" && !final) {
-					const fallbackPath = DB.getRobePathNoSex(val, _this.job, _this._sex);
+					const fallbackPath = DB.getRobePathNoSex(val, _this.renderJob, _this._sex);
 					if (fallbackPath) Client.loadFile(fallbackPath + ".spr", function() {
-						_this["_" + type] = _val;
+						if (!current()) return;
+						if (!appearanceManaged) _this["_" + type] = _val;
 						if (!shouldSuppressHead.call(_this)) {
 							_this.files[type].spr = fallbackPath + ".spr";
 							_this.files[type].act = filepath + ".act";
@@ -357019,6 +357231,23 @@ function Init$5() {
 			return this._effectiveJob;
 		},
 		set: UpdateBody
+	});
+	this._ridingAppearance = 0;
+	this._appearanceEpoch = 0;
+	this._ridingAppearanceFailed = false;
+	Object.defineProperty(this, "renderJob", { get: getRenderJob });
+	Object.defineProperty(this, "ridingAppearance", {
+		get() {
+			return this._ridingAppearance;
+		},
+		set(value) {
+			if (!Number.isInteger(value) || value < 0 || value > 6) return;
+			if (this._ridingAppearance === value) return;
+			this._appearanceEpoch++;
+			this._ridingAppearanceFailed = false;
+			this._ridingAppearance = value;
+			UpdateBody.call(this, this._job);
+		}
 	});
 	this._body = this._job;
 	Object.defineProperty(this, "body", {
@@ -357110,6 +357339,7 @@ var init_EntityView = __esmMin((() => {
 	init_DBManager();
 	init_ShadowTable();
 	init_MountTable();
+	init_RidingAppearance();
 	init_AllMountTable();
 	init_EntityAction();
 	init_PacketVerManager();
@@ -359615,6 +359845,8 @@ var init_Entity$1 = __esmMin((() => {
 		* Remove Entity's attached GUI
 		*/
 		clean() {
+			this._appearanceLoadCancel?.();
+			if (this._appearanceEpoch) this._appearanceEpoch++;
 			this.life.clean();
 			this.emblem.clean();
 			this.display.clean();
@@ -363866,14 +364098,14 @@ var init_MobileInputEditor$1 = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/MobileInputEditor.js
 /** Edit a draft outside the menu so keyboard resizing cannot disturb its layout. */
-function createMobileInputEditor(host) {
+function createMobileInputEditor(host, { enabled = () => true } = {}) {
 	const root = host.shadowRoot;
 	let close;
 	let gesture;
 	let tappedSource;
 	function open(focusEvent) {
 		const source = focusEvent.target;
-		if (close || !source.matches?.(editable) || source.disabled || source.readOnly) return;
+		if (!enabled() || close || !source.matches?.(editable) || source.disabled || source.readOnly) return;
 		focusEvent.preventDefault();
 		focusEvent.stopImmediatePropagation();
 		const overlay = document.createElement("div");
@@ -363984,7 +364216,7 @@ function createMobileInputEditor(host) {
 		signal: listeners.signal
 	};
 	root.addEventListener("pointerdown", (event) => {
-		if (event.button !== 0 || !event.target.matches?.(editable)) return;
+		if (!enabled() || event.button !== 0 || !event.target.matches?.(editable)) return;
 		tappedSource = null;
 		gesture = {
 			source: event.target,
@@ -373089,7 +373321,7 @@ function snapshot() {
 		autoCombat: autoCombat.snapshot(),
 		unreadMail: gameMailUnread(),
 		name: entity.display.name,
-		job: getJobDisplayName(entity.job),
+		job: getJobDisplayName(entity._job),
 		level: entity.clevel,
 		jobLevel: entity.joblevel,
 		money: entity.money,
@@ -379896,6 +380128,7 @@ function createPlayerViewEquip({ name, cssText, hasTabs, costumeRows, costumeTab
 	const contentDivs = {};
 	let currentTabId = "vieweqgeneral";
 	let charName, jobID, headID, sexID, bodypalID, headpalID;
+	let appearanceSource = null;
 	let _root, _overlay, _panel;
 	Component.init = function init() {
 		_root = this.getRoot();
@@ -380055,6 +380288,10 @@ function createPlayerViewEquip({ name, cssText, hasTabs, costumeRows, costumeTab
 	Component.setChar2Render = function setChar2Render(pkt) {
 		if (pkt) {
 			charName = pkt.characterName;
+			appearanceSource = null;
+			EntityManager.forEach((entity) => {
+				if (entity.objecttype === Entity.TYPE_PC && entity.display.name === charName) appearanceSource = entity;
+			});
 			jobID = pkt.job;
 			headID = pkt.head;
 			sexID = pkt.sex;
@@ -380077,6 +380314,8 @@ function createPlayerViewEquip({ name, cssText, hasTabs, costumeRows, costumeTab
 			const preview = {
 				GID: charName + "_EQUIP",
 				job: jobID,
+				ridingAppearance: appearanceSource?._ridingAppearanceFailed ? 0 : appearanceSource?.ridingAppearance,
+				body: appearanceSource?.body,
 				sex: sexID,
 				head: headID,
 				headpalette: headpalID,
@@ -380146,6 +380385,7 @@ var init_PlayerViewEquipCommon = __esmMin((() => {
 	init_GUIComponent();
 	init_ItemInfo();
 	init_Entity$1();
+	init_EntityManager();
 	init_EquipmentPreviewEntity();
 }));
 //#endregion
@@ -384559,6 +384799,10 @@ function EntityEngine() {
 	Network.hookPacket(PACKET.ZC.NOTIFY_CHAT, onEntityTalk);
 	Network.hookPacket(PACKET.ZC.SHOWSCRIPT, onEntityTalk);
 	Network.hookPacket(PACKET.ZC.NPC_CHAT, onEntityTalkColor);
+	Network.hookPacket(PACKET.ZC.HAPPYRO_RIDING_APPEARANCE, (pkt) => {
+		const entity = EntityManager.get(pkt.actorId);
+		if (entity) entity.ridingAppearance = pkt.appearance;
+	});
 	Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_NAME, (pkt) => {
 		const entity = EntityManager.get(pkt.AID);
 		if (entity) localizeEntityName(entity, pkt.CName);
@@ -393996,7 +394240,7 @@ function onConnectionAccepted$2(pkt) {
 	BasicInfoController.getUI().update("jlvl", SessionStorage_default.Entity.joblevel);
 	BasicInfoController.getUI().update("zeny", SessionStorage_default.Entity.money);
 	BasicInfoController.getUI().update("name", SessionStorage_default.Entity.display.name);
-	BasicInfoController.getUI().update("job", SessionStorage_default.Entity.job);
+	BasicInfoController.getUI().update("job", SessionStorage_default.Entity._job);
 	onMapChange({
 		xPos: pkt.PosDir[0],
 		yPos: pkt.PosDir[1],
@@ -395400,7 +395644,7 @@ var init_CharSelectState = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelectCommon.js
 function createCharSelect(config) {
-	const { name, htmlText, cssText, gridLayout = false, hostHeight = 342, defaultMaxSlots = 27, deleteReservation = false, deletionEnabled = true, resetSelectionOnLogin = false, packetverGatedDelete = false, pageBalls = false, activationEvent = "mousedown", bitmapSkin = true, onSelectionChange = () => {}, onSlotChange = () => {} } = config;
+	const { name, htmlText, cssText, gridLayout = false, hostHeight = 342, defaultMaxSlots = 27, deleteReservation = false, deletionEnabled = true, resetSelectionOnLogin = false, packetverGatedDelete = false, pageBalls = false, activationEvent = "mousedown", bitmapSkin = true, onSelectionChange = () => {}, onSlotChange = () => {}, renderCharacterPreview = null } = config;
 	function loadSkin(path, callback) {
 		if (bitmapSkin) Client.loadFile(path, callback);
 	}
@@ -395422,6 +395666,7 @@ function createCharSelect(config) {
 	* @var {Array} list of characters (index by slot)
 	*/
 	const _slots = [];
+	const _appearanceChoices = /* @__PURE__ */ new Map();
 	/**
 	* @var {Array} list of entities (index by slot)
 	*/
@@ -395609,6 +395854,7 @@ function createCharSelect(config) {
 	* @param {object} pkt - packet structure
 	*/
 	Component.setInfo = function setInfo(pkt) {
+		_appearanceChoices.clear();
 		if (resetSelectionOnLogin) _index = 0;
 		if (gridLayout) {
 			Component.clearAllSlots();
@@ -395738,12 +395984,23 @@ function createCharSelect(config) {
 	*
 	* @param {object} character data
 	*/
+	Component.updateCharacterAppearance = function updateCharacterAppearance(charId, appearance) {
+		if (!Number.isInteger(appearance) || appearance < 0 || appearance > 6) return;
+		_appearanceChoices.set(charId, appearance);
+		for (const character of _slots) if (character?.GID === charId) {
+			character.ridingAppearance = appearance;
+			if (appearance && character.body >= 0) _entitySlots[character.CharNum]._body = character.body;
+			_entitySlots[character.CharNum].ridingAppearance = appearance;
+		}
+	};
 	Component.addCharacter = function addCharacter(character) {
+		character.ridingAppearance = _appearanceChoices.get(character.GID) || 0;
 		if (!("sex" in character) || character.sex === 99) character.sex = _sex;
 		upsertCharacterBySlot(_list, character);
 		if (gridLayout) {
 			_slots[character.CharNum] = character;
 			_entitySlots[character.CharNum] ??= new Entity();
+			if (character.ridingAppearance && character.body >= 0) _entitySlots[character.CharNum]._body = character.body;
 			_entitySlots[character.CharNum].set(character);
 			_entitySlots[character.CharNum].effectState = _entitySlots[character.CharNum]._effectState & ~StatusState_default.EffectState.INVISIBLE;
 			_entitySlots[character.CharNum].hideShadow = true;
@@ -395757,6 +396014,7 @@ function createCharSelect(config) {
 		}
 		_slots[character.CharNum] = character;
 		_entitySlots[character.CharNum] ??= new Entity();
+		if (character.ridingAppearance && character.body >= 0) _entitySlots[character.CharNum]._body = character.body;
 		_entitySlots[character.CharNum].set(character);
 		_entitySlots[character.CharNum].effectState = _entitySlots[character.CharNum]._effectState & ~StatusState_default.EffectState.INVISIBLE;
 		if (deleteReservation && (!packetverGatedDelete || PacketVerManager_default.value >= 20100803)) {
@@ -396406,7 +396664,8 @@ function createCharSelect(config) {
 			if (_entitySlots[idx + i]) {
 				SpriteRenderer.bind2DContext(_ctx[i], 78, 157);
 				if (_slots[idx + i] && _slots[idx + i].DeleteDate) _entitySlots[idx + i].action = 2;
-				_entitySlots[idx + i].renderEntity();
+				if (renderCharacterPreview) renderCharacterPreview(_entitySlots[idx + i], _ctx[i]);
+				else _entitySlots[idx + i].renderEntity();
 			}
 		}
 	}
@@ -396556,15 +396815,15 @@ var init_CharSelect$3 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreate/CharCreate.html?raw
-var CharCreate_default$4;
+var CharCreate_default$3;
 var init_CharCreate$5 = __esmMin((() => {
-	CharCreate_default$4 = "<div id=\"charcreate\">\r\n	<ui-image src=\"login_interface/win_make.bmp\"></ui-image>\r\n	<div class=\"chargen\">\r\n		<ui-button class=\"left\" bg=\"scroll1left.bmp\"></ui-button>\r\n		<ui-button class=\"up\" bg=\"scroll0up.bmp\"></ui-button>\r\n		<ui-button class=\"right\" bg=\"scroll1right.bmp\"></ui-button>\r\n		<canvas width=\"65\" height=\"110\"></canvas>\r\n	</div>\r\n	<input type=\"text\" data-background=\"login_interface/name-edit.bmp\" value=\"\" />\r\n\r\n	<div class=\"graph\">\r\n		<ui-button class=\"str\" bg=\"login_interface/arw-str0.bmp\" down=\"login_interface/arw-str1.bmp\"></ui-button>\r\n		<ui-button class=\"agi\" bg=\"login_interface/arw-agi0.bmp\" down=\"login_interface/arw-agi1.bmp\"></ui-button>\r\n		<ui-button class=\"vit\" bg=\"login_interface/arw-vit0.bmp\" down=\"login_interface/arw-vit1.bmp\"></ui-button>\r\n		<ui-button class=\"int\" bg=\"login_interface/arw-int0.bmp\" down=\"login_interface/arw-int1.bmp\"></ui-button>\r\n		<ui-button class=\"dex\" bg=\"login_interface/arw-dex0.bmp\" down=\"login_interface/arw-dex1.bmp\"></ui-button>\r\n		<ui-button class=\"luk\" bg=\"login_interface/arw-luk0.bmp\" down=\"login_interface/arw-luk1.bmp\"></ui-button>\r\n		<canvas width=\"158\" height=\"158\"></canvas>\r\n	</div>\r\n\r\n	<div class=\"info\">\r\n		<div class=\"str\">5</div>\r\n		<div class=\"agi\">5</div>\r\n		<div class=\"vit\">5</div>\r\n		<div class=\"int\">5</div>\r\n		<div class=\"dex\">5</div>\r\n		<div class=\"luk\">5</div>\r\n	</div>\r\n\r\n	<div class=\"btns\">\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn make\" bg=\"btn_make.bmp\" hover=\"btn_make_a.bmp\" down=\"btn_make_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
+	CharCreate_default$3 = "<div id=\"charcreate\">\r\n	<ui-image src=\"login_interface/win_make.bmp\"></ui-image>\r\n	<div class=\"chargen\">\r\n		<ui-button class=\"left\" bg=\"scroll1left.bmp\"></ui-button>\r\n		<ui-button class=\"up\" bg=\"scroll0up.bmp\"></ui-button>\r\n		<ui-button class=\"right\" bg=\"scroll1right.bmp\"></ui-button>\r\n		<canvas width=\"65\" height=\"110\"></canvas>\r\n	</div>\r\n	<input type=\"text\" data-background=\"login_interface/name-edit.bmp\" value=\"\" />\r\n\r\n	<div class=\"graph\">\r\n		<ui-button class=\"str\" bg=\"login_interface/arw-str0.bmp\" down=\"login_interface/arw-str1.bmp\"></ui-button>\r\n		<ui-button class=\"agi\" bg=\"login_interface/arw-agi0.bmp\" down=\"login_interface/arw-agi1.bmp\"></ui-button>\r\n		<ui-button class=\"vit\" bg=\"login_interface/arw-vit0.bmp\" down=\"login_interface/arw-vit1.bmp\"></ui-button>\r\n		<ui-button class=\"int\" bg=\"login_interface/arw-int0.bmp\" down=\"login_interface/arw-int1.bmp\"></ui-button>\r\n		<ui-button class=\"dex\" bg=\"login_interface/arw-dex0.bmp\" down=\"login_interface/arw-dex1.bmp\"></ui-button>\r\n		<ui-button class=\"luk\" bg=\"login_interface/arw-luk0.bmp\" down=\"login_interface/arw-luk1.bmp\"></ui-button>\r\n		<canvas width=\"158\" height=\"158\"></canvas>\r\n	</div>\r\n\r\n	<div class=\"info\">\r\n		<div class=\"str\">5</div>\r\n		<div class=\"agi\">5</div>\r\n		<div class=\"vit\">5</div>\r\n		<div class=\"int\">5</div>\r\n		<div class=\"dex\">5</div>\r\n		<div class=\"luk\">5</div>\r\n	</div>\r\n\r\n	<div class=\"btns\">\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn make\" bg=\"btn_make.bmp\" hover=\"btn_make_a.bmp\" down=\"btn_make_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreate/CharCreate.css?raw
-var CharCreate_default$3;
+var CharCreate_default$2;
 var init_CharCreate$4 = __esmMin((() => {
-	CharCreate_default$3 = ":host {\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n#charcreate {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n/** Name **/\r\n#charcreate input {\r\n	position: absolute;\r\n	top: 244px;\r\n	left: 62px;\r\n	width: 97px;\r\n	height: 14px;\r\n	padding-top: 2px;\r\n	padding-left: 3px;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n/** Chargen **/\r\n#charcreate .chargen ui-button {\r\n	position: absolute;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#charcreate .chargen .left {\r\n	top: 135px;\r\n	left: 47px;\r\n}\r\n#charcreate .chargen .up {\r\n	top: 105px;\r\n	left: 87px;\r\n}\r\n#charcreate .chargen .right {\r\n	top: 135px;\r\n	left: 127px;\r\n}\r\n#charcreate .chargen canvas {\r\n	position: absolute;\r\n	top: 120px;\r\n	left: 62px;\r\n}\r\n\r\n/** Graph buttons **/\r\n#charcreate .graph ui-button {\r\n	position: absolute;\r\n	width: 36px;\r\n	height: 36px;\r\n}\r\n#charcreate .graph .str {\r\n	top: 50px;\r\n	left: 270px;\r\n}\r\n#charcreate .graph .int {\r\n	top: 243px;\r\n	left: 270px;\r\n}\r\n#charcreate .graph .vit {\r\n	top: 104px;\r\n	left: 348px;\r\n}\r\n#charcreate .graph .dex {\r\n	top: 190px;\r\n	left: 191px;\r\n}\r\n#charcreate .graph .agi {\r\n	top: 103px;\r\n	left: 191px;\r\n}\r\n#charcreate .graph .luk {\r\n	top: 190px;\r\n	left: 348px;\r\n}\r\n#charcreate .graph canvas {\r\n	position: absolute;\r\n	left: 209px;\r\n	top: 86px;\r\n}\r\n\r\n/** Stats infos **/\r\n#charcreate .info {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 480px;\r\n}\r\n#charcreate .info div {\r\n	position: absolute;\r\n	left: 0px;\r\n}\r\n#charcreate .info .str {\r\n	top: 0px;\r\n}\r\n#charcreate .info .agi {\r\n	top: 16px;\r\n}\r\n#charcreate .info .vit {\r\n	top: 32px;\r\n}\r\n#charcreate .info .int {\r\n	top: 48px;\r\n}\r\n#charcreate .info .dex {\r\n	top: 64px;\r\n}\r\n#charcreate .info .luk {\r\n	top: 80px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate .btn {\r\n	position: absolute;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate .make {\r\n	right: 50px;\r\n}\r\n#charcreate .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#charcreate .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
+	CharCreate_default$2 = ":host {\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n#charcreate {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n/** Name **/\r\n#charcreate input {\r\n	position: absolute;\r\n	top: 244px;\r\n	left: 62px;\r\n	width: 97px;\r\n	height: 14px;\r\n	padding-top: 2px;\r\n	padding-left: 3px;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n/** Chargen **/\r\n#charcreate .chargen ui-button {\r\n	position: absolute;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#charcreate .chargen .left {\r\n	top: 135px;\r\n	left: 47px;\r\n}\r\n#charcreate .chargen .up {\r\n	top: 105px;\r\n	left: 87px;\r\n}\r\n#charcreate .chargen .right {\r\n	top: 135px;\r\n	left: 127px;\r\n}\r\n#charcreate .chargen canvas {\r\n	position: absolute;\r\n	top: 120px;\r\n	left: 62px;\r\n}\r\n\r\n/** Graph buttons **/\r\n#charcreate .graph ui-button {\r\n	position: absolute;\r\n	width: 36px;\r\n	height: 36px;\r\n}\r\n#charcreate .graph .str {\r\n	top: 50px;\r\n	left: 270px;\r\n}\r\n#charcreate .graph .int {\r\n	top: 243px;\r\n	left: 270px;\r\n}\r\n#charcreate .graph .vit {\r\n	top: 104px;\r\n	left: 348px;\r\n}\r\n#charcreate .graph .dex {\r\n	top: 190px;\r\n	left: 191px;\r\n}\r\n#charcreate .graph .agi {\r\n	top: 103px;\r\n	left: 191px;\r\n}\r\n#charcreate .graph .luk {\r\n	top: 190px;\r\n	left: 348px;\r\n}\r\n#charcreate .graph canvas {\r\n	position: absolute;\r\n	left: 209px;\r\n	top: 86px;\r\n}\r\n\r\n/** Stats infos **/\r\n#charcreate .info {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 480px;\r\n}\r\n#charcreate .info div {\r\n	position: absolute;\r\n	left: 0px;\r\n}\r\n#charcreate .info .str {\r\n	top: 0px;\r\n}\r\n#charcreate .info .agi {\r\n	top: 16px;\r\n}\r\n#charcreate .info .vit {\r\n	top: 32px;\r\n}\r\n#charcreate .info .int {\r\n	top: 48px;\r\n}\r\n#charcreate .info .dex {\r\n	top: 64px;\r\n}\r\n#charcreate .info .luk {\r\n	top: 80px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate .btn {\r\n	position: absolute;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate .make {\r\n	right: 50px;\r\n}\r\n#charcreate .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#charcreate .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreateCommon.js
@@ -397343,15 +397602,15 @@ var init_CharCreateCommon = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreate/CharCreate.js
-var CharCreate_default$2;
+var CharCreate_default$1;
 var init_CharCreate$3 = __esmMin((() => {
 	init_CharCreate$5();
 	init_CharCreate$4();
 	init_CharCreateCommon();
-	CharCreate_default$2 = createCharCreate({
+	CharCreate_default$1 = createCharCreate({
 		name: "CharCreate",
-		htmlText: CharCreate_default$4,
-		cssText: CharCreate_default$3,
+		htmlText: CharCreate_default$3,
+		cssText: CharCreate_default$2,
 		hasStats: true,
 		chargenCanvasSelector: ".chargen canvas",
 		graphCanvasSelector: ".graph canvas",
@@ -397507,7 +397766,7 @@ var init_CharCreate$2 = __esmMin((() => {
 	init_UIVersionManager();
 	publicName$1 = "CharCreate";
 	versionInfo$1 = {
-		default: CharCreate_default$2,
+		default: CharCreate_default$1,
 		common: {
 			20180124: CharCreatev4_default,
 			20151001: CharCreatev3_default,
@@ -398144,6 +398403,9 @@ var init_CharEngine = __esmMin((() => {
 			Network.hookPacket(PACKET.HC.SECOND_PASSWD_LOGIN, onPincodeCheckSuccess);
 			Network.hookPacket(PACKET.HC.DELETE_CHAR3_RESERVED, onRequestCharDel);
 			Network.hookPacket(PACKET.HC.CHARLIST_NOTIFY, onCharListNotify);
+			Network.hookPacket(PACKET.HC.HAPPYRO_CHARACTER_APPEARANCE, (pkt) => {
+				Controller$2.getUI()?.updateCharacterAppearance(pkt.charId, pkt.appearance);
+			});
 			JoystickUI_default.onRestore();
 		}
 		/**
@@ -403289,10 +403551,75 @@ var init_WinLogin = __esmMin((() => {
 	WinLogin_default = withMobileShell(MobileWinLogin);
 }));
 //#endregion
+//#region src/UI/Mobile/auth/CharacterPreview.js
+function fitCharacterPreview(bounds, width, height, preferredScale) {
+	const baseline = height - 24;
+	const scale = Math.min(preferredScale, (width - 16) / bounds.width, (baseline - 12) / bounds.height);
+	return {
+		scale,
+		x: (width - bounds.width * scale) / 2,
+		y: baseline - bounds.height * scale
+	};
+}
+function createCharacterPreviewRenderer() {
+	const states = /* @__PURE__ */ new WeakMap();
+	return (entity, target) => {
+		let state = states.get(target.canvas);
+		if (!state) {
+			const canvas = document.createElement("canvas");
+			canvas.width = canvas.height = 512;
+			state = {
+				canvas,
+				context: canvas.getContext("2d", { willReadFrequently: true }),
+				signature: "",
+				bounds: null
+			};
+			states.set(target.canvas, state);
+		}
+		const { canvas, context } = state;
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		SpriteRenderer.bind2DContext(context, 256, 380);
+		entity.renderEntity();
+		const signature = JSON.stringify([
+			entity.renderJob,
+			entity.sex,
+			entity.action,
+			entity.direction,
+			entity.files
+		]);
+		if (signature !== state.signature || !state.bounds) {
+			const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+			let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
+			for (let y = 0; y < canvas.height; y++) for (let x = 0; x < canvas.width; x++) if (pixels[(y * canvas.width + x) * 4 + 3]) {
+				left = Math.min(left, x);
+				right = Math.max(right, x);
+				top = Math.min(top, y);
+				bottom = Math.max(bottom, y);
+			}
+			state.signature = signature;
+			state.bounds = right < 0 ? null : {
+				x: left - 8,
+				y: top - 8,
+				width: right - left + 17,
+				height: bottom - top + 17
+			};
+		}
+		if (!state.bounds) return;
+		const bounds = state.bounds;
+		const preferredScale = Number(getComputedStyle(target.canvas).getPropertyValue("--character-preview-scale")) || 1;
+		const fit = fitCharacterPreview(bounds, target.canvas.width, target.canvas.height, preferredScale);
+		target.imageSmoothingEnabled = false;
+		target.drawImage(canvas, bounds.x, bounds.y, bounds.width, bounds.height, fit.x, fit.y, bounds.width * fit.scale, bounds.height * fit.scale);
+	};
+}
+var init_CharacterPreview = __esmMin((() => {
+	init_SpriteRenderer();
+}));
+//#endregion
 //#region src/UI/Mobile/auth/CharSelect.css?raw
 var CharSelect_default$1;
 var init_CharSelect$2 = __esmMin((() => {
-	CharSelect_default$1 = "/*\r\n * UI/Mobile/auth/CharSelect.css\r\n *\r\n * Composed with tokens.css + Shell.css via ?raw in CharSelect.js.\r\n * Tokens provide all color/radius values — no hardcoded values here.\r\n *\r\n * Layout strategy:\r\n *   - :host is overflow:hidden (Shell.css sets overflow:auto; we override)\r\n *   - .page fills host height as a flex column\r\n *   - .layout is a 2-col grid, height fills remaining space\r\n *   - Left column (.char_list): flex column, overflow-y:auto — scrolls when slots exceed height\r\n *   - Right column (.detail-panel): 3-row grid — name row (auto), info row (1fr, scrolls),\r\n *     action row (auto, always visible) — fixes buttons disappearing when charinfo is tall\r\n */\r\n\r\n:host {\r\n	overflow: hidden;\r\n}\r\n\r\n/* ── Page ── */\r\n.page {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding:\r\n		max(16px, env(safe-area-inset-top))\r\n		max(12px, env(safe-area-inset-right))\r\n		max(16px, env(safe-area-inset-bottom))\r\n		max(12px, env(safe-area-inset-left));\r\n	gap: 12px;\r\n}\r\n\r\n/* ── Top bar ── */\r\n.top-bar {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n}\r\n\r\n.screen-title {\r\n	font-size: 22px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.3px;\r\n}\r\n\r\n.cancel {\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	color: var(--m-text);\r\n	font: 15px/1 system-ui, sans-serif;\r\n	padding: 8px 16px;\r\n	min-width: 72px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	border-radius: var(--m-r-sm);\r\n	transition: color 150ms;\r\n}\r\n@media (hover: hover) and (pointer: fine) {\r\n	.cancel:hover { background: var(--m-surface-raised); }\r\n}\r\n.cancel:active { background: var(--m-surface-active); }\r\n.cancel:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* ── Two-column layout ── */\r\n.layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n	gap: 12px;\r\n}\r\n\r\n/* ── Left: single-column scrollable slot list ── */\r\n.char_list {\r\n	/* min-height:0 lets this grid item shrink below its content height, enabling overflow scroll */\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	padding-right: 2px;\r\n}\r\n\r\n.char_canvas {\r\n	flex-shrink: 0;           /* don't compress — let the list scroll instead */\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 8px 6px 10px;\r\n	background: var(--m-surface);\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-md);\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	width: 100%;\r\n	transition: border-color 150ms, background 150ms;\r\n}\r\n\r\n.char_canvas[aria-pressed='true'] {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n}\r\n\r\n.char_canvas canvas {\r\n	display: block;\r\n	width: 100%;\r\n	max-width: 110px;\r\n	/* Bring the enlarged preview closer to its label without moving the card. */\r\n	transform: translateY(8px) scale(1.18);\r\n	height: auto;\r\n	margin: -10px auto 0;\r\n	pointer-events: none;\r\n}\r\n\r\n.char_canvas .name {\r\n	display: block;\r\n	font-size: 13px;\r\n	font-weight: 500;\r\n	margin-top: 4px;\r\n	text-align: center;\r\n	overflow-wrap: anywhere;\r\n	line-height: 1.3;\r\n	min-height: 18px;\r\n}\r\n\r\n.char_canvas { position: relative; }\r\n.empty-placeholder[hidden] { display: none !important; }\r\n.char_canvas[data-empty=\"true\"] canvas,\r\n.char_canvas[data-empty=\"true\"] .name { visibility: hidden; }\r\n.char_canvas[data-empty=\"true\"] .empty-placeholder {\r\n	position: absolute; inset: 0; display: flex; flex-direction: column;\r\n	align-items: center; justify-content: center; gap: 6px;\r\n	color: var(--m-text-muted); font-size: 13px; pointer-events: none;\r\n}\r\n.empty-plus { font-size: 36px; line-height: 1; font-weight: 300; }\r\n\r\n\r\n.timedelete {\r\n	font-size: 11px;\r\n	color: var(--m-danger);\r\n	text-align: center;\r\n	margin-top: 2px;\r\n}\r\n\r\n/* ── Right: detail panel ── */\r\n/*\r\n * 3-row grid: name (auto) / scrollable info (1fr) / actions (auto)\r\n * The action-group row is always visible because its height is auto,\r\n * independent of how tall the charinfo content is.\r\n */\r\n.detail-panel {\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	grid-template-columns: 1fr;\r\n	gap: 8px;\r\n}\r\n\r\n.selection-label {\r\n	font-size: 18px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.2px;\r\n	min-height: 27px;\r\n	align-self: start;\r\n}\r\n\r\n/* Scrollable info rows — occupies 1fr, never pushes action-group out */\r\n.charinfo {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n\r\n.charinfo > div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	font-size: 13px;\r\n	padding: 5px 0;\r\n	border-bottom: 1px solid var(--m-border);\r\n}\r\n\r\n.charinfo > div:last-child { border-bottom: none; }\r\n\r\n.charinfo > div::before {\r\n	content: attr(data-label);\r\n	color: var(--m-text-muted);\r\n	flex-shrink: 0;\r\n	margin-right: 8px;\r\n}\r\n\r\n.charinfo > div:empty { display: none; }\r\n\r\n/* ── Action buttons — always visible, pinned to row 3 ── */\r\n/*\r\n * The engine (CharSelectCommon moveCursorToGrid) sets style.display on\r\n * .ok directly. We only control .make\r\n * via onSelectionChange (hidden attribute). Both work because the grid row\r\n * always has auto height.\r\n */\r\n.action-group {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	padding-top: 8px;\r\n	border-top: 1px solid var(--m-border);\r\n	align-self: end;\r\n}\r\n\r\n.ok,\r\n.make {\r\n	display: block;\r\n	width: 100%;\r\n	height: 46px;\r\n	border: none;\r\n	border-radius: var(--m-r-sm);\r\n	font: 600 15px/1 system-ui, sans-serif;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: opacity 150ms, transform 80ms;\r\n}\r\n.ok:active, .make:active { transform: scale(0.97); }\r\n.ok:focus-visible, .make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n.ok  { background: var(--m-accent); color: var(--m-accent-fg); }\r\n.make { background: var(--m-surface-raised); color: var(--m-text); border: 1.5px solid var(--m-border); }\r\n\r\n.hidden { display: none; }\r\n.selection-label { overflow-wrap: anywhere; }\r\n\r\n@media (orientation: portrait) and (max-width: 600px) and (min-height: 480px) {\r\n	.layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(120px, calc((100% - 12px) / 2 - 8px)) minmax(200px, 1fr); }\r\n	.char_list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: max-content; }\r\n	.char_canvas canvas { max-width: 80px; transform: translateY(8px) scale(1.375); }\r\n	.detail-panel { border-top: 1px solid var(--m-border); padding-top: 8px; row-gap: 0; }\r\n	.selection-label { margin-bottom: 8px; }\r\n	.action-group { border-top: none; }\r\n	.charinfo { border-bottom: 1px solid var(--m-border); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }\r\n	.charinfo > div:nth-last-child(-n + 2) { border-bottom: none; }\r\n}\r\n\r\n/* Landscape: keep two character cards per row and reserve a narrower detail column. */\r\n@media (orientation: landscape) {\r\n	.layout { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }\r\n	.char_list {\r\n		display: grid;\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n		grid-auto-rows: max-content;\r\n		align-content: start;\r\n		min-width: 0;\r\n	}\r\n	.char_canvas { min-width: 0; }\r\n	.detail-panel { min-width: 0; grid-template-columns: minmax(0, 1fr); }\r\n	.charinfo > div { overflow-wrap: anywhere; }\r\n}\r\n";
+	CharSelect_default$1 = "/*\r\n * UI/Mobile/auth/CharSelect.css\r\n *\r\n * Composed with tokens.css + Shell.css via ?raw in CharSelect.js.\r\n * Tokens provide all color/radius values — no hardcoded values here.\r\n *\r\n * Layout strategy:\r\n *   - :host is overflow:hidden (Shell.css sets overflow:auto; we override)\r\n *   - .page fills host height as a flex column\r\n *   - .layout is a 2-col grid, height fills remaining space\r\n *   - Left column (.char_list): flex column, overflow-y:auto — scrolls when slots exceed height\r\n *   - Right column (.detail-panel): 3-row grid — name row (auto), info row (1fr, scrolls),\r\n *     action row (auto, always visible) — fixes buttons disappearing when charinfo is tall\r\n */\r\n\r\n:host {\r\n	overflow: hidden;\r\n}\r\n\r\n/* ── Page ── */\r\n.page {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding:\r\n		max(16px, env(safe-area-inset-top))\r\n		max(12px, env(safe-area-inset-right))\r\n		max(16px, env(safe-area-inset-bottom))\r\n		max(12px, env(safe-area-inset-left));\r\n	gap: 12px;\r\n}\r\n\r\n/* ── Top bar ── */\r\n.top-bar {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n}\r\n\r\n.screen-title {\r\n	font-size: 22px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.3px;\r\n}\r\n\r\n.cancel {\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	color: var(--m-text);\r\n	font: 15px/1 system-ui, sans-serif;\r\n	padding: 8px 16px;\r\n	min-width: 72px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	border-radius: var(--m-r-sm);\r\n	transition: color 150ms;\r\n}\r\n@media (hover: hover) and (pointer: fine) {\r\n	.cancel:hover { background: var(--m-surface-raised); }\r\n}\r\n.cancel:active { background: var(--m-surface-active); }\r\n.cancel:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* ── Two-column layout ── */\r\n.layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n	gap: 12px;\r\n}\r\n\r\n/* ── Left: single-column scrollable slot list ── */\r\n.char_list {\r\n	/* min-height:0 lets this grid item shrink below its content height, enabling overflow scroll */\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	padding-right: 2px;\r\n}\r\n\r\n.char_canvas {\r\n	flex-shrink: 0;           /* don't compress — let the list scroll instead */\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 8px 6px 10px;\r\n	background: var(--m-surface);\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-md);\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	width: 100%;\r\n	transition: border-color 150ms, background 150ms;\r\n}\r\n\r\n.char_canvas[aria-pressed='true'] {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n}\r\n\r\n.character-preview {\r\n display: flex;\r\n justify-content: center;\r\n width: 100%;\r\n height: 137px;\r\n overflow: hidden;\r\n}\r\n\r\n.char_canvas canvas {\r\n --character-preview-scale: 1.18;\r\n display: block;\r\n width: 110px;\r\n height: 137px;\r\n max-width: 100%;\r\n object-fit: contain;\r\n pointer-events: none;\r\n}\r\n\r\n.char_canvas .name {\r\n	display: block;\r\n	font-size: 13px;\r\n	font-weight: 500;\r\n	margin-top: 4px;\r\n	text-align: center;\r\n	overflow-wrap: anywhere;\r\n	line-height: 1.3;\r\n	min-height: 18px;\r\n}\r\n\r\n.char_canvas { position: relative; }\r\n.empty-placeholder[hidden] { display: none !important; }\r\n.char_canvas[data-empty=\"true\"] canvas,\r\n.char_canvas[data-empty=\"true\"] .name { visibility: hidden; }\r\n.char_canvas[data-empty=\"true\"] .empty-placeholder {\r\n	position: absolute; inset: 0; display: flex; flex-direction: column;\r\n	align-items: center; justify-content: center; gap: 6px;\r\n	color: var(--m-text-muted); font-size: 13px; pointer-events: none;\r\n}\r\n.empty-plus { font-size: 36px; line-height: 1; font-weight: 300; }\r\n\r\n\r\n.timedelete {\r\n	font-size: 11px;\r\n	color: var(--m-danger);\r\n	text-align: center;\r\n	margin-top: 2px;\r\n}\r\n\r\n/* ── Right: detail panel ── */\r\n/*\r\n * 3-row grid: name (auto) / scrollable info (1fr) / actions (auto)\r\n * The action-group row is always visible because its height is auto,\r\n * independent of how tall the charinfo content is.\r\n */\r\n.detail-panel {\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	grid-template-columns: 1fr;\r\n	gap: 8px;\r\n}\r\n\r\n.selection-label {\r\n	font-size: 18px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.2px;\r\n	min-height: 27px;\r\n	align-self: start;\r\n}\r\n\r\n/* Scrollable info rows — occupies 1fr, never pushes action-group out */\r\n.charinfo {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n\r\n.charinfo > div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	font-size: 13px;\r\n	padding: 5px 0;\r\n	border-bottom: 1px solid var(--m-border);\r\n}\r\n\r\n.charinfo > div:last-child { border-bottom: none; }\r\n\r\n.charinfo > div::before {\r\n	content: attr(data-label);\r\n	color: var(--m-text-muted);\r\n	flex-shrink: 0;\r\n	margin-right: 8px;\r\n}\r\n\r\n.charinfo > div:empty { display: none; }\r\n\r\n/* ── Action buttons — always visible, pinned to row 3 ── */\r\n/*\r\n * The engine (CharSelectCommon moveCursorToGrid) sets style.display on\r\n * .ok directly. We only control .make\r\n * via onSelectionChange (hidden attribute). Both work because the grid row\r\n * always has auto height.\r\n */\r\n.action-group {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	padding-top: 8px;\r\n	border-top: 1px solid var(--m-border);\r\n	align-self: end;\r\n}\r\n\r\n.ok,\r\n.make {\r\n	display: block;\r\n	width: 100%;\r\n	height: 46px;\r\n	border: none;\r\n	border-radius: var(--m-r-sm);\r\n	font: 600 15px/1 system-ui, sans-serif;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: opacity 150ms, transform 80ms;\r\n}\r\n.ok:active, .make:active { transform: scale(0.97); }\r\n.ok:focus-visible, .make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n.ok  { background: var(--m-accent); color: var(--m-accent-fg); }\r\n.make { background: var(--m-surface-raised); color: var(--m-text); border: 1.5px solid var(--m-border); }\r\n\r\n.hidden { display: none; }\r\n.selection-label { overflow-wrap: anywhere; }\r\n\r\n@media (orientation: portrait) and (max-width: 600px) and (min-height: 480px) {\r\n	.layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(120px, calc((100% - 12px) / 2 - 8px)) minmax(200px, 1fr); }\r\n	.char_list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: max-content; }\r\n	.character-preview { height: 110px; }\r\n	.char_canvas canvas { --character-preview-scale: 1.235; height: 110px; width: 89px; }\r\n	.detail-panel { border-top: 1px solid var(--m-border); padding-top: 8px; row-gap: 0; }\r\n	.selection-label { margin-bottom: 8px; }\r\n	.action-group { border-top: none; }\r\n	.charinfo { border-bottom: 1px solid var(--m-border); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }\r\n	.charinfo > div:nth-last-child(-n + 2) { border-bottom: none; }\r\n}\r\n\r\n/* Landscape: keep two character cards per row and reserve a narrower detail column. */\r\n@media (orientation: landscape) {\r\n	.layout { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }\r\n	.char_list {\r\n		display: grid;\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n		grid-auto-rows: max-content;\r\n		align-content: start;\r\n		min-width: 0;\r\n	}\r\n	.char_canvas { min-width: 0; }\r\n	.detail-panel { min-width: 0; grid-template-columns: minmax(0, 1fr); }\r\n	.charinfo > div { overflow-wrap: anywhere; }\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/auth/CharSelect.html?raw
@@ -403305,6 +403632,7 @@ var init_CharSelect$1 = __esmMin((() => {
 var slots, htmlText$1, CharSelect;
 var init_CharSelect = __esmMin((() => {
 	init_CharSelectCommon();
+	init_CharacterPreview();
 	init_Shell$1();
 	init_tokens();
 	init_Shell();
@@ -403312,7 +403640,7 @@ var init_CharSelect = __esmMin((() => {
 	init_CharSelect$1();
 	slots = Array.from({ length: 15 }, (_, i) => `
 	<button class="char_canvas" id="slot${i}" type="button" aria-label="角色栏 ${i + 1}">
-		<canvas width="157" height="195"></canvas>
+		<span class="character-preview"><canvas width="157" height="195"></canvas></span>
 		<span class="name"></span>
 		<span class="empty-placeholder" hidden aria-hidden="true"><span class="empty-plus">+</span><span>创建角色</span></span>
 		<span class="timedelete slot${i} hidden"></span>
@@ -403323,6 +403651,7 @@ var init_CharSelect = __esmMin((() => {
 		htmlText: htmlText$1,
 		cssText: tokens_default + Shell_default + CharSelect_default$1,
 		gridLayout: true,
+		renderCharacterPreview: createCharacterPreviewRenderer(),
 		deleteReservation: true,
 		deletionEnabled: false,
 		resetSelectionOnLogin: true,
@@ -403374,16 +403703,17 @@ var init_AppearancePreviews = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Mobile/auth/CharCreate.css?raw
-var CharCreate_default$1;
+var CharCreate_default;
 var init_CharCreate$1 = __esmMin((() => {
-	CharCreate_default$1 = "/*\r\n * UI/Mobile/auth/CharCreate.css\r\n * Mobile character-creation screen — compose with tokens.css + Shell.css via ?raw.\r\n */\r\n\r\n:host {\r\n	overflow: auto;\r\n}\r\n\r\n.page {\r\n	min-height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding:\r\n		max(16px, env(safe-area-inset-top))\r\n		max(16px, env(safe-area-inset-right))\r\n		max(24px, env(safe-area-inset-bottom))\r\n		max(16px, env(safe-area-inset-left));\r\n	gap: 16px;\r\n}\r\n\r\n/* ── Top bar ── */\r\n.top-bar {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n}\r\n\r\n.screen-title,\r\n.title {\r\n	font-size: 22px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.3px;\r\n}\r\n\r\n.return {\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	color: var(--m-text);\r\n	font: 15px/1 system-ui, sans-serif;\r\n	padding: 8px 16px;\r\n	min-width: 72px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	border-radius: var(--m-r-sm);\r\n	transition: color 150ms;\r\n}\r\n@media (hover: hover) and (pointer: fine) {\r\n	.return:hover { background: var(--m-surface-raised); }\r\n}\r\n.return:active { background: var(--m-surface-active); }\r\n.return:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* ── Name field ── */\r\n.name-field {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n}\r\n\r\n.field-label {\r\n	font-size: 13px;\r\n	font-weight: 500;\r\n	color: var(--m-text-muted);\r\n	letter-spacing: 0.3px;\r\n}\r\n\r\n#char_name {\r\n	width: 100%;\r\n	height: 48px;\r\n	padding: 0 14px;\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	border-radius: var(--m-r-sm);\r\n	color: var(--m-text);\r\n	font: 16px/1 system-ui, sans-serif;\r\n	outline: none;\r\n	-webkit-user-select: text;\r\n	user-select: text;\r\n	transition: border-color 150ms, box-shadow 150ms;\r\n}\r\n\r\n#char_name::placeholder { color: var(--m-text-muted); }\r\n#char_name:focus { border-color: var(--m-accent); box-shadow: 0 0 0 3px var(--m-accent-ring); }\r\n\r\n/* ── Section header ── */\r\n.section-title {\r\n	font-size: 13px;\r\n	font-weight: 600;\r\n	color: var(--m-text-muted);\r\n	letter-spacing: 0.5px;\r\n	text-transform: uppercase;\r\n	margin: 0 0 10px;\r\n}\r\n\r\n/* ── Race cards ── */\r\n.races {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 10px;\r\n}\r\n\r\n.races > div { position: relative; display: flex; }\r\n\r\n.races input[type='radio'] {\r\n	position: absolute;\r\n	opacity: 0;\r\n	width: 1px;\r\n	height: 1px;\r\n}\r\n\r\n.races label {\r\n	width: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 14px 10px;\r\n	background: var(--m-surface);\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-md);\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: border-color 150ms, background 150ms;\r\n}\r\n\r\n.races input:checked + label {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n}\r\n\r\n.races input:focus-visible + label { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n.races canvas { display: block; pointer-events: none; }\r\n.races strong { font-size: 14px; font-weight: 600; }\r\n\r\n.human_desc,\r\n.doram_desc {\r\n	font-size: 12px;\r\n	color: var(--m-text-muted);\r\n	text-align: center;\r\n	line-height: 1.4;\r\n}\r\n\r\n/* ── Appearance section ── */\r\n.style-section { display: flex; flex-direction: column; gap: 14px; }\r\n\r\n/* Gender toggle */\r\n.gender-row { display: flex; gap: 8px; }\r\n\r\n.gender-row span { position: relative; flex: 1; }\r\n\r\n.gender-row input[type='radio'] {\r\n	position: absolute;\r\n	opacity: 0;\r\n	width: 1px;\r\n	height: 1px;\r\n}\r\n\r\n.gender-row label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	height: 44px;\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-sm);\r\n	background: var(--m-surface);\r\n	cursor: pointer;\r\n	font: 15px/1 system-ui, sans-serif;\r\n	touch-action: manipulation;\r\n	transition: border-color 150ms, background 150ms;\r\n}\r\n\r\n.gender-row input:checked + label {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n	color: var(--m-accent);\r\n	font-weight: 600;\r\n}\r\n\r\n.gender-row input:focus-visible + label { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* Model preview */\r\n.model-row {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 20px;\r\n}\r\n\r\n.rot_left,\r\n.rot_right {\r\n	width: 44px;\r\n	height: 44px;\r\n	flex-shrink: 0;\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	border-radius: 50%;\r\n	color: var(--m-text-muted);\r\n	font-size: 18px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	transition: background 150ms, color 150ms;\r\n	padding: 0;\r\n}\r\n.rot_left:hover, .rot_right:hover { background: var(--m-surface-raised); color: var(--m-text); }\r\n.rot_left:focus-visible, .rot_right:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n#style_model { display: block; pointer-events: none; }\r\n\r\n/* Hairstyle grid — .hair-style class required by CharCreateCommon.js */\r\n.hair-style {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n\r\n.styleCol { position: relative; }\r\n\r\n.styleCol input[type='radio'] {\r\n	position: absolute;\r\n	opacity: 0;\r\n	width: 1px;\r\n	height: 1px;\r\n}\r\n\r\n.hstyle_button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 44px;\r\n	height: 44px;\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-sm);\r\n	background: var(--m-surface);\r\n	font-size: 13px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: border-color 150ms, background 150ms, color 150ms;\r\n}\r\n\r\n.styleCol input:checked + .hstyle_button {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n	color: var(--m-accent);\r\n	font-weight: 600;\r\n}\r\n\r\n.styleCol input:focus-visible + .hstyle_button { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* Hair color */\r\n.color-row { display: flex; flex-wrap: wrap; gap: 6px; }\r\n\r\n.colorCol { position: relative; }\r\n\r\n.colorCol input[type='radio'] {\r\n	position: absolute;\r\n	opacity: 0;\r\n	width: 1px;\r\n	height: 1px;\r\n}\r\n\r\n.hcolor_button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 44px;\r\n	height: 44px;\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-sm);\r\n	background: var(--m-surface);\r\n	font-size: 13px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: border-color 150ms, background 150ms, color 150ms;\r\n}\r\n\r\n.colorCol input:checked + .hcolor_button {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n	color: var(--m-accent);\r\n	font-weight: 600;\r\n}\r\n\r\n.colorCol input:focus-visible + .hcolor_button { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* Create button */\r\n.make {\r\n	display: block;\r\n	width: 100%;\r\n	height: 52px;\r\n	background: var(--m-accent);\r\n	color: var(--m-accent-fg);\r\n	border: none;\r\n	border-radius: var(--m-r-sm);\r\n	font: 600 17px/1 system-ui, sans-serif;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: opacity 150ms, transform 80ms;\r\n	margin-top: 4px;\r\n}\r\n.make:hover { opacity: 0.9; }\r\n.make:active { transform: scale(0.98); }\r\n.make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 3px; box-shadow: 0 0 0 5px var(--m-accent-ring); }\r\n\r\n[hidden] { display: none !important; }\r\n\r\n\r\n/* Reuse desktop hair icons; colors are sampled from its palette swatches. */\r\n.hstyle_button, .hcolor_button { width: 52px; height: 52px; overflow: hidden; }\r\n.hair-preview { display: block; width: 44px; height: 44px; background-position: center; background-repeat: no-repeat; background-size: contain; pointer-events: none; }\r\n.color-swatch { display: block; width: 32px; height: 32px; border-radius: 6px; pointer-events: none; }\r\n\r\n/* Structural groups are transparent to the existing portrait layout. */\r\n.create-layout, .create-identity, .appearance-options { display: contents; }\r\n#char_name { min-width: 0; }\r\n\r\n@media (orientation: landscape) {\r\n	:host { overflow: hidden; }\r\n	.page {\r\n		height: 100%;\r\n		min-height: 0;\r\n		display: grid;\r\n		grid-template-rows: auto minmax(0, 1fr) auto;\r\n		gap: 10px;\r\n		padding-top: max(10px, env(safe-area-inset-top));\r\n		padding-bottom: max(10px, env(safe-area-inset-bottom));\r\n	}\r\n	.screen-title, .title { font-size: 18px; }\r\n	.return { min-height: 36px; padding: 6px 12px; }\r\n	.create-layout {\r\n		display: grid;\r\n		grid-template-columns: minmax(0, 0.9fr) minmax(152px, 0.65fr) minmax(0, 0.85fr);\r\n		grid-template-rows: auto auto minmax(0, 1fr);\r\n		gap: 8px 12px;\r\n		min-height: 0;\r\n	}\r\n	.create-identity, .style-section { display: contents; }\r\n	.race-section {\r\n		grid-column: 1;\r\n		grid-row: 1 / -1;\r\n		min-width: 0;\r\n		min-height: 0;\r\n		overflow-y: auto;\r\n		overscroll-behavior: contain;\r\n		padding: 3px;\r\n	}\r\n	.name-field { grid-column: 2; grid-row: 1; min-width: 0; gap: 4px; }\r\n	#char_name { height: 40px; padding: 0 10px; }\r\n	.section-title { margin-bottom: 6px; }\r\n	.races { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }\r\n	.races > div, .races label { min-width: 0; }\r\n	.races label { padding: 8px 4px; gap: 4px; }\r\n	.races canvas { max-width: 100%; width: 52px; height: auto; }\r\n	.races strong { font-size: 12px; }\r\n	.human_desc, .doram_desc { font-size: 11px; overflow-wrap: anywhere; }\r\n	.gender-row { grid-column: 2; grid-row: 2; gap: 6px; }\r\n	.gender-row label { height: 36px; font-size: 13px; }\r\n	.model-row {\r\n		grid-column: 2;\r\n		grid-row: 3;\r\n		display: grid;\r\n		grid-template-columns: 36px minmax(0, 1fr) 36px;\r\n		grid-template-rows: minmax(0, 1fr);\r\n		align-content: start;\r\n		justify-items: center;\r\n		gap: 6px;\r\n		min-height: 0;\r\n		overflow-y: auto;\r\n	}\r\n	#style_model { grid-column: 2; grid-row: 1; width: 65px; max-width: 100%; height: auto; max-height: 100%; object-fit: contain; }\r\n	.rot_left, .rot_right { grid-row: 1; width: 36px; height: 36px; font-size: 14px; }\r\n	.rot_left { grid-column: 1; }\r\n	.rot_right { grid-column: 3; }\r\n	.appearance-options {\r\n		display: flex;\r\n		flex-direction: column;\r\n		grid-column: 3;\r\n		grid-row: 1 / -1;\r\n		gap: 12px;\r\n		min-width: 0;\r\n		min-height: 0;\r\n		overflow-y: auto;\r\n		overscroll-behavior: contain;\r\n		padding: 3px;\r\n	}\r\n	.hair-style, .color-row { gap: 4px; }\r\n	.hstyle_button, .hcolor_button { width: 44px; height: 44px; }\r\n	.hair-preview { width: 40px; height: 40px; }\r\n	.page > .make { height: 40px; margin: 0; font-size: 15px; }\r\n}\r\n";
+	CharCreate_default = "/*\r\n * UI/Mobile/auth/CharCreate.css\r\n * Mobile character-creation screen — compose with tokens.css + Shell.css via ?raw.\r\n */\r\n\r\n:host {\r\n	overflow: auto;\r\n}\r\n\r\n.page {\r\n	min-height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding:\r\n		max(16px, env(safe-area-inset-top))\r\n		max(16px, env(safe-area-inset-right))\r\n		max(24px, env(safe-area-inset-bottom))\r\n		max(16px, env(safe-area-inset-left));\r\n	gap: 16px;\r\n}\r\n\r\n/* ── Top bar ── */\r\n.top-bar {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n}\r\n\r\n.screen-title,\r\n.title {\r\n	font-size: 22px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.3px;\r\n}\r\n\r\n.return {\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	color: var(--m-text);\r\n	font: 15px/1 system-ui, sans-serif;\r\n	padding: 8px 16px;\r\n	min-width: 72px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	border-radius: var(--m-r-sm);\r\n	transition: color 150ms;\r\n}\r\n@media (hover: hover) and (pointer: fine) {\r\n	.return:hover { background: var(--m-surface-raised); }\r\n}\r\n.return:active { background: var(--m-surface-active); }\r\n.return:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* ── Name field ── */\r\n.name-field {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n}\r\n\r\n.field-label {\r\n	font-size: 13px;\r\n	font-weight: 500;\r\n	color: var(--m-text-muted);\r\n	letter-spacing: 0.3px;\r\n}\r\n\r\n#char_name {\r\n	width: 100%;\r\n	height: 48px;\r\n	padding: 0 14px;\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	border-radius: var(--m-r-sm);\r\n	color: var(--m-text);\r\n	font: 16px/1 system-ui, sans-serif;\r\n	outline: none;\r\n	-webkit-user-select: text;\r\n	user-select: text;\r\n	transition: border-color 150ms, box-shadow 150ms;\r\n}\r\n\r\n#char_name::placeholder { color: var(--m-text-muted); }\r\n#char_name:focus { border-color: var(--m-accent); box-shadow: 0 0 0 3px var(--m-accent-ring); }\r\n\r\n/* ── Section header ── */\r\n.section-title {\r\n	font-size: 13px;\r\n	font-weight: 600;\r\n	color: var(--m-text-muted);\r\n	letter-spacing: 0.5px;\r\n	text-transform: uppercase;\r\n	margin: 0 0 10px;\r\n}\r\n\r\n/* ── Race cards ── */\r\n.races {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 10px;\r\n}\r\n\r\n.races > div { position: relative; display: flex; }\r\n\r\n.races input[type='radio'] {\r\n	position: absolute;\r\n	opacity: 0;\r\n	width: 1px;\r\n	height: 1px;\r\n}\r\n\r\n.races label {\r\n	width: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 14px 10px;\r\n	background: var(--m-surface);\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-md);\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: border-color 150ms, background 150ms;\r\n}\r\n\r\n.races input:checked + label {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n}\r\n\r\n.races input:focus-visible + label { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n.races canvas { display: block; pointer-events: none; }\r\n.races strong { font-size: 14px; font-weight: 600; }\r\n\r\n.human_desc,\r\n.doram_desc {\r\n	font-size: 12px;\r\n	color: var(--m-text-muted);\r\n	text-align: center;\r\n	line-height: 1.4;\r\n}\r\n\r\n/* ── Appearance section ── */\r\n.style-section { display: flex; flex-direction: column; gap: 14px; }\r\n\r\n/* Gender toggle */\r\n.gender-row { display: flex; gap: 8px; }\r\n\r\n.gender-row span { position: relative; flex: 1; }\r\n\r\n.gender-row input[type='radio'] {\r\n	position: absolute;\r\n	opacity: 0;\r\n	width: 1px;\r\n	height: 1px;\r\n}\r\n\r\n.gender-row label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	height: 44px;\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-sm);\r\n	background: var(--m-surface);\r\n	cursor: pointer;\r\n	font: 15px/1 system-ui, sans-serif;\r\n	touch-action: manipulation;\r\n	transition: border-color 150ms, background 150ms;\r\n}\r\n\r\n.gender-row input:checked + label {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n	color: var(--m-accent);\r\n	font-weight: 600;\r\n}\r\n\r\n.gender-row input:focus-visible + label { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* Model preview */\r\n.model-row {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 20px;\r\n}\r\n\r\n.rot_left,\r\n.rot_right {\r\n	width: 44px;\r\n	height: 44px;\r\n	flex-shrink: 0;\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	border-radius: 50%;\r\n	color: var(--m-text-muted);\r\n	font-size: 18px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	transition: background 150ms, color 150ms;\r\n	padding: 0;\r\n}\r\n.rot_left:hover, .rot_right:hover { background: var(--m-surface-raised); color: var(--m-text); }\r\n.rot_left:focus-visible, .rot_right:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n#style_model { display: block; pointer-events: none; }\r\n\r\n/* Hairstyle grid — .hair-style class required by CharCreateCommon.js */\r\n.hair-style {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n\r\n.styleCol { position: relative; }\r\n\r\n.styleCol input[type='radio'] {\r\n	position: absolute;\r\n	opacity: 0;\r\n	width: 1px;\r\n	height: 1px;\r\n}\r\n\r\n.hstyle_button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 44px;\r\n	height: 44px;\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-sm);\r\n	background: var(--m-surface);\r\n	font-size: 13px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: border-color 150ms, background 150ms, color 150ms;\r\n}\r\n\r\n.styleCol input:checked + .hstyle_button {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n	color: var(--m-accent);\r\n	font-weight: 600;\r\n}\r\n\r\n.styleCol input:focus-visible + .hstyle_button { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* Hair color */\r\n.color-row { display: flex; flex-wrap: wrap; gap: 6px; }\r\n\r\n.colorCol { position: relative; }\r\n\r\n.colorCol input[type='radio'] {\r\n	position: absolute;\r\n	opacity: 0;\r\n	width: 1px;\r\n	height: 1px;\r\n}\r\n\r\n.hcolor_button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 44px;\r\n	height: 44px;\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-sm);\r\n	background: var(--m-surface);\r\n	font-size: 13px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: border-color 150ms, background 150ms, color 150ms;\r\n}\r\n\r\n.colorCol input:checked + .hcolor_button {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n	color: var(--m-accent);\r\n	font-weight: 600;\r\n}\r\n\r\n.colorCol input:focus-visible + .hcolor_button { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* Create button */\r\n.make {\r\n	display: block;\r\n	width: 100%;\r\n	height: 52px;\r\n	background: var(--m-accent);\r\n	color: var(--m-accent-fg);\r\n	border: none;\r\n	border-radius: var(--m-r-sm);\r\n	font: 600 17px/1 system-ui, sans-serif;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: opacity 150ms, transform 80ms;\r\n	margin-top: 4px;\r\n}\r\n.make:hover { opacity: 0.9; }\r\n.make:active { transform: scale(0.98); }\r\n.make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 3px; box-shadow: 0 0 0 5px var(--m-accent-ring); }\r\n\r\n[hidden] { display: none !important; }\r\n\r\n\r\n/* Reuse desktop hair icons; colors are sampled from its palette swatches. */\r\n.hstyle_button, .hcolor_button { width: 52px; height: 52px; overflow: hidden; }\r\n.hair-preview { display: block; width: 44px; height: 44px; background-position: center; background-repeat: no-repeat; background-size: contain; pointer-events: none; }\r\n.color-swatch { display: block; width: 32px; height: 32px; border-radius: 6px; pointer-events: none; }\r\n\r\n/* Structural groups are transparent to the existing portrait layout. */\r\n.create-layout, .create-identity, .appearance-options { display: contents; }\r\n#char_name { min-width: 0; }\r\n\r\n@media (orientation: landscape) {\r\n	:host { overflow: hidden; }\r\n	.page {\r\n		height: 100%;\r\n		min-height: 0;\r\n		display: grid;\r\n		grid-template-rows: auto minmax(0, 1fr) auto;\r\n		gap: 10px;\r\n		padding-top: max(10px, env(safe-area-inset-top));\r\n		padding-bottom: max(10px, env(safe-area-inset-bottom));\r\n	}\r\n	.screen-title, .title { font-size: 18px; }\r\n	.return { min-height: 36px; padding: 6px 12px; }\r\n	.create-layout {\r\n		display: grid;\r\n		grid-template-columns: minmax(0, 0.9fr) minmax(152px, 0.65fr) minmax(0, 0.85fr);\r\n		grid-template-rows: auto auto minmax(0, 1fr);\r\n		gap: 8px 12px;\r\n		min-height: 0;\r\n	}\r\n	.create-identity, .style-section { display: contents; }\r\n	.race-section {\r\n		grid-column: 1;\r\n		grid-row: 1 / -1;\r\n		min-width: 0;\r\n		min-height: 0;\r\n		overflow-y: auto;\r\n		overscroll-behavior: contain;\r\n		padding: 3px;\r\n	}\r\n	.name-field { grid-column: 2; grid-row: 1; min-width: 0; gap: 4px; }\r\n	#char_name { height: 40px; padding: 0 10px; }\r\n	.section-title { margin-bottom: 6px; }\r\n	.races { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }\r\n	.races > div, .races label { min-width: 0; }\r\n	.races label { padding: 8px 4px; gap: 4px; }\r\n	.races canvas { max-width: 100%; width: 52px; height: auto; }\r\n	.races strong { font-size: 12px; }\r\n	.human_desc, .doram_desc { font-size: 11px; overflow-wrap: anywhere; }\r\n	.gender-row { grid-column: 2; grid-row: 2; gap: 6px; }\r\n	.gender-row label { height: 36px; font-size: 13px; }\r\n	.model-row {\r\n		grid-column: 2;\r\n		grid-row: 3;\r\n		display: grid;\r\n		grid-template-columns: 36px minmax(0, 1fr) 36px;\r\n		grid-template-rows: minmax(0, 1fr);\r\n		align-content: start;\r\n		justify-items: center;\r\n		gap: 6px;\r\n		min-height: 0;\r\n		overflow-y: auto;\r\n	}\r\n	#style_model { grid-column: 2; grid-row: 1; width: 65px; max-width: 100%; height: auto; max-height: 100%; object-fit: contain; }\r\n	.rot_left, .rot_right { grid-row: 1; width: 36px; height: 36px; font-size: 14px; }\r\n	.rot_left { grid-column: 1; }\r\n	.rot_right { grid-column: 3; }\r\n	.appearance-options {\r\n		display: flex;\r\n		flex-direction: column;\r\n		grid-column: 3;\r\n		grid-row: 1 / -1;\r\n		gap: 12px;\r\n		min-width: 0;\r\n		min-height: 0;\r\n		overflow-y: auto;\r\n		overscroll-behavior: contain;\r\n		padding: 3px;\r\n	}\r\n	.hair-style, .color-row { gap: 4px; }\r\n	.hstyle_button, .hcolor_button { width: 44px; height: 44px; }\r\n	.hair-preview { width: 40px; height: 40px; }\r\n	.page > .make { height: 40px; margin: 0; font-size: 15px; }\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/auth/CharCreate.js
-var htmlText, CharCreate_default;
+var htmlText, CharCreate, append, remove, disposeNameEditor;
 var init_CharCreate = __esmMin((() => {
 	init_CharCreateCommon();
 	init_AppearancePreviews();
+	init_MobileInputEditor();
 	init_Shell$1();
 	init_tokens();
 	init_Shell();
@@ -403471,10 +403801,10 @@ var init_CharCreate = __esmMin((() => {
 	</div>
 	<button class="make" type="button">创建角色</button>
 </div>`;
-	CharCreate_default = withMobileShell(createCharCreate({
+	CharCreate = withMobileShell(createCharCreate({
 		name: "MobileCharCreate",
 		htmlText,
-		cssText: tokens_default + Shell_default + CharCreate_default$1,
+		cssText: tokens_default + Shell_default + CharCreate_default,
 		hasRace: true,
 		gridHairstyle: true,
 		humanCanvasSelector: "#human",
@@ -403499,6 +403829,18 @@ var init_CharCreate = __esmMin((() => {
 			});
 		}
 	}));
+	append = CharCreate.onAppend;
+	remove = CharCreate.onRemove;
+	CharCreate.onAppend = function() {
+		append?.call(this);
+		disposeNameEditor?.();
+		disposeNameEditor = createMobileInputEditor(this._host, { enabled: () => window.innerWidth > window.innerHeight });
+	};
+	CharCreate.onRemove = function() {
+		disposeNameEditor?.();
+		disposeNameEditor = null;
+		remove?.call(this);
+	};
 }));
 //#endregion
 //#region src/UI/Bootstrap/bootstrap-mobile.js
@@ -403507,7 +403849,7 @@ function init$3() {
 	lockMobileViewport();
 	UIVersionManager.registerMobileComponent("WinLogin", WinLogin_default);
 	UIVersionManager.registerMobileComponent("CharSelect", CharSelect);
-	UIVersionManager.registerMobileComponent("CharCreate", CharCreate_default);
+	UIVersionManager.registerMobileComponent("CharCreate", CharCreate);
 }
 var init_bootstrap_mobile = __esmMin((() => {
 	init_UIVersionManager();
