@@ -77989,6 +77989,7 @@ function init$16(packetver) {
 		packets_len[3337] = 8;
 		packets_len[3327] = 8;
 		packets_len[3332] = -1;
+		packets_len[3339] = 28;
 		console.log("%c[Network] Packet Length initialized ", "color:#007000", packetver);
 	} else console.error(`[Network] Failed to load packet lengths for year ${selectedYear} (path: ${modulePath})`);
 }
@@ -78306,16 +78307,28 @@ var init_MobileViewport = __esmMin((() => {
 	editable$1 = "input:not([type=hidden]):not([type=checkbox]):not([type=radio]):not([type=range]):not([type=button]):not([type=submit]), textarea, select";
 }));
 //#endregion
-//#region src/UI/Mobile/tokens.css?raw
-var tokens_default;
-var init_tokens = __esmMin((() => {
-	tokens_default = "/*\r\n * UI/Mobile/tokens.css\r\n *\r\n * Shared design tokens for all mobile screens.\r\n * Import via ?raw and concatenate into component CSS strings.\r\n * Never import directly into desktop components.\r\n */\r\n\r\n:host {\r\n	/* ── Surfaces ── */\r\n	--m-bg:             #f8f9fb;\r\n	--m-surface:        #ffffff;\r\n	--m-surface-raised: #eef1f5;\r\n	--m-surface-active: #fff3e8;\r\n\r\n	/* ── Borders ── */\r\n	--m-border:         #dce1e8;\r\n	--m-border-active:  #b44800;\r\n\r\n	/* ── Accent (primary action) ── */\r\n	--m-accent:         #b44800;\r\n	--m-accent-hover:   #c55a0a;\r\n	--m-accent-ring:    rgba(180, 72, 0, 0.18);\r\n	--m-accent-fg:      #ffffff;\r\n\r\n	/* ── Text ── */\r\n	--m-text:           #242830;\r\n	--m-text-muted:     #68727f;\r\n\r\n	/* ── Semantic ── */\r\n	--m-danger:         #b42318;\r\n	--m-danger-bg:      #fff3f2;\r\n	--m-danger-border:  #efc5c0;\r\n\r\n	/* ── Radii ── */\r\n	--m-r-sm:  10px;\r\n	--m-r-md:  14px;\r\n	--m-r-lg:  20px;\r\n}\r\n";
+//#region src/UI/Components/Confirmation.css?raw
+var Confirmation_default;
+var init_Confirmation$1 = __esmMin((() => {
+	Confirmation_default = ".ui-confirm {\r\n	position: fixed;\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n	width: min(var(--menu-dialog-width, 380px), calc(100% - var(--menu-dialog-inset, 32px)));\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px))\r\n	);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	border: 1px solid #657584;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	font:\r\n		13px/1.6 Arial,\r\n		sans-serif;\r\n	white-space: normal;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: #0008;\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-top: 12px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	flex: none;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 56px;\r\n	height: var(--panel-control, 30px);\r\n	min-height: var(--panel-control, 30px);\r\n	padding: 3px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	color: #f5f2e9;\r\n	background: #394753;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n	cursor: pointer;\r\n}\r\n.ui-confirm .ui-confirm-actions button:focus-visible {\r\n	outline: 2px solid #ceaa70;\r\n	outline-offset: 2px;\r\n}\r\n.ui-confirm input {\r\n	box-sizing: border-box;\r\n	max-width: 100%;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.ui-confirm .ui-confirm-field > span {\r\n	flex: none;\r\n}\r\n.ui-confirm .ui-confirm-field > :is(input, select) {\r\n	flex: 1;\r\n	width: 100%;\r\n	min-width: 0;\r\n	min-height: 36px;\r\n	padding: 6px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #25313b;\r\n	color: inherit;\r\n	font:\r\n		16px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field + .ui-confirm-field {\r\n	margin-top: 12px;\r\n}\r\n\r\n.ui-confirm .equipment-picker-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	max-height: min(40dvh, 280px);\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm .equipment-picker-list button {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.ui-confirm .equipment-candidate img {\r\n	width: 24px;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	object-fit: contain;\r\n}\r\n.ui-confirm .equipment-candidate span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n.ui-confirm:has(.equipment-picker-layout) {\r\n	width: min(\r\n		var(--menu-picker-width, 640px),\r\n		calc(100% - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-width, 100vw)\r\n	);\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-height, 100dvh)\r\n	);\r\n	overflow: hidden;\r\n}\r\n.ui-confirm[open]:has(.equipment-picker-layout) {\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body > p,\r\n.ui-confirm:has(.equipment-picker-layout) > .ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm .equipment-picker-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);\r\n	gap: 12px;\r\n	height: min(50dvh, 380px);\r\n	min-height: 0;\r\n	flex: 0 1 auto;\r\n}\r\n.ui-confirm .equipment-picker-layout > .equipment-picker-list {\r\n	max-height: none;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	overflow-wrap: anywhere;\r\n	padding-left: 12px;\r\n	border-left: 1px solid #465461;\r\n}\r\n.ui-confirm .equipment-picker-preview > :first-child {\r\n	margin-top: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview .item-description {\r\n	white-space: pre-line;\r\n}\r\n\r\n.ui-confirm .shortcut-fields .ui-confirm-field > .menu-select {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.ui-confirm .drop-quantity {\r\n	gap: 6px;\r\n}\r\n.ui-confirm .ui-confirm-field.drop-quantity > input {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	padding: 3px 6px;\r\n	font-size: 12px;\r\n}\r\n.ui-confirm .drop-quantity > input,\r\n.panel .ui-confirm .ui-confirm-field.drop-quantity > input[type='number'],\r\n.ui-confirm .drop-quantity-buttons button {\r\n	box-sizing: border-box;\r\n	height: 28px;\r\n	min-height: 28px;\r\n}\r\n.ui-confirm .drop-quantity-buttons {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	flex: none;\r\n	gap: 4px;\r\n}\r\n.ui-confirm .drop-quantity-buttons button {\r\n	flex: none;\r\n	width: auto;\r\n	min-width: 26px;\r\n	padding: 3px 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #394753;\r\n	color: inherit;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.ui-confirm-body {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/MobileModalBackdrop.css?raw
+var MobileModalBackdrop_default;
+var init_MobileModalBackdrop = __esmMin((() => {
+	MobileModalBackdrop_default = ".ui-confirm::backdrop,\r\n.mobile-menu-editor::backdrop {\r\n	background: #0008;\r\n	-webkit-backdrop-filter: blur(4px);\r\n	backdrop-filter: blur(4px);\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/MobileModalInput.css?raw
+var MobileModalInput_default;
+var init_MobileModalInput = __esmMin((() => {
+	MobileModalInput_default = "/* Shared mobile modal fields, isolated from the underlying menu form rules. */\r\n:host([data-menu-density]) {\r\n --modal-input-height: max(36px, var(--panel-control, 36px));\r\n --modal-input-font: 16px/1.4 system-ui, sans-serif;\r\n}\r\n:host([data-menu-density]) .ui-confirm[open] .ui-confirm-body .quantity-stepper .quantity-stepper-control:is(input, button),\r\n:host([data-menu-density]) .mobile-menu-editor :is(input, textarea) {\r\n box-sizing: border-box;\r\n height: var(--modal-input-height);\r\n min-height: var(--modal-input-height);\r\n max-height: var(--modal-input-height);\r\n margin: 0;\r\n padding: 6px 10px;\r\n border: 1px solid #65717b;\r\n border-radius: 6px;\r\n background: #222b35;\r\n color: #f5f2e9;\r\n font: var(--modal-input-font);\r\n}\r\n:host([data-menu-density]) .ui-confirm[open] .ui-confirm-body .quantity-stepper .quantity-stepper-control:is(button) {\r\n width: var(--modal-input-height);\r\n min-width: var(--modal-input-height);\r\n padding: 0 2px;\r\n background: #303b48;\r\n font: 13px/1.4 system-ui, sans-serif;\r\n}\r\n:host([data-menu-density]) .mobile-menu-editor textarea {\r\n height: 100%;\r\n max-height: none;\r\n}\r\n:host([data-menu-density]) .ui-confirm[open] .ui-confirm-body .quantity-stepper input:focus,\r\n:host([data-menu-density]) .mobile-menu-editor :is(input, textarea):focus {\r\n border-color: #aa8750;\r\n outline: none;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/MessageDialog.css?raw
 var MessageDialog_default;
 var init_MessageDialog$1 = __esmMin((() => {
-	MessageDialog_default = ":host {\r\n	position: fixed;\r\n	inset: 0;\r\n	pointer-events: none;\r\n	font:\r\n		16px/1.6 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\ndialog {\r\n	pointer-events: auto;\r\n	padding: 24px;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	border: 1px solid var(--m-border);\r\n	border-radius: var(--m-r-md);\r\n	background: var(--m-surface);\r\n	color: var(--m-text);\r\n	box-shadow: 0 12px 40px rgb(0 0 0 / 18%);\r\n}\r\ndialog::backdrop {\r\n	background: rgb(30 35 43 / 38%);\r\n}\r\nh2 {\r\n	margin: 0 0 16px;\r\n	font-size: 20px;\r\n	color: var(--m-accent);\r\n	outline: none;\r\n}\r\np {\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.preserve-line-breaks {\r\n	white-space: pre-line;\r\n}\r\n.btns {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 20px;\r\n}\r\n.btns:empty {\r\n	display: none;\r\n}\r\nbutton {\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 44px;\r\n	padding: 10px;\r\n	border: 1px solid var(--m-border);\r\n	border-radius: var(--m-r-sm);\r\n	background: var(--m-surface-raised);\r\n	color: var(--m-text);\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	font: inherit;\r\n}\r\nbutton.primary {\r\n	background: var(--m-accent);\r\n	border-color: var(--m-accent);\r\n	color: var(--m-accent-fg);\r\n}\r\nbutton:active {\r\n	opacity: 0.85;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid var(--m-accent);\r\n	outline-offset: 2px;\r\n}\r\n";
+	MessageDialog_default = "/* Message and invitation dialogs share the in-game confirmation chrome. */\r\n:host {\r\n position: fixed;\r\n inset: 0;\r\n pointer-events: none;\r\n}\r\n.ui-confirm { pointer-events: auto; }\r\nh2 {\r\n margin: 0 0 12px;\r\n font-size: 16px;\r\n color: #f6d9a5;\r\n outline: none;\r\n}\r\n.ui-confirm-body > .text { margin: 0; white-space: normal; }\r\n.ui-confirm-body > .preserve-line-breaks { white-space: pre-line; }\r\n.btns:empty { display: none; }\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/MessageDialog.js
@@ -78327,9 +78340,9 @@ function showMobileDialog({ text, title = "提示", buttons, onCancel, keyboardA
 	const host = document.createElement("div");
 	host.className = "mobile-message-host";
 	const root = host.attachShadow({ mode: "open" });
-	root.innerHTML = `<style>${tokens_default}${MessageDialog_default}${MenuLayout_default}</style><dialog class="mobile-menu-dialog" aria-labelledby="message-title" aria-describedby="message-text">
-		<div class="container"><h2 id="message-title" tabindex="-1" autofocus></h2><p id="message-text" class="text"></p></div>
-		<div class="btns"></div></dialog>`;
+	root.innerHTML = `<style>${MenuLayout_default}${Confirmation_default}${MobileModalBackdrop_default}${MobileModalInput_default}${MessageDialog_default}</style><dialog class="mobile-menu-dialog ui-confirm" aria-labelledby="message-title" aria-describedby="message-text">
+		<div class="container ui-confirm-body"><h2 id="message-title" tabindex="-1" autofocus></h2><p id="message-text" class="text"></p></div>
+		<div class="btns ui-confirm-actions"></div></dialog>`;
 	const dialog = root.querySelector("dialog");
 	const heading = root.querySelector("h2");
 	heading.textContent = title;
@@ -78398,7 +78411,9 @@ var activeDialogs, labels$5;
 var init_MessageDialog = __esmMin((() => {
 	init_MenuLayout$1();
 	init_MobileViewport();
-	init_tokens();
+	init_Confirmation$1();
+	init_MobileModalBackdrop();
+	init_MobileModalInput();
 	init_MessageDialog$1();
 	activeDialogs = /* @__PURE__ */ new Set();
 	labels$5 = {
@@ -204542,6 +204557,22 @@ var init_PacketStructure = __esmMin((() => {
 		pkt_buf.writeUChar(this.type);
 		return pkt_buf;
 	};
+	/**
+	* Export
+	*/
+	PACKET.CZ.HAPPYRO_FRIEND_DETAILS = function() {};
+	PACKET.CZ.HAPPYRO_FRIEND_DETAILS.prototype.build = function() {
+		const buffer = new BinaryWriter(2);
+		buffer.writeShort(3338);
+		return buffer;
+	};
+	PACKET.ZC.HAPPYRO_FRIEND_DETAIL = function(fp) {
+		this.AID = fp.readULong();
+		this.GID = fp.readULong();
+		this.baseLevel = fp.readUShort();
+		this.mapName = fp.readString(16);
+	};
+	PACKET.ZC.HAPPYRO_FRIEND_DETAIL.size = 28;
 }));
 //#endregion
 //#region src/Network/PacketVersions.js
@@ -238730,6 +238761,7 @@ var init_PacketRegister = __esmMin((() => {
 		3335: PACKET.ZC.HAPPYRO_ARRIVAL_PREVIEW,
 		3336: PACKET.ZC.HAPPYRO_CHARACTER_APPEARANCE,
 		3337: PACKET.HC.HAPPYRO_CHARACTER_APPEARANCE,
+		3339: PACKET.ZC.HAPPYRO_FRIEND_DETAIL,
 		3332: PACKET.ZC.HAPPYRO_NPC_NAME
 	};
 }));
@@ -257079,6 +257111,8 @@ var init_ChatBox = __esmMin((() => {
 		_messageBuffer = [];
 		_historyMessage.clear();
 		_historyNickName.clear();
+		ChatBox.PrivateMessageStorage.nick = "";
+		ChatBox.PrivateMessageStorage.msg = "";
 		clearChatFeed();
 		const root = _root$18();
 		if (!root) return;
@@ -257406,8 +257440,6 @@ var init_ChatBox = __esmMin((() => {
 			return;
 		}
 		if (user.length && trimmedText[0] !== "/") {
-			this.PrivateMessageStorage.nick = user;
-			this.PrivateMessageStorage.msg = trimmedText;
 			_historyNickName.push(user);
 			_historyNickName.previous();
 		}
@@ -257422,15 +257454,22 @@ var init_ChatBox = __esmMin((() => {
 	/**
 	* Add text to chatbox
 	*/
-	ChatBox.addText = function addText(text, colorType, filterType, color) {
+	ChatBox.addText = function addText(text, colorType, filterType, color, metadata = {}) {
 		const content = createChatContent(text, (link) => DB.parseItemLink(link));
 		const html = content.childElementCount > 0;
 		if (isNaN(filterType)) filterType = ChatBox.FILTER.PUBLIC_LOG;
+		const privatePeer = filterType === ChatBox.FILTER.WHISPER && Array.isArray(text) ? text.find((part) => part?.kind === "nickname")?.text || "" : "";
+		const bodyText = privatePeer ? createChatContent(text.at(-1), (link) => DB.parseItemLink(link)).textContent : "";
+		const direction = privatePeer ? colorType & ChatBox.TYPE.ERROR ? "error" : colorType & ChatBox.TYPE.SELF ? "outgoing" : "incoming" : "";
 		publishChatMessage({
 			text: html ? content.innerHTML : content.textContent,
 			html,
 			colorType,
-			filterType
+			filterType,
+			privatePeer,
+			bodyText,
+			direction,
+			replyable: metadata.replyable
 		});
 		_messageBuffer.push({
 			content,
@@ -263671,6 +263710,8 @@ var Friends_exports = /* @__PURE__ */ __exportAll({ default: () => FriendEngine 
 */
 function onFriendList(pkt) {
 	_friends = pkt.friendList;
+	details.clear();
+	detailsRequestedAt = -Infinity;
 	controller.getUI().setFriends(_friends);
 }
 /**
@@ -263682,6 +263723,8 @@ function onFriendUpdate(pkt) {
 	const idx = getFriendIndex(pkt.AID, pkt.GID);
 	if (idx > -1) {
 		_friends[idx].State = pkt.State;
+		details.delete(pkt.GID);
+		detailsRequestedAt = -Infinity;
 		controller.getUI().updateFriendState(idx, pkt.State);
 	}
 }
@@ -263752,7 +263795,7 @@ function getFriendIndex(AID, GID) {
 	for (i = 0, count = _friends.length; i < count; ++i) if (_friends[i].AID === AID && _friends[i].GID === GID) return i;
 	return -1;
 }
-var _friends, FriendEngine;
+var _friends, details, detailsRequestedAt, FriendEngine;
 var init_Friends = __esmMin((() => {
 	init_SocialText();
 	init_DBManager();
@@ -263762,12 +263805,27 @@ var init_Friends = __esmMin((() => {
 	init_ChatBox();
 	init_PartyFriends();
 	_friends = [];
+	details = /* @__PURE__ */ new Map();
+	detailsRequestedAt = -Infinity;
 	FriendEngine = class FriendEngine {
+		static detailsFor(friend) {
+			if (Date.now() - detailsRequestedAt >= 5e3) {
+				detailsRequestedAt = Date.now();
+				Network.sendPacket(new PACKET.CZ.HAPPYRO_FRIEND_DETAILS());
+			}
+			return friend.State === 0 ? details.get(friend.GID) : void 0;
+		}
 		/**
 		* Initialzing engine
 		* (Hook Packets)
 		*/
 		static init() {
+			Network.hookPacket(PACKET.ZC.HAPPYRO_FRIEND_DETAIL, (packet) => {
+				if (_friends.some((friend) => friend.AID === packet.AID && friend.GID === packet.GID)) details.set(packet.GID, {
+					baseLevel: packet.baseLevel || void 0,
+					mapName: packet.mapName || void 0
+				});
+			});
 			Network.hookPacket(PACKET.ZC.FRIENDS_LIST, onFriendList);
 			Network.hookPacket(PACKET.ZC.FRIENDS_STATE, onFriendUpdate);
 			Network.hookPacket(PACKET.ZC.REQ_ADD_FRIENDS, onFriendRequest);
@@ -263783,6 +263841,8 @@ var init_Friends = __esmMin((() => {
 		*/
 		static free() {
 			_friends.length = 0;
+			details.clear();
+			detailsRequestedAt = -Infinity;
 		}
 		/**
 		* Add a friend to the list
@@ -265356,7 +265416,7 @@ var init_PartyMemberExternal = __esmMin((() => {
 					}
 				}
 			});
-			ContextMenu_default.addElement("Remove small party window", () => {
+			ContextMenu_default.addElement("关闭队员小窗口", () => {
 				self._closedByUser = true;
 				self.remove();
 			});
@@ -267616,7 +267676,7 @@ var init_PartyFriendsCommon = __esmMin((() => {
 //#region src/UI/Components/PartyFriends/PartyFriendsV0/PartyFriendsV0.html?raw
 var PartyFriendsV0_default$2;
 var init_PartyFriendsV0$2 = __esmMin((() => {
-	PartyFriendsV0_default$2 = "<div id=\"PartyFriends\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"party\"> <ui-text msg=\"103\">Party</ui-text> <span class=\"partyname\"></span> </span>\r\n			<span class=\"friend\">\r\n				<ui-text msg=\"102\">Friends</ui-text> (<span class=\"friendcount\">0</span>/<span class=\"friendmax\"\r\n					>40</span\r\n				>)\r\n			</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"party\"></div>\r\n		<div class=\"friend\"></div>\r\n	</div>\r\n	<div class=\"navigation\">\r\n		<ui-image src=\"basic_interface/mesbtn_mid.bmp\"></ui-image>\r\n		<ui-button\r\n			class=\"mail\"\r\n			bg=\"basic_interface/mesbtn_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"98\">Send Message</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"privatemessage\"\r\n			bg=\"basic_interface/mesbtn_02.bmp\"\r\n			hover=\"basic_interface/mesbtn_02_a.bmp\"\r\n			down=\"basic_interface/mesbtn_02_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"99\">1:1 Chat</ui-text></div>\r\n		</ui-button>\r\n		<button class=\"unknown\"><ui-image src=\"basic_interface/mesbtn_03.bmp\"></ui-image></button>\r\n		<ui-button\r\n			class=\"info\"\r\n			bg=\"basic_interface/mesbtn_04.bmp\"\r\n			hover=\"basic_interface/mesbtn_04_a.bmp\"\r\n			down=\"basic_interface/mesbtn_04_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"101\">Party Setup</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"355\">Friend Setup</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"remove\"\r\n			bg=\"basic_interface/mesbtn_05.bmp\"\r\n			hover=\"basic_interface/mesbtn_05_a.bmp\"\r\n			down=\"basic_interface/mesbtn_05_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"97\">Expel from party</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"351\">Delete</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock on\"\r\n			bg=\"basic_interface/mesbtn_06.bmp\"\r\n			hover=\"basic_interface/mesbtn_06_a.bmp\"\r\n			down=\"basic_interface/mesbtn_06_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1626\">Activate lock function</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock off\"\r\n			bg=\"basic_interface/mesbtn_07.bmp\"\r\n			hover=\"basic_interface/mesbtn_07_a.bmp\"\r\n			down=\"basic_interface/mesbtn_07_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1627\">Deactivate lock function</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party create\"\r\n			bg=\"basic_interface/mesbtn_08.bmp\"\r\n			hover=\"basic_interface/mesbtn_08_a.bmp\"\r\n			down=\"basic_interface/mesbtn_08_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2054\">Create Party</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party add\"\r\n			bg=\"basic_interface/mesbtn_010.bmp\"\r\n			hover=\"basic_interface/mesbtn_010_a.bmp\"\r\n			down=\"basic_interface/mesbtn_010_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2056\">Party Invitation</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party leave\"\r\n			bg=\"basic_interface/mesbtn_09.bmp\"\r\n			hover=\"basic_interface/mesbtn_09_a.bmp\"\r\n			down=\"basic_interface/mesbtn_09_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"96\">Leave Party</ui-text></div>\r\n		</ui-button>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid.bmp\"></ui-image>\r\n		<div class=\"friend\">\r\n			<button class=\"ui-button-text switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"102\">Friends</ui-text>\r\n			</button>\r\n			<button class=\"ui-button-text switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"103\">Party</ui-text>\r\n			</button>\r\n		</div>\r\n		<div class=\"party\">\r\n			<button class=\"ui-button-text switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"102\">Friends</ui-text>\r\n			</button>\r\n			<button class=\"ui-button-text switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"103\">Party</ui-text>\r\n			</button>\r\n		</div>\r\n		<button class=\"resize\"><ui-image src=\"btn_resize.bmp\"></ui-image></button>\r\n	</div>\r\n</div>\r\n";
+	PartyFriendsV0_default$2 = "<div id=\"PartyFriends\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"party\"> <ui-text msg=\"103\">队伍</ui-text> <span class=\"partyname\"></span> </span>\r\n			<span class=\"friend\">\r\n				<ui-text msg=\"102\">好友</ui-text> (<span class=\"friendcount\">0</span>/<span class=\"friendmax\"\r\n					>40</span\r\n				>)\r\n			</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"party\"></div>\r\n		<div class=\"friend\"></div>\r\n	</div>\r\n	<div class=\"navigation\">\r\n		<ui-image src=\"basic_interface/mesbtn_mid.bmp\"></ui-image>\r\n		<ui-button\r\n			class=\"mail\"\r\n			bg=\"basic_interface/mesbtn_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"98\">发送消息</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"privatemessage\"\r\n			bg=\"basic_interface/mesbtn_02.bmp\"\r\n			hover=\"basic_interface/mesbtn_02_a.bmp\"\r\n			down=\"basic_interface/mesbtn_02_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"99\">1:1 Chat</ui-text></div>\r\n		</ui-button>\r\n		<button class=\"unknown\"><ui-image src=\"basic_interface/mesbtn_03.bmp\"></ui-image></button>\r\n		<ui-button\r\n			class=\"info\"\r\n			bg=\"basic_interface/mesbtn_04.bmp\"\r\n			hover=\"basic_interface/mesbtn_04_a.bmp\"\r\n			down=\"basic_interface/mesbtn_04_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"101\">队伍设置</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"355\">好友设置</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"remove\"\r\n			bg=\"basic_interface/mesbtn_05.bmp\"\r\n			hover=\"basic_interface/mesbtn_05_a.bmp\"\r\n			down=\"basic_interface/mesbtn_05_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"97\">移出队伍</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"351\">删除</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock on\"\r\n			bg=\"basic_interface/mesbtn_06.bmp\"\r\n			hover=\"basic_interface/mesbtn_06_a.bmp\"\r\n			down=\"basic_interface/mesbtn_06_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1626\">锁定窗口</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock off\"\r\n			bg=\"basic_interface/mesbtn_07.bmp\"\r\n			hover=\"basic_interface/mesbtn_07_a.bmp\"\r\n			down=\"basic_interface/mesbtn_07_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1627\">解锁窗口</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party create\"\r\n			bg=\"basic_interface/mesbtn_08.bmp\"\r\n			hover=\"basic_interface/mesbtn_08_a.bmp\"\r\n			down=\"basic_interface/mesbtn_08_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2054\">创建队伍</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party add\"\r\n			bg=\"basic_interface/mesbtn_010.bmp\"\r\n			hover=\"basic_interface/mesbtn_010_a.bmp\"\r\n			down=\"basic_interface/mesbtn_010_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2056\">邀请入队</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party leave\"\r\n			bg=\"basic_interface/mesbtn_09.bmp\"\r\n			hover=\"basic_interface/mesbtn_09_a.bmp\"\r\n			down=\"basic_interface/mesbtn_09_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"96\">退出队伍</ui-text></div>\r\n		</ui-button>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid.bmp\"></ui-image>\r\n		<div class=\"friend\">\r\n			<button class=\"ui-button-text switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"102\">好友</ui-text>\r\n			</button>\r\n			<button class=\"ui-button-text switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"103\">队伍</ui-text>\r\n			</button>\r\n		</div>\r\n		<div class=\"party\">\r\n			<button class=\"ui-button-text switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"102\">好友</ui-text>\r\n			</button>\r\n			<button class=\"ui-button-text switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"103\">队伍</ui-text>\r\n			</button>\r\n		</div>\r\n		<button class=\"resize\"><ui-image src=\"btn_resize.bmp\"></ui-image></button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/PartyFriends/PartyFriendsV0/PartyFriendsV0.css?raw
@@ -280409,13 +280469,13 @@ var init_SkillList = __esmMin((() => {
 //#region src/UI/Components/Trade/Trade.html?raw
 var Trade_default$2;
 var init_Trade$3 = __esmMin((() => {
-	Trade_default$2 = "<div id=\"Trade\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		交易：<span class=\"title\"></span>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"content\">\r\n		<ui-image src=\"basic_interface/exchange_bg2.bmp\"></ui-image>\r\n		<div class=\"box send\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n		<div class=\"box recv\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n\r\n		<input type=\"text\" class=\"zeny send\" value=\"0\" />\r\n		<div class=\"zeny recv disabled\">0</div>\r\n\r\n		<ui-button class=\"btn ok enabled\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn ok disabled\" bg=\"btn_ok_dis.bmp\"></ui-button>\r\n		<ui-button\r\n			class=\"btn trade enabled\"\r\n			bg=\"btn_exchange.bmp\"\r\n			hover=\"btn_exchange_a.bmp\"\r\n			down=\"btn_exchange_b.bmp\"\r\n		></ui-button>\r\n		<ui-button class=\"btn trade disabled\" bg=\"btn_exchange_dis.bmp\"></ui-button>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
+	Trade_default$2 = "<div id=\"Trade\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		交易：<span class=\"title\"></span>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"content\">\r\n		<ui-image src=\"basic_interface/exchange_bg2.bmp\"></ui-image>\r\n		<div class=\"box send\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n		<div class=\"box recv\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n\r\n		<input type=\"text\" class=\"zeny send\" value=\"0\" />\r\n		<div class=\"zeny recv disabled\">0</div>\r\n\r\n		<button type=\"button\" class=\"btn ok enabled\">锁定报价</button>\r\n		<button type=\"button\" class=\"btn ok disabled\" disabled>报价已锁定</button>\r\n		<button type=\"button\" class=\"btn trade enabled\">确认成交</button>\r\n		<button type=\"button\" class=\"btn trade disabled\" disabled>等待双方锁定</button>\r\n		<button type=\"button\" class=\"btn cancel\">取消</button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Trade/Trade.css?raw
 var Trade_default$1;
 var init_Trade$2 = __esmMin((() => {
-	Trade_default$1 = ":host {\r\n	width: 560px;\r\n	height: 380px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#Trade {\r\n	position: absolute;\r\n	width: 560px;\r\n	height: 380px;\r\n}\r\n\r\n#Trade .titlebar {\r\n	height: 14px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 5px 5px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n	position: relative;\r\n	padding-left: 15px;\r\n	padding-top: 3px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n/** When mouse over items **/\r\n\r\n#Trade .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#Trade .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/** Content **/\r\n\r\n#Trade .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 560px;\r\n	height: 360px;\r\n}\r\n\r\n#Trade .box {\r\n	position: absolute;\r\n	top: 3px;\r\n	width: 275px;\r\n	height: 305px;\r\n	background-repeat: repeat-y;\r\n	background-size: 32px 10%; /* 10% for 10 items */\r\n	background-position: 1px 0px;\r\n}\r\n\r\n#Trade .box.disabled {\r\n	background: #ccc !important;\r\n}\r\n\r\n#Trade .box.send {\r\n	left: 2px;\r\n}\r\n\r\n#Trade .box.recv {\r\n	right: 3px;\r\n}\r\n\r\n/** Items in box **/\r\n\r\n#Trade .box .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 26px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n\r\n#Trade .box .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Trade .box .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#Trade .box .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n/** Zeny input **/\r\n\r\n#Trade .zeny {\r\n	position: absolute;\r\n	top: 311px;\r\n	background-color: #ddd;\r\n	border: none;\r\n	width: 70px;\r\n	height: 13px;\r\n	padding: 2px;\r\n}\r\n\r\n#Trade .zeny.send {\r\n	left: 160px;\r\n}\r\n\r\n#Trade .zeny.recv {\r\n	left: 440px;\r\n}\r\n\r\n#Trade .zeny.disabled {\r\n	background-color: transparent;\r\n}\r\n\r\n/** Buttons **/\r\n\r\n#Trade .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: inline-flex;\r\n}\r\n#Trade .btn.disabled {\r\n	cursor: default;\r\n}\r\n#Trade .btn.ok {\r\n	left: 5px;\r\n}\r\n#Trade .btn.trade {\r\n	left: 260px;\r\n}\r\n#Trade .btn.cancel {\r\n	left: 510px;\r\n}\r\n";
+	Trade_default$1 = ":host {\r\n	width: 560px;\r\n	height: 380px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#Trade {\r\n	position: absolute;\r\n	width: 560px;\r\n	height: 380px;\r\n}\r\n\r\n#Trade .titlebar {\r\n	height: 14px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 5px 5px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n	position: relative;\r\n	padding-left: 15px;\r\n	padding-top: 3px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n/** When mouse over items **/\r\n\r\n#Trade .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#Trade .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/** Content **/\r\n\r\n#Trade .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 560px;\r\n	height: 360px;\r\n}\r\n\r\n#Trade .box {\r\n	position: absolute;\r\n	top: 3px;\r\n	width: 275px;\r\n	height: 305px;\r\n	background-repeat: repeat-y;\r\n	background-size: 32px 10%; /* 10% for 10 items */\r\n	background-position: 1px 0px;\r\n}\r\n\r\n#Trade .box.disabled {\r\n	background: #ccc !important;\r\n}\r\n\r\n#Trade .box.send {\r\n	left: 2px;\r\n}\r\n\r\n#Trade .box.recv {\r\n	right: 3px;\r\n}\r\n\r\n/** Items in box **/\r\n\r\n#Trade .box .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 26px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n\r\n#Trade .box .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Trade .box .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#Trade .box .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n/** Zeny input **/\r\n\r\n#Trade .zeny {\r\n	position: absolute;\r\n	top: 311px;\r\n	background-color: #ddd;\r\n	border: none;\r\n	width: 70px;\r\n	height: 13px;\r\n	padding: 2px;\r\n}\r\n\r\n#Trade .zeny.send {\r\n	left: 160px;\r\n}\r\n\r\n#Trade .zeny.recv {\r\n	left: 440px;\r\n}\r\n\r\n#Trade .zeny.disabled {\r\n	background-color: transparent;\r\n}\r\n\r\n/** Buttons **/\r\n\r\n#Trade .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: inline-flex;\r\n}\r\n#Trade .btn.disabled {\r\n	cursor: default;\r\n}\r\n#Trade .btn.ok {\r\n	left: 5px;\r\n}\r\n#Trade .btn.trade {\r\n	left: 260px;\r\n}\r\n#Trade .btn.cancel {\r\n	left: 510px;\r\n}\r\n\r\n#Trade button.btn { align-items:center; justify-content:center; padding:0 6px; border:1px solid #8b969f; border-radius:3px; background:linear-gradient(#fff,#d5dce2); color:#26323b; font-size:12px; }\r\n#Trade button.btn:disabled { color:#6b747c; background:#dce1e5; }\r\n#Trade .btn.trade { left:235px; min-width:90px; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Trade/Trade.js
@@ -280446,8 +280506,15 @@ function resetUI() {
 	if (tradeEnabled) tradeEnabled.style.display = "none";
 	const okEnabled = root.querySelector(".ok.enabled");
 	const tradeDisabled = root.querySelector(".trade.disabled");
-	if (okEnabled) okEnabled.style.display = "";
-	if (tradeDisabled) tradeDisabled.style.display = "";
+	if (okEnabled) {
+		okEnabled.style.display = "";
+		okEnabled.disabled = false;
+		okEnabled.textContent = "锁定报价";
+	}
+	if (tradeDisabled) {
+		tradeDisabled.textContent = "等待双方锁定";
+		tradeDisabled.style.display = "";
+	}
 	root.querySelectorAll(".box").forEach((box) => {
 		box.classList.remove("disabled");
 		box.innerHTML = "";
@@ -280499,7 +280566,12 @@ function onCancel() {
 * Conclude our part
 */
 function onConclude() {
-	const zenySend = Trade.getRoot().querySelector(".zeny.send");
+	const root = Trade.getRoot();
+	const lock = root.querySelector(".ok.enabled");
+	if (lock.disabled || lock.style.display === "none") return;
+	lock.disabled = true;
+	lock.textContent = "正在锁定…";
+	const zenySend = root.querySelector(".zeny.send");
 	let zeny = parseInt(zenySend ? zenySend.value : "0", 10) || 0;
 	zeny = Math.min(Math.max(0, zeny), SessionStorage_default.zeny);
 	onRequestAddItem(0, zeny);
@@ -280509,17 +280581,25 @@ function onConclude() {
 * Let's finish the trade
 */
 function onTrade() {
+	if (Trade.getRoot().querySelector(".trade.enabled").style.display === "none") return;
 	Trade.onTradeSubmit();
 	const root = Trade.getRoot();
 	const tradeEnabled = root.querySelector(".trade.enabled");
 	const tradeDisabled = root.querySelector(".trade.disabled");
 	if (tradeEnabled) tradeEnabled.style.display = "none";
-	if (tradeDisabled) tradeDisabled.style.display = "";
+	if (tradeDisabled) {
+		tradeDisabled.textContent = "已确认，等待对方";
+		tradeDisabled.style.display = "";
+	}
 }
 /**
 * Drop from inventory to trade
 */
 function onDrop$9(event) {
+	if (Trade.getRoot().querySelector(".ok.enabled").disabled || Trade.getRoot().querySelector(".box.send.disabled")) {
+		event.preventDefault();
+		return false;
+	}
 	let data;
 	try {
 		data = JSON.parse(event.dataTransfer ? event.dataTransfer.getData("Text") : event.originalEvent.dataTransfer.getData("Text"));
@@ -280925,6 +281005,21 @@ function interactSelected() {
 	Mouse.world.y = Math.round(target.position[1]);
 	target.onMouseDown();
 }
+/** Revalidate the selected player at activation time, not just when rendering buttons. */
+function playerAction(action, expectedId, openPrivate) {
+	const target = selectedTarget();
+	if (!SessionStorage_default.Playing || SessionStorage_default.FreezeUI) return "当前不能操作";
+	if (!target || target.GID !== expectedId || target === SessionStorage_default.Entity || target.objecttype !== target.constructor.TYPE_PC) return "目标已离开或已切换，请重新选择玩家";
+	const name = target.display.name;
+	if (!name) return "正在获取角色名，请稍后重试";
+	if (action === "private") openPrivate(name);
+	else if (action === "equipment") EquipmentController.onCheckPlayerEquipment(target.GID);
+	else if (action === "friend") {
+		if (FriendEngine.isFriend(name)) return "已是好友";
+		if (FriendEngine.addFriend(name) === false) return "好友请求未发送";
+	} else if (action === "trade") Trade_default.reqExchange(target.GID, name);
+	return "";
+}
 function targetSnapshot() {
 	const target = selectedTarget();
 	if (!target) return {
@@ -280935,6 +281030,11 @@ function targetSnapshot() {
 	const T = target.constructor;
 	return {
 		name: target.display.name || "已选目标",
+		player: target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity ? {
+			id: target.GID,
+			name: target.display.name,
+			friend: FriendEngine.isFriend(target.display.name)
+		} : null,
 		attack: canAttack(target),
 		interaction: target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type) ? "查看摊位" : target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity ? "交易" : target.objecttype === T.TYPE_WARP ? "进入" : ""
 	};
@@ -280958,6 +281058,8 @@ function adjustCamera(action) {
 }
 var directionalMovementPlayer;
 var init_GameCommands = __esmMin((() => {
+	init_Friends();
+	init_Equipment();
 	init_Trade$1();
 	init_UIManager();
 	init_AttackIntent();
@@ -282005,24 +282107,6 @@ function applyAdventureGameSettings(changes) {
 }
 var init_AdventureControlService = __esmMin((() => {
 	init_SessionStorage();
-}));
-//#endregion
-//#region src/UI/Mobile/game/MobileModalInput.css?raw
-var MobileModalInput_default;
-var init_MobileModalInput = __esmMin((() => {
-	MobileModalInput_default = "/* Shared mobile modal fields, isolated from the underlying menu form rules. */\r\n:host([data-menu-density]) {\r\n --modal-input-height: max(36px, var(--panel-control, 36px));\r\n --modal-input-font: 16px/1.4 system-ui, sans-serif;\r\n}\r\n:host([data-menu-density]) .ui-confirm[open] .ui-confirm-body .quantity-stepper .quantity-stepper-control:is(input, button),\r\n:host([data-menu-density]) .mobile-menu-editor :is(input, textarea) {\r\n box-sizing: border-box;\r\n height: var(--modal-input-height);\r\n min-height: var(--modal-input-height);\r\n max-height: var(--modal-input-height);\r\n margin: 0;\r\n padding: 6px 10px;\r\n border: 1px solid #65717b;\r\n border-radius: 6px;\r\n background: #222b35;\r\n color: #f5f2e9;\r\n font: var(--modal-input-font);\r\n}\r\n:host([data-menu-density]) .ui-confirm[open] .ui-confirm-body .quantity-stepper .quantity-stepper-control:is(button) {\r\n width: var(--modal-input-height);\r\n min-width: var(--modal-input-height);\r\n padding: 0 2px;\r\n background: #303b48;\r\n font: 13px/1.4 system-ui, sans-serif;\r\n}\r\n:host([data-menu-density]) .mobile-menu-editor textarea {\r\n height: 100%;\r\n max-height: none;\r\n}\r\n:host([data-menu-density]) .ui-confirm[open] .ui-confirm-body .quantity-stepper input:focus,\r\n:host([data-menu-density]) .mobile-menu-editor :is(input, textarea):focus {\r\n border-color: #aa8750;\r\n outline: none;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Mobile/game/MobileModalBackdrop.css?raw
-var MobileModalBackdrop_default;
-var init_MobileModalBackdrop = __esmMin((() => {
-	MobileModalBackdrop_default = ".ui-confirm::backdrop,\r\n.mobile-menu-editor::backdrop {\r\n	background: #0008;\r\n	-webkit-backdrop-filter: blur(4px);\r\n	backdrop-filter: blur(4px);\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Confirmation.css?raw
-var Confirmation_default;
-var init_Confirmation$1 = __esmMin((() => {
-	Confirmation_default = ".ui-confirm {\r\n	position: fixed;\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n	width: min(var(--menu-dialog-width, 380px), calc(100% - var(--menu-dialog-inset, 32px)));\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px))\r\n	);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	border: 1px solid #657584;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	font:\r\n		13px/1.6 Arial,\r\n		sans-serif;\r\n	white-space: normal;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: #0008;\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-top: 12px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	flex: none;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 56px;\r\n	height: var(--panel-control, 30px);\r\n	min-height: var(--panel-control, 30px);\r\n	padding: 3px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	color: #f5f2e9;\r\n	background: #394753;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n	cursor: pointer;\r\n}\r\n.ui-confirm .ui-confirm-actions button:focus-visible {\r\n	outline: 2px solid #ceaa70;\r\n	outline-offset: 2px;\r\n}\r\n.ui-confirm input {\r\n	box-sizing: border-box;\r\n	max-width: 100%;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.ui-confirm .ui-confirm-field > span {\r\n	flex: none;\r\n}\r\n.ui-confirm .ui-confirm-field > :is(input, select) {\r\n	flex: 1;\r\n	width: 100%;\r\n	min-width: 0;\r\n	min-height: 36px;\r\n	padding: 6px 10px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #25313b;\r\n	color: inherit;\r\n	font:\r\n		16px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field + .ui-confirm-field {\r\n	margin-top: 12px;\r\n}\r\n\r\n.ui-confirm .equipment-picker-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	max-height: min(40dvh, 280px);\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm .equipment-picker-list button {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.ui-confirm .equipment-candidate img {\r\n	width: 24px;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	object-fit: contain;\r\n}\r\n.ui-confirm .equipment-candidate span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n.ui-confirm:has(.equipment-picker-layout) {\r\n	width: min(\r\n		var(--menu-picker-width, 640px),\r\n		calc(100% - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-width, 100vw)\r\n	);\r\n	max-height: min(\r\n		var(--menu-dialog-height, 100dvh),\r\n		calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset, 32px)),\r\n		var(--confirm-max-height, 100dvh)\r\n	);\r\n	overflow: hidden;\r\n}\r\n.ui-confirm[open]:has(.equipment-picker-layout) {\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body > p,\r\n.ui-confirm:has(.equipment-picker-layout) > .ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm .equipment-picker-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);\r\n	gap: 12px;\r\n	height: min(50dvh, 380px);\r\n	min-height: 0;\r\n	flex: 0 1 auto;\r\n}\r\n.ui-confirm .equipment-picker-layout > .equipment-picker-list {\r\n	max-height: none;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	overflow-wrap: anywhere;\r\n	padding-left: 12px;\r\n	border-left: 1px solid #465461;\r\n}\r\n.ui-confirm .equipment-picker-preview > :first-child {\r\n	margin-top: 0;\r\n}\r\n.ui-confirm .equipment-picker-preview .item-description {\r\n	white-space: pre-line;\r\n}\r\n\r\n.ui-confirm .shortcut-fields .ui-confirm-field > .menu-select {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.ui-confirm .drop-quantity {\r\n	gap: 6px;\r\n}\r\n.ui-confirm .ui-confirm-field.drop-quantity > input {\r\n	flex: 1 1 0;\r\n	width: 100%;\r\n	padding: 3px 6px;\r\n	font-size: 12px;\r\n}\r\n.ui-confirm .drop-quantity > input,\r\n.panel .ui-confirm .ui-confirm-field.drop-quantity > input[type='number'],\r\n.ui-confirm .drop-quantity-buttons button {\r\n	box-sizing: border-box;\r\n	height: 28px;\r\n	min-height: 28px;\r\n}\r\n.ui-confirm .drop-quantity-buttons {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	flex: none;\r\n	gap: 4px;\r\n}\r\n.ui-confirm .drop-quantity-buttons button {\r\n	flex: none;\r\n	width: auto;\r\n	min-width: 26px;\r\n	padding: 3px 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #394753;\r\n	color: inherit;\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n\r\n.ui-confirm[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.ui-confirm-body {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.ui-confirm-actions {\r\n	flex-shrink: 0;\r\n}\r\n.ui-confirm:has(.equipment-picker-layout) .ui-confirm-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ConfirmationDesktop.css?raw
@@ -288932,7 +289016,8 @@ var init_CharacterAppearance$1 = __esmMin((() => {
 //#endregion
 //#region src/UI/Components/GameTools/CharacterRiding.js
 function renderCharacterRiding(rows, pending) {
-	return `<section class="character-riding"><h4>骑乘与随行</h4><div class="character-riding-list">${rows.length ? rows.map((row) => {
+	if (!rows.length) return "";
+	return `<section class="character-riding"><h4>骑乘与随行</h4><div class="character-riding-list">${rows.map((row) => {
 		const action = actions[row.kind];
 		const title = [
 			"peco",
@@ -288941,7 +289026,7 @@ function renderCharacterRiding(rows, pending) {
 		].includes(row.kind) ? "骑乘" : names[row.kind];
 		const reason = row.reason === "riding_skill_required" ? `需学习「${skills$1[row.kind]}」` : reasons[row.reason] || row.reason;
 		return `<div class="character-riding-row"><div><strong>${title}</strong>${reason ? `<p>${escapeHtml$1(reason)}</p>` : ""}</div><div class="management-form-actions"><button type="button" data-riding-kind="${row.kind}" ${pending || row.reason ? "disabled" : ""}>${row.active ? action.disable : action.enable}</button></div></div>`;
-	}).join("") : "<p class=\"character-traits-unavailable\">当前职业没有可用的骑乘或随行功能</p>"}</div></section>`;
+	}).join("")}</div></section>`;
 }
 function ridingConfirmation(row) {
 	if (row.active) {
@@ -294918,13 +295003,13 @@ var init_MailText = __esmMin((() => {
 //#region src/UI/Components/Rodex/WriteRodex.html?raw
 var WriteRodex_default$2;
 var init_WriteRodex$2 = __esmMin((() => {
-	WriteRodex_default$2 = "<div id=\"WriteRodex\">\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"body\" data-background=\"basic_interface/rodexsystem/renewal/bg_rodex_read.bmp\">\r\n		<div class=\"titlebar\">\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n		<div class=\"sender\">\r\n			<input class=\"name\" />\r\n			<button\r\n				class=\"base validate-name\"\r\n				data-text=\"3545\"\r\n				data-background=\"basic_interface/rodexsystem/renewal/btn_confirm_id_empty_out.bmp\"\r\n				data-hover=\"basic_interface/rodexsystem/renewal/btn_confirm_id_empty_over.bmp\"\r\n				data-down=\"basic_interface/rodexsystem/renewal/btn_confirm_id_empty_press.bmp\"\r\n			></button>\r\n			<span class=\"baloon\" data-background=\"basic_interface/rodexsystem/renewal/bg_id_balloon.bmp\"></span>\r\n		</div>\r\n		<div class=\"title\">\r\n			<input class=\"title-text\" />\r\n		</div>\r\n		<div class=\"content\">\r\n			<textarea class=\"content-text\"></textarea>\r\n		</div>\r\n		<div class=\"items\">\r\n			<div class=\"item-list\"></div>\r\n			<span class=\"weigth\" data-background=\"basic_interface/rodexsystem/renewal/bg_weight.bmp\"></span>\r\n			<span class=\"weigth-text\">0 2000</span>\r\n		</div>\r\n		<div class=\"zeny\">\r\n			<span class=\"image\" data-background=\"basic_interface/rodexsystem/renewal/icon_zeny.bmp\"></span>\r\n			<input\r\n				type=\"number\"\r\n				class=\"value [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none\"\r\n			/>\r\n			<span class=\"character-zeny\"></span>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<span type=\"text\" class=\"base tax\" data-background=\"basic_interface/rodexsystem/renewal/bg_tax.bmp\"></span>\r\n			<span class=\"tax-text\">0</span>\r\n			<button\r\n				class=\"base send\"\r\n				data-localized-label=\"发送\"\r\n				data-background=\"basic_interface/rodexsystem/renewal/btn_reply_out.bmp\"\r\n				data-hover=\"basic_interface/rodexsystem/renewal/btn_reply_over.bmp\"\r\n				data-down=\"basic_interface/rodexsystem/renewal/btn_reply_press.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	WriteRodex_default$2 = "<div id=\"WriteRodex\">\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"body\" data-background=\"basic_interface/rodexsystem/renewal/bg_rodex_read.bmp\">\r\n		<div class=\"titlebar\">\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n		<div class=\"sender\">\r\n			<input class=\"name\" aria-label=\"收件人角色名\" placeholder=\"请输入角色名\" />\r\n			<button type=\"button\" class=\"validate-name\" aria-label=\"确认收件人\">确认收件人</button>\r\n			<span class=\"baloon\" data-background=\"basic_interface/rodexsystem/renewal/bg_id_balloon.bmp\"></span>\r\n		</div>\r\n		<div class=\"title\">\r\n			<input class=\"title-text\" />\r\n		</div>\r\n		<div class=\"content\">\r\n			<textarea class=\"content-text\"></textarea>\r\n		</div>\r\n		<div class=\"items\">\r\n			<div class=\"item-list\"></div>\r\n			<span class=\"weigth\" data-background=\"basic_interface/rodexsystem/renewal/bg_weight.bmp\"></span>\r\n			<span class=\"weigth-text\">0 2000</span>\r\n		</div>\r\n		<div class=\"zeny\">\r\n			<span class=\"image\" data-background=\"basic_interface/rodexsystem/renewal/icon_zeny.bmp\"></span>\r\n			<input\r\n				type=\"number\"\r\n				class=\"value [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none\"\r\n			/>\r\n			<span class=\"character-zeny\"></span>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<span class=\"tax\">邮费</span>\r\n			<span class=\"tax-text\">0</span>\r\n			<button\r\n				class=\"base send\"\r\n				data-localized-label=\"发送\"\r\n				data-background=\"basic_interface/rodexsystem/renewal/btn_reply_out.bmp\"\r\n				data-hover=\"basic_interface/rodexsystem/renewal/btn_reply_over.bmp\"\r\n				data-down=\"basic_interface/rodexsystem/renewal/btn_reply_press.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Rodex/WriteRodex.css?raw
 var WriteRodex_default$1;
 var init_WriteRodex$1 = __esmMin((() => {
-	WriteRodex_default$1 = ":host {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n#WriteRodex {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n#WriteRodex .body {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n\r\n#WriteRodex .body .base {\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#WriteRodex .body .titlebar {\r\n	display: block;\r\n	width: 300px;\r\n	height: 16px;\r\n}\r\n#WriteRodex .body .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#WriteRodex .body .titlebar .right .close {\r\n	width: 11px;\r\n	height: 11px;\r\n}\r\n\r\n#WriteRodex .body .sender {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: flex-end;\r\n}\r\n#WriteRodex .body .sender .name {\r\n	margin-left: 10px;\r\n	font-weight: bold;\r\n	color: darkblue;\r\n	width: 135px;\r\n	border: 1px solid gray;\r\n	padding: 3px;\r\n	border-radius: 0px;\r\n}\r\n#WriteRodex .body .sender .validate-name {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 70px;\r\n	color: gray;\r\n	width: 70px;\r\n	height: 18px;\r\n}\r\n#WriteRodex .body .sender .baloon {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 15px;\r\n	color: red;\r\n	width: 130px;\r\n	height: 42px;\r\n	display: none;\r\n}\r\n\r\n#WriteRodex .body .title {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: flex-end;\r\n}\r\n#WriteRodex .body .title .title-text {\r\n	margin-left: 10px;\r\n	width: 135px;\r\n	border: none;\r\n}\r\n\r\n#WriteRodex .body .content {\r\n	float: left;\r\n	width: 100%;\r\n	height: 230px;\r\n	position: relative;\r\n}\r\n#WriteRodex .body .content .content-text {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 10px;\r\n	width: 280px;\r\n	height: 220px;\r\n	background: transparent;\r\n	border: none;\r\n	resize: none;\r\n}\r\n\r\n#WriteRodex .body .items {\r\n	float: left;\r\n	width: 100%;\r\n	height: 45px;\r\n	position: relative;\r\n}\r\n#WriteRodex .body .items .item-list {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n	display: table;\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 27px;\r\n}\r\n#WriteRodex .body .items .item-list .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#WriteRodex .body .items .item-list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#WriteRodex .body .items .item-list .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#WriteRodex .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#WriteRodex .overlay.grey {\r\n	color: #aaa;\r\n}\r\n#WriteRodex .body .items .weigth {\r\n	position: absolute;\r\n	width: 82px;\r\n	height: 32px;\r\n	top: 10px;\r\n	right: 10px;\r\n	border: none;\r\n}\r\n#WriteRodex .body .items .weigth-text {\r\n	position: absolute;\r\n	display: table;\r\n	top: 21px;\r\n	right: 19px;\r\n	border: none;\r\n	color: gray;\r\n}\r\n\r\n#WriteRodex .body .zeny {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#WriteRodex .body .zeny .image {\r\n	position: absolute;\r\n	width: 28px;\r\n	height: 25px;\r\n	top: 1px;\r\n	left: 15px;\r\n	z-index: 100;\r\n}\r\n#WriteRodex .body .zeny .value {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 35px;\r\n	width: 100px;\r\n	border: 1px solid gray;\r\n	text-align: end;\r\n}\r\n#WriteRodex .body .zeny .character-zeny {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 150px;\r\n	color: gray;\r\n}\r\n\r\n#WriteRodex .body .footer {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#WriteRodex .body .footer .tax {\r\n	position: absolute;\r\n	width: 112px;\r\n	height: 18px;\r\n	top: 5px;\r\n	left: 10px;\r\n}\r\n#WriteRodex .body .footer .tax-text {\r\n	position: absolute;\r\n	display: table;\r\n	top: 8px;\r\n	right: 197px;\r\n}\r\n#WriteRodex .body .footer .send {\r\n	position: absolute;\r\n	width: 70px;\r\n	height: 20px;\r\n	top: 5px;\r\n	right: 10px;\r\n}\r\n#WriteRodex .red {\r\n	font-weight: bold;\r\n	color: red;\r\n}\r\n";
+	WriteRodex_default$1 = ":host {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n#WriteRodex {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n#WriteRodex .body {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n\r\n#WriteRodex .body .base {\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#WriteRodex .body .titlebar {\r\n	display: block;\r\n	width: 300px;\r\n	height: 16px;\r\n}\r\n#WriteRodex .body .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#WriteRodex .body .titlebar .right .close {\r\n	width: 11px;\r\n	height: 11px;\r\n}\r\n\r\n#WriteRodex .body .sender {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: flex-end;\r\n}\r\n#WriteRodex .body .sender .name {\r\n	box-sizing: border-box;\r\n	height: 22px;\r\n	flex: 0 0 143px;\r\n	margin-left: 10px;\r\n	font-weight: bold;\r\n	color: darkblue;\r\n	width: 135px;\r\n	border: 1px solid gray;\r\n	padding: 3px;\r\n	border-radius: 0px;\r\n}\r\n#WriteRodex .body .sender .validate-name {\r\n	box-sizing: border-box;\r\n	flex: 0 0 70px;\r\n	margin-left: 8px;\r\n	color: #24354a;\r\n	width: 70px;\r\n	height: 22px;\r\n	padding: 0 3px;\r\n	border: 1px solid #768ca6;\r\n	border-radius: 3px;\r\n	background: linear-gradient(#ffffff, #d9e7f5);\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n	cursor: pointer;\r\n}\r\n#WriteRodex .body .sender .baloon {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 15px;\r\n	color: red;\r\n	width: 130px;\r\n	height: 42px;\r\n	display: none;\r\n}\r\n\r\n#WriteRodex .body .title {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: flex-end;\r\n}\r\n#WriteRodex .body .title .title-text {\r\n	margin-left: 10px;\r\n	width: 135px;\r\n	border: none;\r\n}\r\n\r\n#WriteRodex .body .content {\r\n	float: left;\r\n	width: 100%;\r\n	height: 230px;\r\n	position: relative;\r\n}\r\n#WriteRodex .body .content .content-text {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 10px;\r\n	width: 280px;\r\n	height: 220px;\r\n	background: transparent;\r\n	border: none;\r\n	resize: none;\r\n}\r\n\r\n#WriteRodex .body .items {\r\n	float: left;\r\n	width: 100%;\r\n	height: 45px;\r\n	position: relative;\r\n}\r\n#WriteRodex .body .items .item-list {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n	display: table;\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 27px;\r\n}\r\n#WriteRodex .body .items .item-list .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#WriteRodex .body .items .item-list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#WriteRodex .body .items .item-list .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#WriteRodex .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#WriteRodex .overlay.grey {\r\n	color: #aaa;\r\n}\r\n#WriteRodex .body .items .weigth {\r\n	position: absolute;\r\n	width: 82px;\r\n	height: 32px;\r\n	top: 10px;\r\n	right: 10px;\r\n	border: none;\r\n}\r\n#WriteRodex .body .items .weigth-text {\r\n	position: absolute;\r\n	display: table;\r\n	top: 21px;\r\n	right: 19px;\r\n	border: none;\r\n	color: gray;\r\n}\r\n\r\n#WriteRodex .body .zeny {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#WriteRodex .body .zeny .image {\r\n	position: absolute;\r\n	width: 28px;\r\n	height: 25px;\r\n	top: 1px;\r\n	left: 15px;\r\n	z-index: 100;\r\n}\r\n#WriteRodex .body .zeny .value {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 35px;\r\n	width: 100px;\r\n	border: 1px solid gray;\r\n	text-align: end;\r\n}\r\n#WriteRodex .body .zeny .character-zeny {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 150px;\r\n	color: gray;\r\n}\r\n\r\n#WriteRodex .body .footer {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#WriteRodex .body .footer .tax {\r\n	box-sizing: border-box;\r\n	padding: 1px 6px;\r\n	border: 1px solid #b6c0cb;\r\n	border-radius: 3px;\r\n	background: #fff;\r\n	color: #24354a;\r\n	position: absolute;\r\n	width: 112px;\r\n	height: 18px;\r\n	top: 5px;\r\n	left: 10px;\r\n}\r\n#WriteRodex .body .footer .tax-text {\r\n	position: absolute;\r\n	display: table;\r\n	top: 8px;\r\n	right: 197px;\r\n}\r\n#WriteRodex .body .footer .send {\r\n	position: absolute;\r\n	width: 70px;\r\n	height: 20px;\r\n	top: 5px;\r\n	right: 10px;\r\n}\r\n#WriteRodex .red {\r\n	font-weight: bold;\r\n	color: red;\r\n}\r\n\r\n#WriteRodex .validate-name:hover { background: #eaf3ff; border-color: #3b679d; }\r\n#WriteRodex .validate-name:focus-visible { outline: 2px solid #3b679d; outline-offset: 1px; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Rodex/WriteRodex.js
@@ -294956,7 +295041,8 @@ function onClickSend(e) {
 	e.stopImmediatePropagation();
 	const root = _root$8();
 	if (!WriteRodex.receiver || root.querySelector(".name").value.trim() !== WriteRodex.receiver) {
-		ChatBox_default.addText(DB.getMessage(2611), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
+		ChatBox_default.addText("请先点击角色名右侧的“确认收件人”，确认后再发送邮件。", ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
+		root.querySelector(".validate-name").focus();
 		return;
 	}
 	const receiver = WriteRodex.receiver;
@@ -295165,7 +295251,10 @@ var init_WriteRodex = __esmMin((() => {
 		root.querySelector(".value").addEventListener("input", WriteRodex.updateTax);
 		const rodexTop = Rodex_default._host ? parseInt(Rodex_default._host.style.top, 10) || 0 : 0;
 		const rodexLeft = Rodex_default._host ? parseInt(Rodex_default._host.style.left, 10) || 0 : 0;
-		this._host.style.top = `${Math.min(Math.max(0, rodexTop) - 20, Renderer.height - this._host.offsetHeight)}px`;
+		const availableHeight = Math.max(0, Renderer.height - this._host.offsetHeight);
+		const inset = Math.min(32, availableHeight / 2);
+		const preferredTop = Rodex_default._host?.isConnected && Rodex_default._host.style.display !== "none" ? rodexTop : availableHeight / 2;
+		this._host.style.top = `${Math.max(inset, Math.min(preferredTop, availableHeight - inset))}px`;
 		this._host.style.left = `${Math.min(Math.max(0, rodexLeft) + 330, Renderer.width - this._host.offsetWidth)}px`;
 		this.draggable(root.querySelector(".titlebar"));
 	};
@@ -295183,7 +295272,8 @@ var init_WriteRodex = __esmMin((() => {
 		validateBtn.style.display = "";
 		const baloon = root.querySelector(".baloon");
 		baloon.style.display = "none";
-		root.querySelector(".title-text").value = DB.getMessage(3575);
+		root.querySelector(".title-text").value = "";
+		root.querySelector(".title-text").placeholder = "请输入标题";
 		root.querySelector(".content-text").value = "";
 		root.querySelector(".character-zeny").textContent = `${prettifyZeny$2(SessionStorage_default.zeny)} Zeny`;
 		validateBtn.addEventListener("click", onClickValidateName);
@@ -300330,6 +300420,15 @@ var init_ChatRoom$1 = __esmMin((() => {
 	ChatRoom_default = UIManager.addComponent(ChatRoom);
 }));
 //#endregion
+//#region src/UI/Game/ChatSpeaker.js
+/** Only another identified player's message offers a channel action. */
+function chatSpeakerMetadata({ id, name }) {
+	return { replyable: id !== void 0 ? Boolean(id) && id !== SessionStorage_default.AID && id !== SessionStorage_default.Entity?.GID : Boolean(name) && name !== SessionStorage_default.Entity?.display.name };
+}
+var init_ChatSpeaker = __esmMin((() => {
+	init_SessionStorage();
+}));
+//#endregion
 //#region src/Engine/MapEngine/PartyMemberInfo.js
 /** Update member metadata without replacing identity, leadership or life state. */
 function updatePartyMemberInfo(party, packet) {
@@ -300470,7 +300569,7 @@ function onMemberLifeUpdate(pkt) {
 function onMemberTalk$1(pkt) {
 	const entity = EntityManager.get(pkt.AID);
 	if (entity) entity.dialog.set(pkt.msg);
-	ChatBox_default.addText(pkt.msg, ChatBox_default.TYPE.PARTY, ChatBox_default.FILTER.PARTY);
+	ChatBox_default.addText(pkt.msg, ChatBox_default.TYPE.PARTY, ChatBox_default.FILTER.PARTY, void 0, chatSpeakerMetadata({ id: pkt.AID }));
 }
 /**
 * Move minimap viewpoint
@@ -300556,6 +300655,7 @@ function onPartyInvitationAnswer(pkt) {
 }
 var _partyName, GroupEngine;
 var init_Group = __esmMin((() => {
+	init_ChatSpeaker();
 	init_PartyMemberInfo();
 	init_SocialText();
 	init_DBManager();
@@ -301556,7 +301656,9 @@ function adler32(data) {
 * @param {object} pkt - PACKET.ZC.NOTIFY_HP_TO_GROUPM
 */
 function onMemberTalk(pkt) {
-	ChatBox_default.addText(pkt.msg, ChatBox_default.TYPE.GUILD, ChatBox_default.FILTER.GUILD);
+	const separator = pkt.msg.indexOf(" : ");
+	const name = separator > 0 ? pkt.msg.slice(0, separator) : "";
+	ChatBox_default.addText(pkt.msg, ChatBox_default.TYPE.GUILD, ChatBox_default.FILTER.GUILD, void 0, chatSpeakerMetadata({ name }));
 }
 /**
 * Display guild member position
@@ -301902,6 +302004,7 @@ function onGuildHostilityResult(pkt) {
 function onGuildCastleInfo(pkt) {}
 var _emblems, GuildEngine, onGuildEmblem;
 var init_Guild = __esmMin((() => {
+	init_ChatSpeaker();
 	init_SocialText();
 	init_Platform();
 	init_DBManager();
@@ -354514,6 +354617,1605 @@ var init_DBManager = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/UI/Components/Vending/VendingModelMessage/VendingModelMessage.html?raw
+var VendingModelMessage_default$2;
+var init_VendingModelMessage$2 = __esmMin((() => {
+	VendingModelMessage_default$2 = "<div id=\"VendingModelMessage\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<!-- data-text does not exist -->\r\n			<span class=\"text\">留言</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"text_message\">\r\n			<span class=\"text message\"></span>\r\n		</div>\r\n		<div class=\"btns\">\r\n			<button\r\n				class=\"btn ok\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Vending/VendingModelMessage/VendingModelMessage.css?raw
+var VendingModelMessage_default$1;
+var init_VendingModelMessage$1 = __esmMin((() => {
+	VendingModelMessage_default$1 = "/* Message Model */\r\n:host {\r\n	position: absolute;\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 270px;\r\n}\r\n\r\n.titlebar {\r\n	border-radius: 3px 3px 0px 0px;\r\n	height: 15px;\r\n	align-items: center;\r\n	padding: 1px;\r\n}\r\n.titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n.container {\r\n	background: white;\r\n	width: 268px;\r\n	height: 114px;\r\n	border-radius: 0px 0px 3px 3px;\r\n	border: 1px solid #ccc;\r\n	display: grid;\r\n}\r\n\r\n.text_message {\r\n	height: 73px;\r\n	padding: 11px;\r\n}\r\n\r\n/** Buttons **/\r\n.btns {\r\n	position: absolute;\r\n	bottom: -3px;\r\n	width: 100%;\r\n	height: 28px;\r\n}\r\n.btn {\r\n	position: absolute;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ok,\r\n.make {\r\n	right: 6px;\r\n}\r\n.delete {\r\n	left: 4px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Vending/VendingModelMessage/VendingModelMessage.js
+var VendingModelMessage, VendingModelMessage_default;
+var init_VendingModelMessage = __esmMin((() => {
+	init_DBManager();
+	init_Renderer();
+	init_UIManager();
+	init_GUIComponent();
+	init_VendingModelMessage$2();
+	init_VendingModelMessage$1();
+	VendingModelMessage = new GUIComponent("VendingModelMessage", VendingModelMessage_default$1);
+	VendingModelMessage.render = () => VendingModelMessage_default$2;
+	/**
+	* Initialize UI
+	*/
+	VendingModelMessage.init = function init() {
+		Object.assign(this._host.style, {
+			top: (Renderer.height - 200) / 2 + "px",
+			left: (Renderer.width - 200) / 2 + "px"
+		});
+		this._shadow.querySelector(".ok").addEventListener("click", (e) => {
+			e.stopImmediatePropagation();
+			VendingModelMessage.onRemove();
+		});
+		this.draggable(".titlebar");
+	};
+	VendingModelMessage.setInit = function setInit(numMessage) {
+		VendingModelMessage.append();
+		this._host.style.display = "";
+		const messageText = DB.getMessage(numMessage);
+		this._shadow.querySelector(".message").textContent = messageText;
+	};
+	VendingModelMessage.onRemove = function onRemove() {
+		if (!this._host) return;
+		this._host.style.display = "none";
+	};
+	VendingModelMessage_default = UIManager.addComponent(VendingModelMessage);
+}));
+//#endregion
+//#region src/UI/Components/Vending/Vending.html?raw
+var Vending_default$2;
+var init_Vending$2 = __esmMin((() => {
+	Vending_default$2 = "<div id=\"vending\">\r\n	<div class=\"InputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\"><ui-text msg=\"232\">可出售物品</ui-text></span>\r\n				<span class=\"WinBuy\"><ui-text msg=\"1733\">可购买物品</ui-text></span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<div class=\"overlay\"></div>\r\n			<div class=\"content available\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n	<div class=\"OutputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\"><ui-text msg=\"224\">贩卖</ui-text></span>\r\n				<span class=\"WinBuy\"><ui-text msg=\"1720\">购买</ui-text></span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<div class=\"nstore\"><ui-text msg=\"407\">名称</ui-text></div>\r\n			<input class=\"shopname\" type=\"text\" value=\"\" maxlength=\"36\" /><br />\r\n			<div class=\"content add_shop\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer WinBuy\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<span class=\"WinBuy zenyLabel\"><ui-text msg=\"2464\">Zeny</ui-text></span>\r\n			<span class=\"WinBuy zenySpan\">0</span>\r\n		<span class=\"WinBuy weightLabel\">重量：</span>\r\n			<span class=\"WinBuy weightSpan\">0/0</span>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"limit WinBuy\"><ui-text msg=\"1723\">购买 Zeny 上限</ui-text></div>\r\n			<input class=\"limitZeny WinBuy\" type=\"text\" value=\"\" maxlength=\"36\" /><br />\r\n			<div class=\"zeny WinBuy\"><ui-text msg=\"2464\">Zeny</ui-text></div>\r\n			<ui-button class=\"btn sell\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n			<ui-button\r\n				class=\"btn cancel\"\r\n				bg=\"btn_cancel.bmp\"\r\n				hover=\"btn_cancel_a.bmp\"\r\n				down=\"btn_cancel_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Vending/Vending.css?raw
+var Vending_default$1;
+var init_Vending$1 = __esmMin((() => {
+	Vending_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n\r\n#vending {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#vending .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#vending .titlebar .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 15px;\r\n	white-space: nowrap;\r\n}\r\n#vending .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n#vending .resize {\r\n	position: absolute;\r\n	right: 1px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#vending .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	margin: 0;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .selectall {\r\n	vertical-align: 2px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .ask_quantity {\r\n	padding-top: 7px;\r\n	padding-left: 20px;\r\n}\r\n\r\n#vending .nstore {\r\n	position: absolute;\r\n	top: 24px;\r\n	border: none;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#vending .limit {\r\n	position: absolute;\r\n	top: 8px;\r\n	border: none;\r\n	padding-left: 5px;\r\n	outline: none;\r\n}\r\n#vending input.shopname {\r\n	position: absolute;\r\n	left: 55px;\r\n	width: 310px;\r\n	border: none;\r\n	background-color: #e9e9e9;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#vending input.shopname {\r\n	top: 22px;\r\n}\r\n#vending input.limitZeny {\r\n	top: 6px;\r\n}\r\n#vending input.limitZeny {\r\n	position: absolute;\r\n	left: 120px;\r\n	width: 100px;\r\n	border: none;\r\n	background-color: #e9e9e9;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n\r\n#vending .content .item-container {\r\n	width: 32px;\r\n	height: 32px;\r\n	display: block;\r\n	float: left;\r\n	clear: both;\r\n}\r\n#vending .content .damaged {\r\n	background-color: red;\r\n	background-blend-mode: luminosity;\r\n}\r\n#vending .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	background-repeat: repeat-y;\r\n	padding-right: 2px;\r\n	padding-top: 5px;\r\n	padding-bottom: 5px;\r\n}\r\n#vending .container .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 15px;\r\n	line-height: 15px;\r\n	border-radius: 3px;\r\n	padding: 4px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#vending .content {\r\n	overflow-y: auto;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n}\r\n#vending .content .add_shop {\r\n	margin-top: 10px;\r\n}\r\n#vending .content .item {\r\n	display: block;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#vending .content .item.selected {\r\n	background-color: #346ae180;\r\n}\r\n\r\n#vending .content.available {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat;\r\n}\r\n#vending .content.available .item {\r\n	display: block;\r\n	float: left;\r\n	width: 28px;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#vending .content.available .item.selected {\r\n	background-color: transparent;\r\n}\r\n\r\n#vending .content .item .icon {\r\n	position: absolute;\r\n	top: 6px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .content .item .amount {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 18px;\r\n	left: 18px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#vending .content .item .amount_ {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 13px;\r\n	left: 200px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#vending .content .item .name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 32px;\r\n	width: 115px;\r\n	white-space: nowrap;\r\n}\r\n#vending .content .item .price {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 260px;\r\n	white-space: nowrap;\r\n	text-align: right;\r\n}\r\n#vending .content .item .unity {\r\n	position: absolute;\r\n	top: 13px;\r\n	right: 2px;\r\n	width: 10px;\r\n}\r\n\r\n#vending .footer .total,\r\n#vending .footer .totalP,\r\n#vending .footer .cashuser {\r\n	padding-left: 10px;\r\n	padding-top: 8px;\r\n}\r\n#vending .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#vending .InputWindow {\r\n	width: 280px;\r\n	position: absolute;\r\n	z-index: 50;\r\n}\r\n#vending .OutputWindow {\r\n	width: 400px;\r\n	position: absolute;\r\n	z-index: 50;\r\n}\r\n#vending .btn.buy,\r\n#vending .btn.sell {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 62px;\r\n}\r\n#vending .zeny {\r\n	position: absolute;\r\n	top: 8px;\r\n	left: 230px;\r\n}\r\n#vending .btn.cancel {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 15px;\r\n}\r\n#vending .zenyLabel,\r\n#vending .zenySpan,\r\n#vending .weightLabel,\r\n#vending .weightSpan {\r\n	position: absolute;\r\n	top: 10px;\r\n}\r\n#vending .zenyLabel {\r\n	left: 5px;\r\n}\r\n#vending .zenySpan {\r\n	left: 40px;\r\n}\r\n#vending .weightLabel {\r\n	left: 215px;\r\n}\r\n#vending .weightSpan {\r\n	left: 260px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Vending/Vending.js
+function escapeHtml(text) {
+	const div = document.createElement("div");
+	div.appendChild(document.createTextNode(text));
+	return div.innerHTML;
+}
+function isItemStackable(item) {
+	return item.type !== ItemType_default.WEAPON && item.type !== ItemType_default.ARMOR && item.type !== ItemType_default.SHADOWGEAR && item.type !== ItemType_default.PETEGG && item.type !== ItemType_default.PETARMOR;
+}
+function resize$1(content, height) {
+	height = Math.min(Math.max(height, 2), 9);
+	content.style.height = `${height * 32}px`;
+}
+function prettyZeny$3(val, useStyle) {
+	const list = val.toString().split("");
+	const count = list.length;
+	let str = "";
+	for (let i = 0; i < count; i++) str = list[count - i - 1] + (i && i % 3 === 0 ? "," : "") + str;
+	if (useStyle) str = `<span style="${[
+		"color:#000000; text-shadow:1px 0px #00ffff;",
+		"color:#0000ff; text-shadow:1px 0px #ce00ce;",
+		"color:#0000ff; text-shadow:1px 0px #00ffff;",
+		"color:#ff0000; text-shadow:1px 0px #ffff00;",
+		"color:#ff18ff;",
+		"color:#0000ff;",
+		"color:#000000; text-shadow:1px 0px #00ff00;",
+		"color:#ff0000;",
+		"color:#000000; text-shadow:1px 0px #cece63;",
+		"color:#ff0000; text-shadow:1px 0px #ff007b;"
+	][count - 1]}">${str}</span>`;
+	return str;
+}
+function addItem$1(content, item, isinput) {
+	const it = DB.getItemInfo(item.ITID);
+	const element = content.querySelector(`.item[data-index="${item.index}"]`);
+	const textPrice = DB.getMessage(1721);
+	if (item.count === 0) {
+		if (element) {
+			const parent = element.closest(".item-container");
+			if (parent) parent.remove();
+			else element.remove();
+		}
+		return;
+	}
+	if (element) {
+		const amountEl = element.querySelector(".amount");
+		if (amountEl) amountEl.textContent = item.IsStackable ? item.count : "";
+		return;
+	}
+	let itemObj;
+	if (isinput) {
+		itemObj = document.createElement("div");
+		itemObj.className = "item input";
+		itemObj.draggable = true;
+		itemObj.dataset.index = item.index;
+		itemObj.innerHTML = `<div class="icon"></div><div class="amount">${item.IsStackable ? item.count : ""}</div>`;
+	} else {
+		const price = prettyZeny$3(item.price, true);
+		const container = document.createElement("div");
+		container.className = "item-container";
+		const amountText = _type$4 === Vending.Type.BUYING_STORE ? item.total : item.IsStackable ? item.count : "";
+		const eaHtml = _type$4 === Vending.Type.BUYING_STORE ? `<div class="amount_">${item.count} 个</div>` : "";
+		container.innerHTML = `<div class="item output" draggable="true" data-index="${item.index}"><div class="icon"></div><div class="amount">${amountText}</div>` + eaHtml + `<div class="name">${escapeHtml(DB.getItemName(item))}</div><div class="price">${textPrice} ${price}</div></div>`;
+		itemObj = container;
+		if (_type$4 === Vending.Type.BUYING_STORE) {
+			const limitInput = Vending.getRoot().querySelector(".limitZeny");
+			let limit = parseInt(limitInput.value, 10);
+			limit += item.count * item.price;
+			limitInput.value = limit;
+		}
+	}
+	const actualItem = itemObj.classList.contains("item") ? itemObj : itemObj.querySelector(".item");
+	if (item.IsDamaged) {
+		actualItem.style.backgroundImage = `url("${Vending.itemBg}")`;
+		actualItem.classList.add("damaged");
+	}
+	content.appendChild(itemObj);
+	Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
+		const icon = content.querySelector(`.item[data-index="${item.index}"] .icon`);
+		if (icon) icon.style.backgroundImage = `url(${data})`;
+	});
+}
+function requestMoveItem$1(index, fromContent, toContent, isAdding) {
+	let count;
+	const item_price = 0;
+	const item = isAdding ? _input$1[index] : _output$1[index];
+	if (isAdding) {
+		if (!(countSlotsUsed() < _slots)) return false;
+		count = _input$1[index].count;
+	} else count = _output$1[index].count;
+	if ((item.count === 1 || !item.IsStackable) && _type$4 === Vending.Type.VENDING_STORE) {
+		if (isAdding) {
+			InputBox_default.append();
+			InputBox_default.setType("price", false, item_price);
+			InputBox_default.onSubmitRequest = function(_item_price) {
+				InputBox_default.remove();
+				_output$1[index].price = _item_price;
+				if (_item_price > 0) transferItem$1(fromContent, toContent, isAdding, index, item.count);
+			};
+		} else transferItem$1(fromContent, toContent, isAdding, index, item.count);
+		return false;
+	}
+	InputBox_default.append();
+	InputBox_default.setType("number", false, count);
+	InputBox_default.onSubmitRequest = function(_count) {
+		InputBox_default.remove();
+		if (_count > 0) {
+			if (_count >= 9999 && _type$4 === Vending.Type.BUYING_STORE) {
+				VendingModelMessage_default.setInit(1742);
+				return;
+			}
+			if (item.count + _count > 9999 && _type$4 === Vending.Type.BUYING_STORE) {
+				VendingModelMessage_default.setInit(1728);
+				return;
+			}
+			if (isAdding) {
+				InputBox_default.append();
+				InputBox_default.setType("price", false, item_price);
+				InputBox_default.onSubmitRequest = function(_item_price) {
+					InputBox_default.remove();
+					_output$1[index].price = _item_price;
+					if (_item_price > 0) transferItem$1(fromContent, toContent, isAdding, index, _count);
+				};
+			} else transferItem$1(fromContent, toContent, isAdding, index, _count);
+		}
+	};
+}
+function onDrop$5(event) {
+	let data;
+	event.stopImmediatePropagation();
+	event.preventDefault();
+	try {
+		data = JSON.parse(event.dataTransfer.getData("Text"));
+	} catch (_e) {
+		return;
+	}
+	if (data.type !== "item" || data.from !== "Vending" || data.container === this.className) return;
+	const fromContent = Vending.getRoot().querySelector(`.${data.container} .content`);
+	const toContent = this.querySelector(".content");
+	requestMoveItem$1(data.index, fromContent, toContent, this.className === "OutputWindow");
+}
+function onItemInfo$11(event) {
+	event.stopImmediatePropagation();
+	event.preventDefault();
+	const index = parseInt(this.parentNode.getAttribute("data-index"), 10);
+	const item = _input$1[index];
+	if (!item) return;
+	if (ItemInfo_default.uid === item.ITID) {
+		ItemInfo_default.remove();
+		return;
+	}
+	ItemInfo_default.append();
+	ItemInfo_default.uid = item.ITID;
+	ItemInfo_default.setItem(item);
+}
+function onItemSelected$1() {
+	if (_type$4 === Vending.Type.BUY || _type$4 === Vending.Type.VENDING_STORE) return;
+	const root = Vending.getRoot();
+	const inputWin = root.querySelector(".InputWindow");
+	let from, to;
+	if (inputWin.contains(this)) {
+		from = inputWin;
+		to = root.querySelector(".OutputWindow");
+	} else {
+		from = root.querySelector(".OutputWindow");
+		to = inputWin;
+	}
+	requestMoveItem$1(parseInt(this.getAttribute("data-index"), 10), from.querySelector(".content"), to.querySelector(".content"), from === inputWin);
+}
+function onItemFocus$1() {
+	Vending.getRoot().querySelectorAll(".item.selected").forEach((el) => el.classList.remove("selected"));
+	this.classList.add("selected");
+}
+function onScroll$4(event) {
+	let delta;
+	if (event.wheelDelta) {
+		delta = event.wheelDelta / 120;
+		if (window.opera) delta = -delta;
+	} else if (event.detail) delta = -event.detail;
+	this.scrollTop = Math.floor(this.scrollTop / 32) * 32 - delta * 32;
+	event.preventDefault();
+}
+function onDragStart$1(event) {
+	const root = Vending.getRoot();
+	const inputWin = root.querySelector(".InputWindow");
+	const outputWin = root.querySelector(".OutputWindow");
+	const container = (inputWin.contains(this) ? inputWin : outputWin).className;
+	const img = new Image();
+	const url = this.firstChild.style.backgroundImage.match(/\(([^)]+)/)[1].replace(/"/g, "");
+	img.decoding = "async";
+	img.src = url;
+	event.dataTransfer.setDragImage(img, 12, 12);
+	event.dataTransfer.setData("Text", JSON.stringify(window._OBJ_DRAG_ = {
+		type: "item",
+		from: "Vending",
+		container,
+		index: this.getAttribute("data-index")
+	}));
+}
+function onResizeInput() {
+	const inputWin = Vending.getRoot().querySelector(".InputWindow");
+	const content = inputWin.querySelector(".container .content");
+	const top = inputWin.offsetTop;
+	let lastHeight = 0;
+	function resizing() {
+		let h = Math.floor((Mouse.screen.y - top - 20) / 32);
+		h = Math.min(Math.max(h, 2), 6);
+		if (h === lastHeight) return;
+		resize$1(content, h);
+		lastHeight = h;
+	}
+	const _Interval = setInterval(resizing, 30);
+	const onMouseUp = (event) => {
+		if (event.which === 1) {
+			clearInterval(_Interval);
+			window.removeEventListener("mouseup", onMouseUp);
+		}
+	};
+	window.addEventListener("mouseup", onMouseUp);
+}
+function countSlotsUsed() {
+	let count = 0;
+	_output$1.forEach((item) => {
+		if (item.count > 0) count++;
+	});
+	return count;
+}
+function submitNetworkPacket(pkt) {
+	Network.sendPacket(pkt);
+}
+function onItemOver$8() {
+	if (!this.classList.contains("input")) return;
+	const idx = parseInt(this.getAttribute("data-index"), 10);
+	const item = _type$4 === Vending.Type.VENDING_STORE ? CartItems_default.getItemByIndex(idx) : InventoryController.getUI().getItemByIndex(idx);
+	if (!item) return;
+	const overlay = Vending.getRoot().querySelector(".overlay");
+	overlay.style.display = "";
+	overlay.style.top = `${this.offsetTop - 20}px`;
+	overlay.style.left = `${this.offsetLeft - 10}px`;
+	overlay.textContent = `${DB.getItemName(item)} ${item.count || 1} 个`;
+}
+function onItemOut$9() {
+	const overlay = Vending.getRoot().querySelector(".overlay");
+	if (overlay) overlay.style.display = "none";
+}
+var Vending, _preferences$18, _input$1, _output$1, _slots, _type$4, transferItem$1, Vending_default;
+var init_Vending = __esmMin((() => {
+	init_DBManager();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_ItemType();
+	init_Client();
+	init_Preferences$1();
+	init_SessionStorage();
+	init_MouseEventHandler();
+	init_KeyEventHandler();
+	init_UIManager();
+	init_GUIComponent();
+	init_Elements();
+	init_ItemInfo();
+	init_InputBox();
+	init_CartItems();
+	init_VendingModelMessage();
+	init_Vending$2();
+	init_Vending$1();
+	init_Renderer();
+	init_Inventory();
+	init_BasicInfo();
+	Vending = new GUIComponent("Vending", Vending_default$1);
+	Vending.render = () => Vending_default$2;
+	Vending.isOpen = false;
+	Vending.Type = {
+		VENDING_STORE: 0,
+		BUYING_STORE: 1
+	};
+	_preferences$18 = Preferences.get("Vending", {
+		inputWindow: {
+			x: 100,
+			y: 100,
+			height: 2
+		},
+		outputWindow: {
+			x: 390,
+			y: 260,
+			height: 5
+		},
+		select_all: false
+	}, 1);
+	_input$1 = [];
+	_output$1 = [];
+	_slots = 0;
+	Vending.captureKeyEvents = true;
+	Vending.init = function init() {
+		const root = Vending.getRoot();
+		const sellBtn = root.querySelector(".btn.sell");
+		if (sellBtn) {
+			sellBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
+			sellBtn.addEventListener("click", (e) => {
+				e.stopImmediatePropagation();
+				Vending.onSubmit();
+			});
+		}
+		const cancelBtn = root.querySelector(".btn.cancel");
+		if (cancelBtn) {
+			cancelBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
+			cancelBtn.addEventListener("click", (e) => {
+				e.stopImmediatePropagation();
+				let pkt;
+				if (_type$4 === Vending.Type.VENDING_STORE) pkt = new PACKET.CZ.REQ_OPENSTORE2();
+				else pkt = new PACKET.CZ.REQ_OPEN_BUYING_STORE();
+				submitNetworkPacket(pkt);
+				Vending.onRemove();
+			});
+		}
+		const extendBtn = root.querySelector(".InputWindow .footer .extend");
+		if (extendBtn) extendBtn.addEventListener("mousedown", onResizeInput);
+		root.querySelectorAll(".content").forEach((content) => {
+			content.addEventListener("contextmenu", (e) => {
+				const icon = e.target.closest(".icon");
+				if (icon) onItemInfo$11.call(icon, e);
+			});
+			content.addEventListener("wheel", (e) => {
+				onScroll$4.call(content, e);
+			});
+			content.addEventListener("mouseover", (e) => {
+				const item = e.target.closest(".item");
+				if (item) onItemOver$8.call(item);
+			});
+			content.addEventListener("mouseout", (e) => {
+				if (e.target.closest(".item")) onItemOut$9();
+			});
+			content.addEventListener("dblclick", (e) => {
+				const item = e.target.closest(".item");
+				if (item) onItemSelected$1.call(item);
+			});
+			content.addEventListener("mousedown", (e) => {
+				const item = e.target.closest(".item");
+				if (item) onItemFocus$1.call(item);
+			});
+			content.addEventListener("dragstart", (e) => {
+				const item = e.target.closest(".item");
+				if (item) onDragStart$1.call(item, e);
+			});
+			content.addEventListener("dragend", (e) => {
+				if (e.target.closest(".item")) delete window._OBJ_DRAG_;
+			});
+		});
+		const inputWin = root.querySelector(".InputWindow");
+		const outputWin = root.querySelector(".OutputWindow");
+		[inputWin, outputWin].forEach((win) => {
+			if (!win) return;
+			win.addEventListener("drop", (e) => {
+				onDrop$5.call(win, e);
+			});
+			win.addEventListener("dragover", (e) => {
+				e.stopImmediatePropagation();
+				e.preventDefault();
+			});
+			win.addEventListener("mousedown", () => {
+				Vending.focus();
+			});
+		});
+		if (inputWin) this.draggable.call({
+			_host: inputWin,
+			_shadow: null,
+			_container: inputWin,
+			magnet: {},
+			needFocus: false,
+			manager: null
+		}, inputWin.querySelector(".titlebar"));
+		if (outputWin) this.draggable.call({
+			_host: outputWin,
+			_shadow: null,
+			_container: outputWin,
+			magnet: {},
+			needFocus: false,
+			manager: null
+		}, outputWin.querySelector(".titlebar"));
+		Client.loadFile(`${DB.INTERFACE_PATH}basic_interface/itemwin_mid.bmp`, (data) => {
+			Vending.itemBg = data;
+		});
+	};
+	Vending.onAppend = function onAppend() {
+		const root = Vending.getRoot();
+		const inputWin = root.querySelector(".InputWindow");
+		const outputWin = root.querySelector(".OutputWindow");
+		const inputContent = inputWin.querySelector(".content");
+		const outputContent = outputWin.querySelector(".content");
+		inputWin.style.top = `${Math.min(Math.max(0, _preferences$18.inputWindow.y), Renderer.height - inputContent.offsetHeight)}px`;
+		inputWin.style.left = `${Math.min(Math.max(0, _preferences$18.inputWindow.x), Renderer.width - inputContent.offsetWidth)}px`;
+		outputWin.style.top = `${Math.min(Math.max(0, _preferences$18.outputWindow.y), Renderer.height - outputContent.offsetHeight)}px`;
+		outputWin.style.left = `${Math.min(Math.max(0, _preferences$18.outputWindow.x), Renderer.width - outputContent.offsetWidth)}px`;
+		resize$1(inputContent, _preferences$18.inputWindow.height);
+		resize$1(outputContent, _preferences$18.outputWindow.height);
+		this._host.style.display = "none";
+	};
+	Vending.setType = function setType(type) {
+		const root = Vending.getRoot();
+		const winBuyEls = root.querySelectorAll(".WinBuy");
+		const winSellEls = root.querySelectorAll(".WinSell");
+		switch (type) {
+			case Vending.Type.VENDING_STORE:
+				winBuyEls.forEach((el) => {
+					el.style.display = "none";
+				});
+				winSellEls.forEach((el) => {
+					el.style.display = "";
+				});
+				break;
+			case Vending.Type.BUYING_STORE:
+				winSellEls.forEach((el) => {
+					el.style.display = "none";
+				});
+				winBuyEls.forEach((el) => {
+					el.style.display = "";
+				});
+				root.querySelector(".zenySpan").textContent = prettyZeny$3(SessionStorage_default.zeny);
+				root.querySelector(".weightSpan").textContent = `${BasicInfoController.getUI().weight}/${BasicInfoController.getUI().weight_max}`;
+				root.querySelector(".limitZeny").value = "0";
+		}
+		_type$4 = type;
+	};
+	Vending.onRemove = function onRemove() {
+		VendingModelMessage_default.onRemove();
+		const root = Vending.getRoot();
+		const inputWin = root.querySelector(".InputWindow");
+		const outputWin = root.querySelector(".OutputWindow");
+		_input$1.length = 0;
+		_output$1.length = 0;
+		_preferences$18.inputWindow.x = parseInt(inputWin.style.left, 10);
+		_preferences$18.inputWindow.y = parseInt(inputWin.style.top, 10);
+		_preferences$18.inputWindow.height = inputWin.querySelector(".content").offsetHeight / 32 | 0;
+		_preferences$18.outputWindow.x = parseInt(outputWin.style.left, 10);
+		_preferences$18.outputWindow.y = parseInt(outputWin.style.top, 10);
+		_preferences$18.outputWindow.height = outputWin.querySelector(".content").offsetHeight / 32 | 0;
+		_preferences$18.save();
+		root.querySelectorAll(".content").forEach((el) => {
+			el.innerHTML = "";
+		});
+		this._host.style.display = "none";
+		Vending.isOpen = false;
+	};
+	Vending.onKeyDown = function onKeyDown(event) {
+		if (this.isEditableFocused()) {
+			if (event.which === KEYS.ESCAPE || event.key === "Escape") {
+				this.remove();
+				event.stopImmediatePropagation();
+				return false;
+			}
+			event.stopImmediatePropagation();
+			return true;
+		}
+		if ((event.which === KEYS.ESCAPE || event.key === "Escape") && this._host.style.display !== "none") this.remove();
+		return true;
+	};
+	Vending.setList = function setList(items) {
+		const root = Vending.getRoot();
+		root.querySelectorAll(".content").forEach((el) => {
+			el.innerHTML = "";
+		});
+		_input$1.length = 0;
+		_output$1.length = 0;
+		const content = root.querySelector(".InputWindow .content");
+		for (let i = 0, count = items.length; i < count; ++i) {
+			if (!("index" in items[i])) items[i].index = i;
+			items[i].IsStackable = isItemStackable(items[i]);
+			if (!Object.prototype.hasOwnProperty.call(items[i], "count")) items[i].count = 1;
+			items[i].total = items[i].count;
+			const out = Object.assign({}, items[i]);
+			out.count = 0;
+			addItem$1(content, items[i], true);
+			_input$1[items[i].index] = items[i];
+			_output$1[items[i].index] = out;
+		}
+	};
+	transferItem$1 = (() => {
+		let tmpItem = {};
+		return (fromContent, toContent, isAdding, index, count) => {
+			if (isAdding) {
+				if (!_input$1[index].IsIdentified) {
+					VendingModelMessage_default.setInit(603);
+					return;
+				}
+				_output$1[index].count = _type$4 === Vending.Type.BUYING_STORE ? count : Math.min(_output$1[index].count + count, _input$1[index].count);
+				tmpItem = Object.assign({}, _input$1[index]);
+				tmpItem.count = _type$4 === Vending.Type.BUYING_STORE ? 0 : _input$1[index].count - _output$1[index].count;
+				addItem$1(fromContent, tmpItem, true);
+				addItem$1(toContent, _output$1[index], false);
+			} else {
+				count = Math.min(count, _output$1[index].count);
+				if (!count) return;
+				_output$1[index].count = _type$4 === Vending.Type.BUYING_STORE ? 0 : _output$1[index].count - count;
+				tmpItem = Object.assign({}, _input$1[index]);
+				tmpItem.count = _type$4 === Vending.Type.BUYING_STORE ? _input$1[index].total : _input$1[index].count + _output$1[index].count;
+				addItem$1(fromContent, _output$1[index], false);
+				addItem$1(toContent, tmpItem, true);
+			}
+		};
+	})();
+	Vending.onVendingSkill = function onVendingSkill(pkt) {
+		if (Vending.isOpen) return;
+		_slots = pkt.itemcount;
+		this.setList(CartItems_default.list);
+		const root = Vending.getRoot();
+		root.querySelector(".add_shop").style.height = `${32 * _slots}px`;
+		root.querySelector(".shopname").value = "";
+		this._host.style.display = "";
+		this._fixPositionOverflow();
+		Vending.isOpen = true;
+	};
+	Vending.onBuyingSkill = function onBuyingSkill(pkt) {
+		if (Vending.isOpen) return;
+		_slots = pkt.itemcount;
+		const buyable = [];
+		for (const key in InventoryController.getUI().list) {
+			const item = InventoryController.getUI().list[key];
+			if (isItemStackable(item) && DB.isBuyable(item.ITID)) buyable.push(item);
+		}
+		this.setList(buyable);
+		const root = Vending.getRoot();
+		root.querySelector(".add_shop").style.height = `${32 * _slots}px`;
+		root.querySelector(".shopname").value = "";
+		this._host.style.display = "";
+		this._fixPositionOverflow();
+		Vending.isOpen = true;
+	};
+	Vending.onClose = function onClose() {
+		this._host.style.display = "none";
+		Vending.isOpen = false;
+	};
+	Vending.onSubmit = function onSubmit() {
+		const output = [];
+		const count = _output$1.length;
+		const root = Vending.getRoot();
+		const shopname = root.querySelector(".shopname").value;
+		let limitZeny;
+		let ctr = 0;
+		for (let i = 0; i < count; ++i) if (_output$1[i] && _output$1[i].count) {
+			output.push(_output$1[i]);
+			ctr++;
+		}
+		if (ctr < 1) {
+			VendingModelMessage_default.setInit(2494);
+			return;
+		}
+		let pkt;
+		if (_type$4 === Vending.Type.VENDING_STORE) pkt = new PACKET.CZ.REQ_OPENSTORE2();
+		else {
+			pkt = new PACKET.CZ.REQ_OPEN_BUYING_STORE();
+			limitZeny = parseInt(root.querySelector(".limitZeny").value, 10);
+			if (limitZeny > SessionStorage_default.zeny) {
+				VendingModelMessage_default.setInit(3683);
+				return;
+			}
+			if (limitZeny <= 0) {
+				VendingModelMessage_default.setInit(1730);
+				return;
+			}
+			pkt.LimitZeny = limitZeny;
+		}
+		pkt.storeName = shopname;
+		pkt.result = 1;
+		pkt.storeList = output;
+		if (!shopname) {
+			VendingModelMessage_default.setInit(225);
+			return;
+		} else {
+			this._shopname = shopname;
+			submitNetworkPacket(pkt);
+		}
+		this.onRemove();
+	};
+	Vending.mouseMode = GUIComponent.MouseMode.STOP;
+	Vending_default = UIManager.addComponent(Vending);
+}));
+//#endregion
+//#region src/UI/Components/VendingShop/VendingShop.html?raw
+var VendingShop_default$2;
+var init_VendingShop$2 = __esmMin((() => {
+	VendingShop_default$2 = "<div id=\"vendingshop\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text shopname\"></span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td class=\"container\">\r\n					<div class=\"ff_bugfix\">\r\n						<div class=\"hide\"></div>\r\n						<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n					</div>\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n					<div class=\"right\">\r\n						<ui-button\r\n							class=\"btn close\"\r\n							bg=\"btn_close.bmp\"\r\n							hover=\"btn_close_a.bmp\"\r\n							down=\"btn_close_b.bmp\"\r\n						></ui-button>\r\n					</div>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/VendingShop/VendingShop.css?raw
+var VendingShop_default$1;
+var init_VendingShop$1 = __esmMin((() => {
+	VendingShop_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 288px;\r\n	height: 114px;\r\n}\r\n\r\n#vendingshop {\r\n	position: absolute;\r\n	width: 288px;\r\n	height: 114px;\r\n}\r\n#vendingshop table {\r\n	border-spacing: 0px;\r\n	display: inline-block;\r\n}\r\n\r\n#vendingshop .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#vendingshop .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#vendingshop .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#vendingshop .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#vendingshop .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#vendingshop .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n}\r\n#vendingshop .ff_bugfix {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#vendingshop .hide {\r\n	height: 100%;\r\n	width: 16px;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n	background-color: white;\r\n}\r\n#vendingshop .content {\r\n	overflow: auto;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat;\r\n}\r\n\r\n#vendingshop .content .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#vendingshop .content .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vendingshop .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#vendingshop .overlay.grey {\r\n	color: #aaa;\r\n}\r\n#vendingshop .content .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#vendingshop .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-right: 1px solid #ccc;\r\n}\r\n#vendingshop .footer .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#vendingshop .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	margin: 0;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/VendingReport/VendingReport.html?raw
+var VendingReport_default$2;
+var init_VendingReport$2 = __esmMin((() => {
+	VendingReport_default$2 = "<div id=\"VendingReport\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-text class=\"text reportname\" msg=\"2559\"></ui-text>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"btn close\"\r\n					bg=\"btn_close.bmp\"\r\n					hover=\"btn_close_a.bmp\"\r\n					down=\"btn_close_b.bmp\"\r\n				></ui-button>\r\n				<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/VendingReport/VendingReport.css?raw
+var VendingReport_default$1;
+var init_VendingReport$1 = __esmMin((() => {
+	VendingReport_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 400px;\r\n}\r\n\r\n#VendingReport {\r\n	position: absolute;\r\n}\r\n\r\n#VendingReport .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#VendingReport .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#VendingReport .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#VendingReport .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#VendingReport .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#VendingReport .container {\r\n	padding-left: 20px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	background-repeat: repeat-y;\r\n	padding-right: 2px;\r\n	padding-top: 5px;\r\n	padding-bottom: 5px;\r\n}\r\n\r\n#VendingReport .ff_bugfix {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#VendingReport .hide {\r\n	height: 100%;\r\n	width: 16px;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n	background-color: white;\r\n}\r\n#VendingReport .content {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 100px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n	overflow-y: auto;\r\n}\r\n\r\n#VendingReport .content .item {\r\n	display: flex;\r\n	width: 100%;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n	gap: 5px;\r\n}\r\n\r\n#VendingReport .info {\r\n	width: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#VendingReport .info .count {\r\n	position: absolute;\r\n	top: 17px;\r\n	left: 17px;\r\n}\r\n\r\n#VendingReport .info .buyer {\r\n	width: 120px;\r\n}\r\n\r\n#VendingReport .info .zeny {\r\n	width: 35%;\r\n}\r\n\r\n#VendingReport .info .date {\r\n	width: 30%;\r\n}\r\n\r\n#VendingReport .content .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#VendingReport .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#VendingReport .overlay.grey {\r\n	color: #aaa;\r\n}\r\n#VendingReport .content .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#VendingReport .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-right: 1px solid #ccc;\r\n}\r\n#VendingReport .footer .right {\r\n	float: right;\r\n	margin-right: 15px;\r\n	margin-top: 4px;\r\n}\r\n#VendingReport .close {\r\n	width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	margin: 0;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#VendingReport .extend {\r\n	position: absolute;\r\n	right: 1px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/VendingReport/VendingReport.js
+/**
+* Helper: query inside shadow root
+*/
+function _root$7() {
+	return VendingReport._shadow || VendingReport._host;
+}
+/**
+* Prettify zeny : 1000000 -> 1,000,000
+*
+* @param {number} zeny
+* @param {boolean} use color
+* @return {string}
+*/
+function prettyZeny$2(val, useStyle) {
+	const list = val.toString().split("");
+	const count = list.length;
+	let i;
+	let str = "";
+	for (i = 0; i < count; i++) str = list[count - i - 1] + (i && i % 3 === 0 ? "," : "") + str;
+	if (useStyle) str = `<span style="${[
+		"color:#000000; text-shadow:1px 0px #00ffff;",
+		"color:#0000ff; text-shadow:1px 0px #ce00ce;",
+		"color:#0000ff; text-shadow:1px 0px #00ffff;",
+		"color:#ff0000; text-shadow:1px 0px #ffff00;",
+		"color:#ff18ff;",
+		"color:#0000ff;",
+		"color:#000000; text-shadow:1px 0px #00ff00;",
+		"color:#ff0000;",
+		"color:#000000; text-shadow:1px 0px #cece63;",
+		"color:#ff0000; text-shadow:1px 0px #ff007b;"
+	][count - 1]}">${str}</span>`;
+	return str;
+}
+/**
+* Handle mouse wheel event to scroll the content.
+*
+* @param {Event} event The mouse wheel event.
+*/
+function onScrollWheel(event) {
+	event.preventDefault();
+	event.stopImmediatePropagation();
+	const ROW_HEIGHT = 24;
+	let delta = 0;
+	if (event.wheelDelta) delta = event.wheelDelta > 0 ? 1 : -1;
+	else if (event.deltaY) delta = event.deltaY < 0 ? 1 : -1;
+	let target = this.scrollTop - delta * ROW_HEIGHT;
+	const maxScroll = this.scrollHeight - this.clientHeight;
+	target = Math.max(0, Math.min(target, maxScroll));
+	target = Math.round(target / ROW_HEIGHT) * ROW_HEIGHT;
+	this.scrollTop = target;
+	this.style.backgroundPositionY = -target + "px";
+}
+/**
+* Sync the background position to the scroll position.
+*
+* This function is called whenever the content is scrolled.
+*/
+function onScrollSync() {
+	this.style.backgroundPositionY = -this.scrollTop + "px";
+}
+/**
+* Show item name when mouse is over
+*/
+function onItemOver$7() {
+	const idx = parseInt(this.getAttribute("data-id"), 10);
+	const item = VendingReport.getItemByIndex(idx);
+	if (!item) return;
+	const root = _root$7();
+	const overlay = root.querySelector(".overlay");
+	const innerRoot = root.querySelector("#VendingReport");
+	if (!overlay || !innerRoot) return;
+	const itemRect = this.getBoundingClientRect();
+	const rootRect = innerRoot.getBoundingClientRect();
+	overlay.style.display = "block";
+	overlay.style.top = `${itemRect.top - rootRect.top}px`;
+	overlay.style.left = `${itemRect.left - rootRect.left + 35}px`;
+	overlay.textContent = DB.getItemName(item);
+	if (item.IsIdentified) overlay.classList.remove("grey");
+}
+/**
+* Hide the item name
+*/
+function onItemOut$8() {
+	const overlay = _root$7().querySelector(".overlay");
+	if (overlay) overlay.style.display = "none";
+}
+/**
+* Get item info (open description window)
+*/
+function onItemInfo$10(event) {
+	event.stopImmediatePropagation();
+	event.preventDefault();
+	const index = parseInt(this.getAttribute("data-id"), 10);
+	const item = VendingReport.getItemByIndex(index);
+	if (!item) return;
+	if (ItemInfo_default.uid === item.ITID) {
+		ItemInfo_default.remove();
+		return;
+	}
+	ItemInfo_default.append();
+	ItemInfo_default.uid = item.ITID;
+	ItemInfo_default.setItem(item);
+}
+/**
+* Format a Unix timestamp (seconds) into MM/DD - HH:mm:sec
+*
+* @param {number} unixTimestamp - Unix time in seconds
+* @returns {string} Formatted date string (MM/DD HH:mm)
+*/
+function formatUnixDate(unixTimestamp) {
+	const d = /* @__PURE__ */ new Date(unixTimestamp * 1e3);
+	return String(d.getMonth() + 1).padStart(2, "0") + "/" + String(d.getDate()).padStart(2, "0") + " - " + String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0") + ":" + String(d.getSeconds()).padStart(2, "0");
+}
+var VendingReport, VendingReportTable, _preferences$17, VendingReport_default;
+var init_VendingReport = __esmMin((() => {
+	init_DBManager();
+	init_Client();
+	init_Preferences$1();
+	init_EntityManager();
+	init_UIManager();
+	init_GUIComponent();
+	init_ItemInfo();
+	init_VendingShop();
+	init_Elements();
+	init_VendingReport$2();
+	init_VendingReport$1();
+	VendingReport = new GUIComponent("VendingReport", VendingReport_default$1);
+	VendingReportTable = {
+		list: [],
+		_nextIndex: 0
+	};
+	/**
+	* @var {number} used to remember the window height
+	*/
+	VendingReport._resizing = false;
+	VendingReport._startY = 0;
+	VendingReport._startHeight = 0;
+	VendingReport._boundResizeDrag = null;
+	VendingReport._boundResizeStop = null;
+	_preferences$17 = Preferences.get("VendingReport", {
+		x: 200,
+		y: 200,
+		width: 400,
+		height: 180
+	}, 1);
+	/**
+	* Render HTML
+	*/
+	VendingReport.render = () => VendingReport_default$2;
+	/**
+	* Initialize UI
+	*/
+	VendingReport.init = function Init() {
+		const root = _root$7();
+		const closeBtn = root.querySelector(".btn.close");
+		if (closeBtn) closeBtn.addEventListener("click", () => {
+			VendingReport.onClose();
+		});
+		const extendBtn = root.querySelector(".extend");
+		if (extendBtn) extendBtn.addEventListener("mousedown", (e) => {
+			e.preventDefault();
+			this._resizing = true;
+			this._startY = e.clientY;
+			const content = root.querySelector(".container .content");
+			this._startHeight = content ? content.getBoundingClientRect().height : 0;
+			this._boundResizeDrag = this.onResizeDrag.bind(this);
+			this._boundResizeStop = this.onResizeStop.bind(this);
+			document.addEventListener("mousemove", this._boundResizeDrag);
+			document.addEventListener("mouseup", this._boundResizeStop);
+		});
+		const content = root.querySelector(".container .content");
+		if (content) {
+			content.addEventListener("wheel", onScrollWheel);
+			content.addEventListener("scroll", onScrollSync);
+			content.addEventListener("mouseover", (e) => {
+				const item = e.target.closest(".item");
+				if (item) onItemOver$7.call(item, e);
+			});
+			content.addEventListener("mouseout", (e) => {
+				const item = e.target.closest(".item");
+				if (item) onItemOut$8.call(item, e);
+			});
+			content.addEventListener("contextmenu", (e) => {
+				const item = e.target.closest(".item");
+				if (item) onItemInfo$10.call(item, e);
+			});
+		}
+		this.draggable(root.querySelector(".titlebar"));
+	};
+	/**
+	* Apply preferences once append to body
+	*/
+	VendingReport.onAppend = function OnAppend() {
+		this._host.style.display = "";
+	};
+	/**
+	* Remove Inventory from window (and so clean up items)
+	*/
+	VendingReport.onRemove = function OnRemove() {
+		VendingReport.reset();
+		ItemInfo_default.remove();
+		_preferences$17.y = parseInt(this._host.style.top, 10) || 0;
+		_preferences$17.x = parseInt(this._host.style.left, 10) || 0;
+		_preferences$17.save();
+		this._host.style.display = "none";
+	};
+	VendingReport.reset = function reset() {
+		VendingReportTable.list.length = 0;
+		VendingReportTable._nextIndex = 0;
+		const content = _root$7().querySelector(".container .content");
+		if (content) content.querySelectorAll(".item").forEach((el) => el.remove());
+	};
+	/**
+	* Extend window size
+	*/
+	VendingReport.onResizeDrag = function(e) {
+		if (!this._resizing) return;
+		const MIN_HEIGHT = 100;
+		const MAX_HEIGHT = 260;
+		const deltaY = e.clientY - this._startY;
+		let newHeight = this._startHeight + deltaY;
+		newHeight = Math.min(Math.max(newHeight, MIN_HEIGHT), MAX_HEIGHT);
+		const content = _root$7().querySelector(".container .content");
+		if (content) content.style.height = `${newHeight}px`;
+		this._host.style.height = `${newHeight + 31 + 19}px`;
+	};
+	/**
+	* Stop resizing window
+	*
+	* This function is called when the user stops resizing the window.
+	* It resets the _resizing flag and removes the event listener for the
+	* mousemove event.
+	*/
+	VendingReport.onResizeStop = function() {
+		this._resizing = false;
+		if (this._boundResizeDrag) document.removeEventListener("mousemove", this._boundResizeDrag);
+		if (this._boundResizeStop) document.removeEventListener("mouseup", this._boundResizeStop);
+		this._boundResizeDrag = null;
+		this._boundResizeStop = null;
+	};
+	/**
+	* Add a sold item to the Vending Report Table.
+	*
+	* @param {object} pkt - Sold item packet (contains index, count, zeny, date, and CID of buyer)
+	*/
+	VendingReport.add = function add(pkt) {
+		if (!pkt) return;
+		const shopItem = VendingShop_default.getItemByIndex(pkt.index);
+		if (!shopItem) return;
+		const entity = EntityManager.getByCID(pkt.CID);
+		const buyer = entity ? entity.display.name : "未知";
+		const reportItem = {
+			...shopItem,
+			reportId: ++VendingReportTable._nextIndex,
+			shopindex: pkt.index,
+			count: pkt.count,
+			buyer,
+			zeny: pkt.zeny,
+			date: formatUnixDate(pkt.date),
+			date_raw: pkt.date
+		};
+		this.addItem(reportItem);
+	};
+	/**
+	* Insert Item to Vending Report Table
+	*
+	* @param {object} Item
+	*/
+	VendingReport.addItem = function addItem(item) {
+		VendingReportTable.list.push(item);
+		this.addItemSub(item);
+	};
+	/**
+	* Add item to Vending Report UI
+	*
+	* @param {object} Item
+	*/
+	VendingReport.addItemSub = function addItemSub(item) {
+		const it = DB.getItemInfo(item.ITID);
+		const content = _root$7().querySelector(".container .content");
+		if (!content) return false;
+		content.insertAdjacentHTML("beforeend", `<div class="item" data-ITID="${item.ITID}" data-index="${item.shopindex}" data-id="${item.reportId}"><div class="icon"></div><div class="info"><div class="count">${item.count}</div><div class="buyer">${item.buyer}</div><div class="zeny">${prettyZeny$2(item.zeny, false)} Zeny</div><div class="date">${item.date}</div></div></div>`);
+		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
+			const icon = content.querySelector(`.item[data-id="${item.reportId}"] .icon`);
+			if (icon) icon.style.backgroundImage = `url(${data})`;
+		});
+		return true;
+	};
+	/**
+	* Search in a list for an item by its index
+	*
+	* @param {number} index
+	* @returns {Item}
+	*/
+	VendingReport.getItemByIndex = function getItemByIndex(index) {
+		const list = VendingReportTable.list;
+		for (let i = 0, count = list.length; i < count; ++i) if (list[i].reportId === index) return list[i];
+		return null;
+	};
+	/**
+	* Close
+	*/
+	VendingReport.onClose = function onClose() {
+		this.remove();
+	};
+	VendingReport_default = UIManager.addComponent(VendingReport);
+}));
+//#endregion
+//#region src/UI/Components/VendingShop/VendingShop.js
+/**
+* Prettify zeny : 1000000 -> 1,000,000
+*
+* @param {number} zeny
+* @param {boolean} useStyle
+* @return {string}
+*/
+function prettyZeny$1(val, useStyle) {
+	const list = val.toString().split("");
+	const count = list.length;
+	let str = "";
+	for (let i = 0; i < count; i++) str = list[count - i - 1] + (i && i % 3 === 0 ? "," : "") + str;
+	if (useStyle) str = `<span style="${[
+		"color:#000000; text-shadow:1px 0px #00ffff;",
+		"color:#0000ff; text-shadow:1px 0px #ce00ce;",
+		"color:#0000ff; text-shadow:1px 0px #00ffff;",
+		"color:#ff0000; text-shadow:1px 0px #ffff00;",
+		"color:#ff18ff;",
+		"color:#0000ff;",
+		"color:#000000; text-shadow:1px 0px #00ff00;",
+		"color:#ff0000;",
+		"color:#000000; text-shadow:1px 0px #cece63;",
+		"color:#ff0000; text-shadow:1px 0px #ff007b;"
+	][count - 1]}">${str}</span>`;
+	return str;
+}
+/**
+* Hide/show inventory's content
+* @preserved currently unused, might be needed in the future
+*/
+/**
+* Update tab, reset inventory content
+* @preserved currently unused, might be needed in the future
+*/
+/**
+* Drop an item from storage to inventory
+*
+* @param {Event} event
+*/
+function onDrop$4(event) {
+	event.stopImmediatePropagation();
+	event.preventDefault();
+}
+/**
+* Block the scroll to move 32px at each move
+*/
+function onScroll$3(event) {
+	let delta;
+	if (event.wheelDelta) {
+		delta = event.wheelDelta / 120;
+		if (window.opera) delta = -delta;
+	} else if (event.detail) delta = -event.detail;
+	else if (event.deltaY) delta = -event.deltaY / 100;
+	event.currentTarget.scrollTop = Math.floor(event.currentTarget.scrollTop / 32) * 32 - delta * 32;
+	event.stopImmediatePropagation();
+	event.preventDefault();
+}
+/**
+* Show item name when mouse is over
+*/
+function onItemOver$6(itemEl, root) {
+	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
+	const item = VendingShop.getItemByIndex(idx);
+	if (!item) return;
+	const overlay = root.querySelector(".overlay");
+	if (!overlay) return;
+	overlay.style.display = "";
+	overlay.style.top = `${itemEl.offsetTop}px`;
+	overlay.style.left = `${itemEl.offsetLeft + 35}px`;
+	overlay.textContent = `${DB.getItemName(item)} ${prettyZeny$1(item.price, false)} ${DB.getMessage(2328)}`;
+	if (item.IsIdentified) overlay.classList.remove("grey");
+	else if (_type$3 === VendingShop.Type.VENDING_LIST) overlay.classList.add("grey");
+}
+/**
+* Hide the item name
+*/
+function onItemOut$7(root) {
+	const overlay = root.querySelector(".overlay");
+	if (overlay) overlay.style.display = "none";
+}
+/**
+* Stop dragging an item
+*/
+function onItemDragEnd$5() {
+	delete window._OBJ_DRAG_;
+}
+/**
+* Get item info (open description window)
+*/
+function onItemInfo$9(event, itemEl) {
+	event.stopImmediatePropagation();
+	event.preventDefault();
+	const index = parseInt(itemEl.getAttribute("data-index"), 10);
+	const item = VendingShop.getItemByIndex(index);
+	if (!item) return;
+	if (ItemInfo_default.uid === item.ITID) {
+		ItemInfo_default.remove();
+		return;
+	}
+	ItemInfo_default.append();
+	ItemInfo_default.uid = item.ITID;
+	ItemInfo_default.setItem(item);
+}
+/**
+* Ask to use an item
+*/
+function onItemUsed(event, itemEl) {
+	const index = parseInt(itemEl.getAttribute("data-index"), 10);
+	const item = VendingShop.getItemByIndex(index);
+	if (item) {
+		VendingShop.useItem(item);
+		onItemOut$7(VendingShop.getRoot());
+	}
+	event.stopImmediatePropagation();
+	event.preventDefault();
+}
+var VendingShop, _realSize, _type$3, _preferences$16, VendingShop_default;
+var init_VendingShop = __esmMin((() => {
+	init_DBManager();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_PacketVerManager();
+	init_Client();
+	init_Preferences$1();
+	init_Renderer();
+	init_GUIComponent();
+	init_UIManager();
+	init_Elements();
+	init_ChatBox();
+	init_ItemInfo();
+	init_Vending();
+	init_VendingShop$2();
+	init_VendingShop$1();
+	init_VendingReport();
+	VendingShop = new GUIComponent("VendingShop", VendingShop_default$1);
+	VendingShop.render = () => VendingShop_default$2;
+	/**
+	* @var {enum} Store type
+	*/
+	VendingShop.Type = {
+		VENDING_LIST: 0,
+		BUYING_LIST: 1
+	};
+	/**
+	* Store inventory items
+	*/
+	VendingShop.list = [];
+	_realSize = 0;
+	_preferences$16 = Preferences.get("VendingShop", {
+		x: 200,
+		y: 200,
+		width: 8,
+		height: 2,
+		reduce: false
+	}, 1);
+	/**
+	* Initialize UI
+	*/
+	VendingShop.init = function init() {
+		const root = this.getRoot();
+		const closeBtn = root.querySelector(".btn.close");
+		if (closeBtn) {
+			closeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
+			closeBtn.addEventListener("click", () => VendingShop.onSubmit());
+		}
+		this._host.addEventListener("drop", onDrop$4);
+		this._host.addEventListener("dragover", (e) => {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+		});
+		const content = root.querySelector(".container .content");
+		if (content) {
+			content.addEventListener("wheel", onScroll$3);
+			content.addEventListener("mouseover", (e) => {
+				const itemEl = e.target.closest(".item");
+				if (itemEl) onItemOver$6(itemEl, root);
+			});
+			content.addEventListener("mouseout", (e) => {
+				if (e.target.closest(".item")) onItemOut$7(root);
+			});
+			content.addEventListener("dragstart", (e) => {
+				if (e.target.closest(".item"));
+			});
+			content.addEventListener("dragend", (e) => {
+				if (e.target.closest(".item")) onItemDragEnd$5();
+			});
+			content.addEventListener("contextmenu", (e) => {
+				const itemEl = e.target.closest(".item");
+				if (itemEl) onItemInfo$9(e, itemEl);
+			});
+			content.addEventListener("dblclick", (e) => {
+				const itemEl = e.target.closest(".item");
+				if (itemEl) onItemUsed(e, itemEl);
+			});
+		}
+		this.draggable(".titlebar");
+		this._host.style.display = "none";
+	};
+	/**
+	* Apply preferences once append to body
+	*/
+	VendingShop.onAppend = function onAppend() {
+		this.resize(_preferences$16.width, _preferences$16.height);
+		const hostRect = this._host.getBoundingClientRect();
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$16.y), Renderer.height - hostRect.height)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$16.x), Renderer.width - hostRect.width)}px`;
+		_realSize = _preferences$16.reduce ? 0 : hostRect.height;
+		const messageText = DB.getMessage(226);
+		const titleShop = Vending_default._shopname.length > 25 ? `${Vending_default._shopname.substring(0, 25)}...` : Vending_default._shopname;
+		const shopnameEl = this.getRoot().querySelector(".text.shopname");
+		if (shopnameEl) shopnameEl.textContent = `${messageText} : ${titleShop}`;
+	};
+	/**
+	* Specify the type of the shop
+	*
+	* @param {number} type (see NpcStore.Type.*)
+	*/
+	VendingShop.setType = function setType(type) {
+		_type$3 = type;
+	};
+	/**
+	* Remove Inventory from window (and so clean up items)
+	*/
+	VendingShop.onRemove = function onRemove() {
+		const content = this.getRoot().querySelector(".container .content");
+		if (content) content.innerHTML = "";
+		this.list.length = 0;
+		const itemInfoEl = document.querySelector(".ItemInfo");
+		if (itemInfoEl) itemInfoEl.remove();
+		_preferences$16.reduce = !!_realSize;
+		_preferences$16.y = parseInt(this._host.style.top, 10);
+		_preferences$16.x = parseInt(this._host.style.left, 10);
+		_preferences$16.width = Math.floor((this._host.getBoundingClientRect().width - 25) / 32);
+		_preferences$16.height = Math.floor((this._host.getBoundingClientRect().height - 20) / 32);
+		_preferences$16.save();
+		this._host.style.display = "none";
+	};
+	/**
+	* Extend inventory window size
+	*
+	* @param {number} width
+	* @param {number} height
+	*/
+	VendingShop.resize = function resize(width, height) {
+		width = Math.min(Math.max(width, 6), 9);
+		height = Math.min(Math.max(height, 2), 6);
+		const root = this.getRoot();
+		const content = root.querySelector(".container .content");
+		if (content) {
+			content.style.width = `${width * 32 + 13}px`;
+			content.style.height = `${height * 32}px`;
+		}
+		const innerW = 32 + width * 32;
+		const innerH = 50 + height * 32;
+		this._host.style.width = `${innerW}px`;
+		this._host.style.height = `${innerH}px`;
+		const inner = root.querySelector("#vendingshop");
+		if (inner) {
+			inner.style.width = `${innerW}px`;
+			inner.style.height = `${innerH}px`;
+		}
+	};
+	/**
+	* Get item object
+	*
+	* @param {number} id
+	* @returns {Item}
+	*/
+	VendingShop.getItemById = function getItemById(id) {
+		const list = VendingShop.list;
+		for (let i = 0, count = list.length; i < count; ++i) if (list[i].ITID === id) return list[i];
+		return null;
+	};
+	/**
+	* Search in a list for an item by its index
+	*
+	* @param {number} index
+	* @returns {Item}
+	*/
+	VendingShop.getItemByIndex = function getItemByIndex(index) {
+		const list = VendingShop.list;
+		for (let i = 0, count = list.length; i < count; ++i) if (list[i].index === index) return list[i];
+		return null;
+	};
+	/**
+	* Add items to the list
+	* if the item index is exist you should clear it;[skybook888]
+	*/
+	VendingShop.setItems = function setItems(items) {
+		for (let i = 0, count = items.length; i < count; ++i) if (this.addItemSub(items[i])) this.list.push(items[i]);
+		this._host.style.display = "";
+	};
+	/**
+	* Insert Item to inventory
+	*
+	* @param {object} Item
+	*/
+	VendingShop.addItem = function addItem(item) {
+		let object = this.getItemByIndex(item.index);
+		if (object) {
+			object.count += item.count;
+			const countEl = this.getRoot().querySelector(`.item[data-index="${item.index}"] .count`);
+			if (countEl) countEl.textContent = object.count;
+			return;
+		}
+		object = Object.assign({}, item);
+		if (this.addItemSub(object)) this.list.push(object);
+	};
+	/**
+	* Add item to inventory
+	*
+	* @param {object} Item
+	*/
+	VendingShop.addItemSub = function addItemSub(item) {
+		const it = DB.getItemInfo(item.ITID);
+		const root = this.getRoot();
+		const content = root.querySelector(".container .content");
+		if (!content) return false;
+		const itemDiv = document.createElement("div");
+		itemDiv.className = "item";
+		itemDiv.setAttribute("data-index", item.index);
+		itemDiv.setAttribute("draggable", "true");
+		itemDiv.innerHTML = `<div class="icon"></div><div class="amount"><span class="count">${item.count || 1}</span></div>`;
+		content.appendChild(itemDiv);
+		const hideEl = root.querySelector(".hide");
+		if (hideEl) {
+			if (content.clientHeight < content.scrollHeight) hideEl.style.display = "none";
+			else hideEl.style.display = "";
+		}
+		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
+			const iconEl = content.querySelector(`.item[data-index="${item.index}"] .icon`);
+			if (iconEl) iconEl.style.backgroundImage = `url(${data})`;
+		});
+		return true;
+	};
+	/**
+	* Remove item from inventory
+	*
+	* @param {number} index in inventory
+	* @param {number} count
+	*/
+	VendingShop.removeItem = function removeItem(index, count) {
+		const item = this.getItemByIndex(index);
+		if (!item || count <= 0) return null;
+		const msg = DB.getMessage(231).replace("%s", DB.getItemName(item)).replace("%d", count);
+		ChatBox_default.addText(msg, ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.PUBLIC_LOG);
+		const root = this.getRoot();
+		if (item.count) {
+			item.count -= count;
+			if (item.count > 0) {
+				const countEl = root.querySelector(`.item[data-index="${item.index}"] .count`);
+				if (countEl) countEl.textContent = item.count;
+				return item;
+			}
+		}
+		this.list.splice(this.list.indexOf(item), 1);
+		const itemEl = root.querySelector(`.item[data-index="${item.index}"]`);
+		if (itemEl) itemEl.remove();
+		let ctr = 0;
+		for (let i = 0; i < this.list.length; i++) if (this.list[i].count > 0) ctr++;
+		if (ctr === 0) this.onSubmit();
+		return item;
+	};
+	/**
+	* Update item in inventory
+	*
+	* @param {number} index in inventory
+	* @param {number} count
+	*/
+	VendingShop.updateItem = function updateItem(index, count) {
+		const item = this.getItemByIndex(index);
+		if (!item) return;
+		item.count = count;
+		const root = this.getRoot();
+		if (item.count > 0) {
+			const countEl = root.querySelector(`.item[data-index="${item.index}"] .count`);
+			if (countEl) countEl.textContent = item.count;
+			return;
+		}
+		this.list.splice(this.list.indexOf(item), 1);
+		const itemEl = root.querySelector(`.item[data-index="${item.index}"]`);
+		if (itemEl) itemEl.remove();
+		const content = root.querySelector(".container .content");
+		const hideEl = root.querySelector(".hide");
+		if (content && hideEl) {
+			if (content.clientHeight >= content.scrollHeight) hideEl.style.display = "";
+		}
+	};
+	/**
+	* Submit data to send items
+	*/
+	VendingShop.onSubmit = function onSubmit() {
+		let pkt;
+		if (_type$3 === VendingShop.Type.VENDING_LIST) pkt = new PACKET.CZ.REQ_CLOSESTORE();
+		else pkt = new PACKET.CZ.REQ_CLOSE_BUYING_STORE();
+		Network.sendPacket(pkt);
+		this.onRemove();
+		if (_type$3 === VendingShop.Type.VENDING_LIST && PacketVerManager_default.value >= 20141016) VendingReport_default.append();
+	};
+	VendingShop.mouseMode = GUIComponent.MouseMode.STOP;
+	VendingShop_default = UIManager.addComponent(VendingShop);
+}));
+//#endregion
+//#region src/UI/Game/GameVending.js
+function resetGameVending() {
+	ownedStore = null;
+}
+function openVendingSetup(mode, slots) {
+	const token = {}, order = /* @__PURE__ */ new Map();
+	let guard = () => !SessionStorage_default.FreezeUI, pending = false, ended = false;
+	const available = () => interactionSnapshot()?.token === token && !pending && !ended && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
+	const inventory = createGameInventory(available);
+	const items = () => (mode === "sell" ? CartItems_default.list : InventoryController.getUI().list).filter((item) => item.IsIdentified && !item.IsDamaged && !item.equipped && (mode === "sell" || ![
+		ItemType_default.WEAPON,
+		ItemType_default.ARMOR,
+		ItemType_default.SHADOWGEAR,
+		ItemType_default.PETEGG,
+		ItemType_default.PETARMOR
+	].includes(item.type) && DB.isBuyable(item.ITID)));
+	const service = {
+		setOperationGuard: (next) => {
+			guard = next;
+		},
+		snapshot() {
+			return {
+				mode,
+				slots,
+				pending,
+				allowed: Boolean(available()),
+				money: SessionStorage_default.zeny,
+				items: items().map((item) => ({
+					...inventory.describe(item),
+					identity: identity$4(item),
+					quantity: order.get(item.index)?.count || 0,
+					price: order.get(item.index)?.price || 0
+				})),
+				order: [...order.values()].map((item) => ({
+					...inventory.describe(item),
+					count: item.count,
+					price: item.price
+				})),
+				total: [...order.values()].reduce((sum, item) => sum + item.price * item.count, 0)
+			};
+		},
+		set(index, expected, count, price) {
+			const item = items().find((entry) => entry.index === index);
+			if (!available() || !item || identity$4(item) !== expected || !Number.isInteger(count) || count < 0 || count > (mode === "sell" ? Math.min(itemQuantity(item), 32767) : 9999)) return "物品或数量已变化";
+			if (!count) {
+				order.delete(index);
+				return "";
+			}
+			if (!integer(price, 2147483647) || !order.has(index) && order.size >= slots) return "单价无效或已达到摊位栏位上限";
+			if (mode === "buy" && [...order.values()].some((row) => row.index !== index && row.ITID === item.ITID)) return "同种物品只能设置一条收购记录";
+			order.set(index, {
+				...item,
+				count,
+				price,
+				identity: expected
+			});
+			return "";
+		},
+		submit(name, budget) {
+			if (!available() || !order.size || !name.trim()) return "请填写摊位名称并选择物品";
+			for (const entry of order.values()) {
+				const item = items().find((row) => row.index === entry.index);
+				if (!item || identity$4(item) !== entry.identity || mode === "sell" && itemQuantity(item) < entry.count) return "物品已经变化，请重新选择";
+			}
+			const total = service.snapshot().total;
+			if (!Number.isSafeInteger(total)) return "总金额无效";
+			if (mode === "buy" && (!integer(budget, 2147483647) || budget > SessionStorage_default.zeny)) return "收购预算无效或余额不足";
+			const packet = mode === "sell" ? new PACKET.CZ.REQ_OPENSTORE2() : new PACKET.CZ.REQ_OPEN_BUYING_STORE();
+			packet.storeName = name.trim();
+			packet.result = 1;
+			packet.storeList = [...order.values()].map(({ index, ITID, count, price }) => ({
+				index,
+				ITID,
+				count,
+				price
+			}));
+			if (mode === "buy") packet.LimitZeny = budget;
+			pending = true;
+			Network.sendPacket(packet);
+			return "等待服务器开店结果";
+		},
+		fail() {
+			if (interactionSnapshot()?.token !== token) return;
+			ended = true;
+			showInteraction({
+				kind: "notice",
+				title: "开店失败",
+				lines: ["服务器未接受开店请求，请检查物品、金额及摆摊条件后重新使用技能。"],
+				close: () => clearInteraction("notice")
+			});
+		},
+		close() {
+			if (interactionSnapshot()?.token !== token || pending || ended) return;
+			ended = true;
+			Network.sendPacket(mode === "sell" ? new PACKET.CZ.REQ_OPENSTORE2() : new PACKET.CZ.REQ_OPEN_BUYING_STORE());
+			clearInteraction("vending");
+		}
+	};
+	showInteraction({
+		kind: "vending",
+		canClose: false,
+		title: mode === "sell" ? "设置售卖摊位" : "设置收购摊位",
+		token,
+		service,
+		close: service.close
+	});
+	return service;
+}
+function vendingSetupFailed() {
+	const current = interactionSnapshot();
+	if (current?.kind === "vending") current.service.fail();
+}
+function setOwnedVending(mode, packet) {
+	ownedStore = {
+		mode,
+		items: packet.itemList.map((item) => ({
+			...item,
+			IsIdentified: 1
+		})),
+		budget: packet.limitZeny,
+		owner: SessionStorage_default.Entity,
+		log: []
+	};
+	showOwnedVending();
+}
+function updateOwnedVending(index, count, byItemID = false, budget) {
+	if (!ownedStore || ownedStore.owner !== SessionStorage_default.Entity) return;
+	const item = ownedStore.items.find((row) => byItemID ? row.ITID === index : row.index === index);
+	if (!item) return;
+	item.count = Math.max(0, item.count - count);
+	if (budget !== void 0) ownedStore.budget = budget;
+	ownedStore.log.push(`${DB.getItemName(item)} × ${count}，单价 ${item.price} Zeny`);
+	if (ownedStore.mode === "sell" && ownedStore.items.every((row) => row.count === 0)) {
+		Network.sendPacket(new PACKET.CZ.REQ_CLOSESTORE());
+		const log = [...ownedStore.log];
+		ownedStore = null;
+		if (interactionSnapshot()?.kind === "vending") showInteraction({
+			kind: "notice",
+			title: "商品已售完",
+			lines: log,
+			close: () => clearInteraction("notice")
+		});
+	}
+}
+function showOwnedVending() {
+	if (!Platform.isMobile) {
+		const room = SessionStorage_default.Entity?.room;
+		if (!room?.display || ![room.constructor.Type.BUY_SHOP, room.constructor.Type.SELL_SHOP].includes(room.type)) return false;
+		VendingShop_default.append();
+		return true;
+	}
+	if (!ownedStore || ownedStore.owner !== SessionStorage_default.Entity) return false;
+	const store = ownedStore, token = {};
+	let guard = () => !SessionStorage_default.FreezeUI, closed = false;
+	const inventory = createGameInventory(() => true);
+	const service = {
+		setOperationGuard: (next) => {
+			guard = next;
+		},
+		snapshot: () => ({
+			mode: store.mode,
+			owned: true,
+			budget: store.budget,
+			items: store.items.map((item) => ({
+				...inventory.describe(item),
+				count: item.count,
+				price: item.price
+			})),
+			log: [...store.log],
+			allowed: !closed && SessionStorage_default.Playing && guard()
+		}),
+		closeStore() {
+			if (interactionSnapshot()?.token !== token || !service.snapshot().allowed) return "当前无法关闭摊位";
+			Network.sendPacket(store.mode === "sell" ? new PACKET.CZ.REQ_CLOSESTORE() : new PACKET.CZ.REQ_CLOSE_BUYING_STORE());
+			closed = true;
+			ownedStore = null;
+			clearInteraction("vending");
+			return "已请求关闭摊位";
+		}
+	};
+	showInteraction({
+		kind: "vending",
+		title: store.mode === "sell" ? "我的售卖摊位" : "我的收购摊位",
+		token,
+		service,
+		close: () => clearInteraction("vending")
+	});
+	return true;
+}
+function finishOwnedBuying() {
+	if (ownedStore?.mode !== "buy") return;
+	ownedStore = null;
+	if (interactionSnapshot()?.kind === "vending") showInteraction({
+		kind: "notice",
+		title: "收购摊位已关闭",
+		lines: ["收购数量已满足或预算已用完。"],
+		close: () => clearInteraction("notice")
+	});
+}
+var identity$4, integer, ownedStore;
+var init_GameVending = __esmMin((() => {
+	init_Platform();
+	init_VendingShop();
+	init_SessionStorage();
+	init_Inventory();
+	init_CartItems();
+	init_DBManager();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_GameInventory();
+	init_InventoryItems();
+	init_ItemType();
+	init_ServerInteraction();
+	identity$4 = (item) => JSON.stringify([
+		item.ITID,
+		item.RefiningLevel,
+		item.enchantgrade,
+		item.slot,
+		item.Options
+	]);
+	integer = (value, max) => Number.isInteger(value) && value > 0 && value <= max;
+	ownedStore = null;
+}));
+//#endregion
 //#region src/UI/Components/PetInformations/PetInformations.html?raw
 var PetInformations_default$2;
 var init_PetInformations$2 = __esmMin((() => {
@@ -354527,7 +356229,7 @@ var init_PetInformations$1 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/PetInformations/PetInformations.js
-var PetInformations, _preferences$18, petAutoFeeding, PetInformations_default;
+var PetInformations, _preferences$15, petAutoFeeding, PetInformations_default;
 var init_PetInformations = __esmMin((() => {
 	init_DBManager();
 	init_Client();
@@ -354542,7 +356244,7 @@ var init_PetInformations = __esmMin((() => {
 	PetInformations = new GUIComponent("PetInformations", PetInformations_default$1);
 	PetInformations.render = () => PetInformations_default$2;
 	PetInformations.captureKeyEvents = true;
-	_preferences$18 = Preferences.get("PetInformations", {
+	_preferences$15 = Preferences.get("PetInformations", {
 		x: 100,
 		y: 200,
 		show: true
@@ -354604,17 +356306,17 @@ var init_PetInformations = __esmMin((() => {
 			const feeding = root.querySelector(".feeding");
 			if (feeding) feeding.style.display = "none";
 		}
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$18.y), Renderer.height - this._host.getBoundingClientRect().height)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$18.x), Renderer.width - this._host.getBoundingClientRect().width)}px`;
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$15.y), Renderer.height - this._host.getBoundingClientRect().height)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$15.x), Renderer.width - this._host.getBoundingClientRect().width)}px`;
 	};
 	/**
 	* Once remove from body, save user preferences
 	*/
 	PetInformations.onRemove = function onRemove() {
-		_preferences$18.show = this._host.style.display !== "none";
-		_preferences$18.y = parseInt(this._host.style.top, 10);
-		_preferences$18.x = parseInt(this._host.style.left, 10);
-		_preferences$18.save();
+		_preferences$15.show = this._host.style.display !== "none";
+		_preferences$15.y = parseInt(this._host.style.top, 10);
+		_preferences$15.x = parseInt(this._host.style.left, 10);
+		_preferences$15.save();
 	};
 	/**
 	* Process shortcut
@@ -354765,6 +356467,7 @@ function Init$11() {
 }
 var mat4$1, vec2, _matrix, EntityControl;
 var init_EntityControl = __esmMin((() => {
+	init_GameVending();
 	init_gl_matrix();
 	init_PathFinding();
 	init_DBManager();
@@ -355013,6 +356716,10 @@ var init_EntityControl = __esmMin((() => {
 		static onRoomEnter() {
 			let pkt;
 			const Room = this.room.constructor;
+			if (this === SessionStorage_default.Entity && [Room.Type.BUY_SHOP, Room.Type.SELL_SHOP].includes(this.room.type)) {
+				showOwnedVending();
+				return;
+			}
 			switch (this.room.type) {
 				case Room.Type.SELL_SHOP:
 					pkt = new PACKET.CZ.REQ_CLICK_TO_BUYING_STORE();
@@ -361532,7 +363239,7 @@ function createSpriteSheet() {
 	}
 	for (let i = 0; i < totalSprites; i++) drawSprite(i);
 }
-var _tick, _norepeat, _animation, _play, _lastStyleId, _lastX, _lastY, _compiledStyle, _sprite$2, _action$2, _selector, _pointerTarget, Cursor, _type$4, ActionInformations;
+var _tick, _norepeat, _animation, _play, _lastStyleId, _lastX, _lastY, _compiledStyle, _sprite$2, _action$2, _selector, _pointerTarget, Cursor, _type$2, ActionInformations;
 var init_CursorManager = __esmMin((() => {
 	init_Platform();
 	init_NativeModalCursor();
@@ -361625,7 +363332,7 @@ var init_CursorManager = __esmMin((() => {
 		*/
 		static setType(type, norepeat, animation) {
 			if (Cursor.freeze) return;
-			_type$4 = type;
+			_type$2 = type;
 			_tick = Date.now();
 			_norepeat = !!norepeat;
 			if (typeof animation !== "undefined") {
@@ -361642,7 +363349,7 @@ var init_CursorManager = __esmMin((() => {
 		* @return {number} Cursor.ACTION.*
 		*/
 		static getActualType() {
-			return _type$4;
+			return _type$2;
 		}
 		/**
 		* Render the cursor (update)
@@ -361655,8 +363362,8 @@ var init_CursorManager = __esmMin((() => {
 				return;
 			}
 			if (_selector && _selector.style.display === "none") _selector.style.display = "block";
-			const info = ActionInformations[_type$4] || ActionInformations[Cursor.ACTION.DEFAULT];
-			const action = _action$2.actions[_type$4] || _action$2.actions[Cursor.ACTION.DEFAULT];
+			const info = ActionInformations[_type$2] || ActionInformations[Cursor.ACTION.DEFAULT];
+			const action = _action$2.actions[_type$2] || _action$2.actions[Cursor.ACTION.DEFAULT];
 			let anim = _animation;
 			const delay = action.delay * info.delayMult;
 			let x = info.startX;
@@ -361695,7 +363402,7 @@ var init_CursorManager = __esmMin((() => {
 			}
 		}
 	};
-	_type$4 = Cursor.ACTION.DEFAULT;
+	_type$2 = Cursor.ACTION.DEFAULT;
 	ActionInformations = {};
 	ActionInformations[Cursor.ACTION.DEFAULT] = {
 		drawX: 1,
@@ -364314,6 +366021,7 @@ function currentGameMail() {
 	return state?.kind === "mail" ? state.service : null;
 }
 function receiveGameMail(kind, packet) {
+	if (kind === "list") unread = packet.MailList.some((mail) => !mail.Isread);
 	currentGameMail()?.receive(kind, packet);
 }
 function openGameMail(canOperate = () => true) {
@@ -364439,7 +366147,7 @@ function openGameMail(canOperate = () => true) {
 			}, {
 				kind: "add",
 				index,
-				identity: identity$4(item)
+				identity: identity$3(item)
 			});
 		},
 		remove(index, count) {
@@ -364467,7 +366175,7 @@ function openGameMail(canOperate = () => true) {
 			if (draft.zeny + fee > SessionStorage_default.zeny) return { error: "余额不足以支付金额和预计邮费" };
 			for (const item of attachments) {
 				const live = InventoryController.getUI().list.find((i) => i.index === item.index);
-				if (!live || identity$4(live) !== item.identity || itemQuantity(live) < item.count || live.equipped) return { error: "附件已变化，请移除后重新选择" };
+				if (!live || identity$3(live) !== item.identity || itemQuantity(live) < item.count || live.equipped) return { error: "附件已变化，请移除后重新选择" };
 			}
 			return {
 				receiver: recipient.name,
@@ -364522,7 +366230,8 @@ function openGameMail(canOperate = () => true) {
 			if (closed || interactionSnapshot()?.token !== token) return;
 			if (kind === "list") {
 				if (pending?.kind !== "list") return;
-				list = pkt.MailList;
+				list = pkt.MailList.map((mail) => ({ ...mail }));
+				unread = list.some((mail) => !mail.Isread);
 				details.clear();
 				selected = null;
 				deleting.clear();
@@ -364541,6 +366250,7 @@ function openGameMail(canOperate = () => true) {
 			if (kind === "delete") {
 				const id = key(pkt);
 				list = list.filter((m) => key(m) !== id);
+				unread = list.some((mail) => !mail.Isread);
 				details.delete(id);
 				deleting.delete(id);
 				if (selected === id) selected = null;
@@ -364565,6 +366275,7 @@ function openGameMail(canOperate = () => true) {
 				});
 				const row = list.find((m) => key(m) === wait.key);
 				if (row) row.Isread = 1;
+				unread = list.some((mail) => !mail.Isread);
 				setMessage("", "info");
 			}
 			if (kind === "items" || kind === "zeny") {
@@ -364644,7 +366355,7 @@ function openGameMail(canOperate = () => true) {
 	request("OPEN_ALL_RODEX", {}, { kind: "list" });
 	return service;
 }
-var unread, gameMailUnread, bytes, key, identity$4, send$2;
+var unread, gameMailUnread, bytes, key, identity$3, send$2;
 var init_GameMail = __esmMin((() => {
 	init_SessionStorage();
 	init_MailText();
@@ -364658,7 +366369,7 @@ var init_GameMail = __esmMin((() => {
 	gameMailUnread = () => unread;
 	bytes = (value) => new TextEncoder().encode(value).length;
 	key = (mail) => `${mail.openType}:${mail.MailID}`;
-	identity$4 = (item) => JSON.stringify([
+	identity$3 = (item) => JSON.stringify([
 		item.ITID,
 		item.RefiningLevel,
 		item.slot,
@@ -364669,222 +366380,6 @@ var init_GameMail = __esmMin((() => {
 		Object.assign(packet, fields);
 		Network.sendPacket(packet);
 	};
-}));
-//#endregion
-//#region src/UI/Game/GameVending.js
-function resetGameVending() {
-	ownedStore = null;
-}
-function openVendingSetup(mode, slots) {
-	const token = {}, order = /* @__PURE__ */ new Map();
-	let guard = () => !SessionStorage_default.FreezeUI, pending = false, ended = false;
-	const available = () => interactionSnapshot()?.token === token && !pending && !ended && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
-	const inventory = createGameInventory(available);
-	const items = () => (mode === "sell" ? CartItems_default.list : InventoryController.getUI().list).filter((item) => item.IsIdentified && !item.IsDamaged && !item.equipped && (mode === "sell" || ![
-		ItemType_default.WEAPON,
-		ItemType_default.ARMOR,
-		ItemType_default.SHADOWGEAR,
-		ItemType_default.PETEGG,
-		ItemType_default.PETARMOR
-	].includes(item.type) && DB.isBuyable(item.ITID)));
-	const service = {
-		setOperationGuard: (next) => {
-			guard = next;
-		},
-		snapshot() {
-			return {
-				mode,
-				slots,
-				pending,
-				allowed: Boolean(available()),
-				money: SessionStorage_default.zeny,
-				items: items().map((item) => ({
-					...inventory.describe(item),
-					identity: identity$3(item),
-					quantity: order.get(item.index)?.count || 0,
-					price: order.get(item.index)?.price || 0
-				})),
-				order: [...order.values()].map((item) => ({
-					...inventory.describe(item),
-					count: item.count,
-					price: item.price
-				})),
-				total: [...order.values()].reduce((sum, item) => sum + item.price * item.count, 0)
-			};
-		},
-		set(index, expected, count, price) {
-			const item = items().find((entry) => entry.index === index);
-			if (!available() || !item || identity$3(item) !== expected || !Number.isInteger(count) || count < 0 || count > (mode === "sell" ? Math.min(itemQuantity(item), 32767) : 9999)) return "物品或数量已变化";
-			if (!count) {
-				order.delete(index);
-				return "";
-			}
-			if (!integer(price, 2147483647) || !order.has(index) && order.size >= slots) return "单价无效或已达到摊位栏位上限";
-			if (mode === "buy" && [...order.values()].some((row) => row.index !== index && row.ITID === item.ITID)) return "同种物品只能设置一条收购记录";
-			order.set(index, {
-				...item,
-				count,
-				price,
-				identity: expected
-			});
-			return "";
-		},
-		submit(name, budget) {
-			if (!available() || !order.size || !name.trim()) return "请填写摊位名称并选择物品";
-			for (const entry of order.values()) {
-				const item = items().find((row) => row.index === entry.index);
-				if (!item || identity$3(item) !== entry.identity || mode === "sell" && itemQuantity(item) < entry.count) return "物品已经变化，请重新选择";
-			}
-			const total = service.snapshot().total;
-			if (!Number.isSafeInteger(total)) return "总金额无效";
-			if (mode === "buy" && (!integer(budget, 2147483647) || budget > SessionStorage_default.zeny)) return "收购预算无效或余额不足";
-			const packet = mode === "sell" ? new PACKET.CZ.REQ_OPENSTORE2() : new PACKET.CZ.REQ_OPEN_BUYING_STORE();
-			packet.storeName = name.trim();
-			packet.result = 1;
-			packet.storeList = [...order.values()].map(({ index, ITID, count, price }) => ({
-				index,
-				ITID,
-				count,
-				price
-			}));
-			if (mode === "buy") packet.LimitZeny = budget;
-			pending = true;
-			Network.sendPacket(packet);
-			return "等待服务器开店结果";
-		},
-		fail() {
-			if (interactionSnapshot()?.token !== token) return;
-			ended = true;
-			showInteraction({
-				kind: "notice",
-				title: "开店失败",
-				lines: ["服务器未接受开店请求，请检查物品、金额及摆摊条件后重新使用技能。"],
-				close: () => clearInteraction("notice")
-			});
-		},
-		close() {
-			if (interactionSnapshot()?.token !== token || pending || ended) return;
-			ended = true;
-			Network.sendPacket(mode === "sell" ? new PACKET.CZ.REQ_OPENSTORE2() : new PACKET.CZ.REQ_OPEN_BUYING_STORE());
-			clearInteraction("vending");
-		}
-	};
-	showInteraction({
-		kind: "vending",
-		canClose: false,
-		title: mode === "sell" ? "设置售卖摊位" : "设置收购摊位",
-		token,
-		service,
-		close: service.close
-	});
-	return service;
-}
-function vendingSetupFailed() {
-	const current = interactionSnapshot();
-	if (current?.kind === "vending") current.service.fail();
-}
-function setOwnedVending(mode, packet) {
-	ownedStore = {
-		mode,
-		items: packet.itemList.map((item) => ({
-			...item,
-			IsIdentified: 1
-		})),
-		budget: packet.limitZeny,
-		owner: SessionStorage_default.Entity,
-		log: []
-	};
-	showOwnedVending();
-}
-function updateOwnedVending(index, count, byItemID = false, budget) {
-	if (!ownedStore || ownedStore.owner !== SessionStorage_default.Entity) return;
-	const item = ownedStore.items.find((row) => byItemID ? row.ITID === index : row.index === index);
-	if (!item) return;
-	item.count = Math.max(0, item.count - count);
-	if (budget !== void 0) ownedStore.budget = budget;
-	ownedStore.log.push(`${DB.getItemName(item)} × ${count}，单价 ${item.price} Zeny`);
-	if (ownedStore.mode === "sell" && ownedStore.items.every((row) => row.count === 0)) {
-		Network.sendPacket(new PACKET.CZ.REQ_CLOSESTORE());
-		const log = [...ownedStore.log];
-		ownedStore = null;
-		if (interactionSnapshot()?.kind === "vending") showInteraction({
-			kind: "notice",
-			title: "商品已售完",
-			lines: log,
-			close: () => clearInteraction("notice")
-		});
-	}
-}
-function showOwnedVending() {
-	if (!ownedStore || ownedStore.owner !== SessionStorage_default.Entity) return false;
-	const store = ownedStore, token = {};
-	let guard = () => !SessionStorage_default.FreezeUI, closed = false;
-	const inventory = createGameInventory(() => true);
-	const service = {
-		setOperationGuard: (next) => {
-			guard = next;
-		},
-		snapshot: () => ({
-			mode: store.mode,
-			owned: true,
-			budget: store.budget,
-			items: store.items.map((item) => ({
-				...inventory.describe(item),
-				count: item.count,
-				price: item.price
-			})),
-			log: [...store.log],
-			allowed: !closed && SessionStorage_default.Playing && guard()
-		}),
-		closeStore() {
-			if (interactionSnapshot()?.token !== token || !service.snapshot().allowed) return "当前无法关闭摊位";
-			Network.sendPacket(store.mode === "sell" ? new PACKET.CZ.REQ_CLOSESTORE() : new PACKET.CZ.REQ_CLOSE_BUYING_STORE());
-			closed = true;
-			ownedStore = null;
-			clearInteraction("vending");
-			return "已请求关闭摊位";
-		}
-	};
-	showInteraction({
-		kind: "vending",
-		title: store.mode === "sell" ? "我的售卖摊位" : "我的收购摊位",
-		token,
-		service,
-		close: () => clearInteraction("vending")
-	});
-	return true;
-}
-function finishOwnedBuying() {
-	if (ownedStore?.mode !== "buy") return;
-	ownedStore = null;
-	if (interactionSnapshot()?.kind === "vending") showInteraction({
-		kind: "notice",
-		title: "收购摊位已关闭",
-		lines: ["收购数量已满足或预算已用完。"],
-		close: () => clearInteraction("notice")
-	});
-}
-var identity$3, integer, ownedStore;
-var init_GameVending = __esmMin((() => {
-	init_SessionStorage();
-	init_Inventory();
-	init_CartItems();
-	init_DBManager();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_GameInventory();
-	init_InventoryItems();
-	init_ItemType();
-	init_ServerInteraction();
-	identity$3 = (item) => JSON.stringify([
-		item.ITID,
-		item.RefiningLevel,
-		item.enchantgrade,
-		item.slot,
-		item.Options
-	]);
-	integer = (value, max) => Number.isInteger(value) && value > 0 && value <= max;
-	ownedStore = null;
 }));
 //#endregion
 //#region src/UI/Mobile/game/ScreenWakeLock.js
@@ -364938,17 +366433,21 @@ var init_MobileInputEditor$1 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Mobile/game/MobileInputEditor.js
+/** Open the shared editor directly, without an intermediate field dialog. */
+function requestMobileInput(host, options) {
+	return editors.get(host)(options);
+}
 /** Edit a draft outside the menu so keyboard resizing cannot disturb its layout. */
 function createMobileInputEditor(host, { enabled = () => true } = {}) {
 	const root = host.shadowRoot;
 	let close;
 	let gesture;
 	let tappedSource;
-	function open(focusEvent) {
-		const source = focusEvent.target;
+	function open(focusEvent, prompt) {
+		const source = prompt?.field || focusEvent.target;
 		if (!enabled() || close || !source.matches?.(editable) || source.disabled || source.readOnly) return;
-		focusEvent.preventDefault();
-		focusEvent.stopImmediatePropagation();
+		focusEvent?.preventDefault();
+		focusEvent?.stopImmediatePropagation();
 		const overlay = document.createElement("div");
 		overlay.dataset.mobileInputEditor = "";
 		overlay.toggleAttribute("data-phone-screen", Math.min(screen.width, screen.height) < 600);
@@ -364956,10 +366455,10 @@ function createMobileInputEditor(host, { enabled = () => true } = {}) {
 		editor.innerHTML = `<style>${MobileInputEditor_default}${MenuLayout_default}${MobileModalBackdrop_default}${MobileModalInput_default}</style><dialog class="mobile-menu-editor" aria-labelledby="editor-title"><section><span id="editor-title"></span><button type="button" data-cancel>取消</button><main></main><button type="button" data-done>完成</button></section></dialog>`;
 		const dialog = editor.querySelector("dialog");
 		const content = editor.querySelector("section");
-		const title = source.getAttribute("aria-label") || source.labels?.[0]?.textContent.trim() || source.placeholder || "输入内容";
+		const title = prompt?.title || source.getAttribute("aria-label") || source.labels?.[0]?.textContent.trim() || source.placeholder || "输入内容";
 		editor.querySelector("#editor-title").textContent = title;
 		const submitOnDone = source.hasAttribute("data-input-submit");
-		if (submitOnDone) editor.querySelector("[data-done]").textContent = "发送";
+		if (prompt?.doneLabel || submitOnDone) editor.querySelector("[data-done]").textContent = prompt?.doneLabel || "发送";
 		const field = source.cloneNode(true);
 		field.removeAttribute("id");
 		field.removeAttribute("name");
@@ -364970,6 +366469,7 @@ function createMobileInputEditor(host, { enabled = () => true } = {}) {
 		if (!field.placeholder) field.placeholder = title;
 		field.setAttribute("enterkeyhint", submitOnDone ? "send" : field.tagName === "TEXTAREA" ? "enter" : "done");
 		field.value = source.value;
+		if (prompt?.validate) field.addEventListener("input", () => field.setCustomValidity(prompt.validate(field.value)));
 		editor.querySelector("main").append(field);
 		const originalInert = host.inert;
 		const abort = new AbortController();
@@ -365002,11 +366502,17 @@ function createMobileInputEditor(host, { enabled = () => true } = {}) {
 			source.blur();
 			source.closest("dialog")?.querySelector("[tabindex=\"-1\"]")?.focus({ preventScroll: true });
 			close = null;
+			prompt?.onClose?.();
 		};
 		function done() {
+			if (prompt?.validate) field.setCustomValidity(prompt.validate(field.value));
 			if (!field.reportValidity()) return;
 			const value = field.value;
 			close();
+			if (prompt) {
+				prompt.onConfirm(value);
+				return;
+			}
 			if (!source.isConnected) return;
 			if (source.value !== value) {
 				source.value = value;
@@ -365051,6 +366557,10 @@ function createMobileInputEditor(host, { enabled = () => true } = {}) {
 		host.inert = true;
 		if (field.selectionStart !== null) field.setSelectionRange(field.value.length, field.value.length);
 	}
+	editors.set(host, (options) => {
+		open(null, options);
+		return close;
+	});
 	const listeners = new AbortController();
 	const options = {
 		capture: true,
@@ -365092,12 +366602,13 @@ function createMobileInputEditor(host, { enabled = () => true } = {}) {
 		if (!gesture && !tappedSource) open(event);
 	}, options);
 	return () => {
+		editors.delete(host);
 		listeners.abort();
 		gesture = null;
 		close?.();
 	};
 }
-var editable;
+var editable, editors;
 var init_MobileInputEditor = __esmMin((() => {
 	init_MobileModalInput();
 	init_MobileModalBackdrop();
@@ -365105,6 +366616,7 @@ var init_MobileInputEditor = __esmMin((() => {
 	init_MenuLayout();
 	init_MobileInputEditor$1();
 	editable = "textarea, input:not([type]), input[type=text], input[type=search], input[type=number], input[type=password], input[type=email], input[type=url], input[type=tel]";
+	editors = /* @__PURE__ */ new WeakMap();
 }));
 //#endregion
 //#region src/UI/Mobile/game/MenuNarrowTablet.css?raw
@@ -365146,7 +366658,7 @@ var init_MenuNavigation = __esmMin((() => {
 //#region src/UI/Mobile/game/MenuContentComponents.css?raw
 var MenuContentComponents_default;
 var init_MenuContentComponents = __esmMin((() => {
-	MenuContentComponents_default = "/* Component-specific responsive details; shared column behavior lives in MenuContentLayout.css. */\r\n\r\n.mobile-adventure {\r\n	container-name: menu-window menu-content;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail),\r\n.mobile-adventure :is(.catalog-detail, .monster-detail, .character-detail) {\r\n	container: menu-detail / inline-size;\r\n}\r\n.panel .slot-picker button {\r\n	container: shortcut-slot / inline-size;\r\n}\r\n@container shortcut-slot (width < 64px) {\r\n	:host([data-menu-density]) .panel .slot-picker :is(.shortcut-slot-prefix, button > span) {\r\n		display: none;\r\n	}\r\n	:host([data-menu-density]) .panel .slot-picker strong {\r\n		text-align: center;\r\n	}\r\n}\r\n@container menu-window (width < 640px) {\r\n	:host([data-menu-arrangement='stacked']) .panel .attribute-results {\r\n		border-left: 0;\r\n		border-right: 0;\r\n		border-top: 1px solid #52606d;\r\n		padding: var(--panel-gap) 0 0;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel :is(.shop-transfer, .bank-transfer) {\r\n		flex-direction: row;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel :is(.shop-transfer, .bank-transfer) button {\r\n		transform: rotate(90deg);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .bank-layout {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .bank-account {\r\n		padding: 8px;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.panel\r\n		.warehouse-body:has([data-menu-columns='2'])\r\n		.container-toolbar {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.panel\r\n		:is(.container-toolbar, .skills-toolbar, .shop-footer) {\r\n		flex-wrap: wrap;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		:is(\r\n			.catalog-browser,\r\n			.monster-browser,\r\n			.character-job-browser,\r\n			.catalog-detail,\r\n			.monster-detail,\r\n			.character-detail\r\n		) {\r\n		display: flex;\r\n		flex-direction: column;\r\n		width: auto;\r\n		min-width: 0;\r\n		min-height: 0;\r\n		border-right: 0;\r\n		overflow: auto;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		:is(.catalog-detail, .monster-detail, .character-detail) {\r\n		padding: 6px;\r\n		gap: 6px;\r\n		border-top: 1px solid #65717b;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure :is(.catalog-toolbar, .monster-toolbar) {\r\n		display: flex;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-toolbar {\r\n		flex-wrap: nowrap;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-search {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-toolbar > .game-select {\r\n		flex: 0 0 64px;\r\n		width: 64px;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure [data-back] {\r\n		display: none;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		:is(.catalog-list, .monster-list, .character-job-list) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .settings-rate-columns {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .chat-form {\r\n		grid-template-columns: minmax(0, 1fr) auto auto;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .chat-form > input[aria-label='聊天内容'] {\r\n		grid-column: 1 / -1;\r\n		grid-row: 1;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .settings-grid {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.panel\r\n		.chat-form:has(input[aria-label='私聊对象']:not([hidden]))\r\n		> input[aria-label='聊天内容'] {\r\n		grid-row: 2;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel :is(.pickup-categories, .pickup-limits) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .skills-layout > section {\r\n		grid-column: auto;\r\n		grid-row: auto;\r\n		grid-template-rows: minmax(0, 1fr) auto;\r\n	}\r\n}\r\n\r\n@container menu-detail (width < 360px) {\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		:is(.panel, .mobile-adventure)\r\n		:is(.inventory-item-overview, .monster-overview, .item-overview) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-stats {\r\n		grid-column: 1;\r\n		grid-row: auto;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .item-portrait {\r\n		height: 96px;\r\n	}\r\n}\r\n@container menu-detail (width < 460px) {\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		.character-detail-scroll\r\n		.management-form {\r\n		--character-form-columns: 1;\r\n	}\r\n}\r\n@container menu-detail (width < 540px) {\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure :is(.map-detail-body, .npc-detail-body) {\r\n		flex: 0 0 auto;\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-template-rows: auto auto;\r\n		min-height: 0;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		:is(.catalog-map-picker, .npc-map-picker) {\r\n		height: clamp(160px, 25dvh, 280px);\r\n		min-height: 160px;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure :is(.npc-detail-info, .map-npc-list) {\r\n		height: auto;\r\n		min-height: 0;\r\n		overflow: visible;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .map-npc-scroll {\r\n		max-height: 240px;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-resources {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n\r\n\r\n/* Frame each phone combat pane independently, including while its content scrolls. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .auto-layout[data-menu-layout='form'] {\r\n grid-template-rows: repeat(2, minmax(0, 1fr));\r\n row-gap: 10px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .auto-layout > section {\r\n box-sizing: border-box;\r\n border: 1px solid #52606d;\r\n border-radius: 10px;\r\n padding: 8px;\r\n}\r\n\r\n/* Category controls share spacing and grouped increments across touch layouts. */\r\n\r\n:host([data-menu-density]) .panel > header.has-attribute-tabs > h2 {\r\n position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;\r\n overflow: hidden; clip-path: inset(50%);\r\n}\r\n:host([data-menu-density]) .panel > header .attribute-toolbar { flex: 1; min-width: 0; margin-right: 8px; }\r\n:host([data-menu-density]) .panel .attribute-tabs > button { flex: 0 1 auto; }\r\n:host([data-menu-density]) .panel .attribute-row {\r\n grid-template-rows: minmax(34px, auto);\r\n min-height: 44px;\r\n padding-block: 5px;\r\n}\r\n:host([data-menu-density]) .panel .attribute-increments {\r\n grid-template-columns: repeat(3, minmax(0, 1fr));\r\n column-gap: 0;\r\n}\r\n:host([data-menu-density]) .panel .attribute-increments button {\r\n width: 100%; min-width: 0;\r\n height: max(34px, var(--panel-attribute-control));\r\n min-height: max(34px, var(--panel-attribute-control));\r\n border-radius: 0;\r\n}\r\n:host([data-menu-density]) .panel .attribute-increments button + button { border-left: 0; }\r\n:host([data-menu-density]) .panel .attribute-increments button:first-child { border-radius: 5px 0 0 5px; }\r\n:host([data-menu-density]) .panel .attribute-increments button:last-child { border-radius: 0 5px 5px 0; }\r\n\r\n/* Phone portrait: details first, browsing and actions below. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .chat-conversation {\r\n grid-template-columns: 72px minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr);\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .attribute-results {\r\n grid-row: 1; border: 0; padding: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .attribute-editor {\r\n grid-row: 2; border-top: 1px solid #52606d; padding-top: 10px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-pages { order: 2; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-layout { order: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-editor { grid-row: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-browser { grid-row: 2; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-filters { order: 2; flex-shrink: 0; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-body {\r\n display: grid;\r\n grid-template-columns: minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-layout[data-menu-layout='split'],\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-item-detail:has(.inventory-item-description) {\r\n display: contents;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-detail,\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-description {\r\n grid-row: 1; min-width: 0; min-height: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-list { grid-row: 2; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-toolbar { grid-row: 3; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-detail > .inventory-actions {\r\n grid-row: 4; justify-content: flex-end; padding-top: 8px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-overview {\r\n grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-detail > .inventory-actions > button { flex: 0 1 auto; }\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-row { min-height: 66px; padding-block: 10px; }\r\n\r\n/* Phone pickup frames expand with content; only the full page scrolls. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .mobile-pickup-settings > .pickup-section {\r\n display: block;\r\n padding: 0; border: 0; background: none;\r\n overflow-y: auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-section > .pickup-enabled {\r\n box-sizing: border-box;\r\n margin: 0 0 10px; padding: 8px;\r\n border: 1px solid #52606d; border-radius: 10px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-controls { gap: 10px; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel :is(.pickup-rules-group, .pickup-exclusions-group) {\r\n display: flex; flex-direction: column; gap: 8px;\r\n box-sizing: border-box;\r\n border: 1px solid #52606d; border-radius: 10px; padding: 8px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel :is(.pickup-rules-title, .pickup-exclusions-group > h4) {\r\n display: block; margin: 0;\r\n color: #f6d9a5; font-size: var(--panel-heading); line-height: 1.5;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-categories {\r\n grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-exclusions-group > .pickup-excluded {\r\n min-height: 0; max-height: none; overflow: visible;\r\n border: 0; border-radius: 0; padding: 0;\r\n}\r\n\r\n/* Phone picker shares the adventure toolbar's 6px gaps and equal paging buttons. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker {\r\n height: min(520px, calc(var(--mobile-visible-height, 100dvh) * 0.65));\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker[open] {\r\n display: grid;\r\n grid-template-columns: minmax(0, 1fr) auto auto auto;\r\n grid-template-rows: minmax(0, 1fr) auto 1px auto auto;\r\n gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-results {\r\n grid-row: 1; grid-column: 1 / -1; height: auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-search-status {\r\n grid-row: 2; grid-column: 1 / -1;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker :is(.pickup-search, footer) { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-search input { grid-row: 4; grid-column: 1; width: 100%; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker [data-search] { grid-row: 4; grid-column: 4; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker :is([data-selected], [data-page]) { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker [data-previous] { grid-row: 4; grid-column: 2; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker [data-next] { grid-row: 4; grid-column: 3; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker :is([data-search], [data-previous], [data-next]) {\r\n box-sizing: border-box;\r\n height: max(30px, var(--panel-control)); min-height: max(30px, var(--panel-control));\r\n margin: 0; padding: 3px 6px; font: inherit; font-size: var(--panel-label);\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-picker-actions {\r\n display: flex; grid-row: 5; grid-column: 1 / -1;\r\n justify-self: stretch; justify-content: flex-end;\r\n border-top: 1px solid #52606d; padding-top: 10px; gap: 6px;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker::before {\r\n content: ''; grid-row: 3; grid-column: 1 / -1; background: #52606d;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-page-label { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-page-symbol { display: inline; font-size: 20px; line-height: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker :is([data-previous], [data-next]) { width: max(30px, var(--panel-control)); }\r\n\r\n/* Match the compact menu control height in phone landscape pickup dialogs. */\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel .pickup-picker { padding-bottom: 8px; }\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel .pickup-picker > footer { padding-top: 6px; }\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel .pickup-picker > footer button {\r\n box-sizing: border-box;\r\n height: var(--panel-control); min-height: var(--panel-control);\r\n padding: 3px 8px; font-size: var(--panel-label);\r\n}\r\n\r\n/* Storage follows inventory's framed browsing layout on every touch device. */\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) > .warehouse-body { gap: var(--panel-gap); }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) :is(.inventory-layout, .container-toolbar) { gap: 6px; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .inventory-layout {\r\n display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) :is(.inventory-list, .inventory-detail) {\r\n box-sizing: border-box; min-height: 0; min-width: 0;\r\n border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .inventory-list {\r\n display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));\r\n grid-auto-rows: min-content; align-content: start; gap: 6px;\r\n}\r\n/* Empty-state messages span the tablet list, rather than one item cell. */\r\n:host(:not([data-phone-screen])[data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-empty {\r\n grid-column: 1 / -1; min-width: 0;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-filters { padding-right: 0; gap: 6px; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-item-count { margin: 0; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .inventory-item-overview {\r\n grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .interaction-footer {\r\n display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; padding: 6px 0;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-transfer-target {\r\n display: flex; align-items: center; gap: 6px; margin-left: auto;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-transfer-target[hidden] { display: none; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity { width: clamp(80px, 12vw, 140px); }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) > .warehouse-body {\r\n display: grid; grid-template-columns: minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .inventory-layout { display: contents; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .inventory-detail { grid-row: 1; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .inventory-list { grid-row: 2; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-toolbar {\r\n grid-row: 3; grid-template-columns: minmax(0, 1fr); gap: 6px;\r\n border-top: 1px solid #52606d; padding-top: 6px;\r\n}\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-toolbar > input { grid-row: 1; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-filters { grid-row: 2; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .interaction-footer { grid-row: 4; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-capacity { flex: 1 0 100%; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-transfer-target { flex: 1 0 100%; justify-content: flex-end; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity { flex: 1 1 70px; width: auto; min-width: 0; }\r\n\r\n/* Keep portrait inventory actions present before selection and for unsupported actions. */\r\n.panel .inventory-placeholder-action,\r\n.panel .inventory-empty-actions { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-item-detail:has(.inventory-empty-message) { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-empty-message {\r\n grid-row: 1; min-height: 0; overflow: auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-empty-actions { display: flex; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-placeholder-action { display: inline-flex; justify-content: center; align-items: center; }\r\n\r\n/* Frame the touch inventory's independent list and portrait detail regions. */\r\n:host([data-menu-density]) .panel[data-view='inventory'] .inventory-list,\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] :is(.inventory-item-description, .inventory-empty-message) {\r\n box-sizing: border-box;\r\n border: 1px solid #52606d;\r\n border-radius: 10px;\r\n padding: 8px;\r\n background: #19212a;\r\n}\r\n\r\n/* Each segment owns its top and bottom border, including the editable amount. */\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group {\r\n display: flex; gap: 0; align-items: stretch;\r\n width: clamp(230px, 32vw, 320px); min-width: 0;\r\n height: var(--interaction-control); box-sizing: border-box;\r\n border: 0; border-radius: 6px; background: #19212a;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > :is(input, button) {\r\n box-sizing: border-box; height: 100%; min-height: 0; margin: 0;\r\n border: 1px solid #65717b; border-left: 0; border-radius: 0;\r\n box-shadow: none;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > input {\r\n flex: 1 1 0; width: 0; min-width: 36px; padding: 0 4px;\r\n text-align: center; appearance: textfield;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > input::-webkit-inner-spin-button,\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > input::-webkit-outer-spin-button { appearance: none; margin: 0; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > button {\r\n flex: 0 0 40px; width: 40px; padding: 0;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > button:first-child {\r\n border-left: 1px solid #65717b; border-radius: 6px 0 0 6px;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > button:last-child { border-radius: 0 6px 6px 0; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > input:focus { border-color: #91b8d5; }\r\n\r\n/* Landscape storage toolbar follows the exact columns of the framed content. */\r\n:host([data-menu-arrangement='wide']) .panel:is([data-view='storage'], [data-view='cart']) :is(.container-toolbar, .inventory-layout) {\r\n grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px;\r\n}\r\n:host([data-menu-arrangement='wide']) .panel:is([data-view='storage'], [data-view='cart']) .container-filters {\r\n padding: 0; width: 100%; box-sizing: border-box;\r\n}\r\n:host([data-menu-arrangement='wide']) .panel:is([data-view='storage'], [data-view='cart']) .container-toolbar > input[type='search'] {\r\n width: 100%; box-sizing: border-box; margin: 0;\r\n}\r\n\r\n/* Inventory category, subtype and order share a single balanced row. */\r\n:host([data-menu-density]) .panel[data-view='inventory'] .inventory-toolbar {\r\n grid-template-columns: repeat(3, minmax(0, 1fr));\r\n}\r\n:host([data-menu-density]) .panel[data-view='inventory'] .inventory-toolbar > :is(select, .menu-select) { min-width: 0; width: 100%; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-filters > :is(select, .menu-select) {\r\n flex: 1 1 70px; min-width: 0;\r\n}\r\n\r\n/* Equipment uses the same framed list, image preview and fixed action row as storage. */\r\n:host([data-menu-density]) .panel[data-view='equipment'] > .equipment-body { gap: var(--panel-gap); }\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-layout {\r\n grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); gap: 6px;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] :is(.equipment-slots, .equipment-detail, .equipment-stats, .equipment-picker-list, .equipment-picker-preview) {\r\n box-sizing: border-box; min-width: 0; min-height: 0;\r\n border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-slots { gap: 6px; }\r\n:host([data-menu-density]) .panel[data-view='equipment'] .inventory-item-overview {\r\n grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-actions {\r\n flex: 0 0 auto; justify-content: flex-end; gap: 6px;\r\n border-top: 1px solid #52606d; padding: 6px 0; margin: 0;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-actions > button {\r\n flex: 0 0 auto; width: auto; min-height: var(--panel-control); margin: 0;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stats { flex: 1; margin: 0; }\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-picker-layout { gap: 6px; grid-template-columns: repeat(2, minmax(0, 1fr)); }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-layout {\r\n grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-detail { grid-row: 1; }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-slots { grid-row: 2; }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-picker-layout {\r\n grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n height: min(60dvh, 560px);\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-picker-preview { grid-row: 1; }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-picker-list { grid-row: 2; }\r\n\r\n/* Compact portrait filter row, separated from both the list and fixed actions. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-body { row-gap: 6px; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-toolbar {\r\n border-top: 1px solid #52606d; padding-top: 6px; margin: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-actions {\r\n border-top: 1px solid #52606d; margin-top: 0; padding-top: 6px;\r\n}\r\n\r\n/* Phone allocation rows: landscape -10%; portrait +10% from the compact baseline. */\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel[data-view='attributes'] .attribute-row {\r\n grid-template-rows: minmax(30.6px, auto); min-height: 39.6px; padding-block: 4.5px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel[data-view='attributes'] .attribute-increments button {\r\n height: 30.6px; min-height: 30.6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='attributes'] .attribute-row {\r\n grid-template-rows: minmax(29.92px, auto); min-height: 38.72px; padding-block: 4.4px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='attributes'] .attribute-increments button {\r\n height: 29.92px; min-height: 29.92px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='attributes'] .attribute-results > dl { row-gap: 3.6px; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='attributes'] .attribute-results > dl > :is(dt, dd) {\r\n min-height: 19.8px; padding-block: 0.9px;\r\n}\r\n\r\n/* Portrait equipment categories sit between browsing content and actions. */\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] :is(.equipment-layout, .equipment-stats) { order: 1; }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-tabs {\r\n order: 2;\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-actions { order: 3; }\r\n\r\n/* Action-row geometry is owned by MenuChrome.css. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='inventory'], [data-view='equipment']) .inventory-actions > button {\r\n box-sizing: border-box; height: var(--panel-control); min-height: var(--panel-control); margin: 0;\r\n padding: var(--panel-control-padding);\r\n}\r\n/* Group related equipment values while preserving one scrollable content area. */\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stats {\r\n display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));\r\n align-items: start; align-content: start; gap: 10px;\r\n border: 0; padding: 0; background: transparent;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-section {\r\n min-width: 0; padding: 8px;\r\n border: 1px solid #52606d; border-radius: 10px; background: #19212a;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-section h3 {\r\n margin: 0 0 6px; color: #f6d9a5; font-size: var(--panel-heading);\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-section dl {\r\n display: grid; grid-template-columns: minmax(0, 1fr); margin: 0;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-row {\r\n display: flex; align-items: center; justify-content: space-between;\r\n min-width: 0; min-height: 32px; gap: 8px; border-top: 1px solid #35414d;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-row :is(dt, dd) {\r\n min-width: 0; padding: 6px 0; margin: 0; border: 0; line-height: 1.4;\r\n font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-row dd {\r\n text-align: right; color: #f5f2e9; font-variant-numeric: tabular-nums;\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-stats { grid-template-columns: minmax(0, 1fr); }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-stat-section dl {\r\n grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px;\r\n}\r\n\r\n/* Phone portrait skills: details, list, filters, points and a stable action row. */\r\n.skills-placeholder-action { display: inline-flex; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] > .panel-body {\r\n display: grid; grid-template-columns: minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] :is(.skills-layout, .skills-layout > section) { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] :is(.inventory-item-description, .skills-empty-message, .inventory-list) {\r\n grid-column: 1 / -1; min-height: 0; min-width: 0; overflow-y: auto;\r\n box-sizing: border-box; border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] :is(.inventory-item-description, .skills-empty-message) { grid-row: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] .inventory-list {\r\n grid-row: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] .skills-toolbar {\r\n grid-row: 3; grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));\r\n gap: 6px; border-top: 1px solid #52606d; padding-top: 6px; margin: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] .skills-toolbar > :is(select, .menu-select) { width: 100%; min-width: 0; }\r\n:host([data-menu-density]) .panel .point-counter {\r\n display: inline-flex; align-items: stretch; flex: 0 0 auto;\r\n height: var(--panel-control); box-sizing: border-box; margin: 0; padding: 0;\r\n border: 1px solid #65717b; border-radius: 6px; overflow: hidden; white-space: nowrap;\r\n background: #19212a; font-weight: 400;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] .skills-placeholder-action { display: inline-flex; align-items: center; justify-content: center; }\r\n\r\n:host([data-menu-density]) .panel .point-counter > span {\r\n display: flex; align-items: center; justify-content: center; padding: 0 4px;\r\n}\r\n:host([data-menu-density]) .panel .point-counter > span:first-child {\r\n border-right: 1px solid #65717b; background: #ffffff0a;\r\n}\r\n:host([data-menu-density]) .panel .point-counter-value {\r\n min-width: 24px; font-variant-numeric: tabular-nums; color: #f5f2e9;\r\n}\r\n\r\n/* Tablet point counters need the same breathing room as nearby actions. */\r\n:host(:not([data-phone-screen])[data-menu-density]) .panel:is([data-view='attributes'], [data-view='skills']) .point-counter > span {\r\n padding-inline: 12px;\r\n}\r\n:host(:not([data-phone-screen])[data-menu-density]) .panel:is([data-view='attributes'], [data-view='skills']) .point-counter-value {\r\n min-width: 32px;\r\n}\r\n\r\n/* Phone portrait browsing menus use framed details above lists and bottom filters. */\r\n.portrait-menu-placeholder { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) > .panel-body {\r\n display: grid; grid-template-columns: minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) .inventory-layout { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) :is(.inventory-list, .inventory-detail, .quest-detail-content) {\r\n box-sizing: border-box; min-height: 0; min-width: 0; overflow-y: auto;\r\n border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) .inventory-list {\r\n grid-row: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='social']) .inventory-detail,\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='quests'] .quest-detail-content { grid-row: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='quests'] .inventory-detail { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) :is(.skills-toolbar, .container-toolbar) {\r\n grid-row: 3; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px;\r\n border-top: 1px solid #52606d; padding-top: 6px; margin: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .skills-toolbar { grid-template-columns: minmax(0, 1fr) auto; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests']) .portrait-menu-placeholder { display: inline-flex; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] > .panel-body { grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-form {\r\n border: 0; border-radius: 0; padding: 0; margin: 8px 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-form > button { justify-self: end; width: auto; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests']) :is(.interaction-footer, .quest-actions) > button {\r\n height: var(--panel-control); min-height: var(--panel-control); margin: 0; padding: 3px 6px;\r\n}\r\n\r\n/* Explicit list rules stay scoped to their own menus. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='quests'] .inventory-list { grid-template-columns: minmax(0, 1fr); }\r\n:host([data-menu-density]) .panel:is([data-view='quests'], [data-view='social']) .inventory-list {\r\n box-sizing: border-box; border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] :is(.social-management, .social-empty) { grid-column: 1 / -1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-role-field > span { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-role-field > input { width: 100%; }\r\n\r\n/* Consistent social fields in both touch orientations. */\r\n.panel[data-view='social'] .social-role-field > span { display: none; }\r\n.panel[data-view='social'] .social-form { border: 0; border-radius: 0; padding: 0; margin: 4px 0; }\r\n.panel[data-view='social'] .social-form:first-child { margin-top: 0; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-form { margin: 4px 0; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-form:first-child { margin-top: 0; }\r\n.panel[data-view='selection'] .equipment-selection { display: flex; flex-direction: column; gap: var(--panel-gap); }\r\n.panel[data-view='selection'] .equipment-selection .inventory-layout { flex: 1; min-height: 0; }\r\n.panel[data-view='selection'] .equipment-selection .inventory-list { border: 1px solid #52606d; border-radius: 10px; padding: 8px; box-sizing: border-box; }\r\n.panel[data-view='selection'] .equipment-filters { display: flex; gap: 8px; flex-shrink: 0; }\r\n.panel[data-view='selection'] .equipment-filters > :is(select, .menu-select) { flex: 1; min-width: 0; }\r\n:host([data-menu-arrangement='stacked']) .panel[data-view='selection'] .equipment-selection .equipment-filters { order: 2; border-top: 1px solid #52606d; padding-top: 6px; }\r\n:host([data-menu-arrangement='stacked']) .panel[data-view='selection'] .equipment-selection .interaction-footer { order: 3; }\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .inventory-list[data-social-type='party'] { grid-template-columns: minmax(0, 1fr); }\r\n\r\n/* The cart has the same quantity controls as storage; keep one stable action row. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='cart'] .interaction-footer {\r\n display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px; padding: 6px 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='cart'] .container-quantity-group { width: 100%; height: var(--interaction-control); }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='cart'] .container-quantity-group > button { flex-basis: 32px; width: 32px; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='cart'] .interaction-footer > button { height: var(--interaction-control); min-height: var(--interaction-control); margin: 0; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='quests'] .quest-actions {\r\n grid-row: 4; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px;\r\n border-top: 1px solid #52606d; margin: 0;\r\n}\r\n\r\n/* Keep tablet wording while phone counters use the compact skills presentation. */\r\n:host([data-menu-density]) .panel .attribute-points-affix { display: none; }\r\n";
+	MenuContentComponents_default = "/* Component-specific responsive details; shared column behavior lives in MenuContentLayout.css. */\r\n\r\n.mobile-adventure {\r\n	container-name: menu-window menu-content;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail),\r\n.mobile-adventure :is(.catalog-detail, .monster-detail, .character-detail) {\r\n	container: menu-detail / inline-size;\r\n}\r\n.panel .slot-picker button {\r\n	container: shortcut-slot / inline-size;\r\n}\r\n@container shortcut-slot (width < 64px) {\r\n	:host([data-menu-density]) .panel .slot-picker :is(.shortcut-slot-prefix, button > span) {\r\n		display: none;\r\n	}\r\n	:host([data-menu-density]) .panel .slot-picker strong {\r\n		text-align: center;\r\n	}\r\n}\r\n@container menu-window (width < 640px) {\r\n	:host([data-menu-arrangement='stacked']) .panel .attribute-results {\r\n		border-left: 0;\r\n		border-right: 0;\r\n		border-top: 1px solid #52606d;\r\n		padding: var(--panel-gap) 0 0;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel :is(.shop-transfer, .bank-transfer) {\r\n		flex-direction: row;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel :is(.shop-transfer, .bank-transfer) button {\r\n		transform: rotate(90deg);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .bank-layout {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .bank-account {\r\n		padding: 8px;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.panel\r\n		.warehouse-body:has([data-menu-columns='2'])\r\n		.container-toolbar {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.panel\r\n		:is(.container-toolbar, .skills-toolbar, .shop-footer) {\r\n		flex-wrap: wrap;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		:is(\r\n			.catalog-browser,\r\n			.monster-browser,\r\n			.character-job-browser,\r\n			.catalog-detail,\r\n			.monster-detail,\r\n			.character-detail\r\n		) {\r\n		display: flex;\r\n		flex-direction: column;\r\n		width: auto;\r\n		min-width: 0;\r\n		min-height: 0;\r\n		border-right: 0;\r\n		overflow: auto;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		:is(.catalog-detail, .monster-detail, .character-detail) {\r\n		padding: 6px;\r\n		gap: 6px;\r\n		border-top: 1px solid #65717b;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure :is(.catalog-toolbar, .monster-toolbar) {\r\n		display: flex;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-toolbar {\r\n		flex-wrap: nowrap;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-search {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-toolbar > .game-select {\r\n		flex: 0 0 64px;\r\n		width: 64px;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure [data-back] {\r\n		display: none;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		:is(.catalog-list, .monster-list, .character-job-list) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .settings-rate-columns {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .chat-form {\r\n		grid-template-columns: minmax(0, 1fr) auto auto;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .settings-grid {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel :is(.pickup-categories, .pickup-limits) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .skills-layout > section {\r\n		grid-column: auto;\r\n		grid-row: auto;\r\n		grid-template-rows: minmax(0, 1fr) auto;\r\n	}\r\n}\r\n\r\n@container menu-detail (width < 360px) {\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		:is(.panel, .mobile-adventure)\r\n		:is(.inventory-item-overview, .monster-overview, .item-overview) {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-stats {\r\n		grid-column: 1;\r\n		grid-row: auto;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .item-portrait {\r\n		height: 96px;\r\n	}\r\n}\r\n@container menu-detail (width < 460px) {\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		.character-detail-scroll\r\n		.management-form {\r\n		--character-form-columns: 1;\r\n	}\r\n}\r\n@container menu-detail (width < 540px) {\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure :is(.map-detail-body, .npc-detail-body) {\r\n		flex: 0 0 auto;\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-template-rows: auto auto;\r\n		min-height: 0;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density])\r\n		.mobile-adventure\r\n		:is(.catalog-map-picker, .npc-map-picker) {\r\n		height: clamp(160px, 25dvh, 280px);\r\n		min-height: 160px;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure :is(.npc-detail-info, .map-npc-list) {\r\n		height: auto;\r\n		min-height: 0;\r\n		overflow: visible;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .map-npc-scroll {\r\n		max-height: 240px;\r\n	}\r\n	:host([data-menu-arrangement='stacked'][data-menu-density]) .mobile-adventure .monster-resources {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n\r\n\r\n/* Frame each phone combat pane independently, including while its content scrolls. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .auto-layout[data-menu-layout='form'] {\r\n grid-template-rows: repeat(2, minmax(0, 1fr));\r\n row-gap: 10px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .auto-layout > section {\r\n box-sizing: border-box;\r\n border: 1px solid #52606d;\r\n border-radius: 10px;\r\n padding: 8px;\r\n}\r\n\r\n/* Category controls share spacing and grouped increments across touch layouts. */\r\n\r\n:host([data-menu-density]) .panel > header.has-attribute-tabs > h2 {\r\n position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;\r\n overflow: hidden; clip-path: inset(50%);\r\n}\r\n:host([data-menu-density]) .panel > header .attribute-toolbar { flex: 1; min-width: 0; margin-right: 8px; }\r\n:host([data-menu-density]) .panel .attribute-tabs > button { flex: 0 1 auto; }\r\n:host([data-menu-density]) .panel .attribute-row {\r\n grid-template-rows: minmax(34px, auto);\r\n min-height: 44px;\r\n padding-block: 5px;\r\n}\r\n:host([data-menu-density]) .panel .attribute-increments {\r\n grid-template-columns: repeat(3, minmax(0, 1fr));\r\n column-gap: 0;\r\n}\r\n:host([data-menu-density]) .panel .attribute-increments button {\r\n width: 100%; min-width: 0;\r\n height: max(34px, var(--panel-attribute-control));\r\n min-height: max(34px, var(--panel-attribute-control));\r\n border-radius: 0;\r\n}\r\n:host([data-menu-density]) .panel .attribute-increments button + button { border-left: 0; }\r\n:host([data-menu-density]) .panel .attribute-increments button:first-child { border-radius: 5px 0 0 5px; }\r\n:host([data-menu-density]) .panel .attribute-increments button:last-child { border-radius: 0 5px 5px 0; }\r\n\r\n/* Phone portrait: details first, browsing and actions below. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .chat-conversation:not(.is-private) {\r\n grid-template-columns: 72px minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr);\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .attribute-results {\r\n grid-row: 1; border: 0; padding: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .attribute-editor {\r\n grid-row: 2; border-top: 1px solid #52606d; padding-top: 10px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-pages { order: 2; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-layout { order: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-editor { grid-row: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-browser { grid-row: 2; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .shortcut-filters { order: 2; flex-shrink: 0; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-body {\r\n display: grid;\r\n grid-template-columns: minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-layout[data-menu-layout='split'],\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-item-detail:has(.inventory-item-description) {\r\n display: contents;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-detail,\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-description {\r\n grid-row: 1; min-width: 0; min-height: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-list { grid-row: 2; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-toolbar { grid-row: 3; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-detail > .inventory-actions {\r\n grid-row: 4; justify-content: flex-end; padding-top: 8px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-overview {\r\n grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .inventory-item-detail > .inventory-actions > button { flex: 0 1 auto; }\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-row { min-height: 66px; padding-block: 10px; }\r\n\r\n/* Phone pickup frames expand with content; only the full page scrolls. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .mobile-pickup-settings > .pickup-section {\r\n display: block;\r\n padding: 0; border: 0; background: none;\r\n overflow-y: auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-section > .pickup-enabled {\r\n box-sizing: border-box;\r\n margin: 0 0 10px; padding: 8px;\r\n border: 1px solid #52606d; border-radius: 10px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-controls { gap: 10px; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel :is(.pickup-rules-group, .pickup-exclusions-group) {\r\n display: flex; flex-direction: column; gap: 8px;\r\n box-sizing: border-box;\r\n border: 1px solid #52606d; border-radius: 10px; padding: 8px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel :is(.pickup-rules-title, .pickup-exclusions-group > h4) {\r\n display: block; margin: 0;\r\n color: #f6d9a5; font-size: var(--panel-heading); line-height: 1.5;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-categories {\r\n grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-exclusions-group > .pickup-excluded {\r\n min-height: 0; max-height: none; overflow: visible;\r\n border: 0; border-radius: 0; padding: 0;\r\n}\r\n\r\n/* Phone picker shares the adventure toolbar's 6px gaps and equal paging buttons. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker {\r\n height: min(520px, calc(var(--mobile-visible-height, 100dvh) * 0.65));\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker[open] {\r\n display: grid;\r\n grid-template-columns: minmax(0, 1fr) auto auto auto;\r\n grid-template-rows: minmax(0, 1fr) auto 1px auto auto;\r\n gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-results {\r\n grid-row: 1; grid-column: 1 / -1; height: auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-search-status {\r\n grid-row: 2; grid-column: 1 / -1;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker :is(.pickup-search, footer) { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-search input { grid-row: 4; grid-column: 1; width: 100%; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker [data-search] { grid-row: 4; grid-column: 4; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker :is([data-selected], [data-page]) { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker [data-previous] { grid-row: 4; grid-column: 2; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker [data-next] { grid-row: 4; grid-column: 3; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker :is([data-search], [data-previous], [data-next]) {\r\n box-sizing: border-box;\r\n height: max(30px, var(--panel-control)); min-height: max(30px, var(--panel-control));\r\n margin: 0; padding: 3px 6px; font: inherit; font-size: var(--panel-label);\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-picker-actions {\r\n display: flex; grid-row: 5; grid-column: 1 / -1;\r\n justify-self: stretch; justify-content: flex-end;\r\n border-top: 1px solid #52606d; padding-top: 10px; gap: 6px;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker::before {\r\n content: ''; grid-row: 3; grid-column: 1 / -1; background: #52606d;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-page-label { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker .pickup-page-symbol { display: inline; font-size: 20px; line-height: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel .pickup-picker :is([data-previous], [data-next]) { width: max(30px, var(--panel-control)); }\r\n\r\n/* Match the compact menu control height in phone landscape pickup dialogs. */\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel .pickup-picker { padding-bottom: 8px; }\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel .pickup-picker > footer { padding-top: 6px; }\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel .pickup-picker > footer button {\r\n box-sizing: border-box;\r\n height: var(--panel-control); min-height: var(--panel-control);\r\n padding: 3px 8px; font-size: var(--panel-label);\r\n}\r\n\r\n/* Storage follows inventory's framed browsing layout on every touch device. */\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) > .warehouse-body { gap: var(--panel-gap); }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) :is(.inventory-layout, .container-toolbar) { gap: 6px; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .inventory-layout {\r\n display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) :is(.inventory-list, .inventory-detail) {\r\n box-sizing: border-box; min-height: 0; min-width: 0;\r\n border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .inventory-list {\r\n display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));\r\n grid-auto-rows: min-content; align-content: start; gap: 6px;\r\n}\r\n/* Empty messages use the whole list on every screen size. */\r\n:host([data-menu-density]) .panel .inventory-list > :is(.container-empty, [data-empty], .inventory-list-empty) {\r\n grid-column: 1 / -1; min-width: 0;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-filters { padding-right: 0; gap: 6px; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-item-count { margin: 0; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .inventory-item-overview {\r\n grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .interaction-footer {\r\n display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; padding: 6px 0;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-transfer-target {\r\n display: flex; align-items: center; gap: 6px; margin-left: auto;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-transfer-target[hidden] { display: none; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity { width: clamp(80px, 12vw, 140px); }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) > .warehouse-body {\r\n display: grid; grid-template-columns: minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .inventory-layout { display: contents; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .inventory-detail { grid-row: 1; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .inventory-list { grid-row: 2; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-toolbar {\r\n grid-row: 3; grid-template-columns: minmax(0, 1fr); gap: 6px;\r\n border-top: 1px solid #52606d; padding-top: 6px;\r\n}\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-toolbar > input { grid-row: 1; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-filters { grid-row: 2; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .interaction-footer { grid-row: 4; }\r\n:host([data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-capacity { flex: 1 0 100%; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-transfer-target { flex: 1 0 100%; justify-content: flex-end; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity { flex: 1 1 70px; width: auto; min-width: 0; }\r\n\r\n/* Keep portrait inventory actions present before selection and for unsupported actions. */\r\n.panel .inventory-placeholder-action,\r\n.panel .inventory-empty-actions { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-item-detail:has(.inventory-empty-message) { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-empty-message {\r\n grid-row: 1; min-height: 0; overflow: auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-empty-actions { display: flex; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-placeholder-action { display: inline-flex; justify-content: center; align-items: center; }\r\n\r\n/* Frame the touch inventory's independent list and portrait detail regions. */\r\n:host([data-menu-density]) .panel[data-view='inventory'] .inventory-list,\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] :is(.inventory-item-description, .inventory-empty-message) {\r\n box-sizing: border-box;\r\n border: 1px solid #52606d;\r\n border-radius: 10px;\r\n padding: 8px;\r\n background: #19212a;\r\n}\r\n\r\n/* Each segment owns its top and bottom border, including the editable amount. */\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group {\r\n display: flex; gap: 0; align-items: stretch;\r\n width: clamp(230px, 32vw, 320px); min-width: 0;\r\n height: var(--interaction-control); box-sizing: border-box;\r\n border: 0; border-radius: 6px; background: #19212a;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > :is(input, button) {\r\n box-sizing: border-box; height: 100%; min-height: 0; margin: 0;\r\n border: 1px solid #65717b; border-left: 0; border-radius: 0;\r\n box-shadow: none;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > input {\r\n flex: 1 1 0; width: 0; min-width: 36px; padding: 0 4px;\r\n text-align: center; appearance: textfield;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > input::-webkit-inner-spin-button,\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > input::-webkit-outer-spin-button { appearance: none; margin: 0; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > button {\r\n flex: 0 0 40px; width: 40px; padding: 0;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > button:first-child {\r\n border-left: 1px solid #65717b; border-radius: 6px 0 0 6px;\r\n}\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > button:last-child { border-radius: 0 6px 6px 0; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-quantity-group > input:focus { border-color: #91b8d5; }\r\n\r\n/* Landscape storage toolbar follows the exact columns of the framed content. */\r\n:host([data-menu-arrangement='wide']) .panel:is([data-view='storage'], [data-view='cart']) :is(.container-toolbar, .inventory-layout) {\r\n grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px;\r\n}\r\n:host([data-menu-arrangement='wide']) .panel:is([data-view='storage'], [data-view='cart']) .container-filters {\r\n padding: 0; width: 100%; box-sizing: border-box;\r\n}\r\n:host([data-menu-arrangement='wide']) .panel:is([data-view='storage'], [data-view='cart']) .container-toolbar > input[type='search'] {\r\n width: 100%; box-sizing: border-box; margin: 0;\r\n}\r\n\r\n/* Inventory category, subtype and order share a single balanced row. */\r\n:host([data-menu-density]) .panel[data-view='inventory'] .inventory-toolbar {\r\n grid-template-columns: repeat(3, minmax(0, 1fr));\r\n}\r\n:host([data-menu-density]) .panel[data-view='inventory'] .inventory-toolbar > :is(select, .menu-select) { min-width: 0; width: 100%; }\r\n:host([data-menu-density]) .panel:is([data-view='storage'], [data-view='cart']) .container-filters > :is(select, .menu-select) {\r\n flex: 1 1 70px; min-width: 0;\r\n}\r\n\r\n/* Equipment uses the same framed list, image preview and fixed action row as storage. */\r\n:host([data-menu-density]) .panel[data-view='equipment'] > .equipment-body { gap: var(--panel-gap); }\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-layout {\r\n grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); gap: 6px;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] :is(.equipment-slots, .equipment-detail, .equipment-stats, .equipment-picker-list, .equipment-picker-preview) {\r\n box-sizing: border-box; min-width: 0; min-height: 0;\r\n border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-slots { gap: 6px; }\r\n:host([data-menu-density]) .panel[data-view='equipment'] .inventory-item-overview {\r\n grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-actions {\r\n flex: 0 0 auto; justify-content: flex-end; gap: 6px;\r\n border-top: 1px solid #52606d; padding: 6px 0; margin: 0;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-actions > button {\r\n flex: 0 0 auto; width: auto; min-height: var(--panel-control); margin: 0;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stats { flex: 1; margin: 0; }\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-picker-layout { gap: 6px; grid-template-columns: repeat(2, minmax(0, 1fr)); }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-layout {\r\n grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-detail { grid-row: 1; }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-slots { grid-row: 2; }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-picker-layout {\r\n grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n height: min(60dvh, 560px);\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-picker-preview { grid-row: 1; }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-picker-list { grid-row: 2; }\r\n\r\n/* Compact portrait filter row, separated from both the list and fixed actions. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-body { row-gap: 6px; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-toolbar {\r\n border-top: 1px solid #52606d; padding-top: 6px; margin: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='inventory'] .inventory-actions {\r\n border-top: 1px solid #52606d; margin-top: 0; padding-top: 6px;\r\n}\r\n\r\n/* Phone allocation rows: landscape -10%; portrait +10% from the compact baseline. */\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel[data-view='attributes'] .attribute-row {\r\n grid-template-rows: minmax(30.6px, auto); min-height: 39.6px; padding-block: 4.5px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='wide']) .panel[data-view='attributes'] .attribute-increments button {\r\n height: 30.6px; min-height: 30.6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='attributes'] .attribute-row {\r\n grid-template-rows: minmax(29.92px, auto); min-height: 38.72px; padding-block: 4.4px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='attributes'] .attribute-increments button {\r\n height: 29.92px; min-height: 29.92px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='attributes'] .attribute-results > dl { row-gap: 3.6px; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='attributes'] .attribute-results > dl > :is(dt, dd) {\r\n min-height: 19.8px; padding-block: 0.9px;\r\n}\r\n\r\n/* Portrait equipment categories sit between browsing content and actions. */\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] :is(.equipment-layout, .equipment-stats) { order: 1; }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-tabs {\r\n order: 2;\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-actions { order: 3; }\r\n\r\n/* Action-row geometry is owned by MenuChrome.css. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='inventory'], [data-view='equipment']) .inventory-actions > button {\r\n box-sizing: border-box; height: var(--panel-control); min-height: var(--panel-control); margin: 0;\r\n padding: var(--panel-control-padding);\r\n}\r\n/* Group related equipment values while preserving one scrollable content area. */\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stats {\r\n display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));\r\n align-items: start; align-content: start; gap: 10px;\r\n border: 0; padding: 0; background: transparent;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-section {\r\n min-width: 0; padding: 8px;\r\n border: 1px solid #52606d; border-radius: 10px; background: #19212a;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-section h3 {\r\n margin: 0 0 6px; color: #f6d9a5; font-size: var(--panel-heading);\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-section dl {\r\n display: grid; grid-template-columns: minmax(0, 1fr); margin: 0;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-row {\r\n display: flex; align-items: center; justify-content: space-between;\r\n min-width: 0; min-height: 32px; gap: 8px; border-top: 1px solid #35414d;\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-row :is(dt, dd) {\r\n min-width: 0; padding: 6px 0; margin: 0; border: 0; line-height: 1.4;\r\n font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density]) .panel[data-view='equipment'] .equipment-stat-row dd {\r\n text-align: right; color: #f5f2e9; font-variant-numeric: tabular-nums;\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-stats { grid-template-columns: minmax(0, 1fr); }\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel[data-view='equipment'] .equipment-stat-section dl {\r\n grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px;\r\n}\r\n\r\n/* Phone portrait skills: details, list, filters, points and a stable action row. */\r\n.skills-placeholder-action { display: inline-flex; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] > .panel-body {\r\n display: grid; grid-template-columns: minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] :is(.skills-layout, .skills-layout > section) { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] :is(.inventory-item-description, .skills-empty-message, .inventory-list) {\r\n grid-column: 1 / -1; min-height: 0; min-width: 0; overflow-y: auto;\r\n box-sizing: border-box; border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] :is(.inventory-item-description, .skills-empty-message) { grid-row: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] .inventory-list {\r\n grid-row: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] .skills-toolbar {\r\n grid-row: 3; grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));\r\n gap: 6px; border-top: 1px solid #52606d; padding-top: 6px; margin: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] .skills-toolbar > :is(select, .menu-select) { width: 100%; min-width: 0; }\r\n:host([data-menu-density]) .panel .point-counter {\r\n display: inline-flex; align-items: stretch; flex: 0 0 auto;\r\n height: var(--panel-control); box-sizing: border-box; margin: 0; padding: 0;\r\n border: 1px solid #65717b; border-radius: 6px; overflow: hidden; white-space: nowrap;\r\n background: #19212a; font-weight: 400;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='skills'] .skills-placeholder-action { display: inline-flex; align-items: center; justify-content: center; }\r\n\r\n:host([data-menu-density]) .panel .point-counter > span {\r\n display: flex; align-items: center; justify-content: center; padding: 0 4px;\r\n}\r\n:host([data-menu-density]) .panel .point-counter > span:first-child {\r\n border-right: 1px solid #65717b; background: #ffffff0a;\r\n}\r\n:host([data-menu-density]) .panel .point-counter-value {\r\n min-width: 24px; font-variant-numeric: tabular-nums; color: #f5f2e9;\r\n}\r\n\r\n/* Tablet point counters need the same breathing room as nearby actions. */\r\n:host(:not([data-phone-screen])[data-menu-density]) .panel:is([data-view='attributes'], [data-view='skills']) .point-counter > span {\r\n padding-inline: 12px;\r\n}\r\n:host(:not([data-phone-screen])[data-menu-density]) .panel:is([data-view='attributes'], [data-view='skills']) .point-counter-value {\r\n min-width: 32px;\r\n}\r\n\r\n/* Phone portrait browsing menus use framed details above lists and bottom filters. */\r\n.portrait-menu-placeholder { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) > .panel-body {\r\n display: grid; grid-template-columns: minmax(0, 1fr);\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) .inventory-layout { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) :is(.inventory-list, .inventory-detail, .quest-detail-content) {\r\n box-sizing: border-box; min-height: 0; min-width: 0; overflow-y: auto;\r\n border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-menu-density][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) .inventory-list {\r\n grid-row: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='social']) .inventory-detail,\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='quests'] .quest-detail-content { grid-row: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='quests'] .inventory-detail { display: contents; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests'], [data-view='social']) :is(.skills-toolbar, .container-toolbar) {\r\n grid-row: 3; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px;\r\n border-top: 1px solid #52606d; padding-top: 6px; margin: 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .skills-toolbar { grid-template-columns: minmax(0, 1fr) auto; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests']) .portrait-menu-placeholder { display: inline-flex; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] > .panel-body { grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-form {\r\n border: 0; border-radius: 0; padding: 0; margin: 8px 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-form > button { justify-self: end; width: auto; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel:is([data-view='quests']) :is(.interaction-footer, .quest-actions) > button {\r\n height: var(--panel-control); min-height: var(--panel-control); margin: 0; padding: 3px 6px;\r\n}\r\n\r\n/* Explicit list rules stay scoped to their own menus. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='quests'] .inventory-list { grid-template-columns: minmax(0, 1fr); }\r\n:host([data-menu-density]) .panel:is([data-view='quests'], [data-view='social']) .inventory-list {\r\n box-sizing: border-box; border: 1px solid #52606d; border-radius: 10px; padding: 8px; background: #19212a;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-management { grid-column: 1 / -1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-role-field > span { display: none; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-role-field > input { width: 100%; }\r\n\r\n/* Consistent social fields in both touch orientations. */\r\n.panel[data-view='social'] .social-role-field > span { display: none; }\r\n.panel[data-view='social'] .social-form { border: 0; border-radius: 0; padding: 0; margin: 4px 0; }\r\n.panel[data-view='social'] .social-form:first-child { margin-top: 0; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-form { margin: 4px 0; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-form:first-child { margin-top: 0; }\r\n.panel[data-view='selection'] .equipment-selection { display: flex; flex-direction: column; gap: var(--panel-gap); }\r\n.panel[data-view='selection'] .equipment-selection .inventory-layout { flex: 1; min-height: 0; }\r\n.panel[data-view='selection'] .equipment-selection .inventory-list { border: 1px solid #52606d; border-radius: 10px; padding: 8px; box-sizing: border-box; }\r\n.panel[data-view='selection'] .equipment-filters { display: flex; gap: 8px; flex-shrink: 0; }\r\n.panel[data-view='selection'] .equipment-filters > :is(select, .menu-select) { flex: 1; min-width: 0; }\r\n:host([data-menu-arrangement='stacked']) .panel[data-view='selection'] .equipment-selection .equipment-filters { order: 2; border-top: 1px solid #52606d; padding-top: 6px; }\r\n:host([data-menu-arrangement='stacked']) .panel[data-view='selection'] .equipment-selection .interaction-footer { order: 3; }\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .inventory-list { grid-template-columns: minmax(0, 1fr); }\r\n\r\n/* The cart has the same quantity controls as storage; keep one stable action row. */\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='cart'] .interaction-footer {\r\n display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px; padding: 6px 0;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='cart'] .container-quantity-group { width: 100%; height: var(--interaction-control); }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='cart'] .container-quantity-group > button { flex-basis: 32px; width: 32px; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='cart'] .interaction-footer > button { height: var(--interaction-control); min-height: var(--interaction-control); margin: 0; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='quests'] .quest-actions {\r\n grid-row: 4; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px;\r\n border-top: 1px solid #52606d; margin: 0;\r\n}\r\n\r\n/* Keep tablet wording while phone counters use the compact skills presentation. */\r\n:host([data-menu-density]) .panel .attribute-points-affix { display: none; }\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MenuContentLayout.css?raw
@@ -365767,6 +367279,10 @@ function createGameSocial(canOperate, shortcuts) {
 		if (pendingSkill && pendingSkill !== signature) pendingSkill = null;
 		return {
 			...social,
+			friends: social.friends.map((friend) => ({
+				...friend,
+				...FriendEngine.detailsFor(friend)
+			})),
 			party: SessionStorage_default.hasParty ? social.party : [],
 			guild: SessionStorage_default.hasGuild ? guild : null,
 			allowed: allowed(),
@@ -365930,7 +367446,7 @@ function createGameSocial(canOperate, shortcuts) {
 				break;
 			}
 			case "guildPosition":
-				if (!state.master || !guildMember || !state.guild.positions.some((p) => p.positionID === data.position)) return "成员或职位已变化";
+				if (!state.master || !guildMember || guildMember.AID === state.self.AID || !state.guild.positions.some((p) => p.positionID === data.position)) return "成员或职位已变化";
 				GuildEngine.requestChangeMemberPos([{
 					AID: guildMember.AID,
 					GID: guildMember.GID,
@@ -365983,6 +367499,16 @@ var init_GameSocial = __esmMin((() => {
 	init_EntityManager();
 }));
 //#endregion
+//#region src/UI/Game/PrivateRecipient.js
+/** CZ_WHISPER reserves 24 bytes for a UTF-8 name, including its terminator. */
+function privateRecipientError(name) {
+	if (!name.trim()) return "请输入角色名";
+	if (name.includes("\0")) return "角色名不能包含空字符";
+	if (new TextEncoder().encode(name).length > 23) return "角色名过长：最多 23 个 UTF-8 字节（纯中文最多 7 个字）";
+	return "";
+}
+var init_PrivateRecipient = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Game/GameChat.js
 function chatChannel(message) {
 	if ([
@@ -366006,6 +367532,12 @@ function chatChannel(message) {
 function isIncomingPrivateMessage(message) {
 	return chatChannel(message) === "private" && Boolean(message.colorType & ChatBox_default.TYPE.PRIVATE) && !(message.colorType & (ChatBox_default.TYPE.SELF | ChatBox_default.TYPE.ERROR));
 }
+function chatChannelError(channel) {
+	if (channel === "party" && !SessionStorage_default.hasParty) return "尚未加入队伍";
+	if (channel === "guild" && !SessionStorage_default.hasGuild) return "尚未加入公会";
+	if (channel === "clan" && !SessionStorage_default.hasClan) return "尚未加入氏族";
+	return "";
+}
 function createGameChat(send, canOperate, sendEmotion) {
 	let lastEmotion = -Infinity;
 	return {
@@ -366020,9 +367552,24 @@ function createGameChat(send, canOperate, sendEmotion) {
 		send(text, channel, receiver = "") {
 			text = text.trim();
 			receiver = receiver.trim();
-			if (!canOperate() || !SessionStorage_default.Playing) return "当前不能发送消息";
-			if (!text || text.length > 120) return "请输入 1 至 120 个字符";
-			if (text.startsWith("/") && Object.hasOwn(Emotions_default.commands, text.slice(1))) return this.emote(text.slice(1));
+			const reject = (error) => {
+				if (channel === "private") ChatBox_default.addText([
+					"(",
+					{
+						kind: "nickname",
+						text: receiver
+					},
+					") : ",
+					error
+				], ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.WHISPER);
+				return error;
+			};
+			if (!canOperate() || !SessionStorage_default.Playing) return reject("当前不能发送消息");
+			if (!text || text.length > 120) return reject("请输入 1 至 120 个字符");
+			if (text.startsWith("/") && Object.hasOwn(Emotions_default.commands, text.slice(1))) {
+				const error = this.emote(text.slice(1));
+				return error ? reject(error) : "";
+			}
 			if (![
 				"public",
 				"private",
@@ -366030,15 +367577,18 @@ function createGameChat(send, canOperate, sendEmotion) {
 				"guild",
 				"clan"
 			].includes(channel)) return "请选择聊天频道";
-			if (channel === "private" && (!receiver || receiver.length > 24)) return "请输入有效的私聊对象";
-			if (channel === "party" && !SessionStorage_default.hasParty) return "尚未加入队伍";
-			if (channel === "guild" && !SessionStorage_default.hasGuild) return "尚未加入公会";
-			send(text, channel, receiver);
-			return "";
+			if (channel === "private") {
+				const error = privateRecipientError(receiver);
+				if (error) return reject(error);
+			}
+			const error = chatChannelError(channel);
+			if (error) return error;
+			return send(text, channel, receiver) || "";
 		}
 	};
 }
 var init_GameChat = __esmMin((() => {
+	init_PrivateRecipient();
 	init_Emotions();
 	init_SessionStorage();
 	init_ChatBox();
@@ -367721,7 +369271,7 @@ var init_InventoryMenuLayout = __esmMin((() => {
 //#region src/UI/Mobile/game/SocialMenuLayout.css?raw
 var SocialMenuLayout_default;
 var init_SocialMenuLayout = __esmMin((() => {
-	SocialMenuLayout_default = "/* Social menu layout; loaded after shared chrome. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs {\r\n display: flex;\r\n min-width: 0;\r\n gap: 0;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs > button {\r\n flex: 1;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer {\r\n display: flex;\r\n justify-content: flex-end;\r\n gap: 6px;\r\n border-top: 1px solid #52606d;\r\n margin: 0;\r\n flex-wrap: wrap;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] > .panel-body {\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-tabs {\r\n grid-row: 3;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-footer {\r\n grid-row: 4;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer-actions {\r\n display: contents;\r\n}\r\n\r\n.panel[data-view='social'] .social-form:empty {\r\n display: none;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading {\r\n display: flex;\r\n align-items: center;\r\n justify-content: flex-start;\r\n gap: 8px;\r\n margin: 0 0 8px;\r\n padding: 6px 8px;\r\n border-left: 3px solid #ceaa70;\r\n border-radius: 3px;\r\n background: #2b3540;\r\n color: #ffe1ae;\r\n font-size: var(--panel-heading);\r\n font-weight: 600;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > span {\r\n min-width: 0;\r\n overflow-wrap: anywhere;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > small {\r\n color: #f5f2e9;\r\n flex-shrink: 0;\r\n font-size: var(--panel-label);\r\n font-weight: normal;\r\n}\r\n\r\n/* Landscape categories precede the list; portrait keeps its bottom tabs. */\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body:has(> .social-tabs) {\r\n row-gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs {\r\n order: -1;\r\n border-top: 0;\r\n padding-block: 0;\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs + .social-footer {\r\n margin-top: 0;\r\n}\r\n";
+	SocialMenuLayout_default = "/* Social menu layout; loaded after shared chrome. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs {\r\n display: flex;\r\n min-width: 0;\r\n gap: 0;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs > button {\r\n flex: 1;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer {\r\n display: flex;\r\n justify-content: flex-end;\r\n gap: 6px;\r\n border-top: 1px solid #52606d;\r\n margin: 0;\r\n flex-wrap: wrap;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] > .panel-body {\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-tabs {\r\n grid-row: 3;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-footer {\r\n grid-row: 4;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer-actions {\r\n display: contents;\r\n}\r\n\r\n.panel[data-view='social'] .social-form:empty {\r\n display: none;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading {\r\n display: flex;\r\n align-items: center;\r\n justify-content: flex-start;\r\n gap: 8px;\r\n margin: 0 0 8px;\r\n padding: 6px 8px;\r\n border-left: 3px solid #ceaa70;\r\n border-radius: 3px;\r\n background: #2b3540;\r\n color: #ffe1ae;\r\n font-size: var(--panel-heading);\r\n font-weight: 600;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > span {\r\n min-width: 0;\r\n overflow-wrap: anywhere;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > small {\r\n color: #f5f2e9;\r\n flex-shrink: 0;\r\n font-size: var(--panel-label);\r\n font-weight: normal;\r\n}\r\n\r\n/* Landscape categories precede the list; portrait keeps its bottom tabs. */\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body:has(> .social-tabs) {\r\n row-gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs {\r\n order: -1;\r\n border-top: 0;\r\n padding-block: 0;\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs + .social-footer {\r\n margin-top: 0;\r\n}\r\n\r\n\r\n/* Member detail hierarchy is shared across friends, party and guild. */\r\n.panel[data-view='social'] .social-member-card {\r\n margin: 0 0 12px; min-width: 0;\r\n}\r\n.panel[data-view='social'] .social-member-header {\r\n display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;\r\n padding: 8px 10px; border-left: 3px solid #ceaa70; border-radius: 4px;\r\n background: #2b3540;\r\n}\r\n.panel[data-view='social'] .social-member-header h3 {\r\n margin: 0; min-width: 0; color: #ffe1ae; overflow-wrap: anywhere;\r\n font-size: var(--panel-heading); line-height: 1.5;\r\n}\r\n.panel[data-view='social'] .social-member-status {\r\n flex: 0 0 auto; padding: 1px 7px; border: 1px solid #65717b;\r\n border-radius: 4px; font-size: var(--panel-label); line-height: 1.6;\r\n color: #bac4cd; background: #222b35; white-space: nowrap;\r\n}\r\n.panel[data-view='social'] .social-member-status[data-status='online'] {\r\n color: #acd9b1; border-color: #577b60; background: #263e30;\r\n}\r\n.panel[data-view='social'] .social-member-facts {\r\n display: block; margin: 8px 0 0; padding: 0;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div {\r\n display: grid; grid-template-columns: 3em minmax(0, 1fr); gap: 12px;\r\n align-items: baseline; padding: 7px 10px;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div + div {\r\n border-top: 1px solid #35434f;\r\n}\r\n.panel[data-view='social'] .social-member-facts dt {\r\n color: #aab8c5; font-size: var(--panel-label);\r\n}\r\n.panel[data-view='social'] .social-member-facts dd {\r\n min-width: 0; margin: 0; color: #f5f2e9; overflow-wrap: anywhere; text-align: left;\r\n font-size: var(--panel-text); line-height: 1.5;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/SettingsMenuLayout.css?raw
@@ -367745,7 +369295,7 @@ var init_CompanionMenuLayout = __esmMin((() => {
 //#region src/UI/Mobile/game/ShortcutMenuLayout.css?raw
 var ShortcutMenuLayout_default;
 var init_ShortcutMenuLayout = __esmMin((() => {
-	ShortcutMenuLayout_default = "/* Shortcut menu layout; loaded after shared chrome. */\r\n:host([data-menu-density][data-menu-arrangement='wide']) .panel[data-view] .shortcut-browser {\r\n display: grid;\r\n grid-template-rows: auto minmax(0, 1fr);\r\n align-content: stretch;\r\n gap: var(--panel-gap);\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement='wide']) .panel[data-view] .shortcut-filters {\r\n margin-block: 0;\r\n padding-block: 0;\r\n align-self: stretch;\r\n align-items: center;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement='wide']) .panel[data-view] .shortcut-choices {\r\n margin-top: 0;\r\n}\r\n\r\n/* Keep all editing controls in a full-width footer, independent of selection. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-footer {\r\n display: flex; flex-wrap: wrap; justify-content: space-between;\r\n gap: var(--panel-gap); border-top: 1px solid #52606d; margin: 0; order: 3;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-actions {\r\n display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; margin-left: auto;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-level {\r\n flex: 0 0 auto; margin: 0;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-editor {\r\n min-height: 0; overflow-y: auto;\r\n}\r\n/* Phone editing controls remain on one row in either orientation. */\r\n:host([data-phone-screen][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-footer {\r\n flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-actions {\r\n display: flex; flex-wrap: nowrap; margin-left: auto; flex: 0 0 auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-actions > button {\r\n min-width: 0; width: auto; padding-inline: 8px; white-space: nowrap;\r\n}\r\n\r\n/* Both detail types share one inset below the slot divider. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-choice-detail] {\r\n padding-top: 12px;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .inventory-item-summary > .item-description {\r\n border-top: 0; padding-top: 0; margin-top: 8px;\r\n}\r\n\r\n:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-choice-detail] {\r\n padding-top: 16px;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-choice-detail] > .inventory-item-description > :first-child {\r\n margin-top: 0;\r\n}\r\n";
+	ShortcutMenuLayout_default = "/* Shortcut menu layout; loaded after shared chrome. */\r\n:host([data-menu-density][data-menu-arrangement='wide']) .panel[data-view] .shortcut-browser {\r\n display: grid;\r\n grid-template-rows: auto minmax(0, 1fr);\r\n align-content: stretch;\r\n gap: var(--panel-gap);\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement='wide']) .panel[data-view] .shortcut-filters {\r\n margin-block: 0;\r\n padding-block: 0;\r\n align-self: stretch;\r\n align-items: center;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement='wide']) .panel[data-view] .shortcut-choices {\r\n margin-top: 0;\r\n}\r\n\r\n/* Keep all editing controls in a full-width footer, independent of selection. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-footer {\r\n display: flex; flex-wrap: wrap; justify-content: space-between;\r\n gap: var(--panel-gap); border-top: 1px solid #52606d; margin: 0; order: 3;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-actions {\r\n display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; margin-left: auto;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-level {\r\n flex: 0 0 auto; margin: 0;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-editor {\r\n display: flex; flex-direction: column; min-height: 0; overflow: hidden;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-current {\r\n flex: 0 0 auto;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-choice-detail] {\r\n display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-choice-detail][hidden] {\r\n display: none;\r\n}\r\n/* Phone editing controls remain on one row in either orientation. */\r\n:host([data-phone-screen][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-footer {\r\n flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 6px;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-actions {\r\n display: flex; flex-wrap: nowrap; margin-left: auto; flex: 0 0 auto;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement]) .panel[data-view='shortcuts'] .shortcut-actions > button {\r\n min-width: 0; width: auto; padding-inline: 8px; white-space: nowrap;\r\n}\r\n\r\n/* Both detail types share one inset below the slot divider. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-choice-detail] {\r\n padding-top: 12px;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] .inventory-item-summary > .item-description {\r\n border-top: 0; padding-top: 0; margin-top: 8px;\r\n}\r\n\r\n:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-choice-detail] {\r\n padding-top: 16px;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-choice-detail] > .inventory-item-description > :first-child {\r\n margin-top: 0;\r\n}\r\n\r\n/* The actual description scroller owns the edge behavior, not its clipped parent. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-choice-detail] > .inventory-item-description {\r\n overscroll-behavior-y: none;\r\n}\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='shortcuts'] [data-slot-title] {\r\n display: block; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/SelectionMenuLayout.css?raw
@@ -367786,7 +369336,7 @@ var init_MenuActionButtons = __esmMin((() => {
 //#region src/UI/Mobile/game/VendingPanel.css?raw
 var VendingPanel_default;
 var init_VendingPanel$1 = __esmMin((() => {
-	VendingPanel_default = "/* Touch storefronts retain the shared framed panels and pinned actions. */\r\n:host([data-menu-density]) .panel[data-view='vending'] .vending-transactions {\r\n margin: 0;\r\n white-space: pre-line;\r\n}\r\n:host([data-menu-density]) .panel[data-view='vending'] .interaction-column-title {\r\n color: #f6d9a5;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='vending']\r\n [data-vending-owned='true'] .interaction-columns {\r\n grid-template-columns: minmax(0, 1fr);\r\n grid-template-rows: minmax(0, .9fr) minmax(0, 1.2fr) minmax(0, .7fr);\r\n overflow: hidden;\r\n}\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='vending']\r\n [data-vending-owned='true'] [data-vending-section='detail'] { grid-row: 1; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='vending']\r\n [data-vending-owned='true'] [data-vending-section='items'] { grid-row: 2; }\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='vending']\r\n [data-vending-owned='true'] [data-vending-section='order'] { grid-row: 3; }\r\n";
+	VendingPanel_default = ".vending-transactions { margin: 0; white-space: pre-line; }\r\n.interaction-panel .interaction-columns.vending-transfer-layout {\r\n grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);\r\n}\r\n.vending-transfer-layout .vending-transfer button { padding: 0; width: var(--panel-control); min-width: 28px; }\r\n.interaction-panel .ui-confirm .interaction-field { display: grid; gap: 6px; margin-top: 10px; }\r\n.interaction-panel .ui-confirm input[data-title] { box-sizing: border-box; width: 100%; margin-bottom: 10px; }\r\n\r\n.vending-transfer { display:flex; flex-direction:column; justify-content:center; gap:var(--panel-gap); }\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/CompanionLayout.css?raw
@@ -367839,7 +369389,7 @@ var init_GameHUDPortrait = __esmMin((() => {
 //#region src/UI/Mobile/game/InteractionPanel.css?raw
 var InteractionPanel_default;
 var init_InteractionPanel$1 = __esmMin((() => {
-	InteractionPanel_default = "/* Structure and colors only. Phone and tablet geometry live in separate files. */\r\n.interaction-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 10px;\r\n}\r\n.interaction-status {\r\n	flex: 1;\r\n	min-width: 0;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-footer > button {\r\n	flex-shrink: 0;\r\n}\r\n.interaction-panel .inventory-detail {\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .interaction-form {\r\n	display: flex;\r\n	align-items: end;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n}\r\n.interaction-panel .interaction-form > label {\r\n	flex-basis: 100%;\r\n	display: grid;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-field,\r\n.interaction-panel [data-fields] > label {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.interaction-panel label > input:not([type='checkbox']) {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.interaction-panel [data-order],\r\n.interaction-panel [data-picker] p {\r\n	white-space: pre-line;\r\n	line-height: 1.6;\r\n}\r\n.trade-offers > div {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n}\r\n.trade-offers button {\r\n	text-align: left;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel [data-warning] {\r\n	flex-shrink: 0;\r\n	max-height: 22%;\r\n	overflow: auto;\r\n}\r\n.interaction-information {\r\n	display: grid;\r\n	margin: 0;\r\n	gap: 8px 12px;\r\n}\r\n.interaction-information dt {\r\n	overflow-wrap: anywhere;\r\n	color: #bac4cd;\r\n}\r\n.interaction-information dd {\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) > p {\r\n	flex-shrink: 0;\r\n	margin-bottom: 8px;\r\n	max-height: 30%;\r\n	overflow: auto;\r\n}\r\n.interaction-review {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.interaction-review-lines {\r\n	flex: 1 1 auto;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.interaction-review-lines p {\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-review-summary {\r\n	flex-shrink: 0;\r\n	white-space: pre-line;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-warning {\r\n	color: #e6c28b;\r\n	margin: 6px 0 0;\r\n}\r\n.interaction-panel [data-revert-vending],\r\n.interaction-panel [data-revert-quantity],\r\n.interaction-panel [data-revert-money] {\r\n	color: #ceaa70;\r\n}\r\n\r\n:host([data-menu-density]) .panel[data-view='information'] h2 {\r\n	font-size: var(--interaction-title);\r\n}\r\n:host([data-menu-density]) .panel[data-view='information'] button {\r\n	font-size: var(--interaction-text);\r\n	min-height: var(--interaction-control);\r\n}\r\n\r\n.interaction-panel .inventory-detail .menu-select + .menu-select,\r\n.interaction-panel .inventory-detail .menu-select + input,\r\n.interaction-panel .inventory-detail input:not([type='hidden']) + button,\r\n.interaction-panel .trade-editor [data-picker] {\r\n	margin-top: var(--panel-gap);\r\n}\r\n\r\n/* Storage shares control tokens with the other interaction menus. */\r\n.panel .warehouse-body .container-toolbar {\r\n	display: grid;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	flex-shrink: 0;\r\n}\r\n.panel .warehouse-body .storage-modes {\r\n	display: flex;\r\n	gap: 4px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel .warehouse-body .storage-modes button[aria-pressed='true'] {\r\n	background: #47647a;\r\n	border-color: #91b8d5;\r\n	color: #fff;\r\n}\r\n.panel .warehouse-body .container-source[hidden] {\r\n	display: none;\r\n}\r\n.panel .container-toolbar .container-source {\r\n	flex: 1 1 90px;\r\n	min-width: 0;\r\n}\r\n.panel .warehouse-body .container-capacity {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .warehouse-body .interaction-footer {\r\n	box-sizing: content-box;\r\n	min-height: var(--interaction-control);\r\n}\r\n.panel .container-form > label[hidden] {\r\n	display: none;\r\n}\r\n.panel .warehouse-body .container-toolbar > input[type='search'] {\r\n	width: 100%;\r\n	min-width: 0;\r\n	margin: 0;\r\n}\r\n.panel .container-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: var(--panel-gap);\r\n	margin: 10px 0;\r\n}\r\n.panel .container-form > label {\r\n	display: grid;\r\n	align-content: start;\r\n	gap: 6px;\r\n	min-width: 0;\r\n	font-size: var(--interaction-caption);\r\n	color: #bac4cd;\r\n}\r\n.panel .container-empty {\r\n	padding: var(--panel-gap);\r\n	color: #bac4cd;\r\n	line-height: 1.6;\r\n}\r\n\r\n.panel .warehouse-body .container-quantity {\r\n	width: clamp(120px, 15vw, 180px);\r\n	display: flex;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	flex: 0 0 auto;\r\n	white-space: nowrap;\r\n	font-size: var(--interaction-caption);\r\n}\r\n.panel .warehouse-body .container-quantity input {\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: var(--interaction-control);\r\n	margin: 0;\r\n}\r\n\r\n.panel .container-item-heading {\r\n	display: flex;\r\n	align-items: baseline;\r\n	gap: var(--panel-gap);\r\n}\r\n.panel .container-item-heading h3 {\r\n	flex: 1;\r\n	min-width: 0;\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .container-item-heading .container-item-count {\r\n	flex: 0 0 auto;\r\n	margin: 0;\r\n	font-size: var(--interaction-text);\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel .warehouse-body .container-filters > :is(select, .menu-select) {\r\n	flex: 1 1 90px;\r\n	min-width: 90px;\r\n}\r\n.panel .warehouse-body .container-source {\r\n	flex: 0 1 100px;\r\n}\r\n\r\n.panel .warehouse-body .container-filters {\r\n	padding-right: 2px;\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-width: 0;\r\n}\r\n\r\n:host([data-menu-density]) .panel .warehouse-body .container-item-heading h3 {\r\n	font-size: var(--panel-title);\r\n	line-height: 1.4;\r\n}\r\n\r\n/* Shared frames: headings and scroll areas belong to the same bordered column. */\r\n.interaction-panel .interaction-columns {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.25fr);\r\n	gap: var(--panel-gap);\r\n	flex: 1;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.interaction-panel .interaction-column {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	border: 1px solid #52606d;\r\n	border-radius: 6px;\r\n	overflow: hidden;\r\n	background: #19212a;\r\n}\r\n.interaction-panel .interaction-column-title {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #52606d;\r\n	background: #24313d;\r\n	flex: 0 0 auto;\r\n	color: #f5f2e9;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content {\r\n	display: block;\r\n	flex: 1;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	padding: var(--panel-gap);\r\n	border: 0;\r\n	border-radius: 0;\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n	scrollbar-color: #65717b #19212a;\r\n	scrollbar-width: thin;\r\n}\r\n.interaction-column-content > :first-child {\r\n	margin-top: 0;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-column-content .inventory-item {\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.interaction-panel .interaction-order-item {\r\n	display: block;\r\n	width: 100%;\r\n	margin: 0 0 var(--panel-gap);\r\n	text-align: left;\r\n	overflow-wrap: anywhere;\r\n	background: #24313d;\r\n	border: 1px solid #52606d;\r\n}\r\n.interaction-panel .interaction-order-item span {\r\n	display: block;\r\n}\r\n.interaction-panel .interaction-columns .interaction-field,\r\n.interaction-panel .interaction-toolbar > label {\r\n	display: grid;\r\n	gap: 4px;\r\n	align-items: start;\r\n	min-width: 0;\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-field:has(input[type='checkbox']) {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.interaction-panel .interaction-inline-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers > section + section {\r\n	border-top: 1px solid #52606d;\r\n	margin-top: var(--panel-gap);\r\n	padding-top: var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers h3 {\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers p {\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-toolbar {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	flex-shrink: 0;\r\n}\r\n.interaction-panel .interaction-toolbar[hidden] {\r\n	display: none;\r\n}\r\n.interaction-panel .interaction-toolbar > label {\r\n	margin: 0;\r\n}\r\n.interaction-panel .interaction-toolbar > label[hidden] {\r\n	display: none;\r\n}\r\n.interaction-panel .interaction-toolbar:not(:has([data-budget-label]:not([hidden]))) {\r\n	grid-template-columns: minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-columns [data-order] {\r\n	margin: 0;\r\n	padding: 0;\r\n	border: 0;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-footer {\r\n	min-height: var(--interaction-control);\r\n	padding-block: var(--panel-gap);\r\n	box-sizing: content-box;\r\n}\r\n:host([data-menu-density]) .panel.interaction-panel > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n\r\n.interaction-panel .interaction-columns[data-menu-columns='2'] {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);\r\n}\r\n\r\n.interaction-panel .interaction-pricing {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content.trade-offers {\r\n	display: grid;\r\n	grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	overflow: hidden;\r\n}\r\n.interaction-panel .trade-offers > section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.interaction-panel .trade-offers > section > div {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	scrollbar-width: thin;\r\n	scrollbar-color: #65717b #19212a;\r\n}\r\n.interaction-panel .trade-offers > section + section {\r\n	margin-top: 0;\r\n}\r\n\r\n:host([data-menu-density]) .panel .warehouse-body:has([data-menu-columns='2']) .container-toolbar {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);\r\n	gap: var(--panel-gap);\r\n}\r\n\r\n.interaction-order-item:has(> img) {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.interaction-order-item > img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	flex: none;\r\n}\r\n";
+	InteractionPanel_default = "/* Structure and colors only. Phone and tablet geometry live in separate files. */\r\n.interaction-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 10px;\r\n}\r\n.interaction-status {\r\n	flex: 1;\r\n	min-width: 0;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-footer > button {\r\n	flex-shrink: 0;\r\n}\r\n.interaction-panel .inventory-detail {\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .interaction-form {\r\n	display: flex;\r\n	align-items: end;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n}\r\n.interaction-panel .interaction-form > label {\r\n	flex-basis: 100%;\r\n	display: grid;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-field,\r\n.interaction-panel [data-fields] > label {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.interaction-panel label > input:not([type='checkbox']) {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.interaction-panel [data-order],\r\n.interaction-panel [data-picker] p {\r\n	white-space: pre-line;\r\n	line-height: 1.6;\r\n}\r\n.trade-offers > div {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n}\r\n.trade-offers button {\r\n	text-align: left;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel [data-warning] {\r\n	flex-shrink: 0;\r\n	max-height: 22%;\r\n	overflow: auto;\r\n}\r\n.interaction-information {\r\n	display: grid;\r\n	margin: 0;\r\n	gap: 8px 12px;\r\n}\r\n.interaction-information dt {\r\n	overflow-wrap: anywhere;\r\n	color: #bac4cd;\r\n}\r\n.interaction-information dd {\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.interaction-panel .ui-confirm-body:has(.interaction-review) > p {\r\n	flex-shrink: 0;\r\n	margin-bottom: 8px;\r\n	max-height: 30%;\r\n	overflow: auto;\r\n}\r\n.interaction-review {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.interaction-review-lines {\r\n	flex: 1 1 auto;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.interaction-review-lines p {\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-review-summary {\r\n	flex-shrink: 0;\r\n	white-space: pre-line;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.interaction-warning {\r\n	color: #e6c28b;\r\n	margin: 6px 0 0;\r\n}\r\n.interaction-panel [data-revert-vending],\r\n.interaction-panel [data-revert-quantity],\r\n.interaction-panel [data-revert-money] {\r\n	color: #ceaa70;\r\n}\r\n\r\n:host([data-menu-density]) .panel[data-view='information'] h2 {\r\n	font-size: var(--interaction-title);\r\n}\r\n:host([data-menu-density]) .panel[data-view='information'] button {\r\n	font-size: var(--interaction-text);\r\n	min-height: var(--interaction-control);\r\n}\r\n\r\n.interaction-panel .inventory-detail .menu-select + .menu-select,\r\n.interaction-panel .inventory-detail .menu-select + input,\r\n.interaction-panel .inventory-detail input:not([type='hidden']) + button,\r\n.interaction-panel .trade-editor [data-picker] {\r\n	margin-top: var(--panel-gap);\r\n}\r\n\r\n/* Storage shares control tokens with the other interaction menus. */\r\n.panel .warehouse-body .container-toolbar {\r\n	display: grid;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	flex-shrink: 0;\r\n}\r\n.panel .warehouse-body .storage-modes {\r\n	display: flex;\r\n	gap: 4px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel .warehouse-body .storage-modes button[aria-pressed='true'] {\r\n	background: #47647a;\r\n	border-color: #91b8d5;\r\n	color: #fff;\r\n}\r\n.panel .warehouse-body .container-source[hidden] {\r\n	display: none;\r\n}\r\n.panel .container-toolbar .container-source {\r\n	flex: 1 1 90px;\r\n	min-width: 0;\r\n}\r\n.panel .warehouse-body .container-capacity {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .warehouse-body .interaction-footer {\r\n	box-sizing: content-box;\r\n	min-height: var(--interaction-control);\r\n}\r\n.panel .container-form > label[hidden] {\r\n	display: none;\r\n}\r\n.panel .warehouse-body .container-toolbar > input[type='search'] {\r\n	width: 100%;\r\n	min-width: 0;\r\n	margin: 0;\r\n}\r\n.panel .container-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: var(--panel-gap);\r\n	margin: 10px 0;\r\n}\r\n.panel .container-form > label {\r\n	display: grid;\r\n	align-content: start;\r\n	gap: 6px;\r\n	min-width: 0;\r\n	font-size: var(--interaction-caption);\r\n	color: #bac4cd;\r\n}\r\n.panel .container-empty {\r\n	padding: var(--panel-gap);\r\n	color: #bac4cd;\r\n	line-height: 1.6;\r\n}\r\n\r\n.panel .warehouse-body .container-quantity {\r\n	width: clamp(120px, 15vw, 180px);\r\n	display: flex;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	flex: 0 0 auto;\r\n	white-space: nowrap;\r\n	font-size: var(--interaction-caption);\r\n}\r\n.panel .warehouse-body .container-quantity input {\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: var(--interaction-control);\r\n	margin: 0;\r\n}\r\n\r\n.panel .container-item-heading {\r\n	display: flex;\r\n	align-items: baseline;\r\n	gap: var(--panel-gap);\r\n}\r\n.panel .container-item-heading h3 {\r\n	flex: 1;\r\n	min-width: 0;\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .container-item-heading .container-item-count {\r\n	flex: 0 0 auto;\r\n	margin: 0;\r\n	font-size: var(--interaction-text);\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel .warehouse-body .container-filters > :is(select, .menu-select) {\r\n	flex: 1 1 90px;\r\n	min-width: 90px;\r\n}\r\n.panel .warehouse-body .container-source {\r\n	flex: 0 1 100px;\r\n}\r\n\r\n.panel .warehouse-body .container-filters {\r\n	padding-right: 2px;\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-width: 0;\r\n}\r\n\r\n:host([data-menu-density]) .panel .warehouse-body .container-item-heading h3 {\r\n	font-size: var(--panel-title);\r\n	line-height: 1.4;\r\n}\r\n\r\n/* Shared frames: headings and scroll areas belong to the same bordered column. */\r\n.interaction-panel .interaction-columns {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.25fr);\r\n	gap: var(--panel-gap);\r\n	flex: 1;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.interaction-panel .interaction-column {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	border: 1px solid #52606d;\r\n	border-radius: 6px;\r\n	overflow: hidden;\r\n	background: #19212a;\r\n}\r\n.interaction-panel .interaction-column-title {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #52606d;\r\n	background: #24313d;\r\n	flex: 0 0 auto;\r\n	color: #f5f2e9;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content {\r\n	display: block;\r\n	flex: 1;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	padding: var(--panel-gap);\r\n	border: 0;\r\n	border-radius: 0;\r\n	margin: 0;\r\n	overflow-wrap: anywhere;\r\n	scrollbar-color: #65717b #19212a;\r\n	scrollbar-width: thin;\r\n}\r\n.interaction-column-content > :first-child {\r\n	margin-top: 0;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-column-content .inventory-item {\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.interaction-panel .interaction-order-item {\r\n	display: block;\r\n	width: 100%;\r\n	margin: 0 0 var(--panel-gap);\r\n	text-align: left;\r\n	overflow-wrap: anywhere;\r\n	background: #24313d;\r\n	border: 1px solid #52606d;\r\n}\r\n.interaction-panel .interaction-order-item span {\r\n	display: block;\r\n}\r\n.interaction-panel .interaction-columns .interaction-field,\r\n.interaction-panel .interaction-toolbar > label {\r\n	display: grid;\r\n	gap: 4px;\r\n	align-items: start;\r\n	min-width: 0;\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-field:has(input[type='checkbox']) {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.interaction-panel .interaction-inline-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers > section + section {\r\n	border-top: 1px solid #52606d;\r\n	margin-top: var(--panel-gap);\r\n	padding-top: var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers h3 {\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .trade-offers p {\r\n	margin: 0 0 var(--panel-gap);\r\n}\r\n.interaction-panel .interaction-toolbar {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	flex-shrink: 0;\r\n}\r\n.interaction-panel .interaction-toolbar[hidden] {\r\n	display: none;\r\n}\r\n.interaction-panel .interaction-toolbar > label {\r\n	margin: 0;\r\n}\r\n.interaction-panel .interaction-toolbar > label[hidden] {\r\n	display: none;\r\n}\r\n.interaction-panel .interaction-toolbar:not(:has([data-budget-label]:not([hidden]))) {\r\n	grid-template-columns: minmax(0, 1fr);\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-columns [data-order] {\r\n	margin: 0;\r\n	padding: 0;\r\n	border: 0;\r\n}\r\n:host([data-menu-density]) .interaction-panel .interaction-footer {\r\n	min-height: var(--interaction-control);\r\n	padding-block: var(--panel-gap);\r\n	box-sizing: content-box;\r\n}\r\n:host([data-menu-density]) .panel.interaction-panel > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n\r\n.interaction-panel .interaction-columns[data-menu-columns='2'] {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);\r\n}\r\n\r\n.interaction-panel .interaction-pricing {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n\r\n:host([data-menu-density]) .interaction-panel .interaction-column-content.trade-offers {\r\n	display: grid;\r\n	grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	overflow: hidden;\r\n}\r\n.interaction-panel .trade-offers > section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.interaction-panel .trade-offers > section > div {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	scrollbar-width: thin;\r\n	scrollbar-color: #65717b #19212a;\r\n}\r\n.interaction-panel .trade-offers > section + section {\r\n	margin-top: 0;\r\n}\r\n\r\n:host([data-menu-density]) .panel .warehouse-body:has([data-menu-columns='2']) .container-toolbar {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);\r\n	gap: var(--panel-gap);\r\n}\r\n\r\n.interaction-panel .interaction-order-item:has(> img) {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.interaction-order-item > img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	flex: none;\r\n}\r\n\r\n.interaction-panel .trade-money-toolbar { display: flex; align-items: center; gap: var(--panel-gap); flex-shrink: 0; }\r\n.interaction-panel .trade-money-toolbar .interaction-field { display:flex; align-items:center; gap:var(--panel-gap); flex:1; min-width:0; white-space:nowrap; margin:0; }\r\n.interaction-panel .trade-money-toolbar input { flex:1; min-width:0; width:0; }\r\n.interaction-panel .trade-money-toolbar .interaction-inline-actions { flex-shrink:0; }\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/InteractionPhone.css?raw
@@ -369372,224 +370922,194 @@ var init_InteractionPanel = __esmMin((() => {}));
 function createVendingPanel(body, service) {
 	const initial = service.snapshot();
 	body.dataset.vendingOwned = String(Boolean(initial.owned));
-	const layout = interactionColumns(body, [
-		{
-			title: initial.owned ? initial.mode === "buy" ? "收购商品" : "在售商品" : "可选商品",
-			className: "inventory-list"
-		},
-		{
-			title: initial.owned ? "成交记录" : "摊位清单",
-			content: "<div data-order></div>"
-		},
-		{
-			title: "物品说明与定价",
-			className: "inventory-detail",
-			content: "<div data-selected></div>"
-		}
-	]);
-	for (const [index, section] of [
-		"items",
-		"order",
-		"detail"
-	].entries()) layout.children[index].dataset.vendingSection = section;
-	const fields = document.createElement("div");
-	fields.dataset.fields = "";
-	fields.className = "interaction-toolbar";
-	body.prepend(fields);
+	const layout = interactionColumns(body, [{
+		title: initial.owned ? initial.mode === "buy" ? "收购商品" : "在售商品" : "可选商品",
+		className: "inventory-list"
+	}, {
+		title: initial.owned ? "成交记录" : "摊位清单",
+		content: "<div data-order></div>"
+	}]);
+	layout.dataset.menuLayout = "vending";
 	const feedback = createFeedback(body);
-	const $ = (selector) => body.querySelector(selector), nodes = /* @__PURE__ */ new Map();
 	const { footer, status } = interactionFooter(body);
-	for (const [key, text] of [["submit", "核对开店"], ["cancel", "取消开店"]]) {
+	const $ = (selector) => body.querySelector(selector);
+	let selected = null, modal = null;
+	function button(text, action) {
 		const b = document.createElement("button");
 		b.type = "button";
-		b.dataset[key] = "";
 		b.textContent = text;
-		footer.append(b);
+		b.onclick = action;
+		return b;
 	}
-	let draft, amountInput, priceInput;
-	function ready() {
-		if (!draft?.dirty()) return true;
-		feedback("数量或单价尚未保存，请先保存或撤销修改", "error");
-		draft.focus();
-		return false;
-	}
-	let selected = null, key = "";
-	$("[data-cancel]").hidden = Boolean(initial.owned);
-	$("[data-cancel]").onclick = () => service.close();
-	if (!initial.owned) {
-		$("[data-fields]").innerHTML = "<label>摊位名称<input data-menu-control=\"field\" data-title maxlength=\"24\"></label><label data-budget-label>收购预算<input data-menu-control=\"field\" data-budget type=\"number\" min=\"1\" step=\"1\"></label>";
-		$("[data-budget-label]").hidden = initial.mode !== "buy";
-		$("[data-title]").required = true;
-		$("[data-budget]").required = initial.mode === "buy";
-		$("[data-budget]").setAttribute("aria-label", "收购预算");
-		$("[data-title]").setAttribute("aria-label", "摊位名称");
-		$("[data-fields]").oninput = () => {
-			update();
+	function showItem(item, direction) {
+		const state = service.snapshot();
+		if (!state.allowed || modal) return;
+		const content = document.createElement("div");
+		const description = document.createElement("p");
+		description.className = "item-description";
+		description.textContent = item.description || "";
+		if (state.owned) {
+			content.append(description);
+			confirmAction(body, item.name, () => {}, { content });
+			return;
+		}
+		const max = direction < 0 ? item.quantity : state.mode === "sell" ? Math.min(item.count - item.quantity, 32767 - item.quantity) : 9999 - item.quantity;
+		if (max < 1) return;
+		const stepper = createQuantityStepper({
+			label: "数量",
+			value: 1,
+			min: 1,
+			max
+		});
+		content.append(stepper.element);
+		const price = createMenuField();
+		price.type = "number";
+		price.min = "1";
+		price.max = "2147483647";
+		price.step = "1";
+		price.required = true;
+		price.value = String(item.price || 1);
+		price.setAttribute("aria-label", "单价");
+		if (direction > 0) {
+			const label = document.createElement("label");
+			label.className = "interaction-field";
+			label.append("单价（Z）", price);
+			content.append(label);
+		}
+		content.append(description);
+		modal = {
+			dismiss: confirmAction(body, `${direction > 0 ? "加入摊位" : "移回物品"}：${item.name}`, () => {
+				modal = null;
+				const current = service.snapshot().items.find((row) => row.index === item.index && row.identity === item.identity);
+				const count = Number(stepper.input.value);
+				if (!current || current.quantity !== item.quantity || !Number.isInteger(count) || count < 1 || count > max) feedback("物品或数量已变化，请重新选择", "error");
+				else {
+					const error = service.set(item.index, item.identity, current.quantity + direction * count, direction > 0 ? Number(price.value) : current.price);
+					if (error) feedback(error, "error");
+				}
+				update();
+			}, {
+				content,
+				cancelled: () => {
+					modal = null;
+					update();
+				}
+			}),
+			index: item.index,
+			identity: item.identity
 		};
+		update();
 	}
-	$("[data-submit]").onclick = () => {
-		if (!ready()) return;
-		const snapshot = service.snapshot();
-		if (!snapshot.owned && (!$("[data-title]").reportValidity() || snapshot.mode === "buy" && !$("[data-budget]").reportValidity())) return;
-		const signature = JSON.stringify(snapshot.order);
-		const title = $("[data-title]")?.value, budget = Number($("[data-budget]")?.value);
-		const content = interactionReview((snapshot.owned ? snapshot.items : snapshot.order).map((row) => `${row.name} × ${row.count} · 单价 ${row.price} Z`), snapshot.owned ? "关闭后停止摆摊" : `合计：${snapshot.total} Z${snapshot.mode === "buy" ? "\n收购预算：" + budget + " Z" : ""}`);
-		confirmAction(body, snapshot.owned ? "确认关闭摊位？" : `确认开店「${title}」？`, () => {
+	const arrows = document.createElement("div");
+	arrows.className = "vending-transfer";
+	const add = button("→", () => {
+		const item = service.snapshot().items.find((row) => row.index === selected);
+		if (item) showItem(item, 1);
+	});
+	add.setAttribute("aria-label", "加入摊位清单");
+	const remove = button("←", () => {
+		const item = service.snapshot().items.find((row) => row.index === selected);
+		if (item) showItem(item, -1);
+	});
+	remove.setAttribute("aria-label", "移回可选商品");
+	if (!initial.owned) {
+		arrows.append(add, remove);
+		layout.insertBefore(arrows, layout.children[1]);
+		layout.classList.add("vending-transfer-layout");
+	}
+	const submit = button(initial.owned ? "关闭摊位" : "核对开店", () => {
+		const state = service.snapshot();
+		if (!state.allowed || modal || !state.owned && !state.order.length) return;
+		const signature = JSON.stringify(state.order);
+		const content = interactionReview((state.owned ? state.items : state.order).map((row) => `${row.name} × ${row.count} · 单价 ${row.price} Z`), state.owned ? "关闭后停止摆摊" : `合计：${state.total} Z`);
+		const title = createMenuField();
+		title.placeholder = "请输入摊位名称";
+		title.setAttribute("aria-label", "摊位名称");
+		title.maxLength = 24;
+		title.required = true;
+		title.dataset.title = "";
+		const budget = createMenuField();
+		budget.type = "number";
+		budget.min = "1";
+		budget.max = String(Math.min(state.money ?? 2147483647, 2147483647));
+		budget.step = "1";
+		budget.required = true;
+		budget.placeholder = "请输入收购预算";
+		budget.setAttribute("aria-label", "收购预算");
+		if (!state.owned) {
+			content.prepend(title);
+			if (state.mode === "buy") content.append(budget);
+		}
+		confirmAction(body, state.owned ? "确认关闭摊位？" : "核对开店", () => {
 			if (JSON.stringify(service.snapshot().order) !== signature) {
 				feedback("订单已变化，请重新核对", "error");
 				return;
 			}
-			const result = snapshot.owned ? service.closeStore() : service.submit(title, budget);
+			const result = state.owned ? service.closeStore() : service.submit(title.value, Number(budget.value));
 			feedback(result, ["已请求关闭摊位", "等待服务器开店结果"].includes(result) ? "pending" : "error");
 			update();
 		}, { content });
-	};
-	function update() {
-		layout.children[2].querySelector(".interaction-column-title").textContent = initial.owned ? "物品详情" : "物品说明与定价";
-		const state = service.snapshot();
-		$("[data-cancel]").disabled = Boolean(state.pending);
-		status.textContent = state.pending ? "等待服务器回复…" : draft?.dirty() ? "数量或单价已修改，尚未保存" : state.owned ? "摊位营业中" : `已选 ${state.order.length}/${state.slots} 栏`;
-		for (const field of $("[data-fields]").querySelectorAll("input")) field.disabled = !state.allowed;
-		if ($("[data-budget]")) $("[data-budget]").max = String(Math.min(state.money ?? 2147483647, 2147483647));
-		for (const [id, node] of nodes) if (!state.items.some((item) => item.index === id)) {
+	});
+	submit.dataset.submit = "";
+	const cancel = button("取消开店", () => service.close());
+	cancel.dataset.cancel = "";
+	cancel.hidden = Boolean(initial.owned);
+	footer.append(submit, cancel);
+	const listNodes = [/* @__PURE__ */ new Map(), /* @__PURE__ */ new Map()];
+	function renderList(parent, items, side, state) {
+		const nodes = listNodes[side];
+		for (const [index, node] of nodes) if (!items.some((item) => item.index === index)) {
 			node.remove();
-			nodes.delete(id);
+			nodes.delete(index);
 		}
-		for (const item of state.items) {
+		for (const item of items) {
 			let node = nodes.get(item.index);
 			if (!node) {
-				node = document.createElement("button");
-				node.className = "inventory-item";
-				node.onclick = () => {
-					if (!ready()) return;
+				node = button("", () => {
 					selected = item.index;
-					key = "";
-					update();
-				};
+					const current = service.snapshot();
+					if (current.owned) {
+						const row = current.items.find((entry) => entry.index === selected);
+						if (row) showItem(row, 0);
+					} else update();
+				});
+				node.className = side ? "inventory-item interaction-order-item" : "inventory-item";
 				nodes.set(item.index, node);
-				$(".inventory-list").append(node);
+				parent.append(node);
 			}
-			node.disabled = !state.allowed;
+			node.disabled = !state.allowed || Boolean(modal);
 			setListItemIcon(node, item);
-			setListItemText(node, item.name, `× ${item.count}${state.owned ? " · " + item.price + " Z" : ""}`);
+			setListItemText(node, item.name, `× ${item.count}${side ? " · 单价 " + item.price + " Z" : state.owned ? " · " + item.price + " Z" : ""}`);
 			node.setAttribute("aria-pressed", String(selected === item.index));
 		}
-		const item = state.items.find((row) => row.index === selected), next = JSON.stringify([
-			item?.index,
-			item?.ID,
-			item?.identity,
-			state.owned
-		]);
-		if (next !== key) {
-			key = next;
-			const panel = $("[data-selected]");
-			panel.replaceChildren();
-			draft = null;
-			if (item) {
-				const description = document.createElement("p");
-				description.className = "item-description";
-				description.textContent = item.description;
-				const title = document.createElement("h3");
-				title.textContent = item.name;
-				panel.append(title);
-				if (!state.owned) {
-					const pricing = document.createElement("div");
-					pricing.className = "interaction-pricing";
-					panel.append(pricing);
-					const amount = createMenuField(), price = createMenuField();
-					amountInput = amount;
-					priceInput = price;
-					for (const input of [amount, price]) {
-						input.required = true;
-						input.type = "number";
-						input.min = "0";
-						input.step = "1";
-					}
-					amount.value = String(item.quantity || 1);
-					amount.setAttribute("aria-label", "数量");
-					price.value = String(item.price);
-					price.setAttribute("aria-label", "单价");
-					const button = document.createElement("button");
-					button.textContent = "保存数量与单价";
-					const hint = document.createElement("p");
-					hint.textContent = "数量设为 0 可移除商品";
-					button.disabled = !state.allowed;
-					button.onclick = () => {
-						if (!amount.reportValidity() || !price.reportValidity()) return;
-						const error = service.set(item.index, item.identity, Number(amount.value), Number(price.value));
-						if (error) feedback(error, "error");
-						else {
-							draft.accept();
-							feedback("数量与单价已保存", "success");
-						}
-						update();
-					};
-					const revert = document.createElement("button");
-					revert.type = "button";
-					revert.textContent = "撤销修改";
-					revert.dataset.revertVending = "";
-					revert.onclick = () => draft.reset();
-					for (const [text, field] of [["数量", amount], ["单价（Z）", price]]) {
-						const label = document.createElement("label");
-						label.className = "interaction-field";
-						label.append(text, field);
-						pricing.append(label);
-					}
-					panel.append(button, revert, hint);
-					draft = inputDraft([amount, price], update);
-				}
-				panel.append(description);
-			} else panel.textContent = "点选物品查看详情";
-		}
-		if (item && !state.owned && amountInput) {
-			amountInput.max = String(state.mode === "sell" ? Math.min(item.count, 32767) : 9999);
-			priceInput.max = "2147483647";
-		}
-		for (const control of $("[data-selected]").querySelectorAll("input,button")) control.disabled = !state.allowed;
-		if ($("[data-revert-vending]")) $("[data-revert-vending]").hidden = !draft?.dirty();
+	}
+	function update() {
+		const state = service.snapshot();
+		status.textContent = state.pending ? "等待服务器回复…" : state.owned ? "摊位营业中" : `摊位：${state.order.length}/${state.slots} · 合计：${state.total} Z`;
+		submit.disabled = !state.allowed || Boolean(modal) || !state.owned && !state.order.length;
+		cancel.disabled = Boolean(state.pending);
+		renderList($(".inventory-list"), state.items, 0, state);
 		const order = $("[data-order]");
-		const orderKey = JSON.stringify([
-			state.owned,
-			state.order,
-			state.owned ? state.items : null,
-			state.allowed,
-			state.log,
-			state.budget
-		]);
-		if (order.dataset.key !== orderKey) {
-			order.dataset.key = orderKey;
-			order.replaceChildren();
-			if (state.owned) {
-				const log = document.createElement("p");
-				log.textContent = state.mode === "buy" ? `剩余预算：${state.budget ?? "—"} Z\n${state.log.join("\n") || "暂无成交记录"}` : state.log.join("\n") || "暂无成交记录";
+		if (state.owned) {
+			let log = order.querySelector(".vending-transactions");
+			if (!log) {
+				log = document.createElement("p");
 				log.className = "vending-transactions";
 				order.append(log);
 			}
-			for (const row of state.owned ? [] : state.order) {
-				const entry = document.createElement("button");
-				entry.className = "interaction-order-item";
-				setListItemText(entry, row.name, `× ${row.count} · 单价 ${row.price} Z`);
-				entry.disabled = !state.allowed;
-				entry.onclick = () => {
-					if (!ready()) return;
-					selected = row.index;
-					key = "";
-					update();
-				};
-				order.append(entry);
-			}
-			if (!state.owned && !state.order.length) order.textContent = "尚未选择商品";
-		}
-		if (!state.pending && !draft?.dirty() && !state.owned) status.textContent = `摊位：${state.order.length}/${state.slots} · 合计：${state.total} Z`;
-		fields.hidden = Boolean(state.owned);
-		$("[data-submit]").textContent = state.owned ? "关闭摊位" : "核对开店";
-		$("[data-submit]").disabled = !state.allowed;
+			log.textContent = (state.mode === "buy" ? `剩余预算：${state.budget ?? "—"} Z\n` : "") + state.log.join("\n");
+		} else renderList(order, state.order, 1, state);
+		const item = state.items.find((row) => row.index === selected);
+		add.disabled = !state.allowed || Boolean(modal) || !item || (state.mode === "sell" ? item.quantity >= item.count : item.quantity >= 9999);
+		remove.disabled = !state.allowed || Boolean(modal) || !item?.quantity;
+		if (modal && (!state.allowed || !state.items.some((row) => row.index === modal.index && row.identity === modal.identity))) modal.dismiss();
 	}
 	update();
 	return { update };
 }
 var init_VendingPanel = __esmMin((() => {
 	init_MenuFormControls();
+	init_QuantityStepper();
 	init_InteractionPanel();
 	init_Confirmation();
 	init_Feedback();
@@ -369598,24 +371118,37 @@ var init_VendingPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/TradePanel.js
 function createTradePanel(body, service) {
-	interactionColumns(body, [
-		{
-			title: "可交易物品",
-			className: "inventory-list"
-		},
-		{
-			title: "双方报价",
-			className: "trade-offers",
-			content: "<section><h3>我方物品</h3><div data-own></div></section><section><h3>对方物品</h3><div data-peer></div></section>"
-		},
-		{
-			title: "物品与金额",
-			className: "inventory-detail trade-editor",
-			content: "<label class=\"interaction-field\">交易金额<input data-menu-control=\"field\" data-money type=\"number\" min=\"0\" step=\"1\" value=\"0\"></label><div class=\"interaction-inline-actions\"><button data-send-money>设置金额</button><button data-revert-money>撤销金额</button></div><div data-picker></div>"
-		}
-	]);
+	const layout = interactionColumns(body, [{
+		title: "可交易物品",
+		className: "inventory-list"
+	}, {
+		title: "双方报价",
+		className: "trade-offers",
+		content: "<section><h3>我方物品</h3><div data-own></div></section><section><h3>对方物品</h3><div data-peer></div></section>"
+	}]);
+	layout.dataset.menuLayout = "trade";
+	const toolbar = document.createElement("div");
+	toolbar.className = "trade-money-toolbar";
+	toolbar.innerHTML = "<label class=\"interaction-field\">交易金额<input data-menu-control=\"field\" data-money type=\"number\" min=\"0\" step=\"1\" value=\"0\"></label><div class=\"interaction-inline-actions\"><button data-send-money>设置金额</button><button data-revert-money>撤销金额</button></div>";
+	body.prepend(toolbar);
+	const pickerContent = document.createElement("div");
+	pickerContent.dataset.picker = "";
+	function showPicker() {
+		const add = pickerContent.querySelector("[data-add-item]");
+		confirmAction(body, add ? "加入交易" : "物品详情", () => {
+			add?.click();
+			quantityDraft = null;
+			pickerKey = "";
+		}, {
+			content: pickerContent,
+			cancelled: () => {
+				quantityDraft = null;
+				pickerKey = "";
+			}
+		});
+	}
 	const feedback = createFeedback(body);
-	const $ = (selector) => body.querySelector(selector), nodes = /* @__PURE__ */ new Map();
+	const $ = (selector) => selector === "[data-picker]" ? pickerContent : body.querySelector(selector), nodes = /* @__PURE__ */ new Map();
 	const { footer, status } = interactionFooter(body);
 	status.dataset.phase = "";
 	for (const [key, text] of [
@@ -369718,6 +371251,7 @@ function createTradePanel(body, service) {
 					preview = null;
 					pickerKey = "";
 					update();
+					showPicker();
 				};
 				nodes.set(item.index, node);
 				$(".inventory-list").append(node);
@@ -369742,7 +371276,13 @@ function createTradePanel(body, service) {
 			if (item) {
 				const text = document.createElement("p");
 				text.textContent = item.description;
-				const input = createMenuField();
+				const stepper = createQuantityStepper({
+					label: "交易数量",
+					value: 1,
+					min: 1,
+					max: item.count
+				});
+				const input = stepper.input;
 				quantityInput = input;
 				input.type = "number";
 				input.required = true;
@@ -369753,11 +371293,13 @@ function createTradePanel(body, service) {
 				input.setAttribute("aria-label", "交易数量");
 				const button = document.createElement("button");
 				button.textContent = "加入交易";
+				button.dataset.addItem = "";
+				button.hidden = true;
 				button.disabled = !active || state.ownLocked;
 				button.onclick = () => {
 					if (!input.reportValidity()) return;
 					const result = service.add(item.index, item.identity, Number(input.value));
-					if (result === "等待服务器确认物品") quantityDraft.accept();
+					if (result === "等待服务器确认物品") quantityDraft?.accept();
 					action(result);
 				};
 				const title = document.createElement("h3");
@@ -369770,7 +371312,8 @@ function createTradePanel(body, service) {
 					revert.textContent = "撤销修改";
 					revert.dataset.revertQuantity = "";
 					revert.onclick = () => quantityDraft.reset();
-					picker.append(input, button, revert, text);
+					revert.hidden = true;
+					picker.append(stepper.element, button, text);
 					quantityDraft = inputDraft([input], update);
 				}
 			} else picker.textContent = "点击左侧物品设置数量";
@@ -369818,7 +371361,7 @@ function createTradePanel(body, service) {
 					selected = null;
 					pickerKey = "";
 					update();
-					$("[data-picker]").scrollIntoView({ block: "nearest" });
+					showPicker();
 				};
 				parent.append(button);
 			}
@@ -369827,6 +371370,7 @@ function createTradePanel(body, service) {
 		$("[data-money]").disabled = !active || state.ownLocked;
 		$("[data-send-money]").disabled = !active || state.ownLocked;
 		$("[data-lock]").disabled = !active || state.ownLocked;
+		$("[data-lock]").textContent = state.ownLocked ? "报价已锁定" : "锁定报价";
 		$("[data-execute]").disabled = !active || !state.ownLocked || !state.peerLocked;
 		$("[data-execute]").textContent = "确认成交";
 		$("[data-cancel]").disabled = !state.allowed;
@@ -369835,7 +371379,7 @@ function createTradePanel(body, service) {
 	return { update };
 }
 var init_TradePanel = __esmMin((() => {
-	init_MenuFormControls();
+	init_QuantityStepper();
 	init_InteractionPanel();
 	init_Confirmation();
 	init_Feedback();
@@ -370578,6 +372122,48 @@ function createSocialPanel(body, service, whisper) {
 		p.textContent = text;
 		return p;
 	}
+	function memberSummary(member, type, isSelf) {
+		const card = document.createElement("section");
+		card.className = "social-member-card";
+		card.setAttribute("aria-label", "成员资料");
+		const header = document.createElement("div");
+		header.className = "social-member-header";
+		const name = document.createElement("h3");
+		name.textContent = `${member.Name || member.characterName || member.CharName}${isSelf ? "（自己）" : ""}`;
+		const rawStatus = type === "friends" ? member.State : type === "party" ? member.state : member.CurrentState;
+		const online = rawStatus === void 0 ? null : type === "guild" ? Boolean(rawStatus) : rawStatus === 0;
+		const badge = document.createElement("span");
+		badge.className = "social-member-status";
+		badge.dataset.status = online === null ? "unknown" : online ? "online" : "offline";
+		badge.textContent = online === null ? "状态未知" : online ? "在线" : "离线";
+		header.append(name, badge);
+		card.append(header);
+		const mapCode = member.mapName || member.mapname;
+		const mapName = mapCode ? DB.getMapName(mapCode.replace(/\.(gat|rsw)$/, "") + ".rsw", "未知地图") : "未知";
+		const rows = type === "friends" ? [["等级", member.baseLevel ? `Lv.${member.baseLevel}` : "未知"], ["地图", mapName]] : type === "party" ? [
+			["队伍", state.partyName || "未知"],
+			["身份", member.role === 0 ? "队长" : member.role === 1 ? "队员" : "未知"],
+			["等级", member.baseLevel ? `Lv.${member.baseLevel}` : "未知"],
+			["地图", mapName]
+		] : [
+			["公会", state.guildName || "未知"],
+			["职位", state.guild.positions.find((position) => position.positionID === member.GPositionID)?.posName || "未知"],
+			["等级", member.Level ? `Lv.${member.Level}` : "未知"]
+		];
+		const facts = document.createElement("dl");
+		facts.className = "social-member-facts";
+		for (const [label, value] of rows) {
+			const row = document.createElement("div");
+			const term = document.createElement("dt");
+			const description = document.createElement("dd");
+			term.textContent = label;
+			description.textContent = value;
+			row.append(term, description);
+			facts.append(row);
+		}
+		if (rows.length) card.append(facts);
+		return card;
+	}
 	function form(title, fields, submit, confirm = false, autoSave = false) {
 		const f = document.createElement("form");
 		f.className = "social-form menu-form-row";
@@ -370678,25 +372264,38 @@ function createSocialPanel(body, service, whisper) {
 					render();
 				});
 				b.className = "inventory-item";
+				b.dataset.member = identity(member);
 				setListItemText(b, name);
 				list.append(b);
 			}
-			list.firstElementChild.classList.add("social-management");
-			if (!members.length) {
-				const empty = paragraph("暂无成员");
-				empty.className = "social-empty";
-				list.append(empty);
-			}
+			list.firstElementChild.classList.add("social-management", "inventory-item");
 		}
 		const member = members.find((m) => identity(m) === selected);
 		if (selected && !member) selected = null;
+		for (const button of list.querySelectorAll("button")) button.setAttribute("aria-pressed", String((button.dataset.member || null) === selected));
 		const key = JSON.stringify([
 			type,
 			selected,
-			member,
+			member && [
+				member.AID,
+				member.GID,
+				member.Name,
+				member.characterName,
+				member.CharName,
+				member.State,
+				member.state,
+				member.role,
+				member.CurrentState,
+				member.mapName,
+				member.mapname,
+				member.baseLevel,
+				member.Level,
+				member.GPositionID
+			],
 			state.allowed,
 			state.hasParty,
 			state.partyName,
+			state.guildName,
 			state.leader,
 			state.options,
 			state.master,
@@ -370712,7 +372311,7 @@ function createSocialPanel(body, service, whisper) {
 		lastKey = key;
 		detail.replaceChildren();
 		$(".social-footer-actions").replaceChildren();
-		if (type === "party" && state.hasParty) {
+		if (type === "party" && state.hasParty && !member) {
 			const heading = document.createElement("h3");
 			heading.className = "social-party-heading";
 			const name = document.createElement("span");
@@ -370727,22 +372326,19 @@ function createSocialPanel(body, service, whisper) {
 		}
 		if (member) {
 			const name = member.Name || member.characterName || member.CharName;
-			detail.append(paragraph(name));
+			const isSelf = member.AID === state.self.AID;
+			detail.append(memberSummary(member, type, isSelf));
 			const chat = button("私聊", () => whisper(name));
-			chat.disabled = !state.allowed;
+			chat.disabled = !state.allowed || isSelf;
 			(type === "guild" ? detail : $(".social-footer-actions")).append(chat);
-			if (type === "friends") {
-				detail.append(paragraph(member.State === 0 ? "在线" : "离线"));
-				form("删除好友", [], () => act("removeFriend", member), true);
-			} else if (type === "party") {
-				detail.append(paragraph(`地图：${member.mapName || member.mapname || "未知"} · 等级：${member.baseLevel || "未知"}`));
+			if (type === "friends") form("删除好友", [], () => act("removeFriend", member), true);
+			else if (type === "party") {
 				if (state.leader && member.AID !== state.self.AID) {
 					form("转交队长", [], () => act("leadParty", member), true);
 					form("移出队伍", [], () => act("expelParty", member), true);
 				}
 			} else {
-				detail.append(paragraph(`${member.CurrentState ? "在线" : "离线"} · 等级：${member.Level || 0}`));
-				if (state.master) form("设置职位", [[
+				if (state.master && !isSelf) form("设置职位", [[
 					"position",
 					"公会职位",
 					"",
@@ -370796,7 +372392,6 @@ function createSocialPanel(body, service, whisper) {
 		if (type === "guild") {
 			if (!state.guild) {
 				form("创建公会", [["name", "公会名"]], (values) => act("createGuild", values), true);
-				detail.append(paragraph("创建公会所需材料由服务器检查"));
 				return;
 			}
 			const skillGroup = document.createElement("details"), summary = document.createElement("summary");
@@ -370951,6 +372546,7 @@ function createSocialPanel(body, service, whisper) {
 	return { update };
 }
 var init_SocialPanel = __esmMin((() => {
+	init_DBManager();
 	init_MenuFormControls();
 	init_SocialText$1();
 	init_Confirmation();
@@ -371032,12 +372628,86 @@ var init_ChatEmotions = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Mobile/game/ChatPanel.js
-function createChatPanel(body, send, initialReceiver = "", loadEmotionImages, onSent, initialFilter = "all", onFilterChange) {
-	body.innerHTML = "<div class=\"chat-conversation\"><nav class=\"chat-filters\" aria-label=\"消息筛选\"></nav><div class=\"chat-content\"><div class=\"chat-log\" role=\"log\" aria-label=\"聊天消息\"></div><div class=\"chat-emotions\" hidden aria-label=\"RO 表情\"></div></div></div><form class=\"chat-form\"><select aria-label=\"发送频道\"><option value=\"public\">附近</option><option value=\"private\">私聊</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option><option value=\"clan\">氏族</option></select><input data-menu-control=\"field\" aria-label=\"私聊对象\" maxlength=\"24\" placeholder=\"角色名\" hidden><input data-menu-control=\"field\" data-input-submit aria-label=\"聊天内容\" placeholder=\"输入消息\" maxlength=\"120\" autocomplete=\"off\" enterkeyhint=\"send\"><button type=\"button\" data-emotions aria-label=\"选择表情\" aria-expanded=\"false\">表情</button><button type=\"submit\">发送</button></form>";
+function createChatComposer() {
+	return {
+		receiver: "",
+		drafts: /* @__PURE__ */ new Map(),
+		contacts: /* @__PURE__ */ new Set(),
+		removedContacts: /* @__PURE__ */ new Map(),
+		read: /* @__PURE__ */ new Set()
+	};
+}
+function createChatPanel(body, send, initialReceiver = "", loadEmotionImages, initialFilter = "all", onFilterChange, composer = createChatComposer(), channelError = () => "") {
+	body.innerHTML = `
+		<div class="chat-conversation">
+			<nav class="chat-filters" aria-label="消息分类"></nav>
+			<section class="chat-contacts" aria-label="私聊对象" hidden>
+				<button type="button" data-new-private>＋ 新私聊</button>
+				<div class="chat-contact-list"></div>
+			</section>
+			<div class="chat-content">
+				<div class="chat-recipient" hidden></div>
+				<div class="chat-log" role="log" aria-label="聊天消息"></div>
+				<div class="chat-emotions" hidden aria-label="RO 表情"></div>
+			</div>
+		</div>
+		<form class="chat-form">
+			<input data-menu-control="field" data-input-submit aria-label="聊天内容" maxlength="120" autocomplete="off" enterkeyhint="send">
+			<button type="button" data-emotions aria-label="选择表情" aria-expanded="false">表情</button>
+			<button type="submit">发送</button>
+		</form>`;
 	const feedback = createFeedback(body);
-	const $ = (selector) => body.querySelector(selector), log = $(".chat-log"), channel = $("[aria-label=\"发送频道\"]"), receiver = $("[aria-label=\"私聊对象\"]"), input = $("[aria-label=\"聊天内容\"]");
-	let messages = [];
-	let filter = initialFilter;
+	const $ = (selector) => body.querySelector(selector);
+	const log = $(".chat-log"), input = $("[aria-label=\"聊天内容\"]");
+	const palette = $(".chat-emotions"), toggle = $("[data-emotions]");
+	const recipient = $(".chat-recipient");
+	let dismissNewPrivate;
+	const sendable = [
+		"public",
+		"private",
+		"party",
+		"guild",
+		"clan"
+	];
+	let messages = [], filter = initialReceiver ? "private" : initialFilter;
+	if (initialReceiver) {
+		composer.receiver = initialReceiver;
+		composer.contacts.add(initialReceiver);
+		composer.removedContacts.delete(initialReceiver);
+	}
+	const key = () => filter === "private" ? `private:${composer.receiver}` : filter;
+	const canSend = () => sendable.includes(filter) && (filter !== "private" || Boolean(composer.receiver));
+	function saveDraft() {
+		if (canSend()) composer.drafts.set(key(), input.value);
+	}
+	function hideEmotions() {
+		palette.hidden = true;
+		toggle.setAttribute("aria-expanded", "false");
+	}
+	function renderComposer() {
+		input.disabled = toggle.disabled = $(".chat-form [type=\"submit\"]").disabled = !canSend() || Boolean(channelError(filter));
+		input.value = canSend() ? composer.drafts.get(key()) || "" : "";
+		input.placeholder = channelError(filter) || (filter === "all" ? "请选择频道，或点击消息回复" : !sendable.includes(filter) ? "当前分类仅供查看" : filter === "private" ? composer.receiver ? "输入私聊消息" : "请先选择私聊对象" : `发送到${chatChannelLabels[filter]}`);
+		recipient.hidden = filter !== "private";
+		recipient.textContent = composer.receiver || "请选择私聊对象";
+		$(".chat-contacts").hidden = filter !== "private";
+		$(".chat-conversation").classList.toggle("is-private", filter === "private");
+		for (const button of $(".chat-filters").children) button.setAttribute("aria-pressed", String(button.dataset.chatFilter === filter));
+	}
+	function chooseFilter(value, peer) {
+		saveDraft();
+		if (peer) {
+			composer.receiver = peer;
+			composer.contacts.add(peer);
+			composer.removedContacts.delete(peer);
+		}
+		filter = value;
+		hideEmotions();
+		renderComposer();
+		update();
+		log.scrollTop = log.scrollHeight;
+		onFilterChange?.(filter);
+	}
 	for (const [value, label] of Object.entries({
 		all: "全部消息",
 		...chatChannelLabels
@@ -371046,17 +372716,127 @@ function createChatPanel(body, send, initialReceiver = "", loadEmotionImages, on
 		button.type = "button";
 		button.dataset.chatFilter = value;
 		button.textContent = label;
-		button.setAttribute("aria-pressed", String(value === filter));
-		button.onclick = () => {
-			filter = value;
-			for (const item of $(".chat-filters").children) item.setAttribute("aria-pressed", String(item === button));
-			update();
-			log.scrollTop = log.scrollHeight;
-			onFilterChange?.(filter);
-		};
+		button.onclick = () => chooseFilter(value);
 		$(".chat-filters").append(button);
 	}
-	const palette = $(".chat-emotions"), toggle = $("[data-emotions]");
+	function selectPeer(name) {
+		name = name.trim();
+		if (privateRecipientError(name)) return;
+		dismissNewPrivate?.();
+		chooseFilter("private", name);
+	}
+	function removePeer(name) {
+		saveDraft();
+		composer.contacts.delete(name);
+		composer.removedContacts.set(name, Math.max(0, ...messages.map((message) => message.id)));
+		for (const message of messages) if (message.privatePeer === name) composer.read.add(message.id);
+		if (composer.receiver === name) composer.receiver = "";
+		renderComposer();
+		update();
+	}
+	function renderContacts() {
+		const list = $(".chat-contact-list");
+		list.replaceChildren();
+		for (const name of [...composer.contacts].reverse()) {
+			const unread = messages.filter((m) => m.privatePeer === name && m.incomingPrivate && !composer.read.has(m.id)).length;
+			const row = document.createElement("div");
+			row.className = "chat-contact";
+			row.classList.toggle("is-selected", name === composer.receiver);
+			const button = document.createElement("button");
+			button.type = "button";
+			button.className = "chat-contact-select";
+			const label = document.createElement("span");
+			label.className = "chat-contact-name";
+			label.textContent = name;
+			button.append(label);
+			button.title = name;
+			button.setAttribute("aria-label", `${name}${unread ? `，${unread} 条未读` : ""}`);
+			if (unread) {
+				const badge = document.createElement("b");
+				badge.className = "chat-contact-unread";
+				badge.textContent = String(unread);
+				button.append(badge);
+			}
+			button.setAttribute("aria-pressed", String(name === composer.receiver));
+			button.onclick = () => selectPeer(name);
+			const remove = document.createElement("button");
+			remove.type = "button";
+			remove.className = "chat-contact-remove";
+			remove.textContent = "×";
+			remove.title = "删除对象";
+			remove.setAttribute("aria-label", `删除私聊对象 ${name}`);
+			remove.onclick = () => removePeer(name);
+			row.append(button, remove);
+			list.append(row);
+		}
+	}
+	function openRecipients() {
+		const field = document.createElement("input");
+		field.placeholder = "输入角色名";
+		field.maxLength = 24;
+		field.required = true;
+		field.autocomplete = "off";
+		dismissNewPrivate = requestMobileInput(body.getRootNode().host, {
+			field,
+			title: "新私聊",
+			doneLabel: "开始私聊",
+			validate: (value) => privateRecipientError(value.trim()),
+			onConfirm: selectPeer,
+			onClose: () => {
+				dismissNewPrivate = null;
+			}
+		});
+	}
+	$("[data-new-private]").onclick = openRecipients;
+	function update(next = messages) {
+		messages = next;
+		const atBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 24;
+		for (const message of messages) {
+			if (message.privatePeer) {
+				const removedAt = composer.removedContacts.get(message.privatePeer);
+				if (removedAt === void 0 || message.incomingPrivate && message.id > removedAt) {
+					composer.removedContacts.delete(message.privatePeer);
+					composer.contacts.add(message.privatePeer);
+				}
+			}
+			if (!dismissNewPrivate && (filter === "all" || filter === "private" && message.privatePeer === composer.receiver)) composer.read.add(message.id);
+		}
+		const unread = messages.filter((m) => m.incomingPrivate && !composer.read.has(m.id)).length;
+		$("[data-chat-filter=\"private\"]").textContent = `私聊${unread ? ` (${unread})` : ""}`;
+		log.replaceChildren(...messages.filter((m) => filter === "all" || m.channel === filter && (filter !== "private" || m.privatePeer === composer.receiver)).map((m) => {
+			const p = document.createElement("p");
+			p.dataset.channel = m.channel;
+			if (filter === "private") {
+				p.classList.add("chat-private-message");
+				p.dataset.direction = m.direction || (m.incomingPrivate ? "incoming" : "outgoing");
+				const label = document.createElement("span");
+				label.className = "chat-message-author";
+				label.textContent = p.dataset.direction === "error" ? "提示" : p.dataset.direction === "incoming" ? "喵" : "我";
+				const text = document.createElement("span");
+				label.textContent += "：";
+				text.className = "chat-message-body";
+				text.textContent = m.bodyText;
+				p.append(label, text);
+			} else if (m.channel === "private" && m.privatePeer) p.textContent = `[私聊] ${m.direction === "error" ? "提示 " : m.direction === "outgoing" ? "回复 " : ""}[${m.privatePeer}]: ${m.bodyText}`;
+			else p.textContent = `[${chatChannelLabels[m.channel] || "系统"}] ${m.text}`;
+			if (filter === "all" && (m.channel === "private" ? m.replyable !== false : m.replyable === true) && sendable.includes(m.channel) && (m.channel !== "private" || m.privatePeer && m.incomingPrivate)) {
+				const reply = document.createElement("a");
+				reply.href = "#";
+				reply.className = "chat-reply";
+				reply.textContent = m.channel === "private" ? "回复" : "发言";
+				reply.setAttribute("aria-label", m.privatePeer ? `私聊 ${m.privatePeer}` : `在${chatChannelLabels[m.channel]}发言`);
+				reply.onclick = (event) => {
+					event.preventDefault();
+					chooseFilter(m.channel, m.privatePeer);
+					input.focus();
+				};
+				p.append(" ", reply);
+			}
+			return p;
+		}));
+		renderContacts();
+		if (atBottom) log.scrollTop = log.scrollHeight;
+	}
 	let loading;
 	async function ensureEmotions() {
 		if (loading) return loading;
@@ -371074,7 +372854,7 @@ function createChatPanel(body, send, initialReceiver = "", loadEmotionImages, on
 				icon.alt = "";
 				icon.width = icon.height = 40;
 				button.append(icon);
-				button.onclick = () => submit(`/${command}`);
+				button.onclick = () => submit(`/${command}`, true);
 				palette.append(button);
 			}
 		}).catch(() => {
@@ -371089,53 +372869,48 @@ function createChatPanel(body, send, initialReceiver = "", loadEmotionImages, on
 		toggle.setAttribute("aria-expanded", String(!palette.hidden));
 		if (!palette.hidden) ensureEmotions();
 	};
-	for (const region of [$("form"), palette]) region.addEventListener("pointerdown", (event) => {
-		if (event.target.closest("button")) event.preventDefault();
-	});
-	channel.onchange = () => {
-		receiver.hidden = channel.value !== "private";
-	};
-	if (initialReceiver) {
-		channel.value = "private";
-		receiver.value = initialReceiver;
-		channel.onchange();
-	}
-	function update(next = messages) {
-		messages = next;
-		const atBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 24;
-		log.replaceChildren(...messages.filter((m) => filter === "all" || m.channel === filter).map((m) => {
-			const p = document.createElement("p");
-			p.dataset.channel = m.channel;
-			p.textContent = `[${chatChannelLabels[m.channel] || "系统"}] ${m.text}`;
-			return p;
-		}));
-		if (atBottom) log.scrollTop = log.scrollHeight;
-	}
 	let composing = false;
+	input.addEventListener("input", saveDraft);
 	input.addEventListener("compositionstart", () => {
 		composing = true;
 	});
 	input.addEventListener("compositionend", () => {
 		composing = false;
+		saveDraft();
 	});
-	function submit(text) {
-		const error = send(text, channel.value, receiver.value);
-		if (error) feedback(error, "error");
-		if (!error) {
-			input.value = "";
-			input.blur();
-			palette.hidden = true;
-			toggle.setAttribute("aria-expanded", "false");
-			onSent?.();
+	function submit(text, emotion = false) {
+		if (!canSend() || composing || channelError(filter)) return;
+		const error = send(text, filter, filter === "private" ? composer.receiver : "");
+		if (error) {
+			if (filter !== "private") feedback(error, "error");
+			return;
 		}
+		if (!emotion) {
+			input.value = "";
+			saveDraft();
+		}
+		hideEmotions();
 	}
-	$("form").onsubmit = (event) => {
+	$(".chat-form").onsubmit = (event) => {
 		event.preventDefault();
-		if (!composing) submit(input.value);
+		submit(input.value);
 	};
-	return { update };
+	renderComposer();
+	if (initialReceiver) onFilterChange?.(filter);
+	return {
+		update,
+		refresh() {
+			const disabled = !canSend() || Boolean(channelError(filter));
+			if (input.disabled !== disabled) {
+				saveDraft();
+				renderComposer();
+			}
+		}
+	};
 }
 var init_ChatPanel = __esmMin((() => {
+	init_PrivateRecipient();
+	init_MobileInputEditor();
 	init_ChatChannels();
 	init_ChatEmotions();
 	init_Feedback();
@@ -372403,6 +374178,7 @@ function createEquipmentPanel(body, actions) {
 		["shadow", "影子"],
 		["stats", "属性"]
 	]) {
+		if (actions.readOnly && key === "stats") continue;
 		const tab = button(label, () => {
 			dismiss?.();
 			group = key;
@@ -372528,6 +374304,13 @@ function createEquipmentPanel(body, actions) {
 		content.append(heading);
 		const ops = $(".equipment-actions");
 		ops.replaceChildren();
+		if (actions.readOnly) {
+			ops.hidden = true;
+			if (slot.item) content.append(...itemDetails(slot.item));
+			else content.append(document.createTextNode("此部位未穿戴装备"));
+			detail.replaceChildren(content);
+			return;
+		}
 		if (slot.item) {
 			content.append(...itemDetails(slot.item));
 			const remove = button("卸下", () => perform(slot, slot.item, "unequip"));
@@ -372566,7 +374349,7 @@ function createEquipmentPanel(body, actions) {
 			node.hidden = slot.group !== group;
 			node.setAttribute("aria-pressed", String(selected === slot.key));
 			node.querySelector("strong").textContent = slot.label;
-			node.querySelector("span").textContent = slot.item?.name || "＋ 选择装备";
+			node.querySelector("span").textContent = slot.item?.name || (actions.readOnly ? "未穿戴" : "＋ 选择装备");
 			const image = node.querySelector("img");
 			image.alt = "";
 			image.hidden = !slot.item?.icon;
@@ -372605,6 +374388,7 @@ function createEquipmentPanel(body, actions) {
 			}
 		}
 		renderDetail();
+		if (actions.readOnly) return;
 		removeAttachment.textContent = state.attachment.label;
 		removeAttachment.hidden = !state.attachment.mask;
 		removeAttachment.disabled = Boolean(state.attachment.removal?.pending);
@@ -372916,6 +374700,7 @@ function createInventoryPanel(body, actions) {
 		list.querySelector("p")?.remove();
 		if (!filtered.length) {
 			const empty = document.createElement("p");
+			empty.className = "inventory-list-empty";
 			empty.textContent = "该分类暂无物品";
 			list.append(empty);
 		}
@@ -372991,8 +374776,8 @@ function createShortcutPanel(body, actions) {
 				</div>
 				<div class="shortcut-choices"></div><p data-filter-empty hidden>没有符合条件的技能或物品</p>
 			</section>
-			<section class="shortcut-editor" aria-label="快捷键说明">
-				<div class="shortcut-current"><strong data-slot-title></strong><span data-current></span></div>
+			<section class="shortcut-editor inventory-item-detail" aria-label="快捷键说明">
+				<div class="shortcut-current"><strong data-slot-title></strong></div>
 				<p data-choice-hint>从列表选择技能或道具，查看说明并保存到当前位置。</p>
 				<div data-choice-detail hidden></div>
 			</section>
@@ -373050,8 +374835,12 @@ function createShortcutPanel(body, actions) {
 				button.setAttribute("aria-pressed", String(slot.index === index));
 			}
 			if (slot.index === index) {
-				$("[data-slot-title]").textContent = `位置 ${index + 1}`;
-				$("[data-current]").textContent = `当前：${slot.name}${slot.amount ? ` · ${slot.amount}` : ""}`;
+				const heading = $("[data-slot-title]");
+				const title = `当前位置 ${index + 1}：${slot.name}${slot.binding?.isSkill ? ` · Lv.${slot.binding.count}` : ""}`;
+				if (heading.textContent !== title) {
+					heading.textContent = title;
+					heading.title = title;
+				}
 				$("[data-clear-slot]").disabled = slot.empty;
 			}
 		}
@@ -373172,7 +374961,6 @@ function createShortcutPanel(body, actions) {
 				if (item) detail.replaceChildren(createInventoryDescription(item, actions.previewItem));
 				else detail.textContent = "物品已经变化，请重新选择";
 			}
-			$(".shortcut-editor").scrollTop = 0;
 			const select = $(".shortcut-level select");
 			select.replaceChildren();
 			select.disabled = !entry.isSkill;
@@ -373230,13 +375018,13 @@ var init_ShortcutPanel = __esmMin((() => {
 //#region src/UI/Mobile/game/GameHUD.html?raw
 var GameHUD_default$2;
 var init_GameHUD$2 = __esmMin((() => {
-	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n			<button class=\"surface portrait-chat-button\" data-panel=\"chat\">聊天</button>\r\n			<button class=\"surface camera-button\" data-panel=\"camera\">镜头</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<div class=\"chat-preview surface\">\r\n		<nav class=\"chat-preview-tabs menu-tabs\" data-chat-preview-tabs aria-label=\"聊天预览分类\"></nav>\r\n		<button class=\"chat-preview-open\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n			<span data-chat-preview>暂无消息</span>\r\n		</button>\r\n		<button data-chat-collapse aria-label=\"收起聊天预览\" title=\"收起聊天预览\">收起</button>\r\n		<button data-chat-expand aria-label=\"展开聊天预览\" title=\"展开聊天预览\" hidden>\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"portrait-chat-launch surface\">\r\n		<button data-panel=\"chat\" aria-label=\"打开聊天\" title=\"打开聊天\">\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷键\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷键\">›</button\r\n				><button data-panel=\"shortcuts\">快捷键</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能位置 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能位置 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能位置 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能位置 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能位置 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能位置 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop mobile-menu-viewport\" hidden>\r\n		<section\r\n			class=\"panel surface mobile-menu-window\"\r\n			role=\"dialog\"\r\n			aria-modal=\"true\"\r\n			aria-labelledby=\"mobile-game-panel-title\"\r\n		>\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\">\r\n					<button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button>\r\n				</div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
+	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n			<button class=\"surface portrait-chat-button\" data-panel=\"chat\">聊天</button>\r\n			<button class=\"surface camera-button\" data-panel=\"camera\">镜头</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<div class=\"chat-preview surface\">\r\n		<nav class=\"chat-preview-tabs menu-tabs\" data-chat-preview-tabs aria-label=\"聊天预览分类\"></nav>\r\n		<button class=\"chat-preview-open\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n			<span data-chat-preview>暂无消息</span>\r\n		</button>\r\n		<button data-chat-collapse aria-label=\"收起聊天预览\" title=\"收起聊天预览\">收起</button>\r\n		<button data-chat-expand aria-label=\"展开聊天预览\" title=\"展开聊天预览\" hidden>\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"portrait-chat-launch surface\">\r\n		<button data-panel=\"chat\" aria-label=\"打开聊天\" title=\"打开聊天\">\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span>\r\n				<div class=\"player-actions\" data-player-actions hidden>\r\n					<button data-player-action=\"private\">私聊</button>\r\n					<button data-player-action=\"equipment\">装备</button>\r\n					<button data-player-action=\"friend\">好友</button>\r\n					<button data-player-action=\"trade\">交易</button>\r\n				</div>\r\n				<button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷键\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷键\">›</button\r\n				><button data-panel=\"shortcuts\">快捷键</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能位置 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能位置 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能位置 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能位置 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能位置 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能位置 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop mobile-menu-viewport\" hidden>\r\n		<section\r\n			class=\"panel surface mobile-menu-window\"\r\n			role=\"dialog\"\r\n			aria-modal=\"true\"\r\n			aria-labelledby=\"mobile-game-panel-title\"\r\n		>\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\">\r\n					<button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button>\r\n				</div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.css?raw
 var GameHUD_default$1;
 var init_GameHUD$1 = __esmMin((() => {
-	GameHUD_default$1 = ":host {\r\n	/* Keep text metrics stable when the mobile keyboard changes the viewport. */\r\n	-webkit-text-size-adjust: 100%;\r\n	text-size-adjust: 100%;\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	--battle-button-padding: 5px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px var(--battle-button-padding);\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	height: 64px;\r\n	min-height: 64px;\r\n	max-height: 64px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	width: calc(100% - 48px);\r\n	height: 48px;\r\n	max-height: 48px;\r\n	line-height: 16px;\r\n	font-size: 11px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n	overflow-y: auto;\r\n	scrollbar-width: none;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n[data-chat-preview]::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.chat-preview-line {\r\n	display: block;\r\n	min-height: 16px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small [data-chat-unread] {\r\n	position: absolute;\r\n	right: 0;\r\n	bottom: 16px;\r\n}\r\n.chat-preview small {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 7px;\r\n	display: block;\r\n	text-align: right;\r\n	line-height: 16px;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	z-index: 10;\r\n	background: #0003;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px var(--battle-button-padding);\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 14px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-filters {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	margin-bottom: 0;\r\n	flex-shrink: 0;\r\n}\r\n.shortcut-filters select {\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud {\r\n	height: var(--mobile-layout-height);\r\n}\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] {\r\n	--gauge-color: #4588ba;\r\n}\r\n.profile [data-ap] {\r\n	--gauge-color: #b28c35;\r\n}\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp {\r\n	--gauge-color: #ff0000;\r\n}\r\n";
+	GameHUD_default$1 = ":host {\r\n	/* Keep text metrics stable when the mobile keyboard changes the viewport. */\r\n	-webkit-text-size-adjust: 100%;\r\n	text-size-adjust: 100%;\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	--battle-button-padding: 5px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px var(--battle-button-padding);\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	height: 64px;\r\n	min-height: 64px;\r\n	max-height: 64px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	width: calc(100% - 48px);\r\n	height: 48px;\r\n	max-height: 48px;\r\n	line-height: 16px;\r\n	font-size: 11px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n	overflow-y: auto;\r\n	scrollbar-width: none;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n[data-chat-preview]::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.chat-preview-line {\r\n	display: block;\r\n	min-height: 16px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small [data-chat-unread] {\r\n	position: absolute;\r\n	right: 0;\r\n	bottom: 16px;\r\n}\r\n.chat-preview small {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 7px;\r\n	display: block;\r\n	text-align: right;\r\n	line-height: 16px;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	z-index: 10;\r\n	background: #0003;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px var(--battle-button-padding);\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 14px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-filters {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	margin-bottom: 0;\r\n	flex-shrink: 0;\r\n}\r\n.shortcut-filters select {\r\n	width: 100%;\r\n	min-width: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud {\r\n	height: var(--mobile-layout-height);\r\n}\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] {\r\n	--gauge-color: #4588ba;\r\n}\r\n.profile [data-ap] {\r\n	--gauge-color: #b28c35;\r\n}\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp {\r\n	--gauge-color: #ff0000;\r\n}\r\n\r\n.battle-status.has-player-actions { flex-wrap: wrap; }\r\n.player-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; width: 100%; }\r\n.player-actions[hidden], .battle-status [data-target][hidden] { display: none; }\r\n.player-actions button { min-width: 0; padding: 4px 2px; white-space: nowrap; }\r\n.player-actions button:disabled { opacity: .5; }\r\n\r\n[data-auto-toggle].clear-selection {\r\n	color: #ecce94; border-color: #ecce94; background: #483a25b8;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDResponsive.css?raw
@@ -373248,7 +375036,7 @@ var init_GameHUDResponsive = __esmMin((() => {
 //#region src/UI/Mobile/game/MenuPanels.css?raw
 var MenuPanels_default;
 var init_MenuPanels = __esmMin((() => {
-	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	background: #191f26;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 12px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n:host(:not([data-menu-density='spacious'])) .panel {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel button {\r\n	min-height: 30px;\r\n	padding: 3px 7px;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel header {\r\n	padding: 4px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body {\r\n	padding: 8px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) {\r\n	flex-wrap: nowrap;\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 0;\r\n	min-width: 0;\r\n	padding: 3px 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions {\r\n	gap: 4px;\r\n	margin-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions button {\r\n	flex: 0 1 auto;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.social-form, .bank-form) > label {\r\n	flex-direction: row;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.social-form, .bank-form)\r\n	> label\r\n	> :is(input, select, textarea) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .social-form label > input[type='checkbox'] {\r\n	flex: 0 0 18px;\r\n	width: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel-body\r\n	:is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	padding: 3px 6px;\r\n	line-height: 1.25;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body textarea {\r\n	min-height: 60px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n:host(:not([data-menu-density='spacious'])) .panel .character-details :is(dt, dd) {\r\n	padding: 6px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-section {\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n	gap: 0 12px;\r\n	padding: 2px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-field {\r\n	min-height: 38px;\r\n	gap: 6px;\r\n	padding: 3px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer {\r\n	padding-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer p {\r\n	margin: 4px 0 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-actions {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-range-stepper button {\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	padding: 3px 6px;\r\n	line-height: 1.3;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot)\r\n	img {\r\n	width: 28px;\r\n	height: 28px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .equipment-slot {\r\n	min-height: 52px;\r\n	padding: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	.settings-form\r\n	.settings-field\r\n	:is(input:not([type='checkbox']), select) {\r\n	min-height: 30px;\r\n	padding: 3px 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form .settings-field input[type='range'] {\r\n	padding: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-config {\r\n	margin-top: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-selected img {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-list {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card {\r\n	min-height: 32px;\r\n	padding: 4px 6px;\r\n	gap: 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card .auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card span {\r\n	gap: 2px 4px;\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-attribute-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.camera-section {\r\n	display: block;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-allocation {\r\n	gap: 3px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-row {\r\n	padding-bottom: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-results dl {\r\n	gap: 4px 8px;\r\n	line-height: 1.3;\r\n}\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n	background: #18212b;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n}\r\n\r\n/* Compact forms and the shared catalog dropdown for every mobile menu. */\r\n.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n	padding: var(--panel-control-padding);\r\n	box-sizing: border-box;\r\n}\r\n.panel-body textarea {\r\n	min-height: 60px;\r\n	padding: 5px 6px;\r\n}\r\n.panel .menu-select {\r\n	min-width: 0;\r\n	height: auto;\r\n	min-height: 28px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {\r\n	flex: 1 1 120px;\r\n}\r\n.panel .social-form > label > .menu-select {\r\n	width: 100%;\r\n	flex: none;\r\n}\r\n.panel .menu-select .game-select-menu {\r\n	position: fixed;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n.panel .menu-select .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.panel :is([data-review], [data-evolution]):empty {\r\n	display: none;\r\n}\r\n\r\n.panel .bank-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	align-items: stretch;\r\n}\r\n.panel .bank-account {\r\n	display: flex;\r\n	flex-direction: column;\r\n	justify-content: center;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	min-width: 0;\r\n	padding: 16px 8px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n}\r\n.panel .bank-account h3 {\r\n	margin: 0;\r\n	font-size: var(--panel-title);\r\n}\r\n.panel .bank-account strong {\r\n	font-size: var(--panel-title);\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .bank-transfer {\r\n	display: flex;\r\n	flex-direction: column;\r\n	justify-content: center;\r\n	gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density]) .panel[data-view='bank'] .bank-transfer button {\r\n	width: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n.panel .bank-amount-controls {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr) auto;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n}\r\n:host([data-menu-density]) .panel[data-view='bank'] .bank-amount-controls input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: 16px;\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	margin: 6px 0;\r\n}\r\n.panel[data-view='vending'] label > input {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n\r\n.panel[data-view='inventory'] .inventory-toolbar {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel[data-view='inventory'] .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item {\r\n	min-width: 0;\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item img {\r\n	flex-shrink: 0;\r\n}\r\n.panel[data-view='inventory'] .inventory-list > p {\r\n	grid-column: 1 / -1;\r\n}\r\n\r\n/* Clamp list names only; quantities, status and full detail text stay separate. */\r\n.panel .list-item-text {\r\n	display: block;\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.panel .list-item-name,\r\n.panel .equipment-slot > span,\r\n.panel .equipment-candidate > span {\r\n	display: -webkit-box;\r\n	-webkit-box-orient: vertical;\r\n	-webkit-line-clamp: var(--list-name-lines, 2);\r\n	overflow: hidden;\r\n	overflow-wrap: anywhere;\r\n	white-space: normal;\r\n	line-height: 1.4;\r\n	max-height: calc(var(--list-name-lines, 2) * 1.4em);\r\n	min-width: 0;\r\n}\r\n.panel .list-item-meta {\r\n	display: block;\r\n	margin-top: 2px;\r\n	font-size: 11px;\r\n	line-height: 1.4;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .list-item-meta[hidden] {\r\n	display: none;\r\n}\r\n\r\n/* Compact selectors leave room for their icon and secondary information. */\r\n.panel[data-view='skills'] .list-item-name,\r\n.panel[data-view='social'] .list-item-name,\r\n.panel .shortcut-choice .list-item-name,\r\n.panel .equipment-slot > span {\r\n	--list-name-lines: 1;\r\n}\r\n\r\n/* A row with secondary information has one name line and one metadata line. */\r\n.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {\r\n	--list-name-lines: 1;\r\n}\r\n.panel .list-item-meta {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n\r\n/* Keep category controls and section edges clear in every viewport. */\r\n.panel .settings-form {\r\n	position: relative;\r\n	gap: 12px;\r\n}\r\n.panel .settings-section {\r\n	padding: 10px 12px;\r\n}\r\n.panel .settings-footer {\r\n	padding-block: 8px;\r\n}\r\n\r\n/* Converted native selects need their own width, independent of hidden inputs. */\r\n.panel .settings-field > .menu-select {\r\n	width: 100px;\r\n	min-width: 100px;\r\n}\r\n\r\n.camera-reset {\r\n	width: 100%;\r\n	margin-bottom: 12px;\r\n}\r\n.camera-group {\r\n	min-width: 0;\r\n	margin: 0 0 12px;\r\n}\r\n.camera-group:last-child {\r\n	margin-bottom: 0;\r\n}\r\n\r\n.panel .settings-switch-start {\r\n	grid-column: 1;\r\n}\r\n\r\n.panel .inventory-item-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	min-height: 0;\r\n}\r\n.inventory-item-description {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.panel .inventory-item-detail > .inventory-actions {\r\n	flex-shrink: 0;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #465461;\r\n}\r\n\r\n.panel[data-view='status'] .status-title {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel[data-view='status'] .status-duration {\r\n	flex: none;\r\n	color: #bac4cd;\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel-navigation {\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.skills-browser,\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	gap: 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.shortcut-browser {\r\n	gap: 4px;\r\n}\r\n.skills-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	border-top: 1px solid #465461;\r\n}\r\n.skills-footer > strong {\r\n	min-width: 0;\r\n	color: #ceaa70;\r\n	font-size: var(--panel-label);\r\n	overflow-wrap: anywhere;\r\n}\r\n.skills-reset {\r\n	flex: none;\r\n}\r\n.panel .skills-reset > button {\r\n	width: auto;\r\n	padding: 3px 6px;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.skills-browser > .inventory-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.container-toolbar .container-capacity {\r\n	font-size: var(--panel-label);\r\n	color: #bac4cd;\r\n}\r\n\r\n.attribute-editor {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-editor .attribute-allocation {\r\n	display: grid;\r\n	grid-template-columns: max-content minmax(0, 1fr) max-content repeat(3, var(--panel-attribute-width));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	column-gap: 8px;\r\n	row-gap: 0;\r\n	min-width: 0;\r\n	overflow: visible;\r\n}\r\n.panel .attribute-row {\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	min-height: 34px;\r\n	gap: 6px;\r\n	padding: 4px 0 3px;\r\n}\r\n.attribute-row > :is(strong, .attribute-value, small) {\r\n	white-space: nowrap;\r\n}\r\n.attribute-row .attribute-value {\r\n	text-align: right;\r\n}\r\n.attribute-increments {\r\n	display: grid;\r\n	grid-template-columns: subgrid;\r\n	grid-column: span 3;\r\n}\r\n.panel .attribute-increments button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	text-align: center;\r\n	width: 32px;\r\n	min-width: 32px;\r\n	padding: 2px 0;\r\n}\r\n.attribute-layout > .attribute-results {\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-results > dl {\r\n	align-content: start;\r\n	row-gap: 0;\r\n}\r\n.attribute-results > dl > :is(dt, dd) {\r\n	min-height: 22px;\r\n	box-sizing: border-box;\r\n	padding: 1px 0;\r\n	line-height: 1.3;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.attribute-results > dl > dd {\r\n	justify-content: flex-end;\r\n}\r\n.attribute-footer {\r\n	justify-content: space-between;\r\n	padding-top: 6px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.attribute-footer > strong {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.attribute-plan-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-left: auto;\r\n}\r\n.panel .attribute-plan-actions button {\r\n	width: auto;\r\n	min-height: 28px;\r\n	padding: 3px 8px;\r\n	font-size: 12px;\r\n	white-space: nowrap;\r\n}\r\n@media (max-width: 520px) {\r\n	.attribute-editor .attribute-allocation,\r\n	.panel .attribute-row {\r\n		column-gap: 4px;\r\n	}\r\n	.attribute-footer {\r\n		gap: 6px;\r\n	}\r\n}\r\n\r\n@media (max-height: 450px) {\r\n	.attribute-results > dl > :is(dt, dd) {\r\n		min-height: 18px;\r\n		padding: 0;\r\n		font-size: 11px;\r\n	}\r\n}\r\n\r\n.shortcut-pages {\r\n	display: flex;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n	min-width: 0;\r\n}\r\n.shortcut-pages > .slot-picker {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .shortcut-pages > button {\r\n	flex: 0 0 30px;\r\n	width: 30px;\r\n	min-width: 30px;\r\n	padding: 0;\r\n	font-size: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n/* Chat preview and conversation panel. */\r\n.chat-preview {\r\n	left: max(12px, env(safe-area-inset-left));\r\n	right: auto;\r\n	width: min(300px, calc(100% - 224px));\r\n	min-width: 96px;\r\n}\r\n[data-chat-unread] {\r\n	display: inline-block;\r\n	border-radius: 8px;\r\n	padding: 0 5px;\r\n	background: #954b42;\r\n	color: white;\r\n}\r\n.chat-body {\r\n	gap: 8px;\r\n	padding: 10px;\r\n}\r\n.chat-conversation {\r\n	display: grid;\r\n	grid-template-columns: 88px minmax(0, 1fr);\r\n	gap: 8px;\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 8px;\r\n	border: 1px solid #465461;\r\n	border-radius: 8px;\r\n	overflow: hidden;\r\n}\r\n.chat-filters {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	padding-right: 8px;\r\n	border-right: 1px solid #465461;\r\n}\r\n.panel .chat-filters > button {\r\n	border: 0;\r\n	border-radius: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	min-height: 32px;\r\n	padding: 6px 8px;\r\n	text-align: left;\r\n	font-size: var(--panel-label);\r\n	white-space: nowrap;\r\n}\r\n.panel .chat-filters > button[aria-pressed='true'] {\r\n	background: #ceaa701a;\r\n	box-shadow: inset 2px 0 #ceaa70;\r\n	color: #ffe1aa;\r\n}\r\n.chat-content {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.panel .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.chat-conversation {\r\n		grid-template-columns: 72px minmax(0, 1fr);\r\n		gap: 6px;\r\n		padding: 6px;\r\n	}\r\n	.chat-filters {\r\n		padding-right: 6px;\r\n	}\r\n}\r\n.chat-body .chat-log {\r\n	padding: 2px 4px;\r\n	overscroll-behavior: contain;\r\n}\r\n.chat-log p {\r\n	margin: 0 0 6px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-log [data-channel='private'] {\r\n	color: #e5b6e9;\r\n}\r\n.chat-log [data-channel='party'] {\r\n	color: #a6d7ed;\r\n}\r\n.chat-log [data-channel='guild'] {\r\n	color: #acd7a0;\r\n}\r\n.chat-log [data-channel='system'] {\r\n	color: #b4bdc7;\r\n}\r\n.panel .chat-form {\r\n	display: grid;\r\n	grid-template-columns: 78px minmax(0, 1fr) 56px 56px;\r\n	gap: 6px;\r\n	margin: 0;\r\n}\r\n.panel .chat-form > [aria-label='私聊对象'] {\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > :is(input, button, select, .menu-select) {\r\n	min-width: 0;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > input {\r\n	padding: 5px 7px;\r\n	font-size: 16px;\r\n}\r\n.panel .chat-form > button {\r\n	padding: 3px;\r\n}\r\n.panel .chat-form > [data-emotions] {\r\n	font-size: 22px;\r\n}\r\n.chat-emotions {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));\r\n	gap: 5px;\r\n	max-height: 100px;\r\n	overflow-y: auto;\r\n	flex: none;\r\n}\r\n.panel .chat-emotions button {\r\n	padding: 3px;\r\n	font-size: 21px;\r\n}\r\n@media (max-width: 600px) {\r\n	.chat-preview {\r\n		width: min(200px, calc(100% - 224px));\r\n		bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px));\r\n	}\r\n}\r\n\r\n.panel .chat-form > :is(input, button),\r\n.panel .chat-form .menu-select > button {\r\n	height: 32px;\r\n	min-height: 32px;\r\n}\r\n\r\n/* Override compact generic inputs so iOS cannot zoom the chat composer. */\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label],\r\n.panel.chat-panel .chat-form > button,\r\n.panel.chat-panel .chat-form .game-select-trigger {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	min-height: 32px;\r\n	max-height: 32px;\r\n}\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label] {\r\n	font-size: 16px;\r\n	padding: 3px 6px;\r\n}\r\n\r\n.chat-emotions {\r\n	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));\r\n	min-height: 44px;\r\n}\r\n.panel .chat-emotions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 1px;\r\n	min-height: 44px;\r\n}\r\n.chat-emotions img {\r\n	display: block;\r\n	width: 40px;\r\n	height: 40px;\r\n	image-rendering: pixelated;\r\n}\r\n\r\n.chat-content:has(.chat-emotions:not([hidden])) > .chat-log {\r\n	display: none;\r\n}\r\n.chat-body .chat-emotions {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n	grid-auto-rows: 44px;\r\n	align-content: start;\r\n}\r\n\r\n.chat-preview {\r\n	pointer-events: auto;\r\n}\r\n.chat-preview-open {\r\n	display: block;\r\n	width: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	text-align: left;\r\n}\r\n.chat-preview [data-chat-collapse] {\r\n	position: absolute;\r\n	right: 3px;\r\n	top: 2px;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	color: #bac4cd;\r\n	font-size: 20px;\r\n}\r\n.chat-preview.collapsed {\r\n	width: 40px;\r\n	min-width: 40px;\r\n	height: 36px;\r\n	min-height: 36px;\r\n	padding: 0;\r\n}\r\n.chat-preview [data-chat-expand],\r\n.portrait-chat-launch > button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	border-radius: inherit;\r\n	color: #ffd27f;\r\n}\r\n[data-chat-expand] [data-chat-unread],\r\n.portrait-chat-launch [data-chat-unread] {\r\n	position: absolute;\r\n	right: -5px;\r\n	top: -6px;\r\n	font-size: 10px;\r\n	line-height: 16px;\r\n}\r\n\r\n.chat-body .chat-log {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.5;\r\n}\r\n.panel.chat-panel .chat-form > button {\r\n	font-size: var(--panel-text);\r\n	white-space: nowrap;\r\n	line-height: 1;\r\n	padding: 0 8px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-body .chat-log {\r\n	font-size: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form {\r\n	grid-template-columns: 100px minmax(0, 1fr) 72px 72px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > button {\r\n	font-size: 16px;\r\n	padding: 0 12px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-increments button {\r\n	width: 56px;\r\n	min-width: 56px;\r\n	padding-inline: 4px;\r\n	font-size: 14px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation,\r\n:host([data-menu-density='spacious']) .panel .attribute-results > dl {\r\n	row-gap: 4px;\r\n}\r\n\r\n/* Attribute increments retain their own compact scale, independent of form controls. */\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments button {\r\n	width: var(--panel-attribute-width);\r\n	min-width: var(--panel-attribute-width);\r\n	height: var(--panel-attribute-control);\r\n	min-height: var(--panel-attribute-control);\r\n	padding: 2px 0;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-editor .attribute-allocation {\r\n	column-gap: 5px;\r\n	row-gap: 0;\r\n}\r\n\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-row {\r\n	min-height: 36px;\r\n	grid-template-rows: 28px;\r\n	padding: 4px 0 3px;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments {\r\n	align-items: center;\r\n}\r\n\r\n/* Keep the last row's geometry while removing the trailing divider. */\r\n.panel .attribute-row:last-child {\r\n	border-bottom-color: transparent;\r\n}\r\n\r\n/* Subgrids must use their parent's gutters or edge tracks can spill outward. */\r\n.panel .attribute-row,\r\n.panel .attribute-increments {\r\n	column-gap: inherit;\r\n}\r\n\r\n/* Phone chat uses the shared compact reading scale; inputs retain 16px to prevent iOS zoom. */\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel.chat-panel\r\n	:is(.chat-filters > button, .game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel.chat-panel header h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .chat-log p {\r\n	margin-bottom: 4px;\r\n}\r\n\r\n/* Footer padding owns the full space below the divider, including the outer edge. */\r\n:host([data-menu-density='spacious']) .panel.settings-panel > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-footer {\r\n	padding-block: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-actions,\r\n:host([data-menu-density='spacious']) .panel .settings-actions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-row {\r\n	min-height: 62px;\r\n	padding-block: 8px;\r\n}\r\n.inventory-item-overview {\r\n	--inventory-picture-width: 87.12px;\r\n	display: grid;\r\n	gap: 10px;\r\n	align-items: start;\r\n	margin-bottom: 10px;\r\n}\r\n.inventory-item-overview {\r\n	grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n.inventory-item-summary {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .inventory-item-summary h3 {\r\n	margin: 0 0 8px;\r\n}\r\n.inventory-item-summary p {\r\n	margin: 0;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-picture {\r\n	display: block;\r\n	width: var(--inventory-picture-width);\r\n	height: auto;\r\n	box-sizing: border-box;\r\n	border: 1px solid #65717b;\r\n	border-radius: 4px;\r\n	background: #19212a;\r\n	box-shadow: 0 2px 6px #0005;\r\n	object-fit: contain;\r\n	object-position: left top;\r\n	margin: 0;\r\n}\r\n.inventory-item-summary > .item-description {\r\n	border-top: 1px solid #465461;\r\n	padding-top: 10px;\r\n	margin-top: 10px;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-summary > .inventory-item-reason {\r\n	margin: 8px 0 0;\r\n	color: #ceaa70;\r\n}\r\n:host([data-menu-density='spacious']) .inventory-item-overview {\r\n	--inventory-picture-width: 116.16px;\r\n	gap: 12px;\r\n}\r\n\r\n.inventory-item-media {\r\n	min-width: 0;\r\n}\r\n.inventory-item-metadata {\r\n	margin-top: 8px;\r\n	overflow-wrap: anywhere;\r\n	font-size: var(--panel-text);\r\n}\r\n.inventory-item-metadata p {\r\n	margin: 0;\r\n	line-height: 1.5;\r\n}\r\n\r\n.inventory-sockets {\r\n	margin-top: 1em;\r\n}\r\n.inventory-sockets h4 {\r\n	margin: 0 0 6px;\r\n	font: inherit;\r\n	font-weight: 700;\r\n}\r\n.inventory-sockets details {\r\n	margin-top: 4px;\r\n	border: 1px solid var(--panel-border, #a99b87);\r\n	border-radius: 4px;\r\n}\r\n.inventory-sockets summary {\r\n	padding: 8px;\r\n	cursor: pointer;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-sockets .item-description {\r\n	padding: 0 8px 8px;\r\n	margin: 0;\r\n	white-space: pre-wrap;\r\n}\r\n\r\n/* Touch feedback must not look like a checked state during scrolling. */\r\n.panel :is(label, input[type='checkbox'], [role='checkbox'], [role='switch']) {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n.panel input[type='checkbox']:not(.game-switch):not(.settings-field input):not(.pickup-item input) {\r\n	appearance: none;\r\n	-webkit-appearance: none;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	width: 18px;\r\n	height: 18px;\r\n	padding: 0;\r\n	border: 1px solid #7f8b97;\r\n	border-radius: 3px;\r\n	background: #253442;\r\n}\r\n.panel input[type='checkbox']:not(.game-switch):not(.settings-field input):not(.pickup-item input):checked {\r\n	background: #a7803b;\r\n	border-color: #e6c17d;\r\n}\r\n.panel input[type='checkbox']:not(.game-switch):not(.settings-field input):not(.pickup-item input):checked::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 5px;\r\n	top: 2px;\r\n	width: 4px;\r\n	height: 8px;\r\n	border: solid #fff;\r\n	border-width: 0 2px 2px 0;\r\n	transform: rotate(45deg);\r\n}\r\n\r\n/* The mobile pickup switch owns a full-width row in both orientations. */\r\n.panel .pickup-section > .pickup-enabled {\r\n	width: 100%;\r\n	justify-content: space-between;\r\n}\r\n";
+	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	background: #191f26;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 12px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n:host(:not([data-menu-density='spacious'])) .panel {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel button {\r\n	min-height: 30px;\r\n	padding: 3px 7px;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel header {\r\n	padding: 4px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body {\r\n	padding: 8px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) {\r\n	flex-wrap: nowrap;\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 0;\r\n	min-width: 0;\r\n	padding: 3px 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions {\r\n	gap: 4px;\r\n	margin-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .inventory-actions button {\r\n	flex: 0 1 auto;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.social-form, .bank-form) > label {\r\n	flex-direction: row;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.social-form, .bank-form)\r\n	> label\r\n	> :is(input, select, textarea) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .social-form label > input[type='checkbox'] {\r\n	flex: 0 0 18px;\r\n	width: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel-body\r\n	:is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	padding: 3px 6px;\r\n	line-height: 1.25;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel-body textarea {\r\n	min-height: 60px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n:host(:not([data-menu-density='spacious'])) .panel .character-details :is(dt, dd) {\r\n	padding: 6px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-section {\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n	gap: 0 12px;\r\n	padding: 2px 10px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-field {\r\n	min-height: 38px;\r\n	gap: 6px;\r\n	padding: 3px 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer {\r\n	padding-top: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-footer p {\r\n	margin: 4px 0 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-actions {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-range-stepper button {\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	padding: 3px 6px;\r\n	line-height: 1.3;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot)\r\n	img {\r\n	width: 28px;\r\n	height: 28px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .equipment-slot {\r\n	min-height: 52px;\r\n	padding: 6px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	:is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel\r\n	.settings-form\r\n	.settings-field\r\n	:is(input:not([type='checkbox']), select) {\r\n	min-height: 30px;\r\n	padding: 3px 6px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .settings-form .settings-field input[type='range'] {\r\n	padding: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-config {\r\n	margin-top: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .shortcut-selected img {\r\n	display: none;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-list {\r\n	gap: 4px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card {\r\n	min-height: 32px;\r\n	padding: 4px 6px;\r\n	gap: 5px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card .auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card span {\r\n	gap: 2px 4px;\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-attribute-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.camera-section {\r\n	display: block;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-allocation {\r\n	gap: 3px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-row {\r\n	padding-bottom: 0;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .attribute-results dl {\r\n	gap: 4px 8px;\r\n	line-height: 1.3;\r\n}\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n	background: #18212b;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n}\r\n\r\n/* Compact forms and the shared catalog dropdown for every mobile menu. */\r\n.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n	padding: var(--panel-control-padding);\r\n	box-sizing: border-box;\r\n}\r\n.panel-body textarea {\r\n	min-height: 60px;\r\n	padding: 5px 6px;\r\n}\r\n.panel .menu-select {\r\n	min-width: 0;\r\n	height: auto;\r\n	min-height: 28px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {\r\n	flex: 1 1 120px;\r\n}\r\n.panel .social-form > label > .menu-select {\r\n	width: 100%;\r\n	flex: none;\r\n}\r\n.panel .menu-select .game-select-menu {\r\n	position: fixed;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n.panel .menu-select .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.panel :is([data-review], [data-evolution]):empty {\r\n	display: none;\r\n}\r\n\r\n.panel .bank-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	align-items: stretch;\r\n}\r\n.panel .bank-account {\r\n	display: flex;\r\n	flex-direction: column;\r\n	justify-content: center;\r\n	align-items: center;\r\n	gap: var(--panel-gap);\r\n	min-width: 0;\r\n	padding: 16px 8px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n}\r\n.panel .bank-account h3 {\r\n	margin: 0;\r\n	font-size: var(--panel-title);\r\n}\r\n.panel .bank-account strong {\r\n	font-size: var(--panel-title);\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .bank-transfer {\r\n	display: flex;\r\n	flex-direction: column;\r\n	justify-content: center;\r\n	gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density]) .panel[data-view='bank'] .bank-transfer button {\r\n	width: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 18px;\r\n}\r\n.panel .bank-amount-controls {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr) auto;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n}\r\n:host([data-menu-density]) .panel[data-view='bank'] .bank-amount-controls input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: 16px;\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	margin: 6px 0;\r\n}\r\n.panel[data-view='vending'] label > input {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n\r\n.panel[data-view='inventory'] .inventory-toolbar {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel[data-view='inventory'] .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item {\r\n	min-width: 0;\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item img {\r\n	flex-shrink: 0;\r\n}\r\n.panel[data-view='inventory'] .inventory-list > p {\r\n	grid-column: 1 / -1;\r\n}\r\n\r\n/* Clamp list names only; quantities, status and full detail text stay separate. */\r\n.panel .list-item-text {\r\n	display: block;\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.panel .list-item-name,\r\n.panel .equipment-slot > span,\r\n.panel .equipment-candidate > span {\r\n	display: -webkit-box;\r\n	-webkit-box-orient: vertical;\r\n	-webkit-line-clamp: var(--list-name-lines, 2);\r\n	overflow: hidden;\r\n	overflow-wrap: anywhere;\r\n	white-space: normal;\r\n	line-height: 1.4;\r\n	max-height: calc(var(--list-name-lines, 2) * 1.4em);\r\n	min-width: 0;\r\n}\r\n.panel .list-item-meta {\r\n	display: block;\r\n	margin-top: 2px;\r\n	font-size: 11px;\r\n	line-height: 1.4;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .list-item-meta[hidden] {\r\n	display: none;\r\n}\r\n\r\n/* Compact selectors leave room for their icon and secondary information. */\r\n.panel[data-view='skills'] .list-item-name,\r\n.panel[data-view='social'] .list-item-name,\r\n.panel .shortcut-choice .list-item-name,\r\n.panel .equipment-slot > span {\r\n	--list-name-lines: 1;\r\n}\r\n\r\n/* A row with secondary information has one name line and one metadata line. */\r\n.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {\r\n	--list-name-lines: 1;\r\n}\r\n.panel .list-item-meta {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n\r\n/* Keep category controls and section edges clear in every viewport. */\r\n.panel .settings-form {\r\n	position: relative;\r\n	gap: 12px;\r\n}\r\n.panel .settings-section {\r\n	padding: 10px 12px;\r\n}\r\n.panel .settings-footer {\r\n	padding-block: 8px;\r\n}\r\n\r\n/* Converted native selects need their own width, independent of hidden inputs. */\r\n.panel .settings-field > .menu-select {\r\n	width: 100px;\r\n	min-width: 100px;\r\n}\r\n\r\n.camera-reset {\r\n	width: 100%;\r\n	margin-bottom: 12px;\r\n}\r\n.camera-group {\r\n	min-width: 0;\r\n	margin: 0 0 12px;\r\n}\r\n.camera-group:last-child {\r\n	margin-bottom: 0;\r\n}\r\n\r\n.panel .settings-switch-start {\r\n	grid-column: 1;\r\n}\r\n\r\n.panel .inventory-item-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	min-height: 0;\r\n}\r\n.inventory-item-description {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.panel .inventory-item-detail > .inventory-actions {\r\n	flex-shrink: 0;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #465461;\r\n}\r\n\r\n.panel[data-view='status'] .status-title {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel[data-view='status'] .status-duration {\r\n	flex: none;\r\n	color: #bac4cd;\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n\r\n.panel-navigation {\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) {\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n}\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.skills-browser,\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n	gap: 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.shortcut-browser {\r\n	gap: 4px;\r\n}\r\n.skills-footer {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex: none;\r\n	border-top: 1px solid #465461;\r\n}\r\n.skills-footer > strong {\r\n	min-width: 0;\r\n	color: #ceaa70;\r\n	font-size: var(--panel-label);\r\n	overflow-wrap: anywhere;\r\n}\r\n.skills-reset {\r\n	flex: none;\r\n}\r\n.panel .skills-reset > button {\r\n	width: auto;\r\n	padding: 3px 6px;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.skills-browser > .inventory-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.container-toolbar .container-capacity {\r\n	font-size: var(--panel-label);\r\n	color: #bac4cd;\r\n}\r\n\r\n.attribute-editor {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-editor .attribute-allocation {\r\n	display: grid;\r\n	grid-template-columns: max-content minmax(0, 1fr) max-content repeat(3, var(--panel-attribute-width));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	column-gap: 8px;\r\n	row-gap: 0;\r\n	min-width: 0;\r\n	overflow: visible;\r\n}\r\n.panel .attribute-row {\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	min-height: 34px;\r\n	gap: 6px;\r\n	padding: 4px 0 3px;\r\n}\r\n.attribute-row > :is(strong, .attribute-value, small) {\r\n	white-space: nowrap;\r\n}\r\n.attribute-row .attribute-value {\r\n	text-align: right;\r\n}\r\n.attribute-increments {\r\n	display: grid;\r\n	grid-template-columns: subgrid;\r\n	grid-column: span 3;\r\n}\r\n.panel .attribute-increments button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	text-align: center;\r\n	width: 32px;\r\n	min-width: 32px;\r\n	padding: 2px 0;\r\n}\r\n.attribute-layout > .attribute-results {\r\n	min-height: 0;\r\n	overflow: auto;\r\n}\r\n.attribute-results > dl {\r\n	align-content: start;\r\n	row-gap: 0;\r\n}\r\n.attribute-results > dl > :is(dt, dd) {\r\n	min-height: 22px;\r\n	box-sizing: border-box;\r\n	padding: 1px 0;\r\n	line-height: 1.3;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.attribute-results > dl > dd {\r\n	justify-content: flex-end;\r\n}\r\n.attribute-footer {\r\n	justify-content: space-between;\r\n	padding-top: 6px;\r\n	border-top: 1px solid #465461;\r\n}\r\n.attribute-footer > strong {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.attribute-plan-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n	margin-left: auto;\r\n}\r\n.panel .attribute-plan-actions button {\r\n	width: auto;\r\n	min-height: 28px;\r\n	padding: 3px 8px;\r\n	font-size: 12px;\r\n	white-space: nowrap;\r\n}\r\n@media (max-width: 520px) {\r\n	.attribute-editor .attribute-allocation,\r\n	.panel .attribute-row {\r\n		column-gap: 4px;\r\n	}\r\n	.attribute-footer {\r\n		gap: 6px;\r\n	}\r\n}\r\n\r\n@media (max-height: 450px) {\r\n	.attribute-results > dl > :is(dt, dd) {\r\n		min-height: 18px;\r\n		padding: 0;\r\n		font-size: 11px;\r\n	}\r\n}\r\n\r\n.shortcut-pages {\r\n	display: flex;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n	min-width: 0;\r\n}\r\n.shortcut-pages > .slot-picker {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.panel .shortcut-pages > button {\r\n	flex: 0 0 30px;\r\n	width: 30px;\r\n	min-width: 30px;\r\n	padding: 0;\r\n	font-size: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n/* Chat preview and conversation panel. */\r\n.chat-preview {\r\n	left: max(12px, env(safe-area-inset-left));\r\n	right: auto;\r\n	width: min(300px, calc(100% - 224px));\r\n	min-width: 96px;\r\n}\r\n[data-chat-unread] {\r\n	display: inline-block;\r\n	border-radius: 8px;\r\n	padding: 0 5px;\r\n	background: #954b42;\r\n	color: white;\r\n}\r\n.chat-body {\r\n	gap: 8px;\r\n	padding: 10px;\r\n}\r\n.chat-conversation {\r\n	display: grid;\r\n	grid-template-columns: 88px minmax(0, 1fr);\r\n	gap: 8px;\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 8px;\r\n	border: 1px solid #465461;\r\n	border-radius: 8px;\r\n	overflow: hidden;\r\n}\r\n.chat-filters {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	padding-right: 8px;\r\n	border-right: 1px solid #465461;\r\n}\r\n.panel .chat-filters > button {\r\n	border: 0;\r\n	border-radius: 0;\r\n	background: transparent;\r\n	box-shadow: none;\r\n	flex-shrink: 0;\r\n	width: 100%;\r\n	min-height: 32px;\r\n	padding: 6px 8px;\r\n	text-align: left;\r\n	font-size: var(--panel-label);\r\n	white-space: nowrap;\r\n}\r\n.panel .chat-filters > button[aria-pressed='true'] {\r\n	background: #ceaa701a;\r\n	box-shadow: inset 2px 0 #ceaa70;\r\n	color: #ffe1aa;\r\n}\r\n.chat-content {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.panel .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.chat-conversation {\r\n		grid-template-columns: 72px minmax(0, 1fr);\r\n		gap: 6px;\r\n		padding: 6px;\r\n	}\r\n	.chat-filters {\r\n		padding-right: 6px;\r\n	}\r\n}\r\n.chat-body .chat-log {\r\n	padding: 2px 4px;\r\n	overscroll-behavior: contain;\r\n}\r\n.chat-log p {\r\n	margin: 0 0 6px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-log [data-channel='private'] {\r\n	color: #e5b6e9;\r\n}\r\n.chat-log [data-channel='party'] {\r\n	color: #a6d7ed;\r\n}\r\n.chat-log [data-channel='guild'] {\r\n	color: #acd7a0;\r\n}\r\n.chat-log [data-channel='system'] {\r\n	color: #b4bdc7;\r\n}\r\n.panel .chat-form {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 56px 56px;\r\n	gap: 6px;\r\n	margin: 0;\r\n}\r\n.panel .chat-form > [aria-label='私聊对象'] {\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > :is(input, button, select, .menu-select) {\r\n	min-width: 0;\r\n	width: 100%;\r\n}\r\n.panel .chat-form > input {\r\n	padding: 5px 7px;\r\n	font-size: 16px;\r\n}\r\n.panel .chat-form > button {\r\n	padding: 3px;\r\n}\r\n.panel .chat-form > [data-emotions] {\r\n	font-size: 22px;\r\n}\r\n.chat-emotions {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));\r\n	gap: 5px;\r\n	max-height: 100px;\r\n	overflow-y: auto;\r\n	flex: none;\r\n}\r\n.panel .chat-emotions button {\r\n	padding: 3px;\r\n	font-size: 21px;\r\n}\r\n@media (max-width: 600px) {\r\n	.chat-preview {\r\n		width: min(200px, calc(100% - 224px));\r\n		bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px));\r\n	}\r\n}\r\n\r\n.panel .chat-form > :is(input, button),\r\n.panel .chat-form .menu-select > button {\r\n	height: 32px;\r\n	min-height: 32px;\r\n}\r\n\r\n/* Override compact generic inputs so iOS cannot zoom the chat composer. */\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label],\r\n.panel.chat-panel .chat-form > button,\r\n.panel.chat-panel .chat-form .game-select-trigger {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	min-height: 32px;\r\n	max-height: 32px;\r\n}\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label] {\r\n	font-size: 16px;\r\n	padding: 3px 6px;\r\n}\r\n\r\n.chat-emotions {\r\n	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));\r\n	min-height: 44px;\r\n}\r\n.panel .chat-emotions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 1px;\r\n	min-height: 44px;\r\n}\r\n.chat-emotions img {\r\n	display: block;\r\n	width: 40px;\r\n	height: 40px;\r\n	image-rendering: pixelated;\r\n}\r\n\r\n.chat-content:has(.chat-emotions:not([hidden])) > .chat-log {\r\n	display: none;\r\n}\r\n.chat-body .chat-emotions {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n	grid-auto-rows: 44px;\r\n	align-content: start;\r\n}\r\n\r\n.chat-preview {\r\n	pointer-events: auto;\r\n}\r\n.chat-preview-open {\r\n	display: block;\r\n	width: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	text-align: left;\r\n}\r\n.chat-preview [data-chat-collapse] {\r\n	position: absolute;\r\n	right: 3px;\r\n	top: 2px;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	color: #bac4cd;\r\n	font-size: 20px;\r\n}\r\n.chat-preview.collapsed {\r\n	width: 40px;\r\n	min-width: 40px;\r\n	height: 36px;\r\n	min-height: 36px;\r\n	padding: 0;\r\n}\r\n.chat-preview [data-chat-expand],\r\n.portrait-chat-launch > button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: transparent;\r\n	border-radius: inherit;\r\n	color: #ffd27f;\r\n}\r\n[data-chat-expand] [data-chat-unread],\r\n.portrait-chat-launch [data-chat-unread] {\r\n	position: absolute;\r\n	right: -5px;\r\n	top: -6px;\r\n	font-size: 10px;\r\n	line-height: 16px;\r\n}\r\n\r\n.chat-body .chat-log {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.5;\r\n}\r\n.panel.chat-panel .chat-form > button {\r\n	font-size: var(--panel-text);\r\n	white-space: nowrap;\r\n	line-height: 1;\r\n	padding: 0 8px;\r\n}\r\n:host([data-menu-density='spacious']) .chat-body .chat-log {\r\n	font-size: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form {\r\n	grid-template-columns: minmax(0, 1fr) 72px 72px;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > button {\r\n	font-size: 16px;\r\n	padding: 0 12px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-increments button {\r\n	width: 56px;\r\n	min-width: 56px;\r\n	padding-inline: 4px;\r\n	font-size: 14px;\r\n}\r\n\r\n:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation,\r\n:host([data-menu-density='spacious']) .panel .attribute-results > dl {\r\n	row-gap: 4px;\r\n}\r\n\r\n/* Attribute increments retain their own compact scale, independent of form controls. */\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments button {\r\n	width: var(--panel-attribute-width);\r\n	min-width: var(--panel-attribute-width);\r\n	height: var(--panel-attribute-control);\r\n	min-height: var(--panel-attribute-control);\r\n	padding: 2px 0;\r\n	font-size: 11px;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-editor .attribute-allocation {\r\n	column-gap: 5px;\r\n	row-gap: 0;\r\n}\r\n\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-row {\r\n	min-height: 36px;\r\n	grid-template-rows: 28px;\r\n	padding: 4px 0 3px;\r\n	align-items: center;\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel .attribute-increments {\r\n	align-items: center;\r\n}\r\n\r\n/* Keep the last row's geometry while removing the trailing divider. */\r\n.panel .attribute-row:last-child {\r\n	border-bottom-color: transparent;\r\n}\r\n\r\n/* Subgrids must use their parent's gutters or edge tracks can spill outward. */\r\n.panel .attribute-row,\r\n.panel .attribute-increments {\r\n	column-gap: inherit;\r\n}\r\n\r\n/* Phone chat uses the shared compact reading scale; inputs retain 16px to prevent iOS zoom. */\r\n:host(:not([data-menu-density='spacious']))\r\n	.panel.chat-panel\r\n	:is(.chat-filters > button, .game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .panel.chat-panel header h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host(:not([data-menu-density='spacious'])) .chat-log p {\r\n	margin-bottom: 4px;\r\n}\r\n\r\n/* Footer padding owns the full space below the divider, including the outer edge. */\r\n:host([data-menu-density='spacious']) .panel.settings-panel > .panel-body {\r\n	padding-bottom: 0;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-footer {\r\n	padding-block: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel .settings-actions,\r\n:host([data-menu-density='spacious']) .panel .settings-actions button {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n:host([data-menu-density='spacious']) .panel .attribute-row {\r\n	min-height: 62px;\r\n	padding-block: 8px;\r\n}\r\n.inventory-item-overview {\r\n	--inventory-picture-width: 87.12px;\r\n	display: grid;\r\n	gap: 10px;\r\n	align-items: start;\r\n	margin-bottom: 10px;\r\n}\r\n.inventory-item-overview {\r\n	grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);\r\n}\r\n.inventory-item-summary {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .inventory-item-summary h3 {\r\n	margin: 0 0 8px;\r\n}\r\n.inventory-item-summary p {\r\n	margin: 0;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-picture {\r\n	display: block;\r\n	width: var(--inventory-picture-width);\r\n	height: auto;\r\n	box-sizing: border-box;\r\n	border: 1px solid #65717b;\r\n	border-radius: 4px;\r\n	background: #19212a;\r\n	box-shadow: 0 2px 6px #0005;\r\n	object-fit: contain;\r\n	object-position: left top;\r\n	margin: 0;\r\n}\r\n.inventory-item-summary > .item-description {\r\n	border-top: 1px solid #465461;\r\n	padding-top: 10px;\r\n	margin-top: 10px;\r\n	line-height: 1.5;\r\n}\r\n.inventory-item-summary > .inventory-item-reason {\r\n	margin: 8px 0 0;\r\n	color: #ceaa70;\r\n}\r\n:host([data-menu-density='spacious']) .inventory-item-overview {\r\n	--inventory-picture-width: 116.16px;\r\n	gap: 12px;\r\n}\r\n\r\n.inventory-item-media {\r\n	min-width: 0;\r\n}\r\n.inventory-item-metadata {\r\n	margin-top: 8px;\r\n	overflow-wrap: anywhere;\r\n	font-size: var(--panel-text);\r\n}\r\n.inventory-item-metadata p {\r\n	margin: 0;\r\n	line-height: 1.5;\r\n}\r\n\r\n.inventory-sockets {\r\n	margin-top: 1em;\r\n}\r\n.inventory-sockets h4 {\r\n	margin: 0 0 6px;\r\n	font: inherit;\r\n	font-weight: 700;\r\n}\r\n.inventory-sockets details {\r\n	margin-top: 4px;\r\n	border: 1px solid var(--panel-border, #a99b87);\r\n	border-radius: 4px;\r\n}\r\n.inventory-sockets summary {\r\n	padding: 8px;\r\n	cursor: pointer;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-sockets .item-description {\r\n	padding: 0 8px 8px;\r\n	margin: 0;\r\n	white-space: pre-wrap;\r\n}\r\n\r\n/* Touch feedback must not look like a checked state during scrolling. */\r\n.panel :is(label, input[type='checkbox'], [role='checkbox'], [role='switch']) {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n.panel input[type='checkbox']:not(.game-switch):not(.settings-field input):not(.pickup-item input) {\r\n	appearance: none;\r\n	-webkit-appearance: none;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	width: 18px;\r\n	height: 18px;\r\n	padding: 0;\r\n	border: 1px solid #7f8b97;\r\n	border-radius: 3px;\r\n	background: #253442;\r\n}\r\n.panel input[type='checkbox']:not(.game-switch):not(.settings-field input):not(.pickup-item input):checked {\r\n	background: #a7803b;\r\n	border-color: #e6c17d;\r\n}\r\n.panel input[type='checkbox']:not(.game-switch):not(.settings-field input):not(.pickup-item input):checked::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 5px;\r\n	top: 2px;\r\n	width: 4px;\r\n	height: 8px;\r\n	border: solid #fff;\r\n	border-width: 0 2px 2px 0;\r\n	transform: rotate(45deg);\r\n}\r\n\r\n/* The mobile pickup switch owns a full-width row in both orientations. */\r\n.panel .pickup-section > .pickup-enabled {\r\n	width: 100%;\r\n	justify-content: space-between;\r\n}\r\n\r\n/* Private conversations keep their recipient navigation visible. */\r\n.panel .chat-recipient {\r\n	flex: none;\r\n	padding: 8px 4px;\r\n	margin-bottom: 8px;\r\n	border-bottom: 1px solid #465461;\r\n	color: #ffe1aa;\r\n	font-weight: 600;\r\n	font-size: var(--panel-text);\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .chat-form :disabled { opacity: .5; cursor: default; }\r\n.panel .chat-log .chat-reply {\r\n	color: #8ed4ff;\r\n	text-decoration: underline;\r\n	text-underline-offset: 3px;\r\n	cursor: pointer;\r\n	font-size: inherit;\r\n	padding: 4px 2px;\r\n}\r\n.panel .chat-log .chat-reply:hover { color: #c9eaff; }\r\n.panel .chat-log .chat-reply:focus-visible { outline: 2px solid #8ed4ff; outline-offset: 2px; }\r\n.chat-conversation.is-private { grid-template-columns: 88px minmax(100px, 150px) minmax(0, 1fr); }\r\n.chat-contacts {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	padding-right: 8px;\r\n	border-right: 1px solid #465461;\r\n}\r\n.chat-contacts[hidden] { display: none; }\r\n.chat-contacts > button { flex: none; width: 100%; }\r\n.chat-contact-list {\r\n	--chat-contact-row: 34px;\r\n	box-sizing: border-box;\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 4px;\r\n	overflow-y: auto;\r\n}\r\n.chat-contact {\r\n	display: flex;\r\n	flex: none;\r\n	box-sizing: border-box;\r\n	min-width: 0;\r\n	height: var(--chat-contact-row);\r\n	border: 1px solid #465461;\r\n	border-radius: 6px;\r\n	overflow: hidden;\r\n}\r\n.panel .chat-contact button {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	height: 100%;\r\n	border: 0;\r\n	border-radius: 0;\r\n	background: transparent;\r\n}\r\n.panel .chat-contact-select {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	flex: 1;\r\n	padding: 6px 8px;\r\n	text-align: left;\r\n}\r\n.panel .chat-contact-remove {\r\n	flex: 0 0 var(--chat-contact-row);\r\n	width: var(--chat-contact-row);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	color: #aebbc6;\r\n}\r\n@media (hover: hover) and (pointer: fine) {\r\n	.panel .chat-contact-remove:hover { color: #ffb7b7; }\r\n}\r\n.panel .chat-contact-remove:active { color: #ffb7b7; }\r\n.chat-contact.is-selected { background: #ceaa701a; border-color: #ceaa70; }\r\n.panel .chat-contact.is-selected .chat-contact-select { color: #ffe1aa; }\r\n.chat-contact-name { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\r\n.chat-contact-unread { flex: none; color: #ffe1aa; font-size: .85em; }\r\n.chat-log .chat-private-message { display: block; margin: 0 0 6px; text-align: left; }\r\n.chat-message-author { color: #e8d2ed; }\r\n.chat-private-message[data-direction='outgoing'] .chat-message-author { color: #d5e8d8; }\r\n.chat-private-message[data-direction='error'] .chat-message-author { color: #ffb7b7; }\r\n.chat-message-body { color: #e8d2ed; white-space: pre-wrap; overflow-wrap: anywhere; }\r\n.chat-private-message[data-direction='outgoing'] .chat-message-body { color: #d5e8d8; }\r\n.chat-private-message[data-direction='error'] .chat-message-body { color: #ffb7b7; }\r\n:host([data-menu-density='spacious']) .chat-contact-list { --chat-contact-row: 44px; }\r\n:host([data-orientation='portrait']) .chat-contact-list { flex: 0 1 auto; max-height: calc(var(--chat-contact-row) * 4 + 12px); }\r\n:host([data-orientation='portrait']) .chat-conversation.is-private {\r\n	grid-template-columns: 88px minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr) auto;\r\n}\r\n:host([data-orientation='portrait']) .is-private .chat-filters { grid-column: 1; grid-row: 1 / -1; }\r\n:host([data-orientation='portrait']) .is-private .chat-content { grid-column: 2; grid-row: 1; }\r\n:host([data-orientation='portrait']) .is-private .chat-contacts { grid-column: 2; grid-row: 2; border-right: 0; border-top: 1px solid #465461; padding: 8px 0 0; }\r\n@media (max-width: 520px) {\r\n	:host([data-orientation='portrait']) .chat-contact-list { flex: 0 1 auto; max-height: calc(var(--chat-contact-row) * 4 + 12px); }\r\n:host([data-orientation='portrait']) .chat-conversation.is-private { grid-template-columns: 72px minmax(0, 1fr); }\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MailPanel.css?raw
@@ -373303,6 +375091,7 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 	let questsPanel = null;
 	let chatPanel = null;
 	let chatFilter = "all";
+	const chatComposer = createChatComposer();
 	let socialPanel = null;
 	let selectionPanel = null;
 	let materialsPanel = null;
@@ -373369,8 +375158,23 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 	listen(root, "pointerdown", (event) => {
 		if (!event.target.closest(".combat, .battle-dock")) actions.cancelSceneInput();
 	});
-	listen($("[data-auto-toggle]"), "click", () => actions.toggleAutoCombat());
+	listen($("[data-auto-toggle]"), "click", () => {
+		if (snapshot.target?.player) actions.clearPlayerSelection();
+		else actions.toggleAutoCombat();
+	});
 	listen($("[data-interact]"), "click", () => actions.interact());
+	for (const button of root.querySelectorAll("[data-player-action]")) listen(button, "click", () => {
+		const player = snapshot.target?.player;
+		const action = button.dataset.playerAction;
+		const container = $("[data-player-actions]");
+		const perform = () => {
+			const error = actions.playerAction(action, player?.id);
+			if (error) showToast(container, error, "error");
+			else if (action === "friend") showToast(container, "已发好友请求", "success");
+		};
+		if (action === "trade" && player) confirmAction(container, `向 ${player.name} 发起交易？`, perform);
+		else perform();
+	});
 	for (const button of root.querySelectorAll("[data-shortcut-page]")) listen(button, "click", () => actions.shortcutPage(Number(button.dataset.shortcutPage)));
 	listen($("[data-skill-cancel]"), "click", () => actions.cancelSkill());
 	listen($("[data-skill-self]"), "click", () => actions.selfSkill());
@@ -373436,8 +375240,10 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 		if (notify) interaction?.close?.();
 	}
 	function updateMessages() {
-		const readingPrivate = currentPanel === "chat" && ["all", "private"].includes(chatFilter);
+		chatPanel?.update(messages);
+		const readingPrivate = currentPanel === "chat" && chatFilter === "all";
 		if (readingPrivate) unreadChat = 0;
+		else if (currentPanel === "chat") unreadChat = messages.filter((m) => m.incomingPrivate && !chatComposer.read.has(m.id)).length;
 		for (const badge of root.querySelectorAll("[data-chat-unread]")) {
 			badge.hidden = !unreadChat;
 			badge.textContent = unreadChat > 99 ? "99+" : String(unreadChat);
@@ -373446,7 +375252,6 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 			read: readingPrivate,
 			visible: !currentPanel
 		});
-		chatPanel?.update(messages);
 	}
 	function details(entries) {
 		const dl = document.createElement("dl");
@@ -373513,7 +375318,7 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 			attributes: "素质",
 			shortcuts: "快捷键",
 			inventory: "背包",
-			equipment: "装备",
+			equipment: serverState?.kind === "equipment" ? serverState.title : "装备",
 			skills: "技能",
 			quests: "任务",
 			social: "社交",
@@ -373778,7 +375583,7 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 			shortcuts: actions.shortcutSnapshot,
 			slotName: actions.shortcutName
 		});
-		if (panel === "equipment") equipmentPanel = createEquipmentPanel(body, {
+		if (panel === "equipment") equipmentPanel = createEquipmentPanel(body, serverState?.kind === "equipment" ? serverState.service : {
 			snapshot: actions.equipmentSnapshot,
 			removeAttachment: actions.equipmentRemoveAttachment,
 			preview: actions.inventoryPreview,
@@ -373804,10 +375609,10 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 			configure: actions.configureShortcut
 		});
 		if (panel === "chat") {
-			chatPanel = createChatPanel(body, actions.sendChat, slotIndex, actions.chatEmotionImages, () => close(), chatFilter, (value) => {
+			chatPanel = createChatPanel(body, actions.sendChat, slotIndex, actions.chatEmotionImages, chatFilter, (value) => {
 				chatFilter = value;
 				updateMessages();
-			});
+			}, chatComposer, actions.chatChannelError);
 			updateMessages();
 		}
 		menuSelects.sync();
@@ -373894,9 +375699,16 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 			const targetLabel = species.length > 1 ? `${species.length} 种魔物` : species[0]?.name || "全部魔物";
 			text("[data-auto-target]", `${targetLabel} ▾`);
 			$("[data-auto-target]").title = species.map((entry) => entry.name).join("、") || "全部魔物";
-			text("[data-auto-toggle]", next.autoCombat?.active ? "停止战斗" : "自动战斗");
-			$("[data-auto-toggle]").setAttribute("aria-pressed", String(Boolean(next.autoCombat?.active)));
-			$("[data-interact]").hidden = !next.target?.interaction;
+			text("[data-auto-toggle]", next.target?.player ? "取消选择" : next.autoCombat?.active ? "停止战斗" : "自动战斗");
+			$("[data-auto-toggle]").setAttribute("aria-pressed", String(!next.target?.player && Boolean(next.autoCombat?.active)));
+			const player = next.target?.player;
+			$("[data-auto-toggle]").classList.toggle("clear-selection", Boolean(player));
+			$("[data-player-actions]").hidden = !player;
+			$("[data-target]").hidden = Boolean(player);
+			$(".battle-status").classList.toggle("has-player-actions", Boolean(player));
+			for (const button of root.querySelectorAll("[data-player-action]")) button.disabled = !player?.name || button.dataset.playerAction === "friend" && player.friend;
+			$("[data-player-action=friend]").title = player?.friend ? "已是好友" : "加好友";
+			$("[data-interact]").hidden = !next.target?.interaction || player && next.target.interaction === "交易";
 			text("[data-interact]", next.target?.interaction);
 			text("[data-name]", next.name);
 			text("[data-job]", `Lv.${next.level} ${next.job}`);
@@ -373944,6 +375756,7 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 			shopPanel?.update();
 			containerPanel?.update();
 			questsPanel?.update();
+			chatPanel?.refresh();
 			socialPanel?.update();
 			selectionPanel?.update();
 			materialsPanel?.update();
@@ -373958,7 +375771,7 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 		setMessages(next) {
 			if (!next.length) unreadChat = 0;
 			const lastId = messages.at(-1)?.id || 0;
-			if (currentPanel !== "chat" || !["all", "private"].includes(chatFilter)) unreadChat += next.filter((m) => m.id > lastId && m.incomingPrivate).length;
+			if (currentPanel !== "chat" || chatFilter !== "all") unreadChat += next.filter((m) => m.id > lastId && m.incomingPrivate).length;
 			messages = next;
 			updateMessages();
 		},
@@ -373988,9 +375801,11 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 				"refinement",
 				"enchant",
 				"information",
+				"equipment",
 				"transformation"
 			].includes(state.kind) ? state.kind : "npc");
 		},
+		openPrivate: (name) => open("chat", name),
 		openShortcuts: (index) => open("shortcuts", index),
 		updateShortcuts(state) {
 			shortcutPanel?.updateIcons(actions.shortcutCandidates());
@@ -374286,9 +376101,18 @@ var init_GameHUD = __esmMin((() => {
 			openAdventureTools: (back) => AdventureTools_default.openFromMenu(back),
 			openAdventureMap: (target, back) => AdventureTools_default.openMap(target, back),
 			setModal,
+			playerAction: (action, id) => {
+				autoCombat.stop();
+				return playerAction(action, id, (name) => view.openPrivate(name));
+			},
 			interact: () => {
 				autoCombat.stop();
 				interactSelected();
+			},
+			clearPlayerSelection: () => {
+				cancelSceneInput();
+				EntityManager.setFocusEntity(null);
+				snapshot();
 			},
 			toggleAutoCombat: () => {
 				if (autoCombat.snapshot().active) autoCombat.stop();
@@ -374358,6 +376182,7 @@ var init_GameHUD = __esmMin((() => {
 				snapshot();
 			},
 			sendChat: (...args) => chat.send(...args),
+			chatChannelError,
 			chatEmotionImages: () => __vitePreload(() => Promise.resolve().then(() => (init_ChatEmotionImages(), ChatEmotionImages_exports)).then((module) => module.loadChatEmotionImages()), void 0, import.meta.url),
 			returnToCharacters: () => HUD.actions.returnToCharacters()
 		});
@@ -374441,16 +376266,14 @@ var init_GameHUD = __esmMin((() => {
 		snapshot();
 		unsubscribe = subscribeChatFeed((messages) => {
 			view.setMessages(messages.map((message) => {
-				if (!message.html) return {
-					id: message.id,
-					text: message.text,
-					channel: chatChannel(message),
-					incomingPrivate: isIncomingPrivateMessage(message)
-				};
-				const parsed = new DOMParser().parseFromString(message.text, "text/html");
+				const parsed = message.html ? new DOMParser().parseFromString(message.text, "text/html") : null;
 				return {
 					id: message.id,
-					text: parsed.body.textContent || "",
+					privatePeer: message.privatePeer,
+					bodyText: message.bodyText,
+					direction: message.direction,
+					replyable: message.replyable,
+					text: parsed ? parsed.body.textContent || "" : message.text,
 					channel: chatChannel(message),
 					incomingPrivate: isIncomingPrivateMessage(message)
 				};
@@ -374531,1381 +376354,6 @@ var init_GamePresentation = __esmMin((() => {
 	init_AutoCombat();
 	init_Platform();
 	init_GameHUD();
-}));
-//#endregion
-//#region src/UI/Components/Vending/VendingModelMessage/VendingModelMessage.html?raw
-var VendingModelMessage_default$2;
-var init_VendingModelMessage$2 = __esmMin((() => {
-	VendingModelMessage_default$2 = "<div id=\"VendingModelMessage\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<!-- data-text does not exist -->\r\n			<span class=\"text\">留言</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"text_message\">\r\n			<span class=\"text message\"></span>\r\n		</div>\r\n		<div class=\"btns\">\r\n			<button\r\n				class=\"btn ok\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Vending/VendingModelMessage/VendingModelMessage.css?raw
-var VendingModelMessage_default$1;
-var init_VendingModelMessage$1 = __esmMin((() => {
-	VendingModelMessage_default$1 = "/* Message Model */\r\n:host {\r\n	position: absolute;\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 270px;\r\n}\r\n\r\n.titlebar {\r\n	border-radius: 3px 3px 0px 0px;\r\n	height: 15px;\r\n	align-items: center;\r\n	padding: 1px;\r\n}\r\n.titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n.container {\r\n	background: white;\r\n	width: 268px;\r\n	height: 114px;\r\n	border-radius: 0px 0px 3px 3px;\r\n	border: 1px solid #ccc;\r\n	display: grid;\r\n}\r\n\r\n.text_message {\r\n	height: 73px;\r\n	padding: 11px;\r\n}\r\n\r\n/** Buttons **/\r\n.btns {\r\n	position: absolute;\r\n	bottom: -3px;\r\n	width: 100%;\r\n	height: 28px;\r\n}\r\n.btn {\r\n	position: absolute;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ok,\r\n.make {\r\n	right: 6px;\r\n}\r\n.delete {\r\n	left: 4px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Vending/VendingModelMessage/VendingModelMessage.js
-var VendingModelMessage, VendingModelMessage_default;
-var init_VendingModelMessage = __esmMin((() => {
-	init_DBManager();
-	init_Renderer();
-	init_UIManager();
-	init_GUIComponent();
-	init_VendingModelMessage$2();
-	init_VendingModelMessage$1();
-	VendingModelMessage = new GUIComponent("VendingModelMessage", VendingModelMessage_default$1);
-	VendingModelMessage.render = () => VendingModelMessage_default$2;
-	/**
-	* Initialize UI
-	*/
-	VendingModelMessage.init = function init() {
-		Object.assign(this._host.style, {
-			top: (Renderer.height - 200) / 2 + "px",
-			left: (Renderer.width - 200) / 2 + "px"
-		});
-		this._shadow.querySelector(".ok").addEventListener("click", (e) => {
-			e.stopImmediatePropagation();
-			VendingModelMessage.onRemove();
-		});
-		this.draggable(".titlebar");
-	};
-	VendingModelMessage.setInit = function setInit(numMessage) {
-		VendingModelMessage.append();
-		this._host.style.display = "";
-		const messageText = DB.getMessage(numMessage);
-		this._shadow.querySelector(".message").textContent = messageText;
-	};
-	VendingModelMessage.onRemove = function onRemove() {
-		if (!this._host) return;
-		this._host.style.display = "none";
-	};
-	VendingModelMessage_default = UIManager.addComponent(VendingModelMessage);
-}));
-//#endregion
-//#region src/UI/Components/Vending/Vending.html?raw
-var Vending_default$2;
-var init_Vending$2 = __esmMin((() => {
-	Vending_default$2 = "<div id=\"vending\">\r\n	<div class=\"InputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\"><ui-text msg=\"232\">可出售物品</ui-text></span>\r\n				<span class=\"WinBuy\"><ui-text msg=\"1733\">可购买物品</ui-text></span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<div class=\"overlay\"></div>\r\n			<div class=\"content available\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n	<div class=\"OutputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\"><ui-text msg=\"224\">贩卖</ui-text></span>\r\n				<span class=\"WinBuy\"><ui-text msg=\"1720\">购买</ui-text></span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<div class=\"nstore\"><ui-text msg=\"407\">名称</ui-text></div>\r\n			<input class=\"shopname\" type=\"text\" value=\"\" maxlength=\"36\" /><br />\r\n			<div class=\"content add_shop\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer WinBuy\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<span class=\"WinBuy zenyLabel\"><ui-text msg=\"2464\">Zeny</ui-text></span>\r\n			<span class=\"WinBuy zenySpan\">0</span>\r\n		<span class=\"WinBuy weightLabel\">重量：</span>\r\n			<span class=\"WinBuy weightSpan\">0/0</span>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"limit WinBuy\"><ui-text msg=\"1723\">购买 Zeny 上限</ui-text></div>\r\n			<input class=\"limitZeny WinBuy\" type=\"text\" value=\"\" maxlength=\"36\" /><br />\r\n			<div class=\"zeny WinBuy\"><ui-text msg=\"2464\">Zeny</ui-text></div>\r\n			<ui-button class=\"btn sell\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n			<ui-button\r\n				class=\"btn cancel\"\r\n				bg=\"btn_cancel.bmp\"\r\n				hover=\"btn_cancel_a.bmp\"\r\n				down=\"btn_cancel_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Vending/Vending.css?raw
-var Vending_default$1;
-var init_Vending$1 = __esmMin((() => {
-	Vending_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n\r\n#vending {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#vending .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#vending .titlebar .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 15px;\r\n	white-space: nowrap;\r\n}\r\n#vending .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n#vending .resize {\r\n	position: absolute;\r\n	right: 1px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#vending .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	margin: 0;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .selectall {\r\n	vertical-align: 2px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .ask_quantity {\r\n	padding-top: 7px;\r\n	padding-left: 20px;\r\n}\r\n\r\n#vending .nstore {\r\n	position: absolute;\r\n	top: 24px;\r\n	border: none;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#vending .limit {\r\n	position: absolute;\r\n	top: 8px;\r\n	border: none;\r\n	padding-left: 5px;\r\n	outline: none;\r\n}\r\n#vending input.shopname {\r\n	position: absolute;\r\n	left: 55px;\r\n	width: 310px;\r\n	border: none;\r\n	background-color: #e9e9e9;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#vending input.shopname {\r\n	top: 22px;\r\n}\r\n#vending input.limitZeny {\r\n	top: 6px;\r\n}\r\n#vending input.limitZeny {\r\n	position: absolute;\r\n	left: 120px;\r\n	width: 100px;\r\n	border: none;\r\n	background-color: #e9e9e9;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n\r\n#vending .content .item-container {\r\n	width: 32px;\r\n	height: 32px;\r\n	display: block;\r\n	float: left;\r\n	clear: both;\r\n}\r\n#vending .content .damaged {\r\n	background-color: red;\r\n	background-blend-mode: luminosity;\r\n}\r\n#vending .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	background-repeat: repeat-y;\r\n	padding-right: 2px;\r\n	padding-top: 5px;\r\n	padding-bottom: 5px;\r\n}\r\n#vending .container .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 15px;\r\n	line-height: 15px;\r\n	border-radius: 3px;\r\n	padding: 4px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#vending .content {\r\n	overflow-y: auto;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n}\r\n#vending .content .add_shop {\r\n	margin-top: 10px;\r\n}\r\n#vending .content .item {\r\n	display: block;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#vending .content .item.selected {\r\n	background-color: #346ae180;\r\n}\r\n\r\n#vending .content.available {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat;\r\n}\r\n#vending .content.available .item {\r\n	display: block;\r\n	float: left;\r\n	width: 28px;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#vending .content.available .item.selected {\r\n	background-color: transparent;\r\n}\r\n\r\n#vending .content .item .icon {\r\n	position: absolute;\r\n	top: 6px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .content .item .amount {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 18px;\r\n	left: 18px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#vending .content .item .amount_ {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 13px;\r\n	left: 200px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#vending .content .item .name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 32px;\r\n	width: 115px;\r\n	white-space: nowrap;\r\n}\r\n#vending .content .item .price {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 260px;\r\n	white-space: nowrap;\r\n	text-align: right;\r\n}\r\n#vending .content .item .unity {\r\n	position: absolute;\r\n	top: 13px;\r\n	right: 2px;\r\n	width: 10px;\r\n}\r\n\r\n#vending .footer .total,\r\n#vending .footer .totalP,\r\n#vending .footer .cashuser {\r\n	padding-left: 10px;\r\n	padding-top: 8px;\r\n}\r\n#vending .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#vending .InputWindow {\r\n	width: 280px;\r\n	position: absolute;\r\n	z-index: 50;\r\n}\r\n#vending .OutputWindow {\r\n	width: 400px;\r\n	position: absolute;\r\n	z-index: 50;\r\n}\r\n#vending .btn.buy,\r\n#vending .btn.sell {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 62px;\r\n}\r\n#vending .zeny {\r\n	position: absolute;\r\n	top: 8px;\r\n	left: 230px;\r\n}\r\n#vending .btn.cancel {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 15px;\r\n}\r\n#vending .zenyLabel,\r\n#vending .zenySpan,\r\n#vending .weightLabel,\r\n#vending .weightSpan {\r\n	position: absolute;\r\n	top: 10px;\r\n}\r\n#vending .zenyLabel {\r\n	left: 5px;\r\n}\r\n#vending .zenySpan {\r\n	left: 40px;\r\n}\r\n#vending .weightLabel {\r\n	left: 215px;\r\n}\r\n#vending .weightSpan {\r\n	left: 260px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Vending/Vending.js
-function escapeHtml(text) {
-	const div = document.createElement("div");
-	div.appendChild(document.createTextNode(text));
-	return div.innerHTML;
-}
-function isItemStackable(item) {
-	return item.type !== ItemType_default.WEAPON && item.type !== ItemType_default.ARMOR && item.type !== ItemType_default.SHADOWGEAR && item.type !== ItemType_default.PETEGG && item.type !== ItemType_default.PETARMOR;
-}
-function resize$1(content, height) {
-	height = Math.min(Math.max(height, 2), 9);
-	content.style.height = `${height * 32}px`;
-}
-function prettyZeny$3(val, useStyle) {
-	const list = val.toString().split("");
-	const count = list.length;
-	let str = "";
-	for (let i = 0; i < count; i++) str = list[count - i - 1] + (i && i % 3 === 0 ? "," : "") + str;
-	if (useStyle) str = `<span style="${[
-		"color:#000000; text-shadow:1px 0px #00ffff;",
-		"color:#0000ff; text-shadow:1px 0px #ce00ce;",
-		"color:#0000ff; text-shadow:1px 0px #00ffff;",
-		"color:#ff0000; text-shadow:1px 0px #ffff00;",
-		"color:#ff18ff;",
-		"color:#0000ff;",
-		"color:#000000; text-shadow:1px 0px #00ff00;",
-		"color:#ff0000;",
-		"color:#000000; text-shadow:1px 0px #cece63;",
-		"color:#ff0000; text-shadow:1px 0px #ff007b;"
-	][count - 1]}">${str}</span>`;
-	return str;
-}
-function addItem$1(content, item, isinput) {
-	const it = DB.getItemInfo(item.ITID);
-	const element = content.querySelector(`.item[data-index="${item.index}"]`);
-	const textPrice = DB.getMessage(1721);
-	if (item.count === 0) {
-		if (element) {
-			const parent = element.closest(".item-container");
-			if (parent) parent.remove();
-			else element.remove();
-		}
-		return;
-	}
-	if (element) {
-		const amountEl = element.querySelector(".amount");
-		if (amountEl) amountEl.textContent = item.IsStackable ? item.count : "";
-		return;
-	}
-	let itemObj;
-	if (isinput) {
-		itemObj = document.createElement("div");
-		itemObj.className = "item input";
-		itemObj.draggable = true;
-		itemObj.dataset.index = item.index;
-		itemObj.innerHTML = `<div class="icon"></div><div class="amount">${item.IsStackable ? item.count : ""}</div>`;
-	} else {
-		const price = prettyZeny$3(item.price, true);
-		const container = document.createElement("div");
-		container.className = "item-container";
-		const amountText = _type$3 === Vending.Type.BUYING_STORE ? item.total : item.IsStackable ? item.count : "";
-		const eaHtml = _type$3 === Vending.Type.BUYING_STORE ? `<div class="amount_">${item.count} 个</div>` : "";
-		container.innerHTML = `<div class="item output" draggable="true" data-index="${item.index}"><div class="icon"></div><div class="amount">${amountText}</div>` + eaHtml + `<div class="name">${escapeHtml(DB.getItemName(item))}</div><div class="price">${textPrice} ${price}</div></div>`;
-		itemObj = container;
-		if (_type$3 === Vending.Type.BUYING_STORE) {
-			const limitInput = Vending.getRoot().querySelector(".limitZeny");
-			let limit = parseInt(limitInput.value, 10);
-			limit += item.count * item.price;
-			limitInput.value = limit;
-		}
-	}
-	const actualItem = itemObj.classList.contains("item") ? itemObj : itemObj.querySelector(".item");
-	if (item.IsDamaged) {
-		actualItem.style.backgroundImage = `url("${Vending.itemBg}")`;
-		actualItem.classList.add("damaged");
-	}
-	content.appendChild(itemObj);
-	Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
-		const icon = content.querySelector(`.item[data-index="${item.index}"] .icon`);
-		if (icon) icon.style.backgroundImage = `url(${data})`;
-	});
-}
-function requestMoveItem$1(index, fromContent, toContent, isAdding) {
-	let count;
-	const item_price = 0;
-	const item = isAdding ? _input$1[index] : _output$1[index];
-	if (isAdding) {
-		if (!(countSlotsUsed() < _slots)) return false;
-		count = _input$1[index].count;
-	} else count = _output$1[index].count;
-	if ((item.count === 1 || !item.IsStackable) && _type$3 === Vending.Type.VENDING_STORE) {
-		if (isAdding) {
-			InputBox_default.append();
-			InputBox_default.setType("price", false, item_price);
-			InputBox_default.onSubmitRequest = function(_item_price) {
-				InputBox_default.remove();
-				_output$1[index].price = _item_price;
-				if (_item_price > 0) transferItem$1(fromContent, toContent, isAdding, index, item.count);
-			};
-		} else transferItem$1(fromContent, toContent, isAdding, index, item.count);
-		return false;
-	}
-	InputBox_default.append();
-	InputBox_default.setType("number", false, count);
-	InputBox_default.onSubmitRequest = function(_count) {
-		InputBox_default.remove();
-		if (_count > 0) {
-			if (_count >= 9999 && _type$3 === Vending.Type.BUYING_STORE) {
-				VendingModelMessage_default.setInit(1742);
-				return;
-			}
-			if (item.count + _count > 9999 && _type$3 === Vending.Type.BUYING_STORE) {
-				VendingModelMessage_default.setInit(1728);
-				return;
-			}
-			if (isAdding) {
-				InputBox_default.append();
-				InputBox_default.setType("price", false, item_price);
-				InputBox_default.onSubmitRequest = function(_item_price) {
-					InputBox_default.remove();
-					_output$1[index].price = _item_price;
-					if (_item_price > 0) transferItem$1(fromContent, toContent, isAdding, index, _count);
-				};
-			} else transferItem$1(fromContent, toContent, isAdding, index, _count);
-		}
-	};
-}
-function onDrop$5(event) {
-	let data;
-	event.stopImmediatePropagation();
-	event.preventDefault();
-	try {
-		data = JSON.parse(event.dataTransfer.getData("Text"));
-	} catch (_e) {
-		return;
-	}
-	if (data.type !== "item" || data.from !== "Vending" || data.container === this.className) return;
-	const fromContent = Vending.getRoot().querySelector(`.${data.container} .content`);
-	const toContent = this.querySelector(".content");
-	requestMoveItem$1(data.index, fromContent, toContent, this.className === "OutputWindow");
-}
-function onItemInfo$11(event) {
-	event.stopImmediatePropagation();
-	event.preventDefault();
-	const index = parseInt(this.parentNode.getAttribute("data-index"), 10);
-	const item = _input$1[index];
-	if (!item) return;
-	if (ItemInfo_default.uid === item.ITID) {
-		ItemInfo_default.remove();
-		return;
-	}
-	ItemInfo_default.append();
-	ItemInfo_default.uid = item.ITID;
-	ItemInfo_default.setItem(item);
-}
-function onItemSelected$1() {
-	if (_type$3 === Vending.Type.BUY || _type$3 === Vending.Type.VENDING_STORE) return;
-	const root = Vending.getRoot();
-	const inputWin = root.querySelector(".InputWindow");
-	let from, to;
-	if (inputWin.contains(this)) {
-		from = inputWin;
-		to = root.querySelector(".OutputWindow");
-	} else {
-		from = root.querySelector(".OutputWindow");
-		to = inputWin;
-	}
-	requestMoveItem$1(parseInt(this.getAttribute("data-index"), 10), from.querySelector(".content"), to.querySelector(".content"), from === inputWin);
-}
-function onItemFocus$1() {
-	Vending.getRoot().querySelectorAll(".item.selected").forEach((el) => el.classList.remove("selected"));
-	this.classList.add("selected");
-}
-function onScroll$4(event) {
-	let delta;
-	if (event.wheelDelta) {
-		delta = event.wheelDelta / 120;
-		if (window.opera) delta = -delta;
-	} else if (event.detail) delta = -event.detail;
-	this.scrollTop = Math.floor(this.scrollTop / 32) * 32 - delta * 32;
-	event.preventDefault();
-}
-function onDragStart$1(event) {
-	const root = Vending.getRoot();
-	const inputWin = root.querySelector(".InputWindow");
-	const outputWin = root.querySelector(".OutputWindow");
-	const container = (inputWin.contains(this) ? inputWin : outputWin).className;
-	const img = new Image();
-	const url = this.firstChild.style.backgroundImage.match(/\(([^)]+)/)[1].replace(/"/g, "");
-	img.decoding = "async";
-	img.src = url;
-	event.dataTransfer.setDragImage(img, 12, 12);
-	event.dataTransfer.setData("Text", JSON.stringify(window._OBJ_DRAG_ = {
-		type: "item",
-		from: "Vending",
-		container,
-		index: this.getAttribute("data-index")
-	}));
-}
-function onResizeInput() {
-	const inputWin = Vending.getRoot().querySelector(".InputWindow");
-	const content = inputWin.querySelector(".container .content");
-	const top = inputWin.offsetTop;
-	let lastHeight = 0;
-	function resizing() {
-		let h = Math.floor((Mouse.screen.y - top - 20) / 32);
-		h = Math.min(Math.max(h, 2), 6);
-		if (h === lastHeight) return;
-		resize$1(content, h);
-		lastHeight = h;
-	}
-	const _Interval = setInterval(resizing, 30);
-	const onMouseUp = (event) => {
-		if (event.which === 1) {
-			clearInterval(_Interval);
-			window.removeEventListener("mouseup", onMouseUp);
-		}
-	};
-	window.addEventListener("mouseup", onMouseUp);
-}
-function countSlotsUsed() {
-	let count = 0;
-	_output$1.forEach((item) => {
-		if (item.count > 0) count++;
-	});
-	return count;
-}
-function submitNetworkPacket(pkt) {
-	Network.sendPacket(pkt);
-}
-function onItemOver$8() {
-	if (!this.classList.contains("input")) return;
-	const idx = parseInt(this.getAttribute("data-index"), 10);
-	const item = _type$3 === Vending.Type.VENDING_STORE ? CartItems_default.getItemByIndex(idx) : InventoryController.getUI().getItemByIndex(idx);
-	if (!item) return;
-	const overlay = Vending.getRoot().querySelector(".overlay");
-	overlay.style.display = "";
-	overlay.style.top = `${this.offsetTop - 20}px`;
-	overlay.style.left = `${this.offsetLeft - 10}px`;
-	overlay.textContent = `${DB.getItemName(item)} ${item.count || 1} 个`;
-}
-function onItemOut$9() {
-	const overlay = Vending.getRoot().querySelector(".overlay");
-	if (overlay) overlay.style.display = "none";
-}
-var Vending, _preferences$17, _input$1, _output$1, _slots, _type$3, transferItem$1, Vending_default;
-var init_Vending = __esmMin((() => {
-	init_DBManager();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_ItemType();
-	init_Client();
-	init_Preferences$1();
-	init_SessionStorage();
-	init_MouseEventHandler();
-	init_KeyEventHandler();
-	init_UIManager();
-	init_GUIComponent();
-	init_Elements();
-	init_ItemInfo();
-	init_InputBox();
-	init_CartItems();
-	init_VendingModelMessage();
-	init_Vending$2();
-	init_Vending$1();
-	init_Renderer();
-	init_Inventory();
-	init_BasicInfo();
-	Vending = new GUIComponent("Vending", Vending_default$1);
-	Vending.render = () => Vending_default$2;
-	Vending.isOpen = false;
-	Vending.Type = {
-		VENDING_STORE: 0,
-		BUYING_STORE: 1
-	};
-	_preferences$17 = Preferences.get("Vending", {
-		inputWindow: {
-			x: 100,
-			y: 100,
-			height: 2
-		},
-		outputWindow: {
-			x: 390,
-			y: 260,
-			height: 5
-		},
-		select_all: false
-	}, 1);
-	_input$1 = [];
-	_output$1 = [];
-	_slots = 0;
-	Vending.captureKeyEvents = true;
-	Vending.init = function init() {
-		const root = Vending.getRoot();
-		const sellBtn = root.querySelector(".btn.sell");
-		if (sellBtn) {
-			sellBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
-			sellBtn.addEventListener("click", (e) => {
-				e.stopImmediatePropagation();
-				Vending.onSubmit();
-			});
-		}
-		const cancelBtn = root.querySelector(".btn.cancel");
-		if (cancelBtn) {
-			cancelBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
-			cancelBtn.addEventListener("click", (e) => {
-				e.stopImmediatePropagation();
-				let pkt;
-				if (_type$3 === Vending.Type.VENDING_STORE) pkt = new PACKET.CZ.REQ_OPENSTORE2();
-				else pkt = new PACKET.CZ.REQ_OPEN_BUYING_STORE();
-				submitNetworkPacket(pkt);
-				Vending.onRemove();
-			});
-		}
-		const extendBtn = root.querySelector(".InputWindow .footer .extend");
-		if (extendBtn) extendBtn.addEventListener("mousedown", onResizeInput);
-		root.querySelectorAll(".content").forEach((content) => {
-			content.addEventListener("contextmenu", (e) => {
-				const icon = e.target.closest(".icon");
-				if (icon) onItemInfo$11.call(icon, e);
-			});
-			content.addEventListener("wheel", (e) => {
-				onScroll$4.call(content, e);
-			});
-			content.addEventListener("mouseover", (e) => {
-				const item = e.target.closest(".item");
-				if (item) onItemOver$8.call(item);
-			});
-			content.addEventListener("mouseout", (e) => {
-				if (e.target.closest(".item")) onItemOut$9();
-			});
-			content.addEventListener("dblclick", (e) => {
-				const item = e.target.closest(".item");
-				if (item) onItemSelected$1.call(item);
-			});
-			content.addEventListener("mousedown", (e) => {
-				const item = e.target.closest(".item");
-				if (item) onItemFocus$1.call(item);
-			});
-			content.addEventListener("dragstart", (e) => {
-				const item = e.target.closest(".item");
-				if (item) onDragStart$1.call(item, e);
-			});
-			content.addEventListener("dragend", (e) => {
-				if (e.target.closest(".item")) delete window._OBJ_DRAG_;
-			});
-		});
-		const inputWin = root.querySelector(".InputWindow");
-		const outputWin = root.querySelector(".OutputWindow");
-		[inputWin, outputWin].forEach((win) => {
-			if (!win) return;
-			win.addEventListener("drop", (e) => {
-				onDrop$5.call(win, e);
-			});
-			win.addEventListener("dragover", (e) => {
-				e.stopImmediatePropagation();
-				e.preventDefault();
-			});
-			win.addEventListener("mousedown", () => {
-				Vending.focus();
-			});
-		});
-		if (inputWin) this.draggable.call({
-			_host: inputWin,
-			_shadow: null,
-			_container: inputWin,
-			magnet: {},
-			needFocus: false,
-			manager: null
-		}, inputWin.querySelector(".titlebar"));
-		if (outputWin) this.draggable.call({
-			_host: outputWin,
-			_shadow: null,
-			_container: outputWin,
-			magnet: {},
-			needFocus: false,
-			manager: null
-		}, outputWin.querySelector(".titlebar"));
-		Client.loadFile(`${DB.INTERFACE_PATH}basic_interface/itemwin_mid.bmp`, (data) => {
-			Vending.itemBg = data;
-		});
-	};
-	Vending.onAppend = function onAppend() {
-		const root = Vending.getRoot();
-		const inputWin = root.querySelector(".InputWindow");
-		const outputWin = root.querySelector(".OutputWindow");
-		const inputContent = inputWin.querySelector(".content");
-		const outputContent = outputWin.querySelector(".content");
-		inputWin.style.top = `${Math.min(Math.max(0, _preferences$17.inputWindow.y), Renderer.height - inputContent.offsetHeight)}px`;
-		inputWin.style.left = `${Math.min(Math.max(0, _preferences$17.inputWindow.x), Renderer.width - inputContent.offsetWidth)}px`;
-		outputWin.style.top = `${Math.min(Math.max(0, _preferences$17.outputWindow.y), Renderer.height - outputContent.offsetHeight)}px`;
-		outputWin.style.left = `${Math.min(Math.max(0, _preferences$17.outputWindow.x), Renderer.width - outputContent.offsetWidth)}px`;
-		resize$1(inputContent, _preferences$17.inputWindow.height);
-		resize$1(outputContent, _preferences$17.outputWindow.height);
-		this._host.style.display = "none";
-	};
-	Vending.setType = function setType(type) {
-		const root = Vending.getRoot();
-		const winBuyEls = root.querySelectorAll(".WinBuy");
-		const winSellEls = root.querySelectorAll(".WinSell");
-		switch (type) {
-			case Vending.Type.VENDING_STORE:
-				winBuyEls.forEach((el) => {
-					el.style.display = "none";
-				});
-				winSellEls.forEach((el) => {
-					el.style.display = "";
-				});
-				break;
-			case Vending.Type.BUYING_STORE:
-				winSellEls.forEach((el) => {
-					el.style.display = "none";
-				});
-				winBuyEls.forEach((el) => {
-					el.style.display = "";
-				});
-				root.querySelector(".zenySpan").textContent = prettyZeny$3(SessionStorage_default.zeny);
-				root.querySelector(".weightSpan").textContent = `${BasicInfoController.getUI().weight}/${BasicInfoController.getUI().weight_max}`;
-				root.querySelector(".limitZeny").value = "0";
-		}
-		_type$3 = type;
-	};
-	Vending.onRemove = function onRemove() {
-		VendingModelMessage_default.onRemove();
-		const root = Vending.getRoot();
-		const inputWin = root.querySelector(".InputWindow");
-		const outputWin = root.querySelector(".OutputWindow");
-		_input$1.length = 0;
-		_output$1.length = 0;
-		_preferences$17.inputWindow.x = parseInt(inputWin.style.left, 10);
-		_preferences$17.inputWindow.y = parseInt(inputWin.style.top, 10);
-		_preferences$17.inputWindow.height = inputWin.querySelector(".content").offsetHeight / 32 | 0;
-		_preferences$17.outputWindow.x = parseInt(outputWin.style.left, 10);
-		_preferences$17.outputWindow.y = parseInt(outputWin.style.top, 10);
-		_preferences$17.outputWindow.height = outputWin.querySelector(".content").offsetHeight / 32 | 0;
-		_preferences$17.save();
-		root.querySelectorAll(".content").forEach((el) => {
-			el.innerHTML = "";
-		});
-		this._host.style.display = "none";
-		Vending.isOpen = false;
-	};
-	Vending.onKeyDown = function onKeyDown(event) {
-		if (this.isEditableFocused()) {
-			if (event.which === KEYS.ESCAPE || event.key === "Escape") {
-				this.remove();
-				event.stopImmediatePropagation();
-				return false;
-			}
-			event.stopImmediatePropagation();
-			return true;
-		}
-		if ((event.which === KEYS.ESCAPE || event.key === "Escape") && this._host.style.display !== "none") this.remove();
-		return true;
-	};
-	Vending.setList = function setList(items) {
-		const root = Vending.getRoot();
-		root.querySelectorAll(".content").forEach((el) => {
-			el.innerHTML = "";
-		});
-		_input$1.length = 0;
-		_output$1.length = 0;
-		const content = root.querySelector(".InputWindow .content");
-		for (let i = 0, count = items.length; i < count; ++i) {
-			if (!("index" in items[i])) items[i].index = i;
-			items[i].IsStackable = isItemStackable(items[i]);
-			if (!Object.prototype.hasOwnProperty.call(items[i], "count")) items[i].count = 1;
-			items[i].total = items[i].count;
-			const out = Object.assign({}, items[i]);
-			out.count = 0;
-			addItem$1(content, items[i], true);
-			_input$1[items[i].index] = items[i];
-			_output$1[items[i].index] = out;
-		}
-	};
-	transferItem$1 = (() => {
-		let tmpItem = {};
-		return (fromContent, toContent, isAdding, index, count) => {
-			if (isAdding) {
-				if (!_input$1[index].IsIdentified) {
-					VendingModelMessage_default.setInit(603);
-					return;
-				}
-				_output$1[index].count = _type$3 === Vending.Type.BUYING_STORE ? count : Math.min(_output$1[index].count + count, _input$1[index].count);
-				tmpItem = Object.assign({}, _input$1[index]);
-				tmpItem.count = _type$3 === Vending.Type.BUYING_STORE ? 0 : _input$1[index].count - _output$1[index].count;
-				addItem$1(fromContent, tmpItem, true);
-				addItem$1(toContent, _output$1[index], false);
-			} else {
-				count = Math.min(count, _output$1[index].count);
-				if (!count) return;
-				_output$1[index].count = _type$3 === Vending.Type.BUYING_STORE ? 0 : _output$1[index].count - count;
-				tmpItem = Object.assign({}, _input$1[index]);
-				tmpItem.count = _type$3 === Vending.Type.BUYING_STORE ? _input$1[index].total : _input$1[index].count + _output$1[index].count;
-				addItem$1(fromContent, _output$1[index], false);
-				addItem$1(toContent, tmpItem, true);
-			}
-		};
-	})();
-	Vending.onVendingSkill = function onVendingSkill(pkt) {
-		if (Vending.isOpen) return;
-		_slots = pkt.itemcount;
-		this.setList(CartItems_default.list);
-		const root = Vending.getRoot();
-		root.querySelector(".add_shop").style.height = `${32 * _slots}px`;
-		root.querySelector(".shopname").value = "";
-		this._host.style.display = "";
-		this._fixPositionOverflow();
-		Vending.isOpen = true;
-	};
-	Vending.onBuyingSkill = function onBuyingSkill(pkt) {
-		if (Vending.isOpen) return;
-		_slots = pkt.itemcount;
-		const buyable = [];
-		for (const key in InventoryController.getUI().list) {
-			const item = InventoryController.getUI().list[key];
-			if (isItemStackable(item) && DB.isBuyable(item.ITID)) buyable.push(item);
-		}
-		this.setList(buyable);
-		const root = Vending.getRoot();
-		root.querySelector(".add_shop").style.height = `${32 * _slots}px`;
-		root.querySelector(".shopname").value = "";
-		this._host.style.display = "";
-		this._fixPositionOverflow();
-		Vending.isOpen = true;
-	};
-	Vending.onClose = function onClose() {
-		this._host.style.display = "none";
-		Vending.isOpen = false;
-	};
-	Vending.onSubmit = function onSubmit() {
-		const output = [];
-		const count = _output$1.length;
-		const root = Vending.getRoot();
-		const shopname = root.querySelector(".shopname").value;
-		let limitZeny;
-		let ctr = 0;
-		for (let i = 0; i < count; ++i) if (_output$1[i] && _output$1[i].count) {
-			output.push(_output$1[i]);
-			ctr++;
-		}
-		if (ctr < 1) {
-			VendingModelMessage_default.setInit(2494);
-			return;
-		}
-		let pkt;
-		if (_type$3 === Vending.Type.VENDING_STORE) pkt = new PACKET.CZ.REQ_OPENSTORE2();
-		else {
-			pkt = new PACKET.CZ.REQ_OPEN_BUYING_STORE();
-			limitZeny = parseInt(root.querySelector(".limitZeny").value, 10);
-			if (limitZeny > SessionStorage_default.zeny) {
-				VendingModelMessage_default.setInit(3683);
-				return;
-			}
-			if (limitZeny <= 0) {
-				VendingModelMessage_default.setInit(1730);
-				return;
-			}
-			pkt.LimitZeny = limitZeny;
-		}
-		pkt.storeName = shopname;
-		pkt.result = 1;
-		pkt.storeList = output;
-		if (!shopname) {
-			VendingModelMessage_default.setInit(225);
-			return;
-		} else {
-			this._shopname = shopname;
-			submitNetworkPacket(pkt);
-		}
-		this.onRemove();
-	};
-	Vending.mouseMode = GUIComponent.MouseMode.STOP;
-	Vending_default = UIManager.addComponent(Vending);
-}));
-//#endregion
-//#region src/UI/Components/VendingShop/VendingShop.html?raw
-var VendingShop_default$2;
-var init_VendingShop$2 = __esmMin((() => {
-	VendingShop_default$2 = "<div id=\"vendingshop\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text shopname\"></span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td class=\"container\">\r\n					<div class=\"ff_bugfix\">\r\n						<div class=\"hide\"></div>\r\n						<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n					</div>\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n					<div class=\"right\">\r\n						<ui-button\r\n							class=\"btn close\"\r\n							bg=\"btn_close.bmp\"\r\n							hover=\"btn_close_a.bmp\"\r\n							down=\"btn_close_b.bmp\"\r\n						></ui-button>\r\n					</div>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/VendingShop/VendingShop.css?raw
-var VendingShop_default$1;
-var init_VendingShop$1 = __esmMin((() => {
-	VendingShop_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 288px;\r\n	height: 114px;\r\n}\r\n\r\n#vendingshop {\r\n	position: absolute;\r\n	width: 288px;\r\n	height: 114px;\r\n}\r\n#vendingshop table {\r\n	border-spacing: 0px;\r\n	display: inline-block;\r\n}\r\n\r\n#vendingshop .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#vendingshop .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#vendingshop .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#vendingshop .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#vendingshop .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#vendingshop .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n}\r\n#vendingshop .ff_bugfix {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#vendingshop .hide {\r\n	height: 100%;\r\n	width: 16px;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n	background-color: white;\r\n}\r\n#vendingshop .content {\r\n	overflow: auto;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat;\r\n}\r\n\r\n#vendingshop .content .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#vendingshop .content .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vendingshop .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#vendingshop .overlay.grey {\r\n	color: #aaa;\r\n}\r\n#vendingshop .content .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#vendingshop .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-right: 1px solid #ccc;\r\n}\r\n#vendingshop .footer .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#vendingshop .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	margin: 0;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/VendingShop/VendingShop.js
-/**
-* Prettify zeny : 1000000 -> 1,000,000
-*
-* @param {number} zeny
-* @param {boolean} useStyle
-* @return {string}
-*/
-function prettyZeny$2(val, useStyle) {
-	const list = val.toString().split("");
-	const count = list.length;
-	let str = "";
-	for (let i = 0; i < count; i++) str = list[count - i - 1] + (i && i % 3 === 0 ? "," : "") + str;
-	if (useStyle) str = `<span style="${[
-		"color:#000000; text-shadow:1px 0px #00ffff;",
-		"color:#0000ff; text-shadow:1px 0px #ce00ce;",
-		"color:#0000ff; text-shadow:1px 0px #00ffff;",
-		"color:#ff0000; text-shadow:1px 0px #ffff00;",
-		"color:#ff18ff;",
-		"color:#0000ff;",
-		"color:#000000; text-shadow:1px 0px #00ff00;",
-		"color:#ff0000;",
-		"color:#000000; text-shadow:1px 0px #cece63;",
-		"color:#ff0000; text-shadow:1px 0px #ff007b;"
-	][count - 1]}">${str}</span>`;
-	return str;
-}
-/**
-* Hide/show inventory's content
-* @preserved currently unused, might be needed in the future
-*/
-/**
-* Update tab, reset inventory content
-* @preserved currently unused, might be needed in the future
-*/
-/**
-* Drop an item from storage to inventory
-*
-* @param {Event} event
-*/
-function onDrop$4(event) {
-	event.stopImmediatePropagation();
-	event.preventDefault();
-}
-/**
-* Block the scroll to move 32px at each move
-*/
-function onScroll$3(event) {
-	let delta;
-	if (event.wheelDelta) {
-		delta = event.wheelDelta / 120;
-		if (window.opera) delta = -delta;
-	} else if (event.detail) delta = -event.detail;
-	else if (event.deltaY) delta = -event.deltaY / 100;
-	event.currentTarget.scrollTop = Math.floor(event.currentTarget.scrollTop / 32) * 32 - delta * 32;
-	event.stopImmediatePropagation();
-	event.preventDefault();
-}
-/**
-* Show item name when mouse is over
-*/
-function onItemOver$7(itemEl, root) {
-	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
-	const item = VendingShop.getItemByIndex(idx);
-	if (!item) return;
-	const overlay = root.querySelector(".overlay");
-	if (!overlay) return;
-	overlay.style.display = "";
-	overlay.style.top = `${itemEl.offsetTop}px`;
-	overlay.style.left = `${itemEl.offsetLeft + 35}px`;
-	overlay.textContent = `${DB.getItemName(item)} ${prettyZeny$2(item.price, false)} ${DB.getMessage(2328)}`;
-	if (item.IsIdentified) overlay.classList.remove("grey");
-	else if (_type$2 === VendingShop.Type.VENDING_LIST) overlay.classList.add("grey");
-}
-/**
-* Hide the item name
-*/
-function onItemOut$8(root) {
-	const overlay = root.querySelector(".overlay");
-	if (overlay) overlay.style.display = "none";
-}
-/**
-* Stop dragging an item
-*/
-function onItemDragEnd$5() {
-	delete window._OBJ_DRAG_;
-}
-/**
-* Get item info (open description window)
-*/
-function onItemInfo$10(event, itemEl) {
-	event.stopImmediatePropagation();
-	event.preventDefault();
-	const index = parseInt(itemEl.getAttribute("data-index"), 10);
-	const item = VendingShop.getItemByIndex(index);
-	if (!item) return;
-	if (ItemInfo_default.uid === item.ITID) {
-		ItemInfo_default.remove();
-		return;
-	}
-	ItemInfo_default.append();
-	ItemInfo_default.uid = item.ITID;
-	ItemInfo_default.setItem(item);
-}
-/**
-* Ask to use an item
-*/
-function onItemUsed(event, itemEl) {
-	const index = parseInt(itemEl.getAttribute("data-index"), 10);
-	const item = VendingShop.getItemByIndex(index);
-	if (item) {
-		VendingShop.useItem(item);
-		onItemOut$8(VendingShop.getRoot());
-	}
-	event.stopImmediatePropagation();
-	event.preventDefault();
-}
-var VendingShop, _realSize, _type$2, _preferences$16, VendingShop_default;
-var init_VendingShop = __esmMin((() => {
-	init_DBManager();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_PacketVerManager();
-	init_Client();
-	init_Preferences$1();
-	init_Renderer();
-	init_GUIComponent();
-	init_UIManager();
-	init_Elements();
-	init_ChatBox();
-	init_ItemInfo();
-	init_Vending();
-	init_VendingShop$2();
-	init_VendingShop$1();
-	init_VendingReport();
-	VendingShop = new GUIComponent("VendingShop", VendingShop_default$1);
-	VendingShop.render = () => VendingShop_default$2;
-	/**
-	* @var {enum} Store type
-	*/
-	VendingShop.Type = {
-		VENDING_LIST: 0,
-		BUYING_LIST: 1
-	};
-	/**
-	* Store inventory items
-	*/
-	VendingShop.list = [];
-	_realSize = 0;
-	_preferences$16 = Preferences.get("VendingShop", {
-		x: 200,
-		y: 200,
-		width: 8,
-		height: 2,
-		reduce: false
-	}, 1);
-	/**
-	* Initialize UI
-	*/
-	VendingShop.init = function init() {
-		const root = this.getRoot();
-		const closeBtn = root.querySelector(".btn.close");
-		if (closeBtn) {
-			closeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
-			closeBtn.addEventListener("click", () => VendingShop.onSubmit());
-		}
-		this._host.addEventListener("drop", onDrop$4);
-		this._host.addEventListener("dragover", (e) => {
-			e.stopImmediatePropagation();
-			e.preventDefault();
-		});
-		const content = root.querySelector(".container .content");
-		if (content) {
-			content.addEventListener("wheel", onScroll$3);
-			content.addEventListener("mouseover", (e) => {
-				const itemEl = e.target.closest(".item");
-				if (itemEl) onItemOver$7(itemEl, root);
-			});
-			content.addEventListener("mouseout", (e) => {
-				if (e.target.closest(".item")) onItemOut$8(root);
-			});
-			content.addEventListener("dragstart", (e) => {
-				if (e.target.closest(".item"));
-			});
-			content.addEventListener("dragend", (e) => {
-				if (e.target.closest(".item")) onItemDragEnd$5();
-			});
-			content.addEventListener("contextmenu", (e) => {
-				const itemEl = e.target.closest(".item");
-				if (itemEl) onItemInfo$10(e, itemEl);
-			});
-			content.addEventListener("dblclick", (e) => {
-				const itemEl = e.target.closest(".item");
-				if (itemEl) onItemUsed(e, itemEl);
-			});
-		}
-		this.draggable(".titlebar");
-		this._host.style.display = "none";
-	};
-	/**
-	* Apply preferences once append to body
-	*/
-	VendingShop.onAppend = function onAppend() {
-		this.resize(_preferences$16.width, _preferences$16.height);
-		const hostRect = this._host.getBoundingClientRect();
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$16.y), Renderer.height - hostRect.height)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$16.x), Renderer.width - hostRect.width)}px`;
-		_realSize = _preferences$16.reduce ? 0 : hostRect.height;
-		const messageText = DB.getMessage(226);
-		const titleShop = Vending_default._shopname.length > 25 ? `${Vending_default._shopname.substring(0, 25)}...` : Vending_default._shopname;
-		const shopnameEl = this.getRoot().querySelector(".text.shopname");
-		if (shopnameEl) shopnameEl.textContent = `${messageText} : ${titleShop}`;
-	};
-	/**
-	* Specify the type of the shop
-	*
-	* @param {number} type (see NpcStore.Type.*)
-	*/
-	VendingShop.setType = function setType(type) {
-		_type$2 = type;
-	};
-	/**
-	* Remove Inventory from window (and so clean up items)
-	*/
-	VendingShop.onRemove = function onRemove() {
-		const content = this.getRoot().querySelector(".container .content");
-		if (content) content.innerHTML = "";
-		this.list.length = 0;
-		const itemInfoEl = document.querySelector(".ItemInfo");
-		if (itemInfoEl) itemInfoEl.remove();
-		_preferences$16.reduce = !!_realSize;
-		_preferences$16.y = parseInt(this._host.style.top, 10);
-		_preferences$16.x = parseInt(this._host.style.left, 10);
-		_preferences$16.width = Math.floor((this._host.getBoundingClientRect().width - 25) / 32);
-		_preferences$16.height = Math.floor((this._host.getBoundingClientRect().height - 20) / 32);
-		_preferences$16.save();
-		this._host.style.display = "none";
-	};
-	/**
-	* Extend inventory window size
-	*
-	* @param {number} width
-	* @param {number} height
-	*/
-	VendingShop.resize = function resize(width, height) {
-		width = Math.min(Math.max(width, 6), 9);
-		height = Math.min(Math.max(height, 2), 6);
-		const root = this.getRoot();
-		const content = root.querySelector(".container .content");
-		if (content) {
-			content.style.width = `${width * 32 + 13}px`;
-			content.style.height = `${height * 32}px`;
-		}
-		const innerW = 32 + width * 32;
-		const innerH = 50 + height * 32;
-		this._host.style.width = `${innerW}px`;
-		this._host.style.height = `${innerH}px`;
-		const inner = root.querySelector("#vendingshop");
-		if (inner) {
-			inner.style.width = `${innerW}px`;
-			inner.style.height = `${innerH}px`;
-		}
-	};
-	/**
-	* Get item object
-	*
-	* @param {number} id
-	* @returns {Item}
-	*/
-	VendingShop.getItemById = function getItemById(id) {
-		const list = VendingShop.list;
-		for (let i = 0, count = list.length; i < count; ++i) if (list[i].ITID === id) return list[i];
-		return null;
-	};
-	/**
-	* Search in a list for an item by its index
-	*
-	* @param {number} index
-	* @returns {Item}
-	*/
-	VendingShop.getItemByIndex = function getItemByIndex(index) {
-		const list = VendingShop.list;
-		for (let i = 0, count = list.length; i < count; ++i) if (list[i].index === index) return list[i];
-		return null;
-	};
-	/**
-	* Add items to the list
-	* if the item index is exist you should clear it;[skybook888]
-	*/
-	VendingShop.setItems = function setItems(items) {
-		for (let i = 0, count = items.length; i < count; ++i) if (this.addItemSub(items[i])) this.list.push(items[i]);
-		this._host.style.display = "";
-	};
-	/**
-	* Insert Item to inventory
-	*
-	* @param {object} Item
-	*/
-	VendingShop.addItem = function addItem(item) {
-		let object = this.getItemByIndex(item.index);
-		if (object) {
-			object.count += item.count;
-			const countEl = this.getRoot().querySelector(`.item[data-index="${item.index}"] .count`);
-			if (countEl) countEl.textContent = object.count;
-			return;
-		}
-		object = Object.assign({}, item);
-		if (this.addItemSub(object)) this.list.push(object);
-	};
-	/**
-	* Add item to inventory
-	*
-	* @param {object} Item
-	*/
-	VendingShop.addItemSub = function addItemSub(item) {
-		const it = DB.getItemInfo(item.ITID);
-		const root = this.getRoot();
-		const content = root.querySelector(".container .content");
-		if (!content) return false;
-		const itemDiv = document.createElement("div");
-		itemDiv.className = "item";
-		itemDiv.setAttribute("data-index", item.index);
-		itemDiv.setAttribute("draggable", "true");
-		itemDiv.innerHTML = `<div class="icon"></div><div class="amount"><span class="count">${item.count || 1}</span></div>`;
-		content.appendChild(itemDiv);
-		const hideEl = root.querySelector(".hide");
-		if (hideEl) {
-			if (content.clientHeight < content.scrollHeight) hideEl.style.display = "none";
-			else hideEl.style.display = "";
-		}
-		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
-			const iconEl = content.querySelector(`.item[data-index="${item.index}"] .icon`);
-			if (iconEl) iconEl.style.backgroundImage = `url(${data})`;
-		});
-		return true;
-	};
-	/**
-	* Remove item from inventory
-	*
-	* @param {number} index in inventory
-	* @param {number} count
-	*/
-	VendingShop.removeItem = function removeItem(index, count) {
-		const item = this.getItemByIndex(index);
-		if (!item || count <= 0) return null;
-		const msg = DB.getMessage(231).replace("%s", DB.getItemName(item)).replace("%d", count);
-		ChatBox_default.addText(msg, ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.PUBLIC_LOG);
-		const root = this.getRoot();
-		if (item.count) {
-			item.count -= count;
-			if (item.count > 0) {
-				const countEl = root.querySelector(`.item[data-index="${item.index}"] .count`);
-				if (countEl) countEl.textContent = item.count;
-				return item;
-			}
-		}
-		this.list.splice(this.list.indexOf(item), 1);
-		const itemEl = root.querySelector(`.item[data-index="${item.index}"]`);
-		if (itemEl) itemEl.remove();
-		let ctr = 0;
-		for (let i = 0; i < this.list.length; i++) if (this.list[i].count > 0) ctr++;
-		if (ctr === 0) this.onSubmit();
-		return item;
-	};
-	/**
-	* Update item in inventory
-	*
-	* @param {number} index in inventory
-	* @param {number} count
-	*/
-	VendingShop.updateItem = function updateItem(index, count) {
-		const item = this.getItemByIndex(index);
-		if (!item) return;
-		item.count = count;
-		const root = this.getRoot();
-		if (item.count > 0) {
-			const countEl = root.querySelector(`.item[data-index="${item.index}"] .count`);
-			if (countEl) countEl.textContent = item.count;
-			return;
-		}
-		this.list.splice(this.list.indexOf(item), 1);
-		const itemEl = root.querySelector(`.item[data-index="${item.index}"]`);
-		if (itemEl) itemEl.remove();
-		const content = root.querySelector(".container .content");
-		const hideEl = root.querySelector(".hide");
-		if (content && hideEl) {
-			if (content.clientHeight >= content.scrollHeight) hideEl.style.display = "";
-		}
-	};
-	/**
-	* Submit data to send items
-	*/
-	VendingShop.onSubmit = function onSubmit() {
-		let pkt;
-		if (_type$2 === VendingShop.Type.VENDING_LIST) pkt = new PACKET.CZ.REQ_CLOSESTORE();
-		else pkt = new PACKET.CZ.REQ_CLOSE_BUYING_STORE();
-		Network.sendPacket(pkt);
-		this.onRemove();
-		if (_type$2 === VendingShop.Type.VENDING_LIST && PacketVerManager_default.value >= 20141016) VendingReport_default.append();
-	};
-	VendingShop.mouseMode = GUIComponent.MouseMode.STOP;
-	VendingShop_default = UIManager.addComponent(VendingShop);
-}));
-//#endregion
-//#region src/UI/Components/VendingReport/VendingReport.html?raw
-var VendingReport_default$2;
-var init_VendingReport$2 = __esmMin((() => {
-	VendingReport_default$2 = "<div id=\"VendingReport\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-text class=\"text reportname\" msg=\"2559\"></ui-text>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"btn close\"\r\n					bg=\"btn_close.bmp\"\r\n					hover=\"btn_close_a.bmp\"\r\n					down=\"btn_close_b.bmp\"\r\n				></ui-button>\r\n				<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/VendingReport/VendingReport.css?raw
-var VendingReport_default$1;
-var init_VendingReport$1 = __esmMin((() => {
-	VendingReport_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 400px;\r\n}\r\n\r\n#VendingReport {\r\n	position: absolute;\r\n}\r\n\r\n#VendingReport .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#VendingReport .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#VendingReport .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#VendingReport .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#VendingReport .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#VendingReport .container {\r\n	padding-left: 20px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	background-repeat: repeat-y;\r\n	padding-right: 2px;\r\n	padding-top: 5px;\r\n	padding-bottom: 5px;\r\n}\r\n\r\n#VendingReport .ff_bugfix {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#VendingReport .hide {\r\n	height: 100%;\r\n	width: 16px;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n	background-color: white;\r\n}\r\n#VendingReport .content {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 100px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n	overflow-y: auto;\r\n}\r\n\r\n#VendingReport .content .item {\r\n	display: flex;\r\n	width: 100%;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n	gap: 5px;\r\n}\r\n\r\n#VendingReport .info {\r\n	width: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#VendingReport .info .count {\r\n	position: absolute;\r\n	top: 17px;\r\n	left: 17px;\r\n}\r\n\r\n#VendingReport .info .buyer {\r\n	width: 120px;\r\n}\r\n\r\n#VendingReport .info .zeny {\r\n	width: 35%;\r\n}\r\n\r\n#VendingReport .info .date {\r\n	width: 30%;\r\n}\r\n\r\n#VendingReport .content .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#VendingReport .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#VendingReport .overlay.grey {\r\n	color: #aaa;\r\n}\r\n#VendingReport .content .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#VendingReport .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-right: 1px solid #ccc;\r\n}\r\n#VendingReport .footer .right {\r\n	float: right;\r\n	margin-right: 15px;\r\n	margin-top: 4px;\r\n}\r\n#VendingReport .close {\r\n	width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	margin: 0;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#VendingReport .extend {\r\n	position: absolute;\r\n	right: 1px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/VendingReport/VendingReport.js
-/**
-* Helper: query inside shadow root
-*/
-function _root$7() {
-	return VendingReport._shadow || VendingReport._host;
-}
-/**
-* Prettify zeny : 1000000 -> 1,000,000
-*
-* @param {number} zeny
-* @param {boolean} use color
-* @return {string}
-*/
-function prettyZeny$1(val, useStyle) {
-	const list = val.toString().split("");
-	const count = list.length;
-	let i;
-	let str = "";
-	for (i = 0; i < count; i++) str = list[count - i - 1] + (i && i % 3 === 0 ? "," : "") + str;
-	if (useStyle) str = `<span style="${[
-		"color:#000000; text-shadow:1px 0px #00ffff;",
-		"color:#0000ff; text-shadow:1px 0px #ce00ce;",
-		"color:#0000ff; text-shadow:1px 0px #00ffff;",
-		"color:#ff0000; text-shadow:1px 0px #ffff00;",
-		"color:#ff18ff;",
-		"color:#0000ff;",
-		"color:#000000; text-shadow:1px 0px #00ff00;",
-		"color:#ff0000;",
-		"color:#000000; text-shadow:1px 0px #cece63;",
-		"color:#ff0000; text-shadow:1px 0px #ff007b;"
-	][count - 1]}">${str}</span>`;
-	return str;
-}
-/**
-* Handle mouse wheel event to scroll the content.
-*
-* @param {Event} event The mouse wheel event.
-*/
-function onScrollWheel(event) {
-	event.preventDefault();
-	event.stopImmediatePropagation();
-	const ROW_HEIGHT = 24;
-	let delta = 0;
-	if (event.wheelDelta) delta = event.wheelDelta > 0 ? 1 : -1;
-	else if (event.deltaY) delta = event.deltaY < 0 ? 1 : -1;
-	let target = this.scrollTop - delta * ROW_HEIGHT;
-	const maxScroll = this.scrollHeight - this.clientHeight;
-	target = Math.max(0, Math.min(target, maxScroll));
-	target = Math.round(target / ROW_HEIGHT) * ROW_HEIGHT;
-	this.scrollTop = target;
-	this.style.backgroundPositionY = -target + "px";
-}
-/**
-* Sync the background position to the scroll position.
-*
-* This function is called whenever the content is scrolled.
-*/
-function onScrollSync() {
-	this.style.backgroundPositionY = -this.scrollTop + "px";
-}
-/**
-* Show item name when mouse is over
-*/
-function onItemOver$6() {
-	const idx = parseInt(this.getAttribute("data-id"), 10);
-	const item = VendingReport.getItemByIndex(idx);
-	if (!item) return;
-	const root = _root$7();
-	const overlay = root.querySelector(".overlay");
-	const innerRoot = root.querySelector("#VendingReport");
-	if (!overlay || !innerRoot) return;
-	const itemRect = this.getBoundingClientRect();
-	const rootRect = innerRoot.getBoundingClientRect();
-	overlay.style.display = "block";
-	overlay.style.top = `${itemRect.top - rootRect.top}px`;
-	overlay.style.left = `${itemRect.left - rootRect.left + 35}px`;
-	overlay.textContent = DB.getItemName(item);
-	if (item.IsIdentified) overlay.classList.remove("grey");
-}
-/**
-* Hide the item name
-*/
-function onItemOut$7() {
-	const overlay = _root$7().querySelector(".overlay");
-	if (overlay) overlay.style.display = "none";
-}
-/**
-* Get item info (open description window)
-*/
-function onItemInfo$9(event) {
-	event.stopImmediatePropagation();
-	event.preventDefault();
-	const index = parseInt(this.getAttribute("data-id"), 10);
-	const item = VendingReport.getItemByIndex(index);
-	if (!item) return;
-	if (ItemInfo_default.uid === item.ITID) {
-		ItemInfo_default.remove();
-		return;
-	}
-	ItemInfo_default.append();
-	ItemInfo_default.uid = item.ITID;
-	ItemInfo_default.setItem(item);
-}
-/**
-* Format a Unix timestamp (seconds) into MM/DD - HH:mm:sec
-*
-* @param {number} unixTimestamp - Unix time in seconds
-* @returns {string} Formatted date string (MM/DD HH:mm)
-*/
-function formatUnixDate(unixTimestamp) {
-	const d = /* @__PURE__ */ new Date(unixTimestamp * 1e3);
-	return String(d.getMonth() + 1).padStart(2, "0") + "/" + String(d.getDate()).padStart(2, "0") + " - " + String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0") + ":" + String(d.getSeconds()).padStart(2, "0");
-}
-var VendingReport, VendingReportTable, _preferences$15, VendingReport_default;
-var init_VendingReport = __esmMin((() => {
-	init_DBManager();
-	init_Client();
-	init_Preferences$1();
-	init_EntityManager();
-	init_UIManager();
-	init_GUIComponent();
-	init_ItemInfo();
-	init_VendingShop();
-	init_Elements();
-	init_VendingReport$2();
-	init_VendingReport$1();
-	VendingReport = new GUIComponent("VendingReport", VendingReport_default$1);
-	VendingReportTable = {
-		list: [],
-		_nextIndex: 0
-	};
-	/**
-	* @var {number} used to remember the window height
-	*/
-	VendingReport._resizing = false;
-	VendingReport._startY = 0;
-	VendingReport._startHeight = 0;
-	VendingReport._boundResizeDrag = null;
-	VendingReport._boundResizeStop = null;
-	_preferences$15 = Preferences.get("VendingReport", {
-		x: 200,
-		y: 200,
-		width: 400,
-		height: 180
-	}, 1);
-	/**
-	* Render HTML
-	*/
-	VendingReport.render = () => VendingReport_default$2;
-	/**
-	* Initialize UI
-	*/
-	VendingReport.init = function Init() {
-		const root = _root$7();
-		const closeBtn = root.querySelector(".btn.close");
-		if (closeBtn) closeBtn.addEventListener("click", () => {
-			VendingReport.onClose();
-		});
-		const extendBtn = root.querySelector(".extend");
-		if (extendBtn) extendBtn.addEventListener("mousedown", (e) => {
-			e.preventDefault();
-			this._resizing = true;
-			this._startY = e.clientY;
-			const content = root.querySelector(".container .content");
-			this._startHeight = content ? content.getBoundingClientRect().height : 0;
-			this._boundResizeDrag = this.onResizeDrag.bind(this);
-			this._boundResizeStop = this.onResizeStop.bind(this);
-			document.addEventListener("mousemove", this._boundResizeDrag);
-			document.addEventListener("mouseup", this._boundResizeStop);
-		});
-		const content = root.querySelector(".container .content");
-		if (content) {
-			content.addEventListener("wheel", onScrollWheel);
-			content.addEventListener("scroll", onScrollSync);
-			content.addEventListener("mouseover", (e) => {
-				const item = e.target.closest(".item");
-				if (item) onItemOver$6.call(item, e);
-			});
-			content.addEventListener("mouseout", (e) => {
-				const item = e.target.closest(".item");
-				if (item) onItemOut$7.call(item, e);
-			});
-			content.addEventListener("contextmenu", (e) => {
-				const item = e.target.closest(".item");
-				if (item) onItemInfo$9.call(item, e);
-			});
-		}
-		this.draggable(root.querySelector(".titlebar"));
-	};
-	/**
-	* Apply preferences once append to body
-	*/
-	VendingReport.onAppend = function OnAppend() {
-		this._host.style.display = "";
-	};
-	/**
-	* Remove Inventory from window (and so clean up items)
-	*/
-	VendingReport.onRemove = function OnRemove() {
-		VendingReport.reset();
-		ItemInfo_default.remove();
-		_preferences$15.y = parseInt(this._host.style.top, 10) || 0;
-		_preferences$15.x = parseInt(this._host.style.left, 10) || 0;
-		_preferences$15.save();
-		this._host.style.display = "none";
-	};
-	VendingReport.reset = function reset() {
-		VendingReportTable.list.length = 0;
-		VendingReportTable._nextIndex = 0;
-		const content = _root$7().querySelector(".container .content");
-		if (content) content.querySelectorAll(".item").forEach((el) => el.remove());
-	};
-	/**
-	* Extend window size
-	*/
-	VendingReport.onResizeDrag = function(e) {
-		if (!this._resizing) return;
-		const MIN_HEIGHT = 100;
-		const MAX_HEIGHT = 260;
-		const deltaY = e.clientY - this._startY;
-		let newHeight = this._startHeight + deltaY;
-		newHeight = Math.min(Math.max(newHeight, MIN_HEIGHT), MAX_HEIGHT);
-		const content = _root$7().querySelector(".container .content");
-		if (content) content.style.height = `${newHeight}px`;
-		this._host.style.height = `${newHeight + 31 + 19}px`;
-	};
-	/**
-	* Stop resizing window
-	*
-	* This function is called when the user stops resizing the window.
-	* It resets the _resizing flag and removes the event listener for the
-	* mousemove event.
-	*/
-	VendingReport.onResizeStop = function() {
-		this._resizing = false;
-		if (this._boundResizeDrag) document.removeEventListener("mousemove", this._boundResizeDrag);
-		if (this._boundResizeStop) document.removeEventListener("mouseup", this._boundResizeStop);
-		this._boundResizeDrag = null;
-		this._boundResizeStop = null;
-	};
-	/**
-	* Add a sold item to the Vending Report Table.
-	*
-	* @param {object} pkt - Sold item packet (contains index, count, zeny, date, and CID of buyer)
-	*/
-	VendingReport.add = function add(pkt) {
-		if (!pkt) return;
-		const shopItem = VendingShop_default.getItemByIndex(pkt.index);
-		if (!shopItem) return;
-		const entity = EntityManager.getByCID(pkt.CID);
-		const buyer = entity ? entity.display.name : "未知";
-		const reportItem = {
-			...shopItem,
-			reportId: ++VendingReportTable._nextIndex,
-			shopindex: pkt.index,
-			count: pkt.count,
-			buyer,
-			zeny: pkt.zeny,
-			date: formatUnixDate(pkt.date),
-			date_raw: pkt.date
-		};
-		this.addItem(reportItem);
-	};
-	/**
-	* Insert Item to Vending Report Table
-	*
-	* @param {object} Item
-	*/
-	VendingReport.addItem = function addItem(item) {
-		VendingReportTable.list.push(item);
-		this.addItemSub(item);
-	};
-	/**
-	* Add item to Vending Report UI
-	*
-	* @param {object} Item
-	*/
-	VendingReport.addItemSub = function addItemSub(item) {
-		const it = DB.getItemInfo(item.ITID);
-		const content = _root$7().querySelector(".container .content");
-		if (!content) return false;
-		content.insertAdjacentHTML("beforeend", `<div class="item" data-ITID="${item.ITID}" data-index="${item.shopindex}" data-id="${item.reportId}"><div class="icon"></div><div class="info"><div class="count">${item.count}</div><div class="buyer">${item.buyer}</div><div class="zeny">${prettyZeny$1(item.zeny, false)} Zeny</div><div class="date">${item.date}</div></div></div>`);
-		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
-			const icon = content.querySelector(`.item[data-id="${item.reportId}"] .icon`);
-			if (icon) icon.style.backgroundImage = `url(${data})`;
-		});
-		return true;
-	};
-	/**
-	* Search in a list for an item by its index
-	*
-	* @param {number} index
-	* @returns {Item}
-	*/
-	VendingReport.getItemByIndex = function getItemByIndex(index) {
-		const list = VendingReportTable.list;
-		for (let i = 0, count = list.length; i < count; ++i) if (list[i].reportId === index) return list[i];
-		return null;
-	};
-	/**
-	* Close
-	*/
-	VendingReport.onClose = function onClose() {
-		this.remove();
-	};
-	VendingReport_default = UIManager.addComponent(VendingReport);
 }));
 //#endregion
 //#region src/UI/Mobile/game/CartPreview.js
@@ -381698,7 +382146,7 @@ function onPlayerMessage(pkt) {
 		ChatRoom_default.message(pkt.msg);
 		return;
 	}
-	ChatBox_default.addText(pkt.msg, ChatBox_default.TYPE.PUBLIC | ChatBox_default.TYPE.SELF, ChatBox_default.FILTER.PUBLIC_CHAT);
+	ChatBox_default.addText(pkt.msg, ChatBox_default.TYPE.PUBLIC | ChatBox_default.TYPE.SELF, ChatBox_default.FILTER.PUBLIC_CHAT, void 0, { replyable: false });
 	if (SessionStorage_default.Entity) {
 		pkt.msg = pkt.msg.replace(/<ITEMLINK>.*?<\/ITEMLINK>|<ITEML>.*?<\/ITEML>|<ITEM>.*?<\/ITEM>/gi, function(match) {
 			return "<" + DB.getItemNameFromLink(match) + ">";
@@ -382137,6 +382585,7 @@ function onActionFailure(pkt) {
 * @param {object} pkt - PACKET_ZC_MSG & PACKET_ZC_MSG_COLOR
 */
 function onMessage$1(pkt) {
+	if (Platform.isMobile && pkt.msg === 1357) showToast(document.body, DB.getMessage(pkt.msg), "error");
 	if (pkt.color) ChatBox_default.addText(DB.getMessage(pkt.msg), ChatBox_default.TYPE.PUBLIC, ChatBox_default.FILTER.PUBLIC_LOG, uint32ToRGB(pkt.color));
 	else ChatBox_default.addText(DB.getMessage(pkt.msg), ChatBox_default.TYPE.PUBLIC, ChatBox_default.FILTER.PUBLIC_LOG);
 }
@@ -382320,6 +382769,8 @@ function MainEngine$11() {
 	Network.hookPacket(PACKET.ZC.ACK_STATUS_GM, onGMCheckStatus);
 }
 var init_Main = __esmMin((() => {
+	init_Platform();
+	init_Toast();
 	init_CharacterStats();
 	init_AttackIntent();
 	init_DBManager();
@@ -384352,7 +384803,7 @@ function onEntityTalk(pkt) {
 	}
 	type = ChatBox_default.TYPE.PUBLIC;
 	const entity = EntityManager.get(pkt.GID);
-	ChatBox_default.addText(pkt.msg, type, ChatBox_default.FILTER.PUBLIC_CHAT);
+	ChatBox_default.addText(pkt.msg, type, ChatBox_default.FILTER.PUBLIC_CHAT, void 0, chatSpeakerMetadata({ id: entity?.objecttype === Entity.TYPE_PC ? pkt.GID : 0 }));
 	if (entity) {
 		pkt.msg = pkt.msg.replace(/<ITEMLINK>.*?<\/ITEMLINK>|<ITEML>.*?<\/ITEML>|<ITEM>.*?<\/ITEM>/gi, function(match) {
 			return "<" + DB.getItemNameFromLink(match) + ">";
@@ -385728,6 +386179,7 @@ function EntityEngine() {
 }
 var SkillNameDisplayExclude, SkillBlueCombo, C_MULTIHIT_DELAY, AVG_ATTACK_SPEED, MAX_ATTACKMT, clanEmblems;
 var init_Entity = __esmMin((() => {
+	init_ChatSpeaker();
 	init_WizardBodyState();
 	init_WarlockSphereState();
 	init_ServantWeaponEffects();
@@ -385899,6 +386351,56 @@ function createMaterialSelectionPacket({ Type, Action, MaterialList }) {
 }
 var init_MaterialSelection = __esmMin((() => {
 	init_PacketStructure();
+}));
+//#endregion
+//#region src/UI/Game/GamePlayerEquipment.js
+/** Read-only inspection uses server WearState, never the local character's equipment. */
+function showPlayerEquipment(packet) {
+	const inventory = createGameInventory(() => false);
+	const loadPreview = createItemPreviewLoader();
+	const items = packet.ItemInfo;
+	const token = Symbol("player-equipment");
+	showInteraction({
+		kind: "equipment",
+		title: `${packet.characterName} · 装备`,
+		token,
+		service: {
+			readOnly: true,
+			snapshot: () => ({
+				attachment: {
+					mask: 0,
+					label: "",
+					removal: null
+				},
+				stats: [],
+				slots: equipmentSlots.map((slot) => {
+					const item = items.find((item) => item.WearState & slot.location);
+					return {
+						...slot,
+						item: item ? {
+							...inventory.describe(item),
+							worn: true,
+							reason: ""
+						} : null,
+						candidates: []
+					};
+				})
+			}),
+			preview: (index, id) => {
+				const item = items.find((item) => item.index === index && item.ITID === id);
+				return item ? loadPreview(item) : Promise.resolve(null);
+			}
+		},
+		close: () => {
+			if (interactionSnapshot()?.token === token) clearInteraction("equipment");
+		}
+	});
+}
+var init_GamePlayerEquipment = __esmMin((() => {
+	init_GameEquipment();
+	init_GameInventory();
+	init_ItemPreview();
+	init_ServerInteraction();
 }));
 //#endregion
 //#region src/Renderer/ItemObject.js
@@ -387507,6 +388009,10 @@ function onItemUseAnswer(pkt) {
 * @param {object} pkt - ZC_EQUIPWIN_MICROSCOPE
 */
 function onShowPlayerEquip(pkt) {
+	if (Platform.isMobile) {
+		showPlayerEquipment(pkt);
+		return;
+	}
 	PlayerViewEquipController.getUI().append();
 	PlayerViewEquipController.getUI().setTitleBar(pkt.characterName);
 	PlayerViewEquipController.getUI().setEquipmentData(pkt.ItemInfo);
@@ -387942,6 +388448,7 @@ var init_Item = __esmMin((() => {
 	init_MaterialSelection();
 	init_GameSelection();
 	init_Platform();
+	init_GamePlayerEquipment();
 	init_DBManager();
 	init_Configs();
 	init_EquipmentLocation();
@@ -388566,6 +389073,8 @@ function onPrivateMessage(pkt) {
 function onPrivateMessageSent(pkt) {
 	const user = ChatBox_default.PrivateMessageStorage.nick;
 	const msg = ChatBox_default.PrivateMessageStorage.msg;
+	ChatBox_default.PrivateMessageStorage.nick = "";
+	ChatBox_default.PrivateMessageStorage.msg = "";
 	if (pkt.result === 0) {
 		if (user && msg) {
 			if (getShouldOpenWhisperBox(user)) WhisperBox.addText(user, SessionStorage_default.Entity.display.name + " : " + msg, "#ffff00");
@@ -388580,11 +389089,17 @@ function onPrivateMessageSent(pkt) {
 			], ChatBox_default.TYPE.PRIVATE | ChatBox_default.TYPE.SELF, ChatBox_default.FILTER.WHISPER);
 		}
 	} else {
-		const errorMsg = "(" + user + ") : " + DB.getMessage(147 + pkt.result);
+		const errorMsg = [
+			"(",
+			{
+				kind: "nickname",
+				text: user
+			},
+			") : ",
+			DB.getMessage(147 + pkt.result)
+		];
 		ChatBox_default.addText(errorMsg, ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.WHISPER);
 	}
-	ChatBox_default.PrivateMessageStorage.nick = "";
-	ChatBox_default.PrivateMessageStorage.msg = "";
 }
 /**
 * Initialize
@@ -388594,16 +389109,32 @@ function PrivateMessageEngine() {
 	Network.hookPacket(PACKET.ZC.WHISPER2, onPrivateMessage);
 	Network.hookPacket(PACKET.ZC.ACK_WHISPER, onPrivateMessageSent);
 	Network.hookPacket(PACKET.ZC.ACK_WHISPER2, onPrivateMessageSent);
-	WhisperBox.onRequestTalk = function(nickname, text) {
-		const pkt = new PACKET.CZ.WHISPER();
-		pkt.receiver = nickname;
-		pkt.msg = text;
-		Network.sendPacket(pkt);
-		ChatBox_default.PrivateMessageStorage.nick = nickname;
-		ChatBox_default.PrivateMessageStorage.msg = text;
-	};
+	WhisperBox.onRequestTalk = sendPrivateMessage;
+}
+/** Share validation and pending acknowledgement ownership across chat entry points. */
+function sendPrivateMessage(nickname, text) {
+	const error = privateRecipientError(nickname) || (ChatBox_default.PrivateMessageStorage.nick ? "上一条私聊尚未收到回执，请稍后再发送" : "");
+	if (error) {
+		ChatBox_default.addText([
+			"(",
+			{
+				kind: "nickname",
+				text: nickname
+			},
+			") : ",
+			error
+		], ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.WHISPER);
+		return error;
+	}
+	const pkt = new PACKET.CZ.WHISPER();
+	pkt.receiver = nickname;
+	pkt.msg = text;
+	ChatBox_default.PrivateMessageStorage.nick = nickname;
+	ChatBox_default.PrivateMessageStorage.msg = text;
+	Network.sendPacket(pkt);
 }
 var init_PrivateMessage = __esmMin((() => {
+	init_PrivateRecipient();
 	init_Platform();
 	init_DBManager();
 	init_Friends();
@@ -389992,6 +390523,7 @@ function resumeQueuedTargetSkill(packet) {
 * @param {optional|number} target game id
 */
 function onUseSkill(id, level, targetID, { allowMove = true } = {}) {
+	if ((id === SkillConst_default.MC_VENDING || id === SkillConst_default.ALL_BUYING_STORE) && showOwnedVending()) return true;
 	let entity;
 	let range;
 	const isHomun = id > SkillConst_default.HOMUN_BEGIN && id < SkillConst_default.HOMUN_LAST;
@@ -390171,6 +390703,7 @@ function SkillEngine() {
 }
 var queuedTargetSkills;
 var init_Skill = __esmMin((() => {
+	init_GameVending();
 	init_TalkieBox();
 	init_GameMonsterInformation();
 	init_Platform();
@@ -394729,7 +395262,7 @@ function onClanInfo(pkt) {
 */
 function onNotifyClanChat(pkt) {
 	const clan_message = pkt.memberName && pkt.memberName?.length > 0 ? pkt.memberName + ": " + pkt.message : pkt.message;
-	ChatBox_default.addText(clan_message, ChatBox_default.TYPE.CLAN, ChatBox_default.FILTER.CLAN);
+	ChatBox_default.addText(clan_message, ChatBox_default.TYPE.CLAN, ChatBox_default.FILTER.CLAN, void 0, chatSpeakerMetadata({ name: pkt.memberName }));
 }
 /**
 * Initialize
@@ -394742,6 +395275,7 @@ function MainEngine$2() {
 }
 var clan, RELATIONSHIP;
 var init_Clan = __esmMin((() => {
+	init_ChatSpeaker();
 	init_NetworkManager();
 	init_PacketStructure();
 	init_ChatBox();
@@ -395405,15 +395939,7 @@ function onRequestTalk(user, text, target, { literal = false } = {}) {
 	const flag_party = !literal && (text[0] === "%" || KEYS.CTRL);
 	const flag_guild = !literal && (text[0] === "$" || KEYS.ALT && !(KEYS[0] || KEYS[1] || KEYS[2] || KEYS[3] || KEYS[4] || KEYS[5] || KEYS[6] || KEYS[7] || KEYS[8] || KEYS[9]));
 	if (!literal) text = text.replace(/^(\$|%)/, "");
-	if (user && user.length) {
-		pkt = new PACKET.CZ.WHISPER();
-		pkt.receiver = user;
-		pkt.msg = text;
-		Network.sendPacket(pkt);
-		ChatBox_default.PrivateMessageStorage.nick = user;
-		ChatBox_default.PrivateMessageStorage.msg = text;
-		return;
-	}
+	if (user && user.length) return sendPrivateMessage(user, text);
 	if (flag_party) target = target & ~ChatBox_default.TYPE.PARTY | ~target & ChatBox_default.TYPE.PARTY;
 	if (flag_guild) target = target & ~ChatBox_default.TYPE.GUILD | ~target & ChatBox_default.TYPE.GUILD;
 	if (target & ChatBox_default.TYPE.PARTY) pkt = new PACKET.CZ.REQUEST_CHAT_PARTY();
@@ -404482,6 +405008,12 @@ function createCharacterPreviewRenderer() {
 }
 var init_CharacterPreview = __esmMin((() => {
 	init_SpriteRenderer();
+}));
+//#endregion
+//#region src/UI/Mobile/tokens.css?raw
+var tokens_default;
+var init_tokens = __esmMin((() => {
+	tokens_default = "/*\r\n * UI/Mobile/tokens.css\r\n *\r\n * Shared design tokens for all mobile screens.\r\n * Import via ?raw and concatenate into component CSS strings.\r\n * Never import directly into desktop components.\r\n */\r\n\r\n:host {\r\n	/* ── Surfaces ── */\r\n	--m-bg:             #f8f9fb;\r\n	--m-surface:        #ffffff;\r\n	--m-surface-raised: #eef1f5;\r\n	--m-surface-active: #fff3e8;\r\n\r\n	/* ── Borders ── */\r\n	--m-border:         #dce1e8;\r\n	--m-border-active:  #b44800;\r\n\r\n	/* ── Accent (primary action) ── */\r\n	--m-accent:         #b44800;\r\n	--m-accent-hover:   #c55a0a;\r\n	--m-accent-ring:    rgba(180, 72, 0, 0.18);\r\n	--m-accent-fg:      #ffffff;\r\n\r\n	/* ── Text ── */\r\n	--m-text:           #242830;\r\n	--m-text-muted:     #68727f;\r\n\r\n	/* ── Semantic ── */\r\n	--m-danger:         #b42318;\r\n	--m-danger-bg:      #fff3f2;\r\n	--m-danger-border:  #efc5c0;\r\n\r\n	/* ── Radii ── */\r\n	--m-r-sm:  10px;\r\n	--m-r-md:  14px;\r\n	--m-r-lg:  20px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/auth/CharSelect.css?raw
