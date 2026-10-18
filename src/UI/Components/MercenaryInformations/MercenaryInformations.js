@@ -85,15 +85,11 @@ MercenaryInformations.init = function init() {
 
 	const skillBtn = root.querySelector('.skill');
 	if (skillBtn) {
-		skillBtn.addEventListener('mousedown', () => {
+		skillBtn.addEventListener('click', () => {
 			SkillListMH.mercenary.toggle();
 		});
 	}
 
-	// If no aggressive level defined, default to 1
-	// otherwise toggle and untoggle to remain the same
-	this.toggleAggressive();
-	this.toggleAggressive();
 };
 
 /**
@@ -127,7 +123,8 @@ MercenaryInformations.onRemove = function onRemove() {
 MercenaryInformations.onShortCut = function onShortCut(key) {
 	switch (key.cmd) {
 		case 'TOGGLE':
-			if (Session.mercId) {
+			if (!this._host) return;
+			if (Session.mercId && EntityManager.get(Session.mercId)) {
 				if (this._host.style.display === 'none') {
 					this._host.style.display = '';
 					this.focus();
@@ -342,9 +339,8 @@ MercenaryInformations.setHpSpBar = function setHpSpBar(type, val, val2) {
  * Toggle Aggressive
  */
 MercenaryInformations.toggleAggressive = function toggleAggressive() {
-	const agr = localStorage.getItem('MER_AGGRESSIVE') === 0 ? 1 : 0;
-	localStorage.setItem('MER_AGGRESSIVE', agr);
 	AIDriver.MER_AGGRESSIVE = !AIDriver.MER_AGGRESSIVE;
+	localStorage.setItem('MER_AGGRESSIVE', AIDriver.MER_AGGRESSIVE ? '1' : '0');
 };
 
 /**

@@ -1,3 +1,5 @@
+import { clearCompanionPrompts } from 'UI/Game/CompanionPrompt.js';
+import PetEvolution from 'UI/Components/PetEvolution/PetEvolution.js';
 import { handleArrivalPreview } from 'UI/Components/GameTools/ArrivalPreviewService.js';
 import recovery, { gameRecoveryReady } from './Recovery/GameRecovery.js';
 import { prepareAutoCombatTeleportMap, completeAutoCombatTeleportMap } from 'UI/Game/AutoCombatTeleport.js';
@@ -114,7 +116,7 @@ import NPCEngine from './MapEngine/NPC.js';
 import EntityEngine from './MapEngine/Entity.js';
 import ItemEngine from './MapEngine/Item.js';
 import MailEngine from './MapEngine/Mail.js';
-import PrivateMessageEngine from './MapEngine/PrivateMessage.js';
+import PrivateMessageEngine, { sendPrivateMessage } from './MapEngine/PrivateMessage.js';
 import StorageEngine from './MapEngine/Storage.js';
 import GroupEngine from './MapEngine/Group.js';
 import GuildEngine from './MapEngine/Guild.js';
@@ -169,7 +171,9 @@ class MapEngine {
 	 * @param {string} mapName
 	 */
 	static init(ip, port, mapName) {
+		cancelCompanionDialogs();
 		Network.onDisconnect = () => {
+			cancelCompanionDialogs();
 			if (!recovery.disconnected()) UIManager.showErrorBox(DB.getMessage(1));
 		};
 		_mapName = mapName;
@@ -702,6 +706,7 @@ function onConnectionRefused(pkt) {
  * @param {object} pkt - PACKET.ZC.NPCACK_MAPMOVE
  */
 function onMapChange(pkt) {
+	cancelCompanionDialogs();
 	const generation = ++mapLoadGeneration;
 	const connectionId = Network.connectionId;
 	const isCurrentLoad = () => generation === mapLoadGeneration && connectionId === Network.connectionId && Session.Playing;
@@ -916,7 +921,13 @@ function onExitFail(pkt) {
 	ChatBox.addText(DB.getMessage(502), ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 }
 
+function cancelCompanionDialogs() {
+	clearCompanionPrompts();
+	PetEvolution.invalidatePet(Session.petId);
+}
+
 function stopCompanionAI() {
+	cancelCompanionDialogs();
 	HomunInformations.stopAI();
 	MercenaryInformations.stopAI();
 }
@@ -1061,15 +1072,7 @@ function onRequestTalk(user, text, target, { literal = false } = {}) {
 	if (!literal) text = text.replace(/^(\$|%)/, '');
 
 	// Private messages
-	if (user && user.length) {
-		pkt = new PACKET.CZ.WHISPER();
-		pkt.receiver = user;
-		pkt.msg = text;
-		Network.sendPacket(pkt);
-		ChatBox.PrivateMessageStorage.nick = user;
-		ChatBox.PrivateMessageStorage.msg = text;
-		return;
-	}
+	if (user && user.length) return sendPrivateMessage(user, text);
 
 	// Set off/on flags
 	if (flag_party) {

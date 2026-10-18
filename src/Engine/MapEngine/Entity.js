@@ -1,3 +1,6 @@
+import { invalidateCompanionPrompts } from 'UI/Game/CompanionPrompt.js';
+import PetEvolution from 'UI/Components/PetEvolution/PetEvolution.js';
+import { chatSpeakerMetadata } from 'UI/Game/ChatSpeaker.js';
 import { syncWhiteImprison } from './WizardBodyState.js';
 import { updateWarlockSpheres } from './WarlockSphereState.js';
 import { servantWeaponEffectIds } from 'DB/Skills/ServantWeaponEffects.js';
@@ -54,6 +57,8 @@ import ChatBox from 'UI/Components/ChatBox/ChatBox.js';
 import ChatRoom from 'UI/Components/ChatRoom/ChatRoom.js';
 import Escape from 'UI/Components/Escape/Escape.js';
 import HomunInformations from 'UI/Components/HomunInformations/HomunInformations.js';
+import PetInformations from 'UI/Components/PetInformations/PetInformations.js';
+import SkillListMH from 'UI/Components/SkillListMH/SkillListMH.js';
 import MercenaryInformations from 'UI/Components/MercenaryInformations/MercenaryInformations.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
 import ShortCut from 'UI/Components/ShortCut/ShortCut.js';
@@ -295,9 +300,11 @@ function onEntitySpam(pkt) {
  * @param {object} pkt - PACKET.ZC.NOTIFY_VANISH
  */
 function onEntityVanish(pkt) {
+	invalidateCompanionPrompts(pkt.GID);
 	const entity = EntityManager.get(pkt.GID);
 	if (entity) {
 		if (entity.objecttype === Entity.TYPE_PC && pkt.GID === Session.Entity.GID) {
+			PetEvolution.invalidatePet(Session.petId);
 			//death animation only for myself
 			const EF_Init_Par = {
 				effectId: EffectConst.EF_DEVIL,
@@ -309,10 +316,23 @@ function onEntityVanish(pkt) {
 
 		if (entity.objecttype === Entity.TYPE_HOM && pkt.GID === Session.homunId) {
 			HomunInformations.stopAI();
+			HomunInformations.stopAutoFeed();
+			if (!Platform.isMobile) {
+				HomunInformations.ui.hide();
+				SkillListMH.homunculus.ui.hide();
+			}
 		}
 
 		if (entity.objecttype === Entity.TYPE_MERC && pkt.GID === Session.mercId) {
 			MercenaryInformations.stopAI();
+			if (!Platform.isMobile) {
+				MercenaryInformations.ui.hide();
+				SkillListMH.mercenary.ui.hide();
+			}
+		}
+		if (entity.objecttype === Entity.TYPE_PET && pkt.GID === Session.petId && !Platform.isMobile) {
+			PetInformations.ui.hide();
+			PetEvolution.invalidatePet(pkt.GID);
 		}
 
 		EffectManager.remove(null, pkt.GID, [
@@ -965,7 +985,7 @@ function onEntityTalk(pkt) {
 	type = ChatBox.TYPE.PUBLIC;
 	const entity = EntityManager.get(pkt.GID);
 
-	ChatBox.addText(pkt.msg, type, ChatBox.FILTER.PUBLIC_CHAT);
+	ChatBox.addText(pkt.msg, type, ChatBox.FILTER.PUBLIC_CHAT, undefined, chatSpeakerMetadata({ id: entity?.objecttype === Entity.TYPE_PC ? pkt.GID : 0 }));
 
 	if (entity) {
 		pkt.msg = pkt.msg.replace(
