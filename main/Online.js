@@ -355270,8 +355270,9 @@ var init_EntityCast = __esmMin((() => {
 		*/
 		render(matrix) {
 			const canvas = this.canvas;
-			const percent = +((Date.now() - this.tick) / this.delay).toFixed(2);
-			if (percent >= 1) {
+			const elapsed = Date.now() - this.tick;
+			const percent = Math.min(elapsed / this.delay, 1);
+			if (elapsed >= this.delay) {
 				this.remove();
 				if (this.onComplete) {
 					this.onComplete();
