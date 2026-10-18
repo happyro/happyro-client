@@ -382322,7 +382322,7 @@ var init_GameShop = __esmMin((() => {
 }));
 //#endregion
 //#region src/Engine/MapEngine/EntityName.js
-function localizeEntityName(entity, serverName = entity.display.name) {
+function localizeEntityName(entity, serverName) {
 	const type = entity.constructor;
 	let name;
 	let style;
@@ -382331,11 +382331,12 @@ function localizeEntityName(entity, serverName = entity.display.name) {
 		type.TYPE_NPC_ABR,
 		type.TYPE_NPC_BIONIC
 	].includes(entity.objecttype)) {
-		name = DB.getMonsterName(entity._job);
+		if (serverName) entity.serverMonsterName = serverName;
+		name = entity.serverMonsterName || DB.getMonsterName(entity._job);
 		if (name === "未知") return false;
 		style = entity.display.STYLE.MOB;
 	} else if ([type.TYPE_NPC, type.TYPE_NPC2].includes(entity.objecttype)) {
-		name = DB.getNpcName(serverName);
+		name = DB.getNpcName(serverName ?? entity.display.name);
 		style = entity.display.STYLE.NPC;
 	} else return false;
 	entity.display.name = name;
@@ -382966,7 +382967,7 @@ function onEntitySpam(pkt) {
 		}
 	}
 	syncWhiteImprison(entity, EffectManager);
-	localizeEntityName(entity);
+	localizeEntityName(entity, pkt.name);
 	if (pkt.effectState & StatusState_default.EffectState.FALCON && DB.isHunter(pkt.job)) {
 		if (!entity.falcon) entity.falcon = new Entity();
 		entity.falcon.set({
