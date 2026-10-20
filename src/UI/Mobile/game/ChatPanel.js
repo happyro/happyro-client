@@ -16,19 +16,20 @@ export function createChatPanel(
 	initialFilter = 'all',
 	onFilterChange,
 	composer = createChatComposer(),
-	channelError = () => ''
+	channelError = () => '',
+	onEmotionSent
 ) {
 	body.innerHTML = `
 		<div class="chat-conversation">
-			<nav class="chat-filters" aria-label="消息分类"></nav>
+			<nav class="chat-filters" data-menu-list-spacing="flush-block" aria-label="消息分类"></nav>
 			<section class="chat-contacts" aria-label="私聊对象" hidden>
 				<button type="button" data-new-private>＋ 新私聊</button>
-				<div class="chat-contact-list"></div>
+				<div class="chat-contact-list" data-menu-list-spacing="flush"></div>
 			</section>
 			<div class="chat-content">
 				<div class="chat-recipient" hidden></div>
-				<div class="chat-log" role="log" aria-label="聊天消息"></div>
-				<div class="chat-emotions" hidden aria-label="RO 表情"></div>
+				<div class="chat-log" data-menu-list-spacing="flush-block" role="log" aria-label="聊天消息"></div>
+				<div class="chat-emotions" data-menu-list-spacing="flush-block" hidden aria-label="RO 表情"></div>
 			</div>
 		</div>
 		<form class="chat-form">
@@ -99,7 +100,7 @@ export function createChatPanel(
 		log.scrollTop = log.scrollHeight;
 		onFilterChange?.(filter);
 	}
-	for (const [value, label] of Object.entries({ all: '全部消息', ...chatChannelLabels })) {
+	for (const [value, label] of Object.entries({ all: '全部', ...chatChannelLabels })) {
 		const button = document.createElement('button');
 		button.type = 'button';
 		button.dataset.chatFilter = value;
@@ -307,6 +308,7 @@ export function createChatPanel(
 			saveDraft();
 		}
 		hideEmotions();
+		if (emotion || chatEmotions.some(([command]) => text.trim() === `/${command}`)) onEmotionSent?.();
 	}
 	$('.chat-form').onsubmit = event => {
 		event.preventDefault();

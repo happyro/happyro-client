@@ -1,3 +1,5 @@
+import { createCompanionSwitch, updateCompanionSwitch } from './CompanionSwitch.js';
+import { createAutoFeedSwitch, updateAutoFeedSwitch, createAutoFeedStatus } from './CompanionAutoFeed.js';
 import { createCompanionLayout } from './CompanionLayout.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
@@ -11,6 +13,7 @@ export function createCompanionsPanel(body, service) {
 	body.dataset.companionKind = service.snapshot().kind;
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector);
+	const infoRows = new Map();
 	let dismiss,
 		gid,
 		nameDirty = false,
@@ -20,9 +23,9 @@ export function createCompanionsPanel(body, service) {
 	const labels = {
 		feed: '喂食',
 		rename: '改名',
-		autofeed: '切换自动喂食',
+		autofeed: '自动喂食',
 		dismiss: '解除',
-		return: '返回身边',
+		return: '返回',
 		aggressive: '切换攻击模式'
 	};
 	function cancel() {
@@ -63,16 +66,32 @@ export function createCompanionsPanel(body, service) {
 			}
 		);
 	}
-	for (const [action, label] of Object.entries(labels)) {
-		if (service.snapshot().kind === 'mercenary' && ['feed', 'rename', 'autofeed'].includes(action)) continue;
-		const button = document.createElement('button');
-		button.textContent = label;
+	const actionOrder = service.snapshot().kind === 'mercenary'
+		? ['return', 'aggressive', 'dismiss']
+		: ['feed', 'return', 'dismiss', 'autofeed', 'aggressive', 'rename'];
+	const actionEntries = actionOrder.map(action => [action, labels[action]]);
+	for (const [action, label] of actionEntries) {
+		const isSwitch = action === 'autofeed' || action === 'aggressive';
+		const control = action === 'autofeed' ? createAutoFeedSwitch()
+			: action === 'aggressive' ? createCompanionSwitch('被动攻击', '主动攻击') : document.createElement('button');
+		const button = isSwitch ? control.querySelector('input') : control;
+		if (!isSwitch) {
+			button.type = 'button';
+			button.textContent = label;
+		}
 		button.dataset.action = action;
 		button.onclick = () => {
 			cancel();
 			const error = service.prepare(action, action === 'rename' ? $('[data-companion-name]').value : undefined);
 			if (error) {
 				feedback(error, 'error');
+				update();
+				return;
+			}
+			if (isSwitch) {
+				const result = service.confirm();
+				if (!['已发送请求，以服务器状态为准', '攻击模式已更新'].includes(result)) feedback(result, 'error');
+				update();
 				return;
 			}
 			review(
@@ -80,13 +99,11 @@ export function createCompanionsPanel(body, service) {
 					? service.snapshot().kind === 'homunculus'
 						? '确认删除当前生命体？'
 						: '提前解除佣兵契约？'
-					: action === 'aggressive'
-						? `确认切换为${service.snapshot().aggressive ? '被动攻击' : '主动攻击'}？`
-						: `确认${label}？`
+					: action === 'return' ? '确认返回身边？' : `确认${label}？`
 			);
 		};
-		if (action === 'rename') $('[data-companion-name]').parentElement.append(button);
-		else $('[data-actions]').append(button);
+		if (action === 'rename') $('[data-companion-name]').parentElement.append(control);
+		else $('[data-actions]').append(control);
 	}
 	$('[data-companion-name]').oninput = () => {
 		nameDirty = true;
@@ -130,24 +147,47 @@ export function createCompanionsPanel(body, service) {
 							])
 				]
 			: [['状态', '暂无已召出的伴侣']];
-		$('[data-info]').replaceChildren();
-		for (const [label, value] of rows) {
-			const dt = document.createElement('dt'),
-				dd = document.createElement('dd');
-			dt.textContent = label;
-			if (label === '攻击模式') {
-				const badge = document.createElement('span');
-				badge.className = 'companion-attack-mode';
-				badge.dataset.mode = s.aggressive ? 'active' : 'passive';
-				badge.textContent = value;
-				dd.append(badge);
-			} else {
-				dd.textContent = value ?? '—';
+		const currentLabels = new Set(rows.map(([label]) => label));
+		for (const [label, row] of infoRows) {
+			if (!currentLabels.has(label)) {
+				row.term.remove();
+				row.value.remove();
+				infoRows.delete(label);
 			}
-			$('[data-info]').append(dt, dd);
+		}
+		for (const [label, value] of rows) {
+			let row = infoRows.get(label);
+			if (!row) {
+				const term = document.createElement('dt'), cell = document.createElement('dd');
+				term.textContent = label;
+				let content = cell;
+				if (label === '攻击模式') {
+					content = document.createElement('span');
+					content.className = 'companion-attack-mode';
+					cell.append(content);
+				} else if (label === '自动喂食') {
+					content = createAutoFeedStatus(s.autoFeed, true);
+					cell.append(content);
+				}
+				row = { term, value: cell, content };
+				infoRows.set(label, row);
+				$('[data-info]').append(term, cell);
+			}
+			const text = String(value ?? '—');
+			if (row.content.textContent !== text) row.content.textContent = text;
+			if (label === '攻击模式') row.content.dataset.mode = s.aggressive ? 'active' : 'passive';
+			if (label === '自动喂食') row.content.dataset.state = s.autoFeed ? 'on' : 'off';
 		}
 		for (const b of body.querySelectorAll('[data-action]'))
 			b.disabled = !s.allowed || (b.dataset.action === 'rename' && !s.canRename);
+		if (s.kind === 'homunculus') updateAutoFeedSwitch($('[data-action=autofeed]'), {
+			enabled: s.autoFeed, supported: true, allowed: s.allowed, pending: s.pending === 'autofeed'
+		});
+		updateCompanionSwitch($('[data-action=aggressive]'), {
+			checked: s.aggressive, disabled: !s.allowed,
+			text: s.aggressive ? '主动攻击' : '被动攻击',
+			title: s.aggressive ? '切换为被动攻击' : '切换为主动攻击'
+		});
 		const key = JSON.stringify([s.kind, s.skills]);
 		if (key !== skillKey) {
 			skillKey = key;
@@ -161,8 +201,17 @@ export function createCompanionsPanel(body, service) {
 				const entry = document.createElement('div');
 				entry.className = 'companion-skill';
 				const description = document.createElement('span');
-				description.textContent = `${skill.name} · Lv.${skill.level} · ${skill.type ? '主动' : '被动'}`;
-				entry.append(description);
+				if (s.kind === 'mercenary') {
+					description.className = 'companion-skill-name';
+					description.textContent = skill.name;
+					const metadata = document.createElement('span');
+					metadata.className = 'companion-skill-meta';
+					metadata.textContent = `Lv.${skill.level} · ${skill.type ? '主动' : '被动'}`;
+					entry.append(description, metadata);
+				} else {
+					description.textContent = `${skill.name} · Lv.${skill.level} · ${skill.type ? '主动' : '被动'}`;
+					entry.append(description);
+				}
 				if (s.kind === 'homunculus') {
 					const button = document.createElement('button');
 					button.textContent = skill.level ? '升级一级' : '学习一级';
