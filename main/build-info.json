@@ -1,13 +1,13 @@
 {
-  "buildId": "mvgms42p",
-  "builtAt": "2026-10-20T11:59:44.545Z",
+  "buildId": "mvh3br4i",
+  "builtAt": "2026-10-20T19:42:54.738Z",
   "artifacts": {
-    "index.html": "ba18d820ff76e8750496406475e6ca9f2046eb5cdadebacbcf7363a2986848fb",
-    "api.html": "ef025b74c30cd20d23b7d01a07f81bc52445755a947529daeec2bd6aa74b4226",
+    "index.html": "8ce52b4ba94fb05be831cda9992b71e4d5afd3d46211cfd2a823cc640c222b10",
+    "api.html": "215c2490c9d2c1a81802576f2225f33ae00478a37a7e5749db726de7c28b1cbe",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
     "debug.js": "c144a24aa6a8d67a8e4050ce169072260054025cf1b11f37f2b8b52ee325fbfe",
     "debug-upload.js": "01260bb90f2303ee1c9d6389821517f32052c506fd54d03de0cc15298230d34d",
-    "Online.js": "f225017fb55b326062f0bcd4ec6fa3d08ed68de294814c0143960483bdfab7ef",
+    "Online.js": "dd6862395cbbabe5e8fb6e74e32d87e14969f644a7398a3f86e6561b383c57ea",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
     "Config.happyro.js": "734d9684bbef5d6a7ad793e59ac84723cfd9c3428bee98519e19105202b76b46",
     "data/navigation/catalog.json": "1d776db02d792659dcba74cb8ecaf971de767c7ecab39724d245d39f177f4279",
