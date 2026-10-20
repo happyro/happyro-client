@@ -78238,7 +78238,7 @@ var init_Platform = __esmMin((() => {
 //#region src/UI/Mobile/game/MenuLayout.css?raw
 var MenuLayout_default;
 var init_MenuLayout$1 = __esmMin((() => {
-	MenuLayout_default = "/* Shared mobile menu dimensions, typography and control density. */\r\n:host {\r\n	--interaction-text: var(--panel-text);\r\n	--interaction-title: var(--panel-title);\r\n	--interaction-control: var(--panel-control);\r\n	--interaction-caption: var(--panel-caption);\r\n	--npc-width: 520px;\r\n	--npc-max-height: 80%;\r\n	--npc-min-height: 220px;\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-bar-height: calc(var(--npc-control) + 9px);\r\n	--npc-image-height: 140px;\r\n	--menu-standard-width: 1040px;\r\n	--menu-standard-height: 640px;\r\n	--menu-home-width: 560px;\r\n	--menu-dialog-width: 420px;\r\n	--menu-dialog-height: 480px;\r\n	--menu-picker-width: 640px;\r\n	--menu-editor-height: 160px;\r\n	--menu-edge-x: 16px;\r\n	--menu-edge-y: 12px;\r\n	--menu-dialog-inset: 32px;\r\n	--panel-gap: 6px;\r\n	--panel-control: 30px;\r\n	--panel-attribute-control: 26px;\r\n	--panel-attribute-width: 32px;\r\n	--panel-label: 11px;\r\n	--panel-heading: 12px;\r\n	--panel-text: 12px;\r\n	--panel-title: 14px;\r\n	--panel-caption: 10px;\r\n	--panel-control-padding: 4px 8px;\r\n	--panel-list-image-scale: 1;\r\n	--panel-detail-image: 96px;\r\n	--panel-detail-image-scale: 1;\r\n	--panel-item-image: 96px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--npc-width: 640px;\r\n	--npc-max-height: min(520px, 80%);\r\n	--npc-min-height: 320px;\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-image-height: 200px;\r\n	--menu-edge-x: 24px;\r\n	--menu-edge-y: 24px;\r\n	--panel-gap: 12px;\r\n	--panel-control: 44px;\r\n	--panel-attribute-control: 44px;\r\n	--panel-attribute-width: 56px;\r\n	--panel-label: 14px;\r\n	--panel-heading: 16px;\r\n	--panel-text: 16px;\r\n	--panel-title: 18px;\r\n	--panel-caption: 14px;\r\n	--panel-control-padding: 8px 12px;\r\n	--panel-list-image-scale: 1.4;\r\n	--panel-detail-image: 112px;\r\n	--panel-detail-image-scale: 1.166667;\r\n	--panel-item-image: 128px;\r\n}\r\n.mobile-menu-viewport {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(var(--menu-edge-y), env(safe-area-inset-top)) max(var(--menu-edge-x), env(safe-area-inset-right))\r\n		max(var(--menu-edge-y), env(safe-area-inset-bottom)) max(var(--menu-edge-x), env(safe-area-inset-left));\r\n	box-sizing: border-box;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.mobile-menu-window {\r\n	--menu-window-width: 600px;\r\n	--menu-window-height: auto;\r\n	width: min(var(--menu-window-width), 100%);\r\n	height: var(--menu-window-height);\r\n	max-height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n/* Preserve compact phone sizes, with every exception registered here. */\r\n.panel:is(\r\n	.inventory-panel,\r\n	.equipment-panel,\r\n	.auto-config-panel,\r\n	.shortcut-panel,\r\n	.settings-panel,\r\n	.chat-panel,\r\n	[data-view='bank'],\r\n	[data-view='pet'],\r\n	[data-view='companions']\r\n) {\r\n	--menu-window-width: 780px;\r\n	--menu-window-height: 100%;\r\n}\r\n.panel[data-view='menu'] {\r\n	--menu-window-width: 420px;\r\n}\r\n.panel.profile-panel {\r\n	--menu-window-width: 400px;\r\n}\r\n.panel.settings-panel {\r\n	--menu-window-width: 600px;\r\n}\r\n.mobile-adventure {\r\n	container: menu-content / inline-size;\r\n	--menu-window-width: 100%;\r\n	--menu-window-height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window {\r\n	--menu-window-width: var(--menu-standard-width);\r\n	--menu-window-height: min(var(--menu-standard-height), 100%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='menu'] {\r\n	--menu-window-width: var(--menu-home-width);\r\n	--menu-window-height: auto;\r\n	max-height: min(var(--menu-standard-height), 100%);\r\n}\r\n.mobile-menu-window > header,\r\n.mobile-menu-window > nav {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-menu-window > .panel-body,\r\n.mobile-menu-window > .adventure-content {\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.panel-body {\r\n	padding: 8px;\r\n}\r\n.panel header {\r\n	padding: 4px 10px;\r\n}\r\n.panel {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel button {\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .panel header {\r\n	padding: 12px 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel-body {\r\n	padding: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host([data-menu-density='spacious']) .panel button {\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-skill-card strong, .auto-help, [data-skill-count]) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	min-height: var(--panel-control);\r\n}\r\n/* Space-constrained keyboard layouts scroll content rather than hiding actions. */\r\n:host(.keyboard-open) .mobile-menu-viewport {\r\n	height: var(--mobile-visible-height);\r\n}\r\n:host(.keyboard-open) .mobile-menu-window {\r\n	max-height: 100%;\r\n}\r\n.mobile-menu-dialog {\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	max-height: min(var(--menu-dialog-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n}\r\n.mobile-menu-dialog[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.mobile-menu-dialog .container {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.mobile-menu-dialog .btns {\r\n	flex-shrink: 0;\r\n}\r\n/* Portrait phones and tablets use a bounded editor; short landscape phones use a strip. */\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor {\r\n	inset: var(--mobile-visual-top, 0px) 0 auto;\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	height: min(var(--menu-editor-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n	margin: max(12px, calc((var(--mobile-visible-height, 100dvh) - var(--menu-editor-height)) / 2)) auto 0;\r\n	border: 1px solid #657584;\r\n	border-radius: 10px;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor:has(textarea) {\r\n	--menu-editor-height: 320px;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor section {\r\n	position: static;\r\n	height: 100%;\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	padding: 12px;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor #editor-title {\r\n	position: static;\r\n	width: auto;\r\n	height: auto;\r\n	clip-path: none;\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor main {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	min-height: 0;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor button {\r\n	grid-row: 3;\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor [data-done] {\r\n	grid-column: 2;\r\n}\r\n:host([data-menu-density='spacious']) .panel .auto-range-stepper button {\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n}\r\n.mobile-menu-dialog {\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n}\r\n\r\n.mobile-menu-editor {\r\n	position: fixed;\r\n	inset: 0;\r\n	width: 100%;\r\n	max-width: none;\r\n	max-height: none;\r\n	margin: 0;\r\n}\r\n\r\n/* One scroll area for every mobile select, including adventure tools. */\r\n.mobile-menu-window .game-select-menu[popover] {\r\n	overflow: auto;\r\n	color: inherit;\r\n}\r\n.mobile-menu-window .game-select-menu[popover] .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > :is(input[aria-label], button),\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form .game-select-trigger {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n\r\n/* All tablet form controls share one height, including feature-specific forms. */\r\n:host([data-menu-density='spacious'])\r\n	.mobile-menu-window\r\n	input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']),\r\n:host([data-menu-density='spacious']) .mobile-menu-window select:not([hidden]) {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n	padding: 6px 8px;\r\n	font-size: var(--panel-text);\r\n	line-height: normal;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window textarea {\r\n	min-height: calc(var(--panel-control) * 2);\r\n	font-size: var(--panel-text);\r\n	padding: 8px;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select, .game-select-trigger) {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n/* Shared tablet typography for confirmations, pickers and number prompts. */\r\n:host([data-menu-density='spacious']) .ui-confirm {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.6;\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm :is(button, input, select, textarea) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm .ui-confirm-actions button,\r\n:host([data-menu-density='spacious']) .ui-confirm .drop-quantity-buttons button {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n}\r\n\r\n:host([data-menu-density='spacious']) .ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n\r\n/* NPC conversations remain compact on both phones and tablets. */\r\n:host .panel[data-view='npc'] {\r\n	--menu-window-width: var(--npc-width);\r\n	--menu-window-height: auto;\r\n	min-height: min(var(--npc-min-height), var(--npc-max-height));\r\n	max-height: var(--npc-max-height);\r\n}\r\n\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor input {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor textarea {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor #editor-title {\r\n	font-size: var(--panel-title);\r\n}\r\n\r\n/* Camera controls stay compact and let players see the scene while adjusting it. */\r\n.hud:has(> .camera-backdrop:not([hidden])) > :is(.top-left, .chat-preview, .battle-dock) {\r\n	display: none;\r\n}\r\n.backdrop.camera-backdrop {\r\n	background: transparent;\r\n	justify-items: start;\r\n}\r\n:host .panel[data-view='camera'] {\r\n	--menu-window-width: 280px;\r\n	--menu-window-height: auto;\r\n	background: rgb(25 31 38 / 75%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='camera'] {\r\n	--menu-window-width: 320px;\r\n}\r\n.panel[data-view='camera'] button {\r\n	background: rgb(35 47 58 / 80%);\r\n}\r\n.panel[data-view='camera'] button:active {\r\n	background: rgb(67 92 110 / 95%);\r\n}\r\n\r\n/* Skills and shortcut candidates share one two-column card layout in every orientation. */\r\n:host([data-menu-density]) .panel :is(.skills-browser > .inventory-list, .shortcut-choices) {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n:host([data-menu-density]) .panel :is(.skills-browser .inventory-item, .shortcut-choice) {\r\n	display: flex;\r\n	flex-direction: row;\r\n	align-items: center;\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n	gap: 5px;\r\n	text-align: left;\r\n}\r\n:host([data-menu-density]) .panel :is(.skills-browser .inventory-item, .shortcut-choice) img {\r\n	position: static;\r\n	flex: 0 0 24px;\r\n	width: 24px;\r\n	height: 24px;\r\n	object-fit: contain;\r\n}\r\n:host([data-menu-density]) .panel :is(.skills-browser .inventory-item, .shortcut-choice) span {\r\n	min-width: 0;\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n:host([data-menu-density]) .panel .slot-picker .shortcut-slot-prefix {\r\n	display: inline;\r\n	font: inherit;\r\n	color: inherit;\r\n}\r\n\r\n/* Single-line phone editors size to their content instead of stretching the input row. */\r\n:host([data-phone-screen][data-orientation='portrait'][data-editor-layout='dialog']) .mobile-menu-editor:not(:has(textarea)) {\r\n	inset:var(--mobile-visual-top, 0px) 0 max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	height:fit-content;\r\n	max-height:calc(var(--mobile-visible-height, 100dvh) - 24px);\r\n	margin:auto;\r\n	overflow:auto;\r\n}\r\n:host([data-phone-screen][data-orientation='portrait'][data-editor-layout='dialog']) .mobile-menu-editor:not(:has(textarea)) section {\r\n	height:auto;\r\n	grid-template-rows:auto auto auto;\r\n	gap:10px;\r\n	padding:12px;\r\n}\r\n:host([data-phone-screen][data-orientation='portrait'][data-editor-layout='dialog']) .mobile-menu-editor:not(:has(textarea)) main {\r\n	height:auto;\r\n}\r\n:host([data-phone-screen][data-orientation='portrait'][data-editor-layout='dialog']) .mobile-menu-editor input {\r\n	font-size:16px;\r\n}\r\n";
+	MenuLayout_default = "/* Shared mobile menu dimensions, typography and control density. */\r\n:host {\r\n	--interaction-text: var(--panel-text);\r\n	--interaction-title: var(--panel-title);\r\n	--interaction-control: var(--panel-control);\r\n	--interaction-caption: var(--panel-caption);\r\n	--npc-width: 520px;\r\n	--npc-max-height: 80%;\r\n	--npc-min-height: 220px;\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-bar-height: calc(var(--npc-control) + 9px);\r\n	--npc-image-height: 140px;\r\n	--menu-standard-width: 1040px;\r\n	--menu-standard-height: 640px;\r\n	--menu-home-width: 560px;\r\n	--menu-dialog-width: 420px;\r\n	--menu-dialog-height: 480px;\r\n	--menu-picker-width: 640px;\r\n	--menu-editor-height: 160px;\r\n	--menu-edge-x: 16px;\r\n	--menu-edge-y: 12px;\r\n	--menu-dialog-inset: 32px;\r\n	--panel-gap: 6px;\r\n	--menu-list-inset: 6px;\r\n	--panel-control: 30px;\r\n	--panel-attribute-control: 26px;\r\n	--panel-attribute-width: 32px;\r\n	--panel-label: 11px;\r\n	--panel-heading: 12px;\r\n	--panel-text: 12px;\r\n	--panel-title: 14px;\r\n	--panel-caption: 10px;\r\n	--panel-control-padding: 4px 8px;\r\n	--panel-list-image-scale: 1;\r\n	--panel-detail-image: 96px;\r\n	--panel-detail-image-scale: 1;\r\n	--panel-item-image: 96px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--npc-width: 640px;\r\n	--npc-max-height: min(520px, 80%);\r\n	--npc-min-height: 320px;\r\n	--npc-text: var(--interaction-text);\r\n	--npc-title: var(--interaction-title);\r\n	--npc-control: var(--interaction-control);\r\n	--npc-image-height: 200px;\r\n	--menu-edge-x: 24px;\r\n	--menu-edge-y: 24px;\r\n	--panel-gap: 12px;\r\n	--menu-list-inset: 10px;\r\n	--panel-control: 44px;\r\n	--panel-attribute-control: 44px;\r\n	--panel-attribute-width: 56px;\r\n	--panel-label: 14px;\r\n	--panel-heading: 16px;\r\n	--panel-text: 16px;\r\n	--panel-title: 18px;\r\n	--panel-caption: 14px;\r\n	--panel-control-padding: 8px 12px;\r\n	--panel-list-image-scale: 1.4;\r\n	--panel-detail-image: 112px;\r\n	--panel-detail-image-scale: 1.166667;\r\n	--panel-item-image: 128px;\r\n}\r\n.mobile-menu-viewport {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(var(--menu-edge-y), env(safe-area-inset-top)) max(var(--menu-edge-x), env(safe-area-inset-right))\r\n		max(var(--menu-edge-y), env(safe-area-inset-bottom)) max(var(--menu-edge-x), env(safe-area-inset-left));\r\n	box-sizing: border-box;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.mobile-menu-window {\r\n	--menu-window-width: 600px;\r\n	--menu-window-height: auto;\r\n	width: min(var(--menu-window-width), 100%);\r\n	height: var(--menu-window-height);\r\n	max-height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n/* Preserve compact phone sizes, with every exception registered here. */\r\n.panel:is(\r\n	.inventory-panel,\r\n	.equipment-panel,\r\n	.auto-config-panel,\r\n	.shortcut-panel,\r\n	.settings-panel,\r\n	.chat-panel,\r\n	[data-view='bank'],\r\n	[data-view='pet'],\r\n	[data-view='companions']\r\n) {\r\n	--menu-window-width: 780px;\r\n	--menu-window-height: 100%;\r\n}\r\n.panel[data-view='menu'] {\r\n	--menu-window-width: 420px;\r\n}\r\n.panel.profile-panel {\r\n	--menu-window-width: 400px;\r\n}\r\n.panel.settings-panel {\r\n	--menu-window-width: 600px;\r\n}\r\n.mobile-adventure {\r\n	container: menu-content / inline-size;\r\n	--menu-window-width: 100%;\r\n	--menu-window-height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window {\r\n	--menu-window-width: var(--menu-standard-width);\r\n	--menu-window-height: min(var(--menu-standard-height), 100%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='menu'] {\r\n	--menu-window-width: var(--menu-home-width);\r\n	--menu-window-height: auto;\r\n	max-height: min(var(--menu-standard-height), 100%);\r\n}\r\n.mobile-menu-window > header,\r\n.mobile-menu-window > nav {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-menu-window > .panel-body,\r\n.mobile-menu-window > .adventure-content {\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.panel-body {\r\n	padding: 8px;\r\n}\r\n.panel header {\r\n	padding: 4px 10px;\r\n}\r\n.panel {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel button {\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .panel header {\r\n	padding: 12px 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel-body {\r\n	padding: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel h2 {\r\n	font-size: var(--panel-title);\r\n}\r\n:host([data-menu-density='spacious']) .panel button {\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-skill-card strong, .auto-help, [data-skill-count]) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	min-height: var(--panel-control);\r\n}\r\n/* Space-constrained keyboard layouts scroll content rather than hiding actions. */\r\n:host(.keyboard-open) .mobile-menu-viewport {\r\n	height: var(--mobile-visible-height);\r\n}\r\n:host(.keyboard-open) .mobile-menu-window {\r\n	max-height: 100%;\r\n}\r\n.mobile-menu-dialog {\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	max-height: min(var(--menu-dialog-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n}\r\n.mobile-menu-dialog[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.mobile-menu-dialog .container {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.mobile-menu-dialog .btns {\r\n	flex-shrink: 0;\r\n}\r\n/* Portrait phones and tablets use a bounded editor; short landscape phones use a strip. */\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor {\r\n	inset: var(--mobile-visual-top, 0px) 0 auto;\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	height: min(var(--menu-editor-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n	margin: max(12px, calc((var(--mobile-visible-height, 100dvh) - var(--menu-editor-height)) / 2)) auto 0;\r\n	border: 1px solid #657584;\r\n	border-radius: 10px;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor:has(textarea) {\r\n	--menu-editor-height: 320px;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor section {\r\n	position: static;\r\n	height: 100%;\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	padding: 12px;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor #editor-title {\r\n	position: static;\r\n	width: auto;\r\n	height: auto;\r\n	clip-path: none;\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor main {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	min-height: 0;\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor button {\r\n	grid-row: 3;\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor [data-done] {\r\n	grid-column: 2;\r\n}\r\n:host([data-menu-density='spacious']) .panel .auto-range-stepper button {\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n}\r\n.mobile-menu-dialog {\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n}\r\n\r\n.mobile-menu-editor {\r\n	position: fixed;\r\n	inset: 0;\r\n	width: 100%;\r\n	max-width: none;\r\n	max-height: none;\r\n	margin: 0;\r\n}\r\n\r\n/* One scroll area for every mobile select, including adventure tools. */\r\n.mobile-menu-window .game-select-menu[popover] {\r\n	overflow: auto;\r\n	color: inherit;\r\n}\r\n.mobile-menu-window .game-select-menu[popover] .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > :is(input[aria-label], button),\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form .game-select-trigger {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n\r\n/* All tablet form controls share one height, including feature-specific forms. */\r\n:host([data-menu-density='spacious'])\r\n	.mobile-menu-window\r\n	input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']),\r\n:host([data-menu-density='spacious']) .mobile-menu-window select:not([hidden]) {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n	padding: 6px 8px;\r\n	font-size: var(--panel-text);\r\n	line-height: normal;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window textarea {\r\n	min-height: calc(var(--panel-control) * 2);\r\n	font-size: var(--panel-text);\r\n	padding: 8px;\r\n	box-sizing: border-box;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select, .game-select-trigger) {\r\n	height: auto;\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select-trigger, .game-select-option) {\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n/* Shared tablet typography for confirmations, pickers and number prompts. */\r\n:host([data-menu-density='spacious']) .ui-confirm {\r\n	font-size: var(--panel-text);\r\n	line-height: 1.6;\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm :is(button, input, select, textarea) {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-menu-density='spacious']) .ui-confirm .ui-confirm-actions button,\r\n:host([data-menu-density='spacious']) .ui-confirm .drop-quantity-buttons button {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n}\r\n\r\n:host([data-menu-density='spacious']) .ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n\r\n/* NPC conversations remain compact on both phones and tablets. */\r\n:host .panel[data-view='npc'] {\r\n	--menu-window-width: var(--npc-width);\r\n	--menu-window-height: auto;\r\n	min-height: min(var(--npc-min-height), var(--npc-max-height));\r\n	max-height: var(--npc-max-height);\r\n}\r\n\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor input {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor textarea {\r\n	font-size: var(--panel-text);\r\n}\r\n:host([data-editor-layout='dialog']) .mobile-menu-editor #editor-title {\r\n	font-size: var(--panel-title);\r\n}\r\n\r\n/* Camera controls stay compact and let players see the scene while adjusting it. */\r\n.hud:has(> .camera-backdrop:not([hidden])) > :is(.top-left, .chat-preview, .battle-dock) {\r\n	display: none;\r\n}\r\n.backdrop.camera-backdrop {\r\n	background: transparent;\r\n	justify-items: start;\r\n}\r\n:host .panel[data-view='camera'] {\r\n	--menu-window-width: 280px;\r\n	--menu-window-height: auto;\r\n	background: rgb(25 31 38 / 75%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='camera'] {\r\n	--menu-window-width: 320px;\r\n}\r\n.panel[data-view='camera'] button {\r\n	background: rgb(35 47 58 / 80%);\r\n}\r\n.panel[data-view='camera'] button:active {\r\n	background: rgb(67 92 110 / 95%);\r\n}\r\n\r\n/* Skills and shortcut candidates share one two-column card layout in every orientation. */\r\n:host([data-menu-density]) .panel :is(.skills-browser > .inventory-list, .shortcut-choices) {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n:host([data-menu-density]) .panel :is(.skills-browser .inventory-item, .shortcut-choice) {\r\n	display: flex;\r\n	flex-direction: row;\r\n	align-items: center;\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: var(--panel-control-padding);\r\n	gap: 5px;\r\n	text-align: left;\r\n}\r\n:host([data-menu-density]) .panel :is(.skills-browser .inventory-item, .shortcut-choice) img {\r\n	position: static;\r\n	flex: 0 0 24px;\r\n	width: 24px;\r\n	height: 24px;\r\n	object-fit: contain;\r\n}\r\n:host([data-menu-density]) .panel :is(.skills-browser .inventory-item, .shortcut-choice) span {\r\n	min-width: 0;\r\n	font-size: var(--panel-label);\r\n}\r\n\r\n:host([data-menu-density]) .panel .slot-picker .shortcut-slot-prefix {\r\n	display: inline;\r\n	font: inherit;\r\n	color: inherit;\r\n}\r\n\r\n/* Single-line phone editors size to their content instead of stretching the input row. */\r\n:host([data-phone-screen][data-orientation='portrait'][data-editor-layout='dialog']) .mobile-menu-editor:not(:has(textarea)) {\r\n	inset:var(--mobile-visual-top, 0px) 0 max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	height:fit-content;\r\n	max-height:calc(var(--mobile-visible-height, 100dvh) - 24px);\r\n	margin:auto;\r\n	overflow:auto;\r\n}\r\n:host([data-phone-screen][data-orientation='portrait'][data-editor-layout='dialog']) .mobile-menu-editor:not(:has(textarea)) section {\r\n	height:auto;\r\n	grid-template-rows:auto auto auto;\r\n	gap:10px;\r\n	padding:12px;\r\n}\r\n:host([data-phone-screen][data-orientation='portrait'][data-editor-layout='dialog']) .mobile-menu-editor:not(:has(textarea)) main {\r\n	height:auto;\r\n}\r\n:host([data-phone-screen][data-orientation='portrait'][data-editor-layout='dialog']) .mobile-menu-editor input {\r\n	font-size:16px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MenuLayout.js
@@ -282948,7 +282948,7 @@ function createAutoCombatPanel(body, actions) {
 				<div class="auto-section-heading"><h3 id="auto-skills-title">攻击方式</h3><span data-skill-count></span></div>
 				<button type="button" data-normal-attack>普通攻击</button>
 				<!-- <p class="auto-help">勾选技能后随机释放，使用已学最高等级；均不可用时使用普攻。</p> -->
-				<div class="auto-skill-list" data-auto-skills></div>
+				<div class="auto-skill-list" data-menu-list="" data-auto-skills></div>
 			</section>
 		</div>
 		<div class="auto-save-error" hidden><span data-auto-save-status role="status"></span></div>`;
@@ -283527,7 +283527,7 @@ function openPickupItemPicker(container, { excluded, image, clearImages, confirm
 	dialog.innerHTML = `
 		<div class="pickup-search"><input type="search" aria-label="搜索排除物品" placeholder="输入物品名称或 ID"><button type="button" data-search>搜索</button></div>
 		<div class="pickup-search-status" role="status" hidden></div>
-		<div class="pickup-results" aria-label="可选物品" tabindex="-1" autofocus></div>
+		<div class="pickup-results" data-menu-list="" aria-label="可选物品" tabindex="-1" autofocus></div>
 		<footer><span data-selected>已选 0 件</span><nav class="pickup-pagination" data-menu-pagination aria-label="物品搜索分页"><button type="button" data-previous aria-label="上一页" disabled><span class="pickup-page-label">上一页</span><span class="pickup-page-symbol" aria-hidden="true">‹</span></button><span data-page>1 / 1</span><button type="button" data-next aria-label="下一页" disabled><span class="pickup-page-label">下一页</span><span class="pickup-page-symbol" aria-hidden="true">›</span></button></nav>
 		<div class="pickup-picker-actions"><button type="button" data-cancel>取消</button><button type="button" data-confirm disabled>确认添加</button></div></footer>`;
 	const $ = (selector) => dialog.querySelector(selector);
@@ -283817,6 +283817,7 @@ function createPickupSettingsPanel(section, draft, persist = savePickupSettings)
 	const excludedTitle = document.createElement("p");
 	const excluded = document.createElement("div");
 	excluded.className = "pickup-excluded";
+	excluded.dataset.menuList = "framed";
 	excluded.setAttribute("aria-label", "已排除物品");
 	const selected = /* @__PURE__ */ new Set();
 	let closePicker, cancelClear;
@@ -288022,7 +288023,7 @@ function renderGameSelect({ name = "", className = "", ariaLabel, value, options
 	return `<div class="game-select ${className}" data-game-select>
 		<input class="game-select-value ${className}" type="hidden"${name ? ` name="${escapeHtml$1(name)}"` : ""} value="${escapeHtml$1(selectedValue)}">
 		<button class="game-select-trigger" type="button" aria-label="${escapeHtml$1(ariaLabel)}" aria-haspopup="listbox" aria-expanded="false"${disabled ? " disabled" : ""}><span>${escapeHtml$1(selected?.label || "")}</span><i></i></button>
-		<div class="game-select-menu" role="listbox" hidden>
+		<div class="game-select-menu" data-menu-list="framed" role="listbox" hidden>
 			${searchable ? `<input class="game-select-search" type="search" placeholder="搜索${escapeHtml$1(ariaLabel)}" aria-label="搜索${escapeHtml$1(ariaLabel)}">` : ""}
 			<div class="game-select-options">${options.map((option) => optionMarkup(option, selectedValue)).join("")}</div>
 			<div class="game-select-empty" hidden>没有匹配项</div>
@@ -288169,7 +288170,7 @@ function mountRemoteCatalogBrowser(container, options) {
 		</div>
 		<div class="catalog-layout" data-menu-layout="split">
 			<section class="catalog-browser">
-				<div class="catalog-summary">正在加载资料...</div><div class="catalog-list"></div>
+				<div class="catalog-summary">正在加载资料...</div><div class="catalog-list" data-menu-list=""></div>
 				<div class="catalog-pagination" data-menu-pagination><button class="catalog-prev" type="button" aria-label="上一页"><span aria-hidden="true">‹</span></button><span class="catalog-page"></span><button class="catalog-next" type="button" aria-label="下一页"><span aria-hidden="true">›</span></button></div>
 			</section>
 			<section class="catalog-detail"><div class="empty-detail">${options.emptyDetail}</div></section>
@@ -288541,7 +288542,7 @@ function mount$5(container, context = {}) {
 					<button class="catalog-map-picker" type="button" aria-label="在${escapeCatalogHtml(map.name)}选择坐标"><canvas class="catalog-map" width="480" height="360"></canvas></button>
 					<section class="map-npc-list" aria-label="${escapeCatalogHtml(map.name)}的 NPC">
 						<h4>NPC${mapNpcs.length ? `（${mapNpcs.length}）` : ""}</h4>
-						${mapNpcs.length ? `<div class="map-npc-scroll"><ul>${mapNpcs.map((npc) => {
+						${mapNpcs.length ? `<div class="map-npc-scroll" data-menu-list=""><ul>${mapNpcs.map((npc) => {
 				const npcKey = npcCatalogKey(npc);
 				const available = npcAvailability[npcKey];
 				return `<li class="map-npc-row${selectedNpcKey === npcKey ? " selected" : ""}" data-npc-key="${escapeCatalogHtml(npcKey)}">
@@ -288898,7 +288899,7 @@ function mount$4(container, context = {}) {
 		<div class="monster-layout" data-menu-layout="split">
 			<section class="monster-browser">
 				<div class="monster-summary">正在加载魔物资料...</div>
-				<div class="monster-list"></div>
+				<div class="monster-list" data-menu-list=""></div>
 				<div class="monster-pagination" data-menu-pagination>
 					<button class="page-prev" type="button" aria-label="上一页"><span aria-hidden="true">‹</span></button>
 					<span class="page-label"></span>
@@ -289064,10 +289065,10 @@ function mount$4(container, context = {}) {
 				<div><span>体型</span><strong>${sizeNames[monster.size] || monster.size}</strong></div><div><span>经验</span><strong>${monster.baseExp} / ${monster.jobExp}</strong></div>
 			</div>
 			</div><div class="monster-resources">
-				<section class="monster-drops"><h4>掉落物品</h4>${state.drops ? `${renderDrops(state.drops[monster.id]?.mvpDrops, "MVP 奖励")}${renderDrops(state.drops[monster.id]?.drops, "普通掉落") || "<p>无掉落资料</p>"}` : state.dropsError ? "<p>掉落资料加载失败</p><button type=\"button\" class=\"monster-drops-retry\">重试</button>" : "<p>掉落资料加载中...</p>"}</section>
+				<section class="monster-drops" data-menu-list="framed"><h4>掉落物品</h4>${state.drops ? `${renderDrops(state.drops[monster.id]?.mvpDrops, "MVP 奖励")}${renderDrops(state.drops[monster.id]?.drops, "普通掉落") || "<p>无掉落资料</p>"}` : state.dropsError ? "<p>掉落资料加载失败</p><button type=\"button\" class=\"monster-drops-retry\">重试</button>" : "<p>掉落资料加载中...</p>"}</section>
 				<section class="monster-locations">
 					<h4>出现地图</h4>
-					<div class="monster-location-list">${spawnMaps.length ? spawnMaps.map((spawn) => {
+					<div class="monster-location-list" data-menu-list="">${spawnMaps.length ? spawnMaps.map((spawn) => {
 			const displayName = getMapChannelDisplayName(spawn.mapName, spawnMapNames.get(spawn.mapName), SessionStorage_default.NavigationMapChannelsEnabled);
 			return `<button type="button" data-spawn-map="${escapeHtml$1(spawn.mapName)}" class="monster-location${state.selectedSpawn?.mapName === spawn.mapName ? " selected" : ""}"><strong>${escapeHtml$1(displayName)}</strong><small>${escapeHtml$1(spawn.mapName)}</small></button>`;
 		}).join("") : `<p class="monster-locations-empty">${context.mobile ? "<span class=\"monster-empty-full\">暂无常驻刷新地图</span><span class=\"monster-empty-compact\">无</span>" : "暂无常驻刷新地图"}</p>`}</div>
@@ -290486,7 +290487,7 @@ function mount$1(container, context = {}) {
 			}))]
 		})}</div>
 			<div class="character-layout" data-menu-layout="split"><section class="character-job-browser">
-			<div class="character-job-list"></div>
+			<div class="character-job-list" data-menu-list=""></div>
 		</section><section class="character-detail"></section></div>`;
 		const searchInput = container.querySelector(".character-job-toolbar .catalog-search");
 		const { input: groupInput } = mountGameSelect(container.querySelector("[data-game-select]"));
@@ -367137,6 +367138,12 @@ var init_MobileInputEditor = __esmMin((() => {
 	editors = /* @__PURE__ */ new WeakMap();
 }));
 //#endregion
+//#region src/UI/Mobile/game/MenuListSpacing.css?raw
+var MenuListSpacing_default;
+var init_MenuListSpacing = __esmMin((() => {
+	MenuListSpacing_default = "/* Opt-in scroll gutters. Borders stay outside the scrollport at every scroll offset.\r\n * These three structural properties deliberately override feature padding/borders;\r\n * feature styles still own grid, row spacing, sizing, background and radius. */\r\n:host([data-menu-density]) [data-menu-list] {\r\n box-sizing: border-box;\r\n padding: 0 !important;\r\n border: var(--menu-list-inset) solid transparent !important;\r\n background-clip: border-box;\r\n scroll-padding: var(--menu-list-inset);\r\n}\r\n:host([data-menu-density]) [data-menu-list='framed'] {\r\n border-width: calc(var(--menu-list-inset) + 1px) !important;\r\n outline: 1px solid #52606d;\r\n outline-offset: -1px;\r\n}\r\n";
+}));
+//#endregion
 //#region src/UI/Mobile/game/MenuNarrowTablet.css?raw
 var MenuNarrowTablet_default;
 var init_MenuNarrowTablet = __esmMin((() => {
@@ -367397,6 +367404,7 @@ var init_AdventureTools$1 = __esmMin((() => {
 //#region src/UI/Mobile/game/AdventureTools.js
 var Tools, view$1, disposers, generation, abort$1, previousFreeze$1, inputOwned, AdventureTools_default;
 var init_AdventureTools = __esmMin((() => {
+	init_MenuListSpacing();
 	init_MenuNarrowTablet();
 	init_MenuButtonSizing();
 	init_AdventureMenuLayout();
@@ -367425,7 +367433,7 @@ var init_AdventureTools = __esmMin((() => {
 	init_ItemCatalogTab$1();
 	init_GameSelect$1();
 	init_AdventureTools$1();
-	Tools = new GUIComponent("MobileAdventureTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default + AdventureTools_default$1 + MobileSelect_default + MenuLayout_default + MenuPortrait_default + MenuContentLayout_default + MenuContentComponents_default + MenuNavigation_default + MenuChrome_default + AdventureMenuLayout_default + MenuFormControls_default + MenuButtonSizing_default + MenuNarrowTablet_default);
+	Tools = new GUIComponent("MobileAdventureTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default + AdventureTools_default$1 + MobileSelect_default + MenuLayout_default + MenuPortrait_default + MenuContentLayout_default + MenuContentComponents_default + MenuNavigation_default + MenuChrome_default + AdventureMenuLayout_default + MenuFormControls_default + MenuButtonSizing_default + MenuNarrowTablet_default + MenuListSpacing_default);
 	Tools.render = () => "<div class=\"adventure-mount mobile-menu-viewport\"></div>";
 	Tools.needFocus = false;
 	Tools.nativeScrolling = true;
@@ -369789,7 +369797,7 @@ var init_InventoryMenuLayout = __esmMin((() => {
 //#region src/UI/Mobile/game/SocialMenuLayout.css?raw
 var SocialMenuLayout_default;
 var init_SocialMenuLayout = __esmMin((() => {
-	SocialMenuLayout_default = "/* Social menu layout; loaded after shared chrome. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs {\r\n display: flex;\r\n min-width: 0;\r\n gap: 0;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs > button {\r\n flex: 1;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer {\r\n display: flex;\r\n justify-content: flex-end;\r\n gap: 6px;\r\n border-top: 1px solid #52606d;\r\n margin: 0;\r\n flex-wrap: wrap;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] > .panel-body {\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-tabs {\r\n grid-row: 3;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-footer {\r\n grid-row: 4;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer-actions {\r\n display: contents;\r\n}\r\n\r\n.panel[data-view='social'] .social-form:empty {\r\n display: none;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading {\r\n display: flex;\r\n align-items: center;\r\n justify-content: flex-start;\r\n gap: 8px;\r\n margin: 0 0 8px;\r\n padding: 6px 8px;\r\n border-left: 3px solid #ceaa70;\r\n border-radius: 3px;\r\n background: #2b3540;\r\n color: #ffe1ae;\r\n font-size: var(--panel-heading);\r\n font-weight: 600;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > span {\r\n min-width: 0;\r\n overflow-wrap: anywhere;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > small {\r\n color: #f5f2e9;\r\n flex-shrink: 0;\r\n font-size: var(--panel-label);\r\n font-weight: normal;\r\n}\r\n\r\n/* Landscape categories precede the list; portrait keeps its bottom tabs. */\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body:has(> .social-tabs) {\r\n row-gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs {\r\n order: -1;\r\n border-top: 0;\r\n padding-block: 0;\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs + .social-footer {\r\n margin-top: 0;\r\n}\r\n\r\n\r\n/* Member detail hierarchy is shared across friends, party and guild. */\r\n.panel[data-view='social'] .social-member-card {\r\n margin: 0 0 12px; min-width: 0;\r\n}\r\n.panel[data-view='social'] .social-member-header {\r\n display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;\r\n padding: 8px 10px; border-left: 3px solid #ceaa70; border-radius: 4px;\r\n background: #2b3540;\r\n}\r\n.panel[data-view='social'] .social-member-header h3 {\r\n margin: 0; min-width: 0; color: #ffe1ae; overflow-wrap: anywhere;\r\n font-size: var(--panel-heading); line-height: 1.5;\r\n}\r\n.panel[data-view='social'] .social-member-status {\r\n flex: 0 0 auto; padding: 1px 7px; border: 1px solid #65717b;\r\n border-radius: 4px; font-size: var(--panel-label); line-height: 1.6;\r\n color: #bac4cd; background: #222b35; white-space: nowrap;\r\n}\r\n.panel[data-view='social'] .social-member-status[data-status='online'] {\r\n color: #acd9b1; border-color: #577b60; background: #263e30;\r\n}\r\n.panel[data-view='social'] .social-member-facts {\r\n display: block; margin: 8px 0 0; padding: 0;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div {\r\n display: grid; grid-template-columns: 3em minmax(0, 1fr); gap: 12px;\r\n align-items: baseline; padding: 7px 10px;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div + div {\r\n border-top: 1px solid #35434f;\r\n}\r\n.panel[data-view='social'] .social-member-facts dt {\r\n color: #aab8c5; font-size: var(--panel-label);\r\n}\r\n.panel[data-view='social'] .social-member-facts dd {\r\n min-width: 0; margin: 0; color: #f5f2e9; overflow-wrap: anywhere; text-align: left;\r\n font-size: var(--panel-text); line-height: 1.5;\r\n}\r\n\r\n.panel[data-view='social'] .social-guild-overview {\r\n margin-bottom: 14px;\r\n}\r\n.panel[data-view='social'] .social-guild-notice,\r\n.panel[data-view='social'] .social-guild-notice-editor {\r\n display: flex;\r\n flex-direction: column;\r\n align-items: stretch;\r\n gap: 10px;\r\n padding: 12px 0 0;\r\n border-top: 1px solid #52606d;\r\n margin-top: 12px;\r\n min-width: 0;\r\n}\r\n.panel[data-view='social'] .social-guild-notice-editor > label {\r\n display: flex;\r\n flex-direction: column;\r\n align-items: stretch;\r\n gap: 6px;\r\n min-width: 0;\r\n width: 100%;\r\n}\r\n.panel[data-view='social'] .social-guild-notice-editor textarea {\r\n width: 100%;\r\n min-height: 100px;\r\n resize: vertical;\r\n}\r\n.panel[data-view='social'] .social-guild-notice h4 {\r\n margin: 0;\r\n color: #ffe1ae;\r\n overflow-wrap: anywhere;\r\n}\r\n.panel[data-view='social'] .social-guild-notice p {\r\n margin: 0;\r\n white-space: pre-wrap;\r\n overflow-wrap: anywhere;\r\n line-height: 1.7;\r\n}\r\n\r\n.panel[data-view='social'] .social-guild-labels {\r\n display: flex;\r\n flex-wrap: wrap;\r\n align-items: center;\r\n gap: 6px 8px;\r\n margin-top: 10px;\r\n}\r\n.panel[data-view='social'] .social-guild-label {\r\n display: inline-flex;\r\n align-items: baseline;\r\n gap: 6px;\r\n max-width: 100%;\r\n padding: 4px 8px;\r\n border-radius: 5px;\r\n background: #2b3540;\r\n font-size: var(--panel-label);\r\n line-height: 1.5;\r\n}\r\n.panel[data-view='social'] .social-guild-label-name {\r\n flex-shrink: 0;\r\n color: #aab8c5;\r\n}\r\n.panel[data-view='social'] .social-guild-label-value {\r\n min-width: 0;\r\n color: #f5f2e9;\r\n overflow-wrap: anywhere;\r\n}\r\n";
+	SocialMenuLayout_default = "/* Social menu layout; loaded after shared chrome. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs {\r\n display: flex;\r\n min-width: 0;\r\n gap: 0;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs > button {\r\n flex: 1;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer {\r\n display: flex;\r\n justify-content: flex-end;\r\n gap: 6px;\r\n border-top: 1px solid #52606d;\r\n margin: 0;\r\n flex-wrap: wrap;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] > .panel-body {\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-tabs {\r\n grid-row: 3;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-footer {\r\n grid-row: 4;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer-actions {\r\n display: contents;\r\n}\r\n\r\n.panel[data-view='social'] .social-form:empty {\r\n display: none;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading {\r\n display: flex;\r\n align-items: center;\r\n justify-content: flex-start;\r\n gap: 8px;\r\n margin: 0 0 8px;\r\n padding: 6px 8px;\r\n border-left: 3px solid #ceaa70;\r\n border-radius: 3px;\r\n background: #2b3540;\r\n color: #ffe1ae;\r\n font-size: var(--panel-heading);\r\n font-weight: 600;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > span {\r\n min-width: 0;\r\n overflow-wrap: anywhere;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > small {\r\n color: #f5f2e9;\r\n flex-shrink: 0;\r\n font-size: var(--panel-label);\r\n font-weight: normal;\r\n}\r\n\r\n/* Landscape categories precede the list; portrait keeps its bottom tabs. */\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body:has(> .social-tabs) {\r\n row-gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs {\r\n order: -1;\r\n border-top: 0;\r\n padding-block: 0;\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs + .social-footer {\r\n margin-top: 0;\r\n}\r\n\r\n\r\n/* Member detail hierarchy is shared across friends, party and guild. */\r\n.panel[data-view='social'] .social-member-card {\r\n margin: 0 0 12px; min-width: 0;\r\n}\r\n.panel[data-view='social'] .social-member-header {\r\n display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;\r\n padding: 8px 10px; border-left: 3px solid #ceaa70; border-radius: 4px;\r\n background: #2b3540;\r\n}\r\n.panel[data-view='social'] .social-member-header h3 {\r\n margin: 0; min-width: 0; color: #ffe1ae; overflow-wrap: anywhere;\r\n font-size: var(--panel-heading); line-height: 1.5;\r\n}\r\n.panel[data-view='social'] .social-member-status {\r\n display: inline-block; padding: 1px 7px; border: 1px solid #65717b;\r\n border-radius: 4px; font-size: var(--panel-label); line-height: 1.6;\r\n color: #bac4cd; background: #222b35; white-space: nowrap;\r\n}\r\n.panel[data-view='social'] .social-member-status[data-status='online'] {\r\n color: #acd9b1; border-color: #577b60; background: #263e30;\r\n}\r\n.panel[data-view='social'] .social-member-facts {\r\n display: block; margin: 8px 0 0; padding: 0;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div {\r\n display: grid; grid-template-columns: 3em minmax(0, 1fr); gap: 12px;\r\n align-items: baseline; padding: 7px 10px;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div + div {\r\n border-top: 1px solid #35434f;\r\n}\r\n.panel[data-view='social'] .social-member-facts dt {\r\n color: #aab8c5; font-size: var(--panel-label);\r\n}\r\n.panel[data-view='social'] .social-member-facts dd {\r\n min-width: 0; margin: 0; color: #f5f2e9; overflow-wrap: anywhere; text-align: left;\r\n font-size: var(--panel-text); line-height: 1.5;\r\n}\r\n\r\n.panel[data-view='social'] .social-guild-overview {\r\n margin-bottom: 14px;\r\n}\r\n.panel[data-view='social'] .social-guild-notice,\r\n.panel[data-view='social'] .social-guild-notice-editor {\r\n display: flex;\r\n flex-direction: column;\r\n align-items: stretch;\r\n gap: 10px;\r\n padding: 12px 0 0;\r\n border-top: 1px solid #52606d;\r\n margin-top: 12px;\r\n min-width: 0;\r\n}\r\n.panel[data-view='social'] .social-guild-notice-editor > label {\r\n display: flex;\r\n flex-direction: column;\r\n align-items: stretch;\r\n gap: 6px;\r\n min-width: 0;\r\n width: 100%;\r\n}\r\n.panel[data-view='social'] .social-guild-notice-editor textarea {\r\n width: 100%;\r\n min-height: 100px;\r\n resize: vertical;\r\n}\r\n.panel[data-view='social'] .social-guild-notice h4 {\r\n margin: 0;\r\n color: #ffe1ae;\r\n overflow-wrap: anywhere;\r\n}\r\n.panel[data-view='social'] .social-guild-notice p {\r\n margin: 0;\r\n white-space: pre-wrap;\r\n overflow-wrap: anywhere;\r\n line-height: 1.7;\r\n}\r\n\r\n.panel[data-view='social'] .social-guild-labels {\r\n display: flex;\r\n flex-wrap: wrap;\r\n align-items: center;\r\n gap: 6px 8px;\r\n margin-top: 10px;\r\n}\r\n.panel[data-view='social'] .social-guild-label {\r\n display: inline-flex;\r\n align-items: baseline;\r\n gap: 6px;\r\n max-width: 100%;\r\n padding: 4px 8px;\r\n border-radius: 5px;\r\n background: #2b3540;\r\n font-size: var(--panel-label);\r\n line-height: 1.5;\r\n}\r\n.panel[data-view='social'] .social-guild-label-name {\r\n flex-shrink: 0;\r\n color: #aab8c5;\r\n}\r\n.panel[data-view='social'] .social-guild-label-value {\r\n min-width: 0;\r\n color: #f5f2e9;\r\n overflow-wrap: anywhere;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/SettingsMenuLayout.css?raw
@@ -370066,7 +370074,7 @@ var init_ChatPreview = __esmMin((() => {
 //#region src/UI/Mobile/game/StatusPanel.js
 /** Keep selection and scroll positions while remaining durations update. */
 function createStatusPanel(body) {
-	body.innerHTML = "<div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"状态列表\"></div><section class=\"inventory-detail\" aria-label=\"状态说明\"><p class=\"item-description\"></p></section></div>";
+	body.innerHTML = "<div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" data-menu-list=\"framed\" aria-label=\"状态列表\"></div><section class=\"inventory-detail\" aria-label=\"状态说明\"><p class=\"item-description\"></p></section></div>";
 	const list = body.querySelector(".inventory-list");
 	const description = body.querySelector(".item-description");
 	const nodes = /* @__PURE__ */ new Map();
@@ -370316,7 +370324,7 @@ var init_CompanionAutoFeed = __esmMin((() => {
 function createCompanionLayout(body, { nameAttribute, nameLabel, sectionTitle, contentAttribute, refresh = false }) {
 	body.innerHTML = `<div class="companion-layout">
   <section class="companion-info"><h3>状态</h3><dl data-info></dl></section>
-  <section class="companion-content">${sectionTitle ? `<h3>${sectionTitle}</h3>` : ""}<div ${contentAttribute}></div></section>
+  <section class="companion-content" data-menu-list="framed">${sectionTitle ? `<h3>${sectionTitle}</h3>` : ""}<div ${contentAttribute}></div></section>
  </div><div class="companion-footer menu-footer">
   <label class="companion-name menu-form-row"><input data-menu-control="field" ${nameAttribute} maxlength="23" aria-label="${nameLabel}" placeholder="${nameLabel}"></label>
   <div class="inventory-actions menu-action-group" data-actions>${refresh ? "<button type=\"button\" data-refresh>刷新状态</button>" : ""}</div>
@@ -370925,6 +370933,7 @@ function createMailPanel(body, service) {
 			update();
 		};
 		const inventory = node(list, "div", "mail-rows mail-item-list");
+		inventory.dataset.menuList = "";
 		const query = itemTerm.trim().toLocaleLowerCase();
 		const items = state.inventory.filter((item) => (!query || item.name.toLocaleLowerCase().includes(query) || String(item.ID).includes(query)) && (itemCategory === "all" || (itemCategory === "card" ? item.type === ItemType_default.CARD : itemCategory === "other" ? item.category === "other" && item.type !== ItemType_default.CARD : item.category === itemCategory)));
 		for (const item of items) {
@@ -371014,6 +371023,7 @@ function createMailPanel(body, service) {
 		const pages = Math.max(1, Math.ceil(rows.length / 8));
 		page = Math.min(page, pages - 1);
 		const messages = node(list, "div", "mail-rows");
+		messages.dataset.menuList = "";
 		for (const mail of rows.slice(page * 8, page * 8 + 8)) {
 			const row = button(messages, "", () => {
 				clearReview();
@@ -371542,6 +371552,7 @@ function interactionReview(lines, summary, warning = "") {
 	content.className = "interaction-review";
 	const list = document.createElement("div");
 	list.className = "interaction-review-lines";
+	list.dataset.menuList = "";
 	for (const line of lines) {
 		const p = document.createElement("p");
 		p.textContent = line;
@@ -371601,7 +371612,7 @@ function interactionColumns(body, columns) {
 	layout.className = "interaction-columns";
 	layout.dataset.menuLayout = "columns";
 	layout.dataset.menuColumns = String(columns.length);
-	for (const { title, className, content } of columns) {
+	for (const { title, className, content, list } of columns) {
 		const column = document.createElement("section");
 		column.className = "interaction-column";
 		const heading = document.createElement("h3");
@@ -371609,6 +371620,7 @@ function interactionColumns(body, columns) {
 		heading.textContent = title;
 		const area = document.createElement("div");
 		area.className = `interaction-column-content ${className || ""}`;
+		if (list) area.dataset.menuList = "";
 		if (content) area.innerHTML = content;
 		column.append(heading, area);
 		layout.append(column);
@@ -371624,10 +371636,12 @@ function createVendingPanel(body, service) {
 	body.dataset.vendingOwned = String(Boolean(initial.owned));
 	const layout = interactionColumns(body, [{
 		title: initial.owned ? initial.mode === "buy" ? "收购商品" : "在售商品" : "可选商品",
-		className: "inventory-list"
+		className: "inventory-list",
+		list: true
 	}, {
 		title: initial.owned ? "成交记录" : "摊位清单",
-		content: "<div data-order></div>"
+		content: "<div data-order></div>",
+		list: true
 	}]);
 	layout.dataset.menuLayout = "vending";
 	const feedback = createFeedback(body);
@@ -371870,11 +371884,12 @@ var init_VendingPanel = __esmMin((() => {
 function createTradePanel(body, service) {
 	const layout = interactionColumns(body, [{
 		title: "可交易物品",
-		className: "inventory-list"
+		className: "inventory-list",
+		list: true
 	}, {
 		title: "双方报价",
 		className: "trade-offers",
-		content: "<section><h3>我方物品</h3><div data-own></div></section><section><h3>对方物品</h3><div data-peer></div></section>"
+		content: "<section><h3>我方物品</h3><div data-menu-list=\"\" data-own></div></section><section><h3>对方物品</h3><div data-menu-list=\"\" data-peer></div></section>"
 	}]);
 	layout.dataset.menuLayout = "trade";
 	const toolbar = document.createElement("div");
@@ -372141,7 +372156,8 @@ function createEnchantPanel(body, service) {
 	interactionColumns(body, [
 		{
 			title: "可附魔装备",
-			className: "inventory-list"
+			className: "inventory-list",
+			list: true
 		},
 		{
 			title: "附魔配置",
@@ -372280,7 +372296,8 @@ function createRefinementPanel(body, service) {
 	interactionColumns(body, [
 		{
 			title: "可强化装备",
-			className: "inventory-list"
+			className: "inventory-list",
+			list: true
 		},
 		{
 			title: "强化配置",
@@ -372464,11 +372481,13 @@ function createMaterialsPanel(body, service) {
 	interactionColumns(body, [
 		{
 			title: "可用材料",
-			className: "inventory-list"
+			className: "inventory-list",
+			list: true
 		},
 		{
 			title: "已选材料",
-			className: "material-order"
+			className: "material-order",
+			list: true
 		},
 		{
 			title: "物品说明",
@@ -372684,7 +372703,7 @@ var init_EquipmentFilters = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/SelectionPanel.js
 function createSelectionPanel(body, service) {
-	body.innerHTML = "<p data-warning></p><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"可选列表\"></div><section class=\"inventory-detail\" aria-label=\"选项详情\"></section></div>";
+	body.innerHTML = "<p data-warning></p><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" data-menu-list=\"framed\" aria-label=\"可选列表\"></div><section class=\"inventory-detail\" aria-label=\"选项详情\"></section></div>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, key = "", editingId = null;
@@ -372809,7 +372828,7 @@ var init_SelectionPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/SocialPanel.js
 function createSocialPanel(body, service, whisper) {
-	body.innerHTML = "<div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"社交列表\"></div><section class=\"inventory-detail\" aria-label=\"社交详情\"></section></div><nav class=\"social-tabs menu-tabs menu-bottom-tabs\" aria-label=\"社交分类\"><button type=\"button\" data-social-tab=\"friends\" aria-pressed=\"true\">好友</button><button type=\"button\" data-social-tab=\"party\" aria-pressed=\"false\">队伍</button><button type=\"button\" data-social-tab=\"guild\" aria-pressed=\"false\">公会</button></nav><div class=\"social-footer menu-footer menu-footer--trailing\"><div class=\"social-footer-actions\"></div><button type=\"button\" data-refresh>刷新公会</button></div>";
+	body.innerHTML = "<div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" data-menu-list=\"framed\" aria-label=\"社交列表\"></div><section class=\"inventory-detail\" data-menu-list=\"framed\" aria-label=\"社交详情\"></section></div><nav class=\"social-tabs menu-tabs menu-bottom-tabs\" aria-label=\"社交分类\"><button type=\"button\" data-social-tab=\"friends\" aria-pressed=\"true\">好友</button><button type=\"button\" data-social-tab=\"party\" aria-pressed=\"false\">队伍</button><button type=\"button\" data-social-tab=\"guild\" aria-pressed=\"false\">公会</button></nav><div class=\"social-footer menu-footer menu-footer--trailing\"><div class=\"social-footer-actions\"></div><button type=\"button\" data-refresh>刷新公会</button></div>";
 	const $ = (selector) => body.querySelector(selector), detail = $(".inventory-detail"), list = $(".inventory-list");
 	let category = "friends", state, selected = null, lastKey = "", listKey = "";
 	const status = createFeedback(body);
@@ -372871,7 +372890,7 @@ function createSocialPanel(body, service, whisper) {
 		badge.className = "social-member-status";
 		badge.dataset.status = online === null ? "unknown" : online ? "online" : "offline";
 		badge.textContent = online === null ? "状态未知" : online ? "在线" : "离线";
-		header.append(name, badge);
+		header.append(name);
 		card.append(header);
 		const mapCode = member.mapName || member.mapname;
 		const mapName = mapCode ? DB.getMapName(mapCode.replace(/\.(gat|rsw)$/, "") + ".rsw", "未知地图") : "未知";
@@ -372883,12 +372902,13 @@ function createSocialPanel(body, service, whisper) {
 		] : [["公会", state.guildName || "未知"], ["等级", member.Level ? `Lv.${member.Level}` : "未知"]];
 		const facts = document.createElement("dl");
 		facts.className = "social-member-facts";
-		for (const [label, value] of rows) {
+		for (const [label, value] of [["状态", badge], ...rows]) {
 			const row = document.createElement("div");
 			const term = document.createElement("dt");
 			const description = document.createElement("dd");
 			term.textContent = label;
-			description.textContent = value;
+			if (value === badge) description.append(badge);
+			else description.textContent = value;
 			row.append(term, description);
 			facts.append(row);
 		}
@@ -373317,15 +373337,15 @@ function createChatComposer() {
 function createChatPanel(body, send, initialReceiver = "", loadEmotionImages, initialFilter = "all", onFilterChange, composer = createChatComposer(), channelError = () => "") {
 	body.innerHTML = `
 		<div class="chat-conversation">
-			<nav class="chat-filters" aria-label="消息分类"></nav>
+			<nav class="chat-filters" data-menu-list="" aria-label="消息分类"></nav>
 			<section class="chat-contacts" aria-label="私聊对象" hidden>
 				<button type="button" data-new-private>＋ 新私聊</button>
-				<div class="chat-contact-list"></div>
+				<div class="chat-contact-list" data-menu-list=""></div>
 			</section>
 			<div class="chat-content">
 				<div class="chat-recipient" hidden></div>
-				<div class="chat-log" role="log" aria-label="聊天消息"></div>
-				<div class="chat-emotions" hidden aria-label="RO 表情"></div>
+				<div class="chat-log" data-menu-list="" role="log" aria-label="聊天消息"></div>
+				<div class="chat-emotions" data-menu-list="" hidden aria-label="RO 表情"></div>
 			</div>
 		</div>
 		<form class="chat-form">
@@ -373595,7 +373615,7 @@ var init_ChatPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/QuestsPanel.js
 function createQuestsPanel(body, actions) {
-	body.innerHTML = "<div class=\"skills-toolbar menu-form-row\"><select aria-label=\"任务分类\"><option value=\"all\">全部任务</option><option value=\"1\">进行中</option><option value=\"0\">已暂停</option><option value=\"2\">已完成</option></select></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"任务列表\"></div><section class=\"inventory-detail\" aria-label=\"任务详情\"></section></div><div class=\"quest-actions menu-footer menu-footer--trailing\"></div>";
+	body.innerHTML = "<div class=\"skills-toolbar menu-form-row\"><select aria-label=\"任务分类\"><option value=\"all\">全部任务</option><option value=\"1\">进行中</option><option value=\"0\">已暂停</option><option value=\"2\">已完成</option></select></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" data-menu-list=\"framed\" aria-label=\"任务列表\"></div><section class=\"inventory-detail\" aria-label=\"任务详情\"></section></div><div class=\"quest-actions menu-footer menu-footer--trailing\"></div>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, state, detailKey = "";
@@ -373702,7 +373722,7 @@ var init_QuestsPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/ContainerPanel.js
 function createContainerPanel(body, actions, initialSource) {
-	body.innerHTML = "<div class=\"container-toolbar menu-form-row\"></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\"></div><section class=\"inventory-detail\"></section></div>";
+	body.innerHTML = "<div class=\"container-toolbar menu-form-row\"></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" data-menu-list=\"framed\"></div><section class=\"inventory-detail\"></section></div>";
 	const primary = initialSource;
 	const isCart = primary === "cart";
 	let storagePeer = "inventory";
@@ -374072,7 +374092,7 @@ var init_ShopPanel$1 = __esmMin((() => {
 //#region src/UI/Mobile/game/ShopPanel.js
 /** Move quantities between the catalogue and order; submit through the original service. */
 function createShopPanel(body, service) {
-	body.innerHTML = "<div class=\"shop-layout\" data-menu-layout=\"shop\"><section class=\"shop-catalog\"><h3>商品列表</h3><div class=\"inventory-list shop-catalog-list\" aria-label=\"商店物品\"></div></section><div class=\"shop-transfer\"></div><section class=\"shop-order\"><h3>待购买物品</h3><div class=\"inventory-list shop-order-list\" aria-label=\"待交易物品\"></div></section><section class=\"inventory-detail\" aria-label=\"物品详情\">请选择物品查看说明</section></div><div class=\"shop-footer menu-footer\"><span class=\"shop-summary\"><span data-balance></span><span class=\"shop-summary-separator\"> · </span><span data-total></span></span><div class=\"shop-actions\"></div></div>";
+	body.innerHTML = "<div class=\"shop-layout\" data-menu-layout=\"shop\"><section class=\"shop-catalog\"><h3>商品列表</h3><div class=\"inventory-list shop-catalog-list\" data-menu-list=\"\" aria-label=\"商店物品\"></div></section><div class=\"shop-transfer\"></div><section class=\"shop-order\"><h3>待购买物品</h3><div class=\"inventory-list shop-order-list\" data-menu-list=\"\" aria-label=\"待交易物品\"></div></section><section class=\"inventory-detail\" aria-label=\"物品详情\">请选择物品查看说明</section></div><div class=\"shop-footer menu-footer\"><span class=\"shop-summary\"><span data-balance></span><span class=\"shop-summary-separator\"> · </span><span data-total></span></span><div class=\"shop-actions\"></div></div>";
 	const $ = (selector) => body.querySelector(selector);
 	const feedback = createFeedback(body);
 	const lists = [/* @__PURE__ */ new Map(), /* @__PURE__ */ new Map()];
@@ -374627,7 +374647,7 @@ var init_PointResetControl = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/SkillsPanel.js
 function createSkillsPanel(body, actions) {
-	body.innerHTML = "<div class=\"skills-toolbar menu-form-row\"><select aria-label=\"转职分类\"><option value=\"all\">全部转职</option></select><select aria-label=\"技能分类\"><option value=\"all\">全部技能</option><option value=\"active\">已学主动</option><option value=\"passive\">已学被动</option><option value=\"locked\">未学习</option></select></div><div class=\"inventory-layout skills-layout\" data-menu-layout=\"split\"><section class=\"skills-browser\"><div class=\"inventory-list\" aria-label=\"技能列表\"></div></section><section class=\"inventory-detail inventory-item-detail\" aria-label=\"技能详情\"></section></div><div class=\"skills-footer menu-footer menu-footer--split\"><strong class=\"point-counter\" data-skill-points><span>技能点</span><span class=\"point-counter-value\" data-skill-points-value></span></strong><div class=\"skills-footer-buttons menu-action-group menu-action-group--trailing\"><div class=\"skills-reset\"></div><div class=\"skills-action-slot\"></div></div></div>";
+	body.innerHTML = "<div class=\"skills-toolbar menu-form-row\"><select aria-label=\"转职分类\"><option value=\"all\">全部转职</option></select><select aria-label=\"技能分类\"><option value=\"all\">全部技能</option><option value=\"active\">已学主动</option><option value=\"passive\">已学被动</option><option value=\"locked\">未学习</option></select></div><div class=\"inventory-layout skills-layout\" data-menu-layout=\"split\"><section class=\"skills-browser\"><div class=\"inventory-list\" data-menu-list=\"framed\" aria-label=\"技能列表\"></div></section><section class=\"inventory-detail inventory-item-detail\" aria-label=\"技能详情\"></section></div><div class=\"skills-footer menu-footer menu-footer--split\"><strong class=\"point-counter\" data-skill-points><span>技能点</span><span class=\"point-counter-value\" data-skill-points-value></span></strong><div class=\"skills-footer-buttons menu-action-group menu-action-group--trailing\"><div class=\"skills-reset\"></div><div class=\"skills-action-slot\"></div></div></div>";
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, key = "", state, dismiss;
 	const nodes = /* @__PURE__ */ new Map();
@@ -374802,7 +374822,7 @@ var init_SkillsPanel = __esmMin((() => {
 //#region src/UI/Mobile/game/EquipmentPanel.js
 /** Independent touch equipment view; server snapshots own all item and stat values. */
 function createEquipmentPanel(body, actions) {
-	body.innerHTML = "<nav class=\"equipment-tabs menu-tabs menu-bottom-tabs menu-bottom-tabs--stacked\" aria-label=\"装备分类\"></nav><div class=\"equipment-layout\" data-menu-layout=\"split\"><div class=\"equipment-slots\" aria-label=\"装备部位\"></div><section class=\"equipment-detail inventory-item-detail\" aria-label=\"装备详情\"></section></div><div class=\"equipment-stats\" hidden></div><div class=\"equipment-actions inventory-actions menu-footer menu-footer--trailing\"></div>";
+	body.innerHTML = "<nav class=\"equipment-tabs menu-tabs menu-bottom-tabs menu-bottom-tabs--stacked\" aria-label=\"装备分类\"></nav><div class=\"equipment-layout\" data-menu-layout=\"split\"><div class=\"equipment-slots\" data-menu-list=\"framed\" aria-label=\"装备部位\"></div><section class=\"equipment-detail inventory-item-detail\" aria-label=\"装备详情\"></section></div><div class=\"equipment-stats\" hidden></div><div class=\"equipment-actions inventory-actions menu-footer menu-footer--trailing\"></div>";
 	const $ = (selector) => body.querySelector(selector);
 	const slotsRoot = $(".equipment-slots"), detail = $(".equipment-detail");
 	let group = "normal", selected = "HEAD_TOP", dismiss, detailKey = "";
@@ -374932,6 +374952,7 @@ function createEquipmentPanel(body, actions) {
 		preview.textContent = "选择装备查看说明";
 		const list = document.createElement("div");
 		list.className = "equipment-picker-list";
+		list.dataset.menuList = "framed";
 		list.dataset.slot = slot.key;
 		list.setAttribute("aria-label", "可更换装备");
 		content.append(list);
@@ -375167,7 +375188,7 @@ var init_InventoryDescription = __esmMin((() => {}));
 //#region src/UI/Mobile/game/InventoryPanel.js
 /** Touch-only inventory presentation. Actions receive inventory indices, never DOM-derived item data. */
 function createInventoryPanel(body, actions) {
-	body.innerHTML = "<div class=\"inventory-toolbar menu-form-row\"></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" aria-label=\"物品列表\"></div><section class=\"inventory-detail inventory-item-detail\" aria-label=\"物品详情\"></section></div>";
+	body.innerHTML = "<div class=\"inventory-toolbar menu-form-row\"></div><div class=\"inventory-layout\" data-menu-layout=\"split\"><div class=\"inventory-list\" data-menu-list=\"framed\" aria-label=\"物品列表\"></div><section class=\"inventory-detail inventory-item-detail\" aria-label=\"物品详情\"></section></div>";
 	const $ = (selector) => body.querySelector(selector);
 	const list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, state = [], detailKey = "", binding = false, dismiss;
@@ -375449,7 +375470,7 @@ function createShortcutPanel(body, actions) {
 					<select aria-label="技能类型" data-skill-filter><option value="all">技能类型</option><option value="skills">全部技能</option></select>
 					<select aria-label="物品类型" data-item-filter><option value="all">物品类型</option></select>
 				</div>
-				<div class="shortcut-choices"></div><p data-filter-empty hidden>没有符合条件的技能或物品</p>
+				<div class="shortcut-choices" data-menu-list="framed"></div><p data-filter-empty hidden>没有符合条件的技能或物品</p>
 			</section>
 			<section class="shortcut-editor inventory-item-detail" aria-label="快捷键说明">
 				<div class="shortcut-current"><strong data-slot-title></strong></div>
@@ -375746,7 +375767,7 @@ ${MenuContentComponents_default}
 ${CompanionLayout_default}
 ${MenuNavigation_default}
 ${MenuActionButtons_default}
-${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBottomTabs_default}${MenuFormControls_default}${MenuButtonSizing_default}${MenuNarrowTablet_default}</style>${GameHUD_default$2}`;
+${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBottomTabs_default}${MenuFormControls_default}${MenuButtonSizing_default}${MenuNarrowTablet_default}${MenuListSpacing_default}</style>${GameHUD_default$2}`;
 	const $ = (selector) => root.querySelector(selector);
 	const abort = new AbortController();
 	const chatPreview = createChatPreview(root);
@@ -376642,6 +376663,7 @@ ${VendingPanel_default}${MenuChrome_default}${MenuFeatureStyles_default}${MenuBo
 	};
 }
 var init_GameHUDView = __esmMin((() => {
+	init_MenuListSpacing();
 	init_ChatPreviewLayout();
 	init_MenuNarrowTablet();
 	init_MenuButtonSizing();
