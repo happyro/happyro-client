@@ -369789,7 +369789,7 @@ var init_InventoryMenuLayout = __esmMin((() => {
 //#region src/UI/Mobile/game/SocialMenuLayout.css?raw
 var SocialMenuLayout_default;
 var init_SocialMenuLayout = __esmMin((() => {
-	SocialMenuLayout_default = "/* Social menu layout; loaded after shared chrome. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs {\r\n display: flex;\r\n min-width: 0;\r\n gap: 0;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs > button {\r\n flex: 1;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer {\r\n display: flex;\r\n justify-content: flex-end;\r\n gap: 6px;\r\n border-top: 1px solid #52606d;\r\n margin: 0;\r\n flex-wrap: wrap;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] > .panel-body {\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-tabs {\r\n grid-row: 3;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-footer {\r\n grid-row: 4;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer-actions {\r\n display: contents;\r\n}\r\n\r\n.panel[data-view='social'] .social-form:empty {\r\n display: none;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading {\r\n display: flex;\r\n align-items: center;\r\n justify-content: flex-start;\r\n gap: 8px;\r\n margin: 0 0 8px;\r\n padding: 6px 8px;\r\n border-left: 3px solid #ceaa70;\r\n border-radius: 3px;\r\n background: #2b3540;\r\n color: #ffe1ae;\r\n font-size: var(--panel-heading);\r\n font-weight: 600;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > span {\r\n min-width: 0;\r\n overflow-wrap: anywhere;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > small {\r\n color: #f5f2e9;\r\n flex-shrink: 0;\r\n font-size: var(--panel-label);\r\n font-weight: normal;\r\n}\r\n\r\n/* Landscape categories precede the list; portrait keeps its bottom tabs. */\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body:has(> .social-tabs) {\r\n row-gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs {\r\n order: -1;\r\n border-top: 0;\r\n padding-block: 0;\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs + .social-footer {\r\n margin-top: 0;\r\n}\r\n\r\n\r\n/* Member detail hierarchy is shared across friends, party and guild. */\r\n.panel[data-view='social'] .social-member-card {\r\n margin: 0 0 12px; min-width: 0;\r\n}\r\n.panel[data-view='social'] .social-member-header {\r\n display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;\r\n padding: 8px 10px; border-left: 3px solid #ceaa70; border-radius: 4px;\r\n background: #2b3540;\r\n}\r\n.panel[data-view='social'] .social-member-header h3 {\r\n margin: 0; min-width: 0; color: #ffe1ae; overflow-wrap: anywhere;\r\n font-size: var(--panel-heading); line-height: 1.5;\r\n}\r\n.panel[data-view='social'] .social-member-status {\r\n flex: 0 0 auto; padding: 1px 7px; border: 1px solid #65717b;\r\n border-radius: 4px; font-size: var(--panel-label); line-height: 1.6;\r\n color: #bac4cd; background: #222b35; white-space: nowrap;\r\n}\r\n.panel[data-view='social'] .social-member-status[data-status='online'] {\r\n color: #acd9b1; border-color: #577b60; background: #263e30;\r\n}\r\n.panel[data-view='social'] .social-member-facts {\r\n display: block; margin: 8px 0 0; padding: 0;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div {\r\n display: grid; grid-template-columns: 3em minmax(0, 1fr); gap: 12px;\r\n align-items: baseline; padding: 7px 10px;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div + div {\r\n border-top: 1px solid #35434f;\r\n}\r\n.panel[data-view='social'] .social-member-facts dt {\r\n color: #aab8c5; font-size: var(--panel-label);\r\n}\r\n.panel[data-view='social'] .social-member-facts dd {\r\n min-width: 0; margin: 0; color: #f5f2e9; overflow-wrap: anywhere; text-align: left;\r\n font-size: var(--panel-text); line-height: 1.5;\r\n}\r\n";
+	SocialMenuLayout_default = "/* Social menu layout; loaded after shared chrome. */\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs {\r\n display: flex;\r\n min-width: 0;\r\n gap: 0;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-tabs > button {\r\n flex: 1;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer {\r\n display: flex;\r\n justify-content: flex-end;\r\n gap: 6px;\r\n border-top: 1px solid #52606d;\r\n margin: 0;\r\n flex-wrap: wrap;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] > .panel-body {\r\n grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto auto;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-tabs {\r\n grid-row: 3;\r\n}\r\n\r\n:host([data-phone-screen][data-menu-arrangement='stacked']) .panel[data-view='social'] .social-footer {\r\n grid-row: 4;\r\n}\r\n\r\n:host([data-menu-density][data-menu-arrangement]) .panel[data-view='social'] .social-footer-actions {\r\n display: contents;\r\n}\r\n\r\n.panel[data-view='social'] .social-form:empty {\r\n display: none;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading {\r\n display: flex;\r\n align-items: center;\r\n justify-content: flex-start;\r\n gap: 8px;\r\n margin: 0 0 8px;\r\n padding: 6px 8px;\r\n border-left: 3px solid #ceaa70;\r\n border-radius: 3px;\r\n background: #2b3540;\r\n color: #ffe1ae;\r\n font-size: var(--panel-heading);\r\n font-weight: 600;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > span {\r\n min-width: 0;\r\n overflow-wrap: anywhere;\r\n}\r\n\r\n.panel[data-view='social'] .social-party-heading > small {\r\n color: #f5f2e9;\r\n flex-shrink: 0;\r\n font-size: var(--panel-label);\r\n font-weight: normal;\r\n}\r\n\r\n/* Landscape categories precede the list; portrait keeps its bottom tabs. */\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body:has(> .social-tabs) {\r\n row-gap: var(--panel-gap);\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs {\r\n order: -1;\r\n border-top: 0;\r\n padding-block: 0;\r\n}\r\n:host([data-menu-density][data-menu-arrangement][data-orientation='landscape']) .panel[data-view='social'] > .panel-body > .social-tabs + .social-footer {\r\n margin-top: 0;\r\n}\r\n\r\n\r\n/* Member detail hierarchy is shared across friends, party and guild. */\r\n.panel[data-view='social'] .social-member-card {\r\n margin: 0 0 12px; min-width: 0;\r\n}\r\n.panel[data-view='social'] .social-member-header {\r\n display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;\r\n padding: 8px 10px; border-left: 3px solid #ceaa70; border-radius: 4px;\r\n background: #2b3540;\r\n}\r\n.panel[data-view='social'] .social-member-header h3 {\r\n margin: 0; min-width: 0; color: #ffe1ae; overflow-wrap: anywhere;\r\n font-size: var(--panel-heading); line-height: 1.5;\r\n}\r\n.panel[data-view='social'] .social-member-status {\r\n flex: 0 0 auto; padding: 1px 7px; border: 1px solid #65717b;\r\n border-radius: 4px; font-size: var(--panel-label); line-height: 1.6;\r\n color: #bac4cd; background: #222b35; white-space: nowrap;\r\n}\r\n.panel[data-view='social'] .social-member-status[data-status='online'] {\r\n color: #acd9b1; border-color: #577b60; background: #263e30;\r\n}\r\n.panel[data-view='social'] .social-member-facts {\r\n display: block; margin: 8px 0 0; padding: 0;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div {\r\n display: grid; grid-template-columns: 3em minmax(0, 1fr); gap: 12px;\r\n align-items: baseline; padding: 7px 10px;\r\n}\r\n.panel[data-view='social'] .social-member-facts > div + div {\r\n border-top: 1px solid #35434f;\r\n}\r\n.panel[data-view='social'] .social-member-facts dt {\r\n color: #aab8c5; font-size: var(--panel-label);\r\n}\r\n.panel[data-view='social'] .social-member-facts dd {\r\n min-width: 0; margin: 0; color: #f5f2e9; overflow-wrap: anywhere; text-align: left;\r\n font-size: var(--panel-text); line-height: 1.5;\r\n}\r\n\r\n.panel[data-view='social'] .social-guild-overview {\r\n margin-bottom: 14px;\r\n}\r\n.panel[data-view='social'] .social-guild-notice,\r\n.panel[data-view='social'] .social-guild-notice-editor {\r\n display: flex;\r\n flex-direction: column;\r\n align-items: stretch;\r\n gap: 10px;\r\n padding: 12px 0 0;\r\n border-top: 1px solid #52606d;\r\n margin-top: 12px;\r\n min-width: 0;\r\n}\r\n.panel[data-view='social'] .social-guild-notice-editor > label {\r\n display: flex;\r\n flex-direction: column;\r\n align-items: stretch;\r\n gap: 6px;\r\n min-width: 0;\r\n width: 100%;\r\n}\r\n.panel[data-view='social'] .social-guild-notice-editor textarea {\r\n width: 100%;\r\n min-height: 100px;\r\n resize: vertical;\r\n}\r\n.panel[data-view='social'] .social-guild-notice h4 {\r\n margin: 0;\r\n color: #ffe1ae;\r\n overflow-wrap: anywhere;\r\n}\r\n.panel[data-view='social'] .social-guild-notice p {\r\n margin: 0;\r\n white-space: pre-wrap;\r\n overflow-wrap: anywhere;\r\n line-height: 1.7;\r\n}\r\n\r\n.panel[data-view='social'] .social-guild-labels {\r\n display: flex;\r\n flex-wrap: wrap;\r\n align-items: center;\r\n gap: 6px 8px;\r\n margin-top: 10px;\r\n}\r\n.panel[data-view='social'] .social-guild-label {\r\n display: inline-flex;\r\n align-items: baseline;\r\n gap: 6px;\r\n max-width: 100%;\r\n padding: 4px 8px;\r\n border-radius: 5px;\r\n background: #2b3540;\r\n font-size: var(--panel-label);\r\n line-height: 1.5;\r\n}\r\n.panel[data-view='social'] .social-guild-label-name {\r\n flex-shrink: 0;\r\n color: #aab8c5;\r\n}\r\n.panel[data-view='social'] .social-guild-label-value {\r\n min-width: 0;\r\n color: #f5f2e9;\r\n overflow-wrap: anywhere;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/SettingsMenuLayout.css?raw
@@ -372821,15 +372821,6 @@ function createSocialPanel(body, service, whisper) {
 			snapshot.options.item_sharing_type
 		];
 		if (action === "guildNotice") return [snapshot.guild?.notice.subject, snapshot.guild?.notice.notice];
-		if (action === "editGuildPosition") {
-			const p = snapshot.guild?.positions.find((position) => position.positionID === data.position);
-			return [
-				p?.posName,
-				p?.payRate,
-				p?.right & 17
-			];
-		}
-		if (action === "guildPosition") return snapshot.guild?.members.find((m) => m.AID === data.AID && m.GID === data.GID)?.GPositionID;
 	}
 	function expectedValue(action, data) {
 		if (action === "partyOptions") return [
@@ -372838,12 +372829,6 @@ function createSocialPanel(body, service, whisper) {
 			data.division
 		];
 		if (action === "guildNotice") return [data.subject, data.notice];
-		if (action === "editGuildPosition") return [
-			data.name.trim(),
-			data.tax,
-			data.right
-		];
-		if (action === "guildPosition") return data.position;
 	}
 	const act = (action, data) => {
 		const expected = expectedValue(action, data);
@@ -372858,7 +372843,7 @@ function createSocialPanel(body, service, whisper) {
 			expected,
 			start: Date.now()
 		});
-		status(message, action === "bindGuildSkill" ? message === "快捷键已设置" ? "success" : "error" : message === "已请求，等待服务器回复" ? "pending" : "error");
+		status(message, message === "已请求，等待服务器回复" ? "pending" : "error");
 	};
 	function button(text, fn) {
 		const b = document.createElement("button");
@@ -372895,11 +372880,7 @@ function createSocialPanel(body, service, whisper) {
 			["身份", member.role === 0 ? "队长" : member.role === 1 ? "队员" : "未知"],
 			["等级", member.baseLevel ? `Lv.${member.baseLevel}` : "未知"],
 			["地图", mapName]
-		] : [
-			["公会", state.guildName || "未知"],
-			["职位", state.guild.positions.find((position) => position.positionID === member.GPositionID)?.posName || "未知"],
-			["等级", member.Level ? `Lv.${member.Level}` : "未知"]
-		];
+		] : [["公会", state.guildName || "未知"], ["等级", member.Level ? `Lv.${member.Level}` : "未知"]];
 		const facts = document.createElement("dl");
 		facts.className = "social-member-facts";
 		for (const [label, value] of rows) {
@@ -372914,7 +372895,7 @@ function createSocialPanel(body, service, whisper) {
 		if (rows.length) card.append(facts);
 		return card;
 	}
-	function form(title, fields, submit, confirm = false, autoSave = false) {
+	function form(title, fields, submit, confirm = false, autoSave = false, inFooter = false) {
 		const f = document.createElement("form");
 		f.className = "social-form menu-form-row";
 		const inputs = {};
@@ -372922,11 +372903,11 @@ function createSocialPanel(body, service, whisper) {
 			const l = document.createElement("label");
 			const caption = document.createElement("span");
 			caption.textContent = label;
-			if (!options && type === "text") l.className = "social-role-field";
+			if (!options && type === "text" && name !== "subject") l.className = "social-role-field";
 			l.append(caption);
 			const input = createMenuField(options ? "select" : type === "textarea" ? "textarea" : "input");
 			input.setAttribute("aria-label", label);
-			if (!options && type === "text") input.placeholder = label;
+			if (!options && type === "text" && name !== "subject") input.placeholder = label;
 			if (options) for (const [id, text] of options) input.add(new Option(text, id));
 			else {
 				if (type !== "textarea") input.type = type;
@@ -372945,14 +372926,14 @@ function createSocialPanel(body, service, whisper) {
 		const send = document.createElement("button");
 		send.type = "submit";
 		send.textContent = title;
-		const footerAction = (category === "friends" || category === "party") && fields.length === 0;
+		const footerAction = inFooter || (category === "friends" || category === "party") && fields.length === 0;
 		if (!autoSave) {
 			if (footerAction) {
 				send.type = "button";
 				send.onclick = () => f.requestSubmit();
 				$(".social-footer-actions").append(send);
 				const updateEnabled = () => {
-					send.disabled = !state.allowed || Object.values(inputs).some((input) => !input.value.trim() || !input.validity.valid);
+					send.disabled = !state.allowed || Object.entries(inputs).some(([name, input]) => !input.validity.valid || name === "name" && !input.value.trim());
 				};
 				f.addEventListener("input", updateEnabled);
 				f.addEventListener("change", updateEnabled);
@@ -372962,7 +372943,7 @@ function createSocialPanel(body, service, whisper) {
 		f.onsubmit = (e) => {
 			e.preventDefault();
 			const values = Object.fromEntries(Object.entries(inputs).map(([name, node]) => [name, node.value]));
-			if (confirm) confirmAction(footerAction ? body : f, `确认${title}？`, () => submit(values));
+			if (confirm) confirmAction(f, `确认${title}？`, () => submit(values));
 			else submit(values);
 		};
 		if (autoSave) f.onchange = () => submit(Object.fromEntries(Object.entries(inputs).map(([name, node]) => [name, node.value])));
@@ -372986,11 +372967,6 @@ function createSocialPanel(body, service, whisper) {
 		list.dataset.socialType = type;
 		$("[data-refresh]").hidden = type !== "guild";
 		$("[data-refresh]").disabled = !state.allowed || !state.guild;
-		const emblem = detail.querySelector("[data-guild-emblem]");
-		if (emblem) {
-			emblem.hidden = !state.guild?.emblem;
-			if (state.guild?.emblem) emblem.src = state.guild.emblem;
-		}
 		const members = type === "friends" ? state.friends : type === "party" ? state.party : state.guild?.members || [];
 		const next = JSON.stringify([type, members.map((m) => [
 			identity(m),
@@ -373051,11 +373027,7 @@ function createSocialPanel(body, service, whisper) {
 			state.master,
 			state.rights,
 			state.guild?.info,
-			state.guild?.notice,
-			state.guild?.positions,
-			state.guild?.relations,
-			state.guild?.history,
-			state.guildSkills
+			state.guild?.notice
 		]);
 		if (key === lastKey) return;
 		lastKey = key;
@@ -373080,29 +373052,17 @@ function createSocialPanel(body, service, whisper) {
 			detail.append(memberSummary(member, type, isSelf));
 			const chat = button("私聊", () => whisper(name));
 			chat.disabled = !state.allowed || isSelf;
-			(type === "guild" ? detail : $(".social-footer-actions")).append(chat);
+			$(".social-footer-actions").append(chat);
 			if (type === "friends") form("删除好友", [], () => act("removeFriend", member), true);
 			else if (type === "party") {
 				if (state.leader && member.AID !== state.self.AID) {
 					form("转交队长", [], () => act("leadParty", member), true);
 					form("移出队伍", [], () => act("expelParty", member), true);
 				}
-			} else {
-				if (state.master && !isSelf) form("设置职位", [[
-					"position",
-					"公会职位",
-					"",
-					member.GPositionID,
-					(state.guild.positions || []).map((p) => [p.positionID, p.posName])
-				]], (values) => act("guildPosition", {
-					...member,
-					position: Number(values.position)
-				}), true);
-				if ((state.master || state.rights & 16) && member.AID !== state.self.AID) form("移出公会", [["reason", "移出原因"]], (values) => act("expelGuild", {
-					...member,
-					...values
-				}), true);
-			}
+			} else if ((state.master || state.rights & 16) && member.AID !== state.self.AID) form("移出公会", [["reason", "移出原因"]], (values) => act("expelGuild", {
+				...member,
+				...values
+			}), true);
 			syncFooter();
 			return;
 		}
@@ -373144,117 +373104,65 @@ function createSocialPanel(body, service, whisper) {
 				form("创建公会", [["name", "公会名"]], (values) => act("createGuild", values), true);
 				return;
 			}
-			const skillGroup = document.createElement("details"), summary = document.createElement("summary");
-			summary.textContent = `公会技能 · 剩余点数 ${state.guild.points}`;
-			skillGroup.append(summary);
-			detail.append(skillGroup);
-			for (const skill of state.guildSkills) {
-				skillGroup.append(paragraph(`${skill.name} Lv.${skill.level}`), paragraph(skill.description));
-				if (skill.learnable) skillGroup.append(form(`学习 ${skill.name} 一级`, [], () => act("learnGuildSkill", {
-					id: skill.SKID,
-					level: skill.level + 1
-				}), true));
-				if (state.master && skill.active) skillGroup.append(form(`设置 ${skill.name} 快捷槽`, [[
-					"level",
-					`${skill.name} 施放等级`,
-					"number",
-					skill.level
-				], [
-					"slot",
-					`${skill.name} 快捷槽`,
-					"",
-					0,
-					Array.from({ length: 36 }, (_, index) => [index, `${index + 1}：${service.shortcutName(index)}`])
-				]], (values) => act("bindGuildSkill", {
-					id: skill.SKID,
-					level: Number(values.level),
-					slot: Number(values.slot)
-				}), true));
+			const info = state.guild.info;
+			const overview = document.createElement("section");
+			overview.className = "social-guild-overview";
+			const heading = document.createElement("h3");
+			heading.className = "social-party-heading";
+			heading.textContent = state.guildName;
+			overview.append(heading);
+			if (info) {
+				const facts = document.createElement("div");
+				facts.className = "social-guild-labels";
+				for (const [label, value] of [
+					["等级", `Lv.${info.level}`],
+					["会长", info.masterName],
+					["成员", `${info.userNum}/${info.maxUserNum}`]
+				]) {
+					const row = document.createElement("span"), term = document.createElement("span"), description = document.createElement("span");
+					row.className = "social-guild-label";
+					term.className = "social-guild-label-name";
+					description.className = "social-guild-label-value";
+					term.textContent = label;
+					description.textContent = value;
+					row.append(term, description);
+					facts.append(row);
+				}
+				overview.append(facts);
+			} else overview.append(paragraph("正在获取公会信息"));
+			detail.append(overview);
+			if (!state.master) {
+				const notice = document.createElement("section");
+				notice.className = "social-guild-notice";
+				const title = document.createElement("h4");
+				title.textContent = state.guild.notice.subject || "公会公告";
+				notice.append(title, paragraph(state.guild.notice.notice || "暂无公告"));
+				detail.append(notice);
 			}
-			if (state.master) {
-				const upload = document.createElement("form");
-				upload.className = "social-form menu-form-row";
-				const file = createMenuField();
-				file.type = "file";
-				file.accept = ".bmp,.gif,image/bmp,image/gif";
-				file.setAttribute("aria-label", "公会徽章文件");
-				const send = document.createElement("button");
-				send.type = "submit";
-				send.textContent = "上传徽章";
-				upload.append(paragraph("徽章：BMP 不超过 1783 字节、24 位或以下；GIF 不超过 50 KB"), file, send);
-				upload.onsubmit = (event) => {
-					event.preventDefault();
-					const selectedFile = file.files[0];
-					if (!selectedFile) {
-						status("请选择徽章文件", "error");
-						return;
-					}
-					confirmAction(upload, `确认上传徽章「${selectedFile.name}」？`, async () => {
-						send.disabled = true;
-						try {
-							const result = await service.uploadEmblem(selectedFile);
-							status(result, result === "已请求上传徽章，结果以服务器回复为准" ? "pending" : "error");
-						} catch {
-							status("无法读取徽章文件，请重新选择", "error");
-						} finally {
-							send.disabled = false;
+			if (state.master || state.rights & 1) {
+				const invite = button("邀请入会", () => {
+					const guildName = state.guildName;
+					const field = createMenuField();
+					field.placeholder = "输入附近角色名";
+					field.required = true;
+					field.maxLength = SOCIAL_TEXT_LIMITS.name;
+					field.autocomplete = "off";
+					requestMobileInput(body.getRootNode().host, {
+						field,
+						title: "邀请入会",
+						doneLabel: "邀请",
+						validate: (value) => !value.trim() ? "请输入角色名" : validateSocialText({ name: value.trim() }),
+						onConfirm: (value) => {
+							if (!overview.isConnected || service.snapshot().guildName !== guildName) return;
+							act("inviteGuild", { name: value.trim() });
 						}
 					});
-				};
-				detail.append(upload);
-			}
-			const info = state.guild.info;
-			const emblemImage = document.createElement("img");
-			emblemImage.dataset.guildEmblem = "";
-			emblemImage.alt = "公会徽章";
-			emblemImage.width = emblemImage.height = 48;
-			emblemImage.hidden = !state.guild.emblem;
-			if (state.guild.emblem) emblemImage.src = state.guild.emblem;
-			detail.append(emblemImage);
-			detail.append(paragraph(state.guildName), paragraph(info ? `Lv.${info.level} · 会长：${info.masterName} · 成员：${info.userNum}/${info.maxUserNum}` : "正在获取公会信息"), paragraph(state.guild.notice.subject), paragraph(state.guild.notice.notice));
-			for (const relation of state.guild.relations) {
-				detail.append(paragraph(`${relation.relation === 0 ? "同盟" : "敌对"}：${relation.guildName}`));
-				if (state.master) form(`解除与 ${relation.guildName} 的关系`, [], () => act("removeGuildRelation", relation), true);
+				});
+				invite.disabled = !state.allowed;
+				$(".social-footer-actions").append(invite);
 			}
 			if (state.master) {
-				form("申请同盟", [["name", "附近其他公会角色名"]], (values) => act("guildAlliance", values), true);
-				form("设为敌对", [["name", "附近敌对角色名"]], (values) => act("guildHostility", values), true);
-				for (const position of state.guild.positions) form(`保存职位 ${position.positionID}`, [
-					[
-						"name",
-						`职位 ${position.positionID} 名称`,
-						"text",
-						position.posName
-					],
-					[
-						"tax",
-						`职位 ${position.positionID} 经验税率（0–50）`,
-						"number",
-						position.payRate
-					],
-					[
-						"right",
-						`职位 ${position.positionID} 权限`,
-						"",
-						position.right & 17,
-						[
-							[0, "无管理权限"],
-							[1, "邀请成员"],
-							[16, "移出成员"],
-							[17, "邀请和移出成员"]
-						]
-					]
-				], (values) => act("editGuildPosition", {
-					...values,
-					position: position.positionID,
-					tax: Number(values.tax),
-					right: Number(values.right)
-				}), true);
-			}
-			for (const entry of state.guild.history) detail.append(paragraph(`移出记录：${entry.charname} · ${entry.reason}`));
-			if (state.master || state.rights & 1) form("邀请入会", [["name", "附近角色名"]], (values) => act("inviteGuild", values));
-			if (state.master) {
-				form("修改公告", [[
+				form("保存公告", [[
 					"subject",
 					"公告标题",
 					"text",
@@ -373264,9 +373172,27 @@ function createSocialPanel(body, service, whisper) {
 					"公告内容",
 					"textarea",
 					state.guild.notice.notice
-				]], (values) => act("guildNotice", values), true);
-				form("解散公会", [["name", "输入完整公会名称"]], (values) => act("breakGuild", values), true);
-			} else form("退出公会", [["reason", "离会原因"]], (values) => act("leaveGuild", values), true);
+				]], (values) => act("guildNotice", values), true, false, true).classList.add("social-guild-notice-editor");
+				const dissolve = button("解散公会", () => {
+					const guildName = state.guildName;
+					const content = document.createElement("div");
+					content.className = "social-form";
+					const name = createMenuField();
+					name.required = true;
+					name.placeholder = "输入完整公会名称";
+					name.setAttribute("aria-label", "输入完整公会名称");
+					const validate = () => name.setCustomValidity(name.value.trim() === guildName ? "" : "请输入完整公会名称");
+					name.oninput = validate;
+					validate();
+					content.append(name);
+					confirmAction(overview, `解散公会「${guildName}」？请输入完整名称确认，此操作不会保存公告。`, () => {
+						if (service.snapshot().guildName !== guildName) return status("公会已变化，请重新打开菜单", "error");
+						act("breakGuild", { name: name.value });
+					}, { content });
+				});
+				dissolve.disabled = !state.allowed;
+				$(".social-footer-actions").append(dissolve);
+			} else form("退出公会", [["reason", "离会原因"]], (values) => act("leaveGuild", values), true, false, true);
 		}
 		syncFooter();
 	}
@@ -373297,6 +373223,7 @@ function createSocialPanel(body, service, whisper) {
 }
 var init_SocialPanel = __esmMin((() => {
 	init_DBManager();
+	init_MobileInputEditor();
 	init_MenuFormControls();
 	init_SocialText$1();
 	init_Confirmation();
