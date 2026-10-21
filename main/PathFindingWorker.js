@@ -1,5 +1,5 @@
 (function() {
-	//#region src/UI/Components/Navigation/PathFindingWorker.js
+	// src/UI/Components/Navigation/PathFindingWorker.js
 	/**
 	* UI/Components/Navigation/PathfindingWorker.js
 	*
@@ -168,5 +168,4 @@
 			}
 		}
 	};
-	//#endregion
 })();
