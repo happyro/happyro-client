@@ -263797,11 +263797,11 @@ function validateSocialText(fields) {
 		if (value.includes("\0")) return `${labels$4[field]}不能包含空字符`;
 		if (field === "name" && !value.trim()) return "请输入名称";
 		const limit = SOCIAL_TEXT_LIMITS[field];
-		if (encoder.encode(value).length > limit) return `${labels$4[field]}过长（最多 ${limit} 字节，汉字通常占 3 字节）`;
+		if (encoder$1.encode(value).length > limit) return `${labels$4[field]}过长（最多 ${limit} 字节，汉字通常占 3 字节）`;
 	}
 	return "";
 }
-var SOCIAL_TEXT_LIMITS, labels$4, encoder;
+var SOCIAL_TEXT_LIMITS, labels$4, encoder$1;
 var init_SocialText$1 = __esmMin((() => {
 	SOCIAL_TEXT_LIMITS = {
 		name: 23,
@@ -263815,7 +263815,7 @@ var init_SocialText$1 = __esmMin((() => {
 		notice: "公告内容",
 		reason: "原因"
 	};
-	encoder = new TextEncoder();
+	encoder$1 = new TextEncoder();
 }));
 //#endregion
 //#region src/Engine/MapEngine/SocialText.js
@@ -365788,6 +365788,35 @@ var init_GameSession = __esmMin((() => {
 	GameSession_default = createGameSession();
 }));
 //#endregion
+//#region src/Engine/Auth/RegistrationValidation.js
+function registrationError(username, password) {
+	if (!/_[mf]$/i.test(username)) return null;
+	const accountLength = encoder.encode(username.slice(0, -2)).length;
+	if (accountLength < 6) return "账号过短";
+	if (accountLength > 21) return "账号过长";
+	const passwordLength = encoder.encode(password).length;
+	if (passwordLength < 6) return "密码过短";
+	if (passwordLength > 23) return "密码过长";
+	return null;
+}
+function registrationServerError(code) {
+	return serverErrors.get(code);
+}
+var encoder, serverErrors;
+var init_RegistrationValidation = __esmMin((() => {
+	encoder = new TextEncoder();
+	serverErrors = /* @__PURE__ */ new Map([
+		[200, "账号过短"],
+		[201, "密码过短"],
+		[202, "账号已存在"],
+		[203, "注册过于频繁"],
+		[204, "账号保存失败"],
+		[205, "未开放注册"],
+		[206, "不支持当前密码加密方式"],
+		[207, "性别后缀无效"]
+	]);
+}));
+//#endregion
 //#region src/Engine/Recovery/RecoveryController.js
 /** In-memory recovery intent. No credentials, packets or game state are retained. */
 function createRecoveryController({ probe, close, capture, present, login, restore, setTimer = setTimeout, clearTimer = clearTimeout, visible = () => true }) {
@@ -404008,7 +404037,7 @@ function createWinLogin({ name, htmlText, cssText }) {
 		if (url) UIManager.showPromptBox(DB.getMessage(662), "ok", "cancel", () => {
 			window.open(url);
 		}, null);
-		else UIManager.showPromptBox("自动注册：\n1. 在账号名末尾添加 _M（男）或 _F（女）\n2. 输入要设置的密码后登录\n3. 例如：happyro_M", "ok", "cancel", null, null, true);
+		else UIManager.showPromptBox("自动注册：\n1. 在账号名末尾添加 _M（男）或 _F（女）\n2. 建议账号使用 6～21 位英文字母或数字，密码使用 6～23 位英文字母、数字或符号\n3. 输入要设置的密码后登录，例如：happyro_M", "ok", "cancel", null, null, true);
 	}
 	Component.onConnectionRequest = function onConnectionRequest() {};
 	Component.onExitRequest = function onExitRequest() {};
@@ -404120,6 +404149,13 @@ async function resumeSession() {
 * @param {string} password
 */
 function onConnectionRequest(username, password, persistent = false, ticket = null) {
+	if (!ticket) {
+		const error = registrationError(username, password);
+		if (error) {
+			UIManager.showMessageBox(error, "ok", null, true);
+			return;
+		}
+	}
 	++authGeneration;
 	sessionTicketLogin = !!ticket;
 	keepLogin = persistent;
@@ -404459,6 +404495,7 @@ function onConnectionRefused(pkt) {
 	sessionTicketLogin = false;
 	loading.remove();
 	let error = 9;
+	let message = registrationServerError(pkt.ErrorCode);
 	switch (pkt.ErrorCode) {
 		case 0:
 			error = 6;
@@ -404644,9 +404681,12 @@ function onConnectionRefused(pkt) {
 		case 5300:
 			error = 3534;
 			break;
-		case 5301: error = 3539;
+		case 5301:
+			error = 3539;
+			break;
+		default: message ||= `未知错误（错误码：${pkt.ErrorCode}）`;
 	}
-	UIManager.showMessageBox(DB.getMessage(error).replace("%s", pkt.blockDate), "ok", () => {
+	UIManager.showMessageBox(message || DB.getMessage(error).replace("%s", pkt.blockDate), "ok", () => {
 		UIManager.removeComponents();
 		Controller.getUI().append();
 	}, true);
@@ -404762,6 +404802,7 @@ var _server, _charServers, _loginID, authGeneration, sessionTicketLogin, keepLog
 var init_LoginEngine = __esmMin((() => {
 	init_Toast();
 	init_GameSession();
+	init_RegistrationValidation();
 	init_GameRecovery();
 	init_CodepageManager();
 	init_DBManager();
@@ -405693,7 +405734,7 @@ var init_ConsoleManager = __esmMin((() => {
 //#region src/UI/Mobile/WinLogin/WinLogin.html?raw
 var WinLogin_default$2;
 var init_WinLogin$2 = __esmMin((() => {
-	WinLogin_default$2 = "<div class=\"m-login\">\r\n	<div class=\"m-login__card\">\r\n		<h1 class=\"m-login__title\">HappyRO</h1>\r\n		<form class=\"m-login__form\" autocomplete=\"on\" onsubmit=\"return false\">\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-user\">账号</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-user\"\r\n					name=\"username\"\r\n					type=\"text\"\r\n					autocomplete=\"username\"\r\n					inputmode=\"text\"\r\n					enterkeyhint=\"next\"\r\n					placeholder=\"请输入账号\"\r\n				/>\r\n			</div>\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-pass\">密码</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-pass\"\r\n					name=\"password\"\r\n					type=\"password\"\r\n					autocomplete=\"current-password\"\r\n					enterkeyhint=\"go\"\r\n					placeholder=\"请输入密码\"\r\n				/>\r\n			</div>\r\n			<button\r\n				class=\"m-login__save\"\r\n				type=\"button\"\r\n				role=\"checkbox\"\r\n				aria-checked=\"false\"\r\n				aria-label=\"保持登录\"\r\n			>\r\n				<span class=\"m-login__check\" aria-hidden=\"true\"></span>\r\n				保持登录\r\n			</button>\r\n		</form>\r\n		<div class=\"m-login__actions\">\r\n			<button class=\"m-login__btn m-login__btn--primary m-login__connect\" type=\"button\">登录</button>\r\n			<button class=\"m-login__btn m-login__btn--secondary m-login__signup\" type=\"button\">注册</button>\r\n		</div>\r\n	</div>\r\n</div>\r\n\r\n<dialog class=\"m-signup\" aria-labelledby=\"m-signup-title\" aria-describedby=\"m-signup-description\">\r\n	<h2 id=\"m-signup-title\">注册账号</h2>\r\n	<div id=\"m-signup-description\">\r\n		<div class=\"m-signup__automatic\">\r\n			<p>在登录页即可创建账号：</p>\r\n			<ol>\r\n				<li>账号末尾加 <strong>_M</strong>（男）或 <strong>_F</strong>（女）。</li>\r\n				<li>输入要设置的密码，点击「登录」。</li>\r\n			</ol>\r\n			<p class=\"m-signup__example\">例如：<strong>happyro_M</strong><br>下次登录使用 <strong>happyro</strong> 即可。</p>\r\n		</div>\r\n		<p class=\"m-signup__external\" hidden>即将在新页面打开账号注册。</p>\r\n	</div>\r\n	<div class=\"m-signup__actions\">\r\n		<button class=\"m-login__btn m-login__btn--secondary m-signup__cancel\" type=\"button\">取消</button>\r\n		<button class=\"m-login__btn m-login__btn--primary m-signup__confirm\" type=\"button\" autofocus>知道了</button>\r\n	</div>\r\n</dialog>\r\n";
+	WinLogin_default$2 = "<div class=\"m-login\">\r\n	<div class=\"m-login__card\">\r\n		<h1 class=\"m-login__title\">HappyRO</h1>\r\n		<form class=\"m-login__form\" autocomplete=\"on\" onsubmit=\"return false\">\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-user\">账号</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-user\"\r\n					name=\"username\"\r\n					type=\"text\"\r\n					autocomplete=\"username\"\r\n					inputmode=\"text\"\r\n					enterkeyhint=\"next\"\r\n					placeholder=\"请输入账号\"\r\n				/>\r\n			</div>\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-pass\">密码</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-pass\"\r\n					name=\"password\"\r\n					type=\"password\"\r\n					autocomplete=\"current-password\"\r\n					enterkeyhint=\"go\"\r\n					placeholder=\"请输入密码\"\r\n				/>\r\n			</div>\r\n			<button\r\n				class=\"m-login__save\"\r\n				type=\"button\"\r\n				role=\"checkbox\"\r\n				aria-checked=\"false\"\r\n				aria-label=\"保持登录\"\r\n			>\r\n				<span class=\"m-login__check\" aria-hidden=\"true\"></span>\r\n				保持登录\r\n			</button>\r\n		</form>\r\n		<div class=\"m-login__actions\">\r\n			<button class=\"m-login__btn m-login__btn--primary m-login__connect\" type=\"button\">登录</button>\r\n			<button class=\"m-login__btn m-login__btn--secondary m-login__signup\" type=\"button\">注册</button>\r\n		</div>\r\n	</div>\r\n</div>\r\n\r\n<dialog class=\"m-signup\" aria-labelledby=\"m-signup-title\" aria-describedby=\"m-signup-description\">\r\n	<h2 id=\"m-signup-title\">注册账号</h2>\r\n	<div id=\"m-signup-description\">\r\n		<div class=\"m-signup__automatic\">\r\n			<p>在登录页即可创建账号：</p>\r\n			<ol>\r\n				<li>账号末尾加 <strong>_M</strong>（男）或 <strong>_F</strong>（女）。</li>\r\n				<li>建议账号使用 6～21 位英文字母或数字，密码使用 6～23 位英文字母、数字或符号。</li>\r\n				<li>输入要设置的密码，点击「登录」。</li>\r\n			</ol>\r\n			<p class=\"m-signup__example\">例如：<strong>happyro_M</strong><br>下次登录使用 <strong>happyro</strong> 即可。</p>\r\n		</div>\r\n		<p class=\"m-signup__external\" hidden>即将在新页面打开账号注册。</p>\r\n	</div>\r\n	<div class=\"m-signup__actions\">\r\n		<button class=\"m-login__btn m-login__btn--secondary m-signup__cancel\" type=\"button\">取消</button>\r\n		<button class=\"m-login__btn m-login__btn--primary m-signup__confirm\" type=\"button\" autofocus>知道了</button>\r\n	</div>\r\n</dialog>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/WinLogin/WinLogin.css?raw
