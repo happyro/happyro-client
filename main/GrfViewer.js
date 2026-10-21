@@ -79085,8 +79085,8 @@ function applyColorCodes(text) {
 	let hasOpenSpan = false;
 	const html = String(text ?? "").replace(/\^([0-9a-fA-F]{6})/g, (_, color) => {
 		const close = hasOpenSpan ? "</span>" : "";
-		hasOpenSpan = true;
-		return `${close}<span style="color:#${color}">`;
+		hasOpenSpan = color !== "000000";
+		return hasOpenSpan ? `${close}<span style="color:#${color}">` : close;
 	});
 	return hasOpenSpan ? `${html}</span>` : html;
 }
@@ -79127,7 +79127,7 @@ function formatNPCMarkup(value) {
 		}
 		return `<${tag}${safeAttributes}>`;
 	});
-	return formatRagnarokMarkup(value, formatText).replace(/style="color:#000000"/g, "style=\"color:inherit\"");
+	return formatRagnarokMarkup(value, formatText);
 }
 var init_RagnarokText = __esmMin((() => {}));
 //#endregion
@@ -254581,6 +254581,105 @@ var init_ChatRoomCreate$1 = __esmMin((() => {
 	ChatRoomCreate_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#ChatRoomCreate {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n}\r\n#ChatRoomCreate table {\r\n	border-spacing: 0px 2px;\r\n	display: inline-block;\r\n}\r\n\r\n#ChatRoomCreate .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#ChatRoomCreate .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#ChatRoomCreate .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#ChatRoomCreate .titlebar .left {\r\n	margin-left: 8px;\r\n	float: left;\r\n}\r\n#ChatRoomCreate .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#ChatRoomCreate .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#ChatRoomCreate .panel {\r\n	background: white;\r\n}\r\n\r\n#ChatRoomCreate select {\r\n	height: 20px;\r\n	border: 1px solid #ccc;\r\n}\r\n#ChatRoomCreate input {\r\n	height: 14px;\r\n	border: 1px solid #ccc;\r\n	background-color: #f5f5f5;\r\n}\r\n#ChatRoomCreate .container {\r\n	padding-left: 7px;\r\n	padding-top: 5px;\r\n	width: 266px;\r\n}\r\n#ChatRoomCreate .container .title {\r\n	height: 16px;\r\n	width: 198px;\r\n	padding-left: 5px;\r\n}\r\n#ChatRoomCreate .container .limit,\r\n#ChatRoomCreate .container .password {\r\n	width: 58px;\r\n	padding-left: 5px;\r\n}\r\n#ChatRoomCreate .container .type {\r\n	width: 110px;\r\n}\r\n#ChatRoomCreate .head {\r\n	color: #0f4b8c;\r\n	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);\r\n	text-align: right;\r\n	width: 40px;\r\n	white-space: nowrap;\r\n}\r\n#ChatRoomCreate .mode {\r\n	white-space: nowrap;\r\n}\r\n#ChatRoomCreate .mode span {\r\n	overflow: hidden;\r\n	display: inline-block;\r\n	white-space: nowrap;\r\n}\r\n\r\n#ChatRoomCreate .footer {\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	text-align: right;\r\n	padding-top: 5px;\r\n	padding-right: 3px;\r\n	border-bottom-left-radius: 8px;\r\n	border-bottom-right-radius: 8px;\r\n}\r\n#ChatRoomCreate .footer button {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	margin-left: 2px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
 }));
 //#endregion
+//#region src/Utils/ReadableText.js
+function contrastRatio(a, b) {
+	const luminance = (channels) => channels.slice(0, 3).map((c) => {
+		c /= 255;
+		return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4;
+	}).reduce((sum, c, i) => sum + c * [
+		.2126,
+		.7152,
+		.0722
+	][i], 0);
+	const x = luminance(a), y = luminance(b);
+	return (Math.max(x, y) + .05) / (Math.min(x, y) + .05);
+}
+/** Mix toward white/black only as far as necessary, retaining the RGB hue. */
+function readableColor(color, background) {
+	const key = `${color}|${background}`;
+	if (cache$1.has(key)) return cache$1.get(key);
+	let result = color.slice(0, 3);
+	if (contrastRatio(result, background) < 4.5) {
+		const end = contrastRatio([
+			255,
+			255,
+			255
+		], background) >= contrastRatio([
+			0,
+			0,
+			0
+		], background) ? 255 : 0;
+		const mix = (amount) => color.slice(0, 3).map((c) => c + (end - c) * amount);
+		let low = 0, high = 1;
+		for (let i = 0; i < 24; i++) {
+			const mid = (low + high) / 2;
+			if (contrastRatio(mix(mid), background) < 4.5) low = mid;
+			else high = mid;
+		}
+		result = mix(high).map((c) => end === 255 ? Math.ceil(c) : Math.floor(c));
+	}
+	if (cache$1.size >= 512) cache$1.clear();
+	cache$1.set(key, result);
+	return result;
+}
+function rgb(value) {
+	const values = value.match(/[\d.]+/g)?.map(Number);
+	return values?.length >= 3 ? [...values.slice(0, 3), values[3] ?? 1] : [
+		0,
+		0,
+		0,
+		0
+	];
+}
+function parent(element) {
+	return element.parentElement || element.getRootNode().host;
+}
+function backgroundAt(element) {
+	const layers = [];
+	for (let node = element; node; node = parent(node)) {
+		const color = rgb(getComputedStyle(node).backgroundColor);
+		layers.push(color);
+		if (color[3] === 1) break;
+	}
+	return layers.reverse().reduce((under, layer) => under.map((c, i) => layer[i] * layer[3] + c * (1 - layer[3])), [
+		255,
+		255,
+		255
+	]);
+}
+function adapt(element, source) {
+	const background = backgroundAt(element);
+	const result = readableColor(source.slice(0, 3).map((c, i) => c * source[3] + background[i] * (1 - source[3])), background);
+	element.style.color = `rgb(${result.join(", ")})`;
+}
+function ensureReadableText(container) {
+	if (!container.isConnected) return;
+	for (const element of container.querySelectorAll("[style*=\"color\"], font[color], .item-link, .navi-link")) {
+		if (element.style.color === "inherit") continue;
+		if (!originalColors.has(element)) {
+			originalColors.set(element, rgb(getComputedStyle(element).color));
+			if (element.matches(".item-link, .navi-link")) {
+				const refresh = () => {
+					element.style.removeProperty("color");
+					adapt(element, rgb(getComputedStyle(element).color));
+				};
+				for (const event of [
+					"pointerenter",
+					"pointerleave",
+					"focus",
+					"blur"
+				]) element.addEventListener(event, refresh);
+			}
+		}
+		adapt(element, originalColors.get(element));
+	}
+}
+var cache$1, originalColors;
+var init_ReadableText = __esmMin((() => {
+	cache$1 = /* @__PURE__ */ new Map();
+	originalColors = /* @__PURE__ */ new WeakMap();
+}));
+//#endregion
 //#region src/UI/Elements/UIButton.js
 var UIButton;
 var init_UIButton = __esmMin((() => {
@@ -263572,14 +263671,17 @@ function cancel$2() {
 * Select an index, change background color
 */
 function selectIndex(div) {
-	NpcMenu.getRoot().querySelector(".content").querySelectorAll("div[data-index]").forEach((d) => d.classList.remove("selected"));
+	const content = NpcMenu.getRoot().querySelector(".content");
+	content.querySelectorAll("div[data-index]").forEach((d) => d.classList.remove("selected"));
 	div.classList.add("selected");
+	ensureReadableText(content);
 	_index$1 = parseInt(div.dataset.index, 10);
 }
 var NpcMenu, _index$1, _ownerID, NpcMenu_default;
 var init_NpcMenu = __esmMin((() => {
+	init_RagnarokText();
+	init_ReadableText();
 	init_KeyEventHandler();
-	init_DBManager();
 	init_Renderer();
 	init_UIManager();
 	init_GUIComponent();
@@ -263648,6 +263750,7 @@ var init_NpcMenu = __esmMin((() => {
 				divs.forEach((d) => d.classList.remove("selected"));
 				if (divs[_index$1]) {
 					divs[_index$1].classList.add("selected");
+					ensureReadableText(content);
 					divs[_index$1].scrollIntoView({ block: "nearest" });
 				}
 				break;
@@ -263658,6 +263761,7 @@ var init_NpcMenu = __esmMin((() => {
 				divs.forEach((d) => d.classList.remove("selected"));
 				if (divs[_index$1]) {
 					divs[_index$1].classList.add("selected");
+					ensureReadableText(content);
 					divs[_index$1].scrollIntoView({ block: "nearest" });
 				}
 				break;
@@ -263682,12 +263786,13 @@ var init_NpcMenu = __esmMin((() => {
 		let j = 0;
 		for (let i = 0, count = list.length; i < count; ++i) if (list[i].length) {
 			const div = document.createElement("div");
-			div.innerHTML = DB.formatMsgToHtml(_escapeHTML$4(list[i]));
+			div.innerHTML = applyColorCodes(_escapeHTML$4(list[i]));
 			div.dataset.index = j++;
 			content.appendChild(div);
 		}
 		const first = content.querySelector("div[data-index]");
 		if (first) first.classList.add("selected");
+		ensureReadableText(content);
 	};
 	/** Place NPC choices beside their visible dialogue after append restores drag position. */
 	NpcMenu.positionByDialogue = function positionByDialogue(dialogue) {
@@ -285919,16 +286024,6 @@ var init_QuestCommon = __esmMin((() => {
 //#endregion
 //#region src/UI/Components/Quest/QuestHelperCommon.js
 /**
-* Process text with color codes (^RRGGBB)
-* @param {string} text - The text to process
-* @returns {string} HTML with color spans
-*/
-function processColorCodes$1(text) {
-	if (!text) return "";
-	text = String(text);
-	return text.replace(/\^([0-9A-Fa-f]{6})/g, (match, color) => `<span style="color:#${color}">`).replace(/\^000000/g, "</span>");
-}
-/**
 * Process item tags in text (<ITEM>Name<INFO>ID</INFO></ITEM>)
 * @param {string} text - The text to process
 * @returns {string} HTML with processed item tags
@@ -285961,7 +286056,7 @@ function processText$1(text) {
 	if (!text) return "";
 	text = processItemTags$1(text);
 	text = processNAVITags$1(text);
-	text = processColorCodes$1(text);
+	text = applyColorCodes(text);
 	return text;
 }
 /**
@@ -286098,6 +286193,7 @@ function createQuestHelper(config) {
 			const deadlineEl = root.querySelector(".quest-info-bottom-deadline-info-text");
 			if (deadlineEl) deadlineEl.textContent = `截止时间 [${d.toLocaleString()}]`;
 		}
+		ensureReadableText(root);
 	} : function setQuestInfo(quest) {
 		const root = QuestHelper.getRoot();
 		if (!root) return;
@@ -286124,6 +286220,7 @@ function createQuestHelper(config) {
 		if (monsterEl) monsterEl.innerHTML = list;
 		const selectEl = root.querySelector(".monster-select");
 		if (selectEl) selectEl.addEventListener("change", (e) => onSelectMonster(e));
+		ensureReadableText(root);
 	};
 	QuestHelper.clearQuestDesc = renewLayout ? function clearQuestDesc() {
 		const root = QuestHelper.getRoot();
@@ -286199,6 +286296,8 @@ function createQuestHelper(config) {
 	return UIManager.addComponent(QuestHelper);
 }
 var init_QuestHelperCommon = __esmMin((() => {
+	init_RagnarokText();
+	init_ReadableText();
 	init_DBManager();
 	init_Client();
 	init_Preferences$1();
@@ -300494,23 +300593,13 @@ function processItemTags(text) {
 	});
 }
 /**
-* Process color codes in text (^RRGGBB)
-*/
-function processColorCodes(text) {
-	if (!text) return "";
-	text = String(text);
-	return text.replace(/\^([0-9A-Fa-f]{6})/g, (match, color) => {
-		return `<span style="color:#${color}">`;
-	}).replace(/\^000000/g, "</span>");
-}
-/**
 * Process all text formatting
 */
 function processText(text) {
 	if (!text) return "";
 	text = processItemTags(text);
 	text = processNAVITags(text);
-	text = processColorCodes(text);
+	text = applyColorCodes(text);
 	return text;
 }
 function _isVisible$1(el) {
@@ -300518,6 +300607,8 @@ function _isVisible$1(el) {
 }
 var NpcBox, _needCleanUp, NpcBox_default;
 var init_NpcBox = __esmMin((() => {
+	init_RagnarokText();
+	init_ReadableText();
 	init_KeyEventHandler();
 	init_Renderer();
 	init_UIManager();
@@ -300655,6 +300746,7 @@ var init_NpcBox = __esmMin((() => {
 		const div = document.createElement("div");
 		div.innerHTML = processText(text);
 		content.appendChild(div);
+		ensureReadableText(div);
 	};
 	/**
 	* Add next button
@@ -374438,6 +374530,7 @@ function createNPCPanel(body, state) {
 	const footer = document.createElement("div");
 	footer.className = "npc-actions menu-footer";
 	body.append(content, footer);
+	ensureReadableText(text);
 	updateNPCCutin(body, state);
 	function button(parent, label, respond) {
 		const node = document.createElement("button");
@@ -374510,6 +374603,7 @@ function updateNPCCutin(body, state) {
 	if (image.getAttribute("src") !== state.image) image.src = state.image;
 }
 var init_NPCPanel = __esmMin((() => {
+	init_ReadableText();
 	init_MenuFormControls();
 	init_NpcNameTable();
 	init_RagnarokText();
