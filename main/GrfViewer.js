@@ -283163,7 +283163,7 @@ var init_AdventureControlService = __esmMin((() => {
 // src/UI/Components/ConfirmationDesktop.css?raw
 var ConfirmationDesktop_default;
 var init_ConfirmationDesktop = __esmMin((() => {
-	ConfirmationDesktop_default = "/* Preserve the original adventure-tool confirmation card independently of mobile menus. */\r\n.ui-confirm {\r\n	position: fixed;\r\n	inset: auto;\r\n	left: var(--confirm-center-x);\r\n	top: var(--confirm-center-y);\r\n	transform: translate(-50%, -50%);\r\n	margin: 0;\r\n	width: min(360px, calc(var(--confirm-max-width, 100vw) - 40px));\r\n	max-height: calc(var(--confirm-max-height, 100dvh) - 40px);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	background: #fff;\r\n	color: #202225;\r\n	border: 1px solid #8b929a;\r\n	border-radius: 0;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: rgb(0 0 0 / 55%);\r\n	clip-path: var(--confirm-owner-clip);\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.ui-confirm .ui-confirm-field input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n";
+	ConfirmationDesktop_default = "/* Preserve the original adventure-tool confirmation card independently of mobile menus. */\r\n.ui-confirm {\r\n	position: fixed;\r\n	inset: auto;\r\n	left: var(--confirm-center-x);\r\n	top: var(--confirm-center-y);\r\n	transform: translate(-50%, -50%);\r\n	margin: 0;\r\n	width: min(360px, calc(var(--confirm-max-width, 100vw) - 40px));\r\n	max-height: calc(var(--confirm-max-height, 100dvh) - 40px);\r\n	overflow: auto;\r\n	box-sizing: border-box;\r\n	padding: 18px;\r\n	background: #fff;\r\n	color: #202225;\r\n	border: 1px solid #8b929a;\r\n	border-radius: 0;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n	font:\r\n		12px/1.5 Arial,\r\n		sans-serif;\r\n}\r\n.ui-confirm::backdrop {\r\n	background: rgb(0 0 0 / 55%);\r\n	clip-path: var(--confirm-owner-clip);\r\n}\r\n.ui-confirm-body > p {\r\n	margin: 0 0 16px;\r\n	white-space: pre-wrap;\r\n	overflow-wrap: anywhere;\r\n}\r\n.ui-confirm-body > p:focus {\r\n	outline: none;\r\n}\r\n.ui-confirm .ui-confirm-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.ui-confirm .ui-confirm-actions button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.ui-confirm .ui-confirm-field {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.ui-confirm .ui-confirm-field input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.ui-confirm .game-tools-number-label {\r\n	display: none;\r\n}\r\n\r\n.ui-confirm .quantity-stepper {\r\n	--quantity-control-height: 30px;\r\n	margin-bottom: 16px;\r\n}\r\n.ui-confirm .quantity-stepper .quantity-stepper-control:is(input, button) {\r\n	border: 1px solid #aeb2b7;\r\n	border-radius: var(--desktop-radius, 4px);\r\n	color: #202225;\r\n	font-size: 12px;\r\n	background: #f4f5f6;\r\n}\r\n.ui-confirm .quantity-stepper .quantity-stepper-control:is(input) {\r\n	background: #fff;\r\n}\r\n.ui-confirm .quantity-stepper .quantity-stepper-control:focus-visible {\r\n	outline: 2px solid #6d7f98;\r\n	outline-offset: 1px;\r\n}\r\n\r\n.ui-confirm .quantity-stepper .quantity-stepper-control:is(button) {\r\n	border-radius: var(--desktop-radius, 4px);\r\n	width: auto;\r\n	min-width: 30px;\r\n	padding-inline: 5px;\r\n}\r\n\r\n.ui-confirm:has(.quantity-stepper) .ui-confirm-actions button {\r\n	border-radius: var(--desktop-radius, 4px);\r\n}\r\n";
 }));
 // src/UI/Components/Confirmation.js
 /** Modal confirmation shared by menus and adventure tools. Returns a cancellation function. */
@@ -289077,14 +289077,19 @@ var init_NpcCatalogTab = __esmMin((() => {
 // src/UI/Components/QuantityStepper.css?raw
 var QuantityStepper_default;
 var init_QuantityStepper$1 = __esmMin((() => {
-	QuantityStepper_default = ".quantity-stepper {\r\n	--quantity-control-height: var(--panel-control, 36px);\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-width: 0;\r\n}\r\n.quantity-stepper-buttons { display: flex; gap: 4px; }\r\n.quantity-stepper .quantity-stepper-control:is(input, button),\r\n:host([data-menu-density]) .quantity-stepper .quantity-stepper-control:is(input, button) {\r\n	box-sizing: border-box;\r\n	flex: none;\r\n	height: var(--quantity-control-height);\r\n	min-height: var(--quantity-control-height);\r\n	max-height: var(--quantity-control-height);\r\n	margin: 0;\r\n	padding: 0 4px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	color: #f5f2e9;\r\n	font: 16px/1.2 Arial, sans-serif;\r\n	text-align: center;\r\n}\r\n.quantity-stepper .quantity-stepper-control:is(button),\r\n:host([data-menu-density]) .quantity-stepper .quantity-stepper-control:is(button) {\r\n	width: var(--quantity-control-height);\r\n	min-width: 30px;\r\n	font-size: 12px;\r\n	background: #394753;\r\n	cursor: pointer;\r\n}\r\n.quantity-stepper .quantity-stepper-control:is(input),\r\n:host([data-menu-density]) .quantity-stepper .quantity-stepper-control:is(input) {\r\n	width: 100%;\r\n	min-width: 0;\r\n	background: #25313b;\r\n	appearance: textfield;\r\n	-moz-appearance: textfield;\r\n}\r\n.quantity-stepper input::-webkit-inner-spin-button,\r\n.quantity-stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }\r\n.quantity-stepper button:disabled { opacity: .45; cursor: default; }\r\n.quantity-stepper .quantity-stepper-control:focus-visible { outline: 2px solid #ceaa70; outline-offset: 2px; }\r\n";
+	QuantityStepper_default = ".quantity-stepper {\r\n	--quantity-control-height: var(--panel-control, 36px);\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-width: 0;\r\n}\r\n.quantity-stepper-buttons { display: flex; gap: 4px; }\r\n.quantity-stepper .quantity-stepper-control:is(input, button),\r\n:host([data-menu-density]) .quantity-stepper .quantity-stepper-control:is(input, button) {\r\n	box-sizing: border-box;\r\n	flex: none;\r\n	height: var(--quantity-control-height);\r\n	min-height: var(--quantity-control-height);\r\n	max-height: var(--quantity-control-height);\r\n	margin: 0;\r\n	padding: 0 4px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	color: #f5f2e9;\r\n	font: 16px/1.2 Arial, sans-serif;\r\n	text-align: center;\r\n}\r\n.quantity-stepper .quantity-stepper-control:is(button),\r\n:host([data-menu-density]) .quantity-stepper .quantity-stepper-control:is(button) {\r\n	width: auto;\r\n	min-width: var(--quantity-control-height);\r\n	font-size: 12px;\r\n	background: #394753;\r\n	cursor: pointer;\r\n}\r\n.quantity-stepper .quantity-stepper-control:is(input),\r\n:host([data-menu-density]) .quantity-stepper .quantity-stepper-control:is(input) {\r\n	width: 100%;\r\n	min-width: 0;\r\n	background: #25313b;\r\n	appearance: textfield;\r\n	-moz-appearance: textfield;\r\n}\r\n.quantity-stepper input::-webkit-inner-spin-button,\r\n.quantity-stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }\r\n.quantity-stepper button:disabled { opacity: .45; cursor: default; }\r\n.quantity-stepper .quantity-stepper-control:focus-visible { outline: 2px solid #ceaa70; outline-offset: 2px; }\r\n";
 }));
 // src/UI/Components/QuantityStepper.js
 /** Integer editor only: the caller owns confirmation, permissions and submission.
 * beforeStep can refresh live limits and return false if the operation is no longer available.
 * setBounds preserves the draft so validation can report a newly invalid quantity.
 */
-function createQuantityStepper({ label, value = 1, min = 1, max, beforeStep = () => true }) {
+function createQuantityStepper({ label, value = 1, min = 1, max, stepMin, stepButtons = [
+	-10,
+	-1,
+	1,
+	10
+].map((delta) => ({ delta })), beforeStep = () => true }) {
 	const element = document.createElement("div");
 	element.className = "quantity-stepper";
 	const style = document.createElement("style");
@@ -289104,20 +289109,15 @@ function createQuantityStepper({ label, value = 1, min = 1, max, beforeStep = ()
 	const decreases = document.createElement("div");
 	const increases = document.createElement("div");
 	decreases.className = increases.className = "quantity-stepper-buttons";
-	const buttons = [
-		-10,
-		-1,
-		1,
-		10
-	].map((delta) => {
+	const buttons = stepButtons.map(({ delta, label: buttonLabel }) => {
 		const button = document.createElement("button");
 		button.type = "button";
 		button.className = "quantity-stepper-control";
-		button.textContent = delta > 0 ? `+${delta}` : String(delta);
+		button.textContent = buttonLabel ?? (delta > 0 ? `+${delta}` : String(delta));
 		button.addEventListener("click", () => {
 			if (beforeStep() === false) return;
 			const current = Number(input.value);
-			input.value = String(Math.max(Number(input.min), Math.min(Number(input.max), (Number.isInteger(current) ? current : 0) + delta)));
+			input.value = String(Math.max(stepMin ?? Number(input.min), Math.min(Number(input.max), (Number.isInteger(current) ? current : 0) + delta)));
 			input.dispatchEvent(new Event("input", { bubbles: true }));
 		});
 		(delta < 0 ? decreases : increases).append(button);
@@ -289128,7 +289128,7 @@ function createQuantityStepper({ label, value = 1, min = 1, max, beforeStep = ()
 	});
 	function update() {
 		const current = Number(input.value);
-		for (const { button, delta } of buttons) button.disabled = delta < 0 ? current <= Number(input.min) : current >= Number(input.max);
+		for (const { button, delta } of buttons) button.disabled = delta < 0 ? current <= (stepMin ?? Number(input.min)) : current >= Number(input.max);
 	}
 	input.addEventListener("input", update);
 	element.append(style, decreases, input, increases);
@@ -289136,9 +289136,9 @@ function createQuantityStepper({ label, value = 1, min = 1, max, beforeStep = ()
 	return {
 		element,
 		input,
-		setBounds({ min, max }) {
-			input.min = String(min);
-			input.max = String(max);
+		setBounds({ min: nextMin, max: nextMax }) {
+			input.min = String(nextMin);
+			input.max = String(nextMax);
 			update();
 		}
 	};
@@ -289147,7 +289147,7 @@ var init_QuantityStepper = __esmMin((() => {
 	init_QuantityStepper$1();
 }));
 // src/UI/Components/GameTools/GameToolsNumberPrompt.js
-function requestGameToolsNumber(container, { title, label, value, min, max, steps = false }) {
+function requestGameToolsNumber(container, { title, label, value, min, max, steps = false, stepMin, stepButtons, onChange }) {
 	return new Promise((resolve) => {
 		let content, input;
 		if (steps) {
@@ -289155,7 +289155,9 @@ function requestGameToolsNumber(container, { title, label, value, min, max, step
 				label: title,
 				value,
 				min,
-				max
+				max,
+				stepMin,
+				stepButtons
 			});
 			content = stepper.element;
 			input = stepper.input;
@@ -289176,6 +289178,7 @@ function requestGameToolsNumber(container, { title, label, value, min, max, step
 			input.setAttribute("aria-label", title);
 			content.append(caption, input);
 		}
+		input.addEventListener("input", () => onChange?.(input.value));
 		input.addEventListener("keydown", (event) => {
 			if (event.key === "Enter") {
 				event.preventDefault();
@@ -289342,8 +289345,16 @@ function mount$2(container, context = {}) {
 	const assetUrls = /* @__PURE__ */ new Map();
 	const dropSources = createItemDropSources(context);
 	const availableSubtypes = /* @__PURE__ */ new Map();
+	const amounts = {
+		item: "1",
+		zeny: ""
+	};
+	const resetAmounts = () => {
+		amounts.item = "1";
+		amounts.zeny = "";
+	};
+	container.addEventListener("game-tools-close", resetAmounts);
 	let pending = null;
-	let amountValue = "1";
 	let active = true;
 	let browserApi;
 	const clearFeedback = () => browserApi?.refreshDetail();
@@ -289378,49 +289389,55 @@ function mount$2(container, context = {}) {
 		const allowed = Boolean(context.capabilities?.itemGrantAllowed);
 		const panel = document.createElement("div");
 		panel.className = "catalog-action-panel item-grant-panel";
-		panel.innerHTML = `<label class="item-grant-quantity"><span aria-hidden="true">数量</span><input aria-label="数量" class="item-grant-amount" type="number" inputmode="numeric" min="1" max="2147483647" step="1"></label><button class="zeny-grant-open" type="button">发放 Zeny</button><button class="item-grant" type="button">发放物品</button><span class="catalog-status error" role="status" aria-live="polite"></span>`;
-		const input = panel.querySelector(".item-grant-amount");
-		if (context.mobile) input.closest("label").remove();
-		input.value = amountValue;
-		input.disabled = Boolean(pending);
-		input.addEventListener("input", () => {
-			amountValue = input.value;
-		});
+		panel.innerHTML = `<button class="zeny-grant-open" type="button">发放 Zeny</button><button class="item-grant" type="button">发放物品</button><span class="catalog-status error" role="status" aria-live="polite"></span>`;
 		const zeny = panel.querySelector(".zeny-grant-open");
 		const grant = panel.querySelector(".item-grant");
 		zeny.disabled = Boolean(pending) || !allowed;
 		grant.disabled = Boolean(pending) || !allowed || !item?.grantable;
 		panel.querySelector(".catalog-status").textContent = !allowed ? "当前账号没有发放权限" : item && !item.grantable ? "该特殊物品暂不支持直接发放" : "";
-		zeny.addEventListener("click", () => void grantAmount("zeny", item, input));
-		grant.addEventListener("click", () => void grantAmount("item", item, input));
+		zeny.addEventListener("click", () => void grantAmount("zeny", item));
+		grant.addEventListener("click", () => void grantAmount("item", item));
 		detail.append(panel);
 	}
-	async function grantAmount(kind, item, input) {
+	async function grantAmount(kind, item) {
 		if (pending || !active || !context.capabilities?.itemGrantAllowed || kind === "item" && !item?.grantable) return;
-		if (!context.mobile) amountValue = input.value;
-		let amount = Number(amountValue);
 		const max = kind === "zeny" ? 2147483647 : 3e4;
-		if (!context.mobile && (!Number.isInteger(amount) || amount < 1 || amount > max)) {
-			showToast(container, `请输入 1 至 ${max} 的整数${kind === "zeny" ? "金额" : "数量"}`, "error");
-			return;
-		}
 		const name = item?.names?.["zh-CN"] || item?.names?.["en-US"] || item?.AegisName;
-		const message = kind === "zeny" ? `确认向当前角色发放 ${amount.toLocaleString()} Zeny？` : `确认向当前角色发放 ${amount} 个「${name}」到背包？`;
 		pending = kind;
 		browserApi.refreshDetail();
 		try {
-			if (context.mobile) {
-				amount = await requestGameToolsNumber(container, {
-					title: kind === "zeny" ? "发放 Zeny" : `发放「${name}」到背包`,
-					label: "数量",
-					value: Math.min(max, Math.max(1, Number(amountValue) || 1)),
-					min: 1,
-					max,
-					steps: true
-				});
-				if (amount === null || !active) return;
-				amountValue = String(amount);
-			} else if (!await requestConfirmation(container, message) || !active) return;
+			const amount = await requestGameToolsNumber(container, {
+				title: kind === "zeny" ? "向当前角色发放 Zeny" : `发放「${name}」到背包`,
+				label: kind === "zeny" ? "金额" : "数量",
+				value: amounts[kind],
+				min: 1,
+				max,
+				steps: true,
+				stepMin: kind === "zeny" ? 0 : 1,
+				stepButtons: kind === "zeny" ? [
+					{
+						delta: -1e6,
+						label: "-100万"
+					},
+					{
+						delta: -1e5,
+						label: "-10万"
+					},
+					{
+						delta: 1e5,
+						label: "+10万"
+					},
+					{
+						delta: 1e6,
+						label: "+100万"
+					}
+				] : void 0,
+				onChange: (value) => {
+					amounts[kind] = value;
+				}
+			});
+			if (amount === null || !active) return;
+			amounts[kind] = String(amount);
 			if (kind === "zeny") await grantAdventureZeny(amount);
 			else await grantAdventureItem(item.Id, amount);
 			if (active) showToast(container, kind === "zeny" ? `已发放 ${amount.toLocaleString()} Zeny` : `已发放 ${amount} 个${name}`, "success");
@@ -289547,6 +289564,7 @@ function mount$2(container, context = {}) {
 		},
 		cleanup() {
 			active = false;
+			container.removeEventListener("game-tools-close", resetAmounts);
 			dropSources.destroy();
 			container.removeEventListener("game-tools-reset-feedback", clearFeedback);
 			assetUrls.forEach((url) => URL.revokeObjectURL(url));
@@ -289565,7 +289583,6 @@ var init_ItemCatalogTab = __esmMin((() => {
 	init_AdventureControlService();
 	init_CatalogData();
 	init_RagnarokText();
-	init_Confirmation();
 	init_GameSelect();
 	init_RemoteCatalogBrowser();
 	typeNames = {
@@ -290655,6 +290672,7 @@ var init_GameTools = __esmMin((() => {
 			clearAdventureRouteFeedback();
 			for (const entry of mountedTabs.values()) {
 				entry.view.discardDrafts();
+				entry.container.dispatchEvent(new Event("game-tools-close"));
 				entry.container.dispatchEvent(new Event("game-tools-reset-feedback"));
 			}
 			this._host.style.display = "none";

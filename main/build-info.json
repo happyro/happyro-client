@@ -1,13 +1,13 @@
 {
-  "buildId": "mvjd8vv5",
-  "builtAt": "2026-10-22T09:56:09.425Z",
+  "buildId": "mvjsjmng",
+  "builtAt": "2026-10-22T17:04:24.940Z",
   "artifacts": {
-    "index.html": "fe027d02b564a18bef995776e7a99dc276220a192861d3e0dffce0bef5477c7d",
-    "api.html": "fafe270784bb77ad2d599ba7be24a251d2a59ed96ab236ab022707d6835b6744",
+    "index.html": "da09bf0bdae1a01c9324ff968634e8e1cafb775d83c4b27db570877c172d2308",
+    "api.html": "2890add394913ee5d166a6797f433ef9148d1038d0ade1f743ca84b82a523de1",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
     "debug.js": "c144a24aa6a8d67a8e4050ce169072260054025cf1b11f37f2b8b52ee325fbfe",
     "debug-upload.js": "01260bb90f2303ee1c9d6389821517f32052c506fd54d03de0cc15298230d34d",
-    "Online.js": "bfa80769688e11b6acc2120fbc896db3c0919e484e58336e8542996f42477ca0",
+    "Online.js": "745e7c53568209a102638cc20cda61816babf410be3e588f8c5f30dac8bd797a",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
     "Config.happyro.js": "734d9684bbef5d6a7ad793e59ac84723cfd9c3428bee98519e19105202b76b46",
     "data/navigation/catalog.json": "1d776db02d792659dcba74cb8ecaf971de767c7ecab39724d245d39f177f4279",
