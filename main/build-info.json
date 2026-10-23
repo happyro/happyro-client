@@ -1,18 +1,19 @@
 {
-  "buildId": "mvjsjmng",
-  "builtAt": "2026-10-22T17:04:24.940Z",
+  "buildId": "mvksjjls",
+  "builtAt": "2026-10-23T09:52:07.168Z",
   "artifacts": {
-    "index.html": "da09bf0bdae1a01c9324ff968634e8e1cafb775d83c4b27db570877c172d2308",
-    "api.html": "2890add394913ee5d166a6797f433ef9148d1038d0ade1f743ca84b82a523de1",
+    "index.html": "64251e52f9d1bc0cc3490b6400bb62a12429cf9b60a97f1990c7d51f952684e0",
+    "api.html": "0d6a8a0685f5a33256e0e5a5e8c498725da670ca1530383794214ebfb7b666ac",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
     "debug.js": "c144a24aa6a8d67a8e4050ce169072260054025cf1b11f37f2b8b52ee325fbfe",
     "debug-upload.js": "01260bb90f2303ee1c9d6389821517f32052c506fd54d03de0cc15298230d34d",
-    "Online.js": "745e7c53568209a102638cc20cda61816babf410be3e588f8c5f30dac8bd797a",
+    "Online.js": "1f974506d9bb72580af32ef938037c3e44788b87a5f5a370e2df061183fb90fa",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
-    "Config.happyro.js": "734d9684bbef5d6a7ad793e59ac84723cfd9c3428bee98519e19105202b76b46",
+    "Config.happyro.js": "2824d58ee755c81f6d0829cb7892cdc50067a5c1fefdedda46162d07d14d0507",
+    "client-defaults.schema.json": "47cc0d8535e2523d32ab16dc31500e0d3635e482798289fb2bed1d1ac2ce41a4",
     "data/navigation/catalog.json": "1d776db02d792659dcba74cb8ecaf971de767c7ecab39724d245d39f177f4279",
     "data/navigation/graph.json": "faa9ce30aae5a71f41660ff9cafcc8b4c8c0730ac2350a50bf529a36d2a8267b",
     "data/monsters/catalog.json": "7f45d3cf67cf9347613a9b71de8aa034311226b115bff89170ce1341671c94c7",
-    "data/world/npc-assets.json": "a8e9930ca889438c2d91b763bbc5dc42428066dcf60e1225021f4f85f42ae4f8"
+    "data/world/npc-assets.json": "27de01125d7629ae9b394ed69cea6a8a655bf2e2bb271fb6b2b5c8b4f8e47846"
   }
 }

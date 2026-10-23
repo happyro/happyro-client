@@ -18950,7 +18950,9 @@ var FileManager = class FileManager {
 * @param {array} file list to load
 */
 var Loader = class Loader {
-	constructor(list) {
+	constructor(list, owner) {
+		this.owner = owner;
+		this.generation = owner.generation;
 		this.files = list;
 		this.list = list.slice(0);
 		this.offset = 0;
@@ -18985,9 +18987,9 @@ var Loader = class Loader {
 	* @param {number} index in list
 	*/
 	_next() {
-		if (!this.list.length) return;
+		if (!this.owner.isActive(this.generation) || !this.list.length) return;
 		const filename = this.list.shift();
-		FileManager.load(filename, (data) => {
+		FileManager.load(filename, this.owner.guard(this.generation, filename, (data) => {
 			this.out[this.files.indexOf(filename)] = data;
 			this.offset++;
 			if (this.onprogress && this.offset <= this.count) this.onprogress(this.offset, this.count);
@@ -18999,7 +19001,7 @@ var Loader = class Loader {
 				if (++Loader.count % 50 === 0) setTimeout(() => this._next(), 4);
 				else this._next();
 			}
-		});
+		}));
 	}
 };
 /**
@@ -19008,6 +19010,48 @@ var Loader = class Loader {
 * @param {string} mapname
 */
 var MapLoader = class {
+	generation = 0;
+	active = false;
+	isActive(generation) {
+		return this.active && this.generation === generation;
+	}
+	cancel() {
+		this.active = false;
+		this.generation++;
+	}
+	fail(resource, error, code = "invalid_resource") {
+		if (!this.active) return;
+		this.active = false;
+		this.onload(false, {
+			code,
+			resource,
+			message: code === "missing_resource" ? `找不到地图文件「${resource}」！` : `地图资源「${resource}」加载失败：${error?.message || error || "无效数据"}`
+		});
+	}
+	guard(generation, resource, callback) {
+		return (...args) => {
+			if (!this.isActive(generation)) return;
+			try {
+				return callback(...args);
+			} catch (error) {
+				this.fail(resource, error);
+			}
+		};
+	}
+	loadRequired(resource, generation, callback) {
+		const ready = this.guard(generation, resource, (data, error) => {
+			if (!data) {
+				this.fail(resource, error, !error || /Can't get file|not found/i.test(error) ? "missing_resource" : "invalid_resource");
+				return;
+			}
+			callback(data);
+		});
+		try {
+			FileManager.load(resource, ready);
+		} catch (error) {
+			if (this.isActive(generation)) this.fail(resource, error);
+		}
+	}
 	constructor(mapname) {
 		if (mapname) this.load(mapname);
 	}
@@ -19044,6 +19088,12 @@ var MapLoader = class {
 	* @param {string} mapname
 	*/
 	load(mapname) {
+		this.cancel();
+		this.active = true;
+		const generation = this.generation;
+		this.offset = 0;
+		this.fileCount = 0;
+		this._animatedModels = [];
 		this.setProgress(0);
 		const loader = this;
 		let world;
@@ -19052,42 +19102,30 @@ var MapLoader = class {
 			return path;
 		}
 		function onWorldReady(resourceWorld) {
-			if (!resourceWorld) {
-				loader.onload(false, `找不到文件「${mapname}」！`);
-				return;
-			}
 			world = resourceWorld;
 			loader.setProgress(1);
-			FileManager.load(`data\\${getFilePath(world.files.gat)}`, onAltitudeReady);
+			loader.loadRequired(`data\\${getFilePath(world.files.gat)}`, generation, onAltitudeReady);
 		}
 		function onAltitudeReady(altitude) {
-			if (!altitude) {
-				loader.onload(false, `找不到文件「${world.files.gat}」！`);
-				return;
-			}
 			loader.setProgress(2);
 			loader.ondata("MAP_ALTITUDE", altitude.compile());
-			FileManager.load(`data\\${getFilePath(world.files.gnd)}`, onGroundReady);
+			loader.loadRequired(`data\\${getFilePath(world.files.gnd)}`, generation, onGroundReady);
 		}
 		function onGroundReady(ground) {
-			if (!ground) {
-				loader.onload(false, `找不到文件「${world.files.gnd}」！`);
-				return;
-			}
 			loader.setProgress(3);
 			if (ground && ground.version >= 1.8) world.water = ground.water;
 			const compiledGround = ground.compile(world.water.level, world.water.waveHeight);
 			loader.fileCount = ground.textures.length + world.models.length * 3;
 			if (compiledGround.waterVertCount) loader.fileCount += 32;
-			loader.loadGroundTextures(world, compiledGround, function onLoaded(waters, textures) {
+			loader.loadGroundTextures(world, compiledGround, loader.guard(generation, `data\\${getFilePath(mapname)}`, function onLoaded(waters, textures) {
 				world.water.images = waters;
 				compiledGround.textures = textures;
 				loader.ondata("MAP_WORLD", world.compile());
 				loader.ondata("MAP_GROUND", compiledGround);
 				loader.loadModels(world.models, ground);
-			});
+			}));
 		}
-		FileManager.load(`data\\${getFilePath(mapname)}`, onWorldReady);
+		loader.loadRequired(`data\\${getFilePath(mapname)}`, generation, onWorldReady);
 	}
 	/**
 	* Loading Ground and Water textures
@@ -19104,7 +19142,7 @@ var MapLoader = class {
 			for (i = 0; i < 32; ++i) textures.push(`${path}${i < 10 ? "0" + i : i}.jpg`);
 		}
 		for (i = 0, count = ground.textures.length; i < count; ++i) textures.push(`data\\texture\\${ground.textures[i]}`);
-		const loader = new Loader(textures);
+		const loader = new Loader(textures, this);
 		loader.onprogress = () => {
 			this.setProgress(3 + 97 / this.fileCount * ++this.offset);
 		};
@@ -19127,7 +19165,7 @@ var MapLoader = class {
 			models[i].filename = `data\\model\\${models[i].filename}`;
 			if (files.indexOf(models[i].filename) < 0) files.push(models[i].filename);
 		}
-		const loader = new Loader(files);
+		const loader = new Loader(files, this);
 		loader.onprogress = () => {
 			this.setProgress(3 + 97 / this.fileCount * ++this.offset);
 		};
@@ -19216,7 +19254,7 @@ var MapLoader = class {
 			buffer.set(object.mesh, offset);
 			offset += size;
 		}
-		const loader = new Loader(textures);
+		const loader = new Loader(textures, this);
 		loader.onprogress = (index, _count) => {
 			this.setProgress(progress + (100 - progress) / _count * (index + 1));
 		};
@@ -19231,6 +19269,7 @@ var MapLoader = class {
 				infos
 			});
 			if (this._animatedModels && this._animatedModels.length > 0) this.sendAnimatedModels(this._animatedModels);
+			this.active = false;
 			this.onload(true);
 		};
 		loader.start();
@@ -19341,6 +19380,7 @@ function sendLog() {
 *
 * @param {object} event - EventHandler
 */
+var activeMap = null;
 onmessage = function receive(event) {
 	const msg = event.data;
 	switch (msg.type) {
@@ -19417,31 +19457,57 @@ onmessage = function receive(event) {
 				]
 			});
 			break;
+		case "CANCEL_MAP":
+			if (activeMap && activeMap.generation === msg.data.generation) {
+				activeMap.cancel();
+				activeMap = null;
+			}
+			break;
 		case "LOAD_MAP": {
+			activeMap?.cancel();
+			const { filename, generation } = msg.data;
 			const map = new MapLoader();
-			map.onprogress = function(progress) {
-				postMessage({
-					type: "MAP_PROGRESS",
-					data: progress
-				});
-			};
-			map.onload = function(success, error) {
+			let settled = false;
+			const complete = (success, error) => {
+				if (settled) return;
+				settled = true;
 				if (msg.uid) postMessage({
 					uid: msg.uid,
-					arguments: [
-						success,
-						error,
-						msg.data
-					]
+					arguments: [success, error]
 				});
 			};
-			map.ondata = function(type, data) {
-				postMessage({
+			const request = {
+				generation,
+				cancel() {
+					map.cancel();
+					complete(false, {
+						code: "cancelled",
+						resource: filename,
+						message: "地图加载已取消"
+					});
+				}
+			};
+			activeMap = request;
+			map.onprogress = (progress) => {
+				if (activeMap === request) postMessage({
+					type: "MAP_PROGRESS",
+					data: {
+						generation,
+						data: progress
+					}
+				});
+			};
+			map.onload = complete;
+			map.ondata = (type, data) => {
+				if (activeMap === request) postMessage({
 					type,
-					data
+					data: {
+						generation,
+						data
+					}
 				});
 			};
-			map.load(msg.data);
+			map.load(filename);
 			break;
 		}
 	}

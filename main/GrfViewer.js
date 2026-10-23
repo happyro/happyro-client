@@ -77977,6 +77977,8 @@ function init$17(packetver) {
 		packets_len[3327] = 8;
 		packets_len[3332] = -1;
 		packets_len[3339] = 28;
+		packets_len[3341] = 8;
+		packets_len[3342] = 8;
 		console.log("%c[Network] Packet Length initialized ", "color:#007000", packetver);
 	} else console.error(`[Network] Failed to load packet lengths for year ${selectedYear} (path: ${modulePath})`);
 }
@@ -79090,58 +79092,415 @@ var cursorDialog;
 var init_NativeModalCursor = __esmMin((() => {
 	cursorDialog = null;
 }));
+// src/Core/ClientDefaults.schema.json
+var fields$1, ClientDefaults_schema_default;
+var init_ClientDefaults_schema = __esmMin((() => {
+	fields$1 = {
+		"CLIENT_CAMERA_DESKTOP_ZOOM": {
+			"path": "camera.desktopZoom",
+			"type": "number",
+			"default": 125,
+			"min": 1,
+			"max": 325
+		},
+		"CLIENT_CAMERA_PHONE_LANDSCAPE_ZOOM": {
+			"path": "camera.phoneLandscapeZoom",
+			"type": "number",
+			"default": 95,
+			"min": 1,
+			"max": 325
+		},
+		"CLIENT_CAMERA_PHONE_PORTRAIT_ZOOM": {
+			"path": "camera.phonePortraitZoom",
+			"type": "number",
+			"default": 170,
+			"min": 1,
+			"max": 325
+		},
+		"CLIENT_CAMERA_TABLET_LANDSCAPE_ZOOM": {
+			"path": "camera.tabletLandscapeZoom",
+			"type": "number",
+			"default": 125,
+			"min": 1,
+			"max": 325
+		},
+		"CLIENT_CAMERA_TABLET_PORTRAIT_ZOOM": {
+			"path": "camera.tabletPortraitZoom",
+			"type": "number",
+			"default": 155,
+			"min": 1,
+			"max": 325
+		},
+		"CLIENT_CAMERA_SMOOTH": {
+			"path": "camera.smooth",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_AUTO_COMBAT_SEARCH_RANGE": {
+			"path": "autoCombat.ranges.search",
+			"type": "number",
+			"default": 20,
+			"min": 1,
+			"max": 50,
+			"integer": true
+		},
+		"CLIENT_AUTO_COMBAT_ACTIVITY_RANGE": {
+			"path": "autoCombat.ranges.activity",
+			"type": "number",
+			"default": 30,
+			"min": 1,
+			"max": 100,
+			"integer": true
+		},
+		"CLIENT_AUTO_TELEPORT_ENABLED": {
+			"path": "autoCombat.teleport.enabled",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_AUTO_TELEPORT_WAIT_SECONDS": {
+			"path": "autoCombat.teleport.waitSeconds",
+			"type": "number",
+			"default": 2,
+			"min": 1,
+			"max": 60,
+			"integer": true
+		},
+		"CLIENT_AUTO_TELEPORT_INTERVAL_SECONDS": {
+			"path": "autoCombat.teleport.intervalSeconds",
+			"type": "number",
+			"default": 2,
+			"min": 1,
+			"max": 300,
+			"integer": true
+		},
+		"CLIENT_AUTO_PICKUP_ENABLED": {
+			"path": "pickup.enabled",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_AUTO_PICKUP_RANGE": {
+			"path": "pickup.range",
+			"type": "number",
+			"default": 5,
+			"min": 1,
+			"max": 15,
+			"integer": true
+		},
+		"CLIENT_AUTO_PICKUP_BATCH_SECONDS": {
+			"path": "pickup.batchSeconds",
+			"type": "number",
+			"default": 5,
+			"min": 1,
+			"max": 30,
+			"integer": true
+		},
+		"CLIENT_AUTO_PICKUP_CATEGORIES": {
+			"path": "pickup.categories",
+			"type": "list",
+			"default": [
+				"equipment",
+				"consumable",
+				"card",
+				"other"
+			],
+			"options": [
+				"equipment",
+				"consumable",
+				"card",
+				"other"
+			]
+		},
+		"CLIENT_GRAPHICS_QUALITY": {
+			"path": "graphics.quality",
+			"type": "number",
+			"default": 100,
+			"min": 25,
+			"max": 100
+		},
+		"CLIENT_GRAPHICS_FPS_LIMIT": {
+			"path": "graphics.fpslimit",
+			"type": "number",
+			"default": 60,
+			"options": [
+				-1,
+				30,
+				60,
+				90,
+				120
+			]
+		},
+		"CLIENT_GRAPHICS_PERFORMANCE_MODE": {
+			"path": "graphics.performanceMode",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_GRAPHICS_VIEW_AREA": {
+			"path": "graphics.viewArea",
+			"type": "number",
+			"default": 14,
+			"min": 4,
+			"max": 20
+		},
+		"CLIENT_GRAPHICS_CURSOR": {
+			"path": "graphics.cursor",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_GRAPHICS_PIXEL_PERFECT_SPRITES": {
+			"path": "graphics.pixelPerfectSprites",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_GRAPHICS_BLOOM_ENABLED": {
+			"path": "graphics.bloom",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_GRAPHICS_BLUR_ENABLED": {
+			"path": "graphics.blur",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_GRAPHICS_FXAA_ENABLED": {
+			"path": "graphics.fxaaEnabled",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_GRAPHICS_VIBRANCE_ENABLED": {
+			"path": "graphics.vibranceEnabled",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_GRAPHICS_CARTOON_ENABLED": {
+			"path": "graphics.cartoonEnabled",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_GRAPHICS_CAS_ENABLED": {
+			"path": "graphics.casEnabled",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_GRAPHICS_BLOOM_INTENSITY": {
+			"path": "graphics.bloomIntensity",
+			"type": "number",
+			"default": .5,
+			"min": .1,
+			"max": 3
+		},
+		"CLIENT_GRAPHICS_BLUR_AREA": {
+			"path": "graphics.blurArea",
+			"type": "number",
+			"default": 14,
+			"min": 3,
+			"max": 20
+		},
+		"CLIENT_GRAPHICS_BLUR_INTENSITY": {
+			"path": "graphics.blurIntensity",
+			"type": "number",
+			"default": 3,
+			"min": 2,
+			"max": 10
+		},
+		"CLIENT_GRAPHICS_FXAA_EDGE_THRESHOLD": {
+			"path": "graphics.fxaaEdgeThreshold",
+			"type": "number",
+			"default": .125,
+			"min": .063,
+			"max": .333
+		},
+		"CLIENT_GRAPHICS_VIBRANCE": {
+			"path": "graphics.vibrance",
+			"type": "number",
+			"default": .15,
+			"min": -.9,
+			"max": .9
+		},
+		"CLIENT_GRAPHICS_CARTOON_POWER": {
+			"path": "graphics.cartoonPower",
+			"type": "number",
+			"default": 1.5,
+			"min": .1,
+			"max": 9.9
+		},
+		"CLIENT_GRAPHICS_CARTOON_EDGE_SLOPE": {
+			"path": "graphics.cartoonEdgeSlope",
+			"type": "number",
+			"default": 1.5,
+			"min": 1.5,
+			"max": 5.9
+		},
+		"CLIENT_GRAPHICS_CAS_CONTRAST": {
+			"path": "graphics.casContrast",
+			"type": "number",
+			"default": 0,
+			"min": 0,
+			"max": 1
+		},
+		"CLIENT_GRAPHICS_CAS_SHARPENING": {
+			"path": "graphics.casSharpening",
+			"type": "number",
+			"default": 1,
+			"min": 0,
+			"max": 1
+		},
+		"CLIENT_BGM_ENABLED": {
+			"path": "audio.BGM.play",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_BGM_VOLUME": {
+			"path": "audio.BGM.volume",
+			"type": "number",
+			"default": .5,
+			"min": 0,
+			"max": 1
+		},
+		"CLIENT_SOUND_ENABLED": {
+			"path": "audio.Sound.play",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_SOUND_VOLUME": {
+			"path": "audio.Sound.volume",
+			"type": "number",
+			"default": .5,
+			"min": 0,
+			"max": 1
+		},
+		"CLIENT_TOAST_DURATION_SECONDS": {
+			"path": "interface.toastDuration",
+			"type": "number",
+			"default": 2,
+			"min": 1,
+			"max": 10,
+			"integer": true
+		},
+		"CLIENT_CHAT_PREVIEW_COMPACT_LINES": {
+			"path": "interface.chatPreviewCompactLines",
+			"type": "number",
+			"default": 3,
+			"options": [
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8
+			]
+		},
+		"CLIENT_CHAT_PREVIEW_SPACIOUS_LINES": {
+			"path": "interface.chatPreviewSpaciousLines",
+			"type": "number",
+			"default": 5,
+			"options": [
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8
+			]
+		},
+		"CLIENT_CHAT_PREVIEW_TABS": {
+			"path": "interface.chatPreviewTabs",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_MAP_FOG": {
+			"path": "map.fog",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_MAP_LIGHTMAP": {
+			"path": "map.lightmap",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_MAP_EFFECTS": {
+			"path": "map.effect",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_MAP_MIN_EFFECTS": {
+			"path": "map.mineffect",
+			"type": "boolean",
+			"default": false
+		},
+		"CLIENT_MAP_SHOW_MISS": {
+			"path": "map.miss",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_MAP_SHOW_NAME_STYLE": {
+			"path": "map.showname",
+			"type": "boolean",
+			"default": true
+		},
+		"CLIENT_MAP_SMOOTH_LIGHT": {
+			"path": "map.smoothlight",
+			"type": "number",
+			"default": 0,
+			"options": [
+				0,
+				1,
+				2
+			]
+		},
+		"CLIENT_MAP_AURA": {
+			"path": "map.aura",
+			"type": "number",
+			"default": 1,
+			"options": [
+				0,
+				1,
+				2
+			]
+		},
+		"CLIENT_SCRIPT_TEXT_MIN_CONTRAST": {
+			"path": "scriptText.minContrast",
+			"type": "number",
+			"default": 4.5,
+			"min": 4.5,
+			"max": 7
+		}
+	};
+	ClientDefaults_schema_default = { fields: fields$1 };
+}));
+// src/Core/ClientDefaults.js
+/** Fresh values for initialization and reset; saved preferences must never mutate the deployment defaults. */
+function getClientDefaults(section) {
+	const result = {};
+	const configured = Configs.get("clientDefaults", {});
+	for (const field of Object.values(ClientDefaults_schema_default.fields)) {
+		const [group, ...keys] = field.path.split(".");
+		if (group !== section) continue;
+		let value = configured?.[group];
+		for (const key of keys) value = value?.[key];
+		value = value === void 0 ? field.default : value;
+		let target = result;
+		for (const key of keys.slice(0, -1)) target = target[key] ??= {};
+		target[keys.at(-1)] = structuredClone(value);
+	}
+	return result;
+}
+var init_ClientDefaults = __esmMin((() => {
+	init_Configs();
+	init_ClientDefaults_schema();
+}));
 // src/Preferences/Graphics.js
 var defaultGraphicsSettings, cleanDefaults, GraphicsSettings;
 var init_Graphics = __esmMin((() => {
 	init_Preferences$1();
+	init_ClientDefaults();
 	defaultGraphicsSettings = {
-		/**
-		* Game size
-		*/
 		screensize: "1024x768",
-		quality: 100,
-		/**
-		* Do we show official game cursor ?
-		*/
-		cursor: true,
-		/**
-		* Game FPS Limit
-		*/
-		fpslimit: 60,
-		/**
-		* Performance Mode
-		*/
-		performanceMode: false,
-		viewArea: 14,
-		/**
-		* Damage Skin
-		*/
 		damageSkin: 0,
-		/**
-		* Damage Motion Type
-		* 0: Default, 1: Left, 2: Top, 3: Right
-		*/
 		damageMotion: 0,
-		pixelPerfectSprites: false,
-		/**
-		* Game Post-Processing
-		*/
-		bloom: false,
-		bloomIntensity: .5,
-		blur: false,
-		blurArea: 14,
-		blurIntensity: 3,
-		fxaaEnabled: false,
 		fxaaSubpix: .25,
-		fxaaEdgeThreshold: .125,
-		vibranceEnabled: false,
-		vibrance: .15,
-		cartoonEnabled: false,
-		cartoonPower: 1.5,
-		cartoonEdgeSlope: 1.5,
-		casEnabled: false,
-		casContrast: 0,
-		casSharpening: 1
+		...getClientDefaults("graphics")
 	};
 	cleanDefaults = JSON.parse(JSON.stringify(defaultGraphicsSettings));
 	GraphicsSettings = Preferences.get("Graphics", defaultGraphicsSettings, 1.1);
@@ -84972,6 +85331,36 @@ var init_gl_matrix = __esmMin((() => {
 	};
 	gl_matrix_default = exports$3;
 }));
+// src/Utils/DateTime.js
+function displayTimeZone() {
+	return Configs.get("timeZone", "Asia/Shanghai");
+}
+/** Unix milliseconds; packet timestamps in seconds must be multiplied by 1000. */
+function dateParts(timestamp) {
+	const timeZone = displayTimeZone();
+	if (activeZone !== timeZone) {
+		formatter = new Intl.DateTimeFormat("en-GB", {
+			timeZone,
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit",
+			hourCycle: "h23"
+		});
+		activeZone = timeZone;
+	}
+	return Object.fromEntries(formatter.formatToParts(new Date(timestamp)).map(({ type, value }) => [type, value]));
+}
+function formatDateTime(timestamp) {
+	const p = dateParts(timestamp);
+	return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second}`;
+}
+var formatter, activeZone;
+var init_DateTime = __esmMin((() => {
+	init_Configs();
+}));
 // src/DB/Pets/PetRules.generated.json
 var sources$2, pets, PetRules_generated_default;
 var init_PetRules_generated = __esmMin((() => {
@@ -86652,6 +87041,126 @@ var init_HairIndexTable = __esmMin((() => {
 var MonsterTable_default;
 var init_MonsterTable = __esmMin((() => {
 	MonsterTable_default = {
+		21087: "S_DUMMY_DEFAULT",
+		21088: "S_DUMMY_DEFAULT",
+		22551: "S_DUMMY_RES",
+		22552: "S_DUMMY_RES",
+		22553: "S_DUMMY_RES",
+		22554: "S_DUMMY_RES",
+		22555: "S_DUMMY_RES",
+		22556: "S_DUMMY_RES",
+		22557: "S_DUMMY_RES",
+		22558: "S_DUMMY_RES",
+		22559: "S_DUMMY_RES",
+		22560: "S_DUMMY_RES",
+		22561: "S_DUMMY_DEFAULT",
+		22562: "S_DUMMY_DEFAULT",
+		22563: "S_DUMMY_DEFAULT",
+		22564: "S_DUMMY_RES",
+		22565: "S_DUMMY_RES",
+		22566: "S_DUMMY_RES",
+		22567: "S_DUMMY_RES",
+		22568: "S_DUMMY_RES",
+		22569: "S_DUMMY_RES",
+		22570: "S_DUMMY_RES",
+		22571: "S_DUMMY_RES",
+		22572: "S_DUMMY_RES",
+		22573: "S_DUMMY_RES",
+		22574: "S_DUMMY_RES",
+		22575: "S_DUMMY_DEFAULT",
+		22576: "S_DUMMY_DEFAULT",
+		22577: "S_DUMMY_DEFAULT",
+		22578: "S_DUMMY_RES",
+		22579: "S_DUMMY_RES",
+		22580: "S_DUMMY_RES",
+		22581: "S_DUMMY_RES",
+		22582: "S_DUMMY_RES",
+		22583: "S_DUMMY_RES",
+		22584: "S_DUMMY_RES",
+		22585: "S_DUMMY_RES",
+		22586: "S_DUMMY_RES",
+		22587: "S_DUMMY_RES",
+		22588: "S_DUMMY_RES",
+		22589: "S_DUMMY_MRES",
+		22590: "S_DUMMY_MRES",
+		22591: "S_DUMMY_MRES",
+		22592: "S_DUMMY_MRES",
+		22593: "S_DUMMY_MRES",
+		22594: "S_DUMMY_MRES",
+		22595: "S_DUMMY_MRES",
+		22596: "S_DUMMY_MRES",
+		22597: "S_DUMMY_MRES",
+		22598: "S_DUMMY_MRES",
+		22599: "S_DUMMY_MRES",
+		22600: "S_DUMMY_DEFAULT",
+		22601: "S_DUMMY_DEFAULT",
+		22602: "S_DUMMY_DEFAULT",
+		22603: "S_DUMMY_MRES",
+		22604: "S_DUMMY_MRES",
+		22605: "S_DUMMY_MRES",
+		22606: "S_DUMMY_MRES",
+		22607: "S_DUMMY_MRES",
+		22608: "S_DUMMY_MRES",
+		22609: "S_DUMMY_MRES",
+		22610: "S_DUMMY_MRES",
+		22611: "S_DUMMY_MRES",
+		22612: "S_DUMMY_MRES",
+		22613: "S_DUMMY_MRES",
+		22614: "S_DUMMY_DEFAULT",
+		22615: "S_DUMMY_DEFAULT",
+		22616: "S_DUMMY_DEFAULT",
+		22617: "S_DUMMY_MRES",
+		22618: "S_DUMMY_MRES",
+		22619: "S_DUMMY_MRES",
+		22620: "S_DUMMY_MRES",
+		22621: "S_DUMMY_MRES",
+		22622: "S_DUMMY_MRES",
+		22623: "S_DUMMY_MRES",
+		22624: "S_DUMMY_MRES",
+		22625: "S_DUMMY_MRES",
+		22626: "S_DUMMY_MRES",
+		22627: "S_DUMMY_MRES",
+		22628: "S_DUMMY_DEFAULT",
+		22629: "S_DUMMY_DEFAULT",
+		22630: "S_DUMMY_DEFAULT",
+		22631: "S_DUMMY_DEFAULT",
+		22632: "S_DUMMY_DEFAULT",
+		22633: "S_DUMMY_DEFAULT",
+		22634: "S_DUMMY_DEFAULT",
+		22635: "S_DUMMY_DEFAULT",
+		22636: "S_DUMMY_DEFAULT",
+		22637: "S_DUMMY_DEFAULT",
+		22638: "S_DUMMY_DEFAULT",
+		22639: "S_DUMMY_DEFAULT",
+		22640: "S_DUMMY_DEFAULT",
+		22641: "S_DUMMY_DEFAULT",
+		22642: "S_DUMMY_DEFAULT",
+		22643: "S_DUMMY_DEFAULT",
+		22644: "S_DUMMY_DEFAULT",
+		22645: "S_DUMMY_DEFAULT",
+		22646: "S_DUMMY_DEFAULT",
+		22647: "S_DUMMY_DEFAULT",
+		22648: "S_DUMMY_WHITE",
+		22649: "S_DUMMY_BLUE",
+		22650: "S_DUMMY_WOOD",
+		22651: "S_DUMMY_RED",
+		22652: "S_DUMMY_GREEN",
+		22653: "S_DUMMY_PURPLE",
+		22654: "S_DUMMY_YELLOW",
+		22655: "S_DUMMY_BLACK",
+		22656: "S_DUMMY_TEAL",
+		22657: "S_DUMMY_GRAY",
+		22658: "S_DUMMY_WHITE",
+		22659: "S_DUMMY_BLUE",
+		22660: "S_DUMMY_WOOD",
+		22661: "S_DUMMY_RED",
+		22662: "S_DUMMY_GREEN",
+		22663: "S_DUMMY_PURPLE",
+		22664: "S_DUMMY_YELLOW",
+		22665: "S_DUMMY_BLACK",
+		22666: "S_DUMMY_TEAL",
+		22667: "S_DUMMY_GRAY",
+		22668: "S_DUMMY_RES",
 		0: "初心者",
 		1: "Swordman",
 		2: "Mage",
@@ -90706,29 +91215,29 @@ var init_MonsterTable = __esmMin((() => {
 		20941: "grote",
 		20942: "pierrotzoist",
 		20943: "death_witch",
-		21064: "BARRICADE",
-		21065: "BARRICADE",
-		21066: "BARRICADE",
-		21067: "s_empel_2",
-		21068: "s_empel_2",
-		21069: "s_empel_2",
-		21070: "s_empel_2",
-		21071: "s_empel_2",
-		21072: "s_empel_2",
-		21073: "s_empel_2",
-		21074: "s_empel_2",
-		21075: "s_empel_2",
-		21076: "s_empel_2",
-		21077: "s_empel_1",
-		21078: "s_empel_1",
-		21079: "s_empel_1",
-		21080: "s_empel_1",
-		21081: "s_empel_1",
-		21082: "s_empel_1",
-		21083: "s_empel_1",
-		21084: "s_empel_1",
-		21085: "s_empel_1",
-		21086: "s_empel_1",
+		21064: "S_DUMMY_DEFAULT",
+		21065: "S_DUMMY_DEFAULT",
+		21066: "S_DUMMY_DEFAULT",
+		21067: "S_DUMMY_DEFAULT",
+		21068: "S_DUMMY_DEFAULT",
+		21069: "S_DUMMY_DEFAULT",
+		21070: "S_DUMMY_DEFAULT",
+		21071: "S_DUMMY_DEFAULT",
+		21072: "S_DUMMY_DEFAULT",
+		21073: "S_DUMMY_DEFAULT",
+		21074: "S_DUMMY_DEFAULT",
+		21075: "S_DUMMY_DEFAULT",
+		21076: "S_DUMMY_DEFAULT",
+		21077: "S_DUMMY_WHITE",
+		21078: "S_DUMMY_BLUE",
+		21079: "S_DUMMY_WOOD",
+		21080: "S_DUMMY_RED",
+		21081: "S_DUMMY_GREEN",
+		21082: "S_DUMMY_PURPLE",
+		21083: "S_DUMMY_YELLOW",
+		21084: "S_DUMMY_BLACK",
+		21085: "S_DUMMY_TEAL",
+		21086: "S_DUMMY_GRAY",
 		21292: "ep18_armed_villager01",
 		21293: "ep18_armed_villager02",
 		21294: "ep18_armed_villager03",
@@ -90782,6 +91291,126 @@ var init_MonsterTable = __esmMin((() => {
 var MonsterNameTable_default;
 var init_MonsterNameTable = __esmMin((() => {
 	MonsterNameTable_default = {
+		21087: "假人(人类玩家)",
+		21088: "假人(杜兰族玩家)",
+		22551: "假人（小型）",
+		22552: "假人（中型）",
+		22553: "假人（大型）",
+		22554: "假人（超大型）",
+		22555: "假人（小型）",
+		22556: "假人（中型）",
+		22557: "假人（大型）",
+		22558: "假人（超大型）",
+		22559: "假人（小型）",
+		22560: "假人（中型）",
+		22561: "假人（小型）",
+		22562: "假人（中型）",
+		22563: "假人（大型）",
+		22564: "假人（小型）",
+		22565: "假人（中型）",
+		22566: "假人（大型）",
+		22567: "假人（超大型）",
+		22568: "假人（小型）",
+		22569: "假人（中型）",
+		22570: "假人（大型）",
+		22571: "假人（超大型）",
+		22572: "假人（小型）",
+		22573: "假人（中型）",
+		22574: "假人（大型）",
+		22575: "假人（小型）",
+		22576: "假人（中型）",
+		22577: "假人（大型）",
+		22578: "假人（小型）",
+		22579: "假人（中型）",
+		22580: "假人（大型）",
+		22581: "假人（超大型）",
+		22582: "假人（小型）",
+		22583: "假人（中型）",
+		22584: "假人（大型）",
+		22585: "假人（超大型）",
+		22586: "假人（小型）",
+		22587: "假人（中型）",
+		22588: "假人（大型）",
+		22589: "假人（小型）",
+		22590: "假人（中型）",
+		22591: "假人（大型）",
+		22592: "假人（超大型）",
+		22593: "假人（小型）",
+		22594: "假人（中型）",
+		22595: "假人（大型）",
+		22596: "假人（超大型）",
+		22597: "假人（小型）",
+		22598: "假人（中型）",
+		22599: "假人（大型）",
+		22600: "假人（小型）",
+		22601: "假人（中型）",
+		22602: "假人（大型）",
+		22603: "假人（小型）",
+		22604: "假人（中型）",
+		22605: "假人（大型）",
+		22606: "假人（超大型）",
+		22607: "假人（小型）",
+		22608: "假人（中型）",
+		22609: "假人（大型）",
+		22610: "假人（超大型）",
+		22611: "假人（小型）",
+		22612: "假人（中型）",
+		22613: "假人（大型）",
+		22614: "假人（小型）",
+		22615: "假人（中型）",
+		22616: "假人（大型）",
+		22617: "假人（小型）",
+		22618: "假人（中型）",
+		22619: "假人（大型）",
+		22620: "假人（超大型）",
+		22621: "假人（小型）",
+		22622: "假人（中型）",
+		22623: "假人（大型）",
+		22624: "假人（超大型）",
+		22625: "假人（小型）",
+		22626: "假人（中型）",
+		22627: "假人（大型）",
+		22628: "假人(无形种族)",
+		22629: "假人（龙族）",
+		22630: "假人(动物种族)",
+		22631: "假人(人形种族)",
+		22632: "假人(昆虫种族)",
+		22633: "假人(鱼贝种族)",
+		22634: "假人(恶魔种族)",
+		22635: "假人(植物种族)",
+		22636: "假人(天使种族)",
+		22637: "假人(不死种族)",
+		22638: "假人(无形种族)",
+		22639: "假人（龙族）",
+		22640: "假人(动物种族)",
+		22641: "假人(人形种族)",
+		22642: "假人(昆虫种族)",
+		22643: "假人(鱼贝种族)",
+		22644: "假人(恶魔种族)",
+		22645: "假人(植物种族)",
+		22646: "假人(天使种族)",
+		22647: "假人(不死种族)",
+		22648: "假人（无属性）",
+		22649: "假人（水）",
+		22650: "假人（地）",
+		22651: "假人（火）",
+		22652: "假人（风）",
+		22653: "假人（毒）",
+		22654: "假人（圣）",
+		22655: "假人（暗）",
+		22656: "假人（念）",
+		22657: "假人（不死）",
+		22658: "假人（无属性）",
+		22659: "假人（水）",
+		22660: "假人（地）",
+		22661: "假人（火）",
+		22662: "假人（风）",
+		22663: "假人（毒）",
+		22664: "假人（圣）",
+		22665: "假人（暗）",
+		22666: "假人（念）",
+		22667: "假人（不死）",
+		22668: "假人（大型）",
 		1001: "蝎子",
 		1002: "波利",
 		1004: "蜂兵",
@@ -93199,24 +93828,24 @@ var init_MonsterNameTable = __esmMin((() => {
 		21066: "训练用石桩(大型)",
 		21067: "训练用石桩(无形)",
 		21068: "训练用石桩(龙族)",
-		21069: "训练用石桩(动物型)",
-		21070: "训练用石桩(人类型)",
-		21071: "训练用石桩(昆虫型)",
-		21072: "训练用石桩(鱼贝型)",
-		21073: "训练用石桩(恶魔型)",
-		21074: "训练用石桩(植物型)",
-		21075: "训练用石桩(天使型)",
-		21076: "训练用石桩(不死型)",
-		21077: "训练用石桩(无属性)",
-		21078: "训练用石桩(水属性)",
-		21079: "训练用石桩(地属性)",
-		21080: "训练用石桩(火属性)",
-		21081: "训练用石桩(风属性)",
-		21082: "训练用石桩(毒属性)",
-		21083: "训练用石桩(圣属性)",
-		21084: "训练用石桩(暗属性)",
-		21085: "训练用石桩(念属性)",
-		21086: "训练用石桩(不死属性)",
+		21069: "训练石桩(动物型)",
+		21070: "训练石桩(人类型)",
+		21071: "训练石桩(昆虫型)",
+		21072: "训练石桩(鱼贝型)",
+		21073: "训练石桩(恶魔型)",
+		21074: "训练石桩(植物型)",
+		21075: "训练石桩(天使型)",
+		21076: "训练石桩(不死型)",
+		21077: "训练石桩(无属性)",
+		21078: "训练石桩(水属性)",
+		21079: "训练石桩(地属性)",
+		21080: "训练石桩(火属性)",
+		21081: "训练石桩(风属性)",
+		21082: "训练石桩(毒属性)",
+		21083: "训练石桩(圣属性)",
+		21084: "训练石桩(暗属性)",
+		21085: "训练石桩(念属性)",
+		21086: "训练石桩(不死属)",
 		21386: "勤奋的白蚁",
 		21387: "勤奋的士兵白蚁",
 		21388: "勤奋的白蚁幼虫",
@@ -186751,6 +187380,24 @@ var init_MapTable = __esmMin((() => {
 			notifyEnter: true,
 			displayName: "最后试炼幻境洞窟"
 		},
+		"tra_fild01.rsw": {
+			backgroundBmp: "field_s2",
+			signName: { mainTitle: "基础训练场" },
+			notifyEnter: true,
+			displayName: "基础训练场"
+		},
+		"tra_fild02.rsw": {
+			backgroundBmp: "field_s2",
+			signName: { mainTitle: "1/10 训练场" },
+			notifyEnter: true,
+			displayName: "1/10 训练场"
+		},
+		"tra_fild03.rsw": {
+			backgroundBmp: "field_s2",
+			signName: { mainTitle: "1/100 训练场" },
+			notifyEnter: true,
+			displayName: "1/100 训练场"
+		},
 		"tra_fild.rsw": {
 			backgroundBmp: "field_s2",
 			signName: { mainTitle: "普隆德拉外围训练场" },
@@ -188062,6 +188709,12 @@ var init_MapTable = __esmMin((() => {
 			signName: { mainTitle: "PvP Room Payon" },
 			notifyEnter: true,
 			displayName: "PvP : Room Payon"
+		},
+		"new_5-4.rsw": {
+			backgroundBmp: "field_s2",
+			signName: { mainTitle: "训练场" },
+			notifyEnter: true,
+			displayName: "训练场"
 		},
 		"new_1-4.rsw": {
 			backgroundBmp: "field_s2",
@@ -190516,6 +191169,14 @@ function isSupportedMapResource(mapName) {
 var SupportedMapTable;
 var init_SupportedMapTable = __esmMin((() => {
 	SupportedMapTable = /* @__PURE__ */ new Set([
+		"06guild_01",
+		"06guild_02",
+		"06guild_03",
+		"06guild_04",
+		"06guild_05",
+		"06guild_06",
+		"06guild_07",
+		"06guild_08",
 		"06guild_r",
 		"1@4cdn",
 		"1@4drk",
@@ -190651,6 +191312,7 @@ var init_SupportedMapTable = __esmMin((() => {
 		"abyss_03",
 		"abyss_04",
 		"airplane",
+		"airplane_01",
 		"airport",
 		"alb2trea",
 		"alb_ship",
@@ -190689,6 +191351,8 @@ var init_SupportedMapTable = __esmMin((() => {
 		"arug_cas01",
 		"arug_cas02",
 		"arug_cas03",
+		"arug_cas04",
+		"arug_cas05",
 		"arug_dun01",
 		"arug_que01",
 		"auction_01",
@@ -190713,8 +191377,12 @@ var init_SupportedMapTable = __esmMin((() => {
 		"ba_pw02",
 		"ba_pw03",
 		"bat_a01",
+		"bat_a02",
 		"bat_b01",
+		"bat_b02",
 		"bat_c01",
+		"bat_c02",
+		"bat_c03",
 		"bat_room",
 		"beach_dun",
 		"beach_dun2",
@@ -190725,6 +191393,10 @@ var init_SupportedMapTable = __esmMin((() => {
 		"bl_grass",
 		"bl_ice",
 		"bl_lava",
+		"bossnia_01",
+		"bossnia_02",
+		"bossnia_03",
+		"bossnia_04",
 		"bra_dun01",
 		"bra_dun02",
 		"bra_fild01",
@@ -190761,6 +191433,7 @@ var init_SupportedMapTable = __esmMin((() => {
 		"dewata",
 		"dic_dun01",
 		"dic_dun02",
+		"dic_dun03",
 		"dic_fild01",
 		"dic_fild02",
 		"dic_in01",
@@ -190798,6 +191471,25 @@ var init_SupportedMapTable = __esmMin((() => {
 		"einbroch",
 		"evt_bomb",
 		"evt_mobroom",
+		"evt_swar_b",
+		"evt_swar_r",
+		"evt_swar_s",
+		"evt_swar_t",
+		"force_1-1",
+		"force_1-2",
+		"force_1-3",
+		"force_2-1",
+		"force_2-2",
+		"force_2-3",
+		"force_3-1",
+		"force_3-2",
+		"force_3-3",
+		"force_4-1",
+		"force_5-1",
+		"g_room1-1",
+		"g_room1-2",
+		"g_room1-3",
+		"g_room2",
 		"gef_d01_i",
 		"gef_dun00",
 		"gef_dun01",
@@ -190855,9 +191547,13 @@ var init_SupportedMapTable = __esmMin((() => {
 		"gld2_pay",
 		"gld2_prt",
 		"gld_dun01",
+		"gld_dun01_2",
 		"gld_dun02",
+		"gld_dun02_2",
 		"gld_dun03",
+		"gld_dun03_2",
 		"gld_dun04",
+		"gld_dun04_2",
 		"gon_dun01",
 		"gon_dun02",
 		"gon_dun03",
@@ -190866,8 +191562,15 @@ var init_SupportedMapTable = __esmMin((() => {
 		"gon_test",
 		"gonryun",
 		"grademk",
+		"guild_room",
 		"guild_vs1",
+		"guild_vs1-1",
+		"guild_vs1-2",
+		"guild_vs1-3",
+		"guild_vs1-4",
 		"guild_vs2",
+		"guild_vs2-1",
+		"guild_vs2-2",
 		"guild_vs3",
 		"guild_vs4",
 		"guild_vs5",
@@ -190876,6 +191579,7 @@ var init_SupportedMapTable = __esmMin((() => {
 		"har_in01",
 		"harboro1",
 		"harboro2",
+		"himinn",
 		"hu_fild01",
 		"hu_fild02",
 		"hu_fild03",
@@ -190904,6 +191608,7 @@ var init_SupportedMapTable = __esmMin((() => {
 		"int_land02",
 		"int_land03",
 		"int_land04",
+		"itemmall",
 		"iz_ac01",
 		"iz_ac01_a",
 		"iz_ac01_b",
@@ -190939,6 +191644,7 @@ var init_SupportedMapTable = __esmMin((() => {
 		"jawaii_in",
 		"job3_arch01",
 		"job3_arch02",
+		"job3_arch03",
 		"job3_gen01",
 		"job3_guil01",
 		"job3_guil02",
@@ -190947,8 +191653,10 @@ var init_SupportedMapTable = __esmMin((() => {
 		"job3_rang02",
 		"job3_rune01",
 		"job3_rune02",
+		"job3_rune03",
 		"job3_sha01",
 		"job3_war01",
+		"job3_war02",
 		"job4_bio",
 		"job4_mag",
 		"job4_tro",
@@ -190970,6 +191678,7 @@ var init_SupportedMapTable = __esmMin((() => {
 		"jupe_area2",
 		"jupe_cave",
 		"jupe_core",
+		"jupe_core2",
 		"jupe_ele",
 		"jupe_ele_r",
 		"jupe_gate",
@@ -190992,6 +191701,7 @@ var init_SupportedMapTable = __esmMin((() => {
 		"lasa_in01",
 		"lasa_sea",
 		"lasagna",
+		"lhz_airport",
 		"lhz_cube",
 		"lhz_d_n2",
 		"lhz_dun01",
@@ -191106,11 +191816,35 @@ var init_SupportedMapTable = __esmMin((() => {
 		"nameless_i",
 		"nameless_in",
 		"nameless_n",
+		"new_1-1",
+		"new_1-2",
+		"new_1-3",
+		"new_1-4",
+		"new_2-1",
+		"new_2-2",
+		"new_2-3",
+		"new_2-4",
+		"new_3-1",
+		"new_3-2",
+		"new_3-3",
+		"new_3-4",
+		"new_4-1",
+		"new_4-2",
+		"new_4-3",
+		"new_4-4",
+		"new_5-1",
+		"new_5-2",
+		"new_5-3",
+		"new_5-4",
 		"new_event",
 		"new_zone01",
 		"new_zone02",
 		"new_zone03",
 		"new_zone04",
+		"nguild_alde",
+		"nguild_gef",
+		"nguild_pay",
+		"nguild_prt",
 		"nif_dun01",
 		"nif_dun02",
 		"nif_fild01",
@@ -191126,11 +191860,18 @@ var init_SupportedMapTable = __esmMin((() => {
 		"odin_tem03",
 		"orcsdun01",
 		"orcsdun02",
+		"ordeal_1-1",
+		"ordeal_1-2",
+		"ordeal_2-1",
+		"ordeal_2-2",
+		"ordeal_3-1",
+		"ordeal_3-2",
 		"ordeal_a00",
 		"ordeal_a02",
 		"oz_dun01",
 		"oz_dun02",
 		"p_track01",
+		"p_track02",
 		"paramk",
 		"pay_arche",
 		"pay_d03_i",
@@ -191210,15 +191951,90 @@ var init_SupportedMapTable = __esmMin((() => {
 		"prtg_cas05",
 		"pub_cat",
 		"pvp_2vs2",
+		"pvp_c_room",
+		"pvp_n_1-1",
+		"pvp_n_1-2",
+		"pvp_n_1-3",
+		"pvp_n_1-4",
+		"pvp_n_1-5",
+		"pvp_n_2-1",
+		"pvp_n_2-2",
+		"pvp_n_2-3",
+		"pvp_n_2-4",
+		"pvp_n_2-5",
+		"pvp_n_3-1",
+		"pvp_n_3-2",
+		"pvp_n_3-3",
+		"pvp_n_3-4",
+		"pvp_n_3-5",
+		"pvp_n_4-1",
+		"pvp_n_4-2",
+		"pvp_n_4-3",
+		"pvp_n_4-4",
+		"pvp_n_4-5",
+		"pvp_n_5-1",
+		"pvp_n_5-2",
+		"pvp_n_5-3",
+		"pvp_n_5-4",
+		"pvp_n_5-5",
+		"pvp_n_6-1",
+		"pvp_n_6-2",
+		"pvp_n_6-3",
+		"pvp_n_6-4",
+		"pvp_n_6-5",
+		"pvp_n_7-1",
+		"pvp_n_7-2",
+		"pvp_n_7-3",
+		"pvp_n_7-4",
+		"pvp_n_7-5",
+		"pvp_n_8-1",
+		"pvp_n_8-2",
+		"pvp_n_8-3",
+		"pvp_n_8-4",
+		"pvp_n_8-5",
+		"pvp_n_room",
 		"pvp_room",
+		"pvp_y_1-1",
 		"pvp_y_1-2",
+		"pvp_y_1-3",
+		"pvp_y_1-4",
+		"pvp_y_1-5",
+		"pvp_y_2-1",
 		"pvp_y_2-2",
+		"pvp_y_2-3",
+		"pvp_y_2-4",
+		"pvp_y_2-5",
+		"pvp_y_3-1",
 		"pvp_y_3-2",
+		"pvp_y_3-3",
+		"pvp_y_3-4",
+		"pvp_y_3-5",
+		"pvp_y_4-1",
 		"pvp_y_4-2",
+		"pvp_y_4-3",
+		"pvp_y_4-4",
+		"pvp_y_4-5",
+		"pvp_y_5-1",
 		"pvp_y_5-2",
+		"pvp_y_5-3",
+		"pvp_y_5-4",
+		"pvp_y_5-5",
+		"pvp_y_6-1",
 		"pvp_y_6-2",
+		"pvp_y_6-3",
+		"pvp_y_6-4",
+		"pvp_y_6-5",
+		"pvp_y_7-1",
 		"pvp_y_7-2",
+		"pvp_y_7-3",
+		"pvp_y_7-4",
+		"pvp_y_7-5",
+		"pvp_y_8-1",
 		"pvp_y_8-2",
+		"pvp_y_8-3",
+		"pvp_y_8-4",
+		"pvp_y_8-5",
+		"pvp_y_room",
 		"que_avan01",
 		"que_ba",
 		"que_bingo",
@@ -191230,17 +192046,33 @@ var init_SupportedMapTable = __esmMin((() => {
 		"que_hugel",
 		"que_job01",
 		"que_job02",
+		"que_job03",
 		"que_lhz",
+		"que_moc_16",
+		"que_moon",
 		"que_ng",
+		"que_qaru01",
+		"que_qaru02",
+		"que_qaru03",
+		"que_qaru04",
+		"que_qaru05",
 		"que_qsch01",
+		"que_qsch02",
+		"que_qsch03",
+		"que_qsch04",
+		"que_qsch05",
 		"que_rachel",
+		"que_san04",
 		"que_sign01",
+		"que_sign02",
 		"que_swat",
+		"que_temsky",
 		"que_thor",
 		"que_thr",
 		"quiz_00",
 		"quiz_01",
 		"quiz_02",
+		"quiz_test",
 		"ra_fild01",
 		"ra_fild02",
 		"ra_fild03",
@@ -191275,7 +192107,10 @@ var init_SupportedMapTable = __esmMin((() => {
 		"schg_cas01",
 		"schg_cas02",
 		"schg_cas03",
+		"schg_cas04",
+		"schg_cas05",
 		"schg_dun01",
+		"schg_que01",
 		"sec_in01",
 		"sec_in02",
 		"sec_pri",
@@ -191295,6 +192130,9 @@ var init_SupportedMapTable = __esmMin((() => {
 		"splendide",
 		"star_frst",
 		"star_in",
+		"sword_1-1",
+		"sword_2-1",
+		"sword_3-1",
 		"te_alde_gld",
 		"te_aldecas1",
 		"te_aldecas2",
@@ -191329,6 +192167,9 @@ var init_SupportedMapTable = __esmMin((() => {
 		"thor_v02",
 		"thor_v03",
 		"tra_fild",
+		"tra_fild01",
+		"tra_fild02",
+		"tra_fild03",
 		"treasure01",
 		"treasure02",
 		"treasure_n1",
@@ -191343,6 +192184,13 @@ var init_SupportedMapTable = __esmMin((() => {
 		"tur_dun04",
 		"tur_dun05",
 		"tur_dun06",
+		"turbo_e_16",
+		"turbo_e_4",
+		"turbo_e_8",
+		"turbo_n_1",
+		"turbo_n_16",
+		"turbo_n_4",
+		"turbo_n_8",
 		"turbo_room",
 		"um_dun01",
 		"um_dun02",
@@ -191387,6 +192235,7 @@ var init_SupportedMapTable = __esmMin((() => {
 		"xmas_dun02",
 		"xmas_fild01",
 		"xmas_in",
+		"y_airport",
 		"yggdrasil01",
 		"yuno",
 		"yuno_fild01",
@@ -191406,7 +192255,8 @@ var init_SupportedMapTable = __esmMin((() => {
 		"yuno_in03",
 		"yuno_in04",
 		"yuno_in05",
-		"yuno_pre"
+		"yuno_pre",
+		"z_agit"
 	]);
 }));
 // src/DB/Navigation/NavigationData.js
@@ -204091,6 +204941,29 @@ var init_PacketStructure = __esmMin((() => {
 		this.cooldownRemaining = fp.readULong();
 	};
 	PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT.size = 32;
+	PACKET.CZ.HAPPYRO_MAP_RECOVERY = function PACKET_CZ_HAPPYRO_MAP_RECOVERY() {
+		this.generation = 0;
+		this.action = 0;
+	};
+	PACKET.CZ.HAPPYRO_MAP_RECOVERY.prototype.build = function() {
+		const writer = new BinaryWriter(7);
+		writer.writeShort(3340);
+		writer.writeULong(this.generation);
+		writer.writeUChar(this.action);
+		return writer;
+	};
+	PACKET.ZC.HAPPYRO_MAP_LOAD_CONTEXT = function PACKET_ZC_HAPPYRO_MAP_LOAD_CONTEXT(fp) {
+		this.generation = fp.readULong();
+		this.attempt = fp.readUChar();
+		this.pending = fp.readUChar();
+	};
+	PACKET.ZC.HAPPYRO_MAP_LOAD_CONTEXT.size = 8;
+	PACKET.ZC.HAPPYRO_MAP_RECOVERY_RESULT = function PACKET_ZC_HAPPYRO_MAP_RECOVERY_RESULT(fp) {
+		this.generation = fp.readULong();
+		this.status = fp.readUChar();
+		this.destination = fp.readUChar();
+	};
+	PACKET.ZC.HAPPYRO_MAP_RECOVERY_RESULT.size = 8;
 	PACKET.CZ.HAPPYRO_NPC_AVAILABILITY = function PACKET_CZ_HAPPYRO_NPC_AVAILABILITY() {
 		this.requestId = 0;
 		this.npcs = [];
@@ -238656,6 +239529,8 @@ var init_PacketRegister = __esmMin((() => {
 		3336: PACKET.ZC.HAPPYRO_CHARACTER_APPEARANCE,
 		3337: PACKET.HC.HAPPYRO_CHARACTER_APPEARANCE,
 		3339: PACKET.ZC.HAPPYRO_FRIEND_DETAIL,
+		3341: PACKET.ZC.HAPPYRO_MAP_LOAD_CONTEXT,
+		3342: PACKET.ZC.HAPPYRO_MAP_RECOVERY_RESULT,
 		3332: PACKET.ZC.HAPPYRO_NPC_NAME
 	};
 }));
@@ -241253,6 +242128,7 @@ function read$1(callback, length) {
 * @param {Uint8Array} buffer
 */
 function receive(buf) {
+	const socket = _socket;
 	if (ArrayBuffer.isView(buf)) buf = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
 	let id, packet;
 	let length = 0;
@@ -241316,7 +242192,14 @@ function receive(buf) {
 				failProtocol(`Cannot decode packet 0x${id.toString(16)}: ${error.message}`);
 				return;
 			}
-			if (packet.callback) packet.callback(packet.instance);
+			if (packet.callback) {
+				try {
+					packet.callback(packet.instance);
+				} catch (error) {
+					console.error(`[Network] Packet handler error for 0x${id.toString(16)} (${packet.name}):`, error);
+				}
+				if (_socket !== socket) return;
+			}
 		} else {
 			if (packetDump) {
 				const unknown_buffer = new Uint8Array(buffer, offset - length, length);
@@ -241905,16 +242788,8 @@ var init_CrusaderEffects = __esmMin((() => {
 var Audio_default;
 var init_Audio = __esmMin((() => {
 	init_Preferences$1();
-	Audio_default = Preferences.get("Audio", {
-		BGM: {
-			play: true,
-			volume: .5
-		},
-		Sound: {
-			play: true,
-			volume: .5
-		}
-	}, 1);
+	init_ClientDefaults();
+	Audio_default = Preferences.get("Audio", getClientDefaults("audio"), 1);
 }));
 // src/Core/Events.js
 var _events, _tick$1, _uid, Events;
@@ -242193,8 +243068,8 @@ var init_Background = __esmMin((() => {
 				_loading = loading;
 				return;
 			}
-			_loading.length = 10;
-			for (i = 1; i <= 10; ++i) _loading[i - 1] = `loading${i < 10 ? "0" + i : i}.jpg`;
+			_loading.length = 8;
+			for (i = 0; i < 8; ++i) _loading[i] = `loading0${i}.jpg`;
 		}
 		/**
 		* Resize the background
@@ -242554,17 +243429,21 @@ var init_KeyEventHandler = __esmMin((() => {
 // src/Preferences/Camera.js
 /** Apply mobile portrait framing without changing the saved zoom. */
 function viewportCameraZoom(zoom, step, maximum) {
-	return Platform.isMobile && Platform.orientation === "portrait" ? Math.min(zoom + (spacious ? 2 : 5) * step, maximum) : zoom;
+	return Platform.isMobile && Platform.orientation === "portrait" ? Math.min(zoom + (portraitZoom - landscapeZoom) / 15 * step, maximum) : zoom;
 }
-var spacious, DEFAULT_CAMERA_ZOOM, Camera_default;
+var spacious, defaults$1, landscapeZoom, portraitZoom, DEFAULT_CAMERA_ZOOM, Camera_default;
 var init_Camera$1 = __esmMin((() => {
 	init_Preferences$1();
+	init_ClientDefaults();
 	init_Platform();
 	init_MenuLayout();
 	spacious = menuDensity(Math.max(window.innerWidth, window.innerHeight), Math.min(window.innerWidth, window.innerHeight)) === "spacious";
-	DEFAULT_CAMERA_ZOOM = Platform.isMobile ? spacious ? 140 : 110 : 125;
+	defaults$1 = getClientDefaults("camera");
+	landscapeZoom = spacious ? defaults$1.tabletLandscapeZoom : defaults$1.phoneLandscapeZoom;
+	portraitZoom = spacious ? defaults$1.tabletPortraitZoom : defaults$1.phonePortraitZoom;
+	DEFAULT_CAMERA_ZOOM = Platform.isMobile ? landscapeZoom : defaults$1.desktopZoom;
 	Camera_default = Preferences.get("Camera", {
-		smooth: true,
+		smooth: defaults$1.smooth,
 		zoom: DEFAULT_CAMERA_ZOOM,
 		indoorZoom: DEFAULT_CAMERA_ZOOM
 	}, 1.1);
@@ -243134,56 +244013,8 @@ var init_GridSelector = __esmMin((() => {
 var Map_default;
 var init_Map = __esmMin((() => {
 	init_Preferences$1();
-	Map_default = Preferences.get("Map", {
-		/**
-		* Display the fog ?
-		*
-		* Toggle by using "/fog" in the chatbox
-		*/
-		fog: false,
-		/**
-		* Display lightmap ?
-		*
-		* Toggle using "/lightmap" in the chatbox
-		*/
-		lightmap: true,
-		/**
-		* Posterize lightmap ?
-		*
-		* Toggle using "/smoothlight" in the chatbox
-		*/
-		smoothlight: 0,
-		/**
-		* Display effects ?
-		*
-		* Toggle using "/effect" in the chatbox
-		*/
-		effect: true,
-		/**
-		* Display minify effects ?
-		*
-		* Toggle using "/mineeffect" in the chatbox
-		*/
-		mineffect: false,
-		/**
-		* Should we display "miss" when monster/player miss an attack ?
-		*
-		* Toggle using "/miss" in the chatbox
-		*/
-		miss: true,
-		/**
-		* Display aura (2) or simplified aura (1) or disable entirely (0)
-		*
-		* Toggle using "/aura" or "/aura2" in the chatbox
-		*/
-		aura: 1,
-		/**
-		* Display different font style ?
-		*
-		* Toggle using "/showname" changes font styles.
-		*/
-		showname: true
-	}, 1.1);
+	init_ClientDefaults();
+	Map_default = Preferences.get("Map", getClientDefaults("map"), 1.1);
 }));
 // src/Renderer/Map/Ground.vs?raw
 var Ground_default$2;
@@ -243196,16 +244027,6 @@ var init_Ground$1 = __esmMin((() => {
 	Ground_default$1 = "#version 300 es\r\nprecision highp float;\r\n\r\nin vec2 vTextureCoord;\r\nin vec2 vLightmapCoord;\r\nin vec2 vTileColorCoord;\r\nin float vLightWeighting;\r\nout vec4 fragColor;\r\n\r\nuniform sampler2D uDiffuse;\r\nuniform sampler2D uLightmap;\r\nuniform sampler2D uTileColor;\r\nuniform bool uLightMapUse;\r\nuniform bool uPosterize;\r\nuniform bool uGammaCorrection;\r\n\r\nuniform bool  uFogUse;\r\nuniform float uFogNear;\r\nuniform float uFogFar;\r\nuniform vec3  uFogColor;\r\n\r\nuniform vec3  uLightAmbient;\r\nuniform vec3  uLightDiffuse;\r\nuniform float uLightOpacity;\r\nuniform vec3  uLightDirection;\r\nuniform vec3 uLightEnv;\r\n\r\nvec3 posterize(vec3 c) {\r\n    c *= 255.0;\r\n    c = floor(c / 16.0) * 16.0;\r\n    c /= 255.0;\r\n    return c;\r\n}\r\n\r\nvoid main(void) {\r\n    vec4 textureSample = texture(uDiffuse, vTextureCoord.st);\r\n    if (textureSample.a < 0.1)\r\n        discard;\r\n\r\n    if (vTileColorCoord.st != vec2(0.0,0.0)) {\r\n        textureSample    *= texture( uTileColor, vTileColorCoord.st);\r\n    }\r\n\r\n    vec3 color = (vLightWeighting * uLightDiffuse + uLightAmbient);\r\n    textureSample.rgb *= clamp(color, 0.0, 1.0);\r\n    textureSample.rgb *= clamp(uLightEnv, 0.0, 1.0);\r\n\r\n    if (uLightMapUse) {\r\n        vec4 lightmap = texture( uLightmap, vLightmapCoord.st);\r\n        if(uPosterize) {\r\n            lightmap.rgb = posterize(lightmap.rgb);\r\n        } else if(uGammaCorrection){\r\n            lightmap.rgb = pow(lightmap.rgb, vec3(1.1));\r\n        }\r\n        textureSample.rgb *= lightmap.a;\r\n        textureSample.rgb += clamp(lightmap.rgb, 0.0, 1.0);\r\n    }\r\n\r\n    fragColor = textureSample;\r\n\r\n    if (uFogUse) {\r\n        float depth     = gl_FragCoord.z / gl_FragCoord.w;\r\n        float fogFactor = smoothstep( uFogNear, uFogFar, depth );\r\n        fragColor    = mix( fragColor, vec4(uFogColor, fragColor.w), fogFactor );\r\n    }\r\n\r\n}";
 }));
 // src/Renderer/Map/Ground.js
-/**
-* Render ground
-*
-* @param {object} gl context
-* @param {mat4} modelView
-* @param {mat4} projection
-* @param {mat3} normalMat
-* @param {object} fog structure
-* @param {object} light structure
-*/
 function render$12(gl, modelView, projection, normalMat, fog, light) {
 	const uniform = _program$25.uniform;
 	const attribute = _program$25.attribute;
@@ -243332,6 +244153,7 @@ function initTileColor2(gl, tilescolor, width, height) {
 * @param {Array} textures 's filename
 */
 function initTextures(gl, textures) {
+	const generation = loadGeneration$2;
 	const count = textures.length;
 	const textureCols = Math.round(Math.sqrt(count));
 	const atlasWidth = WebGL_default.toPowerOfTwo(textureCols * 258);
@@ -243343,6 +244165,7 @@ function initTextures(gl, textures) {
 	procCtx$2.clearRect(0, 0, atlasWidth, atlasHeight);
 	let loaded = 0;
 	function onTextureCompleteBuildAtlas(success, index) {
+		if (generation !== loadGeneration$2) return;
 		if (success) {
 			const x = index % textureCols * 258;
 			const y = Math.floor(index / textureCols) * 258;
@@ -243374,6 +244197,7 @@ function onTextureAtlasComplete(gl, atlas) {
 * @param {object} data - ground
 */
 function init$15(gl, data) {
+	loadGeneration$2++;
 	_vertCount$1 = data.meshVertCount;
 	_width = data.width;
 	data.height;
@@ -243392,6 +244216,7 @@ function init$15(gl, data) {
 * @param {object} gl context
 */
 function free$7(gl) {
+	loadGeneration$2++;
 	if (_lightmap) {
 		gl.deleteTexture(_lightmap);
 		_lightmap = null;
@@ -243430,7 +244255,7 @@ function getShadowFactor(x, y) {
 	for (y = -3; y < 3; ++y) for (x = -3; x < 3; ++x) factor += _shadowMap[_x + x + (_y + y) * _width * 8];
 	return factor / 36 / 255;
 }
-var procCanvas$2, procCtx$2, _program$25, _buffer$19, _lightmap, _tileColor, _textureAtlas, _shadowMap, _vertCount$1, _width, Ground_default;
+var procCanvas$2, procCtx$2, _program$25, _buffer$19, _lightmap, _tileColor, _textureAtlas, _shadowMap, _vertCount$1, _width, loadGeneration$2, Ground_default;
 var init_Ground = __esmMin((() => {
 	init_WebGL();
 	init_Texture();
@@ -243448,6 +244273,7 @@ var init_Ground = __esmMin((() => {
 	_shadowMap = null;
 	_vertCount$1 = 0;
 	_width = 0;
+	loadGeneration$2 = 0;
 	Ground_default = {
 		init: init$15,
 		free: free$7,
@@ -243834,13 +244660,8 @@ var init_Water$1 = __esmMin((() => {
 	Water_default$1 = "#version 300 es\r\nprecision highp float;\r\n\r\nin vec2 vTextureCoord;\r\nout vec4 fragColor;\r\n\r\nuniform sampler2D uDiffuse;\r\n\r\nuniform bool  uFogUse;\r\nuniform float uFogNear;\r\nuniform float uFogFar;\r\nuniform vec3  uFogColor;\r\n\r\nuniform vec3  uLightAmbient;\r\nuniform vec3  uLightDiffuse;\r\nuniform float uLightOpacity;\r\n\r\nuniform float uOpacity;\r\n\r\nvoid main(void) {\r\n    \r\n    vec4 textureSample = texture( uDiffuse,  vTextureCoord.st );\r\n    textureSample.a = uOpacity;\r\n    \r\n    if (textureSample.a == 0.0) {\r\n        discard;\r\n    }\r\n    \r\n    textureSample.a *= uOpacity;\r\n    \r\n    fragColor   = textureSample;\r\n\r\n    if (uFogUse) {\r\n        float depth     = gl_FragCoord.z / gl_FragCoord.w;\r\n        float fogFactor = smoothstep( uFogNear, uFogFar, depth );\r\n        fragColor    = mix( fragColor, vec4( uFogColor, fragColor.w ), fogFactor );\r\n    }\r\n}";
 }));
 // src/Renderer/Map/Water.js
-/**
-* Initialize water data
-*
-* @param {object} gl context
-* @param {object} water data
-*/
 function init$14(gl, water) {
+	const generation = ++loadGeneration$1;
 	_vertCount = water.vertCount;
 	_waveHeight = water.waveHeight;
 	_waveSpeed = water.waveSpeed;
@@ -243854,6 +244675,10 @@ function init$14(gl, water) {
 	gl.bindBuffer(gl.ARRAY_BUFFER, _buffer$17);
 	gl.bufferData(gl.ARRAY_BUFFER, water.mesh, gl.STATIC_DRAW);
 	function onTextureLoaded(texture, index) {
+		if (generation !== loadGeneration$1) {
+			if (texture) gl.deleteTexture(texture);
+			return;
+		}
 		_textures$2[index] = texture;
 	}
 	for (let i = 0; i < 32; ++i) WebGL_default.texture(gl, water.images[i], onTextureLoaded, i);
@@ -243905,6 +244730,7 @@ function render$11(gl, modelView, projection, fog, light, tick) {
 * @param {object} gl context
 */
 function free$6(gl) {
+	loadGeneration$1++;
 	let i;
 	if (_buffer$17) {
 		gl.deleteBuffer(_buffer$17);
@@ -243919,7 +244745,7 @@ function free$6(gl) {
 		_textures$2[i] = null;
 	}
 }
-var _program$23, _buffer$17, _vertCount, _textures$2, _waveSpeed, _waveHeight, _wavePitch, _animSpeed, _waterOpacity, Water_default;
+var _program$23, _buffer$17, _vertCount, _textures$2, _waveSpeed, _waveHeight, _wavePitch, _animSpeed, _waterOpacity, loadGeneration$1, Water_default;
 var init_Water = __esmMin((() => {
 	init_WebGL();
 	init_SpriteRenderer();
@@ -243934,6 +244760,7 @@ var init_Water = __esmMin((() => {
 	_wavePitch = 0;
 	_animSpeed = 0;
 	_waterOpacity = .9;
+	loadGeneration$1 = 0;
 	Water_default = {
 		init: init$14,
 		free: free$6,
@@ -243951,11 +244778,6 @@ var init_Models$1 = __esmMin((() => {
 	Models_default$1 = "#version 300 es\r\nprecision highp float;\r\n\r\nin vec2 vTextureCoord;\r\nin float vLightWeighting;\r\nin float vAlpha;\r\nout vec4 fragColor;\r\n\r\nuniform sampler2D uDiffuse;\r\n\r\nuniform bool  uFogUse;\r\nuniform float uFogNear;\r\nuniform float uFogFar;\r\nuniform vec3  uFogColor;\r\n\r\nuniform vec3  uLightAmbient;\r\nuniform vec3  uLightDiffuse;\r\nuniform float uLightOpacity;\r\nuniform bool uLightMapUse;\r\nuniform vec3 uLightEnv;\r\n\r\nvoid main(void) {\r\n	vec4 textureSample  = texture( uDiffuse,  vTextureCoord.st );\r\n\r\n	if (textureSample.a == 0.0) {\r\n		discard;\r\n	}\r\n\r\n	vec3 color = ((uLightMapUse ? vLightWeighting : 1.0) * uLightDiffuse + uLightAmbient);\r\n	textureSample.rgb *= clamp(color, 0.0, 1.0);\r\n	textureSample.rgb *= clamp(uLightEnv, 0.0, 1.0);\r\n	textureSample.a *= vAlpha;\r\n\r\n	fragColor = textureSample;\r\n	\r\n	if (uFogUse) {\r\n		float depth     = gl_FragCoord.z / gl_FragCoord.w;\r\n		float fogFactor = smoothstep( uFogNear, uFogFar, depth );\r\n		fragColor    = mix( fragColor, vec4( uFogColor, fragColor.w ), fogFactor );\r\n	}\r\n\r\n}";
 }));
 // src/Renderer/Map/Models.js
-/**
-* Build batched draw calls by merging consecutive objects with the same texture.
-* Objects sharing the same texture with contiguous vertex ranges are merged
-* into a single draw call, reducing GPU state changes.
-*/
 function buildBatches() {
 	_batches.length = 0;
 	let current = null;
@@ -243980,6 +244802,7 @@ function buildBatches() {
 * @param {object} data ( models )
 */
 function init$13(gl, data) {
+	const generation = ++loadGeneration;
 	const count = data.infos.length;
 	_objects.length = count;
 	_batchesReady = false;
@@ -243989,6 +244812,10 @@ function init$13(gl, data) {
 	gl.bindBuffer(gl.ARRAY_BUFFER, _buffer$16);
 	gl.bufferData(gl.ARRAY_BUFFER, data.buffer, gl.STATIC_DRAW);
 	function onTextureLoaded(texture, index) {
+		if (generation !== loadGeneration) {
+			if (texture) gl.deleteTexture(texture);
+			return;
+		}
 		_objects[index].texture = texture;
 		_objects[index].complete = true;
 		_pendingTextures--;
@@ -244066,6 +244893,7 @@ function render$10(gl, modelView, projection, normalMat, fog, light) {
 * @param {object} gl context
 */
 function free$5(gl) {
+	loadGeneration++;
 	let i, count;
 	if (_buffer$16) {
 		gl.deleteBuffer(_buffer$16);
@@ -244080,7 +244908,7 @@ function free$5(gl) {
 	_batches.length = 0;
 	_batchesReady = false;
 }
-var _program$22, _buffer$16, _objects, _batches, _batchesReady, _pendingTextures, Models_default;
+var _program$22, _buffer$16, _objects, _batches, _batchesReady, _pendingTextures, loadGeneration, Models_default;
 var init_Models = __esmMin((() => {
 	init_Models$2();
 	init_Models$1();
@@ -244093,6 +244921,7 @@ var init_Models = __esmMin((() => {
 	_batches = [];
 	_batchesReady = false;
 	_pendingTextures = 0;
+	loadGeneration = 0;
 	Models_default = {
 		init: init$13,
 		render: render$10,
@@ -244143,6 +244972,7 @@ function init$12(gl) {
 function free$4(gl) {
 	for (let i = 0; i < _animatedModels.length; i++) {
 		const model = _animatedModels[i];
+		model.disposed = true;
 		if (model.vao) gl.deleteVertexArray(model.vao);
 		if (model.buffer) gl.deleteBuffer(model.buffer);
 		for (const tex in model.textureObjects) if (model.textureObjects[tex]) gl.deleteTexture(model.textureObjects[tex]);
@@ -244334,11 +245164,16 @@ function add$2(gl, modelData) {
 */
 function loadTexture$1(gl, model, path, index) {
 	Client.loadFile(path, function(data) {
+		if (model.disposed) return;
 		WebGL_default.texture(gl, data, function(texture) {
+			if (model.disposed) {
+				if (texture) gl.deleteTexture(texture);
+				return;
+			}
 			model.textureObjects[index] = texture;
 		});
 	}, function() {
-		model.textureObjects[index] = null;
+		if (!model.disposed) model.textureObjects[index] = null;
 	});
 }
 function getPositionAtFrame$2(keyframes, frame, out) {
@@ -254367,7 +255202,7 @@ function readableColor(color, background) {
 	const key = `${color}|${background}`;
 	if (cache$1.has(key)) return cache$1.get(key);
 	let result = color.slice(0, 3);
-	if (contrastRatio(result, background) < 4.5) {
+	if (contrastRatio(result, background) < minimumContrast) {
 		const end = contrastRatio([
 			255,
 			255,
@@ -254381,7 +255216,7 @@ function readableColor(color, background) {
 		let low = 0, high = 1;
 		for (let i = 0; i < 24; i++) {
 			const mid = (low + high) / 2;
-			if (contrastRatio(mix(mid), background) < 4.5) low = mid;
+			if (contrastRatio(mix(mid), background) < minimumContrast) low = mid;
 			else high = mid;
 		}
 		result = mix(high).map((c) => end === 255 ? Math.ceil(c) : Math.floor(c));
@@ -254442,8 +255277,10 @@ function ensureReadableText(container) {
 		adapt(element, originalColors.get(element));
 	}
 }
-var cache$1, originalColors;
+var minimumContrast, cache$1, originalColors;
 var init_ReadableText = __esmMin((() => {
+	init_ClientDefaults();
+	minimumContrast = getClientDefaults("scriptText").minContrast;
 	cache$1 = /* @__PURE__ */ new Map();
 	originalColors = /* @__PURE__ */ new WeakMap();
 }));
@@ -256523,6 +257360,7 @@ function makeResizableDiv() {
 }
 var MAX_MSG, MAX_LENGTH, MAGIC_NUMBER, _historyMessage, _historyNickName, _heightIndex, _messageBuffer, _rafScheduled, _preferences$41, ChatBox, ChatBox_default;
 var init_ChatBox = __esmMin((() => {
+	init_DateTime();
 	init_ChatContent();
 	init_ChatFeed();
 	init_DBManager();
@@ -257444,11 +258282,7 @@ var init_ChatBox = __esmMin((() => {
 	ChatBox.saveCurrentTabChat = function saveCurrentTabChat() {
 		const root = _root$18();
 		let data;
-		const tzoffset = (/* @__PURE__ */ new Date()).getTimezoneOffset() * 6e4;
-		let localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
-		localISOTime = localISOTime.replace("T", " ");
-		const timezone = (/* @__PURE__ */ new Date()).getTimezoneOffset() / 60;
-		const date = `${localISOTime} (GMT ${timezone > 0 ? "-" : "+"}${Math.abs(timezone).toString()})`;
+		const date = `${formatDateTime(Date.now())} (${displayTimeZone()})`;
 		const contentEl = root.querySelector(`.content[data-content="${ChatBox.activeTab}"]`);
 		data = "<html><head><title>Chat History</title><style> body { background-color: DarkSlateGray; } </style></head><body>";
 		data += contentEl ? contentEl.outerHTML : "";
@@ -259585,15 +260419,18 @@ var init_MiniMapImage = __esmMin((() => {
 	init_Altitude();
 }));
 // src/DB/Map/MiniMapTable.js
-var MiniMapTable_default;
+var MiniMapTable;
 var init_MiniMapTable = __esmMin((() => {
-	MiniMapTable_default = {
+	MiniMapTable = {
+		tra_fild01: "tra_fild02",
+		tra_fild03: "tra_fild02",
 		int_land: "alb2trea",
 		int_land01: "alb2trea",
 		int_land02: "alb2trea",
 		int_land03: "alb2trea",
 		int_land04: "alb2trea"
 	};
+	for (let group = 1; group <= 5; group++) for (let area = 1; area <= 4; area++) MiniMapTable[`new_${group}-${area}`] = `new_zone0${area}`;
 }));
 // src/UI/Components/GameTools/MapPreviewLayout.js
 function fittedMapRect(canvasWidth, canvasHeight, sourceWidth, sourceHeight) {
@@ -259868,7 +260705,7 @@ function loadClientFile(path) {
 }
 function getMapPaths(mapName) {
 	const normalized = String(mapName || "").replace(/\.gat$/i, "").toLocaleLowerCase();
-	const miniMapBaseName = MiniMapTable_default[normalized] || normalized;
+	const miniMapBaseName = MiniMapTable[normalized] || normalized;
 	let bmpPath = `${DB.INTERFACE_PATH.replace("data/texture/", "")}map/${miniMapBaseName}.bmp`.replace(/\//g, "\\");
 	bmpPath = DB.mapalias[bmpPath] || bmpPath;
 	let gatPath = `${normalized}.gat`.replace(/\//g, "\\");
@@ -262228,7 +263065,7 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 		_fallbackMap = null;
 		_towninfo = DB.getTownInfo(mapname.replace(/\..*/, ""));
 		const mapBaseName = mapname.replace(/\..*/, "");
-		const miniMapBaseName = MiniMapTable_default[mapBaseName] || mapBaseName;
+		const miniMapBaseName = MiniMapTable[mapBaseName] || mapBaseName;
 		let path = DB.INTERFACE_PATH.replace("data/texture/", "") + "map/" + miniMapBaseName + ".bmp";
 		path = path.replace(/\//g, "\\");
 		path = DB.mapalias[path] || path;
@@ -265719,10 +266556,9 @@ function prettifyZeny$4(value) {
 * Converte DeleteTime
 */
 function formateDeleteTime(value) {
-	const ts_ms = value * 1e3;
-	const date_ob = new Date(ts_ms);
-	const year = date_ob.getFullYear();
-	return `${`0${date_ob.getMonth() + 1}`.slice(-2)} ${`0${date_ob.getDate()}`.slice(-2)} ${String(year).substring(2, 4)}`;
+	const date_ob = dateParts(value * 1e3);
+	const year = date_ob.year;
+	return `${date_ob.month} ${date_ob.day} ${String(year).substring(2, 4)}`;
 }
 function removeCreateAllItem() {
 	Mail.parseMailWinopen(0);
@@ -265748,6 +266584,7 @@ function sleep(time) {
 }
 var Mail, _preferences$36, Mail_default;
 var init_Mail$1 = __esmMin((() => {
+	init_DateTime();
 	init_DBManager();
 	init_ItemType();
 	init_Preferences$1();
@@ -273094,6 +273931,7 @@ var init_html2canvas = __esmMin((() => {
 // src/Controls/ScreenShot.js
 var ScreenShot;
 var init_ScreenShot = __esmMin((() => {
+	init_DateTime();
 	init_Client();
 	init_html2canvas();
 	init_KeyEventHandler();
@@ -273113,11 +273951,7 @@ var init_ScreenShot = __esmMin((() => {
 		*/
 		static process(canvas) {
 			let x, y;
-			const tzoffset = (/* @__PURE__ */ new Date()).getTimezoneOffset() * 6e4;
-			let localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
-			localISOTime = localISOTime.replace("T", " ");
-			const timezone = (/* @__PURE__ */ new Date()).getTimezoneOffset() / 60;
-			const date = `${localISOTime} (GMT ${timezone > 0 ? "-" : "+"}${Math.abs(timezone).toString()})`;
+			const date = `${formatDateTime(Date.now())} (${displayTimeZone()})`;
 			const context = canvas.getContext("2d");
 			context.fillStyle = "white";
 			context.strokeStyle = "black";
@@ -280240,12 +281074,8 @@ var init_SkillList = __esmMin((() => {
 var defaultInterfaceSettings, chatLineOptions, settings;
 var init_Interface = __esmMin((() => {
 	init_Preferences$1();
-	defaultInterfaceSettings = {
-		toastDuration: 2,
-		chatPreviewCompactLines: 3,
-		chatPreviewSpaciousLines: 5,
-		chatPreviewTabs: true
-	};
+	init_ClientDefaults();
+	defaultInterfaceSettings = getClientDefaults("interface");
 	chatLineOptions = [
 		2,
 		3,
@@ -282065,10 +282895,7 @@ function validAutoCombatTeleport(value) {
 function createAutoCombatController(data, configuration = {
 	species: [],
 	skills: [],
-	ranges: {
-		search: 20,
-		activity: 30
-	}
+	ranges: defaults.ranges
 }) {
 	let active = false, pausedForMovement = false, continuous = false, preferred = null, species = configuration.species.map((entry) => ({ ...entry })), ranges = { ...configuration.ranges }, selected = [...configuration.skills], target = null, nextAction = 0;
 	let teleport = {
@@ -282269,18 +283096,16 @@ function createAutoCombatController(data, configuration = {
 		targets: () => data.targets()
 	};
 }
-var AUTO_COMBAT_RANGE_LIMITS, AUTO_COMBAT_TELEPORT_DEFAULTS;
+var AUTO_COMBAT_RANGE_LIMITS, defaults, AUTO_COMBAT_TELEPORT_DEFAULTS;
 var init_AutoCombatController = __esmMin((() => {
+	init_ClientDefaults();
 	AUTO_COMBAT_RANGE_LIMITS = {
 		min: 1,
 		searchMax: 50,
 		activityMax: 100
 	};
-	AUTO_COMBAT_TELEPORT_DEFAULTS = {
-		enabled: false,
-		waitSeconds: 5,
-		intervalSeconds: 2
-	};
+	defaults = getClientDefaults("autoCombat");
+	AUTO_COMBAT_TELEPORT_DEFAULTS = defaults.teleport;
 }));
 // src/UI/Game/AutoCombatSettings.js
 /** Only preferences are persisted, never an active battle or a temporary target. */
@@ -282928,6 +283753,7 @@ function savePickupSettings(value) {
 }
 var pickupCategories, pickupDefaults, key$2, cachedKey, cachedValue;
 var init_PickupSettings = __esmMin((() => {
+	init_ClientDefaults();
 	init_SessionStorage();
 	init_ItemType();
 	pickupCategories = [
@@ -282937,10 +283763,7 @@ var init_PickupSettings = __esmMin((() => {
 		["other", "其它"]
 	];
 	pickupDefaults = () => ({
-		enabled: false,
-		range: 5,
-		batchSeconds: 5,
-		categories: pickupCategories.map(([id]) => id),
+		...getClientDefaults("pickup"),
 		excluded: []
 	});
 	key$2 = () => `HappyRO.Pickup:${JSON.stringify([
@@ -283670,9 +284493,82 @@ var init_PickupSettingsPanel$1 = __esmMin((() => {
 /** Desktop presentation; gameplay and persistence remain in the shared services. */
 function createAutoCombatView(root, actions, pickup, { showSkillDescription } = {}) {
 	root.innerHTML = `
-		<button type="button" class="combat-launcher" data-settings aria-label="战斗辅助" title="战斗辅助" aria-haspopup="dialog" aria-expanded="false">
+		<div class="combat-toolbar" role="group" aria-label="战斗辅助快捷操作">
+		<button type="button" class="combat-launcher" data-combat-toggle role="switch" aria-checked="false" aria-label="开启自动战斗" data-tooltip="开启自动战斗">
+			<svg class="combat-swords-icon" aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <!-- Lucide swords: https://lucide.dev/icons/swords
+ISC License
+
+Copyright (c) 2026 Lucide Icons and Contributors
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+---
+
+The following Lucide icons are derived from the Feather project:
+
+airplay, alert-circle, alert-octagon, alert-triangle, aperture, arrow-down-circle, arrow-down-left, arrow-down-right, arrow-down, arrow-left-circle, arrow-left, arrow-right-circle, arrow-right, arrow-up-circle, arrow-up-left, arrow-up-right, arrow-up, at-sign, calendar, cast, check, chevron-down, chevron-left, chevron-right, chevron-up, chevrons-down, chevrons-left, chevrons-right, chevrons-up, circle, clipboard, clock, code, columns, command, compass, corner-down-left, corner-down-right, corner-left-down, corner-left-up, corner-right-down, corner-right-up, corner-up-left, corner-up-right, crosshair, database, divide-circle, divide-square, dollar-sign, download, external-link, feather, frown, hash, headphones, help-circle, info, italic, key, layout, life-buoy, link-2, link, loader, lock, log-in, log-out, maximize, meh, minimize, minimize-2, minus-circle, minus-square, minus, monitor, moon, more-horizontal, more-vertical, move, music, navigation-2, navigation, octagon, pause-circle, percent, plus-circle, plus-square, plus, power, radio, rss, search, server, share, shopping-bag, sidebar, smartphone, smile, square, table-2, tablet, target, terminal, trash-2, trash, triangle, tv, type, upload, x-circle, x-octagon, x-square, x, zoom-in, zoom-out
+
+The MIT License (MIT) (for the icons listed above)
+
+Copyright (c) 2013-present Cole Bemis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+  -->
+  <path d="m13 19 6-6" />
+  <path d="M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5" />
+  <path d="m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586" />
+  <path d="m16 16 4 4" />
+  <path d="m19 21 2-2" />
+  <path d="m5 14 4 4" />
+  <path d="m5 21-2-2" />
+  <path d="M7.5 16.5 4 20" />
+</svg>
+		</button>
+		<button type="button" class="combat-launcher" data-pickup-toggle role="switch" aria-checked="false" aria-label="开启自动拾取" data-tooltip="开启自动拾取">
+			<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 3 1 4h6l1-4Z M9 7C6 10 4 13 4 17c0 3 3 4 8 4s8-1 8-4c0-4-2-7-5-10Z M12 11v6 M9 14h6"/></svg>
+		</button>
+		<button type="button" class="combat-launcher" data-settings aria-label="战斗辅助设置" data-tooltip="战斗辅助设置" aria-haspopup="dialog" aria-expanded="false">
 			<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.7 2.4-2 .9L4 5.7 2 9l1.8 1.8v2.4L2 15l2 3.3 2.3-.6 2 .9L9 21h6l.7-2.4 2-.9 2.3.6 2-3.3-1.8-1.8v-2.4L22 9l-2-3.3-2.3.6-2-.9L15 3Z"/><circle cx="12" cy="12" r="3.5"/></svg>
 		</button>
+		</div>
+		<div class="assist-feedback" role="status" hidden></div>
 		<div class="combat-backdrop" hidden>
 			<section class="combat-dialog" role="dialog" aria-modal="true" aria-label="战斗辅助配置">
 				<header class="desktop-window-header"><h2 class="desktop-window-title">战斗辅助</h2><button type="button" class="desktop-window-close" data-close aria-label="关闭战斗辅助"></button></header>
@@ -283683,7 +284579,6 @@ function createAutoCombatView(root, actions, pickup, { showSkillDescription } = 
 				</div>
 				</div>
 				<div id="combat-panel" role="tabpanel" aria-labelledby="combat-tab" class="desktop-combat-panel">
-				<div class="combat-runtime"><strong>自动战斗</strong><button type="button" class="game-switch" role="switch" aria-label="自动战斗" data-toggle aria-checked="false"></button></div>
 					<div class="auto-config-body"></div>
 				</div>
 				<div id="pickup-panel" role="tabpanel" aria-labelledby="pickup-tab" class="desktop-pickup-panel" hidden>
@@ -283729,8 +284624,11 @@ function createAutoCombatView(root, actions, pickup, { showSkillDescription } = 
 	function open() {
 		if (!backdrop.hidden) return;
 		createAutoCombatPanel($(".auto-config-body"), actions);
-		pickupEditor = createPickupSettingsPanel($(".desktop-pickup-scroll"), structuredClone(pickup.load()), pickup.save);
-		$(".desktop-pickup-panel").prepend($(".desktop-pickup-scroll > .pickup-enabled"));
+		pickupEditor = createPickupSettingsPanel($(".desktop-pickup-scroll"), structuredClone(pickup.load()), (value) => pickup.save({
+			...value,
+			enabled: pickup.load().enabled
+		}));
+		$(".desktop-pickup-scroll > .pickup-enabled")?.remove();
 		selectTab("combat");
 		backdrop.hidden = false;
 		restorePosition();
@@ -283739,11 +284637,33 @@ function createAutoCombatView(root, actions, pickup, { showSkillDescription } = 
 		update(actions.snapshot());
 		$("[data-close]").focus();
 	}
-	$("[data-toggle]").onclick = () => {
+	let feedbackTimer;
+	function notice(message) {
+		clearTimeout(feedbackTimer);
+		$(".assist-feedback").textContent = message;
+		$(".assist-feedback").hidden = !message;
+		if (message) feedbackTimer = setTimeout(() => {
+			$(".assist-feedback").hidden = true;
+		}, 3e3);
+	}
+	$("[data-combat-toggle]").onclick = () => {
 		if (actions.snapshot().active) actions.stop();
-		else if (!actions.start()) actions.stop("当前不能开始自动战斗");
+		else if (!actions.start()) {
+			actions.stop("当前不能开始自动战斗");
+			notice("当前不能开始自动战斗");
+		}
 		update(actions.snapshot());
 	};
+	$("[data-pickup-toggle]").onclick = () => {
+		const settings = pickup.load();
+		if (pickup.save({
+			...settings,
+			enabled: !settings.enabled
+		}) === false) notice("自动拾取设置保存失败，请重试");
+		else notice("");
+		update(actions.snapshot());
+	};
+	window.addEventListener("happyro-pickup-settings", () => update(actions.snapshot()), { signal: abort.signal });
 	for (const button of root.querySelectorAll("[data-tab]")) {
 		button.onclick = () => selectTab(button.dataset.tab);
 		button.onkeydown = (event) => {
@@ -283785,10 +284705,22 @@ function createAutoCombatView(root, actions, pickup, { showSkillDescription } = 
 		if (!backdrop.hidden) event.stopPropagation();
 	}, { signal: abort.signal });
 	function update(state) {
-		$("[data-toggle]").setAttribute("aria-checked", String(state.active));
-		const picking = pickup.load().enabled;
-		$("[data-settings]").title = `战斗辅助 · 战斗${state.active ? "开启" : "关闭"} · 拾取${picking ? "开启" : "关闭"}`;
+		for (const [selector, enabled, label] of [[
+			"[data-combat-toggle]",
+			state.active,
+			state.active ? "停止自动战斗" : "开启自动战斗"
+		], [
+			"[data-pickup-toggle]",
+			pickup.load().enabled,
+			pickup.load().enabled ? "关闭自动拾取" : "开启自动拾取"
+		]]) {
+			const button = $(selector);
+			button.setAttribute("aria-checked", String(enabled));
+			button.setAttribute("aria-label", label);
+			button.dataset.tooltip = label;
+		}
 	}
+	update(actions.snapshot());
 	return {
 		update,
 		open,
@@ -283797,6 +284729,7 @@ function createAutoCombatView(root, actions, pickup, { showSkillDescription } = 
 		destroy() {
 			root.getRootNode().host?.removeAttribute("data-settings-open");
 			pickupEditor?.destroy();
+			clearTimeout(feedbackTimer);
 			abort.abort();
 			root.replaceChildren();
 		}
@@ -283815,7 +284748,7 @@ var init_AutoCombat$1 = __esmMin((() => {
 // src/UI/Components/AutoCombat/AutoCombatLight.css?raw
 var AutoCombatLight_default;
 var init_AutoCombatLight = __esmMin((() => {
-	AutoCombatLight_default = "/* Desktop-only skin: shared combat/pickup components retain their mobile theme. */\r\n:host {\r\n --assist-surface: var(--desktop-surface);\r\n --assist-border: #d3d7db;\r\n --assist-accent: var(--desktop-success);\r\n color: var(--desktop-text);\r\n color-scheme: light;\r\n}\r\nbutton,\r\n.pickup-picker button {\r\n background: var(--desktop-button);\r\n border-color: var(--desktop-border);\r\n border-radius: 4px;\r\n color: var(--desktop-text);\r\n box-shadow: none;\r\n}\r\nbutton:not(.combat-launcher):hover:not(:disabled),\r\n.pickup-picker button:hover:not(:disabled) { background: var(--desktop-hover); border-color: var(--desktop-focus-border); }\r\nbutton:not(.combat-launcher):active:not(:disabled),\r\n.pickup-picker button:active:not(:disabled) { background: var(--desktop-pressed); }\r\nbutton:disabled { opacity: .55; }\r\nbutton:focus-visible,\r\n.pickup-picker button:focus-visible,\r\n.pickup-picker input:focus-visible { outline-color: #676e75; }\r\n.combat-dialog input:focus-visible { outline: none; border-color: var(--desktop-focus-border); }\r\n.combat-launcher {\r\n background-color: #e8ecef;\r\n background-image: linear-gradient(#ffffff99, #ffffff00);\r\n border-color: #b7bfc6;\r\n border-radius: 10px;\r\n color: #58636d;\r\n box-shadow: inset 0 1px var(--desktop-card), 0 2px 6px #0002;\r\n transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;\r\n}\r\n.combat-dialog,\r\n.pickup-picker {\r\n background: var(--assist-surface);\r\n border-color: var(--desktop-border);\r\n border-radius: 4px;\r\n color: var(--desktop-text);\r\n border-radius: 8px;\r\n box-shadow: 0 10px 28px #0003, 0 1px 4px #0001;\r\n}\r\n.combat-dialog > header { padding-bottom: 10px; border-bottom: 1px solid var(--desktop-divider); }\r\n.combat-dialog > header .combat-tabs.desktop-tab-group { margin-right: auto; }\r\n.combat-runtime,\r\n.combat-dialog .desktop-pickup-panel > .pickup-enabled { background: #eceff1; border-color: var(--desktop-divider); border-radius: 6px; }\r\n.combat-dialog :is(.auto-range-settings, .auto-teleport-settings, .auto-species-card, .auto-skill-card),\r\n.pickup-excluded { background: var(--desktop-card); border-color: var(--desktop-divider); border-radius: 6px; color: var(--desktop-text); }\r\n.combat-dialog :is(.auto-species-card, .auto-skill-card):hover { background: var(--desktop-button); border-color: #9ca3aa; }\r\n.combat-dialog :is(.auto-species-card, .auto-skill-card)[aria-checked='true'],\r\n.combat-dialog [data-all-species][aria-pressed='true'],\r\n.combat-dialog [data-normal-attack][aria-pressed='true'] { background: var(--desktop-selected); border-color: var(--desktop-selected-border); color: var(--desktop-text); }\r\n.combat-dialog .auto-species-check { border-color: var(--desktop-border); background: var(--desktop-card); color: var(--desktop-text); }\r\n.combat-dialog [aria-checked='true'] .auto-species-check { background: var(--desktop-success); border-color: var(--desktop-success); color: var(--desktop-card); }\r\n.combat-dialog .auto-range-stepper button { background: var(--desktop-button); border-color: var(--desktop-border); border-radius: 4px; }\r\n.combat-dialog .auto-range-stepper button:hover:not(:disabled) { background: var(--desktop-hover); }\r\n.combat-dialog :is(input[type='number'], input[type='search']),\r\n.pickup-picker .pickup-search input { background: var(--desktop-card); border-color: var(--desktop-border); border-radius: 4px; color: var(--desktop-text); }\r\n.combat-dialog :is(.auto-help, .auto-skill-card small, [data-skill-count], [data-auto-save-status], .combat-subtitle),\r\n.pickup-note, .pickup-search-status, .pickup-save-status { color: var(--desktop-muted); }\r\n.combat-dialog :is([data-range-summary], [data-auto-feedback]) { color: #376a47; }\r\n.combat-dialog [data-auto-save-status][data-error='true'],\r\n.pickup-save-status[data-error='true'] { color: #a61d24; }\r\n.pickup-section input[aria-invalid='true'] { border-color: #a61d24; outline-color: #a61d24; }\r\n.pickup-item, .pickup-picker > footer { border-color: #d1d5d8; }\r\n.pickup-section .pickup-item input[type='checkbox'] { border-color: var(--desktop-border); border-radius: 4px; background: var(--desktop-card); }\r\n.pickup-section .pickup-item input[type='checkbox']:checked { background: var(--desktop-success); border-color: var(--desktop-success); }\r\n.pickup-section .pickup-item input[type='checkbox']:focus-visible { outline-color: #676e75; }\r\n.pickup-picker input[type='checkbox'] { accent-color: var(--desktop-success); }\r\n.combat-dialog .game-switch[role='switch'] { background: #d8dce0; border-color: #9da5ad; }\r\n.combat-dialog .game-switch[role='switch']::before { background: var(--desktop-card); }\r\n.combat-dialog .game-switch[role='switch']:is(:checked, [aria-checked='true']) { background: var(--desktop-success); border-color: var(--desktop-success); }\r\n.combat-dialog .game-switch[role='switch']:focus-visible { outline-color: #676e75; }\r\n\r\n.combat-dialog .ui-confirm { background: var(--desktop-card); color: var(--desktop-text); border-color: var(--desktop-border); border-radius: 4px; }\r\n.combat-dialog .ui-confirm .ui-confirm-actions button { background: var(--desktop-button); color: var(--desktop-text); border-color: var(--desktop-border); border-radius: 4px; }\r\n.combat-dialog .ui-confirm .ui-confirm-actions button:hover:not(:disabled) { background: var(--desktop-hover); border-color: var(--desktop-focus-border); }\r\n.combat-dialog .ui-confirm .ui-confirm-actions button:focus-visible { outline-color: #676e75; }\r\n\r\n.combat-launcher:hover:not(:disabled) { background-color: #fafbfc; border-color: #929fa9; color: #374b5a; }\r\n.combat-launcher:active:not(:disabled),\r\n.combat-launcher[aria-expanded='true'] { background-color: #e2e8ec; border-color: #929fa9; box-shadow: inset 0 1px 3px #0001; }\r\n@media (prefers-reduced-motion: reduce) { .combat-launcher { transition: none; } }\r\n\r\n/* Leave breathing room between settings navigation and its content. */\r\n.combat-dialog { row-gap: 16px; }\r\n\r\n/* The same title/close row as adventure tools; tabs remain a separate row. */\r\n.combat-dialog { padding: 0; gap: 0; overflow: hidden; }\r\n.combat-dialog > .combat-tabbar { flex: 0 0 auto; padding: 5px 10px 8px; border-bottom: 1px solid var(--desktop-divider); }\r\n.combat-dialog > :is(.desktop-combat-panel, .desktop-pickup-panel) { margin: 12px 16px 16px; min-height: 0; }\r\n\r\n/* An empty target list must not add another gap below the all-targets button. */\r\n.combat-dialog .auto-species-list:empty { display: none; }\r\n.combat-dialog .auto-species-list:empty + .auto-range-settings { margin-top: 0; }\r\n";
+	AutoCombatLight_default = "/* Desktop-only skin: shared combat/pickup components retain their mobile theme. */\r\n:host {\r\n --assist-surface: var(--desktop-surface);\r\n --assist-border: #d3d7db;\r\n --assist-accent: var(--desktop-success);\r\n color: var(--desktop-text);\r\n color-scheme: light;\r\n}\r\nbutton,\r\n.pickup-picker button {\r\n background: var(--desktop-button);\r\n border-color: var(--desktop-border);\r\n border-radius: 4px;\r\n color: var(--desktop-text);\r\n box-shadow: none;\r\n}\r\nbutton:not(.combat-launcher):hover:not(:disabled),\r\n.pickup-picker button:hover:not(:disabled) { background: var(--desktop-hover); border-color: var(--desktop-focus-border); }\r\nbutton:not(.combat-launcher):active:not(:disabled),\r\n.pickup-picker button:active:not(:disabled) { background: var(--desktop-pressed); }\r\nbutton:disabled { opacity: .55; }\r\nbutton:focus-visible,\r\n.pickup-picker button:focus-visible,\r\n.pickup-picker input:focus-visible { outline-color: #676e75; }\r\n.combat-dialog input:focus-visible { outline: none; border-color: var(--desktop-focus-border); }\r\n.combat-launcher {\r\n background-color: #e8ecef;\r\n background-image: linear-gradient(#ffffff99, #ffffff00);\r\n border-color: #b7bfc6;\r\n border-radius: 10px;\r\n color: #58636d;\r\n box-shadow: inset 0 1px var(--desktop-card), 0 2px 6px #0002;\r\n transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;\r\n}\r\n.combat-dialog,\r\n.pickup-picker {\r\n background: var(--assist-surface);\r\n border-color: var(--desktop-border);\r\n border-radius: 4px;\r\n color: var(--desktop-text);\r\n border-radius: 8px;\r\n box-shadow: 0 10px 28px #0003, 0 1px 4px #0001;\r\n}\r\n.combat-dialog > header { padding-bottom: 10px; border-bottom: 1px solid var(--desktop-divider); }\r\n.combat-dialog > header .combat-tabs.desktop-tab-group { margin-right: auto; }\r\n.combat-runtime,\r\n.combat-dialog .desktop-pickup-panel > .pickup-enabled { background: #eceff1; border-color: var(--desktop-divider); border-radius: 6px; }\r\n.combat-dialog :is(.auto-range-settings, .auto-teleport-settings, .auto-species-card, .auto-skill-card),\r\n.pickup-excluded { background: var(--desktop-card); border-color: var(--desktop-divider); border-radius: 6px; color: var(--desktop-text); }\r\n.combat-dialog :is(.auto-species-card, .auto-skill-card):hover { background: var(--desktop-button); border-color: #9ca3aa; }\r\n.combat-dialog :is(.auto-species-card, .auto-skill-card)[aria-checked='true'],\r\n.combat-dialog [data-all-species][aria-pressed='true'],\r\n.combat-dialog [data-normal-attack][aria-pressed='true'] { background: var(--desktop-selected); border-color: var(--desktop-selected-border); color: var(--desktop-text); }\r\n.combat-dialog .auto-species-check { border-color: var(--desktop-border); background: var(--desktop-card); color: var(--desktop-text); }\r\n.combat-dialog [aria-checked='true'] .auto-species-check { background: var(--desktop-success); border-color: var(--desktop-success); color: var(--desktop-card); }\r\n.combat-dialog .auto-range-stepper button { background: var(--desktop-button); border-color: var(--desktop-border); border-radius: 4px; }\r\n.combat-dialog .auto-range-stepper button:hover:not(:disabled) { background: var(--desktop-hover); }\r\n.combat-dialog :is(input[type='number'], input[type='search']),\r\n.pickup-picker .pickup-search input { background: var(--desktop-card); border-color: var(--desktop-border); border-radius: 4px; color: var(--desktop-text); }\r\n.combat-dialog :is(.auto-help, .auto-skill-card small, [data-skill-count], [data-auto-save-status], .combat-subtitle),\r\n.pickup-note, .pickup-search-status, .pickup-save-status { color: var(--desktop-muted); }\r\n.combat-dialog :is([data-range-summary], [data-auto-feedback]) { color: #376a47; }\r\n.combat-dialog [data-auto-save-status][data-error='true'],\r\n.pickup-save-status[data-error='true'] { color: #a61d24; }\r\n.pickup-section input[aria-invalid='true'] { border-color: #a61d24; outline-color: #a61d24; }\r\n.pickup-item, .pickup-picker > footer { border-color: #d1d5d8; }\r\n.pickup-section .pickup-item input[type='checkbox'] { border-color: var(--desktop-border); border-radius: 4px; background: var(--desktop-card); }\r\n.pickup-section .pickup-item input[type='checkbox']:checked { background: var(--desktop-success); border-color: var(--desktop-success); }\r\n.pickup-section .pickup-item input[type='checkbox']:focus-visible { outline-color: #676e75; }\r\n.pickup-picker input[type='checkbox'] { accent-color: var(--desktop-success); }\r\n.combat-dialog .game-switch[role='switch'] { background: #d8dce0; border-color: #9da5ad; }\r\n.combat-dialog .game-switch[role='switch']::before { background: var(--desktop-card); }\r\n.combat-dialog .game-switch[role='switch']:is(:checked, [aria-checked='true']) { background: var(--desktop-success); border-color: var(--desktop-success); }\r\n.combat-dialog .game-switch[role='switch']:focus-visible { outline-color: #676e75; }\r\n\r\n.combat-dialog .ui-confirm { background: var(--desktop-card); color: var(--desktop-text); border-color: var(--desktop-border); border-radius: 4px; }\r\n.combat-dialog .ui-confirm .ui-confirm-actions button { background: var(--desktop-button); color: var(--desktop-text); border-color: var(--desktop-border); border-radius: 4px; }\r\n.combat-dialog .ui-confirm .ui-confirm-actions button:hover:not(:disabled) { background: var(--desktop-hover); border-color: var(--desktop-focus-border); }\r\n.combat-dialog .ui-confirm .ui-confirm-actions button:focus-visible { outline-color: #676e75; }\r\n\r\n.combat-launcher:hover:not(:disabled) { background-color: #fafbfc; border-color: #929fa9; color: #374b5a; }\r\n.combat-launcher:active:not(:disabled),\r\n.combat-launcher[aria-expanded='true'] { background-color: #e2e8ec; border-color: #929fa9; box-shadow: inset 0 1px 3px #0001; }\r\n@media (prefers-reduced-motion: reduce) { .combat-launcher { transition: none; } }\r\n\r\n/* Leave breathing room between settings navigation and its content. */\r\n.combat-dialog { row-gap: 16px; }\r\n\r\n/* The same title/close row as adventure tools; tabs remain a separate row. */\r\n.combat-dialog { padding: 0; gap: 0; overflow: hidden; }\r\n.combat-dialog > .combat-tabbar { flex: 0 0 auto; padding: 5px 10px 8px; border-bottom: 1px solid var(--desktop-divider); }\r\n.combat-dialog > :is(.desktop-combat-panel, .desktop-pickup-panel) { margin: 12px 16px 16px; min-height: 0; }\r\n\r\n/* An empty target list must not add another gap below the all-targets button. */\r\n.combat-dialog .auto-species-list:empty { display: none; }\r\n.combat-dialog .auto-species-list:empty + .auto-range-settings { margin-top: 0; }\r\n\r\n/* Persistent desktop controls: state and action remain visible outside settings. */\r\n.combat-toolbar { display: flex; gap: 8px; pointer-events: auto; }\r\n.combat-toolbar .combat-launcher { width: 42px; height: 42px; }\r\n.combat-toolbar .combat-launcher:hover { background-color: #fff4d7; border-color: #af8841; color: #70511e; }\r\n.combat-toolbar .combat-launcher[aria-checked='true'] { background-color: #d9eddf; border-color: #44835a; color: #245e38; box-shadow: inset 0 0 0 1px #44835a, 0 2px 6px #0002; }\r\n.combat-toolbar .combat-launcher[aria-checked='true']:hover { background-color: #c2e2cc; }\r\n.combat-launcher::after { content: attr(data-tooltip); position: absolute; bottom: calc(100% + 10px); right: 0; width: max-content; padding: 7px 10px; border: 1px solid #c6cdd2; border-radius: 6px; background: #fffffff5; color: #303940; box-shadow: 0 3px 12px #0003; font-size: 12px; pointer-events: none; opacity: 0; visibility: hidden; }\r\n.combat-launcher:hover::after, .combat-launcher:focus-visible::after { opacity: 1; visibility: visible; }\r\n.assist-feedback { position: absolute; bottom: 54px; right: 0; width: max-content; max-width: 280px; padding: 8px 12px; border-radius: 6px; background: #fff6e5; border: 1px solid #c6a76b; color: #704b21; pointer-events: none; }\r\n\r\n.combat-launcher svg.combat-swords-icon { stroke-width: 2; }\r\n";
 }));
 // src/UI/Components/DesktopTabs.css?raw
 var DesktopTabs_default;
@@ -284117,7 +285050,6 @@ var init_GraphicsOption$1 = __esmMin((() => {
 function onUpdateQualityDetails() {
 	GraphicsSettings.quality = parseInt(this.value, 10);
 	GraphicsSettings.save();
-	Configs.set("quality", GraphicsSettings.quality);
 	Renderer.resize();
 }
 /**
@@ -284266,7 +285198,6 @@ function onResetToDefaults() {
 		if (defaultSettings.hasOwnProperty(key)) GraphicsSettings[key] = defaultSettings[key];
 	});
 	GraphicsSettings.save();
-	Configs.set("quality", GraphicsSettings.quality);
 	Renderer.resize();
 	document.body.classList.toggle("custom-cursor", GraphicsSettings.cursor);
 	if (previousPixelPerfect !== GraphicsSettings.pixelPerfectSprites) ChatBox_default.addText("[系统] 像素清晰显示已恢复默认，请刷新页面后生效。", ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
@@ -284275,7 +285206,6 @@ function onResetToDefaults() {
 var GraphicsOption, _preferences$30, GraphicsOption_default;
 var init_GraphicsOption = __esmMin((() => {
 	init_FPS();
-	init_Configs();
 	init_Context();
 	init_Preferences$1();
 	init_Graphics();
@@ -284967,6 +285897,7 @@ function onClickAttendance(e) {
 }
 var CheckAttendance, _checkAttendanceData, _CheckAttendanceInfo, _preferences$28, CheckAttendance_default;
 var init_CheckAttendance = __esmMin((() => {
+	init_DateTime();
 	init_DBManager();
 	init_Preferences$1();
 	init_Renderer();
@@ -285061,9 +285992,10 @@ var init_CheckAttendance = __esmMin((() => {
 				attendance_count = parseInt(_checkAttendanceData / 10);
 				current_day = attendance_count + 1;
 				const total_days_string = attendance_count >= 20 || already_requested ? `${attendance_count} Day attendance success` : `Click the item to claim day ${current_day} reward`;
-				const end_date = /* @__PURE__ */ new Date(`${end[1]}-${end[2]}-${end[3]}`);
-				const now_date = /* @__PURE__ */ new Date();
-				const remaining_days = Math.round(Math.abs((end_date.getTime() - now_date.getTime()) / 864e5));
+				const today = dateParts(Date.now());
+				const endDay = Date.UTC(Number(end[1]), Number(end[2]) - 1, Number(end[3]));
+				const currentDay = Date.UTC(Number(today.year), Number(today.month) - 1, Number(today.day));
+				const remaining_days = Math.max(0, Math.round((endDay - currentDay) / 864e5) + 1);
 				const totalDaysEl = root.querySelector(".total-days");
 				if (totalDaysEl) totalDaysEl.innerHTML = total_days_string;
 				const remainingEl = root.querySelector(".remaining-day-text");
@@ -285325,9 +286257,9 @@ function createQuest(config) {
 		if (hunt_info.huntCount) _questList[questID].hunt_list[huntID].huntCount = hunt_info.huntCount;
 		if (hunt_info.mobGID) _questList[questID].hunt_list[huntID].mobGID = hunt_info.mobGID;
 		const mob_name = _questList[questID].hunt_list[huntID].mobName;
-		const chat_quest_text = `Mission [${DB.getQuestInfo(questID).Title}], you killed [${mob_name}]. (${_questList[questID].hunt_list[huntID].huntCount}/${_questList[questID].hunt_list[huntID].maxCount})`;
+		const chat_quest_text = `任务【${DB.getQuestInfo(questID).Title}】：击败${mob_name}（${_questList[questID].hunt_list[huntID].huntCount}/${_questList[questID].hunt_list[huntID].maxCount}）`;
 		let self_msg;
-		if (_questList[questID].hunt_list[huntID].maxCount == _questList[questID].hunt_list[huntID].huntCount) self_msg = `${mob_name} [Completed]`;
+		if (_questList[questID].hunt_list[huntID].maxCount == _questList[questID].hunt_list[huntID].huntCount) self_msg = `${mob_name}【已完成】`;
 		else self_msg = `${mob_name} [${_questList[questID].hunt_list[huntID].huntCount}/${_questList[questID].hunt_list[huntID].maxCount}]`;
 		ChatBox_default.addText(chat_quest_text, ChatBox_default.TYPE.ADMIN | ChatBox_default.TYPE.SELF, ChatBox_default.FILTER.QUEST);
 		if (SessionStorage_default.Entity) SessionStorage_default.Entity.dialog.set(self_msg, "yellow");
@@ -285390,13 +286322,13 @@ function createQuest(config) {
 			let li_text;
 			if (quest.end_time > 0 && quest.end_time > epoch_seconds) {
 				ul_id = "#cooldown-quest-list";
-				li_text = "<li> <div class=\"quest-item-icon\"> <div class=\"quest-item-icon-image\"> <span class=\"quest-item-icon-image-text\">Quest</span> </div> </div>  <div class=\"quest-item-title\"> <span class=\"quest-item-title-text\">" + title + "</span>  </div> <div class=\"quest-item-display\"> <div class=\"quest-item-display-image\"> <span class=\"quest-item-display-image-text\"></span> </div></div><div class=\"quest-item-summary\"><span class=\"quest-item-summary-text\">" + summary + "</span></div>				<div class=\"quest-item-toggle\"><div class=\"quest-item-toggle-image\"><span class=\"quest-item-toggle-image-text\">Toggle</span></div></div></li>";
+				li_text = "<li> <div class=\"quest-item-icon\"> <div class=\"quest-item-icon-image\"> <span class=\"quest-item-icon-image-text\">任务</span> </div> </div>  <div class=\"quest-item-title\"> <span class=\"quest-item-title-text\">" + title + "</span>  </div> <div class=\"quest-item-display\"> <div class=\"quest-item-display-image\"> <span class=\"quest-item-display-image-text\"></span> </div></div><div class=\"quest-item-summary\"><span class=\"quest-item-summary-text\">" + summary + "</span></div>				<div class=\"quest-item-toggle\"><div class=\"quest-item-toggle-image\"><span class=\"quest-item-toggle-image-text\">切换状态</span></div></div></li>";
 			} else if (quest.active == 1) {
 				ul_id = "#active-quest-list";
-				li_text = "<li> <div class=\"quest-item-icon\"> <div class=\"quest-item-icon-image\"> <span class=\"quest-item-icon-image-text\">Quest</span> </div> </div>  <div class=\"quest-item-title\"> <span class=\"quest-item-title-text\">" + title + "</span>  </div> <div class=\"quest-item-display\"> <button id=\"" + show_id + "\" class=\"quest-item-display-image\"> <span class=\"quest-item-display-image-text\"></span> </button></div><div class=\"quest-item-summary\"><span class=\"quest-item-summary-text\">" + summary + "</span></div>				<div class=\"quest-item-toggle\"><button id=\"" + toggle_id + "\" class=\"quest-item-toggle-image\"><span class=\"quest-item-toggle-image-text\">Toggle</span></button></div></li>";
+				li_text = "<li> <div class=\"quest-item-icon\"> <div class=\"quest-item-icon-image\"> <span class=\"quest-item-icon-image-text\">任务</span> </div> </div>  <div class=\"quest-item-title\"> <span class=\"quest-item-title-text\">" + title + "</span>  </div> <div class=\"quest-item-display\"> <button id=\"" + show_id + "\" class=\"quest-item-display-image\"> <span class=\"quest-item-display-image-text\"></span> </button></div><div class=\"quest-item-summary\"><span class=\"quest-item-summary-text\">" + summary + "</span></div>				<div class=\"quest-item-toggle\"><button id=\"" + toggle_id + "\" class=\"quest-item-toggle-image\"><span class=\"quest-item-toggle-image-text\">切换状态</span></button></div></li>";
 			} else {
 				ul_id = "#inactive-quest-list";
-				li_text = "<li> <div class=\"quest-item-icon\"> <div class=\"quest-item-icon-image\"> <span class=\"quest-item-icon-image-text\">Quest</span> </div> </div>  <div class=\"quest-item-title\"> <span class=\"quest-item-title-text\">" + title + "</span>  </div> <div class=\"quest-item-display\"> <div class=\"quest-item-display-image\"> <span class=\"quest-item-display-image-text\"></span> </div></div><div class=\"quest-item-summary\"><span class=\"quest-item-summary-text\">" + summary + "</span></div>				<div class=\"quest-item-toggle\"><button id=\"" + toggle_id + "\" class=\"quest-item-toggle-image\"><span class=\"quest-item-toggle-image-text\">Toggle</span></button></div></li>";
+				li_text = "<li> <div class=\"quest-item-icon\"> <div class=\"quest-item-icon-image\"> <span class=\"quest-item-icon-image-text\">任务</span> </div> </div>  <div class=\"quest-item-title\"> <span class=\"quest-item-title-text\">" + title + "</span>  </div> <div class=\"quest-item-display\"> <div class=\"quest-item-display-image\"> <span class=\"quest-item-display-image-text\"></span> </div></div><div class=\"quest-item-summary\"><span class=\"quest-item-summary-text\">" + summary + "</span></div>				<div class=\"quest-item-toggle\"><button id=\"" + toggle_id + "\" class=\"quest-item-toggle-image\"><span class=\"quest-item-toggle-image-text\">切换状态</span></button></div></li>";
 			}
 			const ul = root.querySelector(ul_id);
 			if (!ul) return;
@@ -285802,10 +286734,8 @@ function createQuestHelper(config) {
 			});
 		}
 		if (quest.end_time) {
-			const d = /* @__PURE__ */ new Date(0);
-			d.setUTCSeconds(quest.end_time);
 			const deadlineEl = root.querySelector(".quest-info-bottom-deadline-info-text");
-			if (deadlineEl) deadlineEl.textContent = `截止时间 [${d.toLocaleString()}]`;
+			if (deadlineEl) deadlineEl.textContent = `截止时间 [${formatDateTime(quest.end_time * 1e3)}]`;
 		}
 		ensureReadableText(root);
 	} : function setQuestInfo(quest) {
@@ -285910,6 +286840,7 @@ function createQuestHelper(config) {
 	return UIManager.addComponent(QuestHelper);
 }
 var init_QuestHelperCommon = __esmMin((() => {
+	init_DateTime();
 	init_RagnarokText();
 	init_ReadableText();
 	init_DBManager();
@@ -286147,6 +287078,7 @@ var init_Achievement$2 = __esmMin((() => {
 // src/UI/Components/Achievement/Achievement.js
 var _preferences$26, MAJOR_CATEGORIES, AchievementComponent, Achievement, Achievement_default;
 var init_Achievement$1 = __esmMin((() => {
+	init_DateTime();
 	init_GUIComponent();
 	init_UIManager();
 	init_Elements();
@@ -286510,8 +287442,8 @@ var init_Achievement$1 = __esmMin((() => {
 					const groupName = info.group ? info.group.toLowerCase() : "";
 					const hasReward = info.reward && (Array.isArray(info.reward) ? info.reward.length > 0 : Object.keys(info.reward).length > 0);
 					const isClaimed = s && s.reward;
-					const d = /* @__PURE__ */ new Date(s.completed_at * 1e3);
-					dtStr = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
+					const d = dateParts(s.completed_at * 1e3);
+					dtStr = `${d.year}.${Number(d.month)}.${Number(d.day)}`;
 					if (hasReward) {
 						if (!isClaimed) rewardBoxBg = "achievement_re/list_rewardbox_not_receive.bmp";
 						else rewardBoxBg = "";
@@ -286593,8 +287525,8 @@ var init_Achievement$1 = __esmMin((() => {
 					else rewardBoxBg = "";
 				}
 				if (isCompleted) {
-					const d = /* @__PURE__ */ new Date(s.completed_at * 1e3);
-					dtStr = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
+					const d = dateParts(s.completed_at * 1e3);
+					dtStr = `${d.year}.${Number(d.month)}.${Number(d.day)}`;
 				}
 				item.innerHTML = `
 			<div class="icon" data-background="achievement_re/icon_${groupName}.bmp"></div>
@@ -286809,7 +287741,7 @@ function updateGroupTotalPoints(groupId) {
 	let reputeIds = DB.getReputeGroupList(groupId);
 	if (reputeIds && typeof reputeIds === "object") reputeIds = Object.values(reputeIds);
 	if (!reputeIds || !reputeIds.length) {
-		if (indicator) indicator.style.backgroundImage = `url(${indicator_empty})`;
+		if (indicator) indicator.style.backgroundImage = indicator_empty;
 		if (pointsValue) pointsValue.textContent = "0";
 		return;
 	}
@@ -286818,9 +287750,9 @@ function updateGroupTotalPoints(groupId) {
 		totalPoints += Reputation.reputeState?.[reputeId] || 0;
 	});
 	if (indicator) {
-		if (totalPoints > 0) indicator.style.backgroundImage = `url(${indicator_blue})`;
-		else if (totalPoints < 0) indicator.style.backgroundImage = `url(${indicator_red})`;
-		else indicator.style.backgroundImage = `url(${indicator_empty})`;
+		if (totalPoints > 0) indicator.style.backgroundImage = indicator_blue;
+		else if (totalPoints < 0) indicator.style.backgroundImage = indicator_red;
+		else indicator.style.backgroundImage = indicator_empty;
 	}
 	if (pointsValue) pointsValue.textContent = `${totalPoints} P`;
 }
@@ -286916,7 +287848,7 @@ function renderReputePage(pageIndex) {
 	});
 	if (Reputation.highlight.active && !Reputation.highlight.consumed) pageItems.forEach((el) => {
 		if (Number(el.dataset.reputeId) === Reputation.highlight.reputeId) {
-			el.style.backgroundImage = `url(${bg_highlight})`;
+			el.style.backgroundImage = bg_highlight;
 			Reputation.highlight.consumed = true;
 			Reputation.highlight.active = false;
 		}
@@ -286934,7 +287866,7 @@ function createReputeEntry(reputeId, info) {
 	const wrapper = document.createElement("div");
 	wrapper.className = "rep_group_wrapper";
 	wrapper.dataset.reputeId = reputeId;
-	wrapper.style.backgroundImage = `url(${bg})`;
+	wrapper.style.backgroundImage = bg;
 	const name = document.createElement("div");
 	name.className = "rep_group_name";
 	name.textContent = info.Name;
@@ -286946,7 +287878,7 @@ function createReputeEntry(reputeId, info) {
 		const indicator = document.createElement("div");
 		indicator.className = `rep_group_indicator indicator_${i}`;
 		indicator.dataset.index = i;
-		indicator.style.backgroundImage = `url(${indicator_empty})`;
+		indicator.style.backgroundImage = indicator_empty;
 		indicatorWrapper.appendChild(indicator);
 	}
 	wrapper.appendChild(indicatorWrapper);
@@ -286972,7 +287904,7 @@ function updateReputeUI(reputeId, points) {
 	const fullIndicators = Math.floor(absPoints / 1e3);
 	const remainder = absPoints % 1e3;
 	indicators.forEach((el, index) => {
-		el.style.backgroundImage = index < fullIndicators ? points >= 0 ? `url(${indicator_blue})` : `url(${indicator_red})` : `url(${indicator_empty})`;
+		el.style.backgroundImage = index < fullIndicators ? points >= 0 ? indicator_blue : indicator_red : indicator_empty;
 	});
 	const pointsEl = wrapper.querySelector(".rep_id_points");
 	if (pointsEl) pointsEl.textContent = `${remainder} / 1000`;
@@ -287062,7 +287994,7 @@ function onReputeOpen(pkt) {
 */
 function clearHighlights() {
 	_root$12().querySelectorAll(".rep_group_wrapper").forEach((el) => {
-		el.style.backgroundImage = `url(${bg})`;
+		el.style.backgroundImage = bg;
 		el.dataset.highlight = "false";
 	});
 }
@@ -287084,6 +288016,11 @@ var init_Reputation = __esmMin((() => {
 		y: 200,
 		show: true
 	}, 1);
+	bg = "var(--reputation-bg)";
+	bg_highlight = "var(--reputation-highlight)";
+	indicator_empty = "var(--reputation-empty)";
+	indicator_blue = "var(--reputation-blue)";
+	indicator_red = "var(--reputation-red)";
 	/**
 	* @var Reputation UI
 	* Store Pagination Data
@@ -287120,11 +288057,19 @@ var init_Reputation = __esmMin((() => {
 	*/
 	Reputation.init = function init() {
 		const root = _root$12();
-		Client.loadFile(DB.INTERFACE_PATH + "reputation/bg_info.bmp", (d) => bg = d);
-		Client.loadFile(DB.INTERFACE_PATH + "reputation/bg_highlight.bmp", (d) => bg_highlight = d);
-		Client.loadFile(DB.INTERFACE_PATH + "reputation/light_empty.bmp", (d) => indicator_empty = d);
-		Client.loadFile(DB.INTERFACE_PATH + "reputation/light_blue.bmp", (d) => indicator_blue = d);
-		Client.loadFile(DB.INTERFACE_PATH + "reputation/light_red.bmp", (d) => indicator_red = d);
+		for (const [name, file] of [
+			["bg", "bg_info"],
+			["highlight", "bg_highlight"],
+			["empty", "light_empty"],
+			["blue", "light_blue"],
+			["red", "light_red"]
+		]) {
+			const property = `--reputation-${name}`;
+			this._host.style.setProperty(property, "none");
+			Client.loadFile(DB.INTERFACE_PATH + `reputation/${file}.bmp`, (url) => {
+				this._host.style.setProperty(property, `url("${url}")`);
+			});
+		}
 		this.draggable(root.querySelector(".titlebar"));
 		root.querySelectorAll(".base").forEach((el) => {
 			el.addEventListener("mousedown", (e) => {
@@ -288065,7 +289010,7 @@ function mount$5(container, context = {}) {
 			mapName: resolvedMapName,
 			name: row.name_zh_cn || row.map,
 			isCurrentMap,
-			hasImage: mapImageNames.has(MiniMapTable_default[resolvedMapName] || resolvedMapName)
+			hasImage: mapImageNames.has(MiniMapTable[resolvedMapName] || resolvedMapName)
 		};
 	};
 	const destroyBrowser = mountRemoteCatalogBrowser(container, {
@@ -313893,13 +314838,9 @@ function registerPostProcessModules(gl) {
 /**
 * Once the map finished to load
 */
-function onMapComplete(success, error) {
+function onMapComplete(generation) {
 	const worldResource = this.currentMap.replace(/\.gat$/i, ".rsw");
 	const mapInfo = DB.getMap(worldResource);
-	if (!success) {
-		UIManager.showErrorBox(error).ui.css("zIndex", 1e3);
-		return;
-	}
 	BGM.play(mapInfo && mapInfo.mp3 || "01.mp3");
 	this.fog.exist = !!(mapInfo && mapInfo.fog);
 	if (this.fog.exist) {
@@ -313918,13 +314859,23 @@ function onMapComplete(success, error) {
 	registerPostProcessModules(gl);
 	JoystickUI_default.onRestore();
 	Background_default.remove(() => {
-		MapRenderer.loading = false;
-		MapRenderer.onLoad();
-		Sky_default.setUpCloudData();
-		ScreenEffectManager.startMapflagEffect(worldResource);
-		Renderer.show();
-		Renderer.render(MapRenderer.onRender);
-		Mouse.intersect = true;
+		if (!MapRenderer.loading || generation !== MapRenderer.loadGeneration) return;
+		try {
+			MapRenderer.onLoad();
+			Sky_default.setUpCloudData();
+			ScreenEffectManager.startMapflagEffect(worldResource);
+			Renderer.show();
+			Renderer.render(MapRenderer.onRender);
+			Mouse.intersect = true;
+			MapRenderer.onReady();
+			MapRenderer.loading = false;
+		} catch (error) {
+			MapRenderer.failLoad(generation, {
+				code: "render_failed",
+				resource: worldResource,
+				message: error.message
+			});
+		}
 	});
 }
 var mat4$11, _pos$6, MapRenderer;
@@ -313982,6 +314933,7 @@ var init_MapRenderer = __esmMin((() => {
 		* @var {string} current map's name
 		*/
 		static currentMap = "";
+		static loadGeneration = 0;
 		/**
 		* @var {object} Global Light Structure
 		*/
@@ -314026,42 +314978,130 @@ var init_MapRenderer = __esmMin((() => {
 		*
 		* @param {string} mapname to load
 		*/
-		static setMap(mapname) {
-			if (this.loading) return;
+		static setMap(mapname, { force = false } = {}) {
+			if (this.loading) this.cancelLoad();
+			const generation = ++this.loadGeneration;
 			mapname = mapname.replace(/^(\d{3})(\d@)/, "$2").replace(/^\d{3}#/, "");
 			SoundManager.stop();
 			Renderer.stop();
 			UIManager.removeComponents();
 			Cursor.setType(Cursor.ACTION.DEFAULT);
-			if (this.currentMap !== mapname) {
+			if (force || this.currentMap !== mapname) {
 				this.loading = true;
 				BGM.stop();
 				this.currentMap = mapname;
 				const filename = mapname.replace(/\.gat$/i, ".rsw");
-				Background_default.setLoading(function() {
-					Thread.hook("MAP_PROGRESS", onProgressUpdate.bind(MapRenderer));
-					Thread.hook("MAP_WORLD", onWorldComplete.bind(MapRenderer));
-					Thread.hook("MAP_GROUND", onGroundComplete.bind(MapRenderer));
-					Thread.hook("MAP_ALTITUDE", onAltitudeComplete.bind(MapRenderer));
-					Thread.hook("MAP_MODELS", onModelsComplete.bind(MapRenderer));
-					Thread.hook("MAP_ANIMATED_MODEL", onAnimatedModelComplete.bind(MapRenderer));
-					MapRenderer.free();
-					Renderer.remove();
-					Thread.send("LOAD_MAP", filename, onMapComplete.bind(MapRenderer));
+				Background_default.setLoading(() => {
+					if (!this.loading || generation !== this.loadGeneration) return;
+					const handlers = {
+						MAP_PROGRESS: onProgressUpdate,
+						MAP_WORLD: onWorldComplete,
+						MAP_GROUND: onGroundComplete,
+						MAP_ALTITUDE: onAltitudeComplete,
+						MAP_MODELS: onModelsComplete,
+						MAP_ANIMATED_MODEL: onAnimatedModelComplete
+					};
+					for (const [type, handler] of Object.entries(handlers)) Thread.hook(type, (event) => {
+						if (!this.loading || generation !== this.loadGeneration || event.generation !== generation) return;
+						try {
+							handler.call(this, event.data);
+						} catch (error) {
+							this.failLoad(generation, {
+								code: "render_failed",
+								resource: filename,
+								message: error.message
+							});
+						}
+					});
+					try {
+						this.free();
+						Renderer.remove();
+						Thread.send("LOAD_MAP", {
+							filename,
+							generation
+						}, (success, error) => {
+							if (!this.loading || generation !== this.loadGeneration) return;
+							if (!success) {
+								this.failLoad(generation, error);
+								return;
+							}
+							try {
+								onMapComplete.call(this, generation);
+							} catch (cause) {
+								this.failLoad(generation, {
+									code: "render_failed",
+									resource: filename,
+									message: cause.message
+								});
+							}
+						});
+					} catch (error) {
+						this.failLoad(generation, {
+							code: "render_failed",
+							resource: filename,
+							message: error.message
+						});
+					}
 				});
 				return;
 			}
-			const gl = Renderer.getContext();
-			EntityManager.free();
-			Damage.free(gl);
-			EffectManager.free(gl);
-			JoystickUI_default.onRestore();
+			this.loading = true;
+			try {
+				const gl = Renderer.getContext();
+				EntityManager.free();
+				Damage.free(gl);
+				EffectManager.free(gl);
+				JoystickUI_default.onRestore();
+				Mouse.intersect = false;
+				Background_default.remove(() => {
+					if (!this.loading || generation !== this.loadGeneration) return;
+					try {
+						this.onLoad();
+						Sky_default.setUpCloudData();
+						Renderer.render(this.onRender);
+						Mouse.intersect = true;
+						this.onReady();
+						this.loading = false;
+					} catch (error) {
+						this.failLoad(generation, {
+							code: "render_failed",
+							resource: mapname,
+							message: error.message
+						});
+					}
+				});
+			} catch (error) {
+				this.failLoad(generation, {
+					code: "render_failed",
+					resource: mapname,
+					message: error.message
+				});
+			}
+		}
+		/** Invalidate all pending worker and background callbacks. */
+		static cancelLoad() {
+			const generation = this.loadGeneration;
+			const wasLoading = this.loading;
+			this.loadGeneration++;
+			this.loading = false;
+			this.currentMap = "";
+			if (wasLoading) Thread.send("CANCEL_MAP", { generation });
+		}
+		static failLoad(generation, error) {
+			if (!this.loading || generation !== this.loadGeneration) return;
+			const mapName = this.currentMap;
+			this.cancelLoad();
+			try {
+				this.free();
+			} catch (cleanupError) {
+				console.error("Map cleanup failed", cleanupError);
+			}
+			Renderer.stop();
 			Mouse.intersect = false;
-			Background_default.remove(() => {
-				MapRenderer.onLoad();
-				Sky_default.setUpCloudData();
-				Renderer.render(MapRenderer.onRender);
-				Mouse.intersect = true;
+			this.onError({
+				...error,
+				mapName,
+				generation
 			});
 		}
 		/**
@@ -314172,6 +315212,11 @@ var init_MapRenderer = __esmMin((() => {
 		* Callback to execute once the map is loaded
 		*/
 		static onLoad() {}
+		static onError(error) {
+			UIManager.showErrorBox(error.message).ui.css("zIndex", 1e3);
+		}
+		/** Called only after scene initialization and rendering startup succeed. */
+		static onReady() {}
 	};
 }));
 // src/Renderer/Camera.js
@@ -314544,7 +315589,7 @@ var init_Camera = __esmMin((() => {
 				this.position[2] = this.target.position[2];
 			}
 			const maximum = Math.abs(this.altitudeRange) * (DB.isIndoor(this.currentMap) ? this.MAX_ZOOM_INDOOR : this.MAX_ZOOM);
-			const zoom = viewportCameraZoom(this.zoomFinal, this.zoomStep * this.zoomStepMult, maximum);
+			const zoom = Math.max(Math.abs(this.altitudeRange) * this.MIN_ZOOM, Math.min(maximum, viewportCameraZoom(this.zoomFinal, this.zoomStep * this.zoomStepMult, maximum)));
 			this.zoom += (zoom - this.zoom) * Math.min(lerp * 2, 1);
 			let zOffset = 0;
 			if (this.state == this.states.first_person) zOffset = 2;
@@ -314753,7 +315798,7 @@ var init_Renderer = __esmMin((() => {
 			height = window.innerHeight || document.body.offsetHeight;
 			Mouse.screen.width = this.width = width;
 			Mouse.screen.height = this.height = height;
-			const quality = Configs.get("quality", 100) / 100;
+			const quality = GraphicsSettings.quality / 100;
 			width *= quality;
 			height *= quality;
 			this.canvas.width = width * dpr;
@@ -314819,7 +315864,7 @@ var init_Renderer = __esmMin((() => {
 				canvasWidth: this.canvas.width,
 				canvasHeight: this.canvas.height,
 				dpr: window.devicePixelRatio,
-				quality: Configs.get("quality", 100),
+				quality: GraphicsSettings.quality,
 				fpsLimit: this.frameLimit,
 				sound: Audio_default.Sound.play,
 				bloom: GraphicsSettings.bloom,
@@ -352166,6 +353211,7 @@ function updateMapTable() {
 }
 var LocalizedMapInfo, lua, MsgStringTable, JokeTable, ScreamTable, MapTable, SkillDescription, SexTable, PetTalkTable, CheckAttendanceTable, buyingStoreItemList, LaphineSysTable, LaphineUpgTable, ItemDBNameTbl, ItemReformTable, EnchantListTable, SignBoardTranslatedTable, SignBoardOverrides, SignBoardTable, QuestInfo, TitleTable, PetDBTable, ReputeGroup, ReputeInfo, AchievementTable, MsgEmotionCSV, HatEffectID, HatEffectInfo, FootPrintEffectInfo, CashShopBannerTable, Ez2streffect, unknownItem, servers, langType, userCharpage, userStringDecoder, DB, SUFFIX_TO_FIELD, HARDCODED_FIELD_MAPPING;
 var init_DBManager = __esmMin((() => {
+	init_DateTime();
 	init_PetRules_generated();
 	init_ItemServices();
 	init_ItemServiceDescriptions_zh_CN();
@@ -354700,8 +355746,8 @@ var init_DBManager = __esmMin((() => {
 		* @returns {string} Formatted date string (MM/DD HH:mm)
 		*/
 		static formatUnixDate(unixTimestamp) {
-			const d = /* @__PURE__ */ new Date(unixTimestamp * 1e3);
-			return String(d.getMonth() + 1).padStart(2, "0") + "/" + String(d.getDate()).padStart(2, "0") + " " + String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+			const d = dateParts(unixTimestamp * 1e3);
+			return d.month + "/" + d.day + " " + d.hour + ":" + d.minute;
 		}
 		/**
 		* Convert RO color codes (^RRGGBB) to HTML spans
@@ -355588,11 +356634,12 @@ function onItemInfo$10(event) {
 * @returns {string} Formatted date string (MM/DD HH:mm)
 */
 function formatUnixDate(unixTimestamp) {
-	const d = /* @__PURE__ */ new Date(unixTimestamp * 1e3);
-	return String(d.getMonth() + 1).padStart(2, "0") + "/" + String(d.getDate()).padStart(2, "0") + " - " + String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0") + ":" + String(d.getSeconds()).padStart(2, "0");
+	const d = dateParts(unixTimestamp * 1e3);
+	return d.month + "/" + d.day + " - " + d.hour + ":" + d.minute + ":" + d.second;
 }
 var VendingReport, VendingReportTable, VendingReport_default;
 var init_VendingReport = __esmMin((() => {
+	init_DateTime();
 	init_DBManager();
 	init_Client();
 	init_Renderer();
@@ -365423,6 +366470,212 @@ var init_GameRecovery = __esmMin((() => {
 		}
 	});
 }));
+// src/Engine/MapEngine/MapLoadRecovery.js
+/** Map loading recovery orchestration. Server tokens and movement stay with the caller. */
+function createMapLoadRecovery({ view, onRecover, onRetry, onExit, setTimer = setTimeout, clearTimer = clearTimeout, loadTimeoutMs = 3e4, recoveryTimeoutMs = 1e4 }) {
+	let attempt = 0;
+	let context = null;
+	let timer = null;
+	let phase = "idle";
+	let recoveryMode = null;
+	function clearDeadline() {
+		if (timer !== null) clearTimer(timer);
+		timer = null;
+	}
+	function active(id) {
+		return id === attempt && context !== null && phase !== "idle" && phase !== "loaded";
+	}
+	function exit() {
+		if (!context) return;
+		const exiting = context;
+		cancel();
+		onExit(exiting);
+	}
+	function show(message, busy = false, allowReturn = true) {
+		const id = attempt;
+		view.show({
+			message,
+			busy,
+			onRetry: busy ? null : () => active(id) && retry(),
+			onReturn: busy || !allowReturn ? null : () => active(id) && recover("prontera"),
+			onExit: () => active(id) && exit()
+		});
+	}
+	function failRequest(message, allowReturn = false) {
+		clearDeadline();
+		phase = "failed";
+		show(message, false, allowReturn && context.recoveryMode !== "prontera");
+	}
+	function awaitRequest(callback, mode) {
+		clearDeadline();
+		const id = attempt;
+		phase = "recovering";
+		recoveryMode = mode;
+		show(mode === "previous" ? "地图加载失败，正在返回原位置…" : mode === "prontera" ? "正在返回普隆德拉…" : "正在重试加载地图…", true);
+		timer = setTimer(() => {
+			if (active(id) && phase === "recovering") failRequest("恢复请求超时，请重试加载或退出游戏。");
+		}, recoveryTimeoutMs);
+		Promise.resolve().then(() => {
+			if (active(id) && phase === "recovering") return callback();
+		}).catch(() => {
+			if (active(id) && phase === "recovering") failRequest("无法完成地图恢复，请重试加载或退出游戏。");
+		});
+	}
+	function recover(mode) {
+		if (!context || phase === "recovering") return;
+		const current = context;
+		awaitRequest(() => onRecover(mode, current), mode);
+	}
+	function retry() {
+		if (!context || phase === "recovering") return;
+		const current = context;
+		awaitRequest(() => onRetry(current), null);
+	}
+	function begin(nextContext) {
+		clearDeadline();
+		attempt += 1;
+		context = { ...nextContext };
+		phase = "loading";
+		recoveryMode = null;
+		const id = attempt;
+		if (context.recoveryMode) show(context.recoveryMode === "prontera" ? "正在返回普隆德拉…" : "正在返回原位置…", true);
+		else view.hide();
+		timer = setTimer(() => {
+			if (!active(id) || phase !== "loading") return;
+			phase = "timed-out";
+			show("地图加载超过 30 秒，可重试加载或返回普隆德拉。", false, context.recoveryMode !== "prontera");
+			if (context.recoveryMode === "prontera") show("普隆德拉加载超时，请重试加载或退出游戏。", false, false);
+		}, loadTimeoutMs);
+		return id;
+	}
+	function loaded(id = attempt) {
+		if (!active(id)) return;
+		clearDeadline();
+		phase = "loaded";
+		view.hide();
+	}
+	function failed(_error, id = attempt) {
+		if (!active(id) || phase !== "loading" && phase !== "timed-out") return;
+		clearDeadline();
+		if (context.recoveryMode === "prontera") {
+			failRequest("普隆德拉地图也无法加载，请重试加载或退出游戏。");
+			return;
+		}
+		recover(context.recoveryMode === "previous" ? "prontera" : "previous");
+	}
+	function handleResult({ status, destination }, id = attempt) {
+		if (!active(id) || phase !== "recovering") return;
+		if (status === 0) {
+			show(destination === "prontera" || destination === 1 || recoveryMode === "prontera" ? "正在返回普隆德拉…" : "正在返回原位置…", true);
+			return;
+		}
+		failRequest({
+			1: "地图恢复请求已过期或已处理，请重试加载或退出游戏。",
+			2: "无法返回普隆德拉，请重试加载或退出游戏。",
+			3: "地图恢复请求无效，请重试加载或退出游戏。",
+			4: "服务器暂时无法恢复地图，请重试加载或退出游戏。"
+		}[status] || "地图恢复未完成，请重试加载或退出游戏。", status === 4);
+	}
+	function cancel() {
+		clearDeadline();
+		attempt += 1;
+		phase = "idle";
+		context = null;
+		view.hide();
+	}
+	function updateContext(nextContext) {
+		if (context) context = {
+			...context,
+			...nextContext
+		};
+	}
+	return {
+		begin,
+		loaded,
+		failed,
+		handleResult,
+		updateContext,
+		cancel
+	};
+}
+/** A resource-independent overlay, including when WebGL or map assets cannot render. */
+function createMapLoadRecoveryView(document) {
+	let host = null;
+	function hide() {
+		host?.remove();
+		host = null;
+	}
+	function show({ message, busy, onRetry, onReturn, onExit }) {
+		hide();
+		host = document.createElement("section");
+		host.id = "MapLoadRecovery";
+		host.setAttribute("role", "dialog");
+		host.setAttribute("aria-label", "地图加载恢复");
+		host.setAttribute("aria-modal", "true");
+		Object.assign(host.style, {
+			position: "fixed",
+			inset: "0",
+			zIndex: "2147483647",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			padding: "20px",
+			background: "rgba(0,0,0,.7)",
+			color: "#fff",
+			font: "16px/1.6 sans-serif"
+		});
+		const panel = document.createElement("div");
+		Object.assign(panel.style, {
+			maxWidth: "420px",
+			padding: "24px",
+			borderRadius: "12px",
+			background: "#202936",
+			boxShadow: "0 8px 32px #0008"
+		});
+		const text = document.createElement("p");
+		text.setAttribute("role", busy ? "status" : "alert");
+		text.setAttribute("aria-live", "polite");
+		text.textContent = message;
+		panel.append(text);
+		const actions = document.createElement("div");
+		Object.assign(actions.style, {
+			display: "flex",
+			flexWrap: "wrap",
+			gap: "10px"
+		});
+		for (const [label, action] of [
+			["重试加载", onRetry],
+			["返回普隆德拉", onReturn],
+			["退出游戏", onExit]
+		]) {
+			if (!action) continue;
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = label;
+			Object.assign(button.style, {
+				padding: "10px 16px",
+				border: "1px solid #a5b4cc",
+				borderRadius: "6px",
+				background: "#fff",
+				color: "#172335",
+				cursor: "pointer",
+				font: "inherit"
+			});
+			button.addEventListener("click", action);
+			actions.append(button);
+		}
+		panel.append(actions);
+		host.append(panel);
+		document.body.append(host);
+		host.addEventListener("keydown", (event) => event.stopPropagation());
+		actions.querySelector("button")?.focus();
+	}
+	return {
+		show,
+		hide
+	};
+}
+var init_MapLoadRecovery = __esmMin((() => {}));
 // src/UI/Game/CompanionPrompt.js
 function valid(record) {
 	return Boolean(SessionStorage_default.Playing && SessionStorage_default.Entity === record.owner && record.owner.action !== record.owner.ACTION.DIE && SessionStorage_default[ids[record.kind]] === record.gid && EntityManager.get(record.gid) === record.actor && record.actor.action !== record.actor.ACTION.DIE && !record.actor.remove_tick);
@@ -366961,14 +368214,12 @@ var init_AdventureTools = __esmMin((() => {
 }));
 // src/UI/Game/GameSettings.js
 function settingsSnapshot(defaults = false) {
+	const audioDefaults = getClientDefaults("audio");
 	return {
 		graphics: Object.fromEntries(graphicsFields.map(([key]) => [key, (defaults ? GraphicsSettings.defaults : GraphicsSettings)[key]])),
 		pickup: defaults ? pickupDefaults() : loadPickupSettings(),
 		interface: Object.fromEntries(Object.keys(defaultInterfaceSettings).map((key) => [key, (defaults ? defaultInterfaceSettings : settings)[key]])),
-		audio: Object.fromEntries(["BGM", "Sound"].map((key) => [key, defaults ? {
-			play: true,
-			volume: .5
-		} : {
+		audio: Object.fromEntries(["BGM", "Sound"].map((key) => [key, defaults ? audioDefaults[key] : {
 			play: Audio_default[key].play,
 			volume: Audio_default[key].volume
 		}]))
@@ -367003,10 +368254,7 @@ function saveGameSettings(draft) {
 	window.dispatchEvent(new Event("interface-settings-change"));
 	GraphicsSettings.save();
 	Audio_default.save();
-	if (previous.graphics.quality !== GraphicsSettings.quality) {
-		Configs.set("quality", GraphicsSettings.quality);
-		Renderer.resize();
-	}
+	if (previous.graphics.quality !== GraphicsSettings.quality) Renderer.resize();
 	document.body.classList.toggle("custom-cursor", GraphicsSettings.cursor);
 	if (previous.audio.Sound.play !== Audio_default.Sound.play || previous.audio.Sound.volume !== Audio_default.Sound.volume) {
 		SoundManager.setVolume(Audio_default.Sound.volume);
@@ -367037,11 +368285,11 @@ function saveGameAudio(key, value) {
 }
 var graphicsFields;
 var init_GameSettings = __esmMin((() => {
+	init_ClientDefaults();
 	init_PickupSettings();
 	init_Interface();
 	init_Graphics();
 	init_Audio();
-	init_Configs();
 	init_Renderer();
 	init_BGM();
 	init_SoundManager();
@@ -369838,7 +371086,7 @@ function createCompanionsPanel(body, service) {
 				["忠诚度", info.faith],
 				["击杀数", info.approval_monster_kill_counter],
 				["召唤次数", info.toal_call_num],
-				["契约到期", info.ExpireDate ? (/* @__PURE__ */ new Date(info.ExpireDate * 1e3)).toLocaleString("zh-CN") : "—"]
+				["契约到期", info.ExpireDate ? formatDateTime(info.ExpireDate * 1e3) : "—"]
 			]
 		] : [["状态", "暂无已召出的伴侣"]];
 		const currentLabels = new Set(rows.map(([label]) => label));
@@ -369938,6 +371186,7 @@ function createCompanionsPanel(body, service) {
 	return { update };
 }
 var init_CompanionsPanel = __esmMin((() => {
+	init_DateTime();
 	init_CompanionSwitch();
 	init_CompanionAutoFeed();
 	init_CompanionLayout();
@@ -373141,7 +374390,7 @@ function createQuestsPanel(body, actions) {
 		title.textContent = q.title;
 		content.append(title, paragraph(q.summary), paragraph(q.description));
 		for (const hunt of q.objectives) content.append(paragraph(`${hunt.name}：${hunt.count} / ${hunt.total}`));
-		if (q.end_time) content.append(paragraph(`截止时间：${(/* @__PURE__ */ new Date(q.end_time * 1e3)).toLocaleString()}`));
+		if (q.end_time) content.append(paragraph(`截止时间：${formatDateTime(q.end_time * 1e3)}`));
 		for (const reward of q.rewards) content.append(paragraph(`${reward.name} × ${reward.ItemNum}`));
 		if (q.reward_exp_base || q.reward_exp_job) content.append(paragraph(`经验：${q.reward_exp_base} / 职业经验：${q.reward_exp_job}`));
 		{
@@ -373171,6 +374420,7 @@ function createQuestsPanel(body, actions) {
 	return { update };
 }
 var init_QuestsPanel = __esmMin((() => {
+	init_DateTime();
 	init_Feedback();
 	init_ListItemText();
 }));
@@ -382628,6 +383878,7 @@ function onParameterChange$1(pkt) {
 			updateStats("aspd", amount);
 			break;
 		case StatusProperty_default.JOBLEVEL:
+			SessionStorage_default.Entity.joblevel = amount;
 			BasicInfoController.getUI().update("jlvl", amount);
 			Controller$4.getUI().onLevelUp();
 			break;
@@ -384796,16 +386047,18 @@ function onEntityAction(pkt) {
 				if (DB.isBow(DB.getWeaponType(srcEntity.weapon, true))) {
 					delayTime = (m_attackMotion + 8 / m_motionSpeed) * m_motionSpeed * 24;
 					pkt.attackMT += delayTime;
-					const EF_Init_Par = {
-						effectId: "ef_arrow_projectile",
-						ownerAID: dstEntity.GID,
-						otherAID: srcEntity.GID,
-						startTick: Renderer.tick + pkt.attackMT,
-						otherPosition: srcEntity.position
-					};
-					EffectManager.spam(EF_Init_Par);
+					if (dstEntity) {
+						const EF_Init_Par = {
+							effectId: "ef_arrow_projectile",
+							ownerAID: dstEntity.GID,
+							otherAID: srcEntity.GID,
+							startTick: Renderer.tick + pkt.attackMT,
+							otherPosition: srcEntity.position
+						};
+						EffectManager.spam(EF_Init_Par);
+					}
 				}
-			} else if (srcEntity.job in AE.PROJECTILE) {
+			} else if (dstEntity && srcEntity.job in AE.PROJECTILE) {
 				const EF_Init_Par = {
 					effectId: AE.PROJECTILE[srcEntity.job],
 					ownerAID: dstEntity.GID,
@@ -384814,7 +386067,7 @@ function onEntityAction(pkt) {
 					otherPosition: srcEntity.position
 				};
 				EffectManager.spam(EF_Init_Par);
-			} else if (srcEntity.job in AE.SPAWN) {
+			} else if (dstEntity && srcEntity.job in AE.SPAWN) {
 				const EF_Init_Par = {
 					effectId: AE.SPAWN[srcEntity.job],
 					ownerAID: dstEntity.GID,
@@ -384960,7 +386213,7 @@ function onEntityAction(pkt) {
 			play: true
 		});
 	}
-	if (pkt?.damage > 0) {
+	if (dstEntity && pkt?.damage > 0) {
 		if (srcEntity.GID === SessionStorage_default.Entity.GID) ChatBox_default.addText(DB.getMessage(1607).replace("%s", dstEntity.display.name).replace("%d", pkt.damage), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
 		else if (dstEntity.GID === SessionStorage_default.Entity.GID) ChatBox_default.addText(DB.getMessage(1605).replace("%s", srcEntity.display.name).replace("%d", pkt.damage), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
 		else if (srcEntity.GID === SessionStorage_default.homunId || srcEntity.GID === SessionStorage_default.merId || srcEntity.GID === SessionStorage_default.petId || srcEntity.GID === SessionStorage_default.elemId) ChatBox_default.addText(DB.getMessage(1608).replace("%s", srcEntity.display.name).replace("%s", dstEntity.display.name).replace("%d", pkt.damage), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
@@ -389301,6 +390554,16 @@ var init_PrivateMessage = __esmMin((() => {
 	init_SessionStorage();
 	init_PacketVerManager();
 }));
+// src/UI/Components/Storage/StorageLabels.js
+/** Names emitted by the current server storage protocol. */
+function storageTitle(name) {
+	switch (name) {
+		case "Storage": return "仓库";
+		case "Guild Storage": return "公会仓库";
+		default: return name;
+	}
+}
+var init_StorageLabels = __esmMin((() => {}));
 // src/Engine/MapEngine/Storage.js
 /**
 * Get storage informations
@@ -389318,7 +390581,7 @@ function onStorageInfo(pkt) {
 			const token = {};
 			showInteraction({
 				kind: "storage",
-				title: InvTypeName === "Storage" ? "仓库" : InvTypeName || "仓库",
+				title: storageTitle(InvTypeName),
 				token,
 				close: () => {
 					if (interactionSnapshot()?.token === token) StorageController.onClosePressed();
@@ -389329,7 +390592,7 @@ function onStorageInfo(pkt) {
 	}
 	if (!(StorageController.getUI().__loaded && StorageController.getUI().__active)) {
 		StorageController.getUI().append();
-		if (PacketVerManager_default.value >= 20181002) StorageController.getUI().ui.find(".titlebar .text").text(InvTypeName === "Storage" ? "仓库" : InvTypeName || "仓库");
+		if (PacketVerManager_default.value >= 20181002) StorageController.getUI().ui.find(".titlebar .text").text(storageTitle(InvTypeName));
 	}
 	StorageController.getUI().setItemInfo(pkt.curCount, pkt.maxCount);
 	StorageController.getUI().setItems(itemBuffer);
@@ -389444,6 +390707,7 @@ function StorageEngine() {
 }
 var itemBuffer, InvTypeName;
 var init_Storage = __esmMin((() => {
+	init_StorageLabels();
 	init_StorageTransfer();
 	init_Inventory();
 	init_Equipment();
@@ -395410,6 +396674,33 @@ var init_Achievement = __esmMin((() => {
 	init_EffectManager();
 }));
 // src/Engine/MapEngine.js
+function onMapLoadContext(pkt) {
+	if (!pkt.pending) {
+		if (mapLoadContext?.generation === pkt.generation) {
+			mapLoadContext.pending = 0;
+			mapLoadRecovery.loaded(activeRecoveryAttempt);
+		}
+		return;
+	}
+	const sameGeneration = mapLoadContext?.generation === pkt.generation;
+	mapLoadContext = {
+		generation: pkt.generation,
+		pending: pkt.pending,
+		recoveryMode: pkt.attempt === 2 ? "prontera" : pkt.attempt === 1 ? "previous" : null
+	};
+	if (sameGeneration) mapLoadRecovery.updateContext(mapLoadContext);
+}
+function onMapRecoveryResult(pkt) {
+	if (pkt.generation !== mapLoadContext?.generation) return;
+	mapLoadRecovery.handleResult(pkt);
+}
+function cancelMapLoadRecovery() {
+	mapLoadGeneration++;
+	mapLoadRecovery.cancel();
+	mapLoadContext = null;
+	activeMapPacket = null;
+	MapRenderer.cancelLoad();
+}
 /**
 * Pong from server
 * TODO: check the time ?
@@ -395582,6 +396873,7 @@ function onConnectionAccepted$2(pkt) {
 * @param {object} pkt - PACKET.ZC.REFUSE_ENTER
 */
 function onConnectionRefused$2(pkt) {
+	cancelMapLoadRecovery();
 	recovery.cancel();
 	UIManager.getComponent("WinLoading").remove();
 	UIManager.showErrorBox(DB.getMessage(9));
@@ -395591,7 +396883,13 @@ function onConnectionRefused$2(pkt) {
 *
 * @param {object} pkt - PACKET.ZC.NPCACK_MAPMOVE
 */
-function onMapChange(pkt) {
+function onMapChange(pkt, forceReload = false) {
+	activeMapPacket = { ...pkt };
+	activeRecoveryAttempt = mapLoadRecovery.begin({
+		...mapLoadContext,
+		mapName: pkt.mapName
+	});
+	const recoveryAttempt = activeRecoveryAttempt;
 	cancelCompanionDialogs();
 	const generation = ++mapLoadGeneration;
 	const connectionId = Network.connectionId;
@@ -395601,13 +396899,25 @@ function onMapChange(pkt) {
 	stopAutoPickup();
 	GameTools_default.prepareMapTransition();
 	Navigation_default.prepareMapTransition();
+	let cameraReady;
+	MapRenderer.onReady = () => {
+		if (!isCurrentLoad()) return;
+		mapLoadRecovery.loaded(recoveryAttempt);
+		Network.sendPacket(new PACKET.CZ.NOTIFY_ACTORINIT());
+		cameraReady?.then(() => {
+			if (isCurrentLoad()) gameRecoveryReady(prepareRecoveryLogin);
+		});
+	};
+	MapRenderer.onError = (error) => {
+		if (isCurrentLoad()) mapLoadRecovery.failed(error, recoveryAttempt);
+	};
 	MapRenderer.onLoad = () => {
 		if (!isCurrentLoad()) return;
 		SessionStorage_default.Entity.set({
 			PosDir: [
 				pkt.xPos,
 				pkt.yPos,
-				0
+				4
 			],
 			GID: SessionStorage_default.AID
 		});
@@ -395658,7 +396968,7 @@ function onMapChange(pkt) {
 			SignboardManager.add(parseInt(x), parseInt(y), signboardData);
 		}
 		Camera.setTarget(SessionStorage_default.Entity);
-		const cameraReady = Camera.init();
+		cameraReady = Camera.init();
 		appendGameComponent(Controller$5.getUI());
 		Controller$5.getUI().setMap(MapRenderer.currentMap);
 		if (Configs.get("enableMapName")) {
@@ -395711,7 +397021,6 @@ function onMapChange(pkt) {
 		startAutoPickup();
 		completeAutoCombatTeleportMap();
 		Plugins.init();
-		Network.sendPacket(new PACKET.CZ.NOTIFY_ACTORINIT());
 		if (SessionStorage_default.ratesInfo) {
 			Announce_default.append();
 			Announce_default.set(SessionStorage_default.ratesInfo, "#FFFF00", true);
@@ -395720,12 +397029,9 @@ function onMapChange(pkt) {
 			Network.sendPacket(new PACKET.CZ.PC_CASH_POINT_ITEMLIST());
 			SessionStorage_default.requestCashShop = false;
 		}
-		cameraReady.then(() => {
-			if (isCurrentLoad()) gameRecoveryReady(prepareRecoveryLogin);
-		});
 		if (PacketVerManager_default.value >= 20130320) Network.sendPacket(new PACKET.CZ.BLOCKING_PLAY_CANCEL());
 	};
-	MapRenderer.setMap(pkt.mapName);
+	MapRenderer.setMap(pkt.mapName, { force: forceReload });
 }
 /**
 * Change zone server
@@ -395748,7 +397054,7 @@ async function onExitRequest$2() {
 	recovery.cancel();
 	const pkt = new PACKET.CZ.REQUEST_QUIT();
 	Network.sendPacket(pkt);
-	Events.setTimeout(() => {
+	exitRequestTimer = setTimeout(() => {
 		onExitSuccess();
 	}, 1e3);
 }
@@ -395775,6 +397081,9 @@ function stopCompanionAI() {
 * @param {object} pkt - PACKET.ZC.REFUSE_QUIT
 */
 function onExitSuccess() {
+	clearTimeout(exitRequestTimer);
+	exitRequestTimer = null;
+	cancelMapLoadRecovery();
 	stopCompanionAI();
 	recovery.cancel();
 	if (PacketVerManager_default.value >= 20170315 && SessionStorage_default.WebToken) ShortCut_default.saveToServer();
@@ -395819,6 +397128,7 @@ function onResurectionRequest() {
 function onRestartAnswer(pkt) {
 	if (!pkt.type) ChatBox_default.addText(DB.getMessage(502), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 	else {
+		cancelMapLoadRecovery();
 		recovery.cancel();
 		stopCompanionAI();
 		stopAutoPickup();
@@ -396097,6 +397407,7 @@ function onConfigUpdate(type, val) {
 * Go back from map-server to char-server
 */
 function prepareRecoveryLogin() {
+	cancelMapLoadRecovery();
 	stopCompanionAI();
 	mapLoadGeneration++;
 	Network.close();
@@ -396134,8 +397445,9 @@ function onReassemblyAuth(pkt) {
 		return;
 	}
 }
-var _mapName, mapLoadGeneration, _isInitialised, snCounter, chatLines, packetMap, MapEngine, _walkTimer, _walkLastTick;
+var _mapName, mapLoadGeneration, mapLoadContext, activeMapPacket, activeRecoveryAttempt, exitRequestTimer, mapLoadRecovery, _isInitialised, snCounter, chatLines, packetMap, MapEngine, _walkTimer, _walkLastTick;
 var init_MapEngine = __esmMin((() => {
+	init_MapLoadRecovery();
 	init_CompanionPrompt();
 	init_PetEvolution();
 	init_ArrivalPreviewService();
@@ -396263,6 +397575,25 @@ var init_MapEngine = __esmMin((() => {
 	init_preload_helper();
 	_mapName = "";
 	mapLoadGeneration = 0;
+	mapLoadContext = null;
+	activeMapPacket = null;
+	exitRequestTimer = null;
+	mapLoadRecovery = createMapLoadRecovery({
+		view: createMapLoadRecoveryView(document),
+		onRecover: (mode, context) => {
+			if (!mapLoadContext?.pending || context.generation !== mapLoadContext.generation) throw new Error("地图加载状态已变化，请重试加载。");
+			mapLoadGeneration++;
+			MapRenderer.cancelLoad();
+			const packet = new PACKET.CZ.HAPPYRO_MAP_RECOVERY();
+			packet.generation = context.generation;
+			packet.action = mode === "prontera" ? 1 : 0;
+			Network.sendPacket(packet);
+		},
+		onRetry: () => {
+			if (activeMapPacket) onMapChange(activeMapPacket, true);
+		},
+		onExit: () => onExitRequest$2()
+	});
 	_isInitialised = false;
 	snCounter = 0;
 	chatLines = 0;
@@ -396280,8 +397611,10 @@ var init_MapEngine = __esmMin((() => {
 		* @param {string} mapName
 		*/
 		static init(ip, port, mapName) {
+			cancelMapLoadRecovery();
 			cancelCompanionDialogs();
 			Network.onDisconnect = () => {
+				cancelMapLoadRecovery();
 				cancelCompanionDialogs();
 				if (!recovery.disconnected()) UIManager.showErrorBox(DB.getMessage(1));
 			};
@@ -396368,6 +397701,8 @@ var init_MapEngine = __esmMin((() => {
 				Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT, onNpcAvailabilityResult);
 				Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT, onNpcTeleportResult);
 				Network.hookPacket(PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT, onMapTeleportResult);
+				Network.hookPacket(PACKET.ZC.HAPPYRO_MAP_LOAD_CONTEXT, onMapLoadContext);
+				Network.hookPacket(PACKET.ZC.HAPPYRO_MAP_RECOVERY_RESULT, onMapRecoveryResult);
 				Network.hookPacket(PACKET.ZC.HAPPYRO_ARRIVAL_PREVIEW, handleArrivalPreview);
 				Network.hookPacket(PACKET.ZC.REFUSE_ENTER, onConnectionRefused$2);
 				for (let i = 1; i <= 42; i++) {
@@ -397634,13 +398969,12 @@ function createCharSelect(config) {
 	* Format delay date time (V2 / V3)
 	*/
 	function formatDatetime(epoch) {
-		const datetime = /* @__PURE__ */ new Date(0);
-		datetime.setSeconds(epoch);
-		const month = datetime.getMonth() + 1;
-		const day = datetime.getDate();
-		const hours = datetime.getHours();
-		const minutes = datetime.getMinutes();
-		const seconds = datetime.getSeconds();
+		const datetime = dateParts(epoch * 1e3);
+		const month = Number(datetime.month);
+		const day = Number(datetime.day);
+		const hours = Number(datetime.hour);
+		const minutes = Number(datetime.minute);
+		const seconds = Number(datetime.second);
 		return DB.getMessage(2097).replace("%d", `${month}`).replace("%d", `${day}`).replace("%d", `${hours}`).replace("%d", `${minutes}`).replace("%d", `${seconds}`);
 	}
 	/**
@@ -397999,6 +399333,7 @@ function createCharSelect(config) {
 	return UIManager.addComponent(Component);
 }
 var init_CharSelectCommon = __esmMin((() => {
+	init_DateTime();
 	init_DBManager();
 	init_JobDisplayNameTable();
 	init_Preferences$1();
@@ -404217,7 +405552,6 @@ function apply() {
 		else Configs.set("servers", "data/" + _preferences$1.serverfile);
 	}
 	Configs.set("saveFiles", _preferences$1.saveFiles);
-	Configs.set("quality", GraphicsSettings.quality);
 }
 var _preferences$1, Preferences_default;
 var init_Preferences = __esmMin((() => {
