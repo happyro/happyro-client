@@ -1,3 +1,4 @@
+import { createDeathPrompt } from './DeathPrompt.js';
 import { createStatusIconsView } from './StatusIconsView.js';
 import menuListFlushCSS from './MenuListFlush.css?raw';
 import { bindChatPreviewLayout } from './ChatPreviewLayout.js';
@@ -197,7 +198,12 @@ ${vendingCSS}${menuChromeCSS}${menuFeatureStyles}${menuBottomTabsCSS}${menuFormC
 	});
 	listen($('[data-auto-toggle]'), 'click', () => {
 		if (snapshot.target?.player || snapshot.target?.pet || snapshot.target?.mercenary || snapshot.target?.homunculus) actions.clearPlayerSelection();
+		else if (snapshot.exam) actions.attackExamTarget();
 		else actions.toggleAutoCombat();
+	});
+	listen($('[data-exam-targets]'), 'click', event => {
+		const button = event.target.closest('[data-exam-target]');
+		if (button) actions.chooseExamTarget(Number(button.dataset.examTarget));
 	});
 	listen($('[data-interact]'), 'click', () => actions.interact());
 	for (const button of root.querySelectorAll('[data-player-action]')) {
@@ -313,6 +319,13 @@ ${vendingCSS}${menuChromeCSS}${menuFeatureStyles}${menuBottomTabsCSS}${menuFormC
 		drawPlayerArrow(ctx, point, snapshot.direction ?? 0, 0.65);
 	}
 	const menuSelects = createMenuSelects(body);
+	const deathPrompt = createDeathPrompt(root, {
+		snapshot: () => actions.deathSnapshot(),
+		returnToSavePoint: () => actions.returnToSavePoint(),
+		revive: () => actions.revive(),
+		open: () => { actions.cancelSceneInput(); actions.setModal(true); },
+		close: () => actions.setModal(Boolean(currentPanel))
+	}, $('.battle-status'));
 	function close(notify = true) {
 		menuSelects.close();
 		if (!currentPanel || (notify && serverState?.canClose === false)) return;
@@ -859,22 +872,44 @@ ${vendingCSS}${menuChromeCSS}${menuFeatureStyles}${menuBottomTabsCSS}${menuFormC
 		},
 		update(next) {
 			snapshot = next;
+			deathPrompt.update(next.death);
 			text('[data-panel=menu]', next.unreadMail ? '菜单 · 新邮件' : '菜单');
-			if (performance.now() >= noticeUntil) text('[data-target]', next.autoCombat?.status || '自动战斗已停止');
+			if (next.death?.dead || performance.now() >= noticeUntil) text('[data-target]', next.death?.dead ? '已倒下' : next.autoCombat?.status || '自动战斗已停止');
 			const species = next.autoCombat?.species || [];
 			const targetLabel = species.length > 1 ? `${species.length} 种魔物` : species[0]?.name || '全部魔物';
 			text('[data-auto-target]', `${targetLabel} ▾`);
 			$('[data-auto-target]').title = species.map(entry => entry.name).join('、') || '全部魔物';
-			const player = next.target?.player, pet = next.target?.pet, mercenary = next.target?.mercenary, homunculus = next.target?.homunculus;
+			const target = next.death?.dead ? null : next.target;
+			const player = target?.player, pet = target?.pet, mercenary = target?.mercenary, homunculus = target?.homunculus;
 			const hasActions = Boolean(player || pet || mercenary || homunculus);
-			text('[data-auto-toggle]', hasActions ? '取消选择' : next.autoCombat?.active ? '停止战斗' : '自动战斗');
+			const exam = next.death?.dead ? null : next.exam;
+			const candidates = exam?.candidates || [];
+			const list = $('[data-exam-targets]');
+			list.hidden = candidates.length < 2;
+			// Preserve buttons during polling so a pointer release still clicks the same instance.
+			const key = JSON.stringify(candidates);
+			if (list.dataset.entries !== key) {
+				list.dataset.entries = key;
+				list.replaceChildren(...candidates.map((entry, index) => {
+					const button = document.createElement('button');
+					button.dataset.examTarget = entry.id;
+					button.textContent = `${index + 1}. ${entry.name}`;
+					button.setAttribute('aria-pressed', String(entry.selected));
+					return button;
+				}));
+			}
+			$('[data-auto-target]').hidden = Boolean(next.exam);
+			$('[data-auto-toggle]').disabled = Boolean(next.exam && !hasActions && !exam?.canAttack);
+			if (exam && !hasActions) text('[data-target]', exam.name || '点击魔物选择目标');
+			$('.battle-status').classList.toggle('exam-status', Boolean(exam));
+			text('[data-auto-toggle]', hasActions ? '取消选择' : next.exam ? '攻击' : next.autoCombat?.active ? '停止战斗' : '自动战斗');
 			$('[data-auto-toggle]').setAttribute('aria-pressed', String(!hasActions && Boolean(next.autoCombat?.active)));
 			$('[data-auto-toggle]').classList.toggle('clear-selection', hasActions);
 			$('[data-player-actions]').hidden = !player;
 			$('[data-pet-actions]').hidden = !pet;
 			$('[data-mercenary-actions]').hidden = !mercenary;
 			$('[data-homunculus-actions]').hidden = !homunculus;
-			$('[data-target]').hidden = hasActions;
+			$('[data-target]').hidden = hasActions || Boolean(target?.self);
 			$('.battle-status').classList.toggle('has-player-actions', hasActions);
 			for (const button of root.querySelectorAll('[data-mercenary-action]')) button.disabled = !mercenary?.canOperate;
 			text('[data-mercenary-action=aggressive]', mercenary?.aggressive ? '主动' : '被动');
@@ -1029,7 +1064,7 @@ ${vendingCSS}${menuChromeCSS}${menuFeatureStyles}${menuBottomTabsCSS}${menuFormC
 			$('.shortcut-tools').hidden = Boolean(state.pending);
 			text(
 				'[data-skill-prompt]',
-				state.pending ? `${state.pending.name}：${state.pending.ground ? '点击地面施放' : '点击有效目标'}` : ''
+				state.pending ? state.pending.message || `${state.pending.name}：${state.pending.ground ? '点击地面施放' : '点击有效目标'}` : ''
 			);
 			$('[data-skill-self]').hidden = !state.pending?.self;
 		},
@@ -1039,6 +1074,7 @@ ${vendingCSS}${menuChromeCSS}${menuFeatureStyles}${menuBottomTabsCSS}${menuFormC
 		},
 		close,
 		destroy() {
+			deathPrompt.destroy();
 			releaseChatPreviewLayout();
 			chatPreview.destroy();
 			statusIcons.destroy();

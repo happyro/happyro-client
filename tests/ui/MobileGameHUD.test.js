@@ -441,3 +441,43 @@ it('right-aligns narrow minimaps without stretching wide maps', () => {
  view.setMap({width: 200, height: 100, image: {width: 200, height: 200}});
  expect(drawImage.mock.lastCall.slice(-4)).toEqual([0, 32, 128, 64]);
 });
+
+it('places the waiting entry in battle status and clears it after revival', () => {
+ const death = { dead: true, tokenCount: 0 };
+ actions.deathSnapshot = () => death;
+ view.update({ ...state, death });
+ const prompt = root.querySelector('.mobile-death-host').shadowRoot;
+ expect(prompt.querySelector('#death-description').hidden).toBe(true);
+ prompt.querySelector('[data-wait]').click();
+ const reopen = root.querySelector('.battle-status .death-reopen');
+ expect(reopen.hidden).toBe(false);
+ expect(root.querySelector('[data-target]').textContent).toBe('已倒下');
+ reopen.click();
+ expect(prompt.querySelector('dialog').open).toBe(true);
+ expect(reopen.hidden).toBe(true);
+ view.update(state);
+ expect(prompt.querySelector('dialog').open).toBe(false);
+ expect(reopen.hidden).toBe(true);
+ expect(root.querySelector('[data-target]').textContent).toBe('自动战斗已停止');
+});
+
+it('shows instance names and explicit attack in exams, retaining candidate buttons during polling', () => {
+ actions.attackExamTarget = vi.fn(); actions.chooseExamTarget = vi.fn(); actions.toggleAutoCombat = vi.fn();
+ const exam = { name: '转职目标们', canAttack: true, candidates: [
+  { id: 1, name: '转职目标', selected: false }, { id: 2, name: '转职目标们', selected: true }
+ ] };
+ view.update({ ...state, exam });
+ expect(root.querySelector('[data-auto-target]').hidden).toBe(true);
+ expect(root.querySelector('[data-target]').textContent).toBe('转职目标们');
+ expect(root.querySelector('[data-auto-toggle]').textContent).toBe('攻击');
+ const button = root.querySelector('[data-exam-target="1"]'); view.update({ ...state, exam });
+ expect(root.querySelector('[data-exam-target="1"]')).toBe(button);
+ button.click(); expect(actions.chooseExamTarget).toHaveBeenCalledWith(1); expect(actions.attackExamTarget).not.toHaveBeenCalled();
+ click('[data-auto-toggle]'); expect(actions.attackExamTarget).toHaveBeenCalledOnce(); expect(actions.toggleAutoCombat).not.toHaveBeenCalled();
+ view.update({ ...state, exam: { name: '', canAttack: false, candidates: [] } });
+ expect(root.querySelector('[data-auto-toggle]').disabled).toBe(true);
+ expect(root.querySelector('[data-exam-targets]').hidden).toBe(true);
+ view.update(state); expect(root.querySelector('[data-auto-toggle]').disabled).toBe(false);
+ expect(root.querySelector('[data-auto-target]').hidden).toBe(false);
+ click('[data-auto-toggle]'); expect(actions.toggleAutoCombat).toHaveBeenCalledOnce();
+});
