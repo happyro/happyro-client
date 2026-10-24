@@ -366101,6 +366101,7 @@ var init_GameRecovery = __esmMin((() => {
 /** Map loading recovery orchestration. Server tokens and movement stay with the caller. */
 function createMapLoadRecovery({ view, onRecover, onRetry, onExit, setTimer = setTimeout, clearTimer = clearTimeout, loadTimeoutMs = 3e4, recoveryTimeoutMs = 1e4 }) {
 	let attempt = 0;
+	let request = 0;
 	let context = null;
 	let timer = null;
 	let phase = "idle";
@@ -366136,16 +366137,18 @@ function createMapLoadRecovery({ view, onRecover, onRetry, onExit, setTimer = se
 	function awaitRequest(callback, mode) {
 		clearDeadline();
 		const id = attempt;
+		const requestId = ++request;
+		const awaiting = () => active(id) && requestId === request && phase === "recovering";
 		phase = "recovering";
 		recoveryMode = mode;
 		show(mode === "previous" ? "地图加载失败，正在返回原位置…" : mode === "prontera" ? "正在返回普隆德拉…" : "正在重试加载地图…", true);
 		timer = setTimer(() => {
-			if (active(id) && phase === "recovering") failRequest("恢复请求超时，请重试加载或退出游戏。");
+			if (awaiting()) failRequest("恢复请求超时，请重试加载或退出游戏。");
 		}, recoveryTimeoutMs);
 		Promise.resolve().then(() => {
-			if (active(id) && phase === "recovering") return callback();
+			if (awaiting()) return callback();
 		}).catch(() => {
-			if (active(id) && phase === "recovering") failRequest("无法完成地图恢复，请重试加载或退出游戏。");
+			if (awaiting()) failRequest("无法完成地图恢复，请重试加载或退出游戏。");
 		});
 	}
 	function recover(mode) {
@@ -369826,16 +369829,20 @@ function statusTimeText(end, now) {
 	return (minutes ? `${minutes} ${DB.getMessage(1807, "minute")} ` : "") + `${seconds} ${DB.getMessage(1808, "second")}`;
 }
 function loadStatusIcon(index) {
+	const status = _status[index];
+	const request = {};
+	status.iconRequest = request;
+	const current = () => _status[index] === status && status.iconRequest === request;
 	const tkmVariant = SessionStorage_default.Entity && DB.isTaeKwon(SessionStorage_default.Entity._job) && TKM_ICON_OVERRIDE[index] || null;
 	const iconName = tkmVariant || StatusInfo[index].icon;
 	_status[index].tkmVariant = tkmVariant;
 	Client.loadFile(`data/texture/effect/${iconName}`, (data) => {
 		Texture.load(data, function() {
-			if (_status[index] && !_status[index].img) addResizedStatusIcon(this, index);
+			if (current() && !status.img) addResizedStatusIcon(this, index, current);
 		});
 	});
 }
-function addResizedStatusIcon(img, index) {
+function addResizedStatusIcon(img, index, current) {
 	if (img.width < 33 && img.height < 33) {
 		_status[index].img = img;
 		_status[index].icon = img.toDataURL();
@@ -369857,12 +369864,13 @@ function addResizedStatusIcon(img, index) {
 	ctx.drawImage(img, x, y, width, height);
 	ctx.restore();
 	const resizedImg = new Image();
-	resizedImg.src = canvas.toDataURL();
 	resizedImg.onload = () => {
+		if (!current()) return;
 		_status[index].img = resizedImg;
 		_status[index].icon = resizedImg.src;
 		addElement$4(_status[index].element);
 	};
+	resizedImg.src = canvas.toDataURL();
 }
 /**
 * Reset elements position.
