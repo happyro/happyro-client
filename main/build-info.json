@@ -1,19 +1,19 @@
 {
-  "buildId": "mvm4szqp",
-  "builtAt": "2026-10-24T08:23:09.553Z",
+  "buildId": "mvmrzt0d",
+  "builtAt": "2026-10-24T19:12:18.589Z",
   "artifacts": {
-    "index.html": "ff7982d8f3dca880656f56c00f25639b50642d87dddf8451d68b9dcb85e47f9a",
-    "api.html": "870c9157c417f6e2e468987c8900b29c8a26eb709dcdac8652d8fcf4e3245af3",
+    "index.html": "0d1424a00d5523a82587dd3b56ac5e8a48d7604d1d85bb09a2c160182e90de99",
+    "api.html": "4f5ac155492db57301f121795716e31e57af6a96d46cfb27fed829bdbefb6cdf",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
     "debug.js": "c144a24aa6a8d67a8e4050ce169072260054025cf1b11f37f2b8b52ee325fbfe",
     "debug-upload.js": "01260bb90f2303ee1c9d6389821517f32052c506fd54d03de0cc15298230d34d",
-    "Online.js": "855d70b588fd80da6a4825eb1041a3fb4858c926861a0ad3c2e274e38aaa9d8e",
+    "Online.js": "a2ae0f8fc721006ff8f43cf38f0fadd277bdcc48a4a1aea97bed1ab74dc1e6e5",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
     "Config.happyro.js": "2824d58ee755c81f6d0829cb7892cdc50067a5c1fefdedda46162d07d14d0507",
     "client-defaults.schema.json": "47cc0d8535e2523d32ab16dc31500e0d3635e482798289fb2bed1d1ac2ce41a4",
-    "data/navigation/catalog.json": "1d776db02d792659dcba74cb8ecaf971de767c7ecab39724d245d39f177f4279",
+    "data/navigation/catalog.json": "fafe1674b391831996b42431412e71f3f4bc29a1644531a406f304694c50a1ab",
     "data/navigation/graph.json": "faa9ce30aae5a71f41660ff9cafcc8b4c8c0730ac2350a50bf529a36d2a8267b",
-    "data/monsters/catalog.json": "5d3afdf86ce1ba84c44f6d999945b19d7cfd2af74de6cd9f4148550796e71142",
-    "data/world/npc-assets.json": "ca9964da22d453bdbfa1a71d7dcab0fe7bfb37cb48bbda1503121ae60287ac35"
+    "data/monsters/catalog.json": "255b317e0724513019bff8d20b4388b557a0ce2dd91db5d3f5d81b7b7e10e2c3",
+    "data/world/npc-assets.json": "3f6ef7d30ab5b998bc9a06d7b10e425d07db4d9560df9584c1d434c2c37c11ec"
   }
 }
