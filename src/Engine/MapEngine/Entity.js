@@ -1,3 +1,4 @@
+import { playerStatuses } from 'Network/PlayerStatuses.js';
 import { reportSkillExecution } from 'Network/SkillExecution.js';
 import MapRenderer from 'Renderer/MapRenderer.js';
 import { isIdentificationExam } from 'UI/Game/IdentificationExam.js';
@@ -1380,7 +1381,7 @@ function onNPCViewChange(pkt) {
  * @param {object} pkt - PACKET.ZC.USE_SKILL
  */
 function onEntityUseSkill(pkt) {
-	if (pkt.srcAID === Session.Entity?.GID) reportSkillExecution(pkt.SKID, pkt.result ? 'executed' : 'failed');
+	if (pkt.srcAID === Session.Entity?.GID) reportSkillExecution(pkt.SKID, pkt.result ? 'executed' : 'failed', 0, { target: pkt.targetAID });
 	const srcEntity = EntityManager.get(pkt.srcAID);
 	const dstEntity = EntityManager.get(pkt.targetAID);
 
@@ -1508,7 +1509,7 @@ function onSkillDisapear(pkt) {
  * @param {object} pkt - PACKET.ZC.NOTIFY_SKILL
  */
 function onEntityUseSkillToAttack(pkt) {
-	if (pkt.AID === Session.Entity?.GID) reportSkillExecution(pkt.SKID, 'executed');
+	if (pkt.AID === Session.Entity?.GID) reportSkillExecution(pkt.SKID, 'executed', 0, { target: pkt.targetID, damage: pkt.damage, tick: pkt.startTime });
 	if (CombatDiagnostics.enabled())
 		CombatDiagnostics.mark('combat.skill', {
 			self: pkt.AID === Session.Entity?.GID,
@@ -1666,7 +1667,7 @@ function onEntityUseSkillToAttack(pkt) {
  * @param {object} pkt - pkt PACKET.ZC.USESKILL_ACK
  */
 function onEntityCastSkill(pkt) {
-	if (pkt.AID === Session.Entity?.GID) reportSkillExecution(pkt.SKID, 'casting', pkt.delayTime);
+	if (pkt.AID === Session.Entity?.GID) reportSkillExecution(pkt.SKID, 'casting', pkt.delayTime, { target: pkt.targetID, position: [pkt.xPos, pkt.yPos] });
 	// property:
 	//     0 = Yellow cast aura
 	//     1 = Water elemental cast aura
@@ -1887,6 +1888,7 @@ function onEntityCastCancel(pkt) {
  * @param {object} pkt - PACKET.ZC.MSG_STATE_CHANGE
  */
 function onEntityStatusChange(pkt) {
+	if (pkt.AID === Session.AID || pkt.AID === Session.Entity?.GID) playerStatuses.update(pkt);
 	const entity = EntityManager.get(pkt.AID);
 
 	// Monster/Active monster transformations - special handling
