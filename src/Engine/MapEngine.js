@@ -1,3 +1,4 @@
+import { updateCombatLimits } from 'Network/CombatLimits.js';
 import { playerStatuses } from 'Network/PlayerStatuses.js';
 import { recoveryDefinition } from 'DB/Items/RecoveryItems.js';
 import { itemUseExecution } from 'Network/ItemUseExecution.js';
@@ -92,7 +93,8 @@ import GameTools from 'UI/Components/GameTools/GameTools.js';
 import {
 	handleMapTeleportResult as handleGameToolsMapTeleportResult,
 	handleNpcTeleportResult as handleGameToolsNpcTeleportResult,
-	notifyAdventureConfigChanged
+	notifyAdventureConfigChanged,
+	notifyAdventureMapReady
 } from 'UI/Components/GameTools/AdventureActionService.js';
 import { handleNpcAvailabilityResult as handleGameToolsNpcAvailabilityResult } from 'UI/Components/GameTools/NpcAvailabilityService.js';
 import CaptchaUpload from 'UI/Components/Captcha/CaptchaUpload.js';
@@ -370,6 +372,7 @@ class MapEngine {
 			Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT, onNpcTeleportResult);
 			Network.hookPacket(PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT, onMapTeleportResult);
 			Network.hookPacket(PACKET.ZC.HAPPYRO_MAP_LOAD_CONTEXT, onMapLoadContext);
+			Network.hookPacket(PACKET.ZC.HAPPYRO_COMBAT_LIMITS, updateCombatLimits);
 			Network.hookPacket(PACKET.ZC.HAPPYRO_MAP_RECOVERY_RESULT, onMapRecoveryResult);
 			Network.hookPacket(PACKET.ZC.HAPPYRO_ARRIVAL_PREVIEW, handleArrivalPreview);
 			Network.hookPacket(PACKET.ZC.REFUSE_ENTER, onConnectionRefused);
@@ -632,12 +635,10 @@ function onMonsterSpawnResult(pkt) {
 
 function onNpcTeleportResult(pkt) {
 	handleGameToolsNpcTeleportResult(pkt);
-	Navigation.onNpcTeleportResult(pkt);
 }
 
 function onMapTeleportResult(pkt) {
 	handleGameToolsMapTeleportResult(pkt);
-	Navigation.onMapTeleportResult(pkt);
 }
 
 function onNpcAvailabilityResult(pkt) {
@@ -786,6 +787,7 @@ function onMapChange(pkt, forceReload = false) {
 		if (!isCurrentLoad()) return;
 		mapLoadRecovery.loaded(recoveryAttempt);
 		Network.sendPacket(new PACKET.CZ.NOTIFY_ACTORINIT());
+		notifyAdventureMapReady();
 		cameraReady?.then(() => {
 			if (isCurrentLoad()) gameRecoveryReady(prepareRecoveryLogin);
 		});

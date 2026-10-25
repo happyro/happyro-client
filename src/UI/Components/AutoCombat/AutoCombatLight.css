@@ -117,11 +117,23 @@ button:focus-visible,
 .combat-dialog .recovery-panel { --recovery-control-height: 28px; }
 .combat-dialog .recovery-select { box-sizing: border-box; min-height: 28px; height: 28px; padding: 3px 10px; }
 .combat-dialog .recovery-item-actions button { box-sizing: border-box; min-height: 26px; height: 26px; padding: 2px 6px; }
-.combat-dialog .auto-target-section > button { box-sizing: border-box; min-height: 32px; padding: 5px 10px; }
-.combat-dialog [data-normal-attack] { box-sizing: border-box; min-height: 30px; padding: 4px 10px; }
+.combat-dialog [data-all-species],
+.combat-dialog [data-normal-attack] { box-sizing: border-box; height: 32px; min-height: 32px; padding: 5px 10px; }
 .combat-dialog .auto-range-stepper button { box-sizing: border-box; width: 30px; height: 30px; min-height: 30px; }
 .combat-dialog .auto-species-card { box-sizing: border-box; min-height: 38px; padding: 6px; }
 .combat-dialog .auto-skill-card { box-sizing: border-box; min-height: 42px; padding: 6px; }
 
 /* Match the list's reserved scrollbar space, including when it is not overflowing. */
 .combat-dialog .recovery-items-heading { overflow: hidden; scrollbar-gutter: stable; }
+
+/* Floating navigation actions match the translucent desktop HUD, without hover changes. */
+.npc-navi-controls button,
+.npc-navi-controls button:hover:not(:disabled),
+.npc-navi-controls button:active:not(:disabled) {
+ color: #ecce94;
+ border: 1px solid #ecce94;
+ border-radius: 6px;
+ background: rgba(0, 0, 0, 0.6);
+ box-shadow: none;
+ transition: none;
+}

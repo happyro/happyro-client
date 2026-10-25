@@ -1,3 +1,4 @@
+import { acquireInputFreeze, releaseInputFreeze, isInputFrozenExcept } from 'UI/InputFreeze.js';
 import { isIdentificationExam, createExamTargets } from 'UI/Game/IdentificationExam.js';
 import { createSelfActions } from 'UI/Game/SelfActions.js';
 import { gameDeathSnapshot } from 'UI/Game/GameDeath.js';
@@ -9,6 +10,7 @@ import { createMobileViewport } from './MobileViewport.js';
 import AdventureTools from './AdventureTools.js';
 import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 import { createGameAutoCombatRuntime } from 'UI/Game/GameAutoCombatRuntime.js';
+import { isAutoCombatTeleportPending } from 'UI/Game/AutoCombatTeleport.js';
 import { openGameCompanions } from 'UI/Game/GameCompanions.js';
 import { openGamePet } from 'UI/Game/GamePet.js';
 import { openGameMail, gameMailUnread } from 'UI/Game/GameMail.js';
@@ -69,7 +71,6 @@ let unsubscribe;
 let unsubscribeOrientation;
 let unsubscribeInteraction;
 let abort;
-let previousFreeze;
 let modal = false;
 HUD.actions = {};
 
@@ -87,23 +88,28 @@ function setModal(value) {
 	if (value === modal) return;
 	modal = value;
 	if (value) {
-		previousFreeze = Session.FreezeUI;
 		cancelSceneInput();
-		Session.FreezeUI = true;
+		acquireInputFreeze(HUD);
 		Mouse.intersect = false;
 	} else {
-		Session.FreezeUI = previousFreeze;
+		releaseInputFreeze(HUD);
 	}
 }
 function snapshot() {
 	const entity = Session.Entity;
 	if (!entity) return;
+	const combatState = autoCombat.snapshot();
+	// Same-map teleport rebuilds the HUD before the runtime resumes on its next tick.
+	if (!combatState.active && isAutoCombatTeleportPending()) {
+		combatState.active = true;
+		combatState.status = '正在随机瞬移';
+	}
 	const diagnosticStart = CombatDiagnostics.begin();
 	view.updateShortcuts(shortcuts.snapshot());
 	view.update({
 		exam: isIdentificationExam(MapRenderer.currentMap) ? examTargets?.snapshot() : null,
 		death: gameDeathSnapshot(),
-		autoCombat: autoCombat.snapshot(),
+		autoCombat: combatState,
 		unreadMail: gameMailUnread(),
 		name: entity.display.name,
 		job: getJobDisplayName(entity._job),
@@ -166,18 +172,18 @@ HUD.onAppend = function () {
 		onDisconnect: () => HUD.remove()
 	});
 	shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
-	inventory = createGameInventory(() => modal && !previousFreeze);
-	containers = createGameContainers(() => modal && !previousFreeze);
-	social = createGameSocial(() => modal && !previousFreeze, shortcuts);
+	inventory = createGameInventory(() => modal && !isInputFrozenExcept(HUD));
+	containers = createGameContainers(() => modal && !isInputFrozenExcept(HUD));
+	social = createGameSocial(() => modal && !isInputFrozenExcept(HUD), shortcuts);
 	chat = createGameChat(
 		(...args) => HUD.actions.sendChat(...args),
-		() => modal && !previousFreeze,
+		() => modal && !isInputFrozenExcept(HUD),
 		command => HUD.actions.sendEmotion(command)
 	);
-	quests = createGameQuests(() => modal && !previousFreeze);
-	attributes = createGameAttributes(() => modal && !previousFreeze);
-	skills = createGameSkills(() => modal && !previousFreeze, shortcuts);
-	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity), () => modal && !previousFreeze);
+	quests = createGameQuests(() => modal && !isInputFrozenExcept(HUD));
+	attributes = createGameAttributes(() => modal && !isInputFrozenExcept(HUD));
+	skills = createGameSkills(() => modal && !isInputFrozenExcept(HUD), shortcuts);
+	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity), () => modal && !isInputFrozenExcept(HUD));
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
 		deathSnapshot: gameDeathSnapshot,
@@ -198,16 +204,16 @@ HUD.onAppend = function () {
 		prepareHomunculusAction: (action, id) => {
 			autoCombat.stop();
 			return Commands.prepareHomunculusAction(action, id, () =>
-				openGameCompanions('homunculus', () => modal ? !previousFreeze : enabled()));
+				openGameCompanions('homunculus', () => modal ? !isInputFrozenExcept(HUD) : enabled()));
 		},
 		prepareMercenaryAction: (action, id) => {
 			autoCombat.stop();
 			return Commands.prepareMercenaryAction(action, id, () =>
-				openGameCompanions('mercenary', () => modal ? !previousFreeze : enabled()));
+				openGameCompanions('mercenary', () => modal ? !isInputFrozenExcept(HUD) : enabled()));
 		},
 		preparePetAction: (action, id) => {
 			autoCombat.stop();
-			return Commands.preparePetAction(action, id, () => openGamePet(() => modal ? !previousFreeze : enabled()));
+			return Commands.preparePetAction(action, id, () => openGamePet(() => modal ? !isInputFrozenExcept(HUD) : enabled()));
 		},
 		playerAction: (action, id) => {
 			autoCombat.stop();
@@ -237,7 +243,7 @@ HUD.onAppend = function () {
 			snapshot();
 		},
 		toggleAutoCombat: () => {
-			if (autoCombat.snapshot().active) autoCombat.stop();
+			if (autoCombat.snapshot().active || isAutoCombatTeleportPending()) autoCombat.stop();
 			else {
 				shortcuts.cancel();
 				controls.cancel();
@@ -265,12 +271,12 @@ HUD.onAppend = function () {
 			save: saveGameSettings,
 			audio: saveGameAudio
 		},
-		openCompanion: kind => openGameCompanions(kind, () => modal && !previousFreeze),
-		openPet: () => openGamePet(() => modal && !previousFreeze),
-		openMail: () => openGameMail(() => modal && !previousFreeze),
-		openBank: () => requestGameBank(() => modal && !previousFreeze),
+		openCompanion: kind => openGameCompanions(kind, () => modal && !isInputFrozenExcept(HUD)),
+		openPet: () => openGamePet(() => modal && !isInputFrozenExcept(HUD)),
+		openMail: () => openGameMail(() => modal && !isInputFrozenExcept(HUD)),
+		openBank: () => requestGameBank(() => modal && !isInputFrozenExcept(HUD)),
 		showOwnedVending,
-		canOperate: () => modal && !previousFreeze,
+		canOperate: () => modal && !isInputFrozenExcept(HUD),
 		social,
 		questSnapshot: () => quests.snapshot(),
 		questToggle: (...args) => quests.toggle(...args),
@@ -434,6 +440,8 @@ HUD.onAppend = function () {
 	updateViewport();
 };
 HUD.onRemove = function (resetInteraction = true) {
+	setModal(false);
+	releaseInputFreeze(HUD);
 	examTargets?.clear();
 	examTargets = null;
 	selfActions?.destroy();

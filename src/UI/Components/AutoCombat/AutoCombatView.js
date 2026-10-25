@@ -1,3 +1,4 @@
+import { bindNpcNaviControls } from 'UI/Game/NpcNaviPrompt.js';
 import { createRecoveryPanel } from 'UI/Game/RecoveryPanel.js';
 import { bindDesktopDialogDrag } from '../DesktopDialogDrag.js';
 import { createAutoCombatPanel } from 'UI/Game/AutoCombatPanel.js';
@@ -6,6 +7,7 @@ import { createPickupSettingsPanel } from 'UI/Game/PickupSettingsPanel.js';
 /** Desktop presentation; gameplay and persistence remain in the shared services. */
 export function createAutoCombatView(root, actions, pickup, { showSkillDescription } = {}) {
 	root.innerHTML = `
+		<div class="npc-navi-dock"></div>
 		<div class="combat-toolbar" role="group" aria-label="战斗辅助快捷操作">
 		<button type="button" class="combat-launcher" data-combat-toggle role="switch" aria-checked="false" aria-label="开启自动战斗" data-tooltip="开启自动战斗">
 			<svg class="combat-swords-icon" aria-hidden="true"
@@ -101,6 +103,7 @@ SOFTWARE.
 				</div>
 			</section>
 		</div>`;
+	const naviControls = bindNpcNaviControls(root.querySelector('.npc-navi-dock'));
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	const backdrop = $('.combat-backdrop');
@@ -114,11 +117,12 @@ SOFTWARE.
 
 	const restorePosition = bindDesktopDialogDrag($('.combat-dialog'), $('.desktop-window-header'), 'DesktopDialog.Position.AutoCombat', abort.signal);
 
-	let pickupEditor, recoveryEditor;
+	let pickupEditor, recoveryEditor, combatEditor;
 	function finishClose() {
 		pickupEditor?.flush();
 		pickupEditor?.destroy();
 		recoveryEditor?.destroy();
+		combatEditor?.destroy();
 		backdrop.hidden = true;
 		root.getRootNode().host?.removeAttribute('data-settings-open');
 
@@ -144,7 +148,7 @@ SOFTWARE.
 	}
 	function open() {
 		if (!backdrop.hidden) return;
-		createAutoCombatPanel($('.auto-config-body'), actions);
+		combatEditor = createAutoCombatPanel($('.auto-config-body'), actions);
 		recoveryEditor = createRecoveryPanel($('#recovery-panel'), actions);
 		pickupEditor = createPickupSettingsPanel(
 			$('.desktop-pickup-scroll'),
@@ -246,9 +250,11 @@ SOFTWARE.
 		close,
 		isOpen: () => !backdrop.hidden,
 		destroy() {
+			naviControls.destroy();
 			root.getRootNode().host?.removeAttribute('data-settings-open');
 			pickupEditor?.destroy();
-		recoveryEditor?.destroy();
+			recoveryEditor?.destroy();
+			combatEditor?.destroy();
 			clearTimeout(feedbackTimer);
 			abort.abort();
 			root.replaceChildren();
