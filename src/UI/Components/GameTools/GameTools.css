@@ -1,5 +1,6 @@
 .game-tools-window {
 	--game-tools-footer-height: 36px;
+	--game-tools-info-cell-inset: 6px;
 	position: relative;
 	isolation: isolate;
 	width: min(820px, calc(100vw - 24px));
@@ -1626,3 +1627,12 @@
 .map-catalog-tab .map-npc-list .map-monsters-jump { min-height: 24px; height: auto; padding: 2px 4px; font-size: 11px; white-space: nowrap; }
 
 .map-catalog-tab .map-npc-list .map-monsters-jump:disabled { opacity: .45; cursor: default; }
+
+/* Item information uses compact spacing without image-driven stretch. */
+.item-overview .catalog-metadata {
+	align-self: start;
+	align-content: start;
+}
+.item-overview .catalog-metadata > div {
+	padding-block: var(--game-tools-info-cell-inset);
+}

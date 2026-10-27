@@ -28,7 +28,11 @@
 	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel :is(.shop-transfer, .bank-transfer) {
 		flex-direction: row-reverse;
 	}
-	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel :is(.shop-transfer, .bank-transfer) button {
+	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .bank-transfer button {
+		transform: rotate(90deg);
+	}
+	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .shop-transfer button > span {
+		display: inline-block;
 		transform: rotate(90deg);
 	}
 	:host([data-menu-arrangement='stacked'][data-menu-density]) .panel .bank-layout {
@@ -694,7 +698,7 @@
 }
 :host([data-menu-density][data-menu-arrangement]) .panel[data-view='trade'] .trade-money-toolbar {
  display: grid;
- grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr) auto;
+ grid-template-columns: repeat(3, minmax(0, 1fr));
  gap: 6px;
 }
 :host([data-menu-density][data-menu-arrangement]) .panel[data-view='trade'] .trade-money-toolbar > * {
@@ -735,7 +739,7 @@
 
 /* Only the trade confirmation uses two independently scrollable offer columns. */
 :host([data-menu-density]) .panel[data-view='trade'] .ui-confirm:has(.trade-confirm-columns) {
- width: min(640px, calc(100% - var(--menu-dialog-inset, 32px)));
+ --menu-dialog-width: 640px;
 }
 :host([data-menu-density]) .panel[data-view='trade'] .ui-confirm:has(.trade-confirm-columns) .ui-confirm-body {
  display: flex;
@@ -857,26 +861,26 @@
 }
 
 /* Spacious item selection is limited to tablets, including landscape. */
-:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel .pickup-picker .pickup-results {
+:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel :is(.pickup-picker .pickup-results, .pickup-excluded) {
  font-size: var(--panel-text);
  line-height: 1.5;
 }
-:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel .pickup-picker .pickup-item {
+:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel :is(.pickup-picker, .pickup-excluded) .pickup-item {
  box-sizing: border-box;
  min-height: 56px;
  gap: 12px;
  padding-block: 10px;
 }
-:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel .pickup-picker .pickup-item-icon {
+:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel :is(.pickup-picker, .pickup-excluded) .pickup-item-icon {
  flex-basis: 32px;
  width: 32px;
  height: 32px;
 }
-:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel .pickup-picker .pickup-item input[type='checkbox'] {
+:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel :is(.pickup-picker, .pickup-excluded) .pickup-item input[type='checkbox'] {
  width: 22px;
  height: 22px;
 }
-:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel .pickup-picker .pickup-item input[type='checkbox']:checked::after {
+:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel :is(.pickup-picker, .pickup-excluded) .pickup-item input[type='checkbox']:checked::after {
  left: 7px;
  top: 4px;
 }

@@ -1,3 +1,4 @@
+import { bindDialogBounds } from 'UI/Components/DialogBounds.js';
 const ITEMS_PER_PAGE = 10;
 
 /** Keep selection across pages until the user explicitly confirms. */
@@ -42,10 +43,15 @@ export function openItemSelectionDialog(
 		page = 1,
 		total = 0,
 		closed = false;
+	let disposeBounds = () => {};
+	let searchTimer;
+	let composing = false;
 	function close() {
 		if (closed) return;
 		closed = true;
+		clearTimeout(searchTimer);
 		requestId++;
+		disposeBounds();
 		dialog.close();
 		dialog.remove();
 		clearImages();
@@ -55,16 +61,29 @@ export function openItemSelectionDialog(
 		$('[data-confirm]').disabled = !selected.size;
 	}
 	async function search(targetPage = 1) {
+		clearTimeout(searchTimer);
+		if (closed) return;
 		const query = input.value.trim(),
 			token = ++requestId;
 		if (!query && !allowEmptyQuery) {
 			status.hidden = false;
+			status.dataset.error = 'false';
 			status.textContent = '请输入物品名称或 ID';
 			return;
 		}
 		previous.disabled = next.disabled = true;
 		results.setAttribute('aria-busy', 'true');
-		status.hidden = true;
+		status.dataset.error = 'false';
+		const hasRows = Boolean(results.querySelector('.pickup-item'));
+		status.hidden = !hasRows;
+		status.textContent = hasRows ? '正在加载物品…' : '';
+		if (!hasRows) {
+			const hint = document.createElement('p');
+			hint.className = 'menu-hint pickup-loading';
+			hint.setAttribute('role', 'status');
+			hint.textContent = '正在加载物品…';
+			results.replaceChildren(hint);
+		}
 		try {
 			const response = await searchItems({ query, page: targetPage, perPage: ITEMS_PER_PAGE });
 			if (closed || token !== requestId) return;
@@ -90,7 +109,12 @@ export function openItemSelectionDialog(
 				row.append(checkbox, image(item.icon), caption);
 				results.append(row);
 			}
-			if (!response.data.length) results.textContent = emptyMessage;
+			if (!response.data.length) {
+                const hint = document.createElement('p');
+                hint.className = 'menu-hint';
+                hint.textContent = emptyMessage;
+                results.append(hint);
+            }
 			page = targetPage;
 			total = response.total;
 			$('[data-page]').textContent = `${page} / ${Math.max(1, Math.ceil(total / ITEMS_PER_PAGE))}`;
@@ -98,6 +122,8 @@ export function openItemSelectionDialog(
 			status.textContent = '';
 		} catch {
 			if (!closed && token === requestId) {
+				results.querySelector('.pickup-loading')?.remove();
+				status.dataset.error = 'true';
 				status.hidden = false;
 				status.textContent = '搜索失败，请重试';
 			}
@@ -110,6 +136,7 @@ export function openItemSelectionDialog(
 		}
 	}
 	input.oninput = () => {
+		clearTimeout(searchTimer);
 		requestId++;
 		clearImages();
 		results.replaceChildren();
@@ -120,9 +147,12 @@ export function openItemSelectionDialog(
 		total = 0;
 		$('[data-page]').textContent = '1 / 1';
 		previous.disabled = next.disabled = true;
+		if (!composing && (input.value.trim() || allowEmptyQuery)) searchTimer = setTimeout(() => void search(), 250);
 	};
+	input.addEventListener('compositionstart', () => { composing = true; clearTimeout(searchTimer); requestId++; });
+	input.addEventListener('compositionend', () => { composing = false; input.oninput(); });
 	input.onkeydown = event => {
-		if (event.key === 'Enter') {
+		if (event.key === 'Enter' && !event.isComposing && !composing) {
 			event.preventDefault();
 			void search();
 		}
@@ -142,6 +172,7 @@ export function openItemSelectionDialog(
 	});
 	dialog.addEventListener('keydown', event => event.stopPropagation());
 	container.append(dialog);
+	disposeBounds = bindDialogBounds(dialog, container, { desktopOwner: container.closest('[data-feedback-theme="desktop"]') });
 	dialog.showModal();
 	if (allowEmptyQuery) void search();
 	return close;

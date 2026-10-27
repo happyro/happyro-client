@@ -21,7 +21,7 @@ export function createTradePanel(body, service) {
 	for (const side of ['own', 'peer']) {
 		const money = document.createElement('span');
 		money.dataset.tradeMoney = side;
-		layout.querySelector(`[data-${side}]`).previousElementSibling.append(money);
+		layout.querySelector(`[data-${side}]`).closest('.interaction-column').querySelector('.interaction-column-title').append(money);
 	}
 	const toolbar = document.createElement('div');
 	toolbar.className = 'trade-money-toolbar';
@@ -67,7 +67,7 @@ export function createTradePanel(body, service) {
 	moneyButton.type = 'button';
 	moneyButton.dataset.sendMoney = '';
 	moneyButton.textContent = '设置金额';
-	toolbar.append(category, subtype.select, search, moneyButton);
+	toolbar.append(category, subtype.select, search);
 	body.prepend(toolbar);
 	const pickerContent = document.createElement('div');
 	pickerContent.dataset.picker = '';
@@ -96,6 +96,7 @@ export function createTradePanel(body, service) {
 		nodes = new Map();
 	const { footer, status } = interactionFooter(body);
 	status.remove();
+	footer.append(moneyButton);
 	for (const [key, text] of [
 		['lock', '锁定交易'],
 		['execute', '确认成交'],
