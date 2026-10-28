@@ -61,12 +61,10 @@ function onStorageInfo(pkt) {
 	}
 	if (!(Storage.getUI().__loaded && Storage.getUI().__active)) {
 		Storage.getUI().append();
-		// Update Storage Title based on InvTypeName
-		if (PACKETVER.value >= 20181002) {
-			Storage.getUI()
-				.ui.find('.titlebar .text')
-				.text(storageTitle(InvTypeName));
-		}
+	}
+	// Item-list packets may already have opened a populated desktop storage.
+	if (PACKETVER.value >= 20181002) {
+		Storage.getUI().ui.find('.titlebar .text').text(storageTitle(InvTypeName));
 	}
 	Storage.getUI().setItemInfo(pkt.curCount, pkt.maxCount);
 	Storage.getUI().setItems(itemBuffer);
@@ -215,6 +213,7 @@ function onItemListSet(pkt) {
 	switch (pkt.invType) {
 		case 0: // Inventory - name is always blank
 		case 1: // Cart - name is always blank
+			break;
 		case 2: // Storage
 		case 3: // Guild Storage
 			InvTypeName = pkt.name;

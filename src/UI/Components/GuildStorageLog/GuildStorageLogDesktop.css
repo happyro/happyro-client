@@ -1,0 +1,29 @@
+/* Desktop records share the adventure/help window palette and header. */
+:host { color: var(--desktop-text); font: 12px/1.6 Arial, sans-serif; background: #0003; }
+section[data-layout='desktop'] {
+ width: min(760px, calc(100vw - 32px));
+ height: min(540px, calc(100dvh - 32px));
+ padding: 0; gap: 0;
+ border: 1px solid var(--desktop-border); border-radius: var(--desktop-window-radius);
+ background: var(--desktop-surface); box-shadow: 1px 2px 5px #0006;
+}
+.desktop-window-title { color: var(--desktop-text); }
+.desktop-window-header { cursor: default !important; }
+.summary { padding: 8px 12px; color: var(--desktop-muted); }
+.records { margin: 0 12px; padding: 6px; border: 1px solid var(--desktop-divider); border-radius: var(--desktop-panel-radius); background: var(--desktop-card); }
+article { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 130px; align-items: center; gap: 12px; padding: 8px 6px; border-color: var(--desktop-divider); }
+article:nth-child(even) { background: var(--desktop-surface); }
+time { color: var(--desktop-muted); font-variant-numeric: tabular-nums; }
+footer { padding: 8px 12px; justify-content: center; }
+footer [data-page] { min-width: 60px; text-align: center; }
+footer button { min-height: 26px; padding: 3px 12px; border: 1px solid var(--desktop-border); border-radius: var(--desktop-radius); background: var(--desktop-button); color: var(--desktop-text); }
+footer button:hover:not(:disabled) { background: var(--desktop-hover); }
+footer button:active:not(:disabled) { background: var(--desktop-pressed); }
+button:focus-visible { outline-color: var(--desktop-muted); }
+@media (max-width: 600px) { article { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } time { grid-column: 1 / -1; } }
+:host-context(.custom-cursor), :host-context(.custom-cursor) * { cursor: none !important; }
+
+.panel-body { padding:8px 12px 0; gap:8px; overflow:hidden; }
+.summary { padding:0; }
+.menu-scroll-frame { padding:6px; border:1px solid var(--desktop-divider); border-radius:var(--desktop-panel-radius); background:var(--desktop-card); }
+.records { margin:0; padding:0; border:0; border-radius:0; }

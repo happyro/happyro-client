@@ -3,7 +3,7 @@ vi.mock('UI/Components/Inventory/Inventory.js', () => ({ default: { getUI: () =>
 vi.mock('UI/Components/Equipment/Equipment.js', () => ({ default: { getUI: () => ({ prepare: vi.fn(), clearItems: s.equipmentClear }) } }));
 vi.mock('UI/Components/CartItems/CartItems.js', () => ({ default: { prepare: vi.fn(), clearItems: s.cartClear } }));
 import { beforeEach, expect, it, vi } from 'vitest';
-const s = vi.hoisted(() => ({ inventoryClear: vi.fn(), equipmentClear: vi.fn(), cartClear: vi.fn(), mobile: true, hooks: new Map(), send: vi.fn(), items: [], append: vi.fn(), prepare: vi.fn(), remove: vi.fn(), capacity: null }));
+const s = vi.hoisted(() => ({ inventoryClear: vi.fn(), equipmentClear: vi.fn(), cartClear: vi.fn(), mobile: true, active: false, title: vi.fn(), hooks: new Map(), send: vi.fn(), items: [], append: vi.fn(), prepare: vi.fn(), remove: vi.fn(), capacity: null }));
 vi.mock('UI/Platform.js', () => ({ default: { get isMobile() { return s.mobile; } } }));
 vi.mock('Network/PacketVerManager.js', () => ({ default: { value: 20211103 } }));
 vi.mock('Network/NetworkManager.js', () => ({ default: { sendPacket: s.send, hookPacket: (kind, handler) => s.hooks.set(kind,handler) } }));
@@ -11,13 +11,13 @@ vi.mock('Network/PacketStructure.js', () => {
  const group = () => new Proxy({}, { get(target,key) { return target[key] ||= class { constructor() { this.packetName=key; } }; } });
  return { default: { CZ: group(), ZC: group() } };
 });
-vi.mock('UI/Components/Storage/Storage.js', () => ({ default: { getUI: () => ({ prepare: s.prepare, append: s.append, remove:s.remove, clearItems:()=>{s.items=[];}, setItems:items=>s.items.push(...items), setItemInfo:(current,limit)=>{s.capacity={current,limit};}, addItem:item=>s.items.push(item), removeItem: index=>{s.items=s.items.filter(item=>item.index!==index);}, ui:{find:()=>({text:vi.fn()})} }) } }));
+vi.mock('UI/Components/Storage/Storage.js', () => ({ default: { getUI: () => ({ __loaded: true, get __active(){return s.active;}, prepare: s.prepare, append: s.append, remove:s.remove, clearItems:()=>{s.items=[];}, setItems:items=>s.items.push(...items), setItemInfo:(current,limit)=>{s.capacity={current,limit};}, addItem:item=>s.items.push(item), removeItem: index=>{s.items=s.items.filter(item=>item.index!==index);}, ui:{find:()=>({text:s.title})} }) } }));
 import PACKET from 'Network/PacketStructure.js';
 import Storage from 'UI/Components/Storage/Storage.js';
 import initialize from '../../src/Engine/MapEngine/Storage.js';
 import { interactionSnapshot, clearInteraction } from '../../src/UI/Game/ServerInteraction.js';
 const receive=(name,data={})=>s.hooks.get(PACKET.ZC[name])(data);
-beforeEach(()=>{vi.clearAllMocks();clearInteraction();s.mobile=true;s.items=[];s.hooks.clear();initialize();receive('SPLIT_SEND_ITEMLIST_SET',{invType:2,name:'Storage'});});
+beforeEach(()=>{vi.clearAllMocks();clearInteraction();s.mobile=true;s.active=false;s.items=[];s.hooks.clear();initialize();receive('SPLIT_SEND_ITEMLIST_SET',{invType:2,name:'Storage'});});
 it('opens only the mobile modal and preserves items on capacity refreshes',()=>{
  receive('STORE_NORMAL_ITEMLIST',{itemInfo:[{index:2,ITID:501,count:3}]});receive('NOTIFY_STOREITEM_COUNTINFO',{curCount:1,maxCount:600});
  expect(s.append).not.toHaveBeenCalled();expect(interactionSnapshot().kind).toBe('storage');expect(s.items).toHaveLength(1);
@@ -60,4 +60,12 @@ it('confirms deposits and withdrawals only after storage model updates',()=>{
  receive('DELETE_ITEM_FROM_STORE',{index:2,count:3});
  expect(s.items).toHaveLength(0);
  expect(owner.storageTransfer.message).toContain('已取出');
+});
+
+it('labels a populated desktop guild storage already opened by its item-list packet',()=>{
+ s.mobile=false;s.active=true;
+ receive('SPLIT_SEND_ITEMLIST_SET',{invType:2,name:'Guild Storage'});
+ receive('SPLIT_SEND_ITEMLIST_SET',{invType:1,name:''});
+ receive('NOTIFY_STOREITEM_COUNTINFO',{curCount:1,maxCount:200});
+ expect(s.append).not.toHaveBeenCalled();expect(s.title).toHaveBeenLastCalledWith('公会仓库');
 });

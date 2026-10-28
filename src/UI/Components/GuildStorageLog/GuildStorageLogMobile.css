@@ -1,0 +1,24 @@
+/* Use the same density, safe area and scroll-frame contracts as HUD menus. */
+:host { font: var(--panel-text)/1.5 system-ui, sans-serif; }
+.panel.mobile-menu-window { --menu-window-width:780px; --menu-window-height:100%; padding:0; gap:0; border-radius:10px; }
+:host([data-menu-density='spacious']) .panel.mobile-menu-window { --menu-window-width:var(--menu-standard-width); --menu-window-height:min(var(--menu-standard-height), 100%); }
+.panel header { border-bottom:1px solid var(--menu-pane-border); }
+.panel h2 { font-size:var(--panel-title); color:#f6d9a5; }
+.panel .panel-body { gap:var(--panel-gap); font-size:var(--panel-text); overflow:hidden; }
+.summary, time { color:var(--menu-hint-color); }
+.panel button { font-size:var(--panel-text); padding:var(--panel-control-padding); }
+.menu-footer { flex:none; padding:8px; border-top:1px solid var(--menu-pane-border); justify-content:center; }
+:host([data-menu-density='spacious']) .menu-footer { padding:12px 16px; }
+.panel [data-menu-pagination] { gap:6px; }
+:host([data-menu-density='spacious']) [data-menu-pagination] { gap:8px; }
+.panel [data-menu-pagination] > button { width:var(--panel-control); height:var(--panel-control); padding:0; font-size:22px; line-height:1; }
+.records { scrollbar-width:thin; scrollbar-color:#65717b #19212a; }
+article { padding:8px 0; gap:4px; }
+article:first-child { padding-top:0; }
+article:last-child { padding-bottom:0; }
+:host([data-menu-arrangement='wide']) article { grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto; align-items:center; column-gap:var(--panel-gap); }
+
+:host([data-menu-density][data-menu-arrangement]) .panel[data-view] .menu-scroll-frame { border:0; border-radius:0; background:transparent; padding:0; }
+.record-count { font-size:var(--panel-text); color:var(--menu-hint-color); }
+
+.item-icon { width:calc(24px * var(--panel-list-image-scale)); height:calc(24px * var(--panel-list-image-scale)); flex-basis:calc(24px * var(--panel-list-image-scale)); }
