@@ -4682,7 +4682,27 @@ export default {
 
 	//223: [{}],	//EF_GANBANTEIN	   Holy Cast Aura
 	//224: [{}],	//EF_WIND	   Wind (Map effect)
-	//225: [{}],	//EF_VOLCANO	   Volcano casting effect
+	225: [
+		{
+			// EF_VOLCANO: red cue used by guardian-stone repair.
+			type: 'CYLINDER',
+			attachedEntity: true,
+			textureName: 'ring_red',
+			animation: 1,
+			blendMode: 2,
+			alphaMax: 0.7,
+			red: 1,
+			green: 0.25,
+			blue: 0.25,
+			bottomSize: 1,
+			topSize: 2,
+			height: 8,
+			duration: 1200,
+			fade: true,
+			rotate: true,
+			wav: 'effect/ef_beginspell'
+		}
+	],
 
 	226: [
 		{
