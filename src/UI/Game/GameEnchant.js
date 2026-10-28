@@ -1,3 +1,4 @@
+import { enchantResultMessage } from 'UI/Game/EnchantFeedback.js';
 import { toPlainRagnarokText } from 'Utils/RagnarokText.js';
 import DB from 'DB/DBManager.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
@@ -115,6 +116,11 @@ export function openGameEnchant(groupId) {
 									validateEnchantItem(Inventory.getUI().getItemByIndex(entry.index), group).ok
 							)
 					: [],
+				zeny: Session.zeny,
+				materialCounts: Inventory.getUI().list.reduce((counts, entry) => {
+					counts[entry.ITID] = (counts[entry.ITID] || 0) + (entry.count || 0);
+					return counts;
+				}, {}),
 				selected,
 				choices: item && item.ITID === selected.ID ? choices(item) : [],
 				allowed: allowed(),
@@ -186,10 +192,11 @@ export function openGameEnchant(groupId) {
 						if (slot >= getBaseSlotCount(item)) setSlotValue(item, slot, 0);
 				} else if (pkt.ITID && pending.slot !== null) setSlotValue(item, pending.slot, pkt.ITID);
 			}
+			const completedAction = pending.action;
 			pending = null;
 			selected = null;
 			messageKind = pkt.msgId === 3857 ? 'success' : 'error';
-			message = DB.getMessage(pkt.msgId) || `附魔结果：${pkt.msgId}`;
+			message = enchantResultMessage(pkt.msgId, completedAction);
 			const resultToken = Symbol('enchant-result');
 			showInteraction({
 				kind: 'information',

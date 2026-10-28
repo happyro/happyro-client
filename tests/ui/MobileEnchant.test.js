@@ -44,3 +44,10 @@ it('uses the researcher OSAD group and sends its real perfect enchant choice', a
  expect(state.send).toHaveBeenLastCalledWith(expect.objectContaining({type:'REQUEST_PERFECT_ENCHANT',enchant_group:33,index:10}));
  expect(state.items[1].count).toBe(20);
 });
+
+it('preserves enchants on a failed reset and shows the translated result',()=>{
+ state.items[0].slot.card1=4001;const service=ready(),choice=service.snapshot().choices.find(row=>row.key==='reset');
+ service.confirm('reset',JSON.stringify(choice));finishGameEnchant({msgId:3858,ITID:0});
+ expect(state.items[0].slot.card1).toBe(4001);
+ expect(JSON.stringify(interactionSnapshot())).toContain('重置附魔失败');
+});

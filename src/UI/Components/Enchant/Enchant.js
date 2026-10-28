@@ -1,3 +1,4 @@
+import { enchantResultMessage } from 'UI/Game/EnchantFeedback.js';
 import Platform from 'UI/Platform.js';
 import { openGameEnchant, finishGameEnchant } from 'UI/Game/GameEnchant.js';
 import {
@@ -1554,7 +1555,7 @@ function onEnchantResult(pkt) {
 	if (!EnchantState.pending) {
 		return;
 	}
-	const message = DB.getMessage(pkt.msgId) || '附魔结果：' + pkt.msgId;
+	const message = enchantResultMessage(pkt.msgId, EnchantState.pending.action);
 	const isSuccess = pkt.msgId === 3857;
 	ChatBox.addText(message, ChatBox.TYPE.BLUE, ChatBox.FILTER.PUBLIC_LOG);
 	playResultEffect(EnchantState.pending.action, isSuccess);

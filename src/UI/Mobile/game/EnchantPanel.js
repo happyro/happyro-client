@@ -1,138 +1,150 @@
-import { renderDescriptionMarkup } from './DescriptionMarkup.js';
+import { createRefinementEquipmentBrowser } from './RefinementEquipmentBrowser.js';
 import { createMenuField } from './MenuFormControls.js';
 import { setListItemText, setListItemIcon } from './ListItemText.js';
-import { interactionColumns, interactionReview, interactionFooter } from './InteractionPanel.js';
+import { interactionReview, interactionFooter } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
+
 export function createEnchantPanel(body, service) {
-	interactionColumns(body, [
-		{ title: '可附魔装备', className: 'inventory-list' },
-		{ title: '附魔配置', className: 'inventory-detail' },
-		{ title: '装备与结果', className: 'interaction-result' }
-	]);
+	const browser = createRefinementEquipmentBrowser(body, () => update(), '附魔');
 	const feedback = createFeedback(body);
-	const $ = selector => body.querySelector(selector),
-		list = $('.inventory-list'),
-		detail = $('.inventory-detail');
-	let key = '',
-		choiceKey = null,
-		editingId = '';
-	const nodes = new Map();
+	const list = body.querySelector('.inventory-list');
+	const detail = body.querySelector('.inventory-detail');
 	const { footer, status } = interactionFooter(body);
+	status.hidden = true;
+	const field = document.createElement('label');
+	field.className = 'interaction-field refinement-material-field menu-labeled-select';
+	const caption = document.createElement('span');
+	caption.textContent = '方式';
+	const select = createMenuField('select');
+	select.setAttribute('aria-label', '附魔方式');
+	field.append(caption, select);
+	const next = document.createElement('button');
+	next.textContent = '下一步';
+	footer.append(field, next);
+	const nodes = new Map();
+	let choiceKey = '',
+		editingId = '',
+		renderKey = '';
+	select.onchange = () => {
+		choiceKey = select.value;
+		update();
+	};
 	function update() {
 		const state = service.snapshot();
-		status.textContent = state.message || (state.pending ? '等待服务器回复…' : '请选择装备和附魔方式');
-		const ids = new Set(state.items.map(item => item.index));
+		const items = browser.filter(state.items);
+		const ids = new Set(items.map(item => item.index));
 		for (const [id, node] of nodes)
 			if (!ids.has(id)) {
 				node.remove();
 				nodes.delete(id);
 			}
-		for (const item of state.items) {
-			let b = nodes.get(item.index);
-			if (!b) {
-				b = document.createElement('button');
-				b.className = 'inventory-item';
-				b.onclick = () => {
-					const live = service.snapshot().items.find(row => row.index === item.index);
-					const error = live ? service.select(live.index, live.ID) : '装备已变化';
-					if (error) {
-						feedback(error, 'error');
-						return;
-					}
-					key = '';
-					choiceKey = null;
+		list.querySelector('.menu-hint')?.remove();
+		for (const item of items) {
+			let button = nodes.get(item.index);
+			if (!button) {
+				button = document.createElement('button');
+				button.className = 'inventory-item';
+				button.onclick = () => {
+					const current = service.snapshot().items.find(row => row.index === item.index);
+					const error = current ? service.select(current.index, current.ID) : '装备已变化';
+					if (error) return feedback(error, 'error');
+					choiceKey = '';
+					renderKey = '';
 					update();
 				};
-				nodes.set(item.index, b);
-				list.append(b);
+				nodes.set(item.index, button);
+				list.append(button);
 			}
-			setListItemText(b, item.name);
-			setListItemIcon(b, item);
-			b.disabled = !state.allowed;
-			b.setAttribute('aria-pressed', String(state.selected?.index === item.index));
+			setListItemText(button, item.name);
+			setListItemIcon(button, item);
+			button.disabled = !state.allowed;
+			button.setAttribute('aria-pressed', String(state.selected?.index === item.index));
+		}
+		if (!items.length) {
+			const hint = document.createElement('p');
+			hint.className = 'menu-hint';
+			hint.textContent = state.items.length ? '没有匹配的装备' : '暂无可附魔装备';
+			list.append(hint);
 		}
 		const identity = JSON.stringify(state.selected);
-		if (identity !== editingId) choiceKey = null;
+		if (identity !== editingId) choiceKey = '';
 		editingId = identity;
-		const next = JSON.stringify([state.selected, state.choices, state.allowed, choiceKey]);
-		if (next === key) return;
-		key = next;
-		const result = $('.interaction-result');
-		result.replaceChildren();
-		const selectedItem = state.items.find(row => row.index === state.selected?.index);
-		const title = document.createElement('h3');
-		title.textContent = selectedItem?.name || '请选择装备';
-		const description = document.createElement('p');
-		description.className = 'item-description';
-		renderDescriptionMarkup(description, selectedItem?.descriptionMarkup || selectedItem?.description || '');
-		result.append(title, description);
+		if (!state.choices.some(choice => choice.key === choiceKey)) choiceKey = state.choices[0]?.key || '';
+		const key = JSON.stringify([state, choiceKey]);
+		if (key === renderKey) return;
+		renderKey = key;
+		select.replaceChildren();
+		for (const choice of state.choices) select.add(new Option(choice.name, choice.key));
+		if (!state.choices.length) select.add(new Option('无可用方式', ''));
+		select.value = choiceKey;
+		select.disabled = !state.allowed || !state.choices.length;
+		const choice = state.choices.find(row => row.key === choiceKey);
+		next.disabled = !state.allowed || !choice;
 		detail.replaceChildren();
-		detail.classList.toggle('menu-hint', !state.selected);
-		footer.querySelector('button')?.remove();
-		if (!state.selected) {
-			detail.textContent = '请选择装备';
+		const item = state.items.find(row => row.index === state.selected?.index);
+		const title = document.createElement('h3');
+		title.textContent = item?.name || '请选择装备';
+		detail.append(title);
+		if (!choice) {
+			const hint = document.createElement('p');
+			hint.className = 'menu-hint';
+			hint.textContent = state.selected ? '此装备暂无可用附魔方式' : state.message || '选择装备查看附魔配置';
+			detail.append(hint);
 			return;
 		}
-		const select = createMenuField('select');
-		select.setAttribute('aria-label', '附魔方式');
-		select.add(new Option('请选择附魔方式', ''));
-		for (const choice of state.choices) select.add(new Option(choice.name, choice.key));
-		if (!state.choices.some(choice => choice.key === choiceKey)) choiceKey = null;
-		select.value = choiceKey || '';
-		select.disabled = !state.allowed;
-		select.onchange = () => {
-			choiceKey = select.value;
-			key = '';
-			update();
-		};
-		detail.append(select);
-		const choice = state.choices.find(entry => entry.key === choiceKey);
-		if (!choice) return;
-		const summary = document.createElement('p');
-		summary.textContent = `成功率：${choice.rate / 1000}% · 费用：${choice.zeny} Z\n${choice.materials.map(material => `${material.name} × ${material.count}`).join('\n')}`;
-		summary.className = 'item-description';
-		detail.append(summary);
+		const config = document.createElement('div');
+		config.className = 'refinement-config';
+		const cost = document.createElement('p');
+		cost.className = 'item-description';
+		cost.textContent = [
+			...choice.materials.map(
+				material =>
+					`材料：${material.name} × ${material.count}\n拥有：${state.materialCounts?.[material.ITID] ?? 0}`
+			),
+			`费用：${choice.zeny} Z`,
+			`余额：${state.zeny ?? 0} Z`
+		].join('\n');
+		const chance = document.createElement('p');
+		const percentage = document.createElement('strong');
+		percentage.className = 'refinement-success-rate';
+		percentage.textContent = `${choice.rate / 1000}%`;
+		chance.append('成功率：', percentage);
+		const warning = document.createElement('p');
+		warning.className = 'interaction-warning';
+		warning.textContent =
+			choice.action === 'reset'
+				? '重置成功会清除现有附魔，费用与材料会消耗。'
+				: '附魔会消耗费用与材料，请核对所选方式。';
+		config.append(cost, chance);
 		if (choice.results?.length) {
 			const outcomes = document.createElement('p');
 			outcomes.textContent = `可能获得：${choice.results.join('、')}`;
-			result.insertBefore(outcomes, description);
+			config.append(outcomes);
 		}
-		const warning = document.createElement('p');
-		warning.textContent = '附魔会消耗费用与材料，重置会清除现有附魔。';
-		const confirm = document.createElement('button');
-		confirm.textContent = '核对附魔';
-		confirm.disabled = !state.allowed;
-		confirm.onclick = () => {
+		config.append(warning);
+		detail.append(config);
+		next.onclick = () => {
+			const signature = JSON.stringify(choice);
 			const selectedIdentity = JSON.stringify(state.selected);
-			const item = state.items.find(row => row.index === state.selected.index);
 			const content = interactionReview(
-				[
-					`装备：${item?.name || '已选装备'}`,
-					`方式：${choice.name}`,
-					summary.textContent,
-					...(choice.results?.length ? [`可能获得：${choice.results.join('、')}`] : [])
-				],
+				[`装备：${item?.name || '已选装备'}`, `方式：${choice.name}`, cost.textContent, chance.textContent],
 				`费用：${choice.zeny} Z`,
 				warning.textContent
 			);
 			confirmAction(
 				body,
-				'确认附魔？',
+				choice.action === 'reset' ? '确认重置附魔？' : '确认附魔？',
 				() => {
-					if (JSON.stringify(service.snapshot().selected) !== selectedIdentity) {
-						feedback('装备已变化，请重新核对', 'error');
-						return;
-					}
-					const error = service.confirm(choice.key, JSON.stringify(choice));
+					if (JSON.stringify(service.snapshot().selected) !== selectedIdentity)
+						return feedback('装备已变化，请重新核对', 'error');
+					const error = service.confirm(choice.key, signature);
 					if (error) feedback(error, 'error');
+					update();
 				},
 				{ content }
 			);
 		};
-		warning.className = 'interaction-warning';
-		result.insertBefore(warning, description);
-		footer.append(confirm);
 	}
 	update();
 	return { update };
