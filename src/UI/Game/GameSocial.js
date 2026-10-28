@@ -171,7 +171,7 @@ export function createGameSocial(canOperate, shortcuts) {
 					!Number.isInteger(data.tax) ||
 					data.tax < 0 ||
 					data.tax > 50 ||
-					![0, 1, 16, 17].includes(data.right)
+					(!Number.isInteger(data.right) || data.right < 0 || data.right > 0x111 || (data.right & ~0x111) !== 0)
 				)
 					return '职位、权限或税率无效';
 				GuildEngine.requestPositionUpdate([

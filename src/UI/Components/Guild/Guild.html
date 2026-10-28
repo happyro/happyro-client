@@ -28,7 +28,7 @@
 			<div class="level"><ui-text msg="329">公会等级</ui-text>：<span class="value"></span></div>
 			<div class="master"><ui-text msg="330">公会会长</ui-text>：<span class="value"></span></div>
 			<div class="members">
-				<ui-text msg="331">公会成员</ui-text>：<span class="numMember">0</span> /
+				<ui-text msg="331">公会成员</ui-text>：<span class="numMember">…</span> /
 				<span class="maxMember">0</span> <ui-button bg="basic_interface/grp_online.bmp"></ui-button>
 				<span class="online"></span>
 			</div>
@@ -36,10 +36,10 @@
 			<div class="territory"><ui-text msg="333">领地</ui-text>：<span class="value"></span></div>
 			<div class="tendency">
 				<div class="title"><ui-text msg="334">倾向</ui-text>：<span class="value"></span></div>
-				<div class="righteous">R</div>
-				<div class="wiked">W</div>
-				<div class="vulgar">V</div>
-				<div class="famed">F</div>
+				<div class="righteous" title="正直">正</div>
+				<div class="wiked" title="邪恶">邪</div>
+				<div class="vulgar" title="庸俗">俗</div>
+				<div class="famed" title="声望">誉</div>
 				<canvas width="90" height="90"></canvas>
 			</div>
 			<div class="exp"><ui-text msg="335">经验值</ui-text>：<span class="value"></span></div>
@@ -96,6 +96,7 @@
 						<th class="title"><ui-text msg="511">职位名称</ui-text></th>
 						<th class="invite"><ui-text msg="512">邀请</ui-text></th>
 						<th class="punish"><ui-text msg="513">惩罚</ui-text></th>
+						<th class="storage">仓库</th>
 						<th class="tax"><ui-text msg="514">税率</ui-text></th>
 					</tr>
 				</thead>
@@ -106,10 +107,13 @@
 							<input type="text" value="" />
 						</td>
 						<td class="invite">
-							<ui-button bg="checkbox_0.bmp" class="off"></ui-button>
+							<input type="checkbox" />
 						</td>
 						<td class="punish">
-							<ui-button bg="checkbox_0.bmp" class="off"></ui-button>
+							<input type="checkbox" />
+						</td>
+						<td class="storage">
+							<input type="checkbox" />
 						</td>
 						<td class="tax"><input type="text" value="0" /> %</td>
 					</tr>

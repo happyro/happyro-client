@@ -8,7 +8,7 @@ vi.mock('UI/Components/PartyFriends/PartyFriends.js',()=>({default:{getUI:()=>({
 vi.mock('UI/Components/Guild/Guild.js',()=>({default:{getSocialSnapshot:()=>state.guild,onIncreaseSkill:state.learn,onSendEmblem:state.emblem}}));
 vi.mock('Engine/MapEngine/Friends.js',()=>({default:{addFriend:state.addFriend,removeFriend:state.removeFriend,detailsFor:friend=>friend.State===0?state.details:undefined}}));
 vi.mock('Engine/MapEngine/Group.js',()=>({default:{onRequestCreation:state.createParty,onRequestInvitation:state.inviteParty,onRequestLeave:state.leaveParty,onRequestExpel:state.expelParty,onRequestChangeLeader:state.leadParty,onRequestInfoUpdate:state.options}}));
-vi.mock('Engine/MapEngine/Guild.js',()=>({default:{requestPositionUpdate:state.position,requestDeleteRelatedGuild:state.relation,requestAlliance:state.ally,requestHostility:state.hostile,requestAccess:vi.fn(),requestInfo:vi.fn()}}));
+vi.mock('Engine/MapEngine/Guild.js',()=>({default:{requestChangeMemberPos:state.position,requestPositionUpdate:state.position,requestDeleteRelatedGuild:state.relation,requestAlliance:state.ally,requestHostility:state.hostile,requestAccess:vi.fn(),requestInfo:vi.fn()}}));
 vi.mock('DB/DBManager.js',()=>({default:{getMapName:code=>code==='prontera.rsw'?'普隆德拉':'未知地图',getSkillDescription:()=> '公会技能说明'}}));
 vi.mock('DB/Skills/SkillInfo.generated.js',()=>({default:{10001:{SkillName:'公会技能'}}}));
 import {createGameSocial} from '../../src/UI/Game/GameSocial.js';
@@ -168,4 +168,26 @@ it('uses the shared input prompt for footer guild invitations and keeps notice c
  expect(options.title).toBe('邀请入会');expect(options.validate('')).toBeTruthy();expect(options.validate('中'.repeat(8))).toBeTruthy();
  options.onConfirm(' 新成员 ');expect(act).toHaveBeenCalledWith('inviteGuild',{name:'新成员'});
  act.mockClear();body.querySelector('[data-social-tab=friends]').click();options.onConfirm('旧请求');expect(act).not.toHaveBeenCalled();
+});
+
+it('transfers guild leadership only to another member under current master authority',()=>{
+ state.guild.members=[{AID:3,GID:4}];state.guild.positions.push({positionID:0,posName:'会长'});
+ const service=createGameSocial(()=>true);service.act('guildPosition',{AID:3,GID:4,position:0});expect(state.position).toHaveBeenCalledWith([{AID:3,GID:4,positionID:0}]);
+ state.session.isGuildMaster=false;service.act('guildPosition',{AID:3,GID:4,position:0});expect(state.position).toHaveBeenCalledOnce();state.guild.members=[];state.guild.positions.pop();
+});
+it('guild rank permissions accept storage combinations and reject unknown bits',()=>{
+ const service=createGameSocial(()=>true),data={position:1,name:'成员',tax:0};
+ state.session.isGuildMaster=true;
+ for(const right of [0x100,0x101,0x110,0x111]) expect(service.act('editGuildPosition',{...data,right})).toBe('已请求，等待服务器回复');
+ for(const right of [-1,2,0x1000,1.5,4294967296]) expect(service.act('editGuildPosition',{...data,right})).toContain('无效');
+});
+it('guild overview separates total membership from online count and waits for the roster',()=>{
+ const body=document.body.appendChild(document.createElement('div'));
+ state.guild.info={level:1,masterName:'会长',userNum:1,maxUserNum:16};
+ state.guild.members=[{AID:1,GID:2,CharName:'自己',CurrentState:1},{AID:3,GID:4,CharName:'离线成员',CurrentState:0}];
+ state.guild.membersLoaded=false;
+ const panel=createSocialPanel(body,createGameSocial(()=>true,{}),()=>{});
+ body.querySelector('[data-social-tab=guild]').click();expect(body.textContent).toContain('…/16');
+ state.guild.membersLoaded=true;panel.update();expect(body.textContent).toContain('2/16');
+ state.guild.info=null;state.guild.members=[];panel.destroy?.();body.remove();
 });

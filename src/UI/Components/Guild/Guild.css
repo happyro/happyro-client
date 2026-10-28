@@ -396,11 +396,10 @@
 	width: 158px;
 	padding: 0px;
 }
-#Guild .content.positions .invite {
-	width: 68px;
-}
-#Guild .content.positions .punish {
-	width: 68px;
+#Guild .content.positions .invite,
+#Guild .content.positions .punish,
+#Guild .content.positions .storage {
+	width: 44px;
 }
 #Guild .content.positions .tax {
 	width: 68px;
@@ -617,4 +616,11 @@
 	background-color: #eee;
 	border: none;
 	resize: none;
+}
+
+#Guild .content.positions input[type="checkbox"] {
+	width: 13px;
+	height: 13px;
+	margin: 0 3px;
+	vertical-align: middle;
 }

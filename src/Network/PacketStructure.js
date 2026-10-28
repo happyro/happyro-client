@@ -6188,6 +6188,28 @@ PACKET.ZC.ACK_REQ_CHANGE_MEMBERS.size = -1;
 PACKET.ZC.ACK_OPEN_MEMBER_INFO = function PACKET_ZC_ACK_OPEN_MEMBER_INFO(fp, end) {};
 PACKET.ZC.ACK_OPEN_MEMBER_INFO.size = 2;
 
+// PACKETVER 20211103 guild membership events identify characters by ID.
+PACKET.ZC.ACK_LEAVE_GUILD_DELNAME = function PACKET_ZC_ACK_LEAVE_GUILD_DELNAME(fp) {
+	this.GID = fp.readULong();
+	this.reasonDesc = fp.readString(40);
+};
+PACKET.ZC.ACK_LEAVE_GUILD_DELNAME.size = 46;
+PACKET.ZC.ACK_BAN_GUILD_DELNAME = function PACKET_ZC_ACK_BAN_GUILD_DELNAME(fp) {
+	this.reasonDesc = fp.readString(40);
+	this.GID = fp.readULong();
+};
+PACKET.ZC.ACK_BAN_GUILD_DELNAME.size = 46;
+PACKET.ZC.BAN_LIST3 = function PACKET_ZC_BAN_LIST3(fp, end) {
+	this.banList = [];
+	while (fp.tell() + 68 <= end) {
+		const GID = fp.readULong();
+		const reason = fp.readString(40);
+		const charname = fp.readString(NAME_LENGTH);
+		this.banList.push({ GID, reason, charname });
+	}
+};
+PACKET.ZC.BAN_LIST3.size = -1;
+
 // 0x15a
 PACKET.ZC.ACK_LEAVE_GUILD = function PACKET_ZC_ACK_LEAVE_GUILD(fp, end) {
 	this.charName = fp.readString(NAME_LENGTH);
@@ -11848,6 +11870,25 @@ PACKET.ZC.DELETEITEM_FROM_MCSTORE2.size = 18;
 
 /** Icon **/
 
+// Current PACKETVER=20211103 guild-storage history (93-byte entries).
+PACKET.ZC.ACK_GUILDSTORAGE_LOG = function PACKET_ZC_ACK_GUILDSTORAGE_LOG(fp, end) {
+ this.result = fp.readUShort();
+ const count = fp.readUShort();
+ if (end - fp.tell() !== count * 93) throw new Error("Invalid guild storage log length");
+ this.items = [];
+ for (let i = 0; i < count; i++) {
+  const entry = {};
+  entry.id = fp.readULong(); entry.itemId = fp.readULong();
+  entry.amount = fp.readLong(); entry.action = fp.readUChar();
+  entry.refine = fp.readLong(); entry.uniqueId = fp.readUInt64();
+  entry.IsIdentified = fp.readUChar(); entry.itemType = fp.readUShort();
+  entry.cards = [fp.readULong(), fp.readULong(), fp.readULong(), fp.readULong()];
+  entry.name = fp.readString(24); entry.time = fp.readString(24);
+  entry.attribute = fp.readUChar(); this.items.push(entry);
+ }
+};
+PACKET.ZC.ACK_GUILDSTORAGE_LOG.size = -1;
+
 // 0x9e7
 PACKET.ZC.RODEX_ICON = function PACKET_ZC_RODEX_ICON(fp, end) {
 	this.show = fp.readUChar();
@@ -14518,7 +14559,8 @@ PACKET.CZ.SHORTCUT_KEY_CHANGE2.prototype.build = function () {
 
 // 0xb27
 PACKET.ZC.GUILD_AGIT_INFO = function PACKET_ZC_GUILD_AGIT_INFO(fp, end) {
-	this.castle_list = fp.readString(end - fp.tell()); // check this
+	this.castle_list = [];
+	while (fp.tell() < end) this.castle_list.push(fp.readUChar());
 };
 PACKET.ZC.GUILD_AGIT_INFO.size = -1;
 

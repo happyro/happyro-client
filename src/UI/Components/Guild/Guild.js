@@ -60,6 +60,7 @@ let _memberViewTemplate, _positionViewTemplate, _expelViewTemplate;
 const _positions = [];
 const _members = [];
 let guildInformation = null;
+let guildMembersLoaded = false;
 let guildEmblem = '';
 let guildNotice = { subject: '', notice: '' };
 let guildRelations = [];
@@ -72,7 +73,6 @@ let _btnLevelUp;
 let lArrow, rArrow;
 let _totalExp = 0;
 let _guildAccess = 0;
-let _checkbox_off, _checkbox_on;
 
 /**
  * Helper: query inside shadow root
@@ -128,12 +128,6 @@ Guild.init = function init() {
 		});
 	}
 
-	// Preload checkbox images
-	Client.loadFiles([`${DB.INTERFACE_PATH}checkbox_0.bmp`, `${DB.INTERFACE_PATH}checkbox_1.bmp`], (off, on) => {
-		_checkbox_off = off;
-		_checkbox_on = on;
-	});
-
 	// Positions
 	const posBody = root.querySelector('.content.positions tbody');
 	if (posBody) {
@@ -163,13 +157,8 @@ Guild.init = function init() {
 			true
 		);
 
-		posBody.addEventListener('click', e => {
-			const btn = e.target.closest('ui-button');
-			if (btn && Session.isGuildMaster) {
-				btn.className = btn.className.replace(/\b(on|off)\b/g, '').trim();
-				const isOn = !btn.classList.contains('on');
-				btn.classList.add(isOn ? 'on' : 'off');
-				btn.style.backgroundImage = `url(${isOn ? _checkbox_on : _checkbox_off})`;
+		posBody.addEventListener('change', e => {
+			if (e.target.matches('input[type="checkbox"]') && Session.isGuildMaster) {
 				setOkButtonVisible(root, true);
 			}
 		});
@@ -449,12 +438,14 @@ Guild.resetSocialState = function () {
 	this.setPositions([], true);
 	_skpoints = 0;
 	_guildAccess = 0;
+	guildMembersLoaded = false;
 };
-Guild.removeSocialMember = function (name) {
-	this.setMembers(_members.filter(member => member.CharName !== name));
+Guild.removeSocialMember = function (GID) {
+	this.setMembers(_members.filter(member => member.GID !== GID));
 };
 Guild.getSocialSnapshot = () => ({
 	info: guildInformation && { ...guildInformation },
+	membersLoaded: guildMembersLoaded,
 	emblem: guildEmblem,
 	notice: { ...guildNotice },
 	relations: guildRelations.map(relation => ({ ...relation })),
@@ -478,6 +469,7 @@ Guild.setGuildInformations = function setGuildInformations(info) {
 	general.querySelector('.level .value').textContent = info.level;
 	general.querySelector('.master .value').textContent = info.masterName;
 	general.querySelector('.members .online').textContent = info.userNum;
+	general.querySelector('.members .numMember').textContent = guildMembersLoaded ? _members.length : '…';
 	general.querySelector('.members .maxMember').textContent = info.maxUserNum;
 	general.querySelector('.avglevel .value').textContent = info.userAverageLevel;
 	general.querySelector('.territory .value').textContent = info.manageLand;
@@ -556,6 +548,7 @@ Guild.removeRelation = function removeRelation(guildId, relation) {
 };
 
 Guild.setMembers = function setMembers(members) {
+	guildMembersLoaded = true;
 	let online = 0;
 	const count = members.length;
 	_members.length = 0;
@@ -736,9 +729,9 @@ Guild.updateMemberStatus = function updateMemberStatus(member) {
 		onlineEl.textContent = online;
 	}
 
-	const nameValue = view?.querySelector('.name .value');
+	const updatedMember = _members.find(entry => entry.AID === member.AID && entry.GID === member.GID);
 	ChatBox.addText(
-		DB.getMessage(485 + (member.status ? 0 : 1)).replace('%s', nameValue ? nameValue.textContent : ''),
+		`公会成员 ${updatedMember.CharName}${member.status ? '上线了' : '离线了'}`,
 		ChatBox.TYPE.BLUE,
 		ChatBox.FILTER.GUILD
 	);
@@ -837,18 +830,19 @@ Guild.updatePositionView = function updatePositionView() {
 			taxInput.value = rank.payRate;
 		}
 
-		const inviteBtn = view.querySelector('.invite ui-button');
-		if (inviteBtn) {
-			inviteBtn.style.backgroundImage = `url(${rank.right & 0x01 ? _checkbox_on : _checkbox_off})`;
-			inviteBtn.className = inviteBtn.className.replace(/\b(on|off)\b/g, '').trim();
-			inviteBtn.classList.add(rank.right & 0x01 ? 'on' : 'off');
-		}
-
-		const punishBtn = view.querySelector('.punish ui-button');
-		if (punishBtn) {
-			punishBtn.style.backgroundImage = `url(${rank.right & 0x10 ? _checkbox_on : _checkbox_off})`;
-			punishBtn.className = punishBtn.className.replace(/\b(on|off)\b/g, '').trim();
-			punishBtn.classList.add(rank.right & 0x10 ? 'on' : 'off');
+		for (const [name, bit] of [
+			['invite', 0x01],
+			['punish', 0x10],
+			['storage', 0x100]
+		]) {
+			const checkbox = view.querySelector(`.${name} input[type="checkbox"]`);
+			if (!checkbox) continue;
+			checkbox.checked = !!(rank.right & bit);
+			checkbox.disabled = !Session.isGuildMaster;
+			checkbox.setAttribute(
+				'aria-label',
+				`${rank.posName}：${{ invite: '邀请', punish: '驱逐', storage: '仓库' }[name]}权限`
+			);
 		}
 
 		container.appendChild(view);
@@ -1220,6 +1214,8 @@ function onChangeTab(event) {
 	}
 
 	Guild.onGuildInfoRequest(tab);
+	// Basic info contains online count only; total membership needs the roster.
+	if (tab === 0) Guild.onGuildInfoRequest(1);
 
 	for (const btn of root.querySelectorAll('.tabs button')) {
 		btn.classList.remove('active');
@@ -1324,13 +1320,19 @@ function onValidate() {
 		case 'members': {
 			const list = [];
 			_members.forEach(member => {
+				if (member.AID === Session.AID && member.GID === Session.GID) return;
 				list.push({
 					AID: member.AID,
 					GID: member.GID,
 					positionID: member.GPositionID
 				});
 			});
-			Guild.onChangeMemberPosRequest(list);
+			const successor = list.find(member => member.positionID === 0);
+			if (successor) {
+				UIManager.showPromptBox('确认转交会长？此操作将移交公会管理权限。', 'ok', 'cancel', () => {
+					if (Session.isGuildMaster) Guild.onChangeMemberPosRequest([successor]);
+				});
+			} else Guild.onChangeMemberPosRequest(list);
 			break;
 		}
 		case 'positions': {
@@ -1347,14 +1349,13 @@ function onValidate() {
 				const payRate = parseInt(position.querySelector('.tax input')?.value || '0', 10);
 				let right = 0;
 
-				const inviteBtn = position.querySelector('.invite ui-button');
-				if (inviteBtn && inviteBtn.classList.contains('on')) {
-					right |= 0x01;
-				}
-
-				const punishBtn = position.querySelector('.punish ui-button');
-				if (punishBtn && punishBtn.classList.contains('on')) {
-					right |= 0x10;
+				for (const [name, bit] of [
+					['invite', 0x01],
+					['punish', 0x10],
+					['storage', 0x100]
+				]) {
+					const checkbox = position.querySelector(`.${name} input[type="checkbox"]`);
+					if (checkbox?.checked) right |= bit;
 				}
 
 				if (
@@ -1450,9 +1451,7 @@ Guild.updateSession = function (info) {
 	Session.guildName = info.guildname || '';
 	Session.Entity.GUID = info.GDID;
 	Session.Entity.GEmblemVer = info.emblemVersion;
-	if (Session.Entity.display.name === info.masterName) {
-		Session.isGuildMaster = true;
-	}
+	Session.isGuildMaster = Session.Entity.display.name === info.masterName;
 };
 
 Guild.onRequestGuildEmblem = function () {};

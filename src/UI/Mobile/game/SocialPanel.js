@@ -208,8 +208,8 @@ export function createSocialPanel(body, service, whisper) {
 		}
 		const member = members.find(m => identity(m) === selected);
 		if (selected && !member) selected = null;
-		for (const button of list.querySelectorAll('button'))
-			button.setAttribute('aria-pressed', String((button.dataset.member || null) === selected));
+		for (const memberButton of list.querySelectorAll('button'))
+			memberButton.setAttribute('aria-pressed', String((memberButton.dataset.member || null) === selected));
 		const key = JSON.stringify([
 			type,
 			selected,
@@ -224,6 +224,8 @@ export function createSocialPanel(body, service, whisper) {
 			state.master,
 			state.rights,
 			state.guild?.info,
+			state.guild?.membersLoaded,
+			state.guild?.members.length,
 			state.guild?.notice,
 		]);
 		if (key === lastKey) return;
@@ -258,6 +260,8 @@ export function createSocialPanel(body, service, whisper) {
 					form('移出队伍', [], () => act('expelParty', member), true);
 				}
 			} else {
+				if (state.master && !isSelf)
+					form('转交会长', [], () => act('guildPosition', { ...member, position: 0 }), true);
 				if ((state.master || state.rights & 0x10) && member.AID !== state.self.AID)
 					form(
 						'移出公会',
@@ -336,7 +340,7 @@ export function createSocialPanel(body, service, whisper) {
 			if (info) {
 				const facts = document.createElement('div');
 				facts.className = 'social-guild-labels';
-				for (const [label, value] of [['等级', `Lv.${info.level}`], ['会长', info.masterName], ['成员', `${info.userNum}/${info.maxUserNum}`]]) {
+				for (const [label, value] of [['等级', `Lv.${info.level}`], ['会长', info.masterName], ['成员', `${state.guild.membersLoaded ? state.guild.members.length : '…'}/${info.maxUserNum}`]]) {
 					const row = document.createElement('span'), term = document.createElement('span'), description = document.createElement('span');
 					row.className = 'social-guild-label';
 					term.className = 'social-guild-label-name';

@@ -1,3 +1,4 @@
+import { showGuildStorageLog } from 'UI/Components/GuildStorageLog/GuildStorageLog.js';
 import { storageTitle } from 'UI/Components/Storage/StorageLabels.js';
 import { acknowledgeStorageTransfer } from 'UI/Game/StorageTransfer.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
@@ -244,6 +245,7 @@ function onItemListResult(pkt) {
  * Initialize
  */
 export default function StorageEngine() {
+	Network.hookPacket(PACKET.ZC.ACK_GUILDSTORAGE_LOG, showGuildStorageLog);
 	Network.hookPacket(PACKET.ZC.STORE_NORMAL_ITEMLIST, onStorageList);
 	Network.hookPacket(PACKET.ZC.STORE_NORMAL_ITEMLIST2, onStorageList);
 	Network.hookPacket(PACKET.ZC.STORE_NORMAL_ITEMLIST3, onStorageList);

@@ -1,3 +1,4 @@
+vi.mock('UI/Components/GuildStorageLog/GuildStorageLog.js', () => ({ showGuildStorageLog: vi.fn() }));
 vi.mock('UI/Components/Inventory/Inventory.js', () => ({ default: { getUI: () => ({ prepare: vi.fn(), clearItems: s.inventoryClear }) } }));
 vi.mock('UI/Components/Equipment/Equipment.js', () => ({ default: { getUI: () => ({ prepare: vi.fn(), clearItems: s.equipmentClear }) } }));
 vi.mock('UI/Components/CartItems/CartItems.js', () => ({ default: { prepare: vi.fn(), clearItems: s.cartClear } }));

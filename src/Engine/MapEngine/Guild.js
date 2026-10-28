@@ -69,15 +69,14 @@ class GuildEngine {
 		Network.hookPacket(PACKET.ZC.RESULT_MAKE_GUILD, onGuildCreationResult);
 		Network.hookPacket(PACKET.ZC.UPDATE_GDID, onGuildOwnInfo);
 		Network.hookPacket(PACKET.ZC.UPDATE_GDID2, onGuildOwnInfo);
-		Network.hookPacket(PACKET.ZC.BAN_LIST, onGuildExpelList);
+		Network.hookPacket(PACKET.ZC.BAN_LIST3, onGuildExpelList);
 		Network.hookPacket(PACKET.ZC.ACK_DISORGANIZE_GUILD_RESULT, onGuildDestroy);
 		Network.hookPacket(PACKET.ZC.REQ_JOIN_GUILD, onGuildInviteRequest);
 		Network.hookPacket(PACKET.ZC.ACK_REQ_JOIN_GUILD, onGuildInviteResult);
 		Network.hookPacket(PACKET.ZC.UPDATE_CHARSTAT, onGuildMemberStatus);
 		Network.hookPacket(PACKET.ZC.UPDATE_CHARSTAT2, onGuildMemberStatus);
-		Network.hookPacket(PACKET.ZC.ACK_BAN_GUILD, onGuildMemberExpulsion);
-		Network.hookPacket(PACKET.ZC.ACK_BAN_GUILD_SSO, onGuildMemberExpulsion);
-		Network.hookPacket(PACKET.ZC.ACK_LEAVE_GUILD, onGuildMemberLeave);
+		Network.hookPacket(PACKET.ZC.ACK_BAN_GUILD_DELNAME, onGuildMemberExpulsion);
+		Network.hookPacket(PACKET.ZC.ACK_LEAVE_GUILD_DELNAME, onGuildMemberLeave);
 		Network.hookPacket(PACKET.ZC.DELETE_RELATED_GUILD, onGuildAllianceDeleteAck);
 		Network.hookPacket(PACKET.ZC.ADD_RELATED_GUILD, onGuildAllianceAdd);
 		Network.hookPacket(PACKET.ZC.REQ_ALLY_GUILD, onGuildAskForAlliance);
@@ -474,6 +473,7 @@ class GuildEngine {
 			xhr.onload = () => {
 				if (xhr.status !== 200) {
 					console.warn('Emblem upload returned non-200 status:', xhr.status);
+					UIManager.showMessageBox('公会徽章上传失败，请检查图片格式与上传权限', 'ok');
 					return;
 				}
 				try {
@@ -485,12 +485,15 @@ class GuildEngine {
 					});
 				} catch (e) {
 					console.error('Error parsing emblem upload response:', e);
+					UIManager.showMessageBox('公会徽章上传结果异常，请刷新公会资料后确认', 'ok');
 				}
 			};
 			xhr.onerror = () => {
 				console.warn('Emblem upload failed: web-server unreachable');
+				UIManager.showMessageBox('公会徽章上传连接中断，请刷新公会资料后确认', 'ok');
 			};
 
+			xhr.ontimeout = () => UIManager.showMessageBox('公会徽章上传超时，请刷新公会资料后确认', 'ok');
 			xhr.send(formData);
 		} else {
 			const len = data.length;
@@ -577,9 +580,13 @@ function onGuildOwnInfo(pkt) {
 
 	GuildEngine.guild_id = pkt.GDID;
 
-	Session.hasGuild = true;
-	Session.guildRight = pkt.right;
-	Session.isGuildMaster = !!pkt.isMaster;
+	Session.hasGuild = pkt.GDID > 0;
+	if (!Session.hasGuild) {
+		Guild.resetSocialState();
+		Session.guildName = '';
+	}
+	Session.guildRight = pkt.GDID ? pkt.right : 0;
+	Session.isGuildMaster = !!pkt.GDID && !!pkt.isMaster;
 
 	if (pkt.GName) {
 		Session.guildName = pkt.GName;
@@ -805,7 +812,8 @@ function onGuildDestroy(pkt) {
 			GuildCompanion.closeDisband();
 			Guild.hide();
 			Session.hasGuild = false;
-			if (Platform.isMobile) Guild.resetSocialState();
+			Guild.resetSocialState();
+			GuildEngine.guild_id = 0;
 			Session.guildName = '';
 			Session.isGuildMaster = false;
 			Session.guildRight = 0;
@@ -818,7 +826,7 @@ function onGuildDestroy(pkt) {
 			break;
 
 		case 2: // still members on the guild
-			fail(DB.getMessage(402, 'There are still members in the guild.'));
+			fail(DB.getMessage(402, '公会中仍有其他成员，无法解散。'));
 			break;
 	}
 }
@@ -881,14 +889,18 @@ function onGuildMemberStatus(pkt) {
 /**
  * Event occured when a player got expel from the guild
  *
- * @param {object} pkt - PACKET.ZC.ACK_BAN_GUILD_SSO
+ * @param {object} pkt - PACKET.ZC.ACK_BAN_GUILD_DELNAME
  */
 function onGuildMemberExpulsion(pkt) {
-	if (Platform.isMobile) Guild.removeSocialMember(pkt.charName);
+	const isSelf = pkt.GID === Session.GID;
+	const charName = isSelf
+		? Session.Entity.display.name
+		: Guild.getSocialSnapshot().members.find(member => member.GID === pkt.GID)?.CharName || '公会成员';
+	Guild.removeSocialMember(pkt.GID);
 	// %s has been expelled from our guild.
 	// Expulsion Reason: %s
 	ChatBox.addText(
-		DB.getMessage(370).replace('%s', pkt.charName),
+		DB.getMessage(370).replace('%s', charName),
 		ChatBox.TYPE.GUILD,
 		ChatBox.FILTER.GUILD,
 		'#FFFF00'
@@ -902,10 +914,11 @@ function onGuildMemberExpulsion(pkt) {
 
 	// Seems like the server doesn't send other informations
 	// to remove the UI
-	if (pkt.charName === Session.Entity.display.name) {
+	if (isSelf) {
 		Guild.hide();
 		Session.hasGuild = false;
-		if (Platform.isMobile) Guild.resetSocialState();
+		Guild.resetSocialState();
+		GuildEngine.guild_id = 0;
 		Session.guildName = '';
 		Session.isGuildMaster = false;
 		Session.guildRight = 0;
@@ -916,14 +929,18 @@ function onGuildMemberExpulsion(pkt) {
 /**
  * Event occured when a player got expel from the guild
  *
- * @param {object} pkt - PACKET.ZC.ACK_LEAVE_GUILD
+ * @param {object} pkt - PACKET.ZC.ACK_LEAVE_GUILD_DELNAME
  */
 function onGuildMemberLeave(pkt) {
-	if (Platform.isMobile) Guild.removeSocialMember(pkt.charName);
+	const isSelf = pkt.GID === Session.GID;
+	const charName = isSelf
+		? Session.Entity.display.name
+		: Guild.getSocialSnapshot().members.find(member => member.GID === pkt.GID)?.CharName || '公会成员';
+	Guild.removeSocialMember(pkt.GID);
 	// %s has withdrawn from the guild
 	// Secession Reason: %s
 	ChatBox.addText(
-		DB.getMessage(364).replace('%s', pkt.charName),
+		DB.getMessage(364).replace('%s', charName),
 		ChatBox.TYPE.GUILD,
 		ChatBox.FILTER.GUILD,
 		'#FFFF00'
@@ -937,10 +954,11 @@ function onGuildMemberLeave(pkt) {
 
 	// Seems like the server doesn't send other informations
 	// to remove the UI
-	if (pkt.charName === Session.Entity.display.name) {
+	if (isSelf) {
 		Guild.hide();
 		Session.hasGuild = false;
-		if (Platform.isMobile) Guild.resetSocialState();
+		Guild.resetSocialState();
+		GuildEngine.guild_id = 0;
 		Session.guildName = '';
 		Session.isGuildMaster = false;
 		Session.guildRight = 0;
