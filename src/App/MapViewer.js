@@ -22,6 +22,9 @@ import Entity from 'Renderer/Entity/Entity.js';
 import Mouse from 'Controls/MouseEventHandler.js';
 import MapControl from 'Controls/MapControl.js';
 import Intro from 'UI/Components/Intro/Intro.js';
+import DB from 'DB/DBManager.js';
+import UIManager from 'UI/UIManager.js';
+import 'UI/Components/WinPopup/WinPopup.js';
 
 /**
  * MapViewer namespace
@@ -126,11 +129,23 @@ MapViewer.init = function Init() {
 		});
 	}
 
+	// Shared worlds need the same resource aliases as the online game.
+	q.add(function () {
+		DB.loadMapAliases(
+			() => {
+				Thread.send('CLIENT_FILES_ALIAS', DB.mapalias);
+				q._next();
+			},
+			() => UIManager.showMessageBox('无法加载地图资源索引，请重新打开查看器。', 'ok')
+		);
+	});
+
 	// Start the MapViewer instance
 	q.add(function () {
 		Intro.remove();
 
 		MapRenderer.onLoad = MapViewer.onLoad;
+		MapRenderer.onError = error => UIManager.showMessageBox(error.message, 'ok');
 		MapControl.init();
 		MapControl.onRequestWalk = MapViewer.onMouseDown;
 

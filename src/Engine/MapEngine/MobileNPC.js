@@ -1,5 +1,6 @@
 import DB from 'DB/DBManager.js';
 import EntityManager from 'Renderer/EntityManager.js';
+import { npcDialogueTitle } from './NPCDialogueTitle.js';
 import { loadNPCIllustration } from './NPCIllustration.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
@@ -25,7 +26,7 @@ function send(Packet, id, fields = {}) {
 	Network.sendPacket(packet);
 }
 function npcTitle(id) {
-	return EntityManager.get(id)?.display.name?.split('#')[0] || '对话';
+	return npcDialogueTitle(EntityManager.get(id));
 }
 function stateFor(id) {
 	const current = interactionSnapshot();

@@ -352,14 +352,22 @@ class DB {
 			() => loadCSV('data/msgstringtable.csv', MsgStringTable, 0, 1, loadmsg)
 		);
 
+		DB.loadMapAliases(onLoad());
+	}
+
+	/** Load the resource mapping shared by the game and standalone map viewer. */
+	static loadMapAliases(onReady, onError = onReady) {
+		DB.mapalias = {};
 		loadTable(
 			'data/resnametable.txt',
 			'#',
 			2,
-			function (_index, key, val) {
+			(_index, key, val) => {
 				DB.mapalias[key] = val;
 			},
-			onLoad()
+			onReady,
+			null,
+			onError
 		);
 	}
 
