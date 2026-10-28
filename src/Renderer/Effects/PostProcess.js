@@ -94,6 +94,8 @@ class PostProcess {
 			gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 		}
+		// Transparent passes can leave depth writes disabled; clear must reset depth too.
+		gl.depthMask(true);
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	}
 
@@ -223,6 +225,8 @@ class PostProcess {
 		}
 		_readFbo = null;
 		_writeFbo = null;
+		// Transparent passes can leave depth writes disabled; clear must reset depth too.
+		gl.depthMask(true);
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	}
 
