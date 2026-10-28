@@ -1,4 +1,5 @@
 import { expect, it, vi } from 'vitest';
+import { loginFailureMessage } from '../../src/Engine/Auth/LoginFeedback.js';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import { registrationError, registrationServerError } from '../../src/Engine/Auth/RegistrationValidation.js';
@@ -38,7 +39,7 @@ it('maps server registration failures and preserves unknown error codes and ordi
  const fn = readFileSync('src/Engine/LoginEngine.js','utf8').match(/function onConnectionRefused\([^]*?\n\}/)[0];
  const showMessageBox=vi.fn(), close=vi.fn(), remove=vi.fn();
  const receive=vm.runInNewContext(`(${fn})`, {
-  registrationServerError,retryPendingSession:()=>false,sessionTicketLogin:false,
+  loginFailureMessage,retryPendingSession:()=>false,sessionTicketLogin:false,
   WinLoading:{remove},Network:{close},UIManager:{showMessageBox},DB:{getMessage:id=>`message:${id}`},
  });
  for(const code of [200,201,202,203,204,205,206,207]) {
@@ -46,8 +47,8 @@ it('maps server registration failures and preserves unknown error codes and ordi
   expect(showMessageBox.mock.lastCall[0]).toBe(registrationServerError(code));
   expect(showMessageBox.mock.lastCall[0]).not.toContain('密码错误');
  }
- receive({ErrorCode:1});expect(showMessageBox.mock.lastCall[0]).toBe('message:267');
- receive({ErrorCode:999});expect(showMessageBox.mock.lastCall[0]).toBe('未知错误（错误码：999）');
+ receive({ErrorCode:1});expect(showMessageBox.mock.lastCall[0]).toBe('登录失败，密码错误');
+ receive({ErrorCode:999});expect(showMessageBox.mock.lastCall[0]).toBe('登录失败（错误码：999）');
  expect(close).toHaveBeenCalledTimes(10);expect(remove).toHaveBeenCalledTimes(10);
 });
 

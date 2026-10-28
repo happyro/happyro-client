@@ -6,7 +6,6 @@
  * @author AoShinHo
  */
 
-import DB from 'DB/DBManager.js';
 import Configs from 'Core/Configs.js';
 import Preferences from 'Core/Preferences.js';
 import KEYS from 'Controls/KeyEventHandler.js';
@@ -123,7 +122,7 @@ export function createWinLogin({ name, htmlText, cssText }) {
 		const url = Configs.get('registrationweb');
 		if (url) {
 			UIManager.showPromptBox(
-				DB.getMessage(662),
+				'是否打开账号注册页面？',
 				'ok',
 				'cancel',
 				() => {
