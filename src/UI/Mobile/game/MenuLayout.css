@@ -348,10 +348,14 @@
 :host([data-menu-density='spacious']) .panel[data-view='camera'] {
 	--menu-window-width: 320px;
 }
-.panel[data-view='camera'] button {
+/* Camera actions, including close, share the reset button's colors. */
+:host([data-menu-density]) .panel[data-view='camera'] button,
+:host([data-menu-density]) .panel[data-view='camera'] button:hover {
+	border-color: #7e8c99;
 	background: rgb(35 47 58 / 80%);
+	color: #f5f2e9;
 }
-.panel[data-view='camera'] button:active {
+:host([data-menu-density]) .panel[data-view='camera'] button:active {
 	background: rgb(67 92 110 / 95%);
 }
 

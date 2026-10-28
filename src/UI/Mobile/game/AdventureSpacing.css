@@ -50,6 +50,15 @@
  margin: 0 var(--adventure-pane-inset) var(--adventure-pane-inset);
 }
 
+/* Empty rows inside bordered sections need their own vertical clearance. */
+:host([data-menu-density][data-menu-arrangement]) .mobile-adventure.game-tools-window .adventure-content[data-feature]
+ :is(.monster-location-list > .monster-locations-empty, .item-source-list .item-sources-empty) {
+ margin: 0;
+ padding: var(--adventure-pane-inset) var(--adventure-content-inline);
+ line-height: var(--adventure-body-leading);
+ overflow-wrap: anywhere;
+}
+
 /* Section padding must not double the outer scroller's top and bottom inset. */
 :host([data-menu-density][data-menu-arrangement]) .mobile-adventure.game-tools-window
  :is(.character-detail-scroll, .settings-scroll) > section {

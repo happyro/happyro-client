@@ -190,6 +190,14 @@
  max-height: max(0px, calc(var(--confirm-max-height) - 24px));
 }
 
+/* Tablet pickers use available height while staying inside their parent window. */
+:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel[data-view] dialog.pickup-picker[data-mobile-bounded] {
+ height: max(0px, calc((min(calc(var(--mobile-visible-height, 100dvh) * .8), max(0px, calc(var(--confirm-max-height) - 24px))) - 24px) * .855));
+}
+:host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement][data-orientation='portrait']) .panel[data-view] dialog.pickup-picker[data-mobile-bounded] {
+ height: max(0px, calc((min(calc(var(--mobile-visible-height, 100dvh) * .85), max(0px, calc(var(--confirm-max-height) - 24px))) - 24px) * .855));
+}
+
 /* Tablet navigation and sibling actions share spacing without changing footer sections. */
 :host(:not([data-phone-screen])[data-menu-density]) { --menu-button-gap: 8px; }
 :host(:not([data-phone-screen])[data-menu-density][data-menu-arrangement]) .panel[data-view]
