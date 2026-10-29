@@ -117,6 +117,12 @@ it('keeps NPC teleport pending until arrival and prevents overlapping coordinate
  expect(getAdventureActionState()).toMatchObject({ npcPending: false });
  expect(getAdventureActionState().message).toContain('已传送到 NPC 附近');
 });
+it('uses coordinate teleport for an NPC without a navigation class', () => {
+ const customNpc = { ...target, type: 'NPC', npcClass: null };
+ expect(teleportToNpc(customNpc)).toBe(true);
+ expect(state.send.mock.calls[0][0]).toMatchObject({ mapName: 'mora', x: 116, y: 165 });
+ expect(state.send.mock.calls[0][0]).not.toHaveProperty('npcClass');
+});
 it('bounds an NPC arrival wait and clears it on connection end', () => {
  teleportToNpc(npc); handleNpcTeleportResult(reply()); vi.advanceTimersByTime(30000);
  expect(getAdventureActionState()).toMatchObject({ npcPending: false, error: true });

@@ -14,6 +14,7 @@ export function createQuantityStepper({ label, value = 1, min = 1, max, stepMin,
 	input.className = 'quantity-stepper-control';
 	Object.assign(input, { type: 'number', inputMode: 'numeric', step: '1', required: true, min, max, value });
 	input.setAttribute('aria-label', label);
+	input.setAttribute('autocomplete', 'off');
 	const decreases = document.createElement('div');
 	const increases = document.createElement('div');
 	decreases.className = increases.className = 'quantity-stepper-buttons';

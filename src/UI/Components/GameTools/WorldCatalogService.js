@@ -107,6 +107,7 @@ export function npcTeleportEnabled(npc, available, actionState) {
 			!actionState.npcPending &&
 			available === true &&
 			npc?.type === 'NPC' &&
-			Number.isFinite(npc.npcClass)
+			Number.isFinite(npc.x) &&
+			Number.isFinite(npc.y)
 	);
 }

@@ -66,10 +66,15 @@ function mount(container, context = {}) {
 	let mapNpcs = [];
 	let mapNpcsStatus = 'loading';
 	let mapNpcsToken = 0;
+	let npcSearch = '';
+	let npcSearchComposing = false;
+	let renderedNpcSearch = '';
+	let npcSearchTimer;
 	let npcAvailability = {};
 	let npcAvailabilityToken = 0;
 	let selectedNpcKey = '';
 	let pendingSelectionClear = '';
+	let suppressNextMapDefault = false;
 	let mapImageNames = new Set();
 	let browserApi = null;
 	let catalogMap = getCurrentAdventureMap();
@@ -79,17 +84,32 @@ function mount(container, context = {}) {
 	const checkNpcAvailability = (npcs, api) => {
 		if (!npcs.length) return;
 		const token = ++npcAvailabilityToken;
-		npcAvailability = Object.fromEntries(npcs.map(npc => [npcCatalogKey(npc), 'checking']));
-		Promise.all(npcAvailabilityBatches(npcs).map(batch => requestNpcAvailability(batch)))
+		const classNpcs = npcs.filter(npc => Number.isFinite(npc.npcClass));
+		npcAvailability = Object.fromEntries(
+			npcs.map(npc => [npcCatalogKey(npc), Number.isFinite(npc.npcClass) ? 'checking' : true])
+		);
+		if (!classNpcs.length) {
+			api.refreshDetail();
+			return;
+		}
+		Promise.all(npcAvailabilityBatches(classNpcs).map(batch => requestNpcAvailability(batch)))
 			.then(results => {
 				if (token !== npcAvailabilityToken) return;
 				const flattened = results.flat();
-				npcAvailability = Object.fromEntries(npcs.map((npc, index) => [npcCatalogKey(npc), flattened[index]]));
+			let classIndex = 0;
+			npcAvailability = Object.fromEntries(
+				npcs.map(npc => [
+					npcCatalogKey(npc),
+					Number.isFinite(npc.npcClass) ? flattened[classIndex++] : true
+				])
+			);
 				api.refreshDetail();
 			})
 			.catch(() => {
 				if (token !== npcAvailabilityToken) return;
-				npcAvailability = Object.fromEntries(npcs.map(npc => [npcCatalogKey(npc), false]));
+				npcAvailability = Object.fromEntries(
+					npcs.map(npc => [npcCatalogKey(npc), Number.isFinite(npc.npcClass) ? false : true])
+				);
 				api.refreshDetail();
 			});
 	};
@@ -132,6 +152,7 @@ function mount(container, context = {}) {
 	};
 	const openTarget = target => {
 		if (!target?.mapName || !Number.isFinite(target.x) || !Number.isFinite(target.y)) return;
+		suppressNextMapDefault = false;
 		initialTarget = target;
 		loadingMapName = '';
 		browserApi?.select({
@@ -223,7 +244,12 @@ function mount(container, context = {}) {
 				const initial = initialTarget && (initialTarget.id === map.id || initialTarget.mapName === map.mapName) && Number.isFinite(initialTarget.x) && Number.isFinite(initialTarget.y)
 					? initialTarget : null;
 				initialTarget = null;
-				selectedCoordinate = initial ? { x: initial.x, y: initial.y } : { x: 0, y: 0, automatic: true };
+				selectedCoordinate = initial
+					? { x: initial.x, y: initial.y }
+					: suppressNextMapDefault
+						? null
+						: { x: 0, y: 0, automatic: true };
+				suppressNextMapDefault = false;
 				selectedReview = initial?.dialogueTarget || null;
 				selectedTargetName = initial?.name || '';
 				routeSelected = Boolean(initial);
@@ -246,6 +272,8 @@ function mount(container, context = {}) {
 				loadedMap = null;
 				mapLoadError = false;
 				selectedNpcKey = '';
+				npcSearch = '';
+				renderedNpcSearch = '';
 				npcAvailability = {};
 				const token = ++loadToken;
 				loadCatalogMap(map.mapName).then(resource => {
@@ -297,6 +325,10 @@ function mount(container, context = {}) {
 				DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
 
 			const npcListScrollTop = detail.querySelector('.map-npc-scroll')?.scrollTop || 0;
+			const npcSearchTerm = npcSearch.trim().toLocaleLowerCase();
+			const visibleMapNpcs = npcSearchTerm
+				? mapNpcs.filter(npc => [npc.name, npc.sourceName, npc.rawName].some(value => String(value || '').toLocaleLowerCase().includes(npcSearchTerm)))
+				: mapNpcs;
 			const npcActionState = selectedNpc
 				? { ...actionState, ...getAdventureActionState(selectedNpc) }
 				: actionState;
@@ -319,15 +351,16 @@ function mount(container, context = {}) {
 			detail.innerHTML = `<div class="map-heading"><div><h3>${escapeCatalogHtml(map.name)}</h3><div class="map-heading-meta"><p>${escapeCatalogHtml(map.id)}</p><small class="map-current-position">角色位置：${escapeCatalogHtml(currentMapName)} (${currentPosition.x}, ${currentPosition.y})</small></div></div>${selectionLabel ? `<strong>${escapeCatalogHtml(selectionLabel)}</strong>` : ''}</div>
 					<div class="map-detail-body">
 					<button class="catalog-map-picker" type="button" aria-label="在${escapeCatalogHtml(map.name)}选择坐标"><canvas class="catalog-map" width="480" height="360"></canvas></button>
+					<div class="map-npc-panel">
+						<div class="map-npc-search-row"><input class="catalog-search map-npc-search" type="text" enterkeyhint="done" aria-label="搜索当前地图 NPC" placeholder="搜索 NPC" value="${escapeCatalogHtml(npcSearch)}"></div>
 					<section class="map-npc-list" aria-label="${escapeCatalogHtml(map.name)}的 NPC">
-						<h4><span>NPC</span><button type="button" class="map-monsters-jump" disabled>地图魔物 ↓</button></h4>
 						${
 							mapNpcsStatus === 'loading'
 								? '<p class="menu-hint" role="status">NPC 加载中…</p>'
 								: mapNpcsStatus === 'error'
 									? '<p class="menu-hint error" role="status">NPC 加载失败</p><button type="button" class="map-npcs-retry">重试</button>'
-									: mapNpcs.length
-								? `<div class="map-npc-scroll"><ul>${mapNpcs
+									: visibleMapNpcs.length
+								? `<div class="map-npc-scroll"><ul>${visibleMapNpcs
 										.map(npc => {
 											const npcKey = npcCatalogKey(npc);
 											const available = npcAvailability[npcKey];
@@ -336,12 +369,14 @@ function mount(container, context = {}) {
 											</li>`;
 										})
 										.join('')}</ul></div>`
-								: `<p class="map-npc-empty">无</p>`
+								: `<p class="map-npc-empty">${npcSearchTerm ? '没有匹配的 NPC' : '无'}</p>`
 						}
 					</section>
-					<section class="map-monsters" aria-label="地图魔物"></section>
+					</div>
+					<section class="map-monsters" aria-label="魔物"></section>
 					</div>
 					<div class="catalog-action-panel">
+						<button type="button" class="map-monsters-jump" disabled>魔物</button>
 						<button class="catalog-route${routeActive ? ' is-active' : ''}" aria-busy="${Boolean(routePending)}" title="${!sameMap ? '寻路仅支持角色当前所在地图' : !routeTarget ? '请先选择目标位置' : routeUnavailable ? '无法寻路到所选位置' : ''}" type="button" ${routeTarget && sameMap && !routePending && !routeUnavailable ? '' : 'disabled'}>${routePending ? '计算中…' : routeActive ? '停止寻路' : '开始寻路'}</button>
 					<button class="catalog-teleport" type="button" ${canTeleportHere ? '' : 'disabled'}>${actionState.npcPending && selectedNpc ? '正在传送...' : '传送到这里'}</button>
 					<span class="catalog-status error">${escapeCatalogHtml(mapStatus)}</span>
@@ -352,6 +387,25 @@ function mount(container, context = {}) {
 			});
 			const monsterJump = detail.querySelector('.map-monsters-jump');
 			monsterTable.render(detail.querySelector('.map-monsters'), map.mapName, available => { monsterJump.disabled = !available; });
+			detail.querySelector('.map-npc-search').addEventListener('input', event => {
+				npcSearch = event.target.value;
+				if (npcSearchComposing || event.isComposing) return;
+				if (renderedNpcSearch === npcSearch) return;
+				renderedNpcSearch = npcSearch;
+				clearTimeout(npcSearchTimer);
+				npcSearchTimer = setTimeout(() => api.refreshDetail(), 250);
+			});
+			detail.querySelector('.map-npc-search').addEventListener('compositionstart', () => {
+				npcSearchComposing = true;
+			});
+			detail.querySelector('.map-npc-search').addEventListener('compositionend', event => {
+				npcSearchComposing = false;
+				npcSearch = event.target.value;
+				if (renderedNpcSearch === npcSearch) return;
+				renderedNpcSearch = npcSearch;
+				clearTimeout(npcSearchTimer);
+				npcSearchTimer = setTimeout(() => api.refreshDetail(), 250);
+			});
 			bindMapDetailScroll(detail.querySelector('.map-detail-body'));
 			const canvas = detail.querySelector('.catalog-map');
 			const picker = detail.querySelector('.catalog-map-picker');
@@ -415,7 +469,7 @@ function mount(container, context = {}) {
 					: teleportTarget
 						? teleportToCoordinate(teleportTarget)
 						: false;
-				pendingSelectionClear = started ? 'teleport' : '';
+				pendingSelectionClear = started ? (selectedNpc ? 'npc-teleport' : 'coordinate-teleport') : '';
 			});
 			for (const row of detail.querySelectorAll('.map-npc-row')) {
 				row.addEventListener('click', () => {
@@ -441,15 +495,38 @@ function mount(container, context = {}) {
 		selectedTargetName = '';
 		routeSelected = false;
 		selectedNpcKey = '';
-		selectedCoordinate = { x: 0, y: 0, automatic: true };
+		selectedCoordinate = null;
 		pendingSelectionClear = '';
 	};
+	const resetMapOnClose = () => {
+		clearMapMarker();
+		initialTarget = null;
+		loadingMapName = '';
+		suppressNextMapDefault = false;
+		browserApi?.reset();
+		arrivalAbort?.abort();
+		arrivalAbort = null;
+		arrivalPreview = null;
+	};
+	const refreshMapOnActivate = () => {
+		if (!loadingMapName) refreshDetail();
+	};
+	container.addEventListener('game-tools-close', resetMapOnClose);
+	container.addEventListener('game-tools-activate', refreshMapOnActivate);
+	const closeGameToolsAfterTeleport = () => {
+		container.dispatchEvent(new Event('game-tools-close-request', { bubbles: true }));
+	};
 	const unsubscribeActions = subscribeAdventureActions(state => {
-		const waiting = pendingSelectionClear === 'teleport';
+		const waiting = pendingSelectionClear;
 		const wasPending = actionState.npcPending || actionState.mapPending;
 		actionState = state;
-		if (waiting && wasPending && !state.npcPending && !state.mapPending && !state.error) clearMapMarker();
-		else if (waiting && !state.npcPending && !state.mapPending && state.error) pendingSelectionClear = '';
+		if (waiting && wasPending && !state.npcPending && !state.mapPending && !state.error) {
+			clearMapMarker();
+			closeGameToolsAfterTeleport();
+		}
+		else if (waiting && !state.npcPending && !state.mapPending && state.error) {
+			pendingSelectionClear = '';
+		}
 		refreshDetail();
 	});
 	const unsubscribeRoute = subscribeAdventureRoute(state => {
@@ -468,7 +545,10 @@ function mount(container, context = {}) {
 			const mapChanged = currentMap !== catalogMap;
 			catalogMap = currentMap;
 			catalogChannelsEnabled = channelsEnabled;
-			if (mapChanged) browserApi?.reset();
+			if (mapChanged) {
+				suppressNextMapDefault = true;
+				browserApi?.reset();
+			}
 			else browserApi?.reload();
 		}
 		redrawPreview();
@@ -476,8 +556,11 @@ function mount(container, context = {}) {
 
 	return () => {
 		container.removeEventListener('game-tools-open-map', onOpenMap);
+		container.removeEventListener('game-tools-close', resetMapOnClose);
+		container.removeEventListener('game-tools-activate', refreshMapOnActivate);
 		monsterTable.destroy();
 		arrivalAbort?.abort();
+		clearTimeout(npcSearchTimer);
 		loadToken += 1;
 		mapNpcsToken += 1;
 		npcAvailabilityToken += 1;

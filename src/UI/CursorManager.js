@@ -332,6 +332,7 @@ function bindMouseEvents() {
 		'select',
 		'textarea',
 		'.item-link',
+		'.self-actions-host',
 		'.draggable',
 		'.ro-custom-scrollbar',
 		'.ro-custom-scrollbar *'

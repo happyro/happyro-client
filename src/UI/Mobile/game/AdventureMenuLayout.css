@@ -84,7 +84,7 @@
  padding-inline: var(--adventure-content-inline);
 }
 :host([data-phone-screen][data-menu-arrangement='stacked']) .mobile-adventure.game-tools-window
- .adventure-content:is([data-feature='maps'], [data-feature='monsters'], [data-feature='items'], [data-feature='npcs']) :is(.catalog-search, .monster-search) {
+ .adventure-content:is([data-feature='maps'], [data-feature='monsters'], [data-feature='items'], [data-feature='npcs']) :is(.catalog-toolbar > .catalog-search, .monster-toolbar > .monster-search) {
  margin-left: var(--adventure-content-inline);
  width: calc(100% - var(--adventure-content-inline));
 }

@@ -60,13 +60,15 @@ describe('WorldCatalogService', () => {
 		expect(npc.capabilities.canTeleportToNpc).toBe(true);
 	});
 
-	it('leaves rows without a navigation class non-teleportable', () => {
+	it('keeps coordinates available for rows without a navigation class', () => {
 		const [npc] = toCatalogNpcs([
 			{ id: 'payon:1:1:Sign', map: 'payon', x: 1, y: 1, display_name: '告示牌', navigation: null }
 		]);
 
 		expect(npc.npcClass).toBeNull();
 		expect(npc.capabilities.canTeleportToNpc).toBe(false);
+		expect(npc.x).toBe(1);
+		expect(npc.y).toBe(1);
 	});
 });
 
@@ -79,5 +81,9 @@ describe('npc teleport enablement', () => {
 		expect(npcTeleportEnabled(npc, false, ready)).toBe(false);
 		expect(npcTeleportEnabled(npc, true, { canTeleport: false, npcPending: false })).toBe(false);
 		expect(npcTeleportEnabled({ ...npc, type: 'WARP' }, true, ready)).toBe(false);
+	});
+
+	it('enables coordinate fallback for visible NPCs without a navigation class', () => {
+		expect(npcTeleportEnabled({ type: 'NPC', mapName: 'malangdo', x: 208, y: 166, npcClass: null }, true, ready)).toBe(true);
 	});
 });

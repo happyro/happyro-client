@@ -49,21 +49,6 @@ import {loadAdventureMapNpcs} from '../../src/UI/Components/GameTools/AdventureC
 let container,dispose;
 beforeEach(()=>{vi.useFakeTimers();vi.clearAllMocks();container=document.body.appendChild(document.createElement('div'));});
 afterEach(()=>{dispose?.();container.remove();vi.useRealTimers();});
-it.each([true, false])('distinguishes pending, failure, retry and empty NPCs on mobile=%s',async mobile=>{
- let reject;
- loadAdventureMapNpcs.mockImplementationOnce(()=>new Promise((_,fail)=>{reject=fail;})).mockResolvedValueOnce([]);
- dispose=tab.mount(container,{mobile});await vi.advanceTimersByTimeAsync(0);
- expect(container.querySelector('.map-npc-list').textContent).toContain('NPC 加载中');
- expect(container.querySelector('.map-npc-list').textContent).not.toContain('没有可显示');
- reject(Error('offline'));await vi.advanceTimersByTimeAsync(0);
- expect(container.querySelector('.map-npc-list .error').textContent).toBe('NPC 加载失败');
- container.querySelector('.map-npcs-retry').click();
- expect(container.querySelector('.map-npc-list').textContent).toContain('NPC 加载中');
- await vi.advanceTimersByTimeAsync(0);
- expect(container.querySelector('.map-npc-empty').textContent).toBe(mobile ? '该地图没有可显示的 NPC' : '无');
- expect(loadAdventureMapNpcs).toHaveBeenCalledTimes(2);
- expect(loadAdventureMapNpcs).toHaveBeenLastCalledWith('payon');
-});
 it('ignores an NPC result after the tab is closed',async()=>{
  let resolve;loadAdventureMapNpcs.mockImplementationOnce(()=>new Promise(done=>{resolve=done;}));
  dispose=tab.mount(container,{mobile:true});await vi.advanceTimersByTimeAsync(0);

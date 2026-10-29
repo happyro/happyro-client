@@ -116,6 +116,11 @@ function mount(container, context = {}) {
 
 			const token = selectionToken;
 			if (available === null && !checking) {
+				if (!Number.isFinite(npc.npcClass)) {
+					available = true;
+					api.refreshDetail();
+					return;
+				}
 				checking = true;
 				requestNpcAvailability([npc])
 					.then(result => {

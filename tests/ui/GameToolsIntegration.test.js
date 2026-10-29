@@ -100,9 +100,13 @@ describe('game tools integration', () => {
 		expect(catalog.schema).toBe('happyro-npc-catalog/v1');
 		expect(catalog.entries.length).toBeGreaterThan(13000);
 		const teleportable = catalog.entries.filter(npc => Number.isFinite(npc.navigation?.class));
-		const visible = teleportable.filter(npc => Number.isFinite(npc.display_sprite_id));
+		const visible = catalog.entries.filter(npc => Number.isFinite(npc.display_sprite_id));
 		expect(teleportable.length).toBeGreaterThan(4000);
 		expect(visible).toEqual(catalog.entries.filter(npc => npc.game_visible));
+		expect(visible).toEqual(expect.arrayContaining([
+			expect.objectContaining({ display_name: '理查特', map: 'malangdo', x: 208, y: 166, navigation: null }),
+			expect.objectContaining({ display_name: '杰勒米', map: 'malangdo', x: 215, y: 166, navigation: null })
+	]));
 		const translatedEntries = catalog.entries
 			.filter(npc => /[\u3400-\u9fff]/.test(npc.display_name));
 		const byPosition = new Map();
@@ -126,7 +130,9 @@ describe('game tools integration', () => {
 		expect(visible.every(npc => assets.sprites[npc.display_sprite_id])).toBe(true);
 		expect(Object.values(instances.instances).every(npc => /[\u3400-\u9fff]/.test(npc.name))).toBe(true);
 		expect(
-			visible.filter(npc => npc.map === 'iz_int' && npc.display_name === '受伤的剑士').map(npc => npc.navigation.class)
+			visible
+				.filter(npc => npc.map === 'iz_int' && npc.display_name === '受伤的剑士' && npc.navigation)
+				.map(npc => npc.navigation.class)
 		).toEqual([687]);
 		expect(
 			visible.filter(npc => npc.map === 'int_land').map(npc => npc.display_name)
@@ -267,7 +273,7 @@ describe('game tools integration', () => {
 			'const packetLength = 10 + count * 24'
 		);
 		expect(read('src/UI/Components/GameTools/MapCatalogTab.js')).toContain(
-			'npcAvailabilityBatches(npcs).map(batch => requestNpcAvailability(batch))'
+			'npcAvailabilityBatches(classNpcs).map(batch => requestNpcAvailability(batch))'
 		);
 		expect(read('src/Network/PacketRegister.js')).toContain(
 			'0xcfb: PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT'

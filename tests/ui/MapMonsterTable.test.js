@@ -16,7 +16,7 @@ it('renders HP and both experience values safely and switches maps without anoth
  expect([...region.querySelector('tbody tr').children].map(e=>e.textContent)).toEqual(['<波利>','1','50','水 1','20 / 10']);
  expect(region.querySelector('波利')).toBeNull();
  region.querySelector('[data-monster-id="1"]').click();expect(openMonster).toHaveBeenCalledWith(1);
- view.render(region,'town');expect(region.textContent).toBe('地图魔物（0）');
+ view.render(region,'town');expect(region.textContent).toBe('魔物（0）');
  expect(loadMonsterCatalog).toHaveBeenCalledTimes(1);view.destroy();
 });
 it('supports retry and does not populate a removed region with late results',async()=>{

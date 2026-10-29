@@ -97,6 +97,7 @@ GameTools.init = function init() {
 	root.addEventListener('input', event => event.target.setCustomValidity?.(''), true);
 	root.querySelector('.close').addEventListener('click', () => this.toggle());
 	root.querySelector('.close').addEventListener('mousedown', event => event.stopImmediatePropagation());
+	root.addEventListener('game-tools-close-request', () => this.toggle());
 	clearToast(this.getRoot().querySelector('.game-tools-window'));
 	this._host.style.display = 'none';
 	this.renderTabs();

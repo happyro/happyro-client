@@ -32,6 +32,14 @@ it.each([13, 32, 27])('protects the retained NPC menu from key %s while the map 
 	ui.components.GameTools._host.style.display = 'none'; NpcMenu.onKeyDown(event);
 	expect(NpcMenu.onSelectMenu).toHaveBeenCalledWith(7, key === 27 ? 255 : 1);
 });
+it('keeps conditional empty menu entries in the server packet numbering', () => {
+	NpcMenu.__active = true; NpcMenu.setMenu('停止操作::装备', 7); NpcMenu.onSelectMenu = vi.fn();
+	document.querySelectorAll('[data-index]').forEach(node => { node.scrollIntoView = vi.fn(); });
+	ui.components.GameTools._host.style.display = 'none';
+	NpcMenu.onKeyDown({ which: 40, stopImmediatePropagation: vi.fn() });
+	NpcMenu.onKeyDown({ which: 13, stopImmediatePropagation: vi.fn() });
+	expect(NpcMenu.onSelectMenu).toHaveBeenCalledWith(7, 3);
+});
 it('does not submit or clear an NPC input when Enter is pressed in the map', () => {
 	InputBox.__active = true; InputBox.onSubmitRequest = vi.fn(); InputBox.getRoot().querySelector('input').value = '保留输入';
 	const event = { which: 13, stopImmediatePropagation: vi.fn() };

@@ -1,7 +1,7 @@
 /** Keep wheel input inside the map detail, transferring NPC overflow to its parent. */
 export function bindMapDetailScroll(body) {
  const npcList = body.querySelector('.map-npc-scroll');
- const jump = body.querySelector('.map-monsters-jump');
+ const jump = body.parentElement?.querySelector('.map-monsters-jump');
  const monsters = body.querySelector('.map-monsters');
  function consume(node, delta) {
   const before = node.scrollTop;

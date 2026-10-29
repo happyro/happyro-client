@@ -24,7 +24,7 @@ export function createMapMonsterTable(context) {
 	function render(region, mapName, onAvailability = () => {}) {
 		if (!catalog) {
 			onAvailability(false);
-			region.innerHTML = '<h5>地图魔物</h5><p class="menu-hint" role="status">加载中…</p>';
+			region.innerHTML = '<h5>魔物</h5><p class="menu-hint" role="status">加载中…</p>';
 			loadMonsterCatalog()
 				.then(data => {
 					if (!active) return;
@@ -34,7 +34,7 @@ export function createMapMonsterTable(context) {
 				.catch(() => {
 					if (!active || !region.isConnected) return;
 					region.innerHTML =
-						'<h5>地图魔物</h5><p class="menu-hint error" role="status">魔物信息加载失败</p><button type="button">重试</button>';
+						'<h5>魔物</h5><p class="menu-hint error" role="status">魔物信息加载失败</p><button type="button">重试</button>';
 					region.querySelector('button').onclick = () => render(region, mapName, onAvailability);
 				});
 			return;
@@ -42,7 +42,7 @@ export function createMapMonsterTable(context) {
 		region.classList.add('item-source-list', 'item-source-group');
 		const rows = mapMonsterRows(catalog.monsters, mapName);
 		onAvailability(rows.length > 0);
-		region.innerHTML = `<h5>地图魔物（${rows.length}）</h5>${rows.length ? `<div class="item-source-scroll map-monster-scroll" role="region" aria-label="地图魔物表格" tabindex="0"><table class="item-source-table map-monster-table"><thead><tr>${['名称', '等级', 'HP', '属性', '经验'].map(text => `<th scope="col">${text}</th>`).join('')}</tr></thead><tbody>${rows.map(monster => `<tr><td><button type="button" class="item-source-monster" data-monster-id="${monster.id}">${escapeCatalogHtml(monster.name)}</button></td><td>${number(monster.level)}</td><td>${number(monster.hp)}</td><td>${escapeCatalogHtml(elementNames[monster.element] || monster.element)} ${number(monster.elementLevel)}</td><td>${experience(monster)}</td></tr>`).join('')}</tbody></table></div>` : ''}`;
+		region.innerHTML = `<h5>魔物（${rows.length}）</h5>${rows.length ? `<div class="item-source-scroll map-monster-scroll" role="region" aria-label="魔物表格" tabindex="0"><table class="item-source-table map-monster-table"><thead><tr>${['名称', '等级', 'HP', '属性', '经验'].map(text => `<th scope="col">${text}</th>`).join('')}</tr></thead><tbody>${rows.map(monster => `<tr><td><button type="button" class="item-source-monster" data-monster-id="${monster.id}">${escapeCatalogHtml(monster.name)}</button></td><td>${number(monster.level)}</td><td>${number(monster.hp)}</td><td>${escapeCatalogHtml(elementNames[monster.element] || monster.element)} ${number(monster.elementLevel)}</td><td>${experience(monster)}</td></tr>`).join('')}</tbody></table></div>` : ''}`;
 		for (const button of region.querySelectorAll('[data-monster-id]')) {
 			button.onclick = () => context.openMonster(Number(button.dataset.monsterId));
 		}

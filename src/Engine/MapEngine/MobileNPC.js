@@ -95,8 +95,10 @@ export const mobileNPC = {
 	menu(pkt) {
 		const options = pkt.msg
 			.split(':')
-			.filter(Boolean)
-			.map((text, index) => ({ value: index + 1, text: toPlainRagnarokText(text) }));
+			.reduce((result, text, index) => {
+				if (text) result.push({ value: index + 1, text: toPlainRagnarokText(text) });
+				return result;
+			}, []);
 		present({ ...stateFor(pkt.NAID), mode: 'menu', options });
 	},
 	input: pkt =>

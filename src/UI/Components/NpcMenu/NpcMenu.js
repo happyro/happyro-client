@@ -37,6 +37,10 @@ NpcMenu.mouseMode = GUIComponent.MouseMode.FREEZE;
  */
 let _index = 0;
 
+// Packet value for the selected visible entry; conditional empty entries can
+// make it differ from the rendered position.
+let _selectedValue = 1;
+
 /**
  * @var {number} NPC ID
  */
@@ -135,6 +139,7 @@ NpcMenu.onKeyDown = function onKeyDown(event) {
 			divs.forEach(d => d.classList.remove('selected'));
 			if (divs[_index]) {
 				divs[_index].classList.add('selected');
+				_selectedValue = parseInt(divs[_index].dataset.index, 10) + 1;
 				ensureReadableText(content);
 				divs[_index].scrollIntoView({ block: 'nearest' });
 			}
@@ -148,6 +153,7 @@ NpcMenu.onKeyDown = function onKeyDown(event) {
 			divs.forEach(d => d.classList.remove('selected'));
 			if (divs[_index]) {
 				divs[_index].classList.add('selected');
+				_selectedValue = parseInt(divs[_index].dataset.index, 10) + 1;
 				ensureReadableText(content);
 				divs[_index].scrollIntoView({ block: 'nearest' });
 			}
@@ -175,15 +181,17 @@ NpcMenu.setMenu = function setMenu(menu, gid) {
 
 	_ownerID = gid;
 	_index = 0;
+	_selectedValue = 1;
 
 	content.innerHTML = '';
 
-	let j = 0;
 	for (let i = 0, count = list.length; i < count; ++i) {
 		if (list[i].length) {
 			const div = document.createElement('div');
 			div.innerHTML = applyColorCodes(_escapeHTML(list[i]));
-			div.dataset.index = j++;
+			// Empty entries are valid server-side menu placeholders. Keep the
+			// original index so conditional menus retain their packet numbering.
+			div.dataset.index = i;
 			content.appendChild(div);
 		}
 	}
@@ -191,6 +199,7 @@ NpcMenu.setMenu = function setMenu(menu, gid) {
 	const first = content.querySelector('div[data-index]');
 	if (first) {
 		first.classList.add('selected');
+		_selectedValue = parseInt(first.dataset.index, 10) + 1;
 	}
 	ensureReadableText(content);
 };
@@ -222,7 +231,7 @@ NpcMenu.positionByDialogue = function positionByDialogue(dialogue) {
  * Submit an index
  */
 function validate() {
-	NpcMenu.onSelectMenu(_ownerID, _index + 1);
+	NpcMenu.onSelectMenu(_ownerID, _selectedValue);
 }
 
 /**
@@ -243,7 +252,8 @@ function selectIndex(div) {
 	div.classList.add('selected');
 	ensureReadableText(content);
 
-	_index = parseInt(div.dataset.index, 10);
+	_index = Array.from(divs).indexOf(div);
+	_selectedValue = parseInt(div.dataset.index, 10) + 1;
 }
 
 /**

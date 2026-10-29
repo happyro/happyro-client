@@ -277,10 +277,13 @@ export function teleportToNpc(npc) {
 		!isSupportedMapResource(npc?.mapName) ||
 		npc?.type !== 'NPC' ||
 		!Number.isFinite(npc.x) ||
-		!Number.isFinite(npc.y) ||
-		!Number.isFinite(npc.npcClass)
+		!Number.isFinite(npc.y)
 	)
 		return false;
+	// Custom NPCs without a reliable navigation class still have a reviewed
+	// server coordinate. Reuse the coordinate teleport safety checks instead
+	// of inventing an NPC identity that the map server cannot verify.
+	if (!Number.isFinite(npc.npcClass)) return teleportToCoordinate(npc);
 
 	npcPending = true;
 	const requestId = ++nextNpcRequestId;

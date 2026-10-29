@@ -20,6 +20,7 @@ export function requestGameToolsNumber(container, { title, label, value, min, ma
 			content.append(caption, input);
 		}
 		input.addEventListener('input', () => onChange?.(input.value));
+		input.setAttribute('autocomplete', 'off');
 		input.addEventListener('keydown', event => {
 			if (event.key === 'Enter') {
 				event.preventDefault();
@@ -30,5 +31,11 @@ export function requestGameToolsNumber(container, { title, label, value, min, ma
 			content,
 			cancelled: () => resolve(null)
 		});
+		// Set this after showModal() as well, so browser form restoration cannot
+		// carry the previous prompt's draft into a newly opened grant dialog.
+		const initialValue = value == null ? '' : String(value);
+		input.value = initialValue;
+		input.defaultValue = initialValue;
+		input.dispatchEvent(new Event('input', { bubbles: true }));
 	});
 }

@@ -28,7 +28,7 @@ beforeEach(() => {
  root=document.createElement('div');document.body.append(root);
 });
 afterEach(() => { cleanup?.();root.remove();vi.useRealTimers(); });
-it.each([false,true])('remembers separate grant values and recovers from errors on mobile=%s', async mobile => {
+it.each([false,true])('resets each grant prompt and recovers from errors on mobile=%s', async mobile => {
  await mount(mobile);
  requestGameToolsNumber.mockResolvedValueOnce(25);
  root.querySelector('.item-grant').click();await tick();
@@ -36,11 +36,11 @@ it.each([false,true])('remembers separate grant values and recovers from errors 
  requestGameToolsNumber.mockResolvedValueOnce(100000);
  grantAdventureZeny.mockRejectedValueOnce({code:'zeny_amount_exceeded'});
  root.querySelector('.zeny-grant-open').click();await tick();
- expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root,expect.objectContaining({value:'',label:'金额'}));
+ expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root,expect.objectContaining({value:'1',label:'金额'}));
  expect(showToast).toHaveBeenCalledWith(root,'发放后会超过角色 Zeny 持有上限','error');
  expect(root.querySelector('.zeny-grant-open').disabled).toBe(false);
  root.querySelector('.item-grant').click();await tick();
- expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root,expect.objectContaining({value:'25',label:'数量'}));
+ expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root,expect.objectContaining({value:'1',label:'数量'}));
  expect(grantAdventureItem).toHaveBeenCalledOnce();
 });
 it('locks both actions until the request finishes and respects permissions',async()=>{
@@ -178,7 +178,7 @@ it.each([false,true])('prompts grants with steps and retains the selected item o
  expect(requestConfirmation).not.toHaveBeenCalled();
  requestGameToolsNumber.mockResolvedValueOnce(null);
  root.querySelector('.zeny-grant-open').click();await tick();
- expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root, expect.objectContaining({max:2147483647,value:''}));
+ expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root, expect.objectContaining({max:2147483647,value:'1'}));
  expect(grantAdventureZeny).not.toHaveBeenCalled();
  expect(root.querySelector('.zeny-grant-open').disabled).toBe(false);
  requestGameToolsNumber.mockResolvedValueOnce(2147483647);
@@ -192,19 +192,18 @@ it.each([false,true])('does not grant after unmount on mobile=%s', async mobile 
  expect(grantAdventureItem).not.toHaveBeenCalled();
 });
 
-it('retains cancelled drafts across selections and resets only when tools close',async()=>{
+it('resets cancelled drafts before every grant prompt',async()=>{
  await mount();
  requestGameToolsNumber.mockImplementationOnce(async (_, options)=>{options.onChange('42');return null;});
  root.querySelector('.item-grant').click();await tick();
  root.querySelectorAll('.catalog-row')[1].click();root.dispatchEvent(new Event('game-tools-reset-feedback'));
  root.querySelector('.item-grant').click();await tick();
- expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root,expect.objectContaining({value:'42'}));
+ expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root,expect.objectContaining({value:'1'}));
  expect(grantAdventureItem).not.toHaveBeenCalled();
- root.dispatchEvent(new Event('game-tools-close'));
  root.querySelector('.item-grant').click();await tick();
  expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root,expect.objectContaining({value:'1'}));
  root.querySelector('.zeny-grant-open').click();await tick();
- expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root,expect.objectContaining({value:'',stepMin:0,stepButtons:[
+ expect(requestGameToolsNumber).toHaveBeenLastCalledWith(root,expect.objectContaining({value:'1',stepMin:0,stepButtons:[
  {delta:-1000000,label:'-100万'},{delta:-100000,label:'-10万'},{delta:100000,label:'+10万'},{delta:1000000,label:'+100万'}]}));
 });
 

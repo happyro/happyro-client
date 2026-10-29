@@ -132,6 +132,16 @@
 	width: 0;
 	min-width: 140px;
 }
+.mobile-adventure .map-npc-search {
+	flex: 0 0 auto;
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	max-width: none;
+	margin-inline: 0;
+	height: var(--panel-control);
+	min-height: var(--panel-control);
+}
 .mobile-adventure .game-select-trigger {
 	min-height: var(--panel-control);
 	font-size: var(--panel-heading);
@@ -1147,9 +1157,11 @@
 	border-radius: 0;
 	background: #242e38;
 }
-.mobile-adventure .map-npc-list > h4,
 .mobile-adventure .monster-resources .monster-locations > h4 {
 	position: static;
+	display: flex;
+	align-items: center;
+	gap: 6px;
 	flex: 0 0 auto;
 	box-sizing: border-box;
 	margin: 0;
@@ -1754,6 +1766,9 @@
 :host([data-phone-screen][data-menu-arrangement='stacked']) .mobile-adventure .adventure-content:is([data-feature='maps'], [data-feature='npcs'], [data-feature='items']) .catalog-search {
 	width:100%;
 	min-width:0;
+}
+:host([data-phone-screen][data-menu-arrangement='stacked']) .mobile-adventure .adventure-content[data-feature='maps'] .catalog-toolbar {
+	padding:0 8px;
 }
 
 :host([data-phone-screen][data-menu-arrangement='stacked']) .mobile-adventure .adventure-content[data-feature='maps'] .map-npc-text small {

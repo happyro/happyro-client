@@ -112,9 +112,6 @@ function mount(container, context = {}) {
 	const assetUrls = new Map();
 	const dropSources = createItemDropSources(context);
 	const availableSubtypes = new Map();
-	const amounts = { item: '1', zeny: '' };
-	const resetAmounts = () => { amounts.item = '1'; amounts.zeny = ''; };
-	container.addEventListener('game-tools-close', resetAmounts);
 	let pending = null;
 	let active = true;
 	let browserApi;
@@ -171,22 +168,23 @@ function mount(container, context = {}) {
 			return;
 		const max = kind === 'zeny' ? 2147483647 : 30000;
 		const name = item?.names?.['zh-CN'] || item?.names?.['en-US'] || item?.AegisName;
+		// Every prompt starts a fresh grant. Changes made inside a cancelled prompt
+		// must not become the default for the next click on desktop or mobile.
 		pending = kind;
 		browserApi.refreshDetail();
 		try {
 			const amount = await requestGameToolsNumber(container, {
 				title: kind === 'zeny' ? '向当前角色发放 Zeny' : `发放「${name}」到背包`,
-				label: kind === 'zeny' ? '金额' : '数量', value: amounts[kind],
+				label: kind === 'zeny' ? '金额' : '数量', value: '1',
 				min: 1, max, steps: true,
 				stepMin: kind === 'zeny' ? 0 : 1,
 				stepButtons: kind === 'zeny' ? [
 					{ delta: -1000000, label: '-100万' }, { delta: -100000, label: '-10万' },
 					{ delta: 100000, label: '+10万' }, { delta: 1000000, label: '+100万' }
 				] : undefined,
-				onChange: value => { amounts[kind] = value; }
+				onChange: () => {}
 			});
 			if (amount === null || !active) return;
-			amounts[kind] = String(amount);
 			if (kind === 'zeny') await grantAdventureZeny(amount);
 			else await grantAdventureItem(item.Id, amount);
 			if (active)
@@ -308,7 +306,6 @@ function mount(container, context = {}) {
 			container.removeEventListener('click', onNavi);
 			container.removeEventListener('keydown', onNavi);
 			active = false;
-			container.removeEventListener('game-tools-close', resetAmounts);
 			dropSources.destroy();
 			container.removeEventListener('game-tools-reset-feedback', clearFeedback);
 			assetUrls.forEach(url => URL.revokeObjectURL(url));

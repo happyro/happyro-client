@@ -71,6 +71,20 @@ function formatRate(rate) {
 	return `${(Number(rate || 0) / 100).toFixed(2).replace(/\.00$/, '')}%`;
 }
 
+function formatExperience(value) {
+	const number = Number(value);
+	if (!Number.isFinite(number) || Math.abs(number) < 10000) return String(value);
+	const units = ['', 'K', 'M', 'B'];
+	let unit = 0;
+	let scaled = Math.abs(number);
+	while (scaled >= 1000 && unit < units.length - 1) {
+		scaled /= 1000;
+		unit++;
+	}
+	const rounded = Number(scaled.toFixed(scaled < 100 ? 1 : 0));
+	return `${number < 0 ? '-' : ''}${rounded}${units[unit]}`;
+}
+
 function mount(container, context = {}) {
 	container.classList.add('monster-tab');
 	let destroyed = false;
@@ -268,15 +282,15 @@ function mount(container, context = {}) {
 	}
 
 	function renderDrops(drops, title) {
-		if (context.mobile) {
-			if (!drops?.length && title !== '普通掉落') return '';
-			const rows = drops?.length
-				? drops.map(drop => `<tr><td title="${escapeHtml(drop.nameEn || drop.Item)}">${escapeHtml(drop.name || drop.Item)}</td><td>${formatRate(drop.Rate)}</td></tr>`).join('')
-				: '<tr><td colspan="2">无</td></tr>';
-			return `<table class="monster-drop-table"><caption>${title}</caption><tbody>${rows}</tbody></table>`;
+		if (!context.mobile) {
+			if (!drops?.length) return '';
+			return `<div class="drop-group"><h4>${title}</h4>${drops.map(drop => `<div><span title="${escapeHtml(drop.nameEn || drop.Item)}">${escapeHtml(drop.name || drop.Item)}</span><em>${formatRate(drop.Rate)}</em></div>`).join('')}</div>`;
 		}
 		if (!drops?.length) return '';
-		return `<div class="drop-group"><h4>${title}</h4>${drops.map(drop => `<div><span title="${escapeHtml(drop.nameEn || drop.Item)}">${escapeHtml(drop.name || drop.Item)}</span><em>${formatRate(drop.Rate)}</em></div>`).join('')}</div>`;
+		const rows = drops?.length
+			? drops.map(drop => `<tr><td title="${escapeHtml(drop.nameEn || drop.Item)}">${escapeHtml(drop.name || drop.Item)}</td><td>${formatRate(drop.Rate)}</td></tr>`).join('')
+			: '<tr><td colspan="2">无</td></tr>';
+		return `<table class="monster-drop-table"><caption>${title}</caption><tbody>${rows}</tbody></table>`;
 	}
 
 	function renderActionPanel(summonDisabled = true, teleportEnabled = false, status = '') {
@@ -350,7 +364,7 @@ function mount(container, context = {}) {
 				<div><span>等级</span><strong>${monster.level}</strong></div><div><span>HP</span><strong>${monster.hp}</strong></div>
 				<div><span>攻击</span><strong>${monster.attack.filter(Number.isFinite).join(' - ')}</strong></div><div><span>防御</span><strong>${monster.defense} / ${monster.magicDefense}</strong></div>
 				<div><span>种族</span><strong>${raceNames[monster.race] || monster.race}</strong></div><div><span>属性</span><strong>${elementNames[monster.element] || monster.element} ${monster.elementLevel}</strong></div>
-				<div><span>体型</span><strong>${sizeNames[monster.size] || monster.size}</strong></div><div><span>经验</span><strong>${monster.baseExp} / ${monster.jobExp}</strong></div>
+				<div><span>体型</span><strong>${sizeNames[monster.size] || monster.size}</strong></div><div><span>经验</span><strong>${context.mobile ? `${monster.baseExp} / ${monster.jobExp}` : `${formatExperience(monster.baseExp)} / ${formatExperience(monster.jobExp)}`}</strong></div>
 			</div>
 			</div><div class="monster-resources">
 				<section class="monster-drops" aria-label="掉落物品">${context.mobile ? '' : '<h4>掉落物品</h4>'}${
